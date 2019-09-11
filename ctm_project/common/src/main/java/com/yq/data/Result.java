@@ -32,7 +32,7 @@ public class Result<T> implements Serializable {
     /**
      * 跳转链接
      */
-    private String href;
+//    private String href;
 
     public Result(){
     }
@@ -47,12 +47,12 @@ public class Result<T> implements Serializable {
         this.data = data;
     }
 
-    public Result(int code, String msg, T data, String href){
-        this.code = code;
-        this.msg = msg;
-        this.data = data;
-        this.href = href;
-    }
+//    public Result(int code, String msg, T data, String href){
+//        this.code = code;
+//        this.msg = msg;
+//        this.data = data;
+//        this.href = href;
+//    }
 
     public Result(CodeType codeType){
         this(codeType.getCode(),codeType.getMsg(),null);
@@ -86,7 +86,6 @@ public class Result<T> implements Serializable {
         result.setCode(codeType.getCode());
         result.setMsg(codeType.getMsg());
         result.setData(null);
-        result.setHref(null);
         return result;
     }
 
@@ -96,14 +95,14 @@ public class Result<T> implements Serializable {
      * @param <T>
      * @return
      */
-    public static <T> Result<T> HREF(String href) {
-        Result<T> result = new Result<>();
-        result.setCode(CodeType.SUCCESS.getCode());
-        result.setMsg(CodeType.SUCCESS.getMsg());
-        result.setData(null);
-        result.setHref(href);
-        return result;
-    }
+//    public static <T> Result<T> HREF(String href) {
+//        Result<T> result = new Result<>();
+//        result.setCode(CodeType.SUCCESS.getCode());
+//        result.setMsg(CodeType.SUCCESS.getMsg());
+//        result.setData(null);
+//        result.setHref(href);
+//        return result;
+//    }
 
     /**
      * 既有数据，又有链接
@@ -112,12 +111,12 @@ public class Result<T> implements Serializable {
      * @param <T>
      * @return
      */
-    public static <T> Result<T> DATA_HREF(String href, T data) {
-        Result<T> result = new Result<>();
-        result.setCode(CodeType.SUCCESS.getCode());
-        result.setMsg(CodeType.SUCCESS.getMsg());
-        result.setData(data);
-        result.setHref(href);
-        return result;
-    }
+//    public static <T> Result<T> DATA_HREF(String href, T data) {
+//        Result<T> result = new Result<>();
+//        result.setCode(CodeType.SUCCESS.getCode());
+//        result.setMsg(CodeType.SUCCESS.getMsg());
+//        result.setData(data);
+//        result.setHref(href);
+//        return result;
+//    }
 }

@@ -1,0 +1,5 @@
+
+usquid:S00117D"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(•³•Ÿüÿÿÿÿ8ô“ÐüÑ-
+[squid:UselessImportCheck"+Remove this unused import 'java.util.UUID'.(ÀãÄ£úÿÿÿÿ8§šþÎÑ-
+wsquid:S00120"ZRename this package name to match the regular expression '^[a-z_]+(\.[a-z_][a-z0-9_]*)*$'.(²¢¼¬üÿÿÿÿ
+zsquid:S1488G"\Immediately return this expression instead of assigning it to the temporary variable "role".(ñõ‡²8ÔßÖüÑ-

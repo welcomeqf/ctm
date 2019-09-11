@@ -1,0 +1,9 @@
+
+vsquid:S00116!"RRename this field "Stopped" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(Çõ´¸üÿÿÿÿ8£ÌèÉÑ-
+vsquid:S00116+"RRename this field "Deleted" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(‡úşüÿÿÿÿ8í”êÉÑ-
+lsquid:S00116"MRename this field "Id" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(´ÕÛ”8ÄïæÉÑ-
+[squid:UselessImportCheck
+"+Remove this unused import 'java.util.UUID'.(ÀãÄ£úÿÿÿÿ8Ğñ™ÕÑ-
+wsquid:S00116"SRename this field "RoleName" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ôÏÁŒùÿÿÿÿ8‚èçÉÑ-
+asquid:UselessImportCheck	"1Remove this unused import 'java.io.Serializable'.(èãîÂÿÿÿÿÿ8—âÎğÑ-
+usquid:S00116&"QRename this field "Remark" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(é«´‘ùÿÿÿÿ8í”êÉÑ-

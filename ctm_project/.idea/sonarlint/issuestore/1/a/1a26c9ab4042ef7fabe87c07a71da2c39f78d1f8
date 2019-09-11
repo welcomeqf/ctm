@@ -1,5 +1,7 @@
 
+isquid:CommentedOutCodeLine#"<This block of commented-out lines of code should be removed.(¶·Åð8Ïî¦øÑ-
+nsquid:CommentedOutCodeLiner"<This block of commented-out lines of code should be removed.(ší§¯ûÿÿÿÿ8þò©øÑ-
 fsquid:S00100E"NRename this method name to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(º¸ú€
-fsquid:S00100c"NRename this method name to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(·í’Ë
-ksquid:S00100s"NRename this method name to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(Û¹çþÿÿÿÿ
 =squid:S1948"&Make "data" transient or serializable.(íÝµ˜
+isquid:CommentedOutCodeLine2"<This block of commented-out lines of code should be removed.(ÒÅ…Ü8ŠÊ¨øÑ-
+nsquid:CommentedOutCodeLineb"<This block of commented-out lines of code should be removed.(º¸˜“ûÿÿÿÿ8¡”ªøÑ-

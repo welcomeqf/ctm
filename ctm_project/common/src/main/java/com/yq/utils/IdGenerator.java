@@ -2,7 +2,6 @@ package com.yq.utils;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
@@ -15,7 +14,6 @@ import java.util.UUID;
  * @Version 1.0
  */
 @Slf4j
-@Component
 public class IdGenerator {
     @Value("${app.workerId}")
     private int workerId;
