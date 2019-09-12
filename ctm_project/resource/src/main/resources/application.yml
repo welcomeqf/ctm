@@ -9,3 +9,6 @@ spring:
     active: test
   application:
     name: service-resource
+app:
+  workerId: 9
+  dataCenterId: 1

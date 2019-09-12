@@ -32,6 +32,7 @@ public class RoleController {
     @ApiOperation(value = "增加角色", notes = "增加角色")
     @ApiImplicitParam(name = "RoleName", value = "角色名称", required = true, dataType = "String", paramType = "path")
     @PostMapping("/addRole")
+    @CrossOrigin
     public ResultVo addRole(@RequestBody UserRole role) {
         if (StringUtils.isBlank(role.getRoleName())) {
             log.error("param not is null.");
@@ -46,6 +47,7 @@ public class RoleController {
     @ApiOperation(value = "删除角色", notes = "删除角色")
     @ApiImplicitParam(name = "id", value = "id", required = true, dataType = "int", paramType = "path")
     @GetMapping("/deleteRole")
+    @CrossOrigin
     public ResultVo deleteRole(@RequestParam("id") Long id) {
         if (id == null) {
             log.error("param not is null.");
@@ -59,6 +61,7 @@ public class RoleController {
 
     @ApiOperation(value = "查询角色", notes = "查询角色")
     @GetMapping("/getRole")
+    @CrossOrigin
     public List<UserRole> getRole() {
         return roleService.queryAllRole();
     }

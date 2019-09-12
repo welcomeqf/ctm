@@ -28,6 +28,11 @@ public class UserRole extends Model<UserRole> {
     private String RoleName;
 
     /**
+     * 公司ID
+     */
+    private Long CompanyId;
+
+    /**
      * 是否停用(0--正常  1--停用  默认正常)
      */
     private Boolean Stopped;

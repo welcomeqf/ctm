@@ -8,10 +8,7 @@ import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * @Author qf
@@ -30,6 +27,7 @@ public class MenuController {
     @ApiOperation(value = "增加菜单", notes = "增加菜单")
     @ApiImplicitParam(name = "MenuName", value = "菜单名称", required = true, dataType = "String", paramType = "path")
     @PostMapping("/addMenu")
+    @CrossOrigin
     public ResultVo addMenu(@RequestBody UserMenu userMenu) {
 
         menuService.addMenu(userMenu);

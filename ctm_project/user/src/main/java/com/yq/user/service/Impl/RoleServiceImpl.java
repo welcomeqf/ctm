@@ -64,6 +64,11 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, UserRole> implement
     }
 
 
+    /**
+     * 根据名称查询角色
+     * @param RoleName
+     * @return
+     */
     @Override
     public UserRole queryOne(String RoleName) {
         LambdaQueryWrapper<UserRole> queryWrapper = new LambdaQueryWrapper<UserRole>()
