@@ -87,3 +87,11 @@ p
 @user/src/main/java/com/yq/user/service/Impl/UserServiceImpl.java,9\c\9c440fb8b4d912d6e08776ac6f2af570729fcf8d
 a
 1common/src/main/java/com/yq/utils/Base64Util.java,f\a\fa36553f1cd87c0c640ec09e1946e1f5f8d17da8
+d
+4user/src/main/java/com/yq/user/entity/vo/UserVo.java,3\9\397f005d048ee786f5d55252e32f97b946583f78
+o
+?user/src/main/java/com/yq/user/entity/query/PrivilegeQuery.java,9\a\9a86c302b3e117b63ddd007c5e2fb689be385160
+r
+Buser/src/main/java/com/yq/user/controller/PrivilegeController.java,a\b\abe946e55708d1025ca50789c5360c4fa6f75b93
+m
+=user/src/main/java/com/yq/user/controller/UserController.java,c\1\c16c20e4eb172abd0f3869930e58b8c85132ee44

@@ -1,4 +1,6 @@
 
+Psquid:S11354"2Complete the task associated to this TODO comment.(…ïœ†8——¢¢Ò-
+psquid:S00117H"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(º£åÑ8¨Óü¢Ò-
 wsquid:S00120"ZRename this package name to match the regular expression '^[a-z_]+(\.[a-z_][a-z0-9_]*)*$'.(²¢¼¬üÿÿÿÿ
-Ksquid:S2447""-Null is returned but a "Boolean" is expected.(¥¹ï8ë–•ıÑ-
-Hsquid:S2116"%Use "Arrays.toString(array)" instead.(òíÑùøÿÿÿÿ8¡¬ñıÑ-
+Hsquid:S2116-"%Use "Arrays.toString(array)" instead.(òíÑùøÿÿÿÿ8ÒÛü¡Ò-
+Csquid:S2116H"%Use "Arrays.toString(array)" instead.(º£åÑ8æƒı¢Ò-
