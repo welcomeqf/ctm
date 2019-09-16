@@ -40,8 +40,16 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, UserRole> implement
         }
     }
 
+    /**
+     * 删除角色
+     * @param id
+     */
     @Override
-    public void deleteRole(Long id) {
+    public synchronized void deleteRole(Long id) {
+        UserRole role = baseMapper.selectById(id);
+        if (role.getStopped() == false) {
+            throw new ApplicationException(CodeType.SERVICE_ERROR,"该角色正在被使用,不能删除");
+        }
         int delete = baseMapper.deleteById(id);
         if (delete <= 0) {
             log.error("delete role db fail.");

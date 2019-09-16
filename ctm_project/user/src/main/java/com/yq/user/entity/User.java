@@ -64,7 +64,7 @@ public class User extends Model<User> {
     private Integer UserLevel;
 
     /**
-     * 是否为超级管理员（0--不是  1--是）
+     * 是否为超级管理员（0--是  1--不是）
      */
     private Boolean IsSuper;
 
@@ -79,7 +79,7 @@ public class User extends Model<User> {
     private String SystemRoleIds;
 
     /**
-     * 是否停用（0--正常  1--停用  默认0）
+     * 是否停用（0--停用  1--正在使用  默认0）
      */
     private Boolean Stopped;
 
@@ -112,6 +112,11 @@ public class User extends Model<User> {
      * 是否删除（默认0  0--不删除  1--删除）
      */
     private Boolean Deleted;
+
+    /**
+     * 状态（0--默认 正常  1--冻结）
+     */
+    private Integer Status;
 
     /**
      * 创建时间

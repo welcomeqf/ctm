@@ -11,13 +11,34 @@ import java.util.List;
  */
 public interface IRoleService {
 
+    /**
+     * 增加角色
+     * @param role
+     */
     void addRole(UserRole role);
 
+    /**
+     * 根据ID删除角色
+     * @param id
+     */
     void deleteRole(Long id);
 
+    /**
+     * 修改角色
+     * @param role
+     */
     void updateRole(UserRole role);
 
+    /**
+     * 查询所有角色
+     * @return
+     */
     List<UserRole> queryAllRole();
 
+    /**
+     * 根据角色名查询角色信息
+     * @param RoleName
+     * @return
+     */
     UserRole queryOne(String RoleName);
 }

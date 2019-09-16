@@ -38,4 +38,22 @@ public interface IUserService {
     User queryUser(String userName);
 
 
+    /**
+     * 退出账号
+     * @param userName
+     */
+    void exitUser(String userName);
+
+    /**
+     * 冻结账户
+     * @param userName
+     */
+    void stopUser(String userName);
+
+    /**
+     * 解冻账户
+     * @param userName
+     */
+    void toStopUser(String userName);
+
 }

@@ -33,9 +33,9 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, UserMenu> implement
         IdGenerator idGenerator = new IdGenerator();
         Long id = idGenerator.getNumberId();
         userMenu.setId(id);
-        userMenu.setMenuName("审核");
-        userMenu.setParent(0L);
-        userMenu.setAction("null");
+//        userMenu.setMenuName("审核");
+////        userMenu.setParent(0L);
+////        userMenu.setAction("null");
         int insert = baseMapper.insert(userMenu);
 
         if (insert <= 0) {

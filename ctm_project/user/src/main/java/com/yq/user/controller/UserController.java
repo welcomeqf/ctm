@@ -15,7 +15,6 @@ import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import springfox.documentation.spring.web.json.Json;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
@@ -100,6 +99,57 @@ public class UserController {
             throw new ApplicationException(CodeType.PARAM_ERROR,"参数不能为空");
         }
         userService.deleteUser(userName);
+
+        ResultVo resultVo = new ResultVo();
+        resultVo.setResult("ok");
+
+        return resultVo;
+    }
+
+    @ApiOperation(value = "退出账号", notes = "退出账号")
+    @ApiImplicitParam(name = "userName", value = "用户名", required = true, dataType = "String", paramType = "path")
+    @GetMapping("/exitUser")
+    @CrossOrigin
+    public ResultVo exitUser(@RequestParam("userName") String userName) {
+        if (StringUtils.isBlank(userName)) {
+            log.error("param is not null.");
+            throw new ApplicationException(CodeType.PARAM_ERROR,"参数不能为空");
+        }
+        userService.exitUser(userName);
+
+        ResultVo resultVo = new ResultVo();
+        resultVo.setResult("ok");
+
+        return resultVo;
+    }
+
+    @ApiOperation(value = "冻结账户", notes = "冻结账户")
+    @ApiImplicitParam(name = "userName", value = "用户名", required = true, dataType = "String", paramType = "path")
+    @GetMapping("/stopUser")
+    @CrossOrigin
+    public ResultVo stopUser(@RequestParam("userName") String userName) {
+        if (StringUtils.isBlank(userName)) {
+            log.error("param is not null.");
+            throw new ApplicationException(CodeType.PARAM_ERROR,"参数不能为空");
+        }
+        userService.stopUser(userName);
+
+        ResultVo resultVo = new ResultVo();
+        resultVo.setResult("ok");
+
+        return resultVo;
+    }
+
+    @ApiOperation(value = "解冻账户", notes = "解冻账户")
+    @ApiImplicitParam(name = "userName", value = "用户名", required = true, dataType = "String", paramType = "path")
+    @GetMapping("/toStopUser")
+    @CrossOrigin
+    public ResultVo toStopUser(@RequestParam("userName") String userName) {
+        if (StringUtils.isBlank(userName)) {
+            log.error("param is not null.");
+            throw new ApplicationException(CodeType.PARAM_ERROR,"参数不能为空");
+        }
+        userService.toStopUser(userName);
 
         ResultVo resultVo = new ResultVo();
         resultVo.setResult("ok");

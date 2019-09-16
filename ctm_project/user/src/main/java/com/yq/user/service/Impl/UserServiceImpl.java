@@ -17,6 +17,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
+
 /**
  * @Author qf
  * @Date 2019/9/11
@@ -49,9 +51,14 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
         UserRole role = roleService.queryOne(userVo.getRoleName());
         user.setSystemRoleId(role.getId());
 
+        if (role.getStopped() == true) {
+            role.setStopped(false);
+            roleService.updateRole(role);
+        }
+
         //TODO
         //根据输入的公司名查询该公司信息
-        //根据公司信息查询角色表的公司ID信息 如果有则不管   如果没有则设置该账号为IsSuper==1
+        //根据公司信息查询角色表的公司ID信息 如果没有则不管   如果有则设置该账号为IsSuper==false
         int insert = baseMapper.insert(user);
 
         if (insert <= 0) {
@@ -67,26 +74,45 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
      * @return
      */
     @Override
-    public User login(String userName, String password) {
+    public synchronized User login(String userName, String password) {
         byte[] bytes = DigestUtils.sha1(password);
         String Password = bytes.toString();
 
         LambdaQueryWrapper<User> queryWrapper = new LambdaQueryWrapper<User>()
                 .eq(User::getAccount,userName)
                 .eq(User::getPassword,Password);
-        return baseMapper.selectOne(queryWrapper);
+        User user = baseMapper.selectOne(queryWrapper);
+
+        if (user != null) {
+            if (user.getStatus() == 1) {
+                throw new ApplicationException(CodeType.SERVICE_ERROR,"该账户已被冻结,请解冻后再登录");
+            }
+            if (user.getStopped() == false) {
+                throw new ApplicationException(CodeType.SERVICE_ERROR,"该账号已经登录");
+            }
+            LocalDateTime now = LocalDateTime.now();
+            user.setLastLoginTime(now);
+            user.setStopped(false);
+            baseMapper.updateById(user);
+        }
+
+        return user;
     }
 
     /**
-     * 注销
+     * 注销删除账号
      * @param userName
      */
     @Override
-    public void deleteUser(String userName) {
+    public synchronized void deleteUser(String userName) {
         LambdaQueryWrapper<User> queryWrapper = new LambdaQueryWrapper<User>()
                 .eq(User::getAccount,userName);
 
         User user = baseMapper.selectOne(queryWrapper);
+
+        if (user.getStopped() == false) {
+            throw new ApplicationException(CodeType.SERVICE_ERROR,"该账号正在使用，不能删除");
+        }
 
         int delete = baseMapper.deleteById(user.getId());
 
@@ -107,5 +133,61 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
                 .eq(User::getAccount,userName);
         return baseMapper.selectOne(queryWrapper);
     }
+
+    /**
+     * 退出账号
+     * @param userName
+     */
+    @Override
+    public void exitUser(String userName) {
+        LambdaQueryWrapper<User> queryWrapper = new LambdaQueryWrapper<User>()
+                .eq(User::getAccount,userName);
+        User user = new User();
+        user.setStopped(true);
+        int update = baseMapper.update(user, queryWrapper);
+
+        if (update <= 0) {
+            log.error("exit user fail.");
+            throw new ApplicationException(CodeType.SERVICE_ERROR,"退出账号失败");
+        }
+
+    }
+
+    /**
+     * 冻结账户
+     * @param userName
+     */
+    @Override
+    public void stopUser(String userName) {
+        LambdaQueryWrapper<User> queryWrapper = new LambdaQueryWrapper<User>()
+                .eq(User::getAccount,userName);
+        User user = new User();
+        user.setStatus(1);
+        int update = baseMapper.update(user, queryWrapper);
+
+        if (update <= 0) {
+            log.error("stop user fail.");
+            throw new ApplicationException(CodeType.SERVICE_ERROR,"冻结账户失败");
+        }
+    }
+
+    /**
+     * 解冻
+     * @param userName
+     */
+    @Override
+    public void toStopUser(String userName) {
+        LambdaQueryWrapper<User> queryWrapper = new LambdaQueryWrapper<User>()
+                .eq(User::getAccount,userName);
+        User user = new User();
+        user.setStatus(0);
+        int update = baseMapper.update(user, queryWrapper);
+
+        if (update <= 0) {
+            log.error("toStop user fail.");
+            throw new ApplicationException(CodeType.SERVICE_ERROR,"解冻账户失败");
+        }
+    }
+
 }
 

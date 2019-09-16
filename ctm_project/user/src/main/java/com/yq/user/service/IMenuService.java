@@ -11,9 +11,22 @@ import java.util.List;
  */
 public interface IMenuService {
 
+    /**
+     * 增加菜单
+     * @param userMenu
+     */
     void addMenu(UserMenu userMenu);
 
+    /**
+     * 查询所有菜单
+     * @return
+     */
     List<UserMenu> queryAllMenu();
 
+    /**
+     * 根据菜单名查询菜单信息
+     * @param MenuName
+     * @return
+     */
     UserMenu queryOne(String MenuName);
 }

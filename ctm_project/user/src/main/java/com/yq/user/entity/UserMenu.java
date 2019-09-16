@@ -58,7 +58,7 @@ public class UserMenu extends Model<UserMenu> {
     private Boolean Systemic;
 
     /**
-     * 是否停用（默认0--正常  1--停用）
+     * 是否停用（默认0--停用  1--正常（正在使用））
      */
     private Boolean Stopped;
 }

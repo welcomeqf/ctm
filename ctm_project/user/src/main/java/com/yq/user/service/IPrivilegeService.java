@@ -12,7 +12,7 @@ import java.util.List;
 public interface IPrivilegeService {
 
     /**
-     * 应该无用
+     * 根据角色名，菜单名增加（无用）
      * @param RoleName
      * @param MenuName
      */
