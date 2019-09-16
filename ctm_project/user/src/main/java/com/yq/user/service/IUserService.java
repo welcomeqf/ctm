@@ -56,4 +56,11 @@ public interface IUserService {
      */
     void toStopUser(String userName);
 
+
+    /**
+     * 注册子账户
+     * @param userVo
+     */
+    void dowmRegister(UserVo userVo);
+
 }

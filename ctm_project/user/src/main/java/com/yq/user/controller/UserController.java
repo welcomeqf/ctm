@@ -51,6 +51,7 @@ public class UserController {
             log.error("param is not null.");
             throw new ApplicationException(CodeType.PARAM_ERROR,"参数不能为空");
         }
+
         userService.register(userVo);
 
         ResultVo resultVo = new ResultVo();
@@ -76,11 +77,11 @@ public class UserController {
         ResultVo resultVo = new ResultVo();
         if (user != null) {
             //将登录信息存入cookie中
-            Object json = JSONObject.toJSON(user);
-            Cookie cookie = new Cookie("login_user",json.toString());
-            cookie.setMaxAge(60 * 60 *24 *30);
-            cookie.setPath("/");
-            response.addCookie(cookie);
+//            Object json = JSONObject.toJSON(user);
+//            Cookie cookie = new Cookie("login_user",json.toString());
+//            cookie.setMaxAge(60 * 60 *24 *30);
+//            cookie.setPath("/");
+//            response.addCookie(cookie);
 
             resultVo.setResult("登录成功");
             return resultVo;
@@ -154,6 +155,32 @@ public class UserController {
         ResultVo resultVo = new ResultVo();
         resultVo.setResult("ok");
 
+        return resultVo;
+    }
+
+
+    @ApiOperation(value = "子用户注册", notes = "子用户注册")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "userName", value = "用户名", required = true, dataType = "String", paramType = "path"),
+            @ApiImplicitParam(name = "password", value = "密码", required = true, dataType = "String", paramType = "path"),
+            @ApiImplicitParam(name = "name", value = "名称", required = true, dataType = "String", paramType = "path"),
+            @ApiImplicitParam(name = "phone", value = "电话", required = true, dataType = "String", paramType = "path"),
+            @ApiImplicitParam(name = "roleName", value = "角色名", required = true, dataType = "String", paramType = "path"),
+            @ApiImplicitParam(name = "companyName", value = "公司名", required = true, dataType = "String", paramType = "path")
+    })
+    @PostMapping("/downRegister")
+    @CrossOrigin
+    public ResultVo downRegister(@RequestBody UserVo userVo) {
+        if (StringUtils.isBlank(userVo.getUserName()) || StringUtils.isBlank(userVo.getPassword())
+                || StringUtils.isBlank(userVo.getName()) || StringUtils.isBlank(userVo.getPhone()) ||
+                StringUtils.isBlank(userVo.getRoleName()) || StringUtils.isBlank(userVo.getCompanyName())) {
+            log.error("param is not null.");
+            throw new ApplicationException(CodeType.PARAM_ERROR,"参数不能为空");
+        }
+        userService.dowmRegister(userVo);
+
+        ResultVo resultVo = new ResultVo();
+        resultVo.setResult("ok");
         return resultVo;
     }
 }

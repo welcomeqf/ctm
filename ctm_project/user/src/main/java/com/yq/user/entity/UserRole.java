@@ -33,9 +33,14 @@ public class UserRole extends Model<UserRole> {
     private Long CompanyId;
 
     /**
-     * 是否停用(0--停用  1--正常（正在使用）  默认停用)
+     * 是否停用(0--停用false  1--正常（正在使用）  默认停用)
      */
     private Boolean Stopped;
+
+    /**
+     * 0--默认  1--子用户设置
+     */
+    private Integer Statu;
 
     /**
      * 备注

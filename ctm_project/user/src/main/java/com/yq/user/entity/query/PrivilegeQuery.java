@@ -12,7 +12,7 @@ import java.util.List;
 @Data
 public class PrivilegeQuery {
 
-    private String userName;
+    private String roleName;
 
     private List<String> menuList;
 

@@ -62,17 +62,17 @@ public class PrivilegeServiceImpl extends ServiceImpl<PrivilegeMapper, UserPrivi
 
     /**
      * 增加所有权限
-     * @param userName
+     * @param roleName
      * @param menuList
      */
     @Override
-    public synchronized void insertAllPrivilege(String userName, List<String> menuList) {
-        User user = userService.queryUser(userName);
+    public synchronized void insertAllPrivilege(String roleName, List<String> menuList) {
+        UserRole role = roleService.queryOne(roleName);
 
         for (String menu : menuList) {
             UserMenu userMenu = menuService.queryOne(menu);
             UserPrivilege userPrivilege = new UserPrivilege();
-            userPrivilege.setSystemRoleId(user.getId());
+            userPrivilege.setSystemRoleId(role.getId());
             userPrivilege.setSystemMenuId(userMenu.getId());
             baseMapper.insert(userPrivilege);
         }

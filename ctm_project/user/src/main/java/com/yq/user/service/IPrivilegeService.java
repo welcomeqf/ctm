@@ -26,8 +26,8 @@ public interface IPrivilegeService {
 
     /**
      * 一次性增加一个角色的所有权限
-     * @param userName
+     * @param roleName
      * @param menuList
      */
-    void insertAllPrivilege(String userName, List<String> menuList);
+    void insertAllPrivilege(String roleName, List<String> menuList);
 }

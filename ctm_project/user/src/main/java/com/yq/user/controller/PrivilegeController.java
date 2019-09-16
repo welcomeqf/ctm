@@ -31,18 +31,18 @@ public class PrivilegeController {
 
     @ApiOperation(value = "增加权限", notes = "增加权限")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "userName", value = "用户名", required = true, dataType = "String", paramType = "path"),
+            @ApiImplicitParam(name = "roleName", value = "角色名", required = true, dataType = "String", paramType = "path"),
             @ApiImplicitParam(name = "menuList", value = "所有菜单集合", required = true, dataType = "List", paramType = "path"),
     })
     @PostMapping("/insertPrivilege")
     @CrossOrigin
     public ResultVo insertPrivilege(@RequestBody PrivilegeQuery query) {
-        if (StringUtils.isBlank(query.getUserName()) || query.getMenuList().size() == 0) {
+        if (StringUtils.isBlank(query.getRoleName()) || query.getMenuList().size() == 0) {
             log.error("param is not null.");
             throw new ApplicationException(CodeType.PARAM_ERROR);
         }
 
-        privilegeService.insertAllPrivilege(query.getUserName(),query.getMenuList());
+        privilegeService.insertAllPrivilege(query.getRoleName(),query.getMenuList());
         ResultVo resultVo = new ResultVo();
         resultVo.setResult("ok");
         return resultVo;

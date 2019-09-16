@@ -44,7 +44,7 @@ public class User extends Model<User> {
     private String EName;
 
     /**
-     * 性别（默认0--男   1--女）
+     * 性别（默认0--男   1--女  true）
      */
     private boolean sex;
 
@@ -64,7 +64,7 @@ public class User extends Model<User> {
     private Integer UserLevel;
 
     /**
-     * 是否为超级管理员（0--是  1--不是）
+     * 是否为超级管理员（0--是false  1--不是）
      */
     private Boolean IsSuper;
 
@@ -79,7 +79,7 @@ public class User extends Model<User> {
     private String SystemRoleIds;
 
     /**
-     * 是否停用（0--停用  1--正在使用  默认0）
+     * 是否停用（0--停用  1--正在使用  默认0 false）
      */
     private Boolean Stopped;
 
@@ -109,7 +109,7 @@ public class User extends Model<User> {
     private Integer LoginCount;
 
     /**
-     * 是否删除（默认0  0--不删除  1--删除）
+     * 是否删除（默认0  0--false不删除  1--删除）
      */
     private Boolean Deleted;
 
@@ -121,7 +121,6 @@ public class User extends Model<User> {
     /**
      * 创建时间
      */
-    @TableField(fill = FieldFill.INSERT)
     private LocalDateTime CreateDate;
 
     /**
@@ -132,7 +131,6 @@ public class User extends Model<User> {
     /**
      * 修改时间
      */
-    @TableField(fill = FieldFill.INSERT_UPDATE)
     private LocalDateTime UpdateDate;
 
     /**
