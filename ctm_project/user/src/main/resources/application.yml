@@ -1,0 +1,14 @@
+server:
+  port: 8001
+mybatis-plus:
+  configuration:
+    map-underscore-to-camel-case: false
+  mapper-locations: classpath:com/yq/user/dao/mapper/*.xml
+spring:
+  profiles:
+    active: test
+  application:
+    name: service-user
+app:
+  workerId: 9
+  dataCenterId: 1

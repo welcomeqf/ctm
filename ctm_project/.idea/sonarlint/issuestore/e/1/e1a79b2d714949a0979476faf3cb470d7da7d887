@@ -1,0 +1,5 @@
+
+psquid:S00117*"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(žÿ€¸8¤·ÃüÑ-
+psquid:S00117*"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(žÿ€¸8¤·ÃüÑ-
+wsquid:S00120"ZRename this package name to match the regular expression '^[a-z_]+(\.[a-z_][a-z0-9_]*)*$'.(²¢¼¬üÿÿÿÿ
+_squid:UselessImportCheck"4Remove this unused import 'com.yq.user.entity.User'.(²‰¾¶8œæíÄÓ-
