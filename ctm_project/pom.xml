@@ -5,6 +5,9 @@
     <packaging>pom</packaging>
     <modules>
         <module>common</module>
+        <module>apply</module>
+        <module>user</module>
+        <module>resource</module>
     </modules>
     <parent>
         <groupId>org.springframework.boot</groupId>

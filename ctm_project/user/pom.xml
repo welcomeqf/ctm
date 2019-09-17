@@ -40,12 +40,6 @@
         </dependency>
 
         <dependency>
-            <groupId>com.baomidou</groupId>
-            <artifactId>mybatis-plus-boot-starter</artifactId>
-            <version>3.0.7.1</version>
-        </dependency>
-
-        <dependency>
             <groupId>com.yq</groupId>
             <artifactId>common</artifactId>
             <version>0.0.1-SNAPSHOT</version>
@@ -78,7 +72,7 @@
             <resource>
                 <directory>src/main/java</directory>
                 <includes>
-                    <include>com/yq/user/dao/mapper/*.xml</include>
+                    <include>eqlee/ctm/user/dao/mapper/*.xml</include>
                 </includes>
             </resource>
             <resource>

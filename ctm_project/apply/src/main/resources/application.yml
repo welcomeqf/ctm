@@ -3,7 +3,7 @@ server:
 mybatis-plus:
   configuration:
     map-underscore-to-camel-case: false
-  mapper-locations: classpath:com/yq/apply/*/dao/mapper/*.xml
+  mapper-locations: classpath:eqlee/ctm/apply/*/dao/mapper/*.xml
 spring:
   profiles:
     active: test
