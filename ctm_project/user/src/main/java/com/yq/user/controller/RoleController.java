@@ -60,7 +60,7 @@ public class RoleController {
     }
 
     @ApiOperation(value = "查询角色", notes = "查询角色")
-    @GetMapping("/getRole")
+    @GetMapping("/RoleInfo")
     @CrossOrigin
     public List<UserRole> getRole() {
         return roleService.queryAllRole();

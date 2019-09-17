@@ -6,12 +6,14 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
+        <module name="apply" />
         <module name="common" />
         <module name="resource" />
         <module name="user" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
+      <module name="apply" target="1.8" />
       <module name="common" target="1.8" />
       <module name="ctm_project" target="1.8" />
       <module name="resource" target="1.8" />

@@ -1,4 +1,4 @@
-package com.yq.user;
+package com.yq.apply;
 
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
@@ -9,13 +9,13 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 @SpringBootApplication
-@EnableTransactionManagement
 @EnableSwagger2
-@MapperScan("com.yq.user.dao")
-public class UserApplication extends SpringBootServletInitializer {
+@EnableTransactionManagement
+@MapperScan("com.yq.apply.*.dao")
+public class ApplyApplication extends SpringBootServletInitializer {
 
     public static void main(String[] args) {
-        SpringApplication.run(UserApplication.class, args);
+        SpringApplication.run(ApplyApplication.class, args);
     }
 
 
@@ -26,6 +26,6 @@ public class UserApplication extends SpringBootServletInitializer {
      */
     @Override
     protected SpringApplicationBuilder configure(SpringApplicationBuilder builder) {
-        return builder.sources(UserApplication.class);
+        return builder.sources(ApplyApplication.class);
     }
 }

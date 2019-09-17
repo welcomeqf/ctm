@@ -1,6 +1,5 @@
 package com.yq.user.controller;
 
-import com.alibaba.fastjson.JSONObject;
 import com.yq.constanct.CodeType;
 import com.yq.user.entity.User;
 import com.yq.user.entity.vo.ResultVo;
@@ -16,7 +15,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 
 /**
