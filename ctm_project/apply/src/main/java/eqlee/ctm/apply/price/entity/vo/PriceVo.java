@@ -24,8 +24,4 @@ public class PriceVo {
     private Double BabyPrice;
 
     private Double ChildPrice;
-
-    private Integer MaxNumber;
-
-    private Integer MinNumber;
 }

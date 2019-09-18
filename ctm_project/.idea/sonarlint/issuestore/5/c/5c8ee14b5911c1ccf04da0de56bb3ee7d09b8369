@@ -1,6 +1,6 @@
 
+squid:S1488j"cImmediately return this expression instead of assigning it to the temporary variable "lineQueries".(¦ïĞî8ñ ÷÷Ó-
+psquid:S00117f"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(Å«˜8 ¶ÁöÓ-
+psquid:S00117e"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(©í8‰ì¿öÓ-
 nsquid:S00117("QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ÃĞÑãûÿÿÿÿ
 [squid:UselessImportCheck"0Remove this unused import 'java.util.ArrayList'.(÷‰îƒ8áØ€øÓ-
-psquid:S00117^"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(Å«˜8 ¶ÁöÓ-
-squid:S1488b"cImmediately return this expression instead of assigning it to the temporary variable "lineQueries".(¦ïĞî8ñ ÷÷Ó-
-psquid:S00117]"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(©í8‰ì¿öÓ-

@@ -1,0 +1,9 @@
+
+ysquid:S00116/"URename this field "CreateDate" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(¿©Äıÿÿÿÿ8ÒÎœ˜Ô-
+vsquid:S00116 "RRename this field "Stopped" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(Çõ´¸üÿÿÿÿ8ÒÎœ˜Ô-
+vsquid:S00116*"WRename this field "CreateUserId" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(—êÙç8ÒÎœ˜Ô-
+ysquid:S001169"URename this field "UpdateDate" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(•˜Ğëıÿÿÿÿ8ÒÎœ˜Ô-
+lsquid:S00116"MRename this field "Id" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(´ÕÛ”8ÒÎœ˜Ô-
+usquid:S00116%"QRename this field "Remark" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(é«´‘ùÿÿÿÿ8ÒÎœ˜Ô-
+vsquid:S001164"WRename this field "UpdateUserId" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(–°ƒ¹8ÒÎœ˜Ô-
+zsquid:S00116"VRename this field "ChannelType" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ãÒşÿÿÿÿ8ÒÎœ˜Ô-

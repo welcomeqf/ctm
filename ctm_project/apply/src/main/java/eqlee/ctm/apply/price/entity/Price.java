@@ -41,11 +41,6 @@ public class Price extends Model<Price> {
     private Long ChannelId;
 
     /**
-     * 总价格
-     */
-    private Double AllPrice;
-
-    /**
      * 成年价格
      */
     private Double AdultPrice;
@@ -64,16 +59,6 @@ public class Price extends Model<Price> {
      * 小孩价格
      */
     private Double ChildPrice;
-
-    /**
-     * 最大人数
-     */
-    private Integer MaxNumber;
-
-    /**
-     * 最小人数
-     */
-    private Integer MinNumber;
 
     /**
      * 是否停用(0默认表示false--不出行1--出行)

@@ -2,6 +2,7 @@ package eqlee.ctm.apply.price.dao;
 
 import com.yq.IBaseMapper.IBaseMapper;
 import eqlee.ctm.apply.price.entity.Price;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Component;
 
 import java.util.List;

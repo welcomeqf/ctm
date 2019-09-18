@@ -1,0 +1,5 @@
+
+ssquid:UselessImportCheck"CRemove this unused import 'eqlee.ctm.apply.channle.entity.Channel'.(ŞƒÿÔşÿÿÿÿ8‹¸úšÔ-
+|squid:UselessImportCheck"LRemove this unused import 'eqlee.ctm.apply.channle.service.IChannelService'.(à’İ¡ùÿÿÿÿ8¦‡¥›Ô-
+psquid:S00117d"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(•å¤Š8´ª’Ô-
+usquid:S00117s"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ÛÎì¢ûÿÿÿÿ8ÿÎ¨“Ô-

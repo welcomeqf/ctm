@@ -2,6 +2,8 @@ package eqlee.ctm.apply.line.controller;
 
 import com.yq.constanct.CodeType;
 import com.yq.utils.StringUtils;
+import eqlee.ctm.apply.channle.entity.Channel;
+import eqlee.ctm.apply.channle.service.IChannelService;
 import eqlee.ctm.apply.exception.ApplicationException;
 import eqlee.ctm.apply.line.entity.Line;
 import eqlee.ctm.apply.line.entity.query.LineQuery;
@@ -37,15 +39,13 @@ public class LineController {
             @ApiImplicitParam(name = "LineName", value = "线路名", required = true, dataType = "String", paramType = "path"),
             @ApiImplicitParam(name = "Information", value = "线路简介", required = true, dataType = "String", paramType = "path"),
             @ApiImplicitParam(name = "Region", value = "区域", required = true, dataType = "String", paramType = "path"),
-            @ApiImplicitParam(name = "TravelSituation", value = "出游情况（几日游）", required = true, dataType = "String", paramType = "path")
+            @ApiImplicitParam(name = "TravelSituation", value = "出游情况（几日游）", required = true, dataType = "String", paramType = "path"),
+            @ApiImplicitParam(name = "MaxNumber", value = "最大人数", required = true, dataType = "int", paramType = "path"),
+            @ApiImplicitParam(name = "MinNumber", value = "最小人数", required = true, dataType = "int", paramType = "path")
     })
     @PostMapping("/insertLine")
     @CrossOrigin
     public ResultVo insertLine(@RequestBody LineVo lineVo) {
-        lineVo.setLineName("长隆线");
-        lineVo.setInformation("好好玩儿~~");
-        lineVo.setRegion("香洲区");
-        lineVo.setTravelSituation("一日游");
         if (StringUtils.isBlank(lineVo.getLineName()) || StringUtils.isBlank(lineVo.getInformation())
         || StringUtils.isBlank(lineVo.getRegion()) || StringUtils.isBlank(lineVo.getTravelSituation())) {
             log.error("param is not null.");
@@ -66,7 +66,9 @@ public class LineController {
             @ApiImplicitParam(name = "Information", value = "线路简介", required = true, dataType = "String", paramType = "path"),
             @ApiImplicitParam(name = "Region", value = "区域", required = true, dataType = "String", paramType = "path"),
             @ApiImplicitParam(name = "TravelSituation", value = "出游情况（几日游）", required = true, dataType = "String", paramType = "path"),
-            @ApiImplicitParam(name = "Stopped", value = "是否停用(false-正常 1-禁用true)", required = true, dataType = "Boolean", paramType = "path")
+            @ApiImplicitParam(name = "Stopped", value = "是否停用(false-正常 1-禁用true)", required = true, dataType = "Boolean", paramType = "path"),
+            @ApiImplicitParam(name = "MaxNumber", value = "最大人数", required = true, dataType = "int", paramType = "path"),
+            @ApiImplicitParam(name = "MinNumber", value = "最小人数", required = true, dataType = "int", paramType = "path")
     })
     @PostMapping("/updateLine")
     @CrossOrigin
@@ -119,4 +121,5 @@ public class LineController {
         resultVo.setResult("ok");
         return resultVo;
     }
+
 }

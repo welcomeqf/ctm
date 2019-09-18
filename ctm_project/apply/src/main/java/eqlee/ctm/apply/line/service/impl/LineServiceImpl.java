@@ -48,13 +48,21 @@ public class LineServiceImpl extends ServiceImpl<LineMapper, Line> implements IL
      * @param lineVo
      */
     @Override
-    public void insertLine(LineVo lineVo) {
+    public synchronized void insertLine(LineVo lineVo) {
+        LambdaQueryWrapper<Line> queryWrapper = new LambdaQueryWrapper<Line>()
+                .eq(Line::getLineName,lineVo.getLineName());
+        Line line1 = baseMapper.selectOne(queryWrapper);
+        if (line1 != null) {
+            throw new ApplicationException(CodeType.SERVICE_ERROR,"该线路名已被使用");
+        }
         IdGenerator idGenerator = new IdGenerator();
         Line line = new Line();
         line.setId(idGenerator.getNumberId());
         line.setLineName(lineVo.getLineName());
         line.setInformation(lineVo.getInformation());
         line.setRegion(lineVo.getRegion());
+        line.setMaxNumber(lineVo.getMaxNumber());
+        line.setMinNumber(lineVo.getMinNumber());
         line.setTravelSituation(lineVo.getTravelSituation());
 
         int insert = baseMapper.insert(line);

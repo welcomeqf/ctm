@@ -45,6 +45,16 @@ public class Line extends Model<Line> {
     private String TravelSituation;
 
     /**
+     * 最大人数
+     */
+    private Integer MaxNumber;
+
+    /**
+     * 最小人数
+     */
+    private Integer MinNumber;
+
+    /**
      * 是否停用0默认false-正常 1-禁用true
      */
     private Boolean Stopped;

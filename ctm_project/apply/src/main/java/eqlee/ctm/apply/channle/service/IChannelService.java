@@ -34,9 +34,12 @@ public interface IChannelService {
      * @return
      */
     void deleteChannel(Long id);
+
+
     /**
-     * 根据渠道类型查询渠道列表
+     * 根渠道类型查询渠道列表据
+     * @param ChannelType
      * @return
      */
-    public Channel selectChannelByType(String ChannelType);
+    Channel selectChannelByType(String ChannelType);
 }

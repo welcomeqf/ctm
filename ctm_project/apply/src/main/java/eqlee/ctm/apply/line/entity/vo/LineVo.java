@@ -29,4 +29,14 @@ public class LineVo {
      * 出游情况（几日游）
      */
     private String TravelSituation;
+
+    /**
+     * 最大人数
+     */
+    private Integer MaxNumber;
+
+    /**
+     * 最小人数
+     */
+    private Integer MinNumber;
 }

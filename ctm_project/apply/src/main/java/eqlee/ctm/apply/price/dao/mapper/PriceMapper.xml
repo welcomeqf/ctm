@@ -5,8 +5,7 @@
 
     <insert id="allInsertPrice" parameterType="eqlee.ctm.apply.price.entity.Price">
         insert into Price (Id,OutDate,LineId,ChannelId,AllPrice,AdultPrice,OldPrice,BabyPrice,ChildPrice,MaxNumber,MinNumber)
-        values
-        <foreach collection="list" item="item" index="index" separator="UNION ALL">
+        <foreach collection="list" item="item" index="index" separator="union all">
             select #{item.Id},#{item.OutDate},#{item.LineId},#{item.ChannelId},#{item.AllPrice},
             #{item.AdultPrice},#{item.OldPrice},#{item.BabyPrice},#{item.ChildPrice},#{item.MaxNumber},#{item.MinNumber}
         </foreach>

@@ -1,6 +1,9 @@
 package eqlee.ctm.apply.entry.service;
 
+import eqlee.ctm.apply.entry.entity.Apply;
 import eqlee.ctm.apply.entry.entity.vo.ApplyVo;
+
+import java.util.List;
 
 /**
  * @Author qf
@@ -9,5 +12,11 @@ import eqlee.ctm.apply.entry.entity.vo.ApplyVo;
  */
 public interface IApplyService {
 
+    /**
+     * 报名
+     * @param applyVo
+     */
     void insertApply(ApplyVo applyVo);
+
+    List<Apply> listApply();
 }
