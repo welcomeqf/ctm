@@ -1,0 +1,7 @@
+
+Dsquid:S1125_"(Remove the literal "true" boolean value.(Ó°¨Ìşÿÿÿÿ
+_squid:UselessImportCheck"4Remove this unused import 'com.yq.utils.Base64Util'.(Ä»¨Ã8Å¼ôüÓ-
+wsquid:S00120"ZRename this package name to match the regular expression '^[a-z_]+(\.[a-z_][a-z0-9_]*)*$'.(…ÿÎÿÿÿÿÿ
+Isquid:S1135B"2Complete the task associated to this TODO comment.(…ïœ†
+Esquid:S1125=")Remove the literal "false" boolean value.(öŒ°¥üÿÿÿÿ
+Dsquid:S1125v"(Remove the literal "true" boolean value.(Ó°¨Ìşÿÿÿÿ

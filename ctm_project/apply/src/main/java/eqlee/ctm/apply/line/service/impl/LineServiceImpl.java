@@ -99,4 +99,36 @@ public class LineServiceImpl extends ServiceImpl<LineMapper, Line> implements IL
 
         return lineQueries;
     }
+
+    /**
+     * 停用线路
+     * @param id
+     */
+    @Override
+    public void updateStatus(Long id) {
+        Line line = new Line();
+        line.setId(id);
+        line.setStopped(true);
+        int i = baseMapper.updateById(line);
+        if (i <= 0) {
+            log.error("stop line fail.");
+            throw new ApplicationException(CodeType.SERVICE_ERROR,"停用线路失败");
+        }
+    }
+
+    /**
+     * 启用线路
+     * @param id
+     */
+    @Override
+    public void updateNormal(Long id) {
+        Line line = new Line();
+        line.setId(id);
+        line.setStopped(false);
+        int i = baseMapper.updateById(line);
+        if (i <= 0) {
+            log.error("start line fail.");
+            throw new ApplicationException(CodeType.SERVICE_ERROR,"启用线路失败");
+        }
+    }
 }

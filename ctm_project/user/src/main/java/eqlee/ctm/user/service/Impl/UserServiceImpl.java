@@ -3,6 +3,7 @@ package eqlee.ctm.user.service.Impl;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.yq.constanct.CodeType;
+import com.yq.utils.ShaUtils;
 import eqlee.ctm.user.dao.UserMapper;
 import eqlee.ctm.user.entity.User;
 import eqlee.ctm.user.entity.UserRole;
@@ -38,8 +39,14 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
      * @param userVo
      */
     @Override
-    public void register(UserVo userVo) {
-        String s = Base64Util.encodeString(userVo.getPassword());
+    public synchronized void register(UserVo userVo) {
+        LambdaQueryWrapper<User> queryWrapper = new LambdaQueryWrapper<User>()
+                .eq(User::getAccount,userVo.getUserName());
+        User user1 = baseMapper.selectOne(queryWrapper);
+        if (user1 != null) {
+            throw new ApplicationException(CodeType.SERVICE_ERROR,"该账号已被使用");
+        }
+        String s = ShaUtils.getSha1(userVo.getPassword());
         User user = new User();
         IdGenerator idGenerator = new IdGenerator();
         user.setId(idGenerator.getNumberId());
@@ -79,7 +86,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
         User user = baseMapper.selectOne(queryWrapper);
 
         if (user != null) {
-            if (!Base64Util.encodeString(password).equals(user.getPassword())) {
+            if (!ShaUtils.getSha1(password).equals(user.getPassword())) {
                 throw new ApplicationException(CodeType.SERVICE_ERROR,"密码错误");
             }
             if (user.getStatus() == 1) {
@@ -192,8 +199,14 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
      * @param userVo
      */
     @Override
-    public void dowmRegister(UserVo userVo) {
-        String s = Base64Util.encodeString(userVo.getPassword());
+    public synchronized void dowmRegister(UserVo userVo) {
+        LambdaQueryWrapper<User> queryWrapper = new LambdaQueryWrapper<User>()
+                .eq(User::getAccount,userVo.getUserName());
+        User user1 = baseMapper.selectOne(queryWrapper);
+        if (user1 != null) {
+            throw new ApplicationException(CodeType.SERVICE_ERROR,"该账号已被使用");
+        }
+        String s = ShaUtils.getSha1(userVo.getPassword());
         User user = new User();
         IdGenerator idGenerator = new IdGenerator();
         user.setId(idGenerator.getNumberId());

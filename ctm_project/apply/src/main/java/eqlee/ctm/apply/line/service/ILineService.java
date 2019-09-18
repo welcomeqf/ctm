@@ -38,4 +38,16 @@ public interface ILineService {
      * @return
      */
     List<LineQuery> listLine(String dateTime);
+
+    /**
+     * 停用线路
+     * @param id
+     */
+    void updateStatus(Long id);
+
+    /**
+     * 启用线路
+     * @param id
+     */
+    void updateNormal(Long id);
 }
