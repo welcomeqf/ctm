@@ -26,9 +26,9 @@ public class Channel {
    */
     private String ChannelType;
 
-    /*
-   状态
-   */
+    /**
+     * 是否停用(0默认--正常  1--停用)
+     */
     private Boolean Stopped;
 
     /*

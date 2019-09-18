@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 /**
@@ -27,7 +28,7 @@ public class Price extends Model<Price> {
     /**
      * 出行日期
      */
-    private LocalDateTime OutDate;
+    private LocalDate OutDate;
 
     /**
      * 线路ID

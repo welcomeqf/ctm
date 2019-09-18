@@ -1,6 +1,7 @@
 package eqlee.ctm.apply.price.service;
 
 import eqlee.ctm.apply.price.entity.Price;
+import eqlee.ctm.apply.price.entity.vo.PriceVo;
 
 import java.time.LocalDateTime;
 
@@ -17,4 +18,16 @@ public interface IPriceService {
      * @return
      */
     Price queryPrice(LocalDateTime OutDate);
+
+    /**
+     * 价格设定
+     * @param priceVo
+     */
+    void insertPrice(PriceVo priceVo);
+
+    /**
+     * 价格修改
+     * @param price
+     */
+    void updatePrice(Price price);
 }

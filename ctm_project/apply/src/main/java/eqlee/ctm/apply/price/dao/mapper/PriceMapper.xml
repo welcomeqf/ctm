@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="eqlee.ctm.apply.price.dao.PriceMapper">
+
+    <insert id="allInsertPrice" parameterType="eqlee.ctm.apply.price.entity.Price">
+        insert into Price (Id,OutDate,LineId,ChannelId,AllPrice,AdultPrice,OldPrice,BabyPrice,ChildPrice,MaxNumber,MinNumber)
+        values
+        <foreach collection="list" item="item" index="index" separator="UNION ALL">
+            select #{item.Id},#{item.OutDate},#{item.LineId},#{item.ChannelId},#{item.AllPrice},
+            #{item.AdultPrice},#{item.OldPrice},#{item.BabyPrice},#{item.ChildPrice},#{item.MaxNumber},#{item.MinNumber}
+        </foreach>
+    </insert>
+
+
+</mapper>

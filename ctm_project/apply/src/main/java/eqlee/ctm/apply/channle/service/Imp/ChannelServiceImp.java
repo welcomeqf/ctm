@@ -23,10 +23,19 @@ import java.util.List;
 @Slf4j
 @Transactional(rollbackFor = Exception.class)
 public class ChannelServiceImp extends ServiceImpl<ChannleMapper,Channel>implements IChannelService {
+
+
+    /**
+     * 查询
+     * @return
+     */
     @Override
     public List<Channel> queryAllChannel() {
         return baseMapper.selectList(null);
     }
+
+
+
 
     @Override
     public void addChannel(String ChannelType) {
@@ -41,6 +50,9 @@ public class ChannelServiceImp extends ServiceImpl<ChannleMapper,Channel>impleme
         }
     }
 
+
+
+
     @Override
     public void updateChannel(Channel channel) {
         int update = baseMapper.updateById(channel);
@@ -51,6 +63,8 @@ public class ChannelServiceImp extends ServiceImpl<ChannleMapper,Channel>impleme
 
     }
 
+
+
     @Override
     public void deleteChannel(Long id) {
         int delete = baseMapper.deleteById(id);
@@ -59,6 +73,8 @@ public class ChannelServiceImp extends ServiceImpl<ChannleMapper,Channel>impleme
             throw new ApplicationException(CodeType.SERVICE_ERROR,"删除渠道失败");
         }
     }
+
+
 
     @Override
     public Channel selectChannelByType(String ChannelType) {
