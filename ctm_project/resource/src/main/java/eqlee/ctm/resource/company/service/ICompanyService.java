@@ -1,6 +1,8 @@
 package eqlee.ctm.resource.company.service;
 
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import eqlee.ctm.resource.company.entity.Company;
+import eqlee.ctm.resource.company.entity.query.PageCompanyQuery;
 import eqlee.ctm.resource.company.entity.vo.CompanyVo;
 
 import java.util.List;
@@ -15,7 +17,7 @@ public interface ICompanyService {
      * 查询所有同行列表
      * @return
      */
-    List<Company> queryAllCompany();
+//    List<Company> queryAllCompany();
 
     /**
      * 增加同行信息
@@ -44,5 +46,14 @@ public interface ICompanyService {
      * @return
      */
     public void UpdateCompanyStopped(Long id);
+
+    /**
+     *
+     * @param pageCompany
+     * @return
+     */
+    Page<Company> GetCompanyPage(PageCompanyQuery pageCompany);
+
+    Page<Company> GetCompanyPageByName(PageCompanyQuery pageCompany);
 
 }

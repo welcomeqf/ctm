@@ -1,8 +1,10 @@
 package eqlee.ctm.resource.company.controller;
 
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.yq.constanct.CodeType;
 import com.yq.utils.IdGenerator;
 import eqlee.ctm.resource.company.entity.Company;
+import eqlee.ctm.resource.company.entity.query.PageCompanyQuery;
 import eqlee.ctm.resource.company.entity.vo.CompanyVo;
 import eqlee.ctm.resource.company.entity.vo.ResultVo;
 import eqlee.ctm.resource.company.service.ICompanyService;
@@ -36,10 +38,13 @@ public class CompanyController {
     @ApiOperation(value = "同行列表", notes = "同行列表展示")
     @GetMapping("/QueryCompany")
     @CrossOrigin
-    public List<Company> queryCompany() {
+    public Page<Company> queryCompany(@RequestParam("current") Integer current) {
 
-        companyService.queryAllCompany();
-        return  companyService.queryAllCompany();
+        PageCompanyQuery pageCompany = new PageCompanyQuery();
+        pageCompany.setCurrent(current);
+//        companyService.queryAllCompany();
+//        return  companyService.queryAllCompany();
+        return companyService.GetCompanyPage(pageCompany);
     }
 
 
@@ -85,16 +90,22 @@ public class CompanyController {
 
 
     @ApiOperation(value = "同行列表", notes = "由公司名查询的公司列表")
-    @ApiImplicitParam(name = "CompanyName", value = "公司名称", required = true, dataType = "String", paramType = "path")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "CompanyName", value = "公司名称", required = true, dataType = "String", paramType = "path"),
+            @ApiImplicitParam(name = "current", value = "当前页", required = true, dataType = "Integer", paramType = "path")
+    })
     @GetMapping("/queryCompanyByName")
     @CrossOrigin
-    public List<Company> queryCompanyByCompanyName (@RequestParam("companyName") String name) {
+    public Page<Company> queryCompanyByCompanyName (@RequestParam("CompanyName") String name,@RequestParam("current") Integer current) {
 
         if(name==null) {
             log.error("queryCompanyByName company param is null");
             throw new ApplicationException(CodeType.PARAMETER_ERROR,"由公司名称查询列表的公司名称为空");
         }
-        return  companyService.queryCompanyByCompanyName(name);
+        PageCompanyQuery pageCompany = new PageCompanyQuery();
+        pageCompany.setCurrent(current);
+        pageCompany.setName(name);
+        return  companyService.GetCompanyPageByName(pageCompany);
     }
 
 

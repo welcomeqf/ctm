@@ -1,21 +1,22 @@
 package eqlee.ctm.resource.company.service.Imp;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.yq.constanct.CodeType;
 import com.yq.utils.IdGenerator;
-import com.yq.utils.StringUtils;
 import eqlee.ctm.resource.company.dao.CompanyMapper;
 import eqlee.ctm.resource.company.entity.Company;
+import eqlee.ctm.resource.company.entity.query.PageCompanyQuery;
 import eqlee.ctm.resource.company.entity.vo.CompanyVo;
 import eqlee.ctm.resource.company.service.ICompanyService;
 import eqlee.ctm.resource.exception.ApplicationException;
-import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.awt.*;
 import java.util.List;
 
 /**
@@ -27,12 +28,12 @@ import java.util.List;
 @Service
 @Transactional(rollbackFor = Exception.class)
 public class CompanyServiceImp extends ServiceImpl<CompanyMapper,Company> implements ICompanyService {
-    @Override
-    public List<Company> queryAllCompany() {
-
-        List<Company> companies = baseMapper.selectList(null);
-        return companies;
-    }
+//    @Override
+//    public List<Company> queryAllCompany() {
+//
+//        List<Company> companies = baseMapper.selectList(null);
+//        return companies;
+//    }
 
     @Override
     public void addCompany(CompanyVo companyVo) {
@@ -95,6 +96,32 @@ public class CompanyServiceImp extends ServiceImpl<CompanyMapper,Company> implem
             log.error("update stop fail");
             throw new ApplicationException(CodeType.SERVICE_ERROR,"修改公司状态失败");
         }
+    }
+
+    @Override
+    public Page<Company> GetCompanyPage(PageCompanyQuery pageCompany) {
+        LambdaQueryWrapper<Company> queryWrapper = new LambdaQueryWrapper<Company>()
+                .orderByDesc(Company::getCreateDate);
+
+        Page<Company> page = new Page<Company>();
+        page.setCurrent(pageCompany.getCurrent());
+        baseMapper.selectPage(page, queryWrapper);
+        return page;
+
+    }
+
+    @Override
+    public Page<Company> GetCompanyPageByName(PageCompanyQuery pageCompany) {
+        QueryWrapper<Company> queryWrapper = new QueryWrapper<>();
+        queryWrapper.like(true, "CompanyName", pageCompany.getName());
+//        LambdaQueryWrapper<Company> queryWrapper = new LambdaQueryWrapper<Company>()
+//                .like(Company::getCompanyName,pageCompany.getName());
+//        log.info(queryWrapper.toString());
+        Page<Company> page = new Page<Company>();
+        page.setCurrent(pageCompany.getCurrent());
+        log.info(pageCompany.getName());
+        baseMapper.selectPage(page, queryWrapper);
+        return page;
     }
 
 
