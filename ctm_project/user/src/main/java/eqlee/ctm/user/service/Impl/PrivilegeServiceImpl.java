@@ -1,11 +1,13 @@
 package eqlee.ctm.user.service.Impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.yq.constanct.CodeType;
 import eqlee.ctm.user.dao.PrivilegeMapper;
 import eqlee.ctm.user.entity.UserMenu;
 import eqlee.ctm.user.entity.UserPrivilege;
 import eqlee.ctm.user.entity.UserRole;
+import eqlee.ctm.user.entity.query.PrivilegeMenuQuery;
 import eqlee.ctm.user.exception.ApplicationException;
 import eqlee.ctm.user.service.IMenuService;
 import eqlee.ctm.user.service.IPrivilegeService;
@@ -16,6 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -33,9 +36,6 @@ public class PrivilegeServiceImpl extends ServiceImpl<PrivilegeMapper, UserPrivi
 
     @Autowired
     private IMenuService menuService;
-
-    @Autowired
-    private IUserService userService;
 
     @Override
     public void insertPrivilege(String RoleName, String MenuName) {
@@ -75,5 +75,32 @@ public class PrivilegeServiceImpl extends ServiceImpl<PrivilegeMapper, UserPrivi
             userPrivilege.setSystemMenuId(userMenu.getId());
             baseMapper.insert(userPrivilege);
         }
+    }
+
+    /**
+     * 根据角色名查询所有菜单权限
+     * @param roleName
+     * @return
+     */
+    @Override
+    public List<PrivilegeMenuQuery> queryAllMenu(String roleName) {
+        UserRole userRole = roleService.queryOne(roleName);
+        LambdaQueryWrapper<UserPrivilege> queryWrapper = new LambdaQueryWrapper<UserPrivilege>()
+                .eq(UserPrivilege::getSystemRoleId,userRole.getId());
+        //查询数据库
+        List<UserPrivilege> userPrivileges = baseMapper.selectList(queryWrapper);
+        //将数据装配到新集合中返回
+        List<PrivilegeMenuQuery> result = new ArrayList<>();
+
+        for (UserPrivilege userPrivilege : userPrivileges) {
+            PrivilegeMenuQuery query = new PrivilegeMenuQuery();
+            //查询数据库将菜单权限返回
+            UserMenu userMenu = menuService.queryMenuById(userPrivilege.getSystemMenuId());
+            query.setMenuName(userMenu.getMenuName());
+            result.add(query);
+        }
+
+
+        return result;
     }
 }

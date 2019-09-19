@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="eqlee.ctm.user.dao.UserMapper">
+
+    <select id="queryUserInfo" resultType="eqlee.ctm.user.entity.query.UserQuery">
+        select a.Account,b.RoleName,a.Tel from SystemUser a
+        join SystemRole b on a.SystemRoleId = b.Id
+    </select>
+
+
+    <select id="queryPageUserByName" resultType="eqlee.ctm.user.entity.query.UserQuery">
+        <bind name="user_name" value="'%' + userName + '%'"/>
+        select a.Account,b.RoleName,a.Tel from SystemUser a
+        join SystemRole b on a.SystemRoleId = b.Id
+        where a.Account like #{user_name} and b.RoleName = #{roleName}
+    </select>
+
+    <select id="queryUserByName" resultType="eqlee.ctm.user.entity.query.UserQuery">
+        <bind name="user_name" value="'%' + userName + '%'"/>
+        select a.Account,b.RoleName,a.Tel from SystemUser a
+        join SystemRole b on a.SystemRoleId = b.Id
+        where a.Account like #{user_name}
+    </select>
+
+</mapper>

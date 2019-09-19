@@ -1,11 +1,9 @@
 package eqlee.ctm.apply.line.service;
 
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import eqlee.ctm.apply.line.entity.Line;
-import eqlee.ctm.apply.line.entity.query.LineQuery;
+import eqlee.ctm.apply.line.entity.query.LinePageQuery;
 import eqlee.ctm.apply.line.entity.vo.LineVo;
-
-import java.time.LocalDateTime;
-import java.util.List;
 
 /**
  * @Author qf
@@ -37,7 +35,7 @@ public interface ILineService {
      * 查询所有线路
      * @return
      */
-    List<LineQuery> listLine(String dateTime);
+    Page<Line> listPageLine(LinePageQuery query);
 
     /**
      * 停用线路

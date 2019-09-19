@@ -21,6 +21,7 @@ public interface IMenuService {
 
     /**
      * 查询所有菜单
+     * @param Id
      * @return
      */
     List<UserMenuQuery> queryAllMenu(Long Id);
@@ -31,4 +32,11 @@ public interface IMenuService {
      * @return
      */
     UserMenu queryOne(String MenuName);
+
+    /**
+     * 根据ID查询菜单信息
+     * @param Id
+     * @return
+     */
+    UserMenu queryMenuById(Long Id);
 }

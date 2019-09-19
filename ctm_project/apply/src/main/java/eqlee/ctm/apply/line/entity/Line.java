@@ -40,7 +40,7 @@ public class Line extends Model<Line> {
     private String Region;
 
     /**
-     * 出游情况（几日游）
+     * 出游天数（几日游）
      */
     private String TravelSituation;
 

@@ -1,6 +1,7 @@
 package eqlee.ctm.user.controller;
 
 import eqlee.ctm.user.entity.UserMenu;
+import eqlee.ctm.user.entity.query.UserMenuQuery;
 import eqlee.ctm.user.entity.vo.ResultVo;
 import eqlee.ctm.user.service.IMenuService;
 import io.swagger.annotations.Api;
@@ -9,6 +10,8 @@ import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 /**
  * @Author qf
@@ -35,5 +38,13 @@ public class MenuController {
         ResultVo resultVo = new ResultVo();
         resultVo.setResult("ok");
         return resultVo;
+    }
+
+    @ApiOperation(value = "查询所有菜单", notes = "查询所有菜单")
+    @ApiImplicitParam(name = "Id", value = "Id", required = true, dataType = "Long", paramType = "path")
+    @GetMapping("/queryMenu")
+    @CrossOrigin
+    public List<UserMenuQuery> queryMenu(@RequestParam("Id") Long Id) {
+        return menuService.queryAllMenu(Id);
     }
 }

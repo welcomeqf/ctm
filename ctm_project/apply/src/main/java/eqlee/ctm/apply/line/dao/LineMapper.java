@@ -2,7 +2,6 @@ package eqlee.ctm.apply.line.dao;
 
 import com.yq.IBaseMapper.IBaseMapper;
 import eqlee.ctm.apply.line.entity.Line;
-import eqlee.ctm.apply.line.entity.query.LineQuery;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Component;
 

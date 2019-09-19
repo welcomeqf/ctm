@@ -1,24 +1,19 @@
 package eqlee.ctm.apply.line.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.yq.constanct.CodeType;
-import com.yq.utils.DateUtil;
 import com.yq.utils.IdGenerator;
-import com.yq.utils.StringUtils;
 import eqlee.ctm.apply.exception.ApplicationException;
 import eqlee.ctm.apply.line.dao.LineMapper;
 import eqlee.ctm.apply.line.entity.Line;
-import eqlee.ctm.apply.line.entity.query.LineQuery;
+import eqlee.ctm.apply.line.entity.query.LinePageQuery;
 import eqlee.ctm.apply.line.entity.vo.LineVo;
 import eqlee.ctm.apply.line.service.ILineService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * @Author qf
@@ -88,25 +83,22 @@ public class LineServiceImpl extends ServiceImpl<LineMapper, Line> implements IL
     }
 
     /**
-     * 根据日期查询
-     * @param dateTime
+     * 分页查询所有线路
+     * @param query
      * @return
      */
     @Override
-    public List<LineQuery> listLine(String dateTime) {
-        if (StringUtils.isBlank(dateTime)) {
-            return baseMapper.listAllLine();
-        }
-        //转换时间参数
-        String StartTime = dateTime + " 00:00:00";
-        String EndTime = dateTime + " 23:59:59";
-        LocalDateTime startDate = DateUtil.parseDateTime(StartTime);
-        LocalDateTime endDate = DateUtil.parseDateTime(EndTime);
+    public Page<Line> listPageLine(LinePageQuery query) {
+        Page<Line> page = new Page<>();
+        page.setCurrent(query.getCurrent());
+        page.setSize(query.getSize());
 
-        List<LineQuery> lineQueries = baseMapper.listLine(startDate, endDate);
-
-        return lineQueries;
+        LambdaQueryWrapper<Line> queryWrapper = new LambdaQueryWrapper<Line>()
+                .orderByDesc(Line::getCreateDate);
+        baseMapper.selectPage(page,queryWrapper);
+        return page;
     }
+
 
     /**
      * 停用线路

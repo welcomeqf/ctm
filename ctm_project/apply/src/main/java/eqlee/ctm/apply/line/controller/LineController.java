@@ -1,12 +1,11 @@
 package eqlee.ctm.apply.line.controller;
 
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.yq.constanct.CodeType;
 import com.yq.utils.StringUtils;
-import eqlee.ctm.apply.channle.entity.Channel;
-import eqlee.ctm.apply.channle.service.IChannelService;
 import eqlee.ctm.apply.exception.ApplicationException;
 import eqlee.ctm.apply.line.entity.Line;
-import eqlee.ctm.apply.line.entity.query.LineQuery;
+import eqlee.ctm.apply.line.entity.query.LinePageQuery;
 import eqlee.ctm.apply.line.entity.vo.LineVo;
 import eqlee.ctm.apply.line.entity.vo.ResultVo;
 import eqlee.ctm.apply.line.service.ILineService;
@@ -85,12 +84,22 @@ public class LineController {
         return resultVo;
     }
 
-    @ApiOperation(value = "查询所有线路", notes = "查询所有线路")
-    @ApiImplicitParam(name = "dateTime", value = "出行日期", required = true, dataType = "String", paramType = "path")
+    @ApiOperation(value = "分页查询所有线路", notes = "分页查询所有线路")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "current", value = "当前页", required = true, dataType = "int", paramType = "path"),
+            @ApiImplicitParam(name = "size", value = "每页显示条数", required = true, dataType = "int", paramType = "path")
+    })
     @GetMapping("/listLine")
     @CrossOrigin
-    public List<LineQuery> listLine(@RequestParam("dateTime") String dateTime) {
-        return lineService.listLine(dateTime);
+    public Page<Line> listLine(@RequestParam("current") Integer current,
+                                        @RequestParam("size") Integer size) {
+        if (current == null || size == null) {
+            throw new ApplicationException(CodeType.PARAM_ERROR,"线路分页查询线路失败");
+        }
+        LinePageQuery pageQuery = new LinePageQuery();
+        pageQuery.setCurrent(current);
+        pageQuery.setSize(size);
+        return lineService.listPageLine(pageQuery);
     }
 
     @ApiOperation(value = "停用线路", notes = "停用线路")

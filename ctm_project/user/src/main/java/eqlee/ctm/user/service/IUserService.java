@@ -1,6 +1,9 @@
 package eqlee.ctm.user.service;
 
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import eqlee.ctm.user.entity.User;
+import eqlee.ctm.user.entity.query.UserLoginQuery;
+import eqlee.ctm.user.entity.query.UserQuery;
 import eqlee.ctm.user.entity.vo.UserVo;
 
 /**
@@ -22,7 +25,7 @@ public interface IUserService {
      * @param password
      * @return
      */
-    User login(String userName, String password);
+    UserLoginQuery login(String userName, String password);
 
     /**
      * 注销
@@ -62,5 +65,29 @@ public interface IUserService {
      * @param userVo
      */
     void dowmRegister(UserVo userVo);
+
+    /**
+     * 分页查询所有用户加模糊查询
+     * @param page
+     * @return
+     */
+    Page<UserQuery> queryAllUserByPage(Page<UserQuery> page);
+
+    /**
+     * 对用户分页数据进行用户模糊以及角色帅选
+     * @param page
+     * @param userName
+     * @param roleName
+     * @return
+     */
+    Page<UserQuery> queryPageUserByName(Page<UserQuery> page,String userName,String roleName);
+
+    /**
+     * 只模糊查询加分页
+     * @param page
+     * @param userName
+     * @return
+     */
+    Page<UserQuery> queryUserByName(Page<UserQuery> page, String userName);
 
 }

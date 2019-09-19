@@ -1,14 +1,19 @@
 package eqlee.ctm.user.service.Impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.yq.constanct.CodeType;
 import com.yq.utils.ShaUtils;
 import eqlee.ctm.user.dao.UserMapper;
 import eqlee.ctm.user.entity.User;
 import eqlee.ctm.user.entity.UserRole;
+import eqlee.ctm.user.entity.query.PrivilegeMenuQuery;
+import eqlee.ctm.user.entity.query.UserLoginQuery;
+import eqlee.ctm.user.entity.query.UserQuery;
 import eqlee.ctm.user.entity.vo.UserVo;
 import eqlee.ctm.user.exception.ApplicationException;
+import eqlee.ctm.user.service.IPrivilegeService;
 import eqlee.ctm.user.service.IRoleService;
 import eqlee.ctm.user.service.IUserService;
 import com.yq.utils.Base64Util;
@@ -19,6 +24,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 /**
  * @Author qf
@@ -33,9 +39,11 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
     @Autowired
     private IRoleService roleService;
 
+    @Autowired
+    private IPrivilegeService privilegeService;
 
     /**
-     * 运营人员注册
+     * 管理人员注册
      * @param userVo
      */
     @Override
@@ -80,7 +88,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
      * @return
      */
     @Override
-    public synchronized User login(String userName, String password) {
+    public synchronized UserLoginQuery login(String userName, String password) {
         LambdaQueryWrapper<User> queryWrapper = new LambdaQueryWrapper<User>()
                 .eq(User::getAccount,userName);
         User user = baseMapper.selectOne(queryWrapper);
@@ -100,8 +108,23 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
             user.setStopped(true);
             baseMapper.updateById(user);
         }
-
-        return user;
+        UserRole userRole = roleService.queryRoleById(user.getSystemRoleId());
+        List<PrivilegeMenuQuery> list = privilegeService.queryAllMenu(userRole.getRoleName());
+        //装配UserLoginQuery
+        UserLoginQuery query = new UserLoginQuery();
+        query.setAccount(user.getAccount());
+        query.setCName(user.getCName());
+        query.setCompanyId(user.getCompanyId());
+        query.setPassword(user.getPassword());
+        if (user.getStatus() == 0) {
+            query.setStatus("正常");
+        } else {
+            query.setStatus("冻结");
+        }
+        query.setTel(user.getTel());
+        query.setRoleName(userRole.getRoleName());
+        query.setMenuList(list);
+        return query;
     }
 
     /**
@@ -233,6 +256,39 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
             log.error("insert user db fail.");
             throw new ApplicationException(CodeType.SERVICE_ERROR,"注册失败");
         }
+    }
+
+    /**
+     * 分页高级查询用户列表
+     * @param page
+     * @return
+     */
+    @Override
+    public Page<UserQuery> queryAllUserByPage(Page<UserQuery> page) {
+        return baseMapper.queryUserInfo(page);
+    }
+
+    /**
+     * 对用户分页数据进行用户模糊以及角色帅选
+     * @param page
+     * @param userName
+     * @param roleName
+     * @return
+     */
+    @Override
+    public Page<UserQuery> queryPageUserByName(Page<UserQuery> page,String userName,String roleName) {
+        return baseMapper.queryPageUserByName(page,userName,roleName);
+    }
+
+    /**
+     * 模糊查询加分页
+     * @param page
+     * @param userName
+     * @return
+     */
+    @Override
+    public Page<UserQuery> queryUserByName(Page<UserQuery> page, String userName) {
+        return baseMapper.queryUserByName(page,userName);
     }
 
 }

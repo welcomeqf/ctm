@@ -1,10 +1,12 @@
 package eqlee.ctm.user.service.Impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.yq.constanct.CodeType;
 import eqlee.ctm.user.dao.RoleMapper;
 import eqlee.ctm.user.entity.UserRole;
+import eqlee.ctm.user.entity.vo.RoleVo;
 import eqlee.ctm.user.exception.ApplicationException;
 import eqlee.ctm.user.service.IRoleService;
 import com.yq.utils.IdGenerator;
@@ -25,8 +27,6 @@ import java.util.List;
 @Transactional(rollbackFor = Exception.class)
 public class RoleServiceImpl extends ServiceImpl<RoleMapper, UserRole> implements IRoleService {
 
-    @Autowired
-    private RoleMapper mapper;
 
     @Override
     public void addRole(UserRole role) {
@@ -82,5 +82,31 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, UserRole> implement
                 .eq(UserRole::getRoleName,RoleName);
         UserRole role = baseMapper.selectOne(queryWrapper);
         return role;
+    }
+
+    /**
+     * 分页查询所有角色
+     * @param roleVo
+     * @return
+     */
+    @Override
+    public Page<UserRole> queryPageRole(RoleVo roleVo) {
+        LambdaQueryWrapper<UserRole> queryWrapper = new LambdaQueryWrapper<UserRole>()
+                .orderByDesc(UserRole::getId);
+        Page<UserRole> page = new Page<>();
+        page.setSize(roleVo.getSize());
+        page.setCurrent(roleVo.getCurrent());
+        baseMapper.selectPage(page,queryWrapper);
+        return page;
+    }
+
+    /**
+     * 根据ID查询角色
+     * @param Id
+     * @return
+     */
+    @Override
+    public UserRole queryRoleById(Long Id) {
+        return baseMapper.selectById(Id);
     }
 }

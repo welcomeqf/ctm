@@ -46,6 +46,11 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, UserMenu> implement
         }
     }
 
+    /**
+     * 查询所有菜单权限
+     * @param Id
+     * @return
+     */
     @Override
     public List<UserMenuQuery> queryAllMenu(Long Id) {
         List<UserMenuQuery> list = new ArrayList<>();
@@ -61,14 +66,24 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, UserMenu> implement
                 query.setAction(userMenu.getAction());
                 query.setIconClass(userMenu.getIconClass());
                 list.add(query);
-                return list;
             }
+            return list;
+        }
+        //查询所有系统功能下的所有功能
+        LambdaQueryWrapper<UserMenu> query = new LambdaQueryWrapper<UserMenu>()
+                .eq(UserMenu::getParent,Id);
+        List<UserMenu> userMenuList = baseMapper.selectList(query);
+        for (UserMenu userMenu : userMenuList) {
+            UserMenuQuery userMenuQuery = new UserMenuQuery();
+            //装配query
+            userMenuQuery.setId(userMenu.getId());
+            userMenuQuery.setMenuName(userMenu.getMenuName());
+            userMenuQuery.setAction(userMenu.getAction());
+            userMenuQuery.setIconClass(userMenu.getIconClass());
+            list.add(userMenuQuery);
         }
 
-        //查询
-
-
-        return null;
+        return list;
     }
 
     /**
@@ -82,5 +97,15 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, UserMenu> implement
                 .eq(UserMenu::getMenuName,MenuName);
         UserMenu userMenu = baseMapper.selectOne(queryWrapper);
         return userMenu;
+    }
+
+    /**
+     * 根据ID查询所有菜单
+     * @param Id
+     * @return
+     */
+    @Override
+    public UserMenu queryMenuById(Long Id) {
+        return baseMapper.selectById(Id);
     }
 }

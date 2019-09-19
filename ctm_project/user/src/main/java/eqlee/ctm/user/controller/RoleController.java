@@ -1,13 +1,16 @@
 package eqlee.ctm.user.controller;
 
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.yq.constanct.CodeType;
 import eqlee.ctm.user.entity.UserRole;
 import eqlee.ctm.user.entity.vo.ResultVo;
+import eqlee.ctm.user.entity.vo.RoleVo;
 import eqlee.ctm.user.exception.ApplicationException;
 import eqlee.ctm.user.service.IRoleService;
 import com.yq.utils.StringUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -64,5 +67,24 @@ public class RoleController {
     @CrossOrigin
     public List<UserRole> getRole() {
         return roleService.queryAllRole();
+    }
+
+
+    @ApiOperation(value = "分页查询所有角色", notes = "分页查询所有角色")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "current", value = "当前页", required = true, dataType = "int", paramType = "path"),
+            @ApiImplicitParam(name = "size", value = "每页显示的条数", required = true, dataType = "int", paramType = "path")
+    })
+    @GetMapping("/queryPageRole")
+    @CrossOrigin
+    public Page<UserRole> queryPageRole(@RequestParam("current") Integer current,
+                                        @RequestParam("size") Integer size) {
+        if (current == null || size == null) {
+            throw new ApplicationException(CodeType.PARAM_ERROR,"分页查询角色参数不能为空");
+        }
+        RoleVo roleVo = new RoleVo();
+        roleVo.setCurrent(current);
+        roleVo.setSize(size);
+        return roleService.queryPageRole(roleVo);
     }
 }

@@ -1,6 +1,8 @@
 package eqlee.ctm.user.service;
 
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import eqlee.ctm.user.entity.UserRole;
+import eqlee.ctm.user.entity.vo.RoleVo;
 
 import java.util.List;
 
@@ -41,4 +43,19 @@ public interface IRoleService {
      * @return
      */
     UserRole queryOne(String RoleName);
+
+    /**
+     * 分页查询所有角色
+     * @param roleVo
+     * @return
+     */
+    Page<UserRole> queryPageRole(RoleVo roleVo);
+
+    /**
+     * 根据ID查询角色
+     * @param Id
+     * @return
+     */
+    UserRole queryRoleById(Long Id);
+
 }
