@@ -1,7 +1,9 @@
 package eqlee.ctm.user.service;
 
 import eqlee.ctm.user.entity.UserMenu;
+import eqlee.ctm.user.entity.query.UserMenuQuery;
 
+import java.time.LocalDate;
 import java.util.List;
 
 /**
@@ -21,7 +23,7 @@ public interface IMenuService {
      * 查询所有菜单
      * @return
      */
-    List<UserMenu> queryAllMenu();
+    List<UserMenuQuery> queryAllMenu(Long Id);
 
     /**
      * 根据菜单名查询菜单信息

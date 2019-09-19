@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.yq.constanct.CodeType;
 import eqlee.ctm.user.dao.MenuMapper;
 import eqlee.ctm.user.entity.UserMenu;
+import eqlee.ctm.user.entity.query.UserMenuQuery;
 import eqlee.ctm.user.exception.ApplicationException;
 import eqlee.ctm.user.service.IMenuService;
 import com.yq.utils.IdGenerator;
@@ -12,6 +13,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -45,8 +47,28 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, UserMenu> implement
     }
 
     @Override
-    public List<UserMenu> queryAllMenu() {
-        return baseMapper.selectList(null);
+    public List<UserMenuQuery> queryAllMenu(Long Id) {
+        List<UserMenuQuery> list = new ArrayList<>();
+        //查询所有系统功能
+        if (Id == 0) {
+            LambdaQueryWrapper<UserMenu> queryWrapper = new LambdaQueryWrapper<UserMenu>()
+                    .eq(UserMenu::getParent,0);
+            List<UserMenu> userMenus = baseMapper.selectList(queryWrapper);
+            for (UserMenu userMenu : userMenus) {
+                UserMenuQuery query = new UserMenuQuery();
+                query.setId(userMenu.getId());
+                query.setMenuName(userMenu.getMenuName());
+                query.setAction(userMenu.getAction());
+                query.setIconClass(userMenu.getIconClass());
+                list.add(query);
+                return list;
+            }
+        }
+
+        //查询
+
+
+        return null;
     }
 
     /**

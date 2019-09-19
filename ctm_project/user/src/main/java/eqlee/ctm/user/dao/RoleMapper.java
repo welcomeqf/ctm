@@ -12,10 +12,4 @@ import org.springframework.stereotype.Component;
 @Component
 public interface RoleMapper extends IBaseMapper<UserRole> {
 
-    /**
-     * 添加
-     * @param RoleName
-     * @return
-     */
-    Integer add(String RoleName);
 }

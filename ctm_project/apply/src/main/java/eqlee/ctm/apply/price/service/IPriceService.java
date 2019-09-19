@@ -28,7 +28,7 @@ public interface IPriceService {
     void insertPrice(PriceVo priceVo);
 
     /**
-     * 价格修改(..)
+     * 价格修改(..用不上)
      * @param price
      */
     void updatePrice(Price price);

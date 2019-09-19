@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.yq.constanct.CodeType;
 import com.yq.utils.DateUtil;
 import com.yq.utils.IdGenerator;
+import com.yq.utils.StringUtils;
 import eqlee.ctm.apply.channle.entity.Channel;
 import eqlee.ctm.apply.channle.service.IChannelService;
 import eqlee.ctm.apply.exception.ApplicationException;
@@ -69,8 +70,9 @@ public class PriceServiceImpl extends ServiceImpl<PriceMapper, Price> implements
         Line line = lineService.queryLineByName(priceVo.getLineName());
         Channel channel = channelService.selectChannelByType("代理");
         IdGenerator idGenerator = new IdGenerator();
-        //如果输入的开始时间和结束时间是同一天的话  就只设定该天一天的价格
-        if (priceVo.getStartTime().equals(priceVo.getEndTime())) {
+        //如果输入的开始时间和结束时间是同一天的话 或者其中一个时间为空  就只设定该天一天的价格
+        if (priceVo.getStartTime().equals(priceVo.getEndTime()) || StringUtils.isBlank(priceVo.getStartTime())
+            || StringUtils.isBlank(priceVo.getEndTime())) {
             LocalDate outDate = DateUtil.parseDate(priceVo.getStartTime());
             Price price = new Price();
             price.setId(idGenerator.getNumberId());

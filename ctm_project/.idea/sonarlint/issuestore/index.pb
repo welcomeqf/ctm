@@ -121,3 +121,15 @@ p
 @apply/src/main/java/eqlee/ctm/apply/price/entity/vo/PriceVo.java,5\2\5208986f4c6c0d6e9ae0860788c4969508b0dd1b
 y
 Iapply/src/main/java/eqlee/ctm/apply/price/controller/PriceController.java,f\3\f33c9e54acb54fcd04724da6031e0b529b9887f2
+p
+@resource/src/main/java/eqlee/ctm/resource/car/dao/CarMapper.java,d\b\dba4941c61bed7719a644c58e982bdc0a2f7895d
+m
+=resource/src/main/java/eqlee/ctm/resource/car/entity/Car.java,f\e\fe205c2ea10536985275b037d6a5cfcd41087b8a
+v
+Fresource/src/main/java/eqlee/ctm/resource/car/service/ICarService.java,2\c\2cca851d5d89b06cb862fe97ef5b46217a38cd1d
+|
+Lresource/src/main/java/eqlee/ctm/resource/car/service/Imp/CarServiceImp.java,0\c\0c310513ea561b346ce82ad2b82eac4c2420e663
+{
+Kresource/src/main/java/eqlee/ctm/resource/car/controller/CarController.java,1\d\1dfb8b878159ebadc9668482895e635ced0e075c
+x
+Hresource/src/main/java/eqlee/ctm/resource/company/dao/CompanyMapper.java,c\5\c53a611ab6856541ac05756139ced1c6df21e02c
