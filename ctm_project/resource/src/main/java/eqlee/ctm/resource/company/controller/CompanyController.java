@@ -119,16 +119,13 @@ public class CompanyController {
     @PostMapping("/addCompany")
     @CrossOrigin
     //@RequestBody CompanyVo companyVo
-    public ResultVo addCompany () {
-
-        CompanyVo company = new CompanyVo();
-        company.setCompanyName("Claire");
-        if(company==null) {
+    public ResultVo addCompany (CompanyVo companyVo) {
+        if(companyVo==null) {
             log.error("add company param is null.");
             throw new ApplicationException(CodeType.PARAMETER_ERROR,"增加公司参数不能为空.");
         }
 
-        companyService.addCompany(company);
+        companyService.addCompany(companyVo);
         ResultVo resultVo = new ResultVo();
         resultVo.setResult("ok");
         return resultVo;

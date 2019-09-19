@@ -28,13 +28,23 @@ import java.util.List;
 @Service
 @Transactional(rollbackFor = Exception.class)
 public class CompanyServiceImp extends ServiceImpl<CompanyMapper,Company> implements ICompanyService {
-//    @Override
-//    public List<Company> queryAllCompany() {
-//
-//        List<Company> companies = baseMapper.selectList(null);
-//        return companies;
-//    }
 
+    /**
+     * 查询所用同行信息（不分页）
+     * @return
+     */
+    @Override
+    public List<Company> queryAllCompany() {
+
+        List<Company> companies = baseMapper.selectList(null);
+        return companies;
+    }
+
+
+    /**
+     * 添加同行
+     * @param companyVo
+     */
     @Override
     public void addCompany(CompanyVo companyVo) {
         IdGenerator idGenerator = new IdGenerator();
@@ -53,6 +63,11 @@ public class CompanyServiceImp extends ServiceImpl<CompanyMapper,Company> implem
 
     }
 
+
+    /**
+     * 根据公司Id删除同行信息
+     * @param id
+     */
     @Override
     public void deleteCompany(Long id)
     {
@@ -63,6 +78,11 @@ public class CompanyServiceImp extends ServiceImpl<CompanyMapper,Company> implem
         }
     }
 
+
+    /**
+     * 更新同行信息
+     * @param company
+     */
     @Override
     public void UpdateCompany(Company company) {
       int update = baseMapper.updateById(company);
@@ -72,6 +92,12 @@ public class CompanyServiceImp extends ServiceImpl<CompanyMapper,Company> implem
       }
     }
 
+
+    /**
+     * 根据公司名称查询同行信息（不分页）
+     * @param companyName
+     * @return
+     */
     @Override
     public List<Company> queryCompanyByCompanyName(String companyName) {
 
@@ -82,6 +108,11 @@ public class CompanyServiceImp extends ServiceImpl<CompanyMapper,Company> implem
         return companies;
     }
 
+
+    /**
+     * 更新公司状态
+     * @param id
+     */
     @Override
     public void UpdateCompanyStopped(Long id) {
         Company company = new Company();
@@ -98,6 +129,12 @@ public class CompanyServiceImp extends ServiceImpl<CompanyMapper,Company> implem
         }
     }
 
+
+    /**
+     * 查询所用同行信息（分页）
+     * @param pageCompany
+     * @return
+     */
     @Override
     public Page<Company> GetCompanyPage(PageCompanyQuery pageCompany) {
         LambdaQueryWrapper<Company> queryWrapper = new LambdaQueryWrapper<Company>()
@@ -110,6 +147,12 @@ public class CompanyServiceImp extends ServiceImpl<CompanyMapper,Company> implem
 
     }
 
+
+    /**
+     * 根据公司名称查询公司信息（分页）
+     * @param pageCompany
+     * @return
+     */
     @Override
     public Page<Company> GetCompanyPageByName(PageCompanyQuery pageCompany) {
         QueryWrapper<Company> queryWrapper = new QueryWrapper<>();
@@ -123,6 +166,4 @@ public class CompanyServiceImp extends ServiceImpl<CompanyMapper,Company> implem
         baseMapper.selectPage(page, queryWrapper);
         return page;
     }
-
-
 }

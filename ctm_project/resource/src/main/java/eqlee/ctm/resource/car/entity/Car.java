@@ -21,9 +21,9 @@ public class Car extends Model<Car> {
 
     private Long Id;
 
-/**
- * 车辆编号
- */
+    /**
+     * 车牌号
+     */
     private String CarNo;
 
 

@@ -10,9 +10,28 @@ import java.util.List;
  * @Version 1.0
  */
 public interface ICarService {
+    /**
+     * 增加车辆
+     * @param car
+     */
     void addCar(Car car);
+
+    /**
+     * 删除车辆
+     * @param id
+     */
     void deleteCar(Long id);
+
+    /**
+     * 更新车辆
+     * @param car
+     */
     void updateCar(Car car);
+
+    /**
+     * 查询车辆列表
+     * @return
+     */
     List<Car> queryAllCar();
 
 }

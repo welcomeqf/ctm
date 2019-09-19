@@ -1,4 +1,4 @@
-package eqlee.ctm.apply.channle.service.Imp;
+package eqlee.ctm.apply.channle.service.Impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -22,11 +22,11 @@ import java.util.List;
 @Service
 @Slf4j
 @Transactional(rollbackFor = Exception.class)
-public class ChannelServiceImp extends ServiceImpl<ChannleMapper,Channel>implements IChannelService {
+public class ChannelServiceImpl extends ServiceImpl<ChannleMapper,Channel>implements IChannelService {
 
 
     /**
-     * 查询
+     * 查询所有渠道
      * @return
      */
     @Override
@@ -35,8 +35,10 @@ public class ChannelServiceImp extends ServiceImpl<ChannleMapper,Channel>impleme
     }
 
 
-
-
+    /**
+     * 增加渠道
+     * @param ChannelType
+     */
     @Override
     public void addChannel(String ChannelType) {
         IdGenerator idGenerator = new IdGenerator();
@@ -51,8 +53,10 @@ public class ChannelServiceImp extends ServiceImpl<ChannleMapper,Channel>impleme
     }
 
 
-
-
+    /**
+     * 更新渠道信息
+     * @param channel
+     */
     @Override
     public void updateChannel(Channel channel) {
         int update = baseMapper.updateById(channel);
@@ -64,7 +68,10 @@ public class ChannelServiceImp extends ServiceImpl<ChannleMapper,Channel>impleme
     }
 
 
-
+    /**
+     * 根据id删除渠道
+     * @param id
+     */
     @Override
     public void deleteChannel(Long id) {
         int delete = baseMapper.deleteById(id);
@@ -75,7 +82,11 @@ public class ChannelServiceImp extends ServiceImpl<ChannleMapper,Channel>impleme
     }
 
 
-
+    /**
+     * 通过渠道类型选择渠道
+     * @param ChannelType
+     * @return
+     */
     @Override
     public Channel selectChannelByType(String ChannelType) {
         LambdaQueryWrapper<Channel> queryWrapper = new LambdaQueryWrapper<Channel>()

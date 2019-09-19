@@ -29,7 +29,8 @@ import java.util.List;
 public class CarController {
 
     @Autowired
-    ICarService carService;
+    private ICarService carService;
+
 
     @ApiOperation(value = "车辆列表",notes = "车辆列表展示")
     @GetMapping("/QueryCar")
@@ -39,11 +40,13 @@ public class CarController {
         return carService.queryAllCar();
     }
 
+
+
     @ApiOperation(value = "车辆删除",notes = "车辆删除")
     @GetMapping("/DeleteCar")
     @ApiImplicitParam(name = "Id",value = "车辆Id",required = true,dataType = "Long",paramType = "path")
     @CrossOrigin
-    public void Delete(Long id)
+    public void deleteCar(Long id)
     {
         if(id==null){
             log.error("delete car param is null");
@@ -51,6 +54,8 @@ public class CarController {
         }
         carService.deleteCar(id);
     }
+
+
 
     @ApiOperation(value = "车辆增加",notes = "车辆增加")
     @GetMapping("/AddCar")
@@ -65,11 +70,14 @@ public class CarController {
     public void addCar(Car car)
     {
         if(car==null){
-            log.error("add car param is null");
+            log.error("Add car param is null");
             throw new ApplicationException(CodeType.PARAMETER_ERROR,"增加公司信息为空");
         }
         carService.addCar(car);
     }
+
+
+
     @ApiOperation(value = "车辆修改",notes = "车辆修改")
     @GetMapping("/UpdateCar")
     @ApiImplicitParams({
@@ -80,7 +88,7 @@ public class CarController {
             @ApiImplicitParam(name = "Remark", value = "备注", required = true, dataType = "Integer", paramType = "path")
     })
     @CrossOrigin
-    public void deleteCar(Car car)
+    public void updateCar(Car car)
     {
         if(car==null){
             log.error("update car param is null");

@@ -14,10 +14,10 @@ import java.util.List;
  */
 public interface ICompanyService {
     /**
-     * 查询所有同行列表
+     * 查询所有同行列表（不分页）
      * @return
      */
-//    List<Company> queryAllCompany();
+   List<Company> queryAllCompany();
 
     /**
      * 增加同行信息
@@ -36,7 +36,7 @@ public interface ICompanyService {
      */
     void UpdateCompany(Company company);
     /**
-     * 根据公司名查询
+     * 根据公司名查询(不分页)
      * @return
      */
     List<Company> queryCompanyByCompanyName(String companyName);
@@ -48,12 +48,17 @@ public interface ICompanyService {
     public void UpdateCompanyStopped(Long id);
 
     /**
-     *
+     *查询所有同行列表（分页）
      * @param pageCompany
      * @return
      */
     Page<Company> GetCompanyPage(PageCompanyQuery pageCompany);
 
+    /**
+     * 根据公司名称得到同行列表（分页）
+     * @param pageCompany
+     * @return
+     */
     Page<Company> GetCompanyPageByName(PageCompanyQuery pageCompany);
 
 }

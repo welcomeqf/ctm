@@ -22,6 +22,11 @@ import java.util.List;
 @Service
 @Transactional(rollbackFor = Exception.class)
 public class CarServiceImp extends ServiceImpl<CarMapper, Car>implements ICarService {
+
+    /**
+     * 增加车辆
+     * @param car
+     */
     @Override
     public void addCar(Car car) {
         IdGenerator idGenerator = new IdGenerator();
@@ -33,6 +38,10 @@ public class CarServiceImp extends ServiceImpl<CarMapper, Car>implements ICarSer
         }
     }
 
+    /**
+     * 根据Id删除车辆
+     * @param id
+     */
     @Override
     public void deleteCar(Long id) {
         int delete = baseMapper.deleteById(id);
@@ -42,6 +51,10 @@ public class CarServiceImp extends ServiceImpl<CarMapper, Car>implements ICarSer
         }
     }
 
+    /**
+     * 更新车辆信息
+     * @param car
+     */
     @Override
     public void updateCar(Car car) {
         int update = baseMapper.updateById(car);
@@ -51,6 +64,10 @@ public class CarServiceImp extends ServiceImpl<CarMapper, Car>implements ICarSer
         }
     }
 
+    /**
+     * 查询车辆信息
+     * @return
+     */
     @Override
     public List<Car> queryAllCar() {
         return baseMapper.selectList(null);
