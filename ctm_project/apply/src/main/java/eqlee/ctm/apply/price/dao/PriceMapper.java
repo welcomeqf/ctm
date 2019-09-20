@@ -1,7 +1,10 @@
 package eqlee.ctm.apply.price.dao;
 
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.yq.IBaseMapper.IBaseMapper;
 import eqlee.ctm.apply.price.entity.Price;
+import eqlee.ctm.apply.price.entity.query.PriceQuery;
+import eqlee.ctm.apply.price.entity.vo.PriceVo;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Component;
 
@@ -21,4 +24,21 @@ public interface PriceMapper extends IBaseMapper<Price> {
      * @return
      */
     Integer allInsertPrice(List<Price> prices);
+
+
+    /**
+     * 批量修改
+     */
+    Integer batchupdatePrice(List<Price> prices);
+
+
+    /**
+     * 由出行时间和线路名获取Price列表
+     * @param priceQuery
+     * @return
+     */
+    Page<PriceVo> slectPriceByFilter(@Param("page") Page<PriceVo> page,
+                                     @Param("priceQuery") PriceQuery priceQuery);
+
+
 }

@@ -1,5 +1,6 @@
 package eqlee.ctm.resource.car.service.Imp;
 
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.yq.constanct.CodeType;
 import com.yq.utils.IdGenerator;
@@ -69,7 +70,11 @@ public class CarServiceImp extends ServiceImpl<CarMapper, Car>implements ICarSer
      * @return
      */
     @Override
-    public List<Car> queryAllCar() {
-        return baseMapper.selectList(null);
+    public Page<Car> queryAllCar(Integer current,Integer size) {
+        Page<Car> page = new Page<Car>();
+        page.setSize(size);
+        page.setCurrent(current);
+        baseMapper.selectPage(page,null);
+        return page;
     }
 }

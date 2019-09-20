@@ -1,5 +1,6 @@
 package eqlee.ctm.resource.car.service;
 
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import eqlee.ctm.resource.car.entity.Car;
 
 import java.util.List;
@@ -32,6 +33,6 @@ public interface ICarService {
      * 查询车辆列表
      * @return
      */
-    List<Car> queryAllCar();
+    Page<Car> queryAllCar(Integer current,Integer size);
 
 }

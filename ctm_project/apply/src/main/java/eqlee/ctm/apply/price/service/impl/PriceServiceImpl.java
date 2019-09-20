@@ -1,6 +1,7 @@
 package eqlee.ctm.apply.price.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.yq.constanct.CodeType;
@@ -49,19 +50,21 @@ public class PriceServiceImpl extends ServiceImpl<PriceMapper, Price> implements
 
     /**
      * 根据出行日期查询价格
+     *
      * @param OutDate
      * @return
      */
     @Override
     public Price queryPrice(LocalDateTime OutDate) {
         LambdaQueryWrapper<Price> queryWrapper = new LambdaQueryWrapper<Price>()
-                .eq(Price::getOutDate,OutDate);
+                .eq(Price::getOutDate, OutDate);
         return baseMapper.selectOne(queryWrapper);
 
     }
 
     /**
      * 价格设定
+     *
      * @param priceVo
      */
     @Override
@@ -72,7 +75,7 @@ public class PriceServiceImpl extends ServiceImpl<PriceMapper, Price> implements
         IdGenerator idGenerator = new IdGenerator();
         //如果输入的开始时间和结束时间是同一天的话 或者其中一个时间为空  就只设定该天一天的价格
         if (priceVo.getStartTime().equals(priceVo.getEndTime()) || StringUtils.isBlank(priceVo.getStartTime())
-            || StringUtils.isBlank(priceVo.getEndTime())) {
+                || StringUtils.isBlank(priceVo.getEndTime())) {
             LocalDate outDate = DateUtil.parseDate(priceVo.getStartTime());
             Price price = new Price();
             price.setId(idGenerator.getNumberId());
@@ -97,7 +100,7 @@ public class PriceServiceImpl extends ServiceImpl<PriceMapper, Price> implements
         String day = priceVo.getStartTime().substring(8, 10);
         //创建一个集合
         List<Price> list = new ArrayList<>();
-        for (int i = 0; i<= days; i++) {
+        for (int i = 0; i <= days; i++) {
             Price price = new Price();
             price.setId(idGenerator.getNumberId());
             price.setAdultPrice(priceVo.getAdultPrice());
@@ -109,7 +112,7 @@ public class PriceServiceImpl extends ServiceImpl<PriceMapper, Price> implements
             //设置每一天的日期
             SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd");
             Calendar c = Calendar.getInstance();
-            c.set(Integer.parseInt(year),Integer.parseInt(month)-1,Integer.parseInt(day));
+            c.set(Integer.parseInt(year), Integer.parseInt(month) - 1, Integer.parseInt(day));
             c.add(Calendar.DAY_OF_MONTH, i);
             price.setOutDate(DateUtil.parseDate(sf.format(c.getTime())));
             list.add(price);
@@ -119,13 +122,14 @@ public class PriceServiceImpl extends ServiceImpl<PriceMapper, Price> implements
 
         if (result <= 0) {
             log.error("all insert price fail.");
-            throw new ApplicationException(CodeType.SERVICE_ERROR,"批量设置价格失败");
+            throw new ApplicationException(CodeType.SERVICE_ERROR, "批量设置价格失败");
         }
 
     }
 
     /**
      * 价格修改
+     *
      * @param price
      */
     @Override
@@ -134,18 +138,116 @@ public class PriceServiceImpl extends ServiceImpl<PriceMapper, Price> implements
 
         if (result <= 0) {
             log.error("update price fail.");
-            throw new ApplicationException(CodeType.SERVICE_ERROR,"修改价格失败");
+            throw new ApplicationException(CodeType.SERVICE_ERROR, "修改价格失败");
         }
     }
 
+
     /**
-     * 分页查询所有价格
+     * 修改价格
+     *
+     * @param priceVo
+     */
+    public void updateFourPrice(Price price, PriceVo priceVo) {
+        price.setAdultPrice(priceVo.getAdultPrice());
+        price.setBabyPrice(priceVo.getBabyPrice());
+        price.setChildPrice(priceVo.getChildPrice());
+        price.setOldPrice(priceVo.getOldPrice());
+    }
+
+    @Override
+    public void batchUpdatePrice(PriceVo priceVo) {
+        Line line = lineService.queryLineByName(priceVo.getLineName());
+        //根据线路id查找出对应的线路列表
+        LambdaQueryWrapper<Price> queryWrapper = new LambdaQueryWrapper<Price>()
+                .eq(Price::getLineId, line.getId());
+        List<Price> pricesList = baseMapper.selectList(queryWrapper);
+        //如果输入的开始时间和结束时间是同一天的话 或者其中一个时间为空  就只设定该天一天的价格
+        if (priceVo.getStartTime().equals(priceVo.getEndTime()) || StringUtils.isBlank(priceVo.getStartTime())
+                || StringUtils.isBlank(priceVo.getEndTime())) {
+            String time = priceVo.getStartTime();
+            if (time.isEmpty()) {
+                time = priceVo.getEndTime();
+            }
+            LambdaQueryWrapper<Price> lambdaQueryWrapper = new LambdaQueryWrapper<Price>()
+                    .eq(Price::getLineId, line.getId()).eq(Price::getOutDate, LocalDateTime.parse(time));
+            Price needUpdatePrice = baseMapper.selectOne(lambdaQueryWrapper);
+            needUpdatePrice.setAdultPrice(priceVo.getAdultPrice());
+            needUpdatePrice.setBabyPrice(priceVo.getBabyPrice());
+            needUpdatePrice.setChildPrice(priceVo.getChildPrice());
+            needUpdatePrice.setOldPrice(priceVo.getOldPrice());
+            baseMapper.updateById(needUpdatePrice);
+        }
+        //截取日期年 月  日
+        int startyear = Integer.parseInt(priceVo.getStartTime().substring(0, 4));
+        int startmonth = Integer.parseInt(priceVo.getStartTime().substring(5, 7));
+        int startday = Integer.parseInt(priceVo.getStartTime().substring(8, 10));
+        int endyear = Integer.parseInt(priceVo.getEndTime().substring(0, 4));
+        int endmonth = Integer.parseInt(priceVo.getEndTime().substring(5, 7));
+        int endday = Integer.parseInt(priceVo.getEndTime().substring(8, 10));
+//如果输入的开始时间和结束时间不是同一天的话，更改PriceList中出行时间在这个时间端的价格
+        for (Price price : pricesList) {
+            if (startyear < endyear) {
+                if (price.getOutDate().getYear() > startyear && price.getOutDate().getYear() < endyear) {
+                    updateFourPrice(price, priceVo);
+                }
+                if (price.getOutDate().getYear() == startyear) {
+                    if (price.getOutDate().getMonthValue() > startmonth || (price.getOutDate().getMonthValue() == startmonth && price.getOutDate().getDayOfMonth() >= startday)) {
+                        updateFourPrice(price, priceVo);
+                    }
+                }
+                if (price.getOutDate().getYear() == endyear) {
+                    if (price.getOutDate().getMonthValue() < endmonth || (price.getOutDate().getMonthValue() == endmonth &&
+                            price.getOutDate().getDayOfMonth() <= endday)) {
+                        updateFourPrice(price, priceVo);
+                    }
+                }
+            }
+            if (startyear == endyear) {
+                if (price.getOutDate().getYear() == startyear) {
+                    if (startmonth < endmonth) {
+                        if (price.getOutDate().getMonthValue() > startmonth && price.getOutDate().getMonthValue() < endmonth) {
+                            updateFourPrice(price, priceVo);
+                        }
+                        if (price.getOutDate().getDayOfMonth() == startmonth) {
+                            if (price.getOutDate().getDayOfMonth() >= startday) {
+                                updateFourPrice(price, priceVo);
+                            }
+                        }
+                        if (price.getOutDate().getDayOfMonth() == endmonth) {
+                            if (price.getOutDate().getDayOfMonth() <= endday) {
+                                updateFourPrice(price, priceVo);
+                            }
+                        }
+                    }
+                    if (startmonth == endmonth) {
+                        if (price.getOutDate().getDayOfMonth() <= endday && price.getOutDate().getDayOfMonth() >= startday) {
+                            updateFourPrice(price, priceVo);
+                        }
+                    }
+                }
+            }
+        }
+        int update = baseMapper.batchupdatePrice(pricesList);
+        if(update <= 0){
+            log.error("batchUpdate price fail.");
+            throw new ApplicationException(CodeType.SERVICE_ERROR, "批量修改价格失败");
+        }
+    }
+
+
+    /**
+     * 根据出行时间或者线路名查看价格序列
+     *
      * @param priceQuery
      * @return
      */
     @Override
-    public Page<Price> queryPriceToPage(PriceQuery priceQuery) {
+    public Page<PriceVo> queryPricePageByFilter(PriceQuery priceQuery) {
+        Page<PriceVo> page =new Page<PriceVo>();
+        page.setCurrent(priceQuery.getCurrent());
+        page.setSize(priceQuery.getSize());
+        return baseMapper.slectPriceByFilter( page,priceQuery);
 
-        return null;
     }
 }

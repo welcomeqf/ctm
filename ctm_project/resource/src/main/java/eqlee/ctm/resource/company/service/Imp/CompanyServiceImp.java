@@ -162,7 +162,7 @@ public class CompanyServiceImp extends ServiceImpl<CompanyMapper,Company> implem
 //        log.info(queryWrapper.toString());
         Page<Company> page = new Page<Company>();
         page.setCurrent(pageCompany.getCurrent());
-        log.info(pageCompany.getName());
+        page.setSize(pageCompany.getSize());
         baseMapper.selectPage(page, queryWrapper);
         return page;
     }

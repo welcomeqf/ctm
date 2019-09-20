@@ -17,6 +17,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 /**
  * @Author qf
  * @Date 2019/9/17
@@ -75,5 +77,10 @@ public class ApplyServiceImpl extends ServiceImpl<ApplyMapper, Apply> implements
             log.error("insert apply fail.");
             throw new ApplicationException(CodeType.SERVICE_ERROR,"报名失败");
         }
+    }
+
+    @Override
+    public List<Apply> listApply() {
+        return null;
     }
 }

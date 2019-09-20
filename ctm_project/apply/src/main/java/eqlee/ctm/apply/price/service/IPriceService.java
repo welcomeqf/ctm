@@ -6,6 +6,7 @@ import eqlee.ctm.apply.price.entity.query.PriceQuery;
 import eqlee.ctm.apply.price.entity.vo.PriceVo;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 /**
  * @Author qf
@@ -35,9 +36,10 @@ public interface IPriceService {
 
 
     /**
-     * 分页查询所有价格
-     * @param priceQuery
-     * @return
+     * 批量修改价格
+     * @param priceVo
      */
-    Page<Price> queryPriceToPage(PriceQuery priceQuery);
+    void batchUpdatePrice(PriceVo priceVo);
+
+    Page<PriceVo> queryPricePageByFilter(PriceQuery priceQuery);
 }

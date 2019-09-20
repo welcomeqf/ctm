@@ -1,20 +1,19 @@
 package eqlee.ctm.resource.car.controller;
 
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.yq.constanct.CodeType;
 import com.yq.utils.IdGenerator;
 import eqlee.ctm.resource.car.entity.Car;
 import eqlee.ctm.resource.car.service.ICarService;
 import eqlee.ctm.resource.exception.ApplicationException;
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.JdkIdGenerator;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -23,6 +22,7 @@ import java.util.List;
  * @Date 2019/9/18 0018
  * @Version 1.0
  */
+@Api("车辆管理Api")
 @Slf4j
 @RestController
 @RequestMapping("/v1/app/resource/car")
@@ -32,25 +32,30 @@ public class CarController {
     private ICarService carService;
 
 
-    @ApiOperation(value = "车辆列表",notes = "车辆列表展示")
-    @GetMapping("/QueryCar")
+    @ApiOperation(value = "车辆列表",notes = "车辆列表展示（分页）")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "current", value = "当前页", required = true, dataType = "Integer", paramType = "path"),
+            @ApiImplicitParam(name = "current", value = "页面大小", required = true, dataType = "Integer", paramType = "path")
+    })
+    @GetMapping("/queryCarPage")
     @CrossOrigin
-    public List<Car> queryAllCar()
+    public Page<Car> queryAllCar(@RequestParam("current") Integer current,
+                                 @RequestParam("size") Integer size)
     {
-        return carService.queryAllCar();
+        return carService.queryAllCar(current,size);
     }
 
 
 
     @ApiOperation(value = "车辆删除",notes = "车辆删除")
-    @GetMapping("/DeleteCar")
+    @GetMapping("/deleteCar")
     @ApiImplicitParam(name = "Id",value = "车辆Id",required = true,dataType = "Long",paramType = "path")
     @CrossOrigin
     public void deleteCar(Long id)
     {
         if(id==null){
             log.error("delete car param is null");
-            throw new ApplicationException(CodeType.PARAMETER_ERROR,"删除公司Id为空");
+            throw new ApplicationException(CodeType.PARAMETER_ERROR,"删除车辆的Id为空");
         }
         carService.deleteCar(id);
     }
@@ -58,7 +63,7 @@ public class CarController {
 
 
     @ApiOperation(value = "车辆增加",notes = "车辆增加")
-    @GetMapping("/AddCar")
+    @PostMapping("/addCar")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "Id", value = "车辆Id", required = true, dataType = "Long", paramType = "path"),
             @ApiImplicitParam(name = "CarName", value = "车辆名", required = true, dataType = "String", paramType = "path"),
@@ -71,7 +76,7 @@ public class CarController {
     {
         if(car==null){
             log.error("Add car param is null");
-            throw new ApplicationException(CodeType.PARAMETER_ERROR,"增加公司信息为空");
+            throw new ApplicationException(CodeType.PARAMETER_ERROR,"增加车辆信息为空");
         }
         carService.addCar(car);
     }
@@ -79,7 +84,7 @@ public class CarController {
 
 
     @ApiOperation(value = "车辆修改",notes = "车辆修改")
-    @GetMapping("/UpdateCar")
+    @PostMapping("/updateCar")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "Id", value = "车辆Id", required = true, dataType = "Long", paramType = "path"),
             @ApiImplicitParam(name = "CarName", value = "车辆名", required = true, dataType = "String", paramType = "path"),
@@ -92,7 +97,7 @@ public class CarController {
     {
         if(car==null){
             log.error("update car param is null");
-            throw new ApplicationException(CodeType.PARAMETER_ERROR,"修改公司信息为空");
+            throw new ApplicationException(CodeType.PARAMETER_ERROR,"修改车辆信息为空");
         }
         carService.updateCar(car);
     }

@@ -12,4 +12,20 @@
     </insert>
 
 
+    <update id="batchupdatePrice" parameterType="eqlee.ctm.apply.price.entity.Price">
+        <foreach collection="list" item="item" index="index">
+            update Price set AdultPrice = #{item.AdultPrice},OldPrice = #{item.OldPrice},BabyPrice = #{item.BabyPrice},ChildPrice = #{item.ChildPrice}
+            where Id = #{item.Id}
+        </foreach>
+    </update>
+
+
+    <select id="slectPriceByFilter" parameterType="eqlee.ctm.apply.price.entity.query.PriceQuery" resultType="eqlee.ctm.apply.price.entity.vo.PriceVo" >
+        <bind name="_OutDate" value="'%' + priceQuery.OutDate + '%'"/>
+        <bind name="_LineName" value="'%' + priceQuery.LineName + '%'"/>
+        select b.LineName,a.OutDate,a.AdultPrice,a.OldPrice,a.BabyPrice,a.ChildPrice from Price a,Line b
+        where convert(varchar,a.OutDate,120) like #{_OutDate} and b.LineName like #{_LineName}
+    </select>
+
+
 </mapper>

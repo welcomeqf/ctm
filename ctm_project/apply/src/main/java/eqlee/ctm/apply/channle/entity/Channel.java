@@ -1,6 +1,7 @@
 package eqlee.ctm.apply.channle.entity;
 
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.baomidou.mybatisplus.extension.activerecord.Model;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
@@ -16,14 +17,14 @@ import java.time.LocalDateTime;
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
 @TableName("Channel")
-public class Channel {
+public class Channel extends Model<Channel> {
 
 
     private Long Id;
 
-    /*
-   渠道类型
-   */
+    /**
+     * 渠道类型
+     */
     private String ChannelType;
 
     /**
@@ -31,28 +32,28 @@ public class Channel {
      */
     private Boolean Stopped;
 
-    /*
-   备注
-   */
+    /**
+     * 备注
+     */
     private String Remark;
 
-    /*
-   创建人
-   */
+    /**
+     * 创建人
+     */
     private Long CreateUserId;
 
-    /*
-   创建时间
-   */
+    /**
+     * 创建时间
+     */
     private LocalDateTime CreateDate;
 
-    /*
-   修改人
-   */
+    /**
+     * 修改人
+     */
     private Long UpdateUserId;
 
-    /*
-   修改时间
-   */
+    /**
+     * 修改时间
+     */
     private LocalDateTime UpdateDate;
 }
