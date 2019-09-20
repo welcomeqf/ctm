@@ -77,8 +77,7 @@ public class PriceController {
         if (StringUtils.isBlank(priceVo.getStartTime()) || StringUtils.isBlank(priceVo.getEndTime())
                 || StringUtils.isBlank(priceVo.getLineName()) || priceVo.getAdultPrice() == null
                 || priceVo.getOldPrice() == null || priceVo.getBabyPrice() == null || priceVo.getChildPrice() ==null) {
-            log.error("price param is not null.");
-            throw new ApplicationException(CodeType.PARAM_ERROR,"价格设定参数不能为空");
+            throw new ApplicationException(CodeType.PARAM_ERROR,"价格修改参数不能为空");
         }
 
         priceService.batchUpdatePrice(priceVo);

@@ -8,6 +8,7 @@ import eqlee.ctm.apply.price.entity.vo.PriceVo;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import java.time.LocalDate;
 /**
  * @Author qf
  * @Date 2019/9/17
@@ -20,7 +21,7 @@ public interface IPriceService {
      * @param OutDate
      * @return
      */
-    Price queryPrice(LocalDateTime OutDate);
+    Price queryPrice(LocalDate OutDate);
 
     /**
      * 价格设定

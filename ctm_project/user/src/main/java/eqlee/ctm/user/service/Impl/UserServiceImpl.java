@@ -62,6 +62,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
         user.setPassword(s);
         user.setCName(userVo.getName());
         user.setTel(userVo.getPhone());
+        user.setCompanyId(userVo.getCompanyId());
 
         UserRole role = roleService.queryOne(userVo.getRoleName());
         user.setSystemRoleId(role.getId());
@@ -71,8 +72,6 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
             roleService.updateRole(role);
         }
 
-        //TODO
-        //根据输入的公司名查询该公司信息
         int insert = baseMapper.insert(user);
 
         if (insert <= 0) {
@@ -237,6 +236,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
         user.setPassword(s);
         user.setCName(userVo.getName());
         user.setTel(userVo.getPhone());
+        user.setCompanyId(userVo.getCompanyId());
 
         UserRole userRole = new UserRole();
         long numberId = idGenerator.getNumberId();

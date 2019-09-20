@@ -1,7 +1,18 @@
 
-usquid:S00117+"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(Ú©¦Ÿùÿÿÿÿ8³õ˜óÓ-
-osquid:S00117."QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(¿ñ”28Î¹óÓ-
-psquid:S00117,"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(¦¾‚¹8ÀÀœóÓ-
-usquid:S00117-"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(‡À¹ñûÿÿÿÿ8ÀÀœóÓ-
-usquid:S001171"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(´¦ñØÿÿÿÿÿ8âÀÑóÓ-
-usquid:S00117/"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ô°Ğøÿÿÿÿ8éõ¥óÓ-
+usquid:S00117<"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ô°Ğøÿÿÿÿ8éõ¥óÓ-
+vsquid:S00116,"RRename this field "NOW_PAY" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(Šïşÿÿÿÿ8·ŠøÇÔ-
+ysquid:S2159V"VRemove this call to "equals"; comparisons between unrelated types always return false.(äïÖşÿÿÿÿÿ8¦°€ÈÔ-
+tsquid:S2159S"VRemove this call to "equals"; comparisons between unrelated types always return false.(¶Ğòª8™„çÇÔ-
+ssquid:S00116."TRename this field "AGENT_PAY" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(çğÓ½8·ŠøÇÔ-
+usquid:S00117>"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(´¦ñØÿÿÿÿÿ8âÀÑóÓ-
+usquid:S00117q"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ã»„Íıÿÿÿÿ8‰ÑÉÔ-
+Dsquid:S1170,"!Make this final field static too.(Šïşÿÿÿÿ8·ŠøÇÔ-
+ssquid:S00116*"TRename this field "MONTH_PAY" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ûé›¦8ÀàîÇÔ-
+psquid:S001179"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(¦¾‚¹8ÀÀœóÓ-
+?squid:S1170*"!Make this final field static too.(ûé›¦8·ŠîÇÔ-
+?squid:S1170."!Make this final field static too.(çğÓ½8·ŠøÇÔ-
+usquid:S00117:"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(‡À¹ñûÿÿÿÿ8ÀÀœóÓ-
+tsquid:S2159Y"VRemove this call to "equals"; comparisons between unrelated types always return false.(Âÿø‘8é²‚ÈÔ-
+osquid:S00117;"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(¿ñ”28Î¹óÓ-
+usquid:S001178"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(Ú©¦Ÿùÿÿÿÿ8³õ˜óÓ-
+usquid:S00117q"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ã»„Íıÿÿÿÿ8‰ÑÉÔ-

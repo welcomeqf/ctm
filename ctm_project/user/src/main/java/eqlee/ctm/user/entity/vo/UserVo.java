@@ -20,5 +20,5 @@ public class UserVo {
 
     private String roleName;
 
-    private String companyName;
+    private Long companyId;
 }

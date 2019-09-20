@@ -55,7 +55,7 @@ public class PriceServiceImpl extends ServiceImpl<PriceMapper, Price> implements
      * @return
      */
     @Override
-    public Price queryPrice(LocalDateTime OutDate) {
+    public Price queryPrice(LocalDate OutDate) {
         LambdaQueryWrapper<Price> queryWrapper = new LambdaQueryWrapper<Price>()
                 .eq(Price::getOutDate, OutDate);
         return baseMapper.selectOne(queryWrapper);

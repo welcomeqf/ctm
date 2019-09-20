@@ -15,7 +15,7 @@ public class ApplyVo {
     /**
      * 出行日期
      */
-    private LocalDateTime OutDate;
+    private String OutDate;
     /**
      * 同行公司名
      */
@@ -74,5 +74,5 @@ public class ApplyVo {
     /**
      * 支付类型(0--现结  1--月结 2--代付)默认0
      */
-    private Integer PayType;
+    private String PayType;
 }

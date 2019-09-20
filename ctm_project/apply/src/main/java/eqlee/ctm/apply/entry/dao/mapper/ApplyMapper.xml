@@ -1,15 +1,76 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="eqlee.ctm.apply.price.dao.PriceMapper">
+<mapper namespace="eqlee.ctm.apply.entry.dao.ApplyMapper">
 
-    <insert id="allInsertPrice" parameterType="eqlee.ctm.apply.price.entity.Price">
-        insert into Price (Id,OutDate,LineId,ChannelId,AllPrice,AdultPrice,OldPrice,BabyPrice,ChildPrice,MaxNumber,MinNumber)
-        <foreach collection="list" item="item" index="index" separator="union all">
-            select #{item.Id},#{item.OutDate},#{item.LineId},#{item.ChannelId},#{item.AllPrice},
-            #{item.AdultPrice},#{item.OldPrice},#{item.BabyPrice},#{item.ChildPrice},#{item.MaxNumber},#{item.MinNumber}
-        </foreach>
-    </insert>
+    <select id="listPageApply" resultType="eqlee.ctm.apply.entry.entity.query.ApplyQuery">
+      select b.LineName,b.Region,a.OutDate,a.AdultPrice,a.OldPrice,a.BabyPrice,a.ChildPrice,b.MaxNumber,
+      (select sum(AllNumber) from Apply where OutDate = a.OutDate group by ApplyNo) as 'AllPrice'
+      from Price a join Line b on a.LineId = b.Id join Apply c on c.LineId = b.Id
+    </select>
 
+
+    <select id="listPageApplyByDate" resultType="eqlee.ctm.apply.entry.entity.query.ApplyQuery">
+      select b.LineName,b.Region,a.OutDate,a.AdultPrice,a.OldPrice,a.BabyPrice,a.ChildPrice,b.MaxNumber,
+      (select sum(AllNumber) from Apply where OutDate = #{OutDate} group by ApplyNo) as 'AllPrice'
+      from Price a join Line b on a.LineId = b.Id join Apply c on c.LineId = b.Id where a.OutDate = #{OutDate}
+    </select>
+
+    <select id="listPageApplyByLine" resultType="eqlee.ctm.apply.entry.entity.query.ApplyQuery">
+        <bind name="line_region_name" value="'%' + LineNameOrRegion + '%'"/>
+      select b.LineName,b.Region,a.OutDate,a.AdultPrice,a.OldPrice,a.BabyPrice,a.ChildPrice,b.MaxNumber,
+      (select sum(AllNumber) from Apply where OutDate = a.OutDate group by ApplyNo) as 'AllPrice'
+      from Price a join Line b on a.LineId = b.Id join Apply c on c.LineId = b.Id
+      where b.LineName like #{line_region_name} or b.Region like #{line_region_name}
+    </select>
+
+    <select id="listPageApplyByAll" resultType="eqlee.ctm.apply.entry.entity.query.ApplyQuery">
+        <bind name="line_region_name" value="'%' + LineNameOrRegion + '%'"/>
+        select b.LineName,b.Region,a.OutDate,a.AdultPrice,a.OldPrice,a.BabyPrice,a.ChildPrice,b.MaxNumber,
+        (select sum(AllNumber) from Apply where OutDate = #{OutDate} group by ApplyNo) as 'AllPrice'
+        from Price a join Line b on a.LineId = b.Id join Apply c on c.LineId = b.Id
+        where b.LineName like #{line_region_name} or b.Region like #{line_region_name} and a.OutDate = #{OutDate}
+    </select>
+
+    <select id="listPageDoApply" resultType="eqlee.ctm.apply.entry.entity.query.ApplyDoQuery">
+      select a.Id,a.ApplyNo,a.OutDate,b.LineName,a.AdultNumber,a.BabyNumber,a.OldNumber,a.ChildNumber,
+      a.statu,a.CompanyName,a.CompanyUser,a.IsPayment,a.IsCancel
+      from Apply a join Line b on a.LineId = b.Id
+    </select>
+
+    <select id="listPageDoApplyByNoWithLine" resultType="eqlee.ctm.apply.entry.entity.query.ApplyDoQuery">
+      <bind name="applyNo_name" value="'%' + ApplyNo + '%'"/>
+      <bind name="lineName_name" value="'%' + LineName + '%'"/>
+      select a.Id,a.ApplyNo,a.OutDate,b.LineName,a.AdultNumber,a.BabyNumber,a.OldNumber,a.ChildNumber,
+      a.statu,a.CompanyName,a.CompanyUser,a.IsPayment,a.IsCancel
+      from Apply a join Line b on a.LineId = b.Id
+      where a.ApplyNo like #{applyNo_name} and b.LineName like #{lineName_name}
+    </select>
+
+    <select id="listPageDoApplyByLineName" resultType="eqlee.ctm.apply.entry.entity.query.ApplyDoQuery">
+      <bind name="lineName_name" value="'%' + LineName + '%'"/>
+      select a.Id,a.ApplyNo,a.OutDate,b.LineName,a.AdultNumber,a.BabyNumber,a.OldNumber,a.ChildNumber,
+      a.statu,a.CompanyName,a.CompanyUser,a.IsPayment,a.IsCancel
+      from Apply a join Line b on a.LineId = b.Id where b.LineName like #{lineName_name}
+    </select>
+
+    <select id="listPageDoApplyByNo" resultType="eqlee.ctm.apply.entry.entity.query.ApplyDoQuery">
+        <bind name="applyNo_name" value="'%' + ApplyNo + '%'"/>
+        select a.Id,a.ApplyNo,a.OutDate,b.LineName,a.AdultNumber,a.BabyNumber,a.OldNumber,a.ChildNumber,
+        a.statu,a.CompanyName,a.CompanyUser,a.IsPayment,a.IsCancel
+        from Apply a join Line b on a.LineId = b.Id where a.ApplyNo like #{applyNo_name}
+    </select>
+
+    <select id="listPageDoApply2Company" resultType="eqlee.ctm.apply.entry.entity.query.ApplyCompanyQuery">
+        select a.Id,a.ApplyNo,a.OutDate,b.LineName,a.CompanyUser,a.AllNumber,
+        a.ContactName,a.ContactTel,a.CompanyUser,a.Statu
+        from Apply a join Line b on a.LineId = b.Id where a.CompanyName = #{CompanyName}
+    </select>
+
+    <select id="listPageDoApply2CompanyByTime" resultType="eqlee.ctm.apply.entry.entity.query.ApplyCompanyQuery">
+        select a.Id,a.ApplyNo,a.OutDate,b.LineName,a.CompanyUser,a.AllNumber,
+        a.ContactName,a.ContactTel,a.CompanyUser,a.Statu
+        from Apply a join Line b on a.LineId = b.Id where a.CompanyName = #{CompanyName} and a.OutDate = #{OutTime}
+    </select>
 
 </mapper>

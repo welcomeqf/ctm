@@ -63,7 +63,7 @@ public class CompanyController {
     public ResultVo updateCompany (@RequestBody Company company) {
         if(company == null) {
             log.error("update company param is null");
-            throw new ApplicationException(CodeType.PARAMETER_ERROR,"更新公司信息为空");
+            throw new ApplicationException(CodeType.PARAMETER_ERROR);
         }
         companyService.UpdateCompany(company);
         ResultVo resultVo = new ResultVo();
@@ -121,10 +121,9 @@ public class CompanyController {
     })
     @PostMapping("/addCompany")
     @CrossOrigin
-    //@RequestBody CompanyVo companyVo
     public ResultVo addCompany (CompanyVo companyVo) {
-        if(companyVo == null) {
-            log.error("add company param is null.");
+ 
+        if(companyVo==null) {
             throw new ApplicationException(CodeType.PARAMETER_ERROR,"增加公司参数不能为空.");
         }
 
@@ -138,9 +137,8 @@ public class CompanyController {
     @GetMapping("/UpdateCompanyStop")
     @CrossOrigin
     public ResultVo UpdateCompanyStop (@RequestParam("id") Long id) {
-
-        if(id == null) {
-            log.error("update companystop param is null");
+        if(id==null) {
+            log.error("update company stop param is null");
             throw new ApplicationException(CodeType.PARAMETER_ERROR,"修改公司状态Id为空");
         }
         companyService.UpdateCompanyStopped(id);

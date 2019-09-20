@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 /**
@@ -32,7 +33,7 @@ public class Apply extends Model<Apply> {
     /**
      * 出行日期
      */
-    private LocalDateTime OutDate;
+    private LocalDate OutDate;
 
     /**
      * 总价格
@@ -148,4 +149,10 @@ public class Apply extends Model<Apply> {
      * 修改时间
      */
     private LocalDateTime UpdateDate;
+
+    /**
+     * (0-正常  1-待审核  2--通过   3--不通过)
+     */
+    private Integer Statu;
+
 }

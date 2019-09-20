@@ -28,7 +28,7 @@ public class Channel extends Model<Channel> {
     private String ChannelType;
 
     /**
-     * 是否停用(0默认--正常  1--停用)
+     * 是否停用(0--正常  1--停用)
      */
     private Boolean Stopped;
 

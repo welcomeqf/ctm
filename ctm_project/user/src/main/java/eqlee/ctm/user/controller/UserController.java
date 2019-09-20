@@ -41,14 +41,14 @@ public class UserController {
             @ApiImplicitParam(name = "name", value = "名称", required = true, dataType = "String", paramType = "path"),
             @ApiImplicitParam(name = "phone", value = "电话", required = true, dataType = "String", paramType = "path"),
             @ApiImplicitParam(name = "roleName", value = "角色名", required = true, dataType = "String", paramType = "path"),
-            @ApiImplicitParam(name = "companyName", value = "公司名", required = true, dataType = "String", paramType = "path")
+            @ApiImplicitParam(name = "companyId", value = "公司Id", required = true, dataType = "Long", paramType = "path")
     })
     @PostMapping("/register")
     @CrossOrigin
     public ResultVo register(@RequestBody UserVo userVo) {
         if (StringUtils.isBlank(userVo.getUserName()) || StringUtils.isBlank(userVo.getPassword())
         || StringUtils.isBlank(userVo.getName()) || StringUtils.isBlank(userVo.getPhone()) ||
-        StringUtils.isBlank(userVo.getRoleName()) || StringUtils.isBlank(userVo.getCompanyName())) {
+        StringUtils.isBlank(userVo.getRoleName()) || userVo.getCompanyId() == null) {
             log.error("param is not null.");
             throw new ApplicationException(CodeType.PARAM_ERROR,"参数不能为空");
         }
@@ -152,14 +152,14 @@ public class UserController {
             @ApiImplicitParam(name = "name", value = "名称", required = true, dataType = "String", paramType = "path"),
             @ApiImplicitParam(name = "phone", value = "电话", required = true, dataType = "String", paramType = "path"),
             @ApiImplicitParam(name = "roleName", value = "角色名", required = true, dataType = "String", paramType = "path"),
-            @ApiImplicitParam(name = "companyName", value = "公司名", required = true, dataType = "String", paramType = "path")
+            @ApiImplicitParam(name = "companyId", value = "公司Id", required = true, dataType = "String", paramType = "path")
     })
     @PostMapping("/downRegister")
     @CrossOrigin
     public ResultVo downRegister(@RequestBody UserVo userVo) {
         if (StringUtils.isBlank(userVo.getUserName()) || StringUtils.isBlank(userVo.getPassword())
                 || StringUtils.isBlank(userVo.getName()) || StringUtils.isBlank(userVo.getPhone()) ||
-                StringUtils.isBlank(userVo.getRoleName()) || StringUtils.isBlank(userVo.getCompanyName())) {
+                StringUtils.isBlank(userVo.getRoleName()) || userVo.getCompanyId() == null) {
             log.error("param is not null.");
             throw new ApplicationException(CodeType.PARAM_ERROR,"参数不能为空");
         }
@@ -217,7 +217,7 @@ public class UserController {
 
     }
 
-    @ApiOperation(value = "模糊查询加分页", notes = "模糊查询加分页")
+    @ApiOperation(value = "对用户名模糊查询加分页查询", notes = "对用户名模糊查询加分页查询")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "current", value = "当前页", required = true, dataType = "int", paramType = "path"),
             @ApiImplicitParam(name = "size", value = "每页显示条数", required = true, dataType = "int", paramType = "path"),

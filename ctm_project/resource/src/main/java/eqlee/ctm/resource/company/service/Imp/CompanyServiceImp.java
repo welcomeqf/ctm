@@ -102,7 +102,6 @@ public class CompanyServiceImp extends ServiceImpl<CompanyMapper,Company> implem
     public List<Company> queryCompanyByCompanyName(String companyName) {
 
         QueryWrapper<Company> queryWrapper = new QueryWrapper<>();
-//        queryWrapper.like("CompanyName",companyName);
         queryWrapper.like(true, "CompanyName", companyName);
         List<Company> companies = baseMapper.selectList(queryWrapper);
         return companies;

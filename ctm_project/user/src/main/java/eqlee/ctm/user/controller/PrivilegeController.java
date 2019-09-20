@@ -23,7 +23,7 @@ import org.springframework.web.bind.annotation.*;
 @Api
 @RestController
 @Slf4j
-@RequestMapping("/privilege")
+@RequestMapping("v1/app/user/privilege")
 public class PrivilegeController {
 
     @Autowired

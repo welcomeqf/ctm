@@ -1,0 +1,7 @@
+
+usquid:S001177"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(Õ«¢’þÿÿÿÿ8éÊš¸Ô-
+bsquid:CommentedOutCodeLine&"<This block of commented-out lines of code should be removed.(‘æÅ³
+isquid:S00117_"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(‹âö
+|squid:S1488b"`Immediately return this expression instead of assigning it to the temporary variable "userMenu".(‰Èòÿÿÿÿÿ
+wsquid:S00120"ZRename this package name to match the regular expression '^[a-z_]+(\.[a-z_][a-z0-9_]*)*$'.(…ÿÎÿÿÿÿÿ
+psquid:S00117l"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(œù¨Œ8ƒžåÂÔ-
