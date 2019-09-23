@@ -1,0 +1,11 @@
+
+ysquid:S001165"URename this field "CreateDate" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(¿©Äıÿÿÿÿ8öôïîÔ-
+ysquid:S00116?"URename this field "UpdateDate" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(•˜Ğëıÿÿÿÿ8ñ»ñîÔ-
+vsquid:S00116"RRename this field "ApplyId" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(´®©øÿÿÿÿ8ìğçîÔ-
+|squid:S00116&"XRename this field "ExamineResult" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ö¾©Úşÿÿÿÿ8å¡éîÔ-
+`squid:UselessImportCheck	"0Remove this unused import 'java.time.LocalDate'.(›‘¬èıÿÿÿÿ8öôïîÔ-
+vsquid:S001160"WRename this field "CreateUserId" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(—êÙç8ÜëíîÔ-
+usquid:S00116+"QRename this field "Remark" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(é«´‘ùÿÿÿÿ8Ã–ìîÔ-
+vsquid:S00116:"WRename this field "UpdateUserId" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(–°ƒ¹8ñ»ñîÔ-
+lsquid:S00116"MRename this field "Id" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(´ÕÛ”8ÀøæîÔ-
+zsquid:S00116!"VRename this field "ExamineType" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(¶ˆ¹äıÿÿÿÿ8ÔÀèîÔ-

@@ -1,0 +1,14 @@
+server:
+  port: 8003
+mybatis-plus:
+  configuration:
+    map-underscore-to-camel-case: false
+  mapper-locations: classpath:eqlee/ctm/api/*/dao/mapper/*.xml
+spring:
+  profiles:
+    active: test
+  application:
+    name: service-api
+app:
+  workerId: 9
+  dataCenterId: 1

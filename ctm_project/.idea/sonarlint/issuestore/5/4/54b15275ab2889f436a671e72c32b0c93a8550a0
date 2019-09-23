@@ -1,0 +1,15 @@
+
+gsquid:CommentedOutCodeLineT"<This block of commented-out lines of code should be removed.(Äó¤¶üÿÿÿÿ
+T
+squid:S106C"9Replace this use of System.out or System.err by a logger.(¦ûÓÙÿÿÿÿÿ
+O
+squid:S106R"9Replace this use of System.out or System.err by a logger.(ÙÆÜñ
+}squid:S1488"aImmediately return this expression instead of assigning it to the temporary variable "myKeyPair".(ð”Ÿºÿÿÿÿÿ
+Bsquid:S1481S"&Remove this unused "s" local variable.(ª¢ßÿøÿÿÿÿ
+bsquid:S2259"FA "NullPointerException" could be thrown; "myKeyGen" is nullable here.(ð”Ÿºÿÿÿÿÿ
+Qsquid:S1854S"5Remove this useless assignment to local variable "s".(ª¢ßÿøÿÿÿÿ
+isquid:S00117"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(¬¶€ï
+?squid:S1148"#Use a logger to log this exception.(€ÉÔ…ýÿÿÿÿ
+?squid:S1148."#Use a logger to log this exception.(€ÉÔ…ýÿÿÿÿ
+?squid:S1148E"#Use a logger to log this exception.(€ÉÔ…ýÿÿÿÿ
+?squid:S1148W"#Use a logger to log this exception.(€ÉÔ…ýÿÿÿÿ
