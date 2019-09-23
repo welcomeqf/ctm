@@ -53,7 +53,7 @@ public class CarController {
     @GetMapping("/deleteCar")
     @ApiImplicitParam(name = "Id",value = "车辆Id",required = true,dataType = "Long",paramType = "path")
     @CrossOrigin
-    public void deleteCar(Long id)
+    public void deleteCar(@RequestParam Long id)
     {
         if(id==null){
             log.error("delete car param is null");
@@ -73,7 +73,7 @@ public class CarController {
             @ApiImplicitParam(name = "Remark", value = "备注", required = true, dataType = "String", paramType = "path")
     })
     @CrossOrigin
-    public void addCar(CarVo carVo)
+    public void addCar(@RequestBody CarVo carVo)
     {
         if(StringUtils.isBlank(carVo.getCarNo())||StringUtils.isBlank(carVo.getStatu())
                 ||StringUtils.isBlank(carVo.getCarName())||StringUtils.isBlank(carVo.getRemark())){
@@ -95,7 +95,7 @@ public class CarController {
             @ApiImplicitParam(name = "Remark", value = "备注", required = true, dataType = "String", paramType = "path")
     })
     @CrossOrigin
-    public void updateCar(CarVo carVo)
+    public void updateCar(@RequestBody CarVo carVo)
     {
         if(StringUtils.isBlank(carVo.getCarNo())||StringUtils.isBlank(carVo.getStatu())
                 ||StringUtils.isBlank(carVo.getCarName())||StringUtils.isBlank(carVo.getRemark())

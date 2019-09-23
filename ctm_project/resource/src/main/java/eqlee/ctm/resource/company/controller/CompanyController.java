@@ -124,7 +124,7 @@ public class CompanyController {
     })
     @PostMapping("/addCompany")
     @CrossOrigin
-    public ResultVo addCompany (CompanyVo companyVo) {
+    public ResultVo addCompany (@RequestBody CompanyVo companyVo) {
  
         if(companyVo==null) {
             throw new ApplicationException(CodeType.PARAMETER_ERROR,"增加公司参数不能为空.");
