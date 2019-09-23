@@ -3,7 +3,9 @@ package eqlee.ctm.resource.car.controller;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.yq.constanct.CodeType;
 import com.yq.utils.IdGenerator;
+import com.yq.utils.StringUtils;
 import eqlee.ctm.resource.car.entity.Car;
+import eqlee.ctm.resource.car.entity.Vo.CarVo;
 import eqlee.ctm.resource.car.service.ICarService;
 import eqlee.ctm.resource.exception.ApplicationException;
 import io.swagger.annotations.Api;
@@ -65,20 +67,20 @@ public class CarController {
     @ApiOperation(value = "车辆增加",notes = "车辆增加")
     @PostMapping("/addCar")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "Id", value = "车辆Id", required = true, dataType = "Long", paramType = "path"),
             @ApiImplicitParam(name = "CarName", value = "车辆名", required = true, dataType = "String", paramType = "path"),
-            @ApiImplicitParam(name = "CarNo", value = "车辆号", required = true, dataType = "String", paramType = "path"),
+            @ApiImplicitParam(name = "CarNo", value = "车牌号", required = true, dataType = "String", paramType = "path"),
             @ApiImplicitParam(name = "Statu", value = "状态", required = true, dataType = "String", paramType = "path"),
-            @ApiImplicitParam(name = "Remark", value = "备注", required = true, dataType = "Integer", paramType = "path")
+            @ApiImplicitParam(name = "Remark", value = "备注", required = true, dataType = "String", paramType = "path")
     })
     @CrossOrigin
-    public void addCar(Car car)
+    public void addCar(CarVo carVo)
     {
-        if(car==null){
+        if(StringUtils.isBlank(carVo.getCarNo())||StringUtils.isBlank(carVo.getStatu())
+                ||StringUtils.isBlank(carVo.getCarName())||StringUtils.isBlank(carVo.getRemark())){
             log.error("Add car param is null");
             throw new ApplicationException(CodeType.PARAMETER_ERROR,"增加车辆信息为空");
         }
-        carService.addCar(car);
+        carService.addCar(carVo);
     }
 
 
@@ -90,15 +92,17 @@ public class CarController {
             @ApiImplicitParam(name = "CarName", value = "车辆名", required = true, dataType = "String", paramType = "path"),
             @ApiImplicitParam(name = "CarNo", value = "车辆号", required = true, dataType = "String", paramType = "path"),
             @ApiImplicitParam(name = "Statu", value = "状态", required = true, dataType = "String", paramType = "path"),
-            @ApiImplicitParam(name = "Remark", value = "备注", required = true, dataType = "Integer", paramType = "path")
+            @ApiImplicitParam(name = "Remark", value = "备注", required = true, dataType = "String", paramType = "path")
     })
     @CrossOrigin
-    public void updateCar(Car car)
+    public void updateCar(CarVo carVo)
     {
-        if(car==null){
+        if(StringUtils.isBlank(carVo.getCarNo())||StringUtils.isBlank(carVo.getStatu())
+                ||StringUtils.isBlank(carVo.getCarName())||StringUtils.isBlank(carVo.getRemark())
+        ||carVo.getId() == null){
             log.error("update car param is null");
             throw new ApplicationException(CodeType.PARAMETER_ERROR,"修改车辆信息为空");
         }
-        carService.updateCar(car);
+        carService.updateCar(carVo);
     }
 }

@@ -12,23 +12,16 @@ import java.time.LocalDateTime;
 @Data
 public class CompanyVo {
 
-    /**
-     * 公司名称
-     */
+    private Long Id;
+
     private String CompanyName;
 
-    /**
-     * 合同开始时间
-     */
-    private LocalDateTime StartDate;
+    private String StartDate;
 
-    /**
-     * 合同结束时间
-     */
-    private LocalDateTime endDate;
+    private String endDate;
 
-    /**
-     *  支付方式(0--默认1--现结2--月结3--代收)
-     */
-    private int PayMethod;
+    private String PayMethod;
+
+    private Boolean Stopped;
+
 }

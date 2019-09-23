@@ -4,8 +4,10 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.yq.constanct.CodeType;
 import com.yq.utils.IdGenerator;
+import com.yq.utils.StringUtils;
 import eqlee.ctm.resource.car.dao.CarMapper;
 import eqlee.ctm.resource.car.entity.Car;
+import eqlee.ctm.resource.car.entity.Vo.CarVo;
 import eqlee.ctm.resource.car.service.ICarService;
 import eqlee.ctm.resource.exception.ApplicationException;
 import lombok.extern.slf4j.Slf4j;
@@ -29,9 +31,21 @@ public class CarServiceImp extends ServiceImpl<CarMapper, Car>implements ICarSer
      * @param car
      */
     @Override
-    public void addCar(Car car) {
+    public void addCar(CarVo carVo) {
+        Car car = new Car();
         IdGenerator idGenerator = new IdGenerator();
         car.setId(idGenerator.getNumberId());
+        car.setRemark(carVo.getRemark());
+        car.setCarName(carVo.getCarName());
+        car.setCarNo(carVo.getCarNo());
+        if(StringUtils.isNotEmpty(carVo.getStatu())){
+            if(carVo.getStatu() == "未出行")
+                car.setStatu(0);
+            if(carVo.getStatu() == "已出行")
+                car.setStatu(1);
+            if(carVo.getStatu() == "已报废")
+                car.setStatu(2);
+        }
         int add = baseMapper.insert(car);
         if(add<=0){
             log.error("insert car fail");
@@ -54,10 +68,25 @@ public class CarServiceImp extends ServiceImpl<CarMapper, Car>implements ICarSer
 
     /**
      * 更新车辆信息
-     * @param car
+     * @param carVo
      */
     @Override
-    public void updateCar(Car car) {
+    public void updateCar(CarVo carVo) {
+
+        Car car = new Car();
+        IdGenerator idGenerator = new IdGenerator();
+        car.setId(idGenerator.getNumberId());
+        car.setRemark(carVo.getRemark());
+        car.setCarName(carVo.getCarName());
+        car.setCarNo(carVo.getCarNo());
+        if(StringUtils.isNotEmpty(carVo.getStatu())){
+            if(carVo.getStatu() == "未出行")
+                car.setStatu(0);
+            if(carVo.getStatu() == "已出行")
+                car.setStatu(1);
+            if(carVo.getStatu() == "已报废")
+                car.setStatu(2);
+        }
         int update = baseMapper.updateById(car);
         if(update<=0){
             log.error("update car fail");

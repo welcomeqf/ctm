@@ -3,6 +3,7 @@ package eqlee.ctm.resource.company.controller;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.yq.constanct.CodeType;
 import com.yq.utils.IdGenerator;
+import com.yq.utils.StringUtils;
 import eqlee.ctm.resource.company.entity.Company;
 import eqlee.ctm.resource.company.entity.query.PageCompanyQuery;
 import eqlee.ctm.resource.company.entity.vo.CompanyVo;
@@ -53,19 +54,21 @@ public class CompanyController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "Id", value = "公司Id", required = true, dataType = "Long", paramType = "path"),
             @ApiImplicitParam(name = "CompanyName", value = "公司名称", required = true, dataType = "String", paramType = "path"),
-            @ApiImplicitParam(name = "StartDate", value = "合同开始时间", required = true, dataType = "LocalDateTime", paramType = "path"),
-            @ApiImplicitParam(name = "endDate", value = "合同结束时间", required = true, dataType = "LocalDateTime", paramType = "path"),
-            @ApiImplicitParam(name = "PayMethod", value = "支付方式", required = true, dataType = "Int", paramType = "path"),
+            @ApiImplicitParam(name = "StartDate", value = "合同开始时间", required = true, dataType = "String", paramType = "path"),
+            @ApiImplicitParam(name = "endDate", value = "合同结束时间", required = true, dataType = "String", paramType = "path"),
+            @ApiImplicitParam(name = "PayMethod", value = "支付方式", required = true, dataType = "String", paramType = "path"),
             @ApiImplicitParam(name = "Stopped", value = "状态", required = true, dataType = "Boolen", paramType = "path")
     })
     @PostMapping("/updateCompany")
     @CrossOrigin
-    public ResultVo updateCompany (@RequestBody Company company) {
-        if(company == null) {
+    public ResultVo updateCompany (@RequestBody CompanyVo companyVo) {
+        if(companyVo.getId() == null || StringUtils.isBlank(companyVo.getPayMethod())
+        || StringUtils.isBlank(companyVo.getEndDate())|| StringUtils.isBlank(companyVo.getStartDate())
+        || StringUtils.isBlank(companyVo.getCompanyName())){
             log.error("update company param is null");
             throw new ApplicationException(CodeType.PARAMETER_ERROR);
         }
-        companyService.UpdateCompany(company);
+        companyService.UpdateCompany(companyVo);
         ResultVo resultVo = new ResultVo();
         resultVo.setResult("ok");
         return resultVo;
@@ -117,7 +120,7 @@ public class CompanyController {
             @ApiImplicitParam(name = "CompanyName", value = "公司名称", required = true, dataType = "String", paramType = "path"),
             @ApiImplicitParam(name = "StartDate", value = "合同开始时间", required = true, dataType = "String", paramType = "path"),
             @ApiImplicitParam(name = "endDate", value = "合同结束时间", required = true, dataType = "String", paramType = "path"),
-            @ApiImplicitParam(name = "PayMethod", value = "支付方式", required = true, dataType = "Int", paramType = "path"),
+            @ApiImplicitParam(name = "PayMethod", value = "支付方式", required = true, dataType = "String", paramType = "path"),
     })
     @PostMapping("/addCompany")
     @CrossOrigin

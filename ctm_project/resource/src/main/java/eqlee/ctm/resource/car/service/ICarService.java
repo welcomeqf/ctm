@@ -2,6 +2,7 @@ package eqlee.ctm.resource.car.service;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import eqlee.ctm.resource.car.entity.Car;
+import eqlee.ctm.resource.car.entity.Vo.CarVo;
 
 import java.util.List;
 
@@ -15,7 +16,7 @@ public interface ICarService {
      * 增加车辆
      * @param car
      */
-    void addCar(Car car);
+    void addCar(CarVo carVo);
 
     /**
      * 删除车辆
@@ -27,7 +28,7 @@ public interface ICarService {
      * 更新车辆
      * @param car
      */
-    void updateCar(Car car);
+    void updateCar(CarVo carVo);
 
     /**
      * 查询车辆列表

@@ -7,6 +7,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.yq.constanct.CodeType;
 import com.yq.utils.IdGenerator;
+import com.yq.utils.StringUtils;
 import eqlee.ctm.resource.company.dao.CompanyMapper;
 import eqlee.ctm.resource.company.entity.Company;
 import eqlee.ctm.resource.company.entity.query.PageCompanyQuery;
@@ -17,6 +18,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 /**
@@ -51,9 +53,22 @@ public class CompanyServiceImp extends ServiceImpl<CompanyMapper,Company> implem
         Company company = new Company();
         company.setId(idGenerator.getNumberId());
         company.setCompanyName(companyVo.getCompanyName());
-        company.setStartDate(companyVo.getStartDate());
-        company.setEndDate(companyVo.getEndDate());
-        company.setPayMethod(companyVo.getPayMethod());
+        company.setStartDate(LocalDateTime.parse(companyVo.getStartDate()));
+        company.setEndDate(LocalDateTime.parse(companyVo.getEndDate()));
+        if(StringUtils.isNotEmpty(companyVo.getPayMethod())){
+            if(companyVo.getPayMethod() =="默认"){
+                company.setPayMethod(0);
+            }
+            if(companyVo.getPayMethod() =="现结"){
+                company.setPayMethod(1);
+            }
+            if(companyVo.getPayMethod() =="月结"){
+                company.setPayMethod(2);
+            }
+            if(companyVo.getPayMethod() =="代收"){
+                company.setPayMethod(3);
+            }
+        }
         int insert = baseMapper.insert(company);
 
         if (insert <= 0) {
@@ -84,12 +99,32 @@ public class CompanyServiceImp extends ServiceImpl<CompanyMapper,Company> implem
      * @param company
      */
     @Override
-    public void UpdateCompany(Company company) {
-      int update = baseMapper.updateById(company);
-      if (update <= 0) {
+    public void UpdateCompany(CompanyVo companyVo) {
+        Company company = new Company();
+        company.setId(companyVo.getId());
+        company.setCompanyName(companyVo.getCompanyName());
+        company.setStartDate(LocalDateTime.parse(companyVo.getStartDate()));
+        company.setEndDate(LocalDateTime.parse(companyVo.getEndDate()));
+        company.setStopped(companyVo.getStopped());
+        if(StringUtils.isNotEmpty(companyVo.getPayMethod())){
+            if(companyVo.getPayMethod() =="默认"){
+                company.setPayMethod(0);
+            }
+            if(companyVo.getPayMethod() =="现结"){
+                company.setPayMethod(1);
+            }
+            if(companyVo.getPayMethod() =="月结"){
+                company.setPayMethod(2);
+            }
+            if(companyVo.getPayMethod() =="代收"){
+                company.setPayMethod(3);
+            }
+        }
+        int update = baseMapper.updateById(company);
+        if (update <= 0) {
             log.error("update company fail");
             throw new ApplicationException(CodeType.SERVICE_ERROR,"更新同行公司失败");
-      }
+         }
     }
 
 
