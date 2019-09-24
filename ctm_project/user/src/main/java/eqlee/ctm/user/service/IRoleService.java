@@ -3,6 +3,7 @@ package eqlee.ctm.user.service;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import eqlee.ctm.user.entity.UserRole;
 import eqlee.ctm.user.entity.vo.RoleVo;
+import eqlee.ctm.user.entity.vo.UserRoleVo;
 
 import java.util.List;
 
@@ -17,13 +18,14 @@ public interface IRoleService {
      * 增加角色
      * @param role
      */
-    void addRole(UserRole role);
+    void addRole(UserRoleVo role);
 
     /**
      * 根据ID删除角色
      * @param id
+     * @param AppId
      */
-    void deleteRole(Long id);
+    void deleteRole(Long id,String AppId);
 
     /**
      * 修改角色
@@ -35,7 +37,7 @@ public interface IRoleService {
      * 查询所有角色
      * @return
      */
-    List<UserRole> queryAllRole();
+    List<UserRole> queryAllRole(String AppId);
 
     /**
      * 根据角色名查询角色信息

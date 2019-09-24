@@ -23,41 +23,42 @@ public interface IUserService {
      * 登录
      * @param userName
      * @param password
+     * @param AppId
      * @return
      */
-    UserLoginQuery login(String userName, String password);
+    UserLoginQuery login(String userName, String password, String AppId);
 
     /**
      * 注销
      * @param userName
      */
-    void deleteUser(String userName);
+    void deleteUser(String userName, String AppId);
 
     /**
      * 根据用户名查询用户信息
      * @param userName
      * @return
      */
-    User queryUser(String userName);
+    User queryUser(String userName, String AppId);
 
 
     /**
      * 退出账号
      * @param userName
      */
-    void exitUser(String userName);
+    void exitUser(String userName, String AppId);
 
     /**
      * 冻结账户
      * @param userName
      */
-    void stopUser(String userName);
+    void stopUser(String userName, String AppId);
 
     /**
      * 解冻账户
      * @param userName
      */
-    void toStopUser(String userName);
+    void toStopUser(String userName, String AppId);
 
 
     /**
@@ -71,7 +72,7 @@ public interface IUserService {
      * @param page
      * @return
      */
-    Page<UserQuery> queryAllUserByPage(Page<UserQuery> page);
+    Page<UserQuery> queryAllUserByPage(Page<UserQuery> page, String AppId);
 
     /**
      * 对用户分页数据进行用户模糊以及角色帅选
@@ -80,7 +81,7 @@ public interface IUserService {
      * @param roleName
      * @return
      */
-    Page<UserQuery> queryPageUserByName(Page<UserQuery> page,String userName,String roleName);
+    Page<UserQuery> queryPageUserByName(Page<UserQuery> page,String userName,String roleName, String AppId);
 
     /**
      * 只模糊查询加分页
@@ -88,6 +89,6 @@ public interface IUserService {
      * @param userName
      * @return
      */
-    Page<UserQuery> queryUserByName(Page<UserQuery> page, String userName);
+    Page<UserQuery> queryUserByName(Page<UserQuery> page, String userName, String AppId);
 
 }

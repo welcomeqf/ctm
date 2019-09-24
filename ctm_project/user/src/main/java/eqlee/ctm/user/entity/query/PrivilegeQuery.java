@@ -16,5 +16,5 @@ public class PrivilegeQuery {
 
     private List<String> menuList;
 
-
+    private String AppId;
 }

@@ -6,23 +6,30 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.yq.constanct.CodeType;
 import com.yq.utils.ShaUtils;
 import eqlee.ctm.user.dao.UserMapper;
+import eqlee.ctm.user.entity.Sign;
 import eqlee.ctm.user.entity.User;
 import eqlee.ctm.user.entity.UserRole;
 import eqlee.ctm.user.entity.query.PrivilegeMenuQuery;
 import eqlee.ctm.user.entity.query.UserLoginQuery;
 import eqlee.ctm.user.entity.query.UserQuery;
+import eqlee.ctm.user.entity.vo.ResultSignVo;
+import eqlee.ctm.user.entity.vo.UserRoleVo;
 import eqlee.ctm.user.entity.vo.UserVo;
 import eqlee.ctm.user.exception.ApplicationException;
 import eqlee.ctm.user.service.IPrivilegeService;
 import eqlee.ctm.user.service.IRoleService;
+import eqlee.ctm.user.service.ISignService;
 import eqlee.ctm.user.service.IUserService;
 import com.yq.utils.Base64Util;
 import com.yq.utils.IdGenerator;
+import eqlee.ctm.user.vilidata.DataUtils;
+import eqlee.ctm.user.vilidata.SignData;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.security.Signature;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -42,6 +49,12 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
     @Autowired
     private IPrivilegeService privilegeService;
 
+    @Autowired
+    private ISignService signService;
+
+
+    IdGenerator idGenerator = new IdGenerator();
+
     /**
      * 管理人员注册
      * @param userVo
@@ -56,7 +69,6 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
         }
         String s = ShaUtils.getSha1(userVo.getPassword());
         User user = new User();
-        IdGenerator idGenerator = new IdGenerator();
         user.setId(idGenerator.getNumberId());
         user.setAccount(userVo.getUserName());
         user.setPassword(s);
@@ -67,7 +79,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
         UserRole role = roleService.queryOne(userVo.getRoleName());
         user.setSystemRoleId(role.getId());
 
-        if (role.getStopped() == false) {
+        if (!role.getStopped()) {
             role.setStopped(true);
             roleService.updateRole(role);
         }
@@ -87,26 +99,47 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
      * @return
      */
     @Override
-    public synchronized UserLoginQuery login(String userName, String password) {
+    public synchronized UserLoginQuery login(String userName, String password, String AppId) {
         LambdaQueryWrapper<User> queryWrapper = new LambdaQueryWrapper<User>()
                 .eq(User::getAccount,userName);
         User user = baseMapper.selectOne(queryWrapper);
 
-        if (user != null) {
-            if (!ShaUtils.getSha1(password).equals(user.getPassword())) {
-                throw new ApplicationException(CodeType.SERVICE_ERROR,"密码错误");
-            }
-            if (user.getStatus() == 1) {
-                throw new ApplicationException(CodeType.SERVICE_ERROR,"该账户已被冻结,请解冻后再登录");
-            }
-            if (user.getStopped() == true) {
-                throw new ApplicationException(CodeType.SERVICE_ERROR,"该账号已经登录");
-            }
-            LocalDateTime now = LocalDateTime.now();
-            user.setLastLoginTime(now);
-            user.setStopped(true);
-            baseMapper.updateById(user);
+        if (user == null) {
+            log.error("user login fail.");
+            throw new ApplicationException(CodeType.SERVICE_ERROR,"用户名有误");
         }
+
+        if (!ShaUtils.getSha1(password).equals(user.getPassword())) {
+            throw new ApplicationException(CodeType.SERVICE_ERROR,"密码错误");
+        }
+        if (user.getStatus() == 1) {
+            throw new ApplicationException(CodeType.SERVICE_ERROR,"该账户已被冻结,请解冻后再登录");
+        }
+        if (user.getStopped()) {
+            throw new ApplicationException(CodeType.SERVICE_ERROR,"该账号已经登录");
+        }
+        LocalDateTime now = LocalDateTime.now();
+        user.setLastLoginTime(now);
+        user.setStopped(true);
+        baseMapper.updateById(user);
+
+        //到此处表示已经登录成功签名认证已经通过，将签名信息保存进数据库
+        Sign sign = new Sign();
+        //将信息装进Sign表中
+        sign.setId(idGenerator.getNumberId());
+        sign.setAppId(DataUtils.getEncodeing(AppId));
+        ResultSignVo vo = null;
+        try {
+            vo = SignData.getSign(AppId, userName);
+        }catch (Exception e) {
+            e.printStackTrace();
+        }
+        sign.setMySig(vo.getMySig());
+        sign.setInformation(DataUtils.getEncodeing(userName));
+        sign.setPrivateKey(vo.getKeypair());
+        sign.setPublicKey(vo.getBytes());
+        signService.insertSign(sign);
+
         UserRole userRole = roleService.queryRoleById(user.getSystemRoleId());
         List<PrivilegeMenuQuery> list = privilegeService.queryAllMenu(userRole.getRoleName());
         //装配UserLoginQuery
@@ -131,7 +164,20 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
      * @param userName
      */
     @Override
-    public synchronized void deleteUser(String userName) {
+    public synchronized void deleteUser(String userName,String AppId) {
+        //验证签名
+        Sign sign = signService.queryOne(AppId);
+        Boolean result = null;
+        try {
+            result = SignData.getResult(AppId, DataUtils.getDcodeing(sign.getInformation()));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        if (!result) {
+            throw new ApplicationException(CodeType.AUTHENTICATION_ERROR);
+        }
+
+        //执行业务
         LambdaQueryWrapper<User> queryWrapper = new LambdaQueryWrapper<User>()
                 .eq(User::getAccount,userName);
 
@@ -155,7 +201,19 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
      * @return
      */
     @Override
-    public User queryUser(String userName) {
+    public User queryUser(String userName, String AppId) {
+        //验证签名
+        Sign sign = signService.queryOne(AppId);
+        Boolean result = null;
+        try {
+            result = SignData.getResult(AppId, DataUtils.getDcodeing(sign.getInformation()));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        if (!result) {
+            throw new ApplicationException(CodeType.AUTHENTICATION_ERROR);
+        }
+
         LambdaQueryWrapper<User> queryWrapper = new LambdaQueryWrapper<User>()
                 .eq(User::getAccount,userName);
         return baseMapper.selectOne(queryWrapper);
@@ -166,7 +224,19 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
      * @param userName
      */
     @Override
-    public void exitUser(String userName) {
+    public void exitUser(String userName, String AppId) {
+        //验证签名
+        Sign sign = signService.queryOne(AppId);
+        Boolean result = null;
+        try {
+            result = SignData.getResult(AppId, DataUtils.getDcodeing(sign.getInformation()));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        if (!result) {
+            throw new ApplicationException(CodeType.AUTHENTICATION_ERROR);
+        }
+        //执行业务
         LambdaQueryWrapper<User> queryWrapper = new LambdaQueryWrapper<User>()
                 .eq(User::getAccount,userName);
         User user = new User();
@@ -185,7 +255,20 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
      * @param userName
      */
     @Override
-    public void stopUser(String userName) {
+    public void stopUser(String userName, String AppId) {
+        //验证签名
+        Sign sign = signService.queryOne(AppId);
+        Boolean result = null;
+        try {
+            result = SignData.getResult(AppId, DataUtils.getDcodeing(sign.getInformation()));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        if (!result) {
+            throw new ApplicationException(CodeType.AUTHENTICATION_ERROR);
+        }
+
+        //执行业务
         LambdaQueryWrapper<User> queryWrapper = new LambdaQueryWrapper<User>()
                 .eq(User::getAccount,userName);
         User user = new User();
@@ -203,7 +286,20 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
      * @param userName
      */
     @Override
-    public void toStopUser(String userName) {
+    public void toStopUser(String userName, String AppId) {
+        //验证签名
+        Sign sign = signService.queryOne(AppId);
+        Boolean result = null;
+        try {
+            result = SignData.getResult(AppId, DataUtils.getDcodeing(sign.getInformation()));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        if (!result) {
+            throw new ApplicationException(CodeType.AUTHENTICATION_ERROR);
+        }
+
+        //执行业务
         LambdaQueryWrapper<User> queryWrapper = new LambdaQueryWrapper<User>()
                 .eq(User::getAccount,userName);
         User user = new User();
@@ -230,7 +326,6 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
         }
         String s = ShaUtils.getSha1(userVo.getPassword());
         User user = new User();
-        IdGenerator idGenerator = new IdGenerator();
         user.setId(idGenerator.getNumberId());
         user.setAccount(userVo.getUserName());
         user.setPassword(s);
@@ -238,7 +333,8 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
         user.setTel(userVo.getPhone());
         user.setCompanyId(userVo.getCompanyId());
 
-        UserRole userRole = new UserRole();
+        //装配用户角色
+        UserRoleVo userRole = new UserRoleVo();
         long numberId = idGenerator.getNumberId();
         userRole.setId(numberId);
         userRole.setRoleName(userVo.getRoleName());
@@ -246,8 +342,6 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
         roleService.addRole(userRole);
 
         user.setSystemRoleId(numberId);
-
-        //根据输入的公司名查询该公司信息
 
         user.setIsSuper(true);
         int insert = baseMapper.insert(user);
@@ -264,7 +358,19 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
      * @return
      */
     @Override
-    public Page<UserQuery> queryAllUserByPage(Page<UserQuery> page) {
+    public Page<UserQuery> queryAllUserByPage(Page<UserQuery> page, String AppId) {
+        //验证签名
+        Sign sign = signService.queryOne(AppId);
+        Boolean result = null;
+        try {
+            result = SignData.getResult(AppId, DataUtils.getDcodeing(sign.getInformation()));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        if (!result) {
+            throw new ApplicationException(CodeType.AUTHENTICATION_ERROR);
+        }
+
         return baseMapper.queryUserInfo(page);
     }
 
@@ -276,7 +382,19 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
      * @return
      */
     @Override
-    public Page<UserQuery> queryPageUserByName(Page<UserQuery> page,String userName,String roleName) {
+    public Page<UserQuery> queryPageUserByName(Page<UserQuery> page,String userName,String roleName, String AppId) {
+        //验证签名
+        Sign sign = signService.queryOne(AppId);
+        Boolean result = null;
+        try {
+            result = SignData.getResult(AppId, DataUtils.getDcodeing(sign.getInformation()));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        if (!result) {
+            throw new ApplicationException(CodeType.AUTHENTICATION_ERROR);
+        }
+
         return baseMapper.queryPageUserByName(page,userName,roleName);
     }
 
@@ -287,7 +405,18 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
      * @return
      */
     @Override
-    public Page<UserQuery> queryUserByName(Page<UserQuery> page, String userName) {
+    public Page<UserQuery> queryUserByName(Page<UserQuery> page, String userName, String AppId) {
+        //验证签名
+        Sign sign = signService.queryOne(AppId);
+        Boolean result = null;
+        try {
+            result = SignData.getResult(AppId, DataUtils.getDcodeing(sign.getInformation()));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        if (!result) {
+            throw new ApplicationException(CodeType.AUTHENTICATION_ERROR);
+        }
         return baseMapper.queryUserByName(page,userName);
     }
 

@@ -5,11 +5,16 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.yq.constanct.CodeType;
 import eqlee.ctm.user.dao.RoleMapper;
+import eqlee.ctm.user.entity.Sign;
 import eqlee.ctm.user.entity.UserRole;
 import eqlee.ctm.user.entity.vo.RoleVo;
+import eqlee.ctm.user.entity.vo.UserRoleVo;
 import eqlee.ctm.user.exception.ApplicationException;
 import eqlee.ctm.user.service.IRoleService;
 import com.yq.utils.IdGenerator;
+import eqlee.ctm.user.service.ISignService;
+import eqlee.ctm.user.vilidata.DataUtils;
+import eqlee.ctm.user.vilidata.SignData;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -27,11 +32,17 @@ import java.util.List;
 @Transactional(rollbackFor = Exception.class)
 public class RoleServiceImpl extends ServiceImpl<RoleMapper, UserRole> implements IRoleService {
 
+    @Autowired
+    private ISignService signService;
+
+    IdGenerator idGenerator = new IdGenerator();
 
     @Override
-    public void addRole(UserRole role) {
-        IdGenerator idGenerator = new IdGenerator();
+    public void addRole(UserRoleVo roleVo) {
+        UserRole role = new UserRole();
         role.setId(idGenerator.getNumberId());
+        role.setRoleName(roleVo.getRoleName());
+
         int insert = baseMapper.insert(role);
         if (insert <= 0) {
             log.error("insert role db fail.");
@@ -44,7 +55,20 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, UserRole> implement
      * @param id
      */
     @Override
-    public synchronized void deleteRole(Long id) {
+    public synchronized void deleteRole(Long id,String AppId) {
+        //验证签名
+        Sign sign = signService.queryOne(AppId);
+        Boolean result = null;
+        try {
+            result = SignData.getResult(AppId, DataUtils.getDcodeing(sign.getInformation()));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        if (!result) {
+            throw new ApplicationException(CodeType.AUTHENTICATION_ERROR);
+        }
+
+        //执行业务
         UserRole role = baseMapper.selectById(id);
         if (role.getStopped() == false) {
             throw new ApplicationException(CodeType.SERVICE_ERROR,"该角色正在被使用,不能删除");
@@ -66,7 +90,19 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, UserRole> implement
     }
 
     @Override
-    public List<UserRole> queryAllRole() {
+    public List<UserRole> queryAllRole(String AppId) {
+        //验证签名
+        Sign sign = signService.queryOne(AppId);
+        Boolean result = null;
+        try {
+            result = SignData.getResult(AppId, DataUtils.getDcodeing(sign.getInformation()));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        if (!result) {
+            throw new ApplicationException(CodeType.AUTHENTICATION_ERROR);
+        }
+
         return baseMapper.selectList(null);
     }
 
@@ -91,6 +127,18 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, UserRole> implement
      */
     @Override
     public Page<UserRole> queryPageRole(RoleVo roleVo) {
+        //验证签名
+        Sign sign = signService.queryOne(roleVo.getAppId());
+        Boolean result = null;
+        try {
+            result = SignData.getResult(roleVo.getAppId(), DataUtils.getDcodeing(sign.getInformation()));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        if (!result) {
+            throw new ApplicationException(CodeType.AUTHENTICATION_ERROR);
+        }
+
         LambdaQueryWrapper<UserRole> queryWrapper = new LambdaQueryWrapper<UserRole>()
                 .orderByDesc(UserRole::getId);
         Page<UserRole> page = new Page<>();

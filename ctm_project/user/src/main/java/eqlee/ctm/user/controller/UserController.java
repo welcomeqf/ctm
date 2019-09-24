@@ -10,6 +10,8 @@ import eqlee.ctm.user.entity.vo.UserVo;
 import eqlee.ctm.user.exception.ApplicationException;
 import eqlee.ctm.user.service.IUserService;
 import com.yq.utils.StringUtils;
+import eqlee.ctm.user.vilidata.DataUtils;
+import eqlee.ctm.user.vilidata.SignData;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -63,29 +65,39 @@ public class UserController {
     @ApiOperation(value = "登录", notes ="登录")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "userName", value = "用户名", required = true, dataType = "String", paramType = "path"),
-            @ApiImplicitParam(name = "password", value = "密码", required = true, dataType = "String", paramType = "path")
+            @ApiImplicitParam(name = "password", value = "密码", required = true, dataType = "String", paramType = "path"),
+            @ApiImplicitParam(name = "AppId", value = "签名Id", required = true, dataType = "String", paramType = "path")
     })
     @GetMapping("/login")
     @CrossOrigin
-    public UserLoginQuery login(@RequestParam("userName") String userName, @RequestParam("password") String password) {
-        if (StringUtils.isBlank(userName) || StringUtils.isBlank(password)) {
+    public UserLoginQuery login(@RequestParam("userName") String userName, @RequestParam("password") String password,
+                                @RequestParam("AppId") String AppId) throws Exception{
+        if (StringUtils.isBlank(userName) || StringUtils.isBlank(password) || StringUtils.isBlank(AppId)) {
             log.error("param is not null.");
             throw new ApplicationException(CodeType.PARAM_ERROR, "参数不能为空");
         }
-        return userService.login(userName, password);
+        //验证签名
+        Boolean result = SignData.getResult(AppId, userName);
+        if (!result) {
+            throw new ApplicationException(CodeType.AUTHENTICATION_ERROR);
+        }
+        return userService.login(userName, password,AppId);
 
     }
 
     @ApiOperation(value = "注销", notes = "注销")
-    @ApiImplicitParam(name = "userName", value = "用户名", required = true, dataType = "String", paramType = "path")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "userName", value = "用户名", required = true, dataType = "String", paramType = "path"),
+            @ApiImplicitParam(name = "AppId", value = "签名Id", required = true, dataType = "String", paramType = "path")
+    })
     @GetMapping("/deleteUser")
     @CrossOrigin
-    public ResultVo deleteUser(@RequestParam("userName") String userName) {
+    public ResultVo deleteUser(@RequestParam("userName") String userName, @RequestParam("AppId")String AppId) {
         if (StringUtils.isBlank(userName)) {
             log.error("param is not null.");
             throw new ApplicationException(CodeType.PARAM_ERROR,"参数不能为空");
         }
-        userService.deleteUser(userName);
+        userService.deleteUser(userName,AppId);
 
         ResultVo resultVo = new ResultVo();
         resultVo.setResult("ok");
@@ -94,15 +106,18 @@ public class UserController {
     }
 
     @ApiOperation(value = "退出账号", notes = "退出账号")
-    @ApiImplicitParam(name = "userName", value = "用户名", required = true, dataType = "String", paramType = "path")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "userName", value = "用户名", required = true, dataType = "String", paramType = "path"),
+            @ApiImplicitParam(name = "AppId", value = "签名Id", required = true, dataType = "String", paramType = "path")
+    })
     @GetMapping("/exitUser")
     @CrossOrigin
-    public ResultVo exitUser(@RequestParam("userName") String userName) {
+    public ResultVo exitUser(@RequestParam("userName") String userName, @RequestParam("AppId")String AppId) {
         if (StringUtils.isBlank(userName)) {
             log.error("param is not null.");
             throw new ApplicationException(CodeType.PARAM_ERROR,"参数不能为空");
         }
-        userService.exitUser(userName);
+        userService.exitUser(userName,AppId);
 
         ResultVo resultVo = new ResultVo();
         resultVo.setResult("ok");
@@ -111,15 +126,18 @@ public class UserController {
     }
 
     @ApiOperation(value = "冻结账户", notes = "冻结账户")
-    @ApiImplicitParam(name = "userName", value = "用户名", required = true, dataType = "String", paramType = "path")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "userName", value = "用户名", required = true, dataType = "String", paramType = "path"),
+            @ApiImplicitParam(name = "AppId", value = "签名Id", required = true, dataType = "String", paramType = "path")
+    })
     @GetMapping("/stopUser")
     @CrossOrigin
-    public ResultVo stopUser(@RequestParam("userName") String userName) {
+    public ResultVo stopUser(@RequestParam("userName") String userName, @RequestParam("AppId")String AppId) {
         if (StringUtils.isBlank(userName)) {
             log.error("param is not null.");
             throw new ApplicationException(CodeType.PARAM_ERROR,"参数不能为空");
         }
-        userService.stopUser(userName);
+        userService.stopUser(userName,AppId);
 
         ResultVo resultVo = new ResultVo();
         resultVo.setResult("ok");
@@ -128,15 +146,18 @@ public class UserController {
     }
 
     @ApiOperation(value = "解冻账户", notes = "解冻账户")
-    @ApiImplicitParam(name = "userName", value = "用户名", required = true, dataType = "String", paramType = "path")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "userName", value = "用户名", required = true, dataType = "String", paramType = "path"),
+            @ApiImplicitParam(name = "AppId", value = "签名Id", required = true, dataType = "String", paramType = "path")
+    })
     @GetMapping("/toStopUser")
     @CrossOrigin
-    public ResultVo toStopUser(@RequestParam("userName") String userName) {
+    public ResultVo toStopUser(@RequestParam("userName") String userName, @RequestParam("AppId") String AppId) {
         if (StringUtils.isBlank(userName)) {
             log.error("param is not null.");
             throw new ApplicationException(CodeType.PARAM_ERROR,"参数不能为空");
         }
-        userService.toStopUser(userName);
+        userService.toStopUser(userName,AppId);
 
         ResultVo resultVo = new ResultVo();
         resultVo.setResult("ok");
@@ -152,7 +173,8 @@ public class UserController {
             @ApiImplicitParam(name = "name", value = "名称", required = true, dataType = "String", paramType = "path"),
             @ApiImplicitParam(name = "phone", value = "电话", required = true, dataType = "String", paramType = "path"),
             @ApiImplicitParam(name = "roleName", value = "角色名", required = true, dataType = "String", paramType = "path"),
-            @ApiImplicitParam(name = "companyId", value = "公司Id", required = true, dataType = "String", paramType = "path")
+            @ApiImplicitParam(name = "companyId", value = "公司Id", required = true, dataType = "String", paramType = "path"),
+            @ApiImplicitParam(name = "AppId", value = "签名Id", required = true, dataType = "String", paramType = "path")
     })
     @PostMapping("/downRegister")
     @CrossOrigin
@@ -174,17 +196,18 @@ public class UserController {
     @ApiOperation(value = "分页查询用户信息", notes = "分页查询用户信息")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "current", value = "当前页", required = true, dataType = "int", paramType = "path"),
-            @ApiImplicitParam(name = "size", value = "每页显示条数", required = true, dataType = "int", paramType = "path")
+            @ApiImplicitParam(name = "size", value = "每页显示条数", required = true, dataType = "int", paramType = "path"),
+            @ApiImplicitParam(name = "AppId", value = "签名Id", required = true, dataType = "String", paramType = "path")
     })
     @GetMapping("/pageListUser")
     @CrossOrigin
     public Page<UserQuery> pageListUser(@RequestParam("current") Integer current,
-                                        @RequestParam("size") Integer size) {
+                                        @RequestParam("size") Integer size, @RequestParam("AppId") String AppId) {
        if (current == null || size == null) {
            throw new ApplicationException(CodeType.PARAM_ERROR,"分页查询用户参数不能为空");
        }
        Page<UserQuery> page = new Page<>(current,size);
-        return userService.queryAllUserByPage(page);
+        return userService.queryAllUserByPage(page,AppId);
 
     }
 
@@ -201,19 +224,21 @@ public class UserController {
             @ApiImplicitParam(name = "current", value = "当前页", required = true, dataType = "int", paramType = "path"),
             @ApiImplicitParam(name = "size", value = "每页显示条数", required = true, dataType = "int", paramType = "path"),
             @ApiImplicitParam(name = "userName", value = "用户名或用户名一部分", required = true, dataType = "String", paramType = "path"),
-            @ApiImplicitParam(name = "roleName", value = "角色名", required = true, dataType = "String", paramType = "path")
+            @ApiImplicitParam(name = "roleName", value = "角色名", required = true, dataType = "String", paramType = "path"),
+            @ApiImplicitParam(name = "AppId", value = "签名Id", required = true, dataType = "String", paramType = "path")
     })
     @GetMapping("/queryPageUserByName")
     @CrossOrigin
     public Page<UserQuery> queryPageUserByName(@RequestParam("current") Integer current,
                                                @RequestParam("size") Integer size,
                                                @RequestParam("userName") String userName,
-                                               @RequestParam("roleName") String roleName) {
+                                               @RequestParam("roleName") String roleName,
+                                               @RequestParam("AppId") String AppId) {
         if (current == null || size == null || StringUtils.isBlank(userName) || StringUtils.isBlank(roleName)) {
             throw new ApplicationException(CodeType.PARAM_ERROR,"分页查询用户参数不能为空");
         }
         Page<UserQuery> page = new Page<>(current,size);
-        return userService.queryPageUserByName(page,userName,roleName);
+        return userService.queryPageUserByName(page,userName,roleName,AppId);
 
     }
 
@@ -221,18 +246,20 @@ public class UserController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "current", value = "当前页", required = true, dataType = "int", paramType = "path"),
             @ApiImplicitParam(name = "size", value = "每页显示条数", required = true, dataType = "int", paramType = "path"),
-            @ApiImplicitParam(name = "userName", value = "用户名或用户名一部分", required = true, dataType = "String", paramType = "path")
+            @ApiImplicitParam(name = "userName", value = "用户名或用户名一部分", required = true, dataType = "String", paramType = "path"),
+            @ApiImplicitParam(name = "AppId", value = "签名Id", required = true, dataType = "String", paramType = "path")
     })
     @GetMapping("/queryUserByName")
     @CrossOrigin
     public Page<UserQuery> queryUserByName(@RequestParam("current") Integer current,
                                                @RequestParam("size") Integer size,
-                                               @RequestParam("userName") String userName) {
+                                               @RequestParam("userName") String userName,
+                                               @RequestParam("AppId") String AppId) {
         if (current == null || size == null || StringUtils.isBlank(userName)) {
             throw new ApplicationException(CodeType.PARAM_ERROR,"模糊加分页查询用户参数不能为空");
         }
         Page<UserQuery> page = new Page<>(current,size);
-        return userService.queryUserByName(page,userName);
+        return userService.queryUserByName(page,userName,AppId);
 
     }
 

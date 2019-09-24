@@ -1,2 +1,11 @@
 
-psquid:S001178"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(·æš8œÒÑòÓ-
+psquid:S00117:"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(·æš8œÒÑòÓ-
+Ssquid:S1066Ã"/Merge this if statement with the enclosing one.(µ¦Òñıÿÿÿÿ8ù €åÔ-
+Ssquid:S1066Õ"/Merge this if statement with the enclosing one.(ÄÔÙµÿÿÿÿÿ8ù €åÔ-
+Nsquid:S1066È"/Merge this if statement with the enclosing one.(á¥«…8ù €åÔ-
+Ssquid:S1066Ú"/Merge this if statement with the enclosing one.(êÌ×Şıÿÿÿÿ8ù €åÔ-
+vsquid:S3776Ÿ"RRefactor this method to reduce its Cognitive Complexity from 77 to the 15 allowed.(­¤’ùÿÿÿÿ8ù €åÔ-
+Ssquid:S1066à"/Merge this if statement with the enclosing one.(ÍØÎùÿÿÿÿ8ù €åÔ-
+Nsquid:S1066Ï"/Merge this if statement with the enclosing one.(ß…—8ù €åÔ-
+ˆsquid:UselessImportCheck"XRemove this unused import 'com.baomidou.mybatisplus.core.conditions.query.QueryWrapper'.(ÓÆÂæÿÿÿÿÿ8ù €åÔ-
+xsquid:S2293÷"YReplace the type specification in this constructor call with the diamond operator ("<>").(şÌŠ8ù €åÔ-

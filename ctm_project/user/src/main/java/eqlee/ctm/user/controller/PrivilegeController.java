@@ -37,12 +37,13 @@ public class PrivilegeController {
     @PostMapping("/insertPrivilege")
     @CrossOrigin
     public ResultVo insertPrivilege(@RequestBody PrivilegeQuery query) {
-        if (StringUtils.isBlank(query.getRoleName()) || query.getMenuList().size() == 0) {
+        if (StringUtils.isBlank(query.getRoleName()) || query.getMenuList().size() == 0
+            || StringUtils.isBlank(query.getAppId())) {
             log.error("param is not null.");
             throw new ApplicationException(CodeType.PARAM_ERROR);
         }
 
-        privilegeService.insertAllPrivilege(query.getRoleName(),query.getMenuList());
+        privilegeService.insertAllPrivilege(query.getRoleName(),query.getMenuList(),query.getAppId());
         ResultVo resultVo = new ResultVo();
         resultVo.setResult("ok");
         return resultVo;

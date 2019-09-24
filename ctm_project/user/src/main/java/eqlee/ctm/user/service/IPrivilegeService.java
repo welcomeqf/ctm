@@ -30,8 +30,9 @@ public interface IPrivilegeService {
      * 一次性增加一个角色的所有权限
      * @param roleName
      * @param menuList
+     * @param AppId
      */
-    void insertAllPrivilege(String roleName, List<String> menuList);
+    void insertAllPrivilege(String roleName, List<String> menuList, String AppId);
 
     /**
      * 根据角色名查询所有菜单权限

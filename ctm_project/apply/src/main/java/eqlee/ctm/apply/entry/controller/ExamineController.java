@@ -51,7 +51,7 @@ public class ExamineController {
             @ApiImplicitParam(name = "ConnectTel", value = "联系电话", required = true, dataType = "String", paramType = "path"),
             @ApiImplicitParam(name = "Place", value = "接送地点", required = true, dataType = "String", paramType = "path")
     })
-    @PostMapping("/insertCancelExamine")
+    @PostMapping("/insertUpdateExamine")
     @CrossOrigin
     public ResultVo CancelExamine(@RequestBody ExamineVo vo) {
         if (vo.getApplyId() == null || StringUtils.isBlank(vo.getConnectName()) ||

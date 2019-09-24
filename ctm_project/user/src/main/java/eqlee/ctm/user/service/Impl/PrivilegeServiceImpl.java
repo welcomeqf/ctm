@@ -4,15 +4,15 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.yq.constanct.CodeType;
 import eqlee.ctm.user.dao.PrivilegeMapper;
+import eqlee.ctm.user.entity.Sign;
 import eqlee.ctm.user.entity.UserMenu;
 import eqlee.ctm.user.entity.UserPrivilege;
 import eqlee.ctm.user.entity.UserRole;
 import eqlee.ctm.user.entity.query.PrivilegeMenuQuery;
 import eqlee.ctm.user.exception.ApplicationException;
-import eqlee.ctm.user.service.IMenuService;
-import eqlee.ctm.user.service.IPrivilegeService;
-import eqlee.ctm.user.service.IRoleService;
-import eqlee.ctm.user.service.IUserService;
+import eqlee.ctm.user.service.*;
+import eqlee.ctm.user.vilidata.DataUtils;
+import eqlee.ctm.user.vilidata.SignData;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -30,6 +30,9 @@ import java.util.List;
 @Service
 @Transactional(rollbackFor = Exception.class)
 public class PrivilegeServiceImpl extends ServiceImpl<PrivilegeMapper, UserPrivilege> implements IPrivilegeService {
+
+    @Autowired
+    private ISignService signService;
 
     @Autowired
     private IRoleService roleService;
@@ -65,7 +68,20 @@ public class PrivilegeServiceImpl extends ServiceImpl<PrivilegeMapper, UserPrivi
      * @param menuList
      */
     @Override
-    public synchronized void insertAllPrivilege(String roleName, List<String> menuList) {
+    public synchronized void insertAllPrivilege(String roleName, List<String> menuList, String AppId) {
+        //验证签名
+        Sign sign = signService.queryOne(AppId);
+        Boolean result = null;
+        try {
+            result = SignData.getResult(AppId, DataUtils.getDcodeing(sign.getInformation()));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        if (!result) {
+            throw new ApplicationException(CodeType.AUTHENTICATION_ERROR);
+        }
+
+
         UserRole role = roleService.queryOne(roleName);
 
         for (String menu : menuList) {

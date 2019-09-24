@@ -4,12 +4,18 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.yq.constanct.CodeType;
 import eqlee.ctm.user.dao.MenuMapper;
+import eqlee.ctm.user.entity.Sign;
 import eqlee.ctm.user.entity.UserMenu;
 import eqlee.ctm.user.entity.query.UserMenuQuery;
+import eqlee.ctm.user.entity.vo.MenuVo;
 import eqlee.ctm.user.exception.ApplicationException;
 import eqlee.ctm.user.service.IMenuService;
 import com.yq.utils.IdGenerator;
+import eqlee.ctm.user.service.ISignService;
+import eqlee.ctm.user.vilidata.DataUtils;
+import eqlee.ctm.user.vilidata.SignData;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -26,18 +32,37 @@ import java.util.List;
 @Transactional(rollbackFor = Exception.class)
 public class MenuServiceImpl extends ServiceImpl<MenuMapper, UserMenu> implements IMenuService {
 
+
+    @Autowired
+    private ISignService signService;
+
     /**
      * 增加
-     * @param userMenu
+     * @param vo
      */
     @Override
-    public void addMenu(UserMenu userMenu) {
+    public void addMenu(MenuVo vo) {
+        //验证签名
+        Sign sign = signService.queryOne(vo.getAppId());
+        Boolean result = null;
+        try {
+            result = SignData.getResult(vo.getAppId(), DataUtils.getDcodeing(sign.getInformation()));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        if (!result) {
+            throw new ApplicationException(CodeType.AUTHENTICATION_ERROR);
+        }
+
         IdGenerator idGenerator = new IdGenerator();
         Long id = idGenerator.getNumberId();
+        UserMenu userMenu = new UserMenu();
         userMenu.setId(id);
-//        userMenu.setMenuName("审核");
-////        userMenu.setParent(0L);
-////        userMenu.setAction("null");
+        userMenu.setMenuName(vo.getMenuName());
+        userMenu.setAction(vo.getAction());
+        userMenu.setIconClass(vo.getIconClass());
+        userMenu.setParent(vo.getParent());
+
         int insert = baseMapper.insert(userMenu);
 
         if (insert <= 0) {
@@ -52,7 +77,19 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, UserMenu> implement
      * @return
      */
     @Override
-    public List<UserMenuQuery> queryAllMenu(Long Id) {
+    public List<UserMenuQuery> queryAllMenu(Long Id, String AppId) {
+        //验证签名
+        Sign sign = signService.queryOne(AppId);
+        Boolean result = null;
+        try {
+            result = SignData.getResult(AppId, DataUtils.getDcodeing(sign.getInformation()));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        if (!result) {
+            throw new ApplicationException(CodeType.AUTHENTICATION_ERROR);
+        }
+
         List<UserMenuQuery> list = new ArrayList<>();
         //查询所有系统功能
         if (Id == 0) {

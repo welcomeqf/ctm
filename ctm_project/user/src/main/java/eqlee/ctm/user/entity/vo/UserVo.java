@@ -21,4 +21,5 @@ public class UserVo {
     private String roleName;
 
     private Long companyId;
+
 }

@@ -1,10 +1,10 @@
 
-esquid:S00116"MRename this field "Id" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(´ÕÛ”
-nsquid:S00116"QRename this field "Parent" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(¥‰Ì§ûÿÿÿÿ
 psquid:S00116!"SRename this field "MenuName" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ï¼²çùÿÿÿÿ
-nsquid:S00116&"QRename this field "Action" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(òåáşÿÿÿÿ
-fsquid:S00116+"ORename this field "Sort" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ëºÏ
+nsquid:S00116"QRename this field "Parent" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(¥‰Ì§ûÿÿÿÿ
+osquid:S00116?"RRename this field "Stopped" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(Çõ´¸üÿÿÿÿ
+psquid:S00116:"SRename this field "Systemic" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(‡ò‘ùÿÿÿÿ
 ksquid:S001160"TRename this field "IconClass" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(Ç Ô
 qsquid:S001165"TRename this field "IconColor" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(œ’Ôòüÿÿÿÿ
-psquid:S00116:"SRename this field "Systemic" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(‡ò‘ùÿÿÿÿ
-osquid:S00116?"RRename this field "Stopped" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(Çõ´¸üÿÿÿÿ
+esquid:S00116"MRename this field "Id" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(´ÕÛ”
+nsquid:S00116&"QRename this field "Action" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(òåáşÿÿÿÿ
+fsquid:S00116+"ORename this field "Sort" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ëºÏ

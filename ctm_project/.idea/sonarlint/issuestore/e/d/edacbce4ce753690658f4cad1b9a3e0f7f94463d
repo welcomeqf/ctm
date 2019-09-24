@@ -1,8 +1,5 @@
 
 osquid:UselessImportCheck"FRemove this unused import 'org.springframework.stereotype.Controller'.(øŠ—Öùÿÿÿÿ
-ksquid:S00100<"NRename this method name to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(³Ü¾îÿÿÿÿÿ
 Ysquid:UselessImportCheck"5Remove this unused import 'com.yq.utils.IdGenerator'.(óðœÔ
-gsquid:S00100†"NRename this method name to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(àÞÏî
-gsquid:CommentedOutCodeLine+"<This block of commented-out lines of code should be removed.(¦ÈêÎûÿÿÿÿ
+nsquid:S00100‹"NRename this method name to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(àÞÏî8·”œåÔ-
 Tsquid:UselessImportCheck"+Remove this unused import 'java.util.List'.(Õë±Äøÿÿÿÿ
-fsquid:S00100M"NRename this method name to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(…Îå£

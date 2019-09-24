@@ -5,6 +5,7 @@ import com.yq.constanct.CodeType;
 import eqlee.ctm.user.entity.UserRole;
 import eqlee.ctm.user.entity.vo.ResultVo;
 import eqlee.ctm.user.entity.vo.RoleVo;
+import eqlee.ctm.user.entity.vo.UserRoleVo;
 import eqlee.ctm.user.exception.ApplicationException;
 import eqlee.ctm.user.service.IRoleService;
 import com.yq.utils.StringUtils;
@@ -33,53 +34,62 @@ public class RoleController {
     private IRoleService roleService;
 
     @ApiOperation(value = "增加角色", notes = "增加角色")
-    @ApiImplicitParam(name = "RoleName", value = "角色名称", required = true, dataType = "String", paramType = "path")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "RoleName", value = "角色名称", required = true, dataType = "String", paramType = "path"),
+            @ApiImplicitParam(name = "AppId", value = "签名Id", required = true, dataType = "String", paramType = "path")
+    })
     @PostMapping("/addRole")
     @CrossOrigin
-    public ResultVo addRole(@RequestBody UserRole role) {
-        if (StringUtils.isBlank(role.getRoleName())) {
+    public ResultVo addRole(@RequestBody UserRoleVo roleVo) {
+        if (StringUtils.isBlank(roleVo.getRoleName())) {
             log.error("param not is null.");
             throw new ApplicationException(CodeType.PARAM_ERROR);
         }
-        roleService.addRole(role);
+
+        roleService.addRole(roleVo);
         ResultVo resultVo = new ResultVo();
         resultVo.setResult("ok");
         return resultVo;
     }
 
     @ApiOperation(value = "删除角色", notes = "删除角色")
-    @ApiImplicitParam(name = "id", value = "id", required = true, dataType = "int", paramType = "path")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "AppId", value = "签名Id", required = true, dataType = "String", paramType = "path"),
+            @ApiImplicitParam(name = "id", value = "id", required = true, dataType = "int", paramType = "path")
+    })
     @GetMapping("/deleteRole")
     @CrossOrigin
-    public ResultVo deleteRole(@RequestParam("id") Long id) {
+    public ResultVo deleteRole(@RequestParam("id") Long id,@RequestParam("AppId") String AppId) {
         if (id == null) {
             log.error("param not is null.");
             throw new ApplicationException(CodeType.PARAM_ERROR);
         }
-        roleService.deleteRole(id);
+        roleService.deleteRole(id,AppId);
         ResultVo resultVo = new ResultVo();
         resultVo.setResult("ok");
         return resultVo;
     }
 
     @ApiOperation(value = "查询角色", notes = "查询角色")
+    @ApiImplicitParam(name = "AppId", value = "签名Id", required = true, dataType = "String", paramType = "path")
     @GetMapping("/RoleInfo")
     @CrossOrigin
-    public List<UserRole> getRole() {
-        return roleService.queryAllRole();
+    public List<UserRole> getRole(@RequestParam("AppId") String AppId) {
+        return roleService.queryAllRole(AppId);
     }
 
 
     @ApiOperation(value = "分页查询所有角色", notes = "分页查询所有角色")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "current", value = "当前页", required = true, dataType = "int", paramType = "path"),
-            @ApiImplicitParam(name = "size", value = "每页显示的条数", required = true, dataType = "int", paramType = "path")
+            @ApiImplicitParam(name = "size", value = "每页显示的条数", required = true, dataType = "int", paramType = "path"),
+            @ApiImplicitParam(name = "AppId", value = "签名Id", required = true, dataType = "String", paramType = "path")
     })
     @GetMapping("/queryPageRole")
     @CrossOrigin
     public Page<UserRole> queryPageRole(@RequestParam("current") Integer current,
-                                        @RequestParam("size") Integer size) {
-        if (current == null || size == null) {
+                                        @RequestParam("size") Integer size,@RequestParam("AppId") String AppId) {
+        if (current == null || size == null || StringUtils.isBlank(AppId)) {
             throw new ApplicationException(CodeType.PARAM_ERROR,"分页查询角色参数不能为空");
         }
         RoleVo roleVo = new RoleVo();

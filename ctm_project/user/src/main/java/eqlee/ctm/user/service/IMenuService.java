@@ -2,6 +2,7 @@ package eqlee.ctm.user.service;
 
 import eqlee.ctm.user.entity.UserMenu;
 import eqlee.ctm.user.entity.query.UserMenuQuery;
+import eqlee.ctm.user.entity.vo.MenuVo;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -15,16 +16,17 @@ public interface IMenuService {
 
     /**
      * 增加菜单
-     * @param userMenu
+     * @param vo
      */
-    void addMenu(UserMenu userMenu);
+    void addMenu(MenuVo vo);
 
     /**
      * 查询所有菜单
      * @param Id
+     * @param AppId
      * @return
      */
-    List<UserMenuQuery> queryAllMenu(Long Id);
+    List<UserMenuQuery> queryAllMenu(Long Id, String AppId);
 
     /**
      * 根据菜单名查询菜单信息
