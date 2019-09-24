@@ -13,11 +13,11 @@ public class MenuVo {
 
     private String MenuName;
 
-    private String AppId;
-
     private Long Parent;
 
     private String Action;
 
     private String IconClass;
+
+    private String AppId;
 }

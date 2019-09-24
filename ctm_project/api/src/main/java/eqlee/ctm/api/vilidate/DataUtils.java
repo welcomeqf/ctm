@@ -27,11 +27,11 @@ public class DataUtils {
      * @param AppId
      * @return
      */
-//    public static String getEncodeing(String AppId) {
-//        String s = Base64Util.encodeString(AppId);
-//        String encrypt = CryptoUtils.encrypt(s);
-//        return encrypt;
-//    }
+    public static String getEncodeing(String AppId) {
+        String s = Base64Util.encodeString(AppId);
+        String encrypt = CryptoUtils.encrypt(s);
+        return encrypt;
+    }
 
 
     /**

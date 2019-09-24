@@ -20,7 +20,6 @@ import eqlee.ctm.user.service.IPrivilegeService;
 import eqlee.ctm.user.service.IRoleService;
 import eqlee.ctm.user.service.ISignService;
 import eqlee.ctm.user.service.IUserService;
-import com.yq.utils.Base64Util;
 import com.yq.utils.IdGenerator;
 import eqlee.ctm.user.vilidata.DataUtils;
 import eqlee.ctm.user.vilidata.SignData;
@@ -29,7 +28,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.security.Signature;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -79,8 +77,8 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
         UserRole role = roleService.queryOne(userVo.getRoleName());
         user.setSystemRoleId(role.getId());
 
-        if (!role.getStopped()) {
-            role.setStopped(true);
+        if (role.getStopped()) {
+            role.setStopped(false);
             roleService.updateRole(role);
         }
 
@@ -127,7 +125,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
         Sign sign = new Sign();
         //将信息装进Sign表中
         sign.setId(idGenerator.getNumberId());
-        sign.setAppId(DataUtils.getEncodeing(AppId));
+        sign.setAppId(AppId);
         ResultSignVo vo = null;
         try {
             vo = SignData.getSign(AppId, userName);
@@ -169,7 +167,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
         Sign sign = signService.queryOne(AppId);
         Boolean result = null;
         try {
-            result = SignData.getResult(AppId, DataUtils.getDcodeing(sign.getInformation()));
+            result = SignData.getResult(DataUtils.getDcodeing(AppId), DataUtils.getDcodeing(sign.getInformation()));
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -201,19 +199,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
      * @return
      */
     @Override
-    public User queryUser(String userName, String AppId) {
-        //验证签名
-        Sign sign = signService.queryOne(AppId);
-        Boolean result = null;
-        try {
-            result = SignData.getResult(AppId, DataUtils.getDcodeing(sign.getInformation()));
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        if (!result) {
-            throw new ApplicationException(CodeType.AUTHENTICATION_ERROR);
-        }
-
+    public User queryUser(String userName) {
         LambdaQueryWrapper<User> queryWrapper = new LambdaQueryWrapper<User>()
                 .eq(User::getAccount,userName);
         return baseMapper.selectOne(queryWrapper);
@@ -229,7 +215,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
         Sign sign = signService.queryOne(AppId);
         Boolean result = null;
         try {
-            result = SignData.getResult(AppId, DataUtils.getDcodeing(sign.getInformation()));
+            result = SignData.getResult(DataUtils.getDcodeing(AppId), DataUtils.getDcodeing(sign.getInformation()));
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -260,7 +246,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
         Sign sign = signService.queryOne(AppId);
         Boolean result = null;
         try {
-            result = SignData.getResult(AppId, DataUtils.getDcodeing(sign.getInformation()));
+            result = SignData.getResult(DataUtils.getDcodeing(AppId), DataUtils.getDcodeing(sign.getInformation()));
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -291,7 +277,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
         Sign sign = signService.queryOne(AppId);
         Boolean result = null;
         try {
-            result = SignData.getResult(AppId, DataUtils.getDcodeing(sign.getInformation()));
+            result = SignData.getResult(DataUtils.getDcodeing(AppId), DataUtils.getDcodeing(sign.getInformation()));
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -318,6 +304,19 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
      */
     @Override
     public synchronized void dowmRegister(UserVo userVo) {
+        //验证签名
+        Sign sign = signService.queryOne(userVo.getAppId());
+        Boolean result = null;
+        try {
+            result = SignData.getResult(DataUtils.getDcodeing(userVo.getAppId()), DataUtils.getDcodeing(sign.getInformation()));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        if (!result) {
+            throw new ApplicationException(CodeType.AUTHENTICATION_ERROR);
+        }
+
+        //执行业务
         LambdaQueryWrapper<User> queryWrapper = new LambdaQueryWrapper<User>()
                 .eq(User::getAccount,userVo.getUserName());
         User user1 = baseMapper.selectOne(queryWrapper);
@@ -338,7 +337,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
         long numberId = idGenerator.getNumberId();
         userRole.setId(numberId);
         userRole.setRoleName(userVo.getRoleName());
-        userRole.setStopped(true);
+        userRole.setStatu(1);
         roleService.addRole(userRole);
 
         user.setSystemRoleId(numberId);
@@ -363,7 +362,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
         Sign sign = signService.queryOne(AppId);
         Boolean result = null;
         try {
-            result = SignData.getResult(AppId, DataUtils.getDcodeing(sign.getInformation()));
+            result = SignData.getResult(DataUtils.getDcodeing(AppId), DataUtils.getDcodeing(sign.getInformation()));
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -387,7 +386,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
         Sign sign = signService.queryOne(AppId);
         Boolean result = null;
         try {
-            result = SignData.getResult(AppId, DataUtils.getDcodeing(sign.getInformation()));
+            result = SignData.getResult(DataUtils.getDcodeing(AppId), DataUtils.getDcodeing(sign.getInformation()));
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -410,7 +409,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
         Sign sign = signService.queryOne(AppId);
         Boolean result = null;
         try {
-            result = SignData.getResult(AppId, DataUtils.getDcodeing(sign.getInformation()));
+            result = SignData.getResult(DataUtils.getDcodeing(AppId), DataUtils.getDcodeing(sign.getInformation()));
         } catch (Exception e) {
             e.printStackTrace();
         }

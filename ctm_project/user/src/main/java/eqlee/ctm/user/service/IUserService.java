@@ -31,6 +31,7 @@ public interface IUserService {
     /**
      * 注销
      * @param userName
+     * @param AppId
      */
     void deleteUser(String userName, String AppId);
 
@@ -39,24 +40,27 @@ public interface IUserService {
      * @param userName
      * @return
      */
-    User queryUser(String userName, String AppId);
+    User queryUser(String userName);
 
 
     /**
      * 退出账号
      * @param userName
+     * @param AppId
      */
     void exitUser(String userName, String AppId);
 
     /**
      * 冻结账户
      * @param userName
+     * @param AppId
      */
     void stopUser(String userName, String AppId);
 
     /**
      * 解冻账户
      * @param userName
+     * @param AppId
      */
     void toStopUser(String userName, String AppId);
 
@@ -70,6 +74,7 @@ public interface IUserService {
     /**
      * 分页查询所有用户加模糊查询
      * @param page
+     * @param AppId
      * @return
      */
     Page<UserQuery> queryAllUserByPage(Page<UserQuery> page, String AppId);
@@ -79,6 +84,7 @@ public interface IUserService {
      * @param page
      * @param userName
      * @param roleName
+     * @param AppId
      * @return
      */
     Page<UserQuery> queryPageUserByName(Page<UserQuery> page,String userName,String roleName, String AppId);
@@ -87,6 +93,7 @@ public interface IUserService {
      * 只模糊查询加分页
      * @param page
      * @param userName
+     * @param AppId
      * @return
      */
     Page<UserQuery> queryUserByName(Page<UserQuery> page, String userName, String AppId);

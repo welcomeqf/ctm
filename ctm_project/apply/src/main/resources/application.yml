@@ -9,6 +9,8 @@ spring:
     active: test
   application:
     name: service-apply
+  jmx:
+    enabled: false
 app:
   workerId: 9
   dataCenterId: 1

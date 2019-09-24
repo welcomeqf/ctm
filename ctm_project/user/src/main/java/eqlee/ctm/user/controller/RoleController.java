@@ -60,7 +60,7 @@ public class RoleController {
     @GetMapping("/deleteRole")
     @CrossOrigin
     public ResultVo deleteRole(@RequestParam("id") Long id,@RequestParam("AppId") String AppId) {
-        if (id == null) {
+        if (id == null || StringUtils.isBlank(AppId)) {
             log.error("param not is null.");
             throw new ApplicationException(CodeType.PARAM_ERROR);
         }

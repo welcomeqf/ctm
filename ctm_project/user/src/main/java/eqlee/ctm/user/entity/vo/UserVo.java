@@ -22,4 +22,6 @@ public class UserVo {
 
     private Long companyId;
 
+    private String AppId;
+
 }

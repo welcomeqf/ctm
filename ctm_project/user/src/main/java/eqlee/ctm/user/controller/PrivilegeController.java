@@ -33,6 +33,7 @@ public class PrivilegeController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "roleName", value = "角色名", required = true, dataType = "String", paramType = "path"),
             @ApiImplicitParam(name = "menuList", value = "所有菜单集合", required = true, dataType = "List", paramType = "path"),
+            @ApiImplicitParam(name = "AppId", value = "签名Id", required = true, dataType = "String", paramType = "path")
     })
     @PostMapping("/insertPrivilege")
     @CrossOrigin

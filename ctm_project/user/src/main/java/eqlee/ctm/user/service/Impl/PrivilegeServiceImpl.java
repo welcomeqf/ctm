@@ -73,7 +73,7 @@ public class PrivilegeServiceImpl extends ServiceImpl<PrivilegeMapper, UserPrivi
         Sign sign = signService.queryOne(AppId);
         Boolean result = null;
         try {
-            result = SignData.getResult(AppId, DataUtils.getDcodeing(sign.getInformation()));
+            result = SignData.getResult(DataUtils.getDcodeing(AppId), DataUtils.getDcodeing(sign.getInformation()));
         } catch (Exception e) {
             e.printStackTrace();
         }

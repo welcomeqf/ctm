@@ -77,7 +77,8 @@ public class UserController {
             throw new ApplicationException(CodeType.PARAM_ERROR, "参数不能为空");
         }
         //验证签名
-        Boolean result = SignData.getResult(AppId, userName);
+        String dcode = DataUtils.getDcodeing(AppId);
+        Boolean result = SignData.getResult(dcode, userName);
         if (!result) {
             throw new ApplicationException(CodeType.AUTHENTICATION_ERROR);
         }
@@ -181,7 +182,7 @@ public class UserController {
     public ResultVo downRegister(@RequestBody UserVo userVo) {
         if (StringUtils.isBlank(userVo.getUserName()) || StringUtils.isBlank(userVo.getPassword())
                 || StringUtils.isBlank(userVo.getName()) || StringUtils.isBlank(userVo.getPhone()) ||
-                StringUtils.isBlank(userVo.getRoleName()) || userVo.getCompanyId() == null) {
+                StringUtils.isBlank(userVo.getRoleName()) || userVo.getCompanyId() == null || StringUtils.isBlank(userVo.getAppId())) {
             log.error("param is not null.");
             throw new ApplicationException(CodeType.PARAM_ERROR,"参数不能为空");
         }
@@ -234,7 +235,7 @@ public class UserController {
                                                @RequestParam("userName") String userName,
                                                @RequestParam("roleName") String roleName,
                                                @RequestParam("AppId") String AppId) {
-        if (current == null || size == null || StringUtils.isBlank(userName) || StringUtils.isBlank(roleName)) {
+        if (current == null || size == null || StringUtils.isBlank(userName) || StringUtils.isBlank(roleName) || StringUtils.isBlank(AppId)) {
             throw new ApplicationException(CodeType.PARAM_ERROR,"分页查询用户参数不能为空");
         }
         Page<UserQuery> page = new Page<>(current,size);

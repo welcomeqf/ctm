@@ -46,7 +46,7 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, UserMenu> implement
         Sign sign = signService.queryOne(vo.getAppId());
         Boolean result = null;
         try {
-            result = SignData.getResult(vo.getAppId(), DataUtils.getDcodeing(sign.getInformation()));
+            result = SignData.getResult(DataUtils.getDcodeing(vo.getAppId()), DataUtils.getDcodeing(sign.getInformation()));
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -82,7 +82,7 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, UserMenu> implement
         Sign sign = signService.queryOne(AppId);
         Boolean result = null;
         try {
-            result = SignData.getResult(AppId, DataUtils.getDcodeing(sign.getInformation()));
+            result = SignData.getResult(DataUtils.getDcodeing(AppId), DataUtils.getDcodeing(sign.getInformation()));
         } catch (Exception e) {
             e.printStackTrace();
         }

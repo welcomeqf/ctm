@@ -27,7 +27,21 @@ public class SignServiceImpl extends ServiceImpl<SignMapper, Sign> implements IS
      * @param sign
      */
     @Override
-    public void insertSign(Sign sign) {
+    public synchronized void insertSign(Sign sign) {
+        LambdaQueryWrapper<Sign> queryWrapper = new LambdaQueryWrapper<Sign>()
+                .eq(Sign::getAppId,sign.getAppId());
+        Sign one = baseMapper.selectOne(queryWrapper);
+
+        if (one != null) {
+            sign.setAppId(null);
+            int insert = baseMapper.insert(sign);
+
+            if (insert <= 0) {
+                log.error("insert sign fail.");
+                throw new ApplicationException(CodeType.SERVICE_ERROR,"增加签名记录失败");
+            }
+        }
+
         int insert = baseMapper.insert(sign);
 
         if (insert <= 0) {
@@ -44,6 +58,7 @@ public class SignServiceImpl extends ServiceImpl<SignMapper, Sign> implements IS
      */
     @Override
     public Sign queryOne(String AppId) {
+
         LambdaQueryWrapper<Sign> queryWrapper = new LambdaQueryWrapper<Sign>()
                 .eq(Sign::getAppId,AppId);
         return baseMapper.selectOne(queryWrapper);

@@ -60,7 +60,7 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, UserRole> implement
         Sign sign = signService.queryOne(AppId);
         Boolean result = null;
         try {
-            result = SignData.getResult(AppId, DataUtils.getDcodeing(sign.getInformation()));
+            result = SignData.getResult(DataUtils.getDcodeing(AppId), DataUtils.getDcodeing(sign.getInformation()));
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -70,7 +70,7 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, UserRole> implement
 
         //执行业务
         UserRole role = baseMapper.selectById(id);
-        if (role.getStopped() == false) {
+        if (!role.getStopped()) {
             throw new ApplicationException(CodeType.SERVICE_ERROR,"该角色正在被使用,不能删除");
         }
         int delete = baseMapper.deleteById(id);
@@ -95,7 +95,7 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, UserRole> implement
         Sign sign = signService.queryOne(AppId);
         Boolean result = null;
         try {
-            result = SignData.getResult(AppId, DataUtils.getDcodeing(sign.getInformation()));
+            result = SignData.getResult(DataUtils.getDcodeing(AppId), DataUtils.getDcodeing(sign.getInformation()));
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -131,7 +131,7 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, UserRole> implement
         Sign sign = signService.queryOne(roleVo.getAppId());
         Boolean result = null;
         try {
-            result = SignData.getResult(roleVo.getAppId(), DataUtils.getDcodeing(sign.getInformation()));
+            result = SignData.getResult(DataUtils.getDcodeing(roleVo.getAppId()), DataUtils.getDcodeing(sign.getInformation()));
         } catch (Exception e) {
             e.printStackTrace();
         }

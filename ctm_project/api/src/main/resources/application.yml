@@ -9,6 +9,11 @@ spring:
     active: test
   application:
     name: service-api
+  jmx:
+    enabled: false
 app:
   workerId: 9
   dataCenterId: 1
+api:
+  userIp: 192.168.0.22
+  port: 8001
