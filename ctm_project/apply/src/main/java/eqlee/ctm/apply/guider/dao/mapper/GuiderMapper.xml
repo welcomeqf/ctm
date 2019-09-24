@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="eqlee.ctm.apply.guider.dao.GuiderMapper">
+    <select id ="guiderIndex" resultType="eqlee.ctm.apply.guider.entity.vo.GuiderVo">
+        select a.LineName,b.OutDate,b.AdultPrice,b.OldPrice,b.BabyPrice,b.ChildPrice,c.AllNumber AppliedNumber,
+         e.AllNumber ChooisedNumber,c.AllNumber-e.AllNumber WaitedPeople
+        from Line a join Price b on a.Id = b.LineId join Apply c on a.Id = c.LineId join orders d on a.LineName = d.LineName
+        join OrderDetailed e on d.Id = e.OrderId
+        where c.OutDate = b.OutDate and
+         b.OutDate = d.OutDate
+    </select>
+</mapper>
+

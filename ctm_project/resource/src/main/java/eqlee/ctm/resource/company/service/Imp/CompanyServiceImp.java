@@ -55,17 +55,17 @@ public class CompanyServiceImp extends ServiceImpl<CompanyMapper,Company> implem
         company.setCompanyName(companyVo.getCompanyName());
         company.setStartDate(LocalDateTime.parse(companyVo.getStartDate()));
         company.setEndDate(LocalDateTime.parse(companyVo.getEndDate()));
-        if(StringUtils.isNotEmpty(companyVo.getPayMethod())){
-            if(companyVo.getPayMethod() =="默认"){
+        if(StringUtils.isNotBlank(companyVo.getPayMethod())) {
+            if (companyVo.getPayMethod().equals("默认")) {
                 company.setPayMethod(0);
             }
-            if(companyVo.getPayMethod() =="现结"){
+            if (companyVo.getPayMethod().equals("现结")) {
                 company.setPayMethod(1);
             }
-            if(companyVo.getPayMethod() =="月结"){
+            if (companyVo.getPayMethod().equals("月结")) {
                 company.setPayMethod(2);
             }
-            if(companyVo.getPayMethod() =="代收"){
+            if (companyVo.getPayMethod().equals("代收")) {
                 company.setPayMethod(3);
             }
         }
@@ -96,7 +96,7 @@ public class CompanyServiceImp extends ServiceImpl<CompanyMapper,Company> implem
 
     /**
      * 更新同行信息
-     * @param company
+     * @param companyVo
      */
     @Override
     public void UpdateCompany(CompanyVo companyVo) {
@@ -106,17 +106,17 @@ public class CompanyServiceImp extends ServiceImpl<CompanyMapper,Company> implem
         company.setStartDate(LocalDateTime.parse(companyVo.getStartDate()));
         company.setEndDate(LocalDateTime.parse(companyVo.getEndDate()));
         company.setStopped(companyVo.getStopped());
-        if(StringUtils.isNotEmpty(companyVo.getPayMethod())){
-            if(companyVo.getPayMethod() =="默认"){
+        if(StringUtils.isNotBlank(companyVo.getPayMethod())) {
+            if (companyVo.getPayMethod().equals("默认")) {
                 company.setPayMethod(0);
             }
-            if(companyVo.getPayMethod() =="现结"){
+            if (companyVo.getPayMethod().equals("现结")) {
                 company.setPayMethod(1);
             }
-            if(companyVo.getPayMethod() =="月结"){
+            if (companyVo.getPayMethod().equals("月结")) {
                 company.setPayMethod(2);
             }
-            if(companyVo.getPayMethod() =="代收"){
+            if (companyVo.getPayMethod().equals("代收")) {
                 company.setPayMethod(3);
             }
         }

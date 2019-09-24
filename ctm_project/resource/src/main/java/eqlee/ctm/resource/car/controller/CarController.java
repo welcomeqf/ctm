@@ -44,6 +44,9 @@ public class CarController {
     public Page<Car> queryAllCar(@RequestParam("current") Integer current,
                                  @RequestParam("size") Integer size)
     {
+        if(current == null||size == null){
+            throw new ApplicationException(CodeType.PARAMETER_ERROR,"当前页或者页面大小为空");
+        }
         return carService.queryAllCar(current,size);
     }
 

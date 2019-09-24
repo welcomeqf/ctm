@@ -42,12 +42,15 @@ public class CompanyController {
     @GetMapping("/queryCompany")
     @CrossOrigin
     public Page<Company> queryCompany(@RequestParam("current") Integer current,@RequestParam("size") Integer size) {
-
+        if(current == null||size == null){
+            throw new ApplicationException(CodeType.PARAMETER_ERROR,"当前页或者页面大小为空");
+        }
         PageCompanyQuery pageCompany = new PageCompanyQuery();
         pageCompany.setCurrent(current);
         pageCompany.setSize(size);
         return companyService.GetCompanyPage(pageCompany);
     }
+
 
 
     @ApiOperation(value = "同行信息修改", notes = "同行信息修改")
@@ -73,6 +76,7 @@ public class CompanyController {
         resultVo.setResult("ok");
         return resultVo;
     }
+
 
 
 
@@ -107,6 +111,9 @@ public class CompanyController {
             log.error("queryCompanyByName company param is null");
             throw new ApplicationException(CodeType.PARAMETER_ERROR,"由公司名称查询列表的公司名称为空");
         }
+        if(current == null||size == null){
+            throw new ApplicationException(CodeType.PARAMETER_ERROR,"当前页或者页面大小为空");
+        }
         PageCompanyQuery pageCompany = new PageCompanyQuery();
         pageCompany.setCurrent(current);
         pageCompany.setSize(size);
@@ -122,11 +129,14 @@ public class CompanyController {
             @ApiImplicitParam(name = "endDate", value = "合同结束时间", required = true, dataType = "String", paramType = "path"),
             @ApiImplicitParam(name = "PayMethod", value = "支付方式", required = true, dataType = "String", paramType = "path"),
     })
+
     @PostMapping("/addCompany")
     @CrossOrigin
     public ResultVo addCompany (@RequestBody CompanyVo companyVo) {
- 
-        if(companyVo==null) {
+
+        if(StringUtils.isBlank(companyVo.getPayMethod())
+                || StringUtils.isBlank(companyVo.getEndDate())|| StringUtils.isBlank(companyVo.getStartDate())
+                || StringUtils.isBlank(companyVo.getCompanyName())) {
             throw new ApplicationException(CodeType.PARAMETER_ERROR,"增加公司参数不能为空.");
         }
 
