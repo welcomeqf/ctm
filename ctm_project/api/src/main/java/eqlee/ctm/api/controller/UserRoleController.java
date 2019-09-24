@@ -34,6 +34,9 @@ public class UserRoleController {
     @Value("${api.port}")
     private String port;
 
+    @Value("${api.path}")
+    private String path;
+
     @Autowired
     private HttpClientUtils apiService;
 
@@ -44,7 +47,7 @@ public class UserRoleController {
     @PostMapping("/insertRole")
     @CrossOrigin
     public Object addRole(@RequestBody UserRoleVo roleVo) throws Exception{
-        String url = "http://" + Ip +":" + port + "/v1/app/user/role/addRole";
+        String url = "http://" + Ip +":" + port + "/" + path + "/v1/app/user/role/addRole";
 
         String s = JSONObject.toJSONString(roleVo);
         HttpResult httpResult = apiService.doPost(url, s);
@@ -63,7 +66,7 @@ public class UserRoleController {
     @CrossOrigin
     public Object deleteRole(@RequestParam("Id") Long Id) throws Exception{
         String encode = DataUtils.getEncodeing("RSA");
-        String url = "http://" + Ip +":" + port + "/v1/app/user/role/deleteRole?Id=" +Id + "&AppId=" +encode;
+        String url = "http://" + Ip +":" + port + "/" + path + "/v1/app/user/role/deleteRole?Id=" +Id + "&AppId=" +encode;
 
         Map<String,Object> map = new HashMap<>();
 
@@ -81,7 +84,7 @@ public class UserRoleController {
     @CrossOrigin
     public Object getRole() throws Exception{
         String encode = DataUtils.getEncodeing("RSA");
-        String url = "http://" + Ip +":" + port + "/v1/app/user/role/RoleInfo?AppId=" +encode;
+        String url = "http://" + Ip +":" + port + "/" + path + "/v1/app/user/role/RoleInfo?AppId=" +encode;
 
         Map<String,Object> map = new HashMap<>();
 
@@ -104,7 +107,7 @@ public class UserRoleController {
     @CrossOrigin
     public Object queryPageRole(@RequestParam("current") Integer current, @RequestParam("size") Integer size) throws Exception{
         String encode = DataUtils.getEncodeing("RSA");
-        String url = "http://" + Ip +":" + port + "/v1/app/user/role/queryPageRole?AppId=" +encode + "&current=" +current + "&size=" +size;
+        String url = "http://" + Ip +":" + port + "/" + path + "/v1/app/user/role/queryPageRole?AppId=" +encode + "&current=" +current + "&size=" +size;
 
         Map<String,Object> map = new HashMap<>();
 

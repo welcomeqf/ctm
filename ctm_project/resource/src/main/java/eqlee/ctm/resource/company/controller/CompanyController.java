@@ -84,13 +84,13 @@ public class CompanyController {
     @ApiImplicitParam(name = "Id", value = "公司Id", required = true, dataType = "Long", paramType = "path")
     @GetMapping("/deleteCompany")
     @CrossOrigin
-    public ResultVo deleteCompany (@RequestParam("id") Long id) {
+    public ResultVo deleteCompany (@RequestParam("Id") Long Id) {
 
-        if(id == null) {
+        if(Id == null) {
             log.error("delete company param is null");
             throw new ApplicationException(CodeType.PARAMETER_ERROR,"删除公司Id为空");
         }
-        companyService.deleteCompany(id);
+        companyService.deleteCompany(Id);
         ResultVo resultVo = new ResultVo();
         resultVo.setResult("ok");
         return resultVo;
@@ -105,19 +105,16 @@ public class CompanyController {
     })
     @GetMapping("/queryCompanyByName")
     @CrossOrigin
-    public Page<Company> queryCompanyByCompanyName (@RequestParam("size") Integer size,@RequestParam("CompanyName") String name,@RequestParam("current") Integer current) {
+    public Page<Company> queryCompanyByCompanyName (@RequestParam("size") Integer size,@RequestParam("CompanyName") String CompanyName,
+                                                    @RequestParam("current") Integer current) {
 
-        if(name.isEmpty()) {
-            log.error("queryCompanyByName company param is null");
-            throw new ApplicationException(CodeType.PARAMETER_ERROR,"由公司名称查询列表的公司名称为空");
-        }
-        if(current == null||size == null){
+        if(current == null||size == null||StringUtils.isBlank(CompanyName)){
             throw new ApplicationException(CodeType.PARAMETER_ERROR,"当前页或者页面大小为空");
         }
         PageCompanyQuery pageCompany = new PageCompanyQuery();
         pageCompany.setCurrent(current);
         pageCompany.setSize(size);
-        pageCompany.setName(name);
+        pageCompany.setName(CompanyName);
         return  companyService.GetCompanyPageByName(pageCompany);
     }
 
@@ -129,7 +126,6 @@ public class CompanyController {
             @ApiImplicitParam(name = "endDate", value = "合同结束时间", required = true, dataType = "String", paramType = "path"),
             @ApiImplicitParam(name = "PayMethod", value = "支付方式", required = true, dataType = "String", paramType = "path"),
     })
-
     @PostMapping("/addCompany")
     @CrossOrigin
     public ResultVo addCompany (@RequestBody CompanyVo companyVo) {
@@ -145,16 +141,19 @@ public class CompanyController {
         resultVo.setResult("ok");
         return resultVo;
     }
+
+
+
     @ApiOperation(value = "同行状态", notes = "同行状态修改")
     @ApiImplicitParam(name = "Id", value = "公司Id", required = true, dataType = "Long", paramType = "path")
     @GetMapping("/UpdateCompanyStop")
     @CrossOrigin
-    public ResultVo UpdateCompanyStop (@RequestParam("id") Long id) {
-        if(id==null) {
+    public ResultVo UpdateCompanyStop (@RequestParam("Id") Long Id) {
+        if(Id==null) {
             log.error("update company stop param is null");
             throw new ApplicationException(CodeType.PARAMETER_ERROR,"修改公司状态Id为空");
         }
-        companyService.UpdateCompanyStopped(id);
+        companyService.UpdateCompanyStopped(Id);
         ResultVo resultVo = new ResultVo();
         resultVo.setResult("ok");
         return resultVo;

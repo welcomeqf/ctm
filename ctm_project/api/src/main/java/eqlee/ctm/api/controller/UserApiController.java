@@ -34,6 +34,9 @@ public class UserApiController {
     @Value("${api.port}")
     private String port;
 
+    @Value("{api.path}")
+    private String path;
+
     @Autowired
     private HttpClientUtils apiService;
 
@@ -51,7 +54,7 @@ public class UserApiController {
     @PostMapping("/register")
     @CrossOrigin
     public Object register(@RequestBody UserVo userVo) throws Exception{
-        String url = "http://" + Ip +":" + port + "/v1/app/user/register";
+        String url = "http://" + Ip +":" + port + "/" + path + "/v1/app/user/register";
 
         String s = JSONObject.toJSONString(userVo);
         HttpResult httpResult = apiService.doPost(url, s);
@@ -73,7 +76,7 @@ public class UserApiController {
     @CrossOrigin
     public Object login(@RequestParam("userName") String userName, @RequestParam("password") String password) throws Exception {
         String encode = DataUtils.getEncodeing("RSA");
-        String url = "http://" + Ip +":" + port + "/v1/app/user/login?userName=" +userName + "&AppId=" +encode + "&password=" +password;
+        String url = "http://" + Ip +":" + port + "/" + path + "/v1/app/user/login?userName=" +userName + "&AppId=" +encode + "&password=" +password;
 
         Map<String,Object> map = new HashMap<>();
 
@@ -91,7 +94,7 @@ public class UserApiController {
     @CrossOrigin
     public Object deleteUser(@RequestParam("userName") String userName) throws Exception{
         String encode = DataUtils.getEncodeing("RSA");
-        String url = "http://" + Ip +":" + port + "/v1/app/user/deleteUser?userName=" +userName + "&AppId=" +encode;
+        String url = "http://" + Ip +":" + port + "/" + path + "/v1/app/user/deleteUser?userName=" +userName + "&AppId=" +encode;
 
         Map<String,Object> map = new HashMap<>();
 
@@ -109,7 +112,7 @@ public class UserApiController {
     @CrossOrigin
     public Object exitUser(@RequestParam("userName") String userName) throws Exception{
         String encode = DataUtils.getEncodeing("RSA");
-        String url = "http://" + Ip +":" + port + "/v1/app/user/exitUser?userName=" +userName + "&AppId=" +encode;
+        String url = "http://" + Ip +":" + port + "/" + path + "/v1/app/user/exitUser?userName=" +userName + "&AppId=" +encode;
 
         Map<String,Object> map = new HashMap<>();
 
@@ -127,7 +130,7 @@ public class UserApiController {
     @CrossOrigin
     public Object stopUser(@RequestParam("userName") String userName) throws Exception{
         String encode = DataUtils.getEncodeing("RSA");
-        String url = "http://" + Ip +":" + port + "/v1/app/user/stopUser?userName=" +userName + "&AppId=" +encode;
+        String url = "http://" + Ip +":" + port + "/" + path + "/v1/app/user/stopUser?userName=" +userName + "&AppId=" +encode;
 
         Map<String,Object> map = new HashMap<>();
 
@@ -145,7 +148,7 @@ public class UserApiController {
     @CrossOrigin
     public Object toStopUser(@RequestParam("userName") String userName) throws Exception{
         String encode = DataUtils.getEncodeing("RSA");
-        String url = "http://" + Ip +":" + port + "/v1/app/user/toStopUser?userName=" +userName + "&AppId=" +encode;
+        String url = "http://" + Ip +":" + port + "/" + path + "/v1/app/user/toStopUser?userName=" +userName + "&AppId=" +encode;
 
         Map<String,Object> map = new HashMap<>();
 
@@ -172,7 +175,7 @@ public class UserApiController {
     public Object downRegister(@RequestBody UserVo userVo) throws Exception{
         String encode = DataUtils.getEncodeing("RSA");
         userVo.setAppId(encode);
-        String url = "http://" + Ip +":" + port + "/v1/app/user/downRegister";
+        String url = "http://" + Ip +":" + port + "/" + path + "/v1/app/user/downRegister";
 
         String s = JSONObject.toJSONString(userVo);
         HttpResult httpResult = apiService.doPost(url, s);
@@ -194,7 +197,7 @@ public class UserApiController {
     @CrossOrigin
     public Object pageListUser(@RequestParam("current") Integer current, @RequestParam("size") Integer size) throws Exception{
         String encode = DataUtils.getEncodeing("RSA");
-        String url = "http://" + Ip +":" + port + "/v1/app/user/pageListUser?current=" +current + "&AppId=" +encode + "&size=" + size;
+        String url = "http://" + Ip +":" + port + "/" + path + "/v1/app/user/pageListUser?current=" +current + "&AppId=" +encode + "&size=" + size;
 
         Map<String,Object> map = new HashMap<>();
 
@@ -229,7 +232,7 @@ public class UserApiController {
                                                @RequestParam("userName") String userName,
                                                @RequestParam("roleName") String roleName) throws Exception{
         String encode = DataUtils.getEncodeing("RSA");
-        String url = "http://" + Ip +":" + port + "/v1/app/user/queryPageUserByName?current=" +current + "&AppId=" +encode + "&size=" + size
+        String url = "http://" + Ip +":" + port + "/" + path + "/v1/app/user/queryPageUserByName?current=" +current + "&AppId=" +encode + "&size=" + size
                 + "&userName=" + userName + "&roleName=" +roleName;
 
         Map<String,Object> map = new HashMap<>();
@@ -254,7 +257,7 @@ public class UserApiController {
                                            @RequestParam("size") Integer size,
                                            @RequestParam("userName") String userName) throws Exception{
         String encode = DataUtils.getEncodeing("RSA");
-        String url = "http://" + Ip +":" + port + "/v1/app/user/queryUserByName?current=" +current + "&AppId=" +encode + "&size=" + size
+        String url = "http://" + Ip +":" + port + "/" + path + "/v1/app/user/queryUserByName?current=" +current + "&AppId=" +encode + "&size=" + size
                 + "&userName=" + userName;
 
         Map<String,Object> map = new HashMap<>();

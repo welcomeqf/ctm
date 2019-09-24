@@ -56,13 +56,13 @@ public class CarController {
     @GetMapping("/deleteCar")
     @ApiImplicitParam(name = "Id",value = "车辆Id",required = true,dataType = "Long",paramType = "path")
     @CrossOrigin
-    public void deleteCar(@RequestParam Long id)
+    public void deleteCar(@RequestParam("Id") Long Id)
     {
-        if(id==null){
+        if(Id==null){
             log.error("delete car param is null");
             throw new ApplicationException(CodeType.PARAMETER_ERROR,"删除车辆的Id为空");
         }
-        carService.deleteCar(id);
+        carService.deleteCar(Id);
     }
 
 

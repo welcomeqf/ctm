@@ -32,6 +32,9 @@ public class UserPrivilegeController {
     @Value("${api.port}")
     private String port;
 
+    @Value("${api.path}")
+    private String path;
+
     @Autowired
     private HttpClientUtils apiService;
 
@@ -47,7 +50,7 @@ public class UserPrivilegeController {
     public Object insertPrivilege(@RequestBody PrivilegeQuery query) throws Exception{
         String encode = DataUtils.getEncodeing("RSA");
         query.setAppId(encode);
-        String url = "http://" + Ip +":" + port + "/v1/app/user/privilege/insertPrivilege";
+        String url = "http://" + Ip +":" + port + "/" + path + "/v1/app/user/privilege/insertPrivilege";
 
         String s = JSONObject.toJSONString(query);
         HttpResult httpResult = apiService.doPost(url, s);
