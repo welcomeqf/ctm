@@ -1,9 +1,12 @@
 package eqlee.ctm.apply.guider.dao;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import eqlee.ctm.apply.guider.entity.vo.ApplyVo;
 import eqlee.ctm.apply.guider.entity.vo.GuiderVo;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Component;
+
+import java.time.LocalDateTime;
 
 /**
  * @Author Claire
@@ -12,5 +15,10 @@ import org.springframework.stereotype.Component;
  */
 @Component
 public interface GuiderMapper {
-     Page<GuiderVo> guiderIndex(@Param("page") Page<GuiderVo> page);
+     Page<GuiderVo> guiderIndex(@Param("page") Page<GuiderVo> page,
+                                @Param("outDate") String outDate);
+
+     Page<ApplyVo> applyIndex(@Param("page") Page<ApplyVo> page,
+                              @Param("outDate") String outDate,
+                              @Param("lineName") String lineName);
 }

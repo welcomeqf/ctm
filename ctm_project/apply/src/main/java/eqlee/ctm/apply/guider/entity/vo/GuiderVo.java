@@ -11,7 +11,9 @@ import java.time.LocalDate;
  */
 @Data
 public class GuiderVo {
+
     private Long Id;
+
     private String LineName;
 
     private LocalDate OutDate;

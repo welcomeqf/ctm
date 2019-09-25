@@ -1,6 +1,8 @@
-package eqlee.ctm.apply.guider.entity.vo;
+package eqlee.ctm.apply.orders.entity.Vo;
 
 import lombok.Data;
+
+import java.time.LocalDate;
 
 /**
  * @Author Claire
@@ -8,7 +10,9 @@ import lombok.Data;
  * @Version 1.0
  */
 @Data
-public class ApplyVo {
+public class OrdersVo {
+
+    private Long LineId;
     /**
      * 联系人姓名
      */
@@ -28,5 +32,15 @@ public class ApplyVo {
      * 接送地
      */
     private String Place;
+
+    /**
+     * 线路名
+     */
+    private String LineName;
+
+    /**
+     * 出发日期
+     */
+    private String OutDate;
 
 }

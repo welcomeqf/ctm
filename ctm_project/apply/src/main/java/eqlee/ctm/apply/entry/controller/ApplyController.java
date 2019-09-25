@@ -3,6 +3,7 @@ package eqlee.ctm.apply.entry.controller;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.yq.constanct.CodeType;
 import com.yq.utils.StringUtils;
+import eqlee.ctm.apply.entry.entity.Apply;
 import eqlee.ctm.apply.entry.entity.query.ApplyCompanyQuery;
 import eqlee.ctm.apply.entry.entity.query.ApplyDoQuery;
 import eqlee.ctm.apply.entry.entity.query.ApplyQuery;
@@ -19,6 +20,8 @@ import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 /**
  * @Author qf
@@ -123,5 +126,10 @@ public class ApplyController {
         Page<ApplyCompanyQuery> page = new Page<>(current,size);
         return applyService.listPageDoApply2Company(page,OutTime,CompanyName);
 
+    }
+
+    @GetMapping("/listPageDoApplyCom")
+    public List<Apply> com(){
+        return applyService.selectAllApply();
     }
 }

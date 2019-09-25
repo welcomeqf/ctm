@@ -243,4 +243,9 @@ public class ApplyServiceImpl extends ServiceImpl<ApplyMapper, Apply> implements
         }
     }
 
+    @Override
+    public List<Apply> selectAllApply() {
+        return baseMapper.selectList(null);
+    }
+
 }

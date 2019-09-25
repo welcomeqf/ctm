@@ -1,11 +1,14 @@
 package eqlee.ctm.apply.entry.service;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import eqlee.ctm.apply.entry.entity.Apply;
 import eqlee.ctm.apply.entry.entity.query.ApplyCompanyQuery;
 import eqlee.ctm.apply.entry.entity.query.ApplyDoQuery;
 import eqlee.ctm.apply.entry.entity.query.ApplyQuery;
 import eqlee.ctm.apply.entry.entity.query.ApplyUpdateInfo;
 import eqlee.ctm.apply.entry.entity.vo.ApplyVo;
+
+import java.util.List;
 
 
 /**
@@ -72,5 +75,11 @@ public interface IApplyService {
      * @param Status
      */
     void updateExamineStatus(Long Id, Integer Status);
+
+    /**
+     * 查询报名表
+     * @return
+     */
+    List<Apply> selectAllApply();
 
 }

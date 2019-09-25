@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="eqlee.ctm.apply.orders.dao.OrdersMapper">
+    <insert id="batchInsertOrders" parameterType="eqlee.ctm.apply.orders.entity.Orders">
+        <foreach collection="list" item="item" index="index">
+            insert into Orders(Id,OrderNo,AccountName,OutDate,CompanyName,LineName,AllPrice,
+            Region) values(#{item.Id},#{item.OrderNo},#{item.AccountName},
+            #{item.OutDate},#{item.CompanyName},#{item.LineName},#{item.AllPrice},#{item.Region})
+        </foreach>
+    </insert>
+
+
+</mapper>

@@ -1,14 +1,16 @@
-package eqlee.ctm.apply.guider.entity.vo;
+package eqlee.ctm.apply.orders.entity.Vo;
 
 import lombok.Data;
 
 /**
  * @Author Claire
- * @Date 2019/9/23 0023
+ * @Date 2019/9/24 0024
  * @Version 1.0
  */
 @Data
-public class ApplyVo {
+public class ContactNameVo {
+
+    private Long Id;
     /**
      * 联系人姓名
      */
