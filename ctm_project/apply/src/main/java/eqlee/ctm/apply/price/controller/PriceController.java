@@ -71,7 +71,7 @@ public class PriceController {
             @ApiImplicitParam(name = "BabyPrice", value = "幼儿价格", required = true, dataType = "double", paramType = "path"),
             @ApiImplicitParam(name = "ChildPrice", value = "小孩价格", required = true, dataType = "double", paramType = "path"),
     })
-    @PostMapping("/batchUpdatePrice")
+    @PutMapping("/batchUpdatePrice")
     @CrossOrigin
     public ResultVo batchUpdatePrice(PriceVo priceVo) {
         if (StringUtils.isBlank(priceVo.getStartTime()) || StringUtils.isBlank(priceVo.getEndTime())

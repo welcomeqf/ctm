@@ -53,7 +53,7 @@ public class CarController {
 
 
     @ApiOperation(value = "车辆删除",notes = "车辆删除")
-    @GetMapping("/deleteCar")
+    @DeleteMapping("/deleteCar")
     @ApiImplicitParam(name = "Id",value = "车辆Id",required = true,dataType = "Long",paramType = "path")
     @CrossOrigin
     public void deleteCar(@RequestParam("Id") Long Id)
@@ -89,10 +89,10 @@ public class CarController {
 
 
     @ApiOperation(value = "车辆修改页首页",notes = "车辆修改页首页")
-    @PostMapping("/updateCarIndex")
+    @GetMapping("/updateCarDetail")
     @ApiImplicitParam(name = "Id", value = "车辆Id", required = true, dataType = "Long", paramType = "path")
     @CrossOrigin
-    public CarVo updateCarIndex(@RequestParam("Id") Long Id)
+    public CarVo updateCarDetail(@RequestParam("Id") Long Id)
     {
         if(Id == null){
             throw new ApplicationException(CodeType.PARAMETER_ERROR,"修改车辆首页的Id不能为空");
@@ -105,7 +105,7 @@ public class CarController {
 
 
     @ApiOperation(value = "车辆修改",notes = "车辆修改")
-    @PostMapping("/updateCar")
+    @PutMapping("/updateCar")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "Id", value = "车辆Id", required = true, dataType = "Long", paramType = "path"),
             @ApiImplicitParam(name = "CarName", value = "车辆名", required = true, dataType = "String", paramType = "path"),

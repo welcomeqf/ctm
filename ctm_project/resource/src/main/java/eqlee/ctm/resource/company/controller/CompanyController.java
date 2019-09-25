@@ -54,7 +54,7 @@ public class CompanyController {
 
     @ApiOperation(value = "同行信息修改首页", notes = "同行信息修改首页")
     @ApiImplicitParam(name = "Id", value = "公司Id", required = true, dataType = "Long", paramType = "path")
-    @PostMapping("/updateCompanyIndex")
+    @GetMapping("/updateCompanyIndex")
     @CrossOrigin
     public CompanyVo updateCompanyIndex (@RequestParam("Id") Long Id) {
         if(Id == null){
@@ -63,6 +63,8 @@ public class CompanyController {
         }
         return companyService.UpdateCompanyIndex(Id);
     }
+
+
 
     @ApiOperation(value = "同行信息修改", notes = "同行信息修改")
     @ApiImplicitParams({
@@ -73,7 +75,7 @@ public class CompanyController {
             @ApiImplicitParam(name = "PayMethod", value = "支付方式", required = true, dataType = "String", paramType = "path"),
             @ApiImplicitParam(name = "Stopped", value = "状态", required = true, dataType = "Boolen", paramType = "path")
     })
-    @PostMapping("/updateCompany")
+    @PutMapping("/updateCompany")
     @CrossOrigin
     public ResultVo updateCompany (@RequestBody CompanyVo companyVo) {
         if(companyVo.getId() == null || StringUtils.isBlank(companyVo.getPayMethod())
@@ -93,7 +95,7 @@ public class CompanyController {
 
     @ApiOperation(value = "同行信息删除", notes = "同行信息删除")
     @ApiImplicitParam(name = "Id", value = "公司Id", required = true, dataType = "Long", paramType = "path")
-    @GetMapping("/deleteCompany")
+    @DeleteMapping("/deleteCompany")
     @CrossOrigin
     public ResultVo deleteCompany (@RequestParam("Id") Long Id) {
 
@@ -157,7 +159,7 @@ public class CompanyController {
 
     @ApiOperation(value = "同行状态", notes = "同行状态修改")
     @ApiImplicitParam(name = "Id", value = "公司Id", required = true, dataType = "Long", paramType = "path")
-    @GetMapping("/UpdateCompanyStop")
+    @PutMapping("/UpdateCompanyStop")
     @CrossOrigin
     public ResultVo UpdateCompanyStop (@RequestParam("Id") Long Id) {
         if(Id==null) {

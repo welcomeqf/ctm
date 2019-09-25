@@ -69,7 +69,7 @@ public class LineController {
             @ApiImplicitParam(name = "MaxNumber", value = "最大人数", required = true, dataType = "int", paramType = "path"),
             @ApiImplicitParam(name = "MinNumber", value = "最小人数", required = true, dataType = "int", paramType = "path")
     })
-    @PostMapping("/updateLine")
+    @PutMapping("/updateLine")
     @CrossOrigin
     public ResultVo updateLine(@RequestBody Line line) {
         if (line.getId() == null) {
@@ -104,7 +104,7 @@ public class LineController {
 
     @ApiOperation(value = "停用线路", notes = "停用线路")
     @ApiImplicitParam(name = "Id", value = "Id", required = true, dataType = "String", paramType = "path")
-    @GetMapping("/stopLine")
+    @PutMapping("/stopLine")
     @CrossOrigin
     public ResultVo stopLine(@RequestParam("Id") Long Id) {
         if (Id == null) {
@@ -119,7 +119,7 @@ public class LineController {
 
     @ApiOperation(value = "启用线路", notes = "启用线路")
     @ApiImplicitParam(name = "Id", value = "Id", required = true, dataType = "String", paramType = "path")
-    @GetMapping("/startLine")
+    @PutMapping("/startLine")
     @CrossOrigin
     public ResultVo startLine(@RequestParam("Id") Long Id) {
         if (Id == null) {

@@ -1,5 +1,7 @@
 package eqlee.ctm.resource.car.service.Imp;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.yq.constanct.CodeType;
@@ -85,10 +87,13 @@ public class CarServiceImp extends ServiceImpl<CarMapper, Car>implements ICarSer
      */
     @Override
     public Page<Car> queryAllCar(Integer current,Integer size) {
+
+        LambdaQueryWrapper<Car> queryWrapper = new LambdaQueryWrapper<Car>()
+                .eq(Car::getIsCompany,true);
         Page<Car> page = new Page<Car>();
         page.setSize(size);
         page.setCurrent(current);
-        baseMapper.selectPage(page,null);
+        baseMapper.selectPage(page,queryWrapper);
         return page;
     }
 
@@ -104,7 +109,7 @@ public class CarServiceImp extends ServiceImpl<CarMapper, Car>implements ICarSer
         Car car = new Car();
         car = baseMapper.selectById(Id);
         carVo.setCarName(car.getCarName());
-        carVo.setCarNo(carVo.getCarNo());
+        carVo.setCarNo(car.getCarNo());
         carVo.setId(car.getId());
         if (car.getStatu() == 0) {
             carVo.setStatu("未出行");
