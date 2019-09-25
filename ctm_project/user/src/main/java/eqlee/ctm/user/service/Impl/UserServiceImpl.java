@@ -116,6 +116,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
         if (user.getStopped()) {
             throw new ApplicationException(CodeType.SERVICE_ERROR,"该账号已经登录");
         }
+
         LocalDateTime now = LocalDateTime.now();
         user.setLastLoginTime(now);
         user.setStopped(true);
@@ -125,10 +126,13 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
         Sign sign = new Sign();
         //将信息装进Sign表中
         sign.setId(idGenerator.getNumberId());
-        sign.setAppId(AppId);
+        Sign one = signService.queryOne(AppId);
+        if (one == null) {
+            sign.setAppId(AppId);
+        }
         ResultSignVo vo = null;
         try {
-            vo = SignData.getSign(AppId, userName);
+            vo = SignData.getSign(DataUtils.getDcodeing(AppId), userName);
         }catch (Exception e) {
             e.printStackTrace();
         }
@@ -142,15 +146,11 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
         List<PrivilegeMenuQuery> list = privilegeService.queryAllMenu(userRole.getRoleName());
         //装配UserLoginQuery
         UserLoginQuery query = new UserLoginQuery();
+        query.setId(user.getId());
         query.setAccount(user.getAccount());
         query.setCName(user.getCName());
         query.setCompanyId(user.getCompanyId());
         query.setPassword(user.getPassword());
-        if (user.getStatus() == 0) {
-            query.setStatus("正常");
-        } else {
-            query.setStatus("冻结");
-        }
         query.setTel(user.getTel());
         query.setRoleName(userRole.getRoleName());
         query.setMenuList(list);

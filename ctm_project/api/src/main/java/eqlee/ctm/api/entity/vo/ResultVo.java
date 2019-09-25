@@ -1,5 +1,6 @@
 package eqlee.ctm.api.entity.vo;
 
+import com.yq.utils.data.UserLoginQuery;
 import lombok.Data;
 
 /**
@@ -10,5 +11,9 @@ import lombok.Data;
 @Data
 public class ResultVo {
 
-    private String result;
+    private String code;
+
+    private String msg;
+
+    private UserLoginQuery data;
 }

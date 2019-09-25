@@ -1,7 +1,10 @@
 
-Esquid:S11251")Remove the literal "false" boolean value.(öŒ°¥üÿÿÿÿ
-ƒsquid:UselessImportCheck"SRemove this unused import 'org.springframework.beans.factory.annotation.Autowired'.(¡¸Îùÿÿÿÿ8ËÎª¹Ô-
-nsquid:S00117P"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(•³•Ÿüÿÿÿÿ
-ssquid:S1488S"\Immediately return this expression instead of assigning it to the temporary variable "role".(ñõ‡²
+usquid:S00117]"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ÜÃêºûÿÿÿÿ8ÀïŠÖ-
+usquid:S00117:"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(§‰–æşÿÿÿÿ8ÀïŠÖ-
+Gsquid:S1148ˆ"#Use a logger to log this exception.(€ÉÔ…ıÿÿÿÿ8ÀïŠÖ-
+Fsquid:S1148A"#Use a logger to log this exception.(€ÉÔ…ıÿÿÿÿ8ÀïŠÖ-
+nsquid:S00117t"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(•³•Ÿüÿÿÿÿ
+ssquid:S1488w"\Immediately return this expression instead of assigning it to the temporary variable "role".(ñõ‡²
+Fsquid:S1148d"#Use a logger to log this exception.(€ÉÔ…ıÿÿÿÿ8ÀïŠÖ-
 wsquid:S00120"ZRename this package name to match the regular expression '^[a-z_]+(\.[a-z_][a-z0-9_]*)*$'.(…ÿÎÿÿÿÿÿ
-usquid:S00117m"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(şàĞñÿÿÿÿÿ8ôİ‚ÄÔ-
+vsquid:S00117"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(şàĞñÿÿÿÿÿ8ôİ‚ÄÔ-

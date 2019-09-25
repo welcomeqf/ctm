@@ -1,5 +1,7 @@
 package com.yq.utils;
 
+import lombok.extern.slf4j.Slf4j;
+
 import java.security.KeyPair;
 import java.security.KeyPairGenerator;
 import java.security.NoSuchAlgorithmException;
@@ -10,6 +12,7 @@ import java.security.Signature;
  * @Date 2019/9/20
  * @Version 1.0
  */
+@Slf4j
 public class SignUtils {
 
     /**得到产生的私钥/公钥对
@@ -72,21 +75,22 @@ public class SignUtils {
     }
 
 
-    public static void main(String[] args) {
-        try {
-            KeyPair keyPair=getKeypair("rsa");
-            //用指定算法产生签名对象
-            Signature mySig = Signature.getInstance("MD5WithRSA");
-            byte[] publicinfo=getpublicByKeypair(mySig,keyPair,"irjg".getBytes());
-            boolean verify=decryptBypublic(mySig, keyPair, "irjg", publicinfo);
-            System.out.println("验证签名的结果是："+verify);
-            String s = mySig.toString();
-//            Signature t = Signature.getInstance(s);
-//            System.out.println(t == mySig);
-        } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
-        }
-    }
+//    public static void main(String[] args) {
+//        try {
+//            String s1 = DataUtils.getDcodeing("D433KFHWXYDFRZ4ZRVYGLYZHVM");
+//            KeyPair keyPair=getKeypair(s1);
+//            //用指定算法产生签名对象
+//            Signature mySig = Signature.getInstance("MD5WithRSA");
+//            byte[] publicinfo=getpublicByKeypair(mySig,keyPair,"irjg".getBytes());
+//            boolean verify=decryptBypublic(mySig, keyPair, "irjg", publicinfo);
+//            System.out.println("验证签名的结果是："+verify);
+//            String s = mySig.toString();
+////            Signature t = Signature.getInstance(s);
+////            System.out.println(t == mySig);
+//        } catch (NoSuchAlgorithmException e) {
+//            e.printStackTrace();
+//        }
+//    }
 
 
 }

@@ -1,6 +1,8 @@
 package eqlee.ctm.api.controller;
 
 import com.alibaba.fastjson.JSONObject;
+import com.yq.utils.JwtUtil;
+import eqlee.ctm.api.entity.vo.ResultVo;
 import eqlee.ctm.api.entity.vo.UserVo;
 import eqlee.ctm.api.httpclient.HttpClientUtils;
 import eqlee.ctm.api.httpclient.HttpResult;
@@ -69,23 +71,31 @@ public class UserApiController {
     @ApiOperation(value = "登录", notes ="登录")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "userName", value = "用户名", required = true, dataType = "String", paramType = "path"),
-            @ApiImplicitParam(name = "password", value = "密码", required = true, dataType = "String", paramType = "path"),
-            @ApiImplicitParam(name = "AppId", value = "签名Id", required = true, dataType = "String", paramType = "path")
+            @ApiImplicitParam(name = "password", value = "密码", required = true, dataType = "String", paramType = "path")
     })
     @GetMapping("/login")
     @CrossOrigin
     public Object login(@RequestParam("userName") String userName, @RequestParam("password") String password) throws Exception {
         String encode = DataUtils.getEncodeing("RSA");
-        String url = "http://" + Ip +":" + port + "/" + path + "/v1/app/user/login?userName=" +userName + "&AppId=" +encode + "&password=" +password;
+        String url = "http://" + Ip + ":" + port  + "/v1/app/user/login?userName=" + userName + "&AppId=" + encode + "&password=" + password;
 
-        Map<String,Object> map = new HashMap<>();
+        Map<String, Object> map = new HashMap<>();
 
         HttpResult httpResult = apiService.doGet(url, map);
 
         if (httpResult.getCode() != Status) {
             return DataUtils.getError();
         }
-        return JSONObject.parse(httpResult.getBody());
+
+        //JWT验证
+        JSONObject jsonObject = new JSONObject();
+        ResultVo object = JSONObject.parseObject(httpResult.getBody(), ResultVo.class);
+
+        String token = JwtUtil.createJWT(60 * 60 * 60 * 24 * 30, object.getData());
+        jsonObject.put("token", token);
+        jsonObject.put("user", object.getData());
+        return jsonObject;
+
     }
 
     @ApiOperation(value = "注销", notes = "注销")

@@ -2,7 +2,6 @@ package eqlee.ctm.user.controller;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.yq.constanct.CodeType;
-import eqlee.ctm.user.entity.User;
 import eqlee.ctm.user.entity.query.UserLoginQuery;
 import eqlee.ctm.user.entity.query.UserQuery;
 import eqlee.ctm.user.entity.vo.ResultVo;

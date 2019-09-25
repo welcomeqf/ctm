@@ -65,7 +65,7 @@ public class CarApiController {
 
 
     @ApiOperation(value = "车辆删除",notes = "车辆删除")
-    @GetMapping("/deleteCar")
+    @DeleteMapping("/deleteCar")
     @ApiImplicitParam(name = "Id",value = "车辆Id",required = true,dataType = "Long",paramType = "path")
     @CrossOrigin
     public Object deleteCar(@RequestParam("Id") Long Id) throws Exception{
@@ -73,7 +73,7 @@ public class CarApiController {
 
         Map<String,Object> map = new HashMap<>();
 
-        HttpResult httpResult = apiService.doGet(url, map);
+        HttpResult httpResult = apiService.doDelete(url,map);
 
         if (httpResult.getCode() != Status) {
             return DataUtils.getError();
@@ -105,7 +105,7 @@ public class CarApiController {
     }
 
     @ApiOperation(value = "车辆修改",notes = "车辆修改")
-    @PostMapping("/updateCar")
+    @PutMapping("/updateCar")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "Id", value = "车辆Id", required = true, dataType = "Long", paramType = "path"),
             @ApiImplicitParam(name = "CarName", value = "车辆名", required = true, dataType = "String", paramType = "path"),
@@ -118,7 +118,7 @@ public class CarApiController {
         String url = "http://" + Ip +":" + port + "/" + path + "/v1/app/resource/car/updateCar";
 
         String s = JSONObject.toJSONString(carVo);
-        HttpResult httpResult = apiService.doPost(url, s);
+        HttpResult httpResult = apiService.doPut(url,s);
 
         if (httpResult.getCode() != Status) {
             return DataUtils.getError();
@@ -127,5 +127,22 @@ public class CarApiController {
         return JSONObject.parse(httpResult.getBody());
     }
 
+
+    @ApiOperation(value = "车辆修改页首页",notes = "车辆修改页首页")
+    @GetMapping("/updateCarIndex")
+    @ApiImplicitParam(name = "Id", value = "车辆Id", required = true, dataType = "Long", paramType = "path")
+    @CrossOrigin
+    public Object updateCarIndex(@RequestParam("Id") Long Id) throws Exception{
+        String url = "http://" + Ip +":" + port + "/" + path + "/v1/app/resource/car/updateCarIndex?Id=" +Id;
+
+        Map<String,Object> map = new HashMap<>();
+        HttpResult httpResult = apiService.doGet(url,map);
+
+        if (httpResult.getCode() != Status) {
+            return DataUtils.getError();
+        }
+
+        return JSONObject.parse(httpResult.getBody());
+    }
 
 }

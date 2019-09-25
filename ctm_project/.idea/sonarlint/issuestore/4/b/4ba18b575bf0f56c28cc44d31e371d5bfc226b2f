@@ -1,9 +1,9 @@
 
-squid:UselessImportCheck	"ORemove this unused import 'eqlee.ctm.apply.entry.entity.query.ApplyUpdateInfo'.(ºòí’øÿÿÿÿ8íÆäòÔ-
 usquid:S00117R"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ûÇÉ»ıÿÿÿÿ8ıâŒêÔ-
+usquid:S00117w"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ÏšãŞûÿÿÿÿ8øÈ½ñÔ-
 msquid:UselessImportCheck"BRemove this unused import 'eqlee.ctm.apply.line.entity.vo.LineVo'.( ­¢İ8šÂÇÔ-
 usquid:S00117w"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ÏšãŞûÿÿÿÿ8øÈ½ñÔ-
-psquid:S00117d"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ûÀ©Í8ÄÌßëÔ-
-usquid:S00117w"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ÏšãŞûÿÿÿÿ8øÈ½ñÔ-
+squid:UselessImportCheck	"ORemove this unused import 'eqlee.ctm.apply.entry.entity.query.ApplyUpdateInfo'.(ºòí’øÿÿÿÿ8íÆäòÔ-
 usquid:S00117R"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ûÇÉ»ıÿÿÿÿ8ıâŒêÔ-
+psquid:S00117d"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ûÀ©Í8ÄÌßëÔ-
 psquid:S00117d"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ûÀ©Í8ÄÌßëÔ-

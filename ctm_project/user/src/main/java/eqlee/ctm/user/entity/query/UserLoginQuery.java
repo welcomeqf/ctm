@@ -12,6 +12,9 @@ import java.util.List;
 @Data
 public class UserLoginQuery {
 
+
+    private Long Id;
+
     /**
      * 用户名
      */
@@ -36,11 +39,6 @@ public class UserLoginQuery {
      * 角色名
      */
     private String roleName;
-
-    /**
-     * 状态（0--默认 正常  1--冻结）
-     */
-    private String Status;
 
     /**
      * 公司ID

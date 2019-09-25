@@ -8,6 +8,9 @@ import eqlee.ctm.resource.car.entity.Car;
 import eqlee.ctm.resource.car.entity.Vo.CarVo;
 import eqlee.ctm.resource.car.service.ICarService;
 import eqlee.ctm.resource.exception.ApplicationException;
+import eqlee.ctm.resource.jwt.contain.LocalUser;
+import eqlee.ctm.resource.jwt.entity.UserLoginQuery;
+import eqlee.ctm.resource.jwt.islogin.CheckToken;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -33,6 +36,8 @@ public class CarController {
     @Autowired
     private ICarService carService;
 
+    @Autowired
+    private LocalUser localUser;
 
     @ApiOperation(value = "车辆列表(只展示本公司车辆）",notes = "车辆列表展示（分页）")
     @ApiImplicitParams({
@@ -41,12 +46,14 @@ public class CarController {
     })
     @GetMapping("/queryCarPage")
     @CrossOrigin
+    @CheckToken
     public Page<Car> queryAllCar(@RequestParam("current") Integer current,
                                  @RequestParam("size") Integer size)
     {
         if(current == null||size == null){
             throw new ApplicationException(CodeType.PARAMETER_ERROR,"当前页或者页面大小为空");
         }
+        System.out.println(localUser.getUser("用户信息"));
         return carService.queryAllCar(current,size);
     }
 
@@ -56,6 +63,7 @@ public class CarController {
     @DeleteMapping("/deleteCar")
     @ApiImplicitParam(name = "Id",value = "车辆Id",required = true,dataType = "Long",paramType = "path")
     @CrossOrigin
+    @CheckToken
     public void deleteCar(@RequestParam("Id") Long Id)
     {
         if(Id == null){

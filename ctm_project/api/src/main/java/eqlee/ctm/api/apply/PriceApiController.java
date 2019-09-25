@@ -79,13 +79,13 @@ public class PriceApiController {
             @ApiImplicitParam(name = "BabyPrice", value = "幼儿价格", required = true, dataType = "double", paramType = "path"),
             @ApiImplicitParam(name = "ChildPrice", value = "小孩价格", required = true, dataType = "double", paramType = "path"),
     })
-    @PostMapping("/batchUpdatePrice")
+    @PutMapping("/batchUpdatePrice")
     @CrossOrigin
     public Object batchUpdatePrice(PriceVo priceVo) throws Exception{
         String url = "http://" + Ip +":" + port + "/" + path + "/v1/app/apply/price/batchUpdatePrice";
 
         String s = JSONObject.toJSONString(priceVo);
-        HttpResult httpResult = apiService.doPost(url, s);
+        HttpResult httpResult = apiService.doPut(url,s);
 
         if (httpResult.getCode() != Status) {
             return DataUtils.getError();

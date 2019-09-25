@@ -1,0 +1,10 @@
+
+qsquid:S00116!"MRename this field "Ip" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ÁãåÚıÿÿÿÿ8ÍÉÇ’Ö-
+usquid:S00116,"QRename this field "Status" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ûĞüüÿÿÿÿ8ÍÉÇ’Ö-
+vsquid:S00117"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(Øáéõùÿÿÿÿ8 Çı’Ö-
+Dsquid:S1170,"!Make this final field static too.(ûĞüüÿÿÿÿ8ÍÉÇ’Ö-
+usquid:S00117_"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(¡ŒØÏùÿÿÿÿ8£‡â’Ö-
+hsquid:UselessImportCheck"=Remove this unused import 'eqlee.ctm.api.entity.vo.ResultVo'.(­Ê±¦8Ğ û’Ö-
+psquid:S00117t"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(•™©Ó8»ÿì’Ö-
+ssquid:S00100"NRename this method name to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(Øáéõùÿÿÿÿ8Şùú’Ö-
+ksquid:S11927"HDefine a constant instead of duplicating this literal "http://" 6 times.(àéèúÿÿÿÿ8ÇÿÚ’Ö-

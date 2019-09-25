@@ -1,0 +1,7 @@
+
+esquid:S00116"MRename this field "Id" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(´ÕÛ”
+hsquid:S00116"PRename this field "CarNo" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(Öçáý
+jsquid:S00116"RRename this field "CarName" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(Ô¹³¥
+nsquid:S00116"QRename this field "Remark" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(é«´‘ùÿÿÿÿ
+hsquid:S00116"PRename this field "Statu" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(þ•òå
+wsquid:S00120"ZRename this package name to match the regular expression '^[a-z_]+(\.[a-z_][a-z0-9_]*)*$'.(­Ã¸Ûøÿÿÿÿ

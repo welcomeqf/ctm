@@ -1,0 +1,7 @@
+
+lsquid:S11929"IDefine a constant instead of duplicating this literal "http://" 10 times.(¦Ø‹­øÿÿÿÿ8ÌêåÖ-
+Dsquid:S1170+"!Make this final field static too.(ûĞüüÿÿÿÿ8¬¶»Ö-
+qsquid:S00116 "MRename this field "Ip" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ÁãåÚıÿÿÿÿ8¬¶»Ö-
+fsquid:S1192È"GDefine a constant instead of duplicating this literal "&size=" 3 times.(ûäŞ®8æç–Ö-
+ksquid:S1192O"HDefine a constant instead of duplicating this literal "&AppId=" 8 times.(­ÍÁ‘şÿÿÿÿ8°¹ëÖ-
+usquid:S00116+"QRename this field "Status" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ûĞüüÿÿÿÿ8¬¶»Ö-

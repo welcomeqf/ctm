@@ -1,8 +1,8 @@
 
-jsquid:S00112\"FDefine and throw a dedicated exception instead of using a generic one.(†€¬Åúÿÿÿÿ8Ôáô´Õ-
-]squid:S1192J"FDefine a constant instead of duplicating this literal "UTF-8" 5 times.(„ÛÎ±
-dsquid:S00112‰"FDefine and throw a dedicated exception instead of using a generic one.(§Ñáüÿÿÿÿ
-isquid:CommentedOutCodeLineb"<This block of commented-out lines of code should be removed.(‡¥Ğ8Ôáô´Õ-
-qsquid:S2293"YReplace the type specification in this constructor call with the diamond operator ("<>").(Æ„•÷
 csquid:S00112)"FDefine and throw a dedicated exception instead of using a generic one.(öÏö½ûÿÿÿÿ
+jsquid:S00112\"FDefine and throw a dedicated exception instead of using a generic one.(†€¬Åúÿÿÿÿ8Ôáô´Õ-
+qsquid:S2293"YReplace the type specification in this constructor call with the diamond operator ("<>").(Æ„•÷
+dsquid:S00112‰"FDefine and throw a dedicated exception instead of using a generic one.(§Ñáüÿÿÿÿ
+]squid:S1192J"FDefine a constant instead of duplicating this literal "UTF-8" 5 times.(„ÛÎ±
 dsquid:S00112¿"FDefine and throw a dedicated exception instead of using a generic one.(ÌèÎ¶üÿÿÿÿ
+isquid:CommentedOutCodeLineb"<This block of commented-out lines of code should be removed.(‡¥Ğ8Ôáô´Õ-

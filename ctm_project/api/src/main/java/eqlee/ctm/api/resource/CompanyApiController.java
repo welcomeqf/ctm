@@ -73,13 +73,13 @@ public class CompanyApiController {
             @ApiImplicitParam(name = "PayMethod", value = "支付方式", required = true, dataType = "String", paramType = "path"),
             @ApiImplicitParam(name = "Stopped", value = "状态", required = true, dataType = "Boolen", paramType = "path")
     })
-    @PostMapping("/updateCompany")
+    @PutMapping("/updateCompany")
     @CrossOrigin
     public Object updateCompany (@RequestBody CompanyVo companyVo) throws Exception{
         String url = "http://" + Ip +":" + port + "/" + path + "/v1/app/resource/company/updateCompany";
 
         String s = JSONObject.toJSONString(companyVo);
-        HttpResult httpResult = apiService.doPost(url, s);
+        HttpResult httpResult = apiService.doPut(url,s);
 
         if (httpResult.getCode() != Status) {
             return DataUtils.getError();
@@ -90,14 +90,14 @@ public class CompanyApiController {
 
     @ApiOperation(value = "同行信息删除", notes = "同行信息删除")
     @ApiImplicitParam(name = "Id", value = "公司Id", required = true, dataType = "Long", paramType = "path")
-    @GetMapping("/deleteCompany")
+    @DeleteMapping("/deleteCompany")
     @CrossOrigin
     public Object deleteCompany (@RequestParam("Id") Long Id) throws Exception{
         String url = "http://" + Ip +":" + port + "/" + path + "/v1/app/resource/company/deleteCompany?Id=" +Id;
 
         Map<String,Object> map = new HashMap<>();
 
-        HttpResult httpResult = apiService.doGet(url, map);
+        HttpResult httpResult = apiService.doDelete(url,map);
 
         if (httpResult.getCode() != Status) {
             return DataUtils.getError();
@@ -152,10 +152,26 @@ public class CompanyApiController {
 
     @ApiOperation(value = "同行状态", notes = "同行状态修改")
     @ApiImplicitParam(name = "Id", value = "公司Id", required = true, dataType = "Long", paramType = "path")
-    @GetMapping("/UpdateCompanyStop")
+    @PutMapping("/UpdateCompanyStop")
     @CrossOrigin
     public Object UpdateCompanyStop (@RequestParam("Id") Long Id) throws Exception{
         String url = "http://" + Ip +":" + port + "/" + path + "/v1/app/resource/company/UpdateCompanyStop?Id=" + Id;
+
+        HttpResult httpResult = apiService.doPut(url, null);
+
+        if (httpResult.getCode() != Status) {
+            return DataUtils.getError();
+        }
+        return JSONObject.parse(httpResult.getBody());
+    }
+
+
+    @ApiOperation(value = "同行信息修改首页", notes = "同行信息修改首页")
+    @ApiImplicitParam(name = "Id", value = "公司Id", required = true, dataType = "Long", paramType = "path")
+    @GetMapping("/updateCompanyIndex")
+    @CrossOrigin
+    public Object updateCompanyIndex (@RequestParam("Id") Long Id) throws Exception{
+        String url = "http://" + Ip +":" + port + "/" + path + "/v1/app/resource/company/updateCompanyIndex?Id=" + Id;
 
         Map<String,Object> map = new HashMap<>();
 
@@ -166,6 +182,5 @@ public class CompanyApiController {
         }
         return JSONObject.parse(httpResult.getBody());
     }
-
 
 }

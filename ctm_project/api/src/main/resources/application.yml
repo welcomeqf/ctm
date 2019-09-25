@@ -15,8 +15,8 @@ app:
   workerId: 9
   dataCenterId: 1
 api:
-  userIp: 192.168.0.253
-  port: 9092
+  userIp: 192.168.0.22
+  port: 8001
   path: user
 resourceApi:
   port: 9091

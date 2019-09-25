@@ -80,13 +80,13 @@ public class LineApiController {
             @ApiImplicitParam(name = "MaxNumber", value = "最大人数", required = true, dataType = "int", paramType = "path"),
             @ApiImplicitParam(name = "MinNumber", value = "最小人数", required = true, dataType = "int", paramType = "path")
     })
-    @PostMapping("/updateLine")
+    @PutMapping("/updateLine")
     @CrossOrigin
     public Object updateLine(@RequestBody Line line) throws Exception{
         String url = "http://" + Ip +":" + port + "/" +path + "/v1/app/apply/line/updateLine";
 
         String s = JSONObject.toJSONString(line);
-        HttpResult httpResult = apiService.doPost(url, s);
+        HttpResult httpResult = apiService.doPut(url,s);
 
         if (httpResult.getCode() != Status) {
             return DataUtils.getError();
@@ -118,14 +118,12 @@ public class LineApiController {
 
     @ApiOperation(value = "停用线路", notes = "停用线路")
     @ApiImplicitParam(name = "Id", value = "Id", required = true, dataType = "String", paramType = "path")
-    @GetMapping("/stopLine")
+    @PutMapping("/stopLine")
     @CrossOrigin
     public Object stopLine(@RequestParam("Id") Long Id) throws Exception{
         String url = "http://" + Ip +":" + port + "/" +path + "/v1/app/apply/line/stopLine?Id=" + Id;
 
-        Map<String,Object> map = new HashMap<>();
-
-        HttpResult httpResult = apiService.doGet(url, map);
+        HttpResult httpResult = apiService.doPut(url,null);
 
         if (httpResult.getCode() != Status) {
             return DataUtils.getError();
@@ -135,14 +133,12 @@ public class LineApiController {
 
     @ApiOperation(value = "启用线路", notes = "启用线路")
     @ApiImplicitParam(name = "Id", value = "Id", required = true, dataType = "String", paramType = "path")
-    @GetMapping("/startLine")
+    @PutMapping("/startLine")
     @CrossOrigin
     public Object startLine(@RequestParam("Id") Long Id) throws Exception{
         String url = "http://" + Ip +":" + port + "/" +path + "/v1/app/apply/line/startLine?Id=" + Id;
 
-        Map<String,Object> map = new HashMap<>();
-
-        HttpResult httpResult = apiService.doGet(url, map);
+        HttpResult httpResult = apiService.doPut(url,null);
 
         if (httpResult.getCode() != Status) {
             return DataUtils.getError();

@@ -1,0 +1,5 @@
+
+psquid:S00117J"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ÁíÕò8ÖºŠÖ-
+Dsquid:S1170+"!Make this final field static too.(ûĞüüÿÿÿÿ8È—˜ŠÖ-
+qsquid:S00116 "MRename this field "Ip" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ÁãåÚıÿÿÿÿ8•†ş‰Ö-
+usquid:S00116+"QRename this field "Status" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ûĞüüÿÿÿÿ8È—˜ŠÖ-

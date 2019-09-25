@@ -130,30 +130,20 @@ public class HttpClientUtils {
     /**
      * PUT请求
      * @param url
-     * @param map
+     * @param jsonInfo
      * @return
      * @throws Exception
      */
-    public HttpResult doPut(String url, Map<String, Object> map) throws Exception {
+    public HttpResult doPut(String url, String jsonInfo) throws Exception {
         // 声明httpPost请求
         HttpPut httpPut = new HttpPut(url);
 
-        // 判断map不为空
-        if (map != null) {
-            // 声明存放参数的List集合
-            List<NameValuePair> params = new ArrayList<NameValuePair>();
-
-            // 遍历map，设置参数到list中
-            for (Map.Entry<String, Object> entry : map.entrySet()) {
-                params.add(new BasicNameValuePair(entry.getKey(), entry.getValue().toString()));
-            }
-
-            // 创建form表单对象
-            UrlEncodedFormEntity formEntity = new UrlEncodedFormEntity(params, "UTF-8");
-
-            // 把表单对象设置到httpPost中
-            httpPut.setEntity(formEntity);
-        }
+        httpPut.setHeader("Accept", "application/json");
+        httpPut.setHeader("Content-Type", "application/json");
+//        httpPost.setHeader("token","lpck");
+        String charSet = "UTF-8";
+        StringEntity entity = new StringEntity(jsonInfo, charSet);
+        httpPut.setEntity(entity);
 
         // 使用HttpClient发起请求，返回response
         CloseableHttpResponse response = null;
