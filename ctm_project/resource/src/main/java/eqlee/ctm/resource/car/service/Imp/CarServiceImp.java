@@ -28,7 +28,7 @@ public class CarServiceImp extends ServiceImpl<CarMapper, Car>implements ICarSer
 
     /**
      * 增加车辆
-     * @param car
+     * @param carVo
      */
     @Override
     public void addCar(CarVo carVo) {
@@ -38,16 +38,9 @@ public class CarServiceImp extends ServiceImpl<CarMapper, Car>implements ICarSer
         car.setRemark(carVo.getRemark());
         car.setCarName(carVo.getCarName());
         car.setCarNo(carVo.getCarNo());
-        if(StringUtils.isNotEmpty(carVo.getStatu())){
-            if(carVo.getStatu() == "未出行")
-                car.setStatu(0);
-            if(carVo.getStatu() == "已出行")
-                car.setStatu(1);
-            if(carVo.getStatu() == "已报废")
-                car.setStatu(2);
-        }
+        car.setStatu(Integer.parseInt(carVo.getStatu()));
         int add = baseMapper.insert(car);
-        if(add<=0){
+        if(add <= 0){
             log.error("insert car fail");
             throw new ApplicationException(CodeType.SERVICE_ERROR,"增加车辆失败");
         }
@@ -60,7 +53,7 @@ public class CarServiceImp extends ServiceImpl<CarMapper, Car>implements ICarSer
     @Override
     public void deleteCar(Long id) {
         int delete = baseMapper.deleteById(id);
-        if(delete<=0){
+        if(delete <= 0){
             log.error("delete car fail");
             throw new ApplicationException(CodeType.SERVICE_ERROR,"删除车辆失败");
         }
@@ -74,21 +67,13 @@ public class CarServiceImp extends ServiceImpl<CarMapper, Car>implements ICarSer
     public void updateCar(CarVo carVo) {
 
         Car car = new Car();
-        IdGenerator idGenerator = new IdGenerator();
-        car.setId(idGenerator.getNumberId());
+        car.setId(carVo.getId());
         car.setRemark(carVo.getRemark());
         car.setCarName(carVo.getCarName());
         car.setCarNo(carVo.getCarNo());
-        if(StringUtils.isNotEmpty(carVo.getStatu())){
-            if(carVo.getStatu() == "未出行")
-                car.setStatu(0);
-            if(carVo.getStatu() == "已出行")
-                car.setStatu(1);
-            if(carVo.getStatu() == "已报废")
-                car.setStatu(2);
-        }
+        car.setStatu(Integer.parseInt(carVo.getStatu()));
         int update = baseMapper.updateById(car);
-        if(update<=0){
+        if(update <= 0){
             log.error("update car fail");
             throw new ApplicationException(CodeType.SERVICE_ERROR,"更新车辆失败");
         }
@@ -105,5 +90,32 @@ public class CarServiceImp extends ServiceImpl<CarMapper, Car>implements ICarSer
         page.setCurrent(current);
         baseMapper.selectPage(page,null);
         return page;
+    }
+
+
+    /**
+     * 车辆信息修改首页
+     * @param Id
+     * @return
+     */
+    @Override
+    public CarVo updateCarIndex(Long Id) {
+        CarVo carVo = new CarVo();
+        Car car = new Car();
+        car = baseMapper.selectById(Id);
+        carVo.setCarName(car.getCarName());
+        carVo.setCarNo(carVo.getCarNo());
+        carVo.setId(car.getId());
+        if (car.getStatu() == 0) {
+            carVo.setStatu("未出行");
+        }
+        if (car.getStatu() == 1) {
+            carVo.setStatu("已出行");
+        }
+        if (car.getStatu() == 2) {
+            carVo.setStatu("已报废");
+        }
+        carVo.setRemark(carVo.getRemark());
+        return carVo;
     }
 }

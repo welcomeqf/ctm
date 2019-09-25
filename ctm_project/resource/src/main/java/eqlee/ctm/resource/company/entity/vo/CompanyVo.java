@@ -22,6 +22,6 @@ public class CompanyVo {
 
     private String PayMethod;
 
-    private Boolean Stopped;
+    private String Stopped;
 
 }

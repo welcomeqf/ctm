@@ -52,6 +52,17 @@ public class CompanyController {
     }
 
 
+    @ApiOperation(value = "同行信息修改首页", notes = "同行信息修改首页")
+    @ApiImplicitParam(name = "Id", value = "公司Id", required = true, dataType = "Long", paramType = "path")
+    @PostMapping("/updateCompanyIndex")
+    @CrossOrigin
+    public CompanyVo updateCompanyIndex (@RequestParam("Id") Long Id) {
+        if(Id == null){
+            log.error("update company param is null");
+            throw new ApplicationException(CodeType.PARAMETER_ERROR);
+        }
+        return companyService.UpdateCompanyIndex(Id);
+    }
 
     @ApiOperation(value = "同行信息修改", notes = "同行信息修改")
     @ApiImplicitParams({
@@ -101,7 +112,7 @@ public class CompanyController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "CompanyName", value = "公司名称", required = true, dataType = "String", paramType = "path"),
             @ApiImplicitParam(name = "current", value = "当前页", required = true, dataType = "Integer", paramType = "path"),
-            @ApiImplicitParam(name = "current", value = "页面大小", required = true, dataType = "Integer", paramType = "path")
+            @ApiImplicitParam(name = "size", value = "页面大小", required = true, dataType = "Integer", paramType = "path")
     })
     @GetMapping("/queryCompanyByName")
     @CrossOrigin

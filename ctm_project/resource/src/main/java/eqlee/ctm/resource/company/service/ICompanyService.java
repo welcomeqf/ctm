@@ -61,4 +61,11 @@ public interface ICompanyService {
      */
     Page<Company> GetCompanyPageByName(PageCompanyQuery pageCompany);
 
+
+    /**
+     *
+     * @param Id
+     */
+    CompanyVo UpdateCompanyIndex(Long Id);
+
 }

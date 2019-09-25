@@ -34,10 +34,10 @@ public class CarController {
     private ICarService carService;
 
 
-    @ApiOperation(value = "车辆列表",notes = "车辆列表展示（分页）")
+    @ApiOperation(value = "车辆列表(只展示本公司车辆）",notes = "车辆列表展示（分页）")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "current", value = "当前页", required = true, dataType = "Integer", paramType = "path"),
-            @ApiImplicitParam(name = "current", value = "页面大小", required = true, dataType = "Integer", paramType = "path")
+            @ApiImplicitParam(name = "size", value = "页面大小", required = true, dataType = "Integer", paramType = "path")
     })
     @GetMapping("/queryCarPage")
     @CrossOrigin
@@ -58,7 +58,7 @@ public class CarController {
     @CrossOrigin
     public void deleteCar(@RequestParam("Id") Long Id)
     {
-        if(Id==null){
+        if(Id == null){
             log.error("delete car param is null");
             throw new ApplicationException(CodeType.PARAMETER_ERROR,"删除车辆的Id为空");
         }
@@ -85,6 +85,22 @@ public class CarController {
         }
         carService.addCar(carVo);
     }
+
+
+
+    @ApiOperation(value = "车辆修改页首页",notes = "车辆修改页首页")
+    @PostMapping("/updateCarIndex")
+    @ApiImplicitParam(name = "Id", value = "车辆Id", required = true, dataType = "Long", paramType = "path")
+    @CrossOrigin
+    public CarVo updateCarIndex(@RequestParam("Id") Long Id)
+    {
+        if(Id == null){
+            throw new ApplicationException(CodeType.PARAMETER_ERROR,"修改车辆首页的Id不能为空");
+        }
+        return carService.updateCarIndex(Id);
+    }
+
+
 
 
 

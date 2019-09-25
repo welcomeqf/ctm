@@ -38,23 +38,22 @@ public class OrdersController {
 
     @ApiOperation(value = "导游选人确认",notes = "导游选人确认")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "applyVoList", value = "已选人信息", required = true, dataType = "List<ApplyVo>", paramType = "path")
+            @ApiImplicitParam(name = "applyVoList", value = "已选人信息", required = true, dataType = "List<ApplyVo>", paramType = "path"),
+            //ApplyNo里面的字段信息
+            @ApiImplicitParam(name = "LineId", value = "线路Id", required = true, dataType = "Long", paramType = "path"),
+            @ApiImplicitParam(name = "ContactName", value = "联系人姓名", required = true, dataType = "String", paramType = "path"),
+            @ApiImplicitParam(name = "ContactTel", value = "联系方式", required = true, dataType = "String", paramType = "path"),
+            @ApiImplicitParam(name = "Region", value = "区域", required = true, dataType = "String", paramType = "path"),
+            @ApiImplicitParam(name = "Place", value = "接送地", required = true, dataType = "String", paramType = "path"),
+            @ApiImplicitParam(name = "LineName", value = "线路名", required = true, dataType = "String", paramType = "path"),
+            @ApiImplicitParam(name = "OutDate", value = "出发日期", required = true, dataType = "String", paramType = "path"),
+
     })
     @GetMapping("saveApplyed")
-    public ResultVo saveApplyed(){
-       /* if(applyVoList.size() == 0){
+    public ResultVo saveApplyed(List<OrdersVo> applyVoList){
+        if(applyVoList.size() == 0){
             throw new ApplicationException(CodeType.PARAM_ERROR,"参数不能为空");
-        }*/
-        List<OrdersVo> applyVoList = new ArrayList<OrdersVo>();
-        OrdersVo ordersVo = new OrdersVo();
-        ordersVo.setContactName("王八蛋");
-        ordersVo.setContactTel("10000");
-        ordersVo.setLineId(623921375563743232L);
-        ordersVo.setOutDate("1905-07-01");
-        ordersVo.setLineName("长隆线");
-        ordersVo.setPlace("唐家湾");
-        ordersVo.setRegion("香洲区");
-        applyVoList.add(ordersVo);
+        }
         ordersService.saveApply(applyVoList);
         ResultVo resultVo = new ResultVo();
         resultVo.setResult("ok");

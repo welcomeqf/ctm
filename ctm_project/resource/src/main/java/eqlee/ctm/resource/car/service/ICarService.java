@@ -26,7 +26,7 @@ public interface ICarService {
 
     /**
      * 更新车辆
-     * @param car
+     * @param carVo
      */
     void updateCar(CarVo carVo);
 
@@ -35,5 +35,8 @@ public interface ICarService {
      * @return
      */
     Page<Car> queryAllCar(Integer current,Integer size);
+
+
+    CarVo updateCarIndex(Long Id);
 
 }

@@ -55,20 +55,7 @@ public class CompanyServiceImp extends ServiceImpl<CompanyMapper,Company> implem
         company.setCompanyName(companyVo.getCompanyName());
         company.setStartDate(LocalDateTime.parse(companyVo.getStartDate()));
         company.setEndDate(LocalDateTime.parse(companyVo.getEndDate()));
-        if(StringUtils.isNotBlank(companyVo.getPayMethod())) {
-            if (companyVo.getPayMethod().equals("默认")) {
-                company.setPayMethod(0);
-            }
-            if (companyVo.getPayMethod().equals("现结")) {
-                company.setPayMethod(1);
-            }
-            if (companyVo.getPayMethod().equals("月结")) {
-                company.setPayMethod(2);
-            }
-            if (companyVo.getPayMethod().equals("代收")) {
-                company.setPayMethod(3);
-            }
-        }
+        company.setPayMethod(Integer.parseInt(companyVo.getPayMethod()));
         int insert = baseMapper.insert(company);
 
         if (insert <= 0) {
@@ -105,21 +92,29 @@ public class CompanyServiceImp extends ServiceImpl<CompanyMapper,Company> implem
         company.setCompanyName(companyVo.getCompanyName());
         company.setStartDate(LocalDateTime.parse(companyVo.getStartDate()));
         company.setEndDate(LocalDateTime.parse(companyVo.getEndDate()));
-        company.setStopped(companyVo.getStopped());
-        if(StringUtils.isNotBlank(companyVo.getPayMethod())) {
-            if (companyVo.getPayMethod().equals("默认")) {
-                company.setPayMethod(0);
-            }
-            if (companyVo.getPayMethod().equals("现结")) {
-                company.setPayMethod(1);
-            }
-            if (companyVo.getPayMethod().equals("月结")) {
-                company.setPayMethod(2);
-            }
-            if (companyVo.getPayMethod().equals("代收")) {
-                company.setPayMethod(3);
-            }
+        if(companyVo.getStopped() == "0"){
+            company.setStopped(false);
         }
+        if(companyVo.getStopped() == "1"){
+            company.setStopped(true);
+        }
+        company.setPayMethod(Integer.parseInt(companyVo.getPayMethod()));
+        /**
+         *  if(StringUtils.isNotBlank(companyVo.getPayMethod())) {
+         *             if (companyVo.getPayMethod().equals("默认")) {
+         *                 company.setPayMethod(0);
+         *             }
+         *             if (companyVo.getPayMethod().equals("现结")) {
+         *                 company.setPayMethod(1);
+         *             }
+         *             if (companyVo.getPayMethod().equals("月结")) {
+         *                 company.setPayMethod(2);
+         *             }
+         *             if (companyVo.getPayMethod().equals("代收")) {
+         *                 company.setPayMethod(3);
+         *             }
+         *         }
+         */
         int update = baseMapper.updateById(company);
         if (update <= 0) {
             log.error("update company fail");
@@ -199,5 +194,40 @@ public class CompanyServiceImp extends ServiceImpl<CompanyMapper,Company> implem
         page.setSize(pageCompany.getSize());
         baseMapper.selectPage(page, queryWrapper);
         return page;
+    }
+
+
+    /**
+     * 修改公司信息首页
+     * @param Id
+     */
+    @Override
+    public CompanyVo UpdateCompanyIndex(Long Id) {
+        CompanyVo companyVo = new CompanyVo();
+        Company company = new Company();
+        company = baseMapper.selectById(Id);
+        companyVo.setStartDate(company.getStartDate().toString());
+        companyVo.setEndDate(company.getEndDate().toString());
+        companyVo.setCompanyName(company.getCompanyName());
+        companyVo.setId(Id);
+        if (company.getPayMethod() == 0) {
+            companyVo.setPayMethod("默认");
+        }
+        if (company.getPayMethod() == 0) {
+            companyVo.setPayMethod("现结");
+        }
+        if (company.getPayMethod() == 0) {
+            companyVo.setPayMethod("月结");
+        }
+        if (company.getPayMethod() == 0) {
+            companyVo.setPayMethod("代收");
+        }
+        if (company.isStopped()){
+            companyVo.setStopped("停用");
+        }
+        if (!company.isStopped()){
+            companyVo.setStopped("正常");
+        }
+        return companyVo;
     }
 }
