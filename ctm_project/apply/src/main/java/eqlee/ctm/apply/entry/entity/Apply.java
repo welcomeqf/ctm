@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
@@ -19,6 +20,8 @@ import java.time.LocalDateTime;
 @Accessors(chain = true)
 @TableName("Apply")
 public class Apply extends Model<Apply> {
+
+    private static final long serialVersionUID = 1L;
 
     /**
      * ID
@@ -151,8 +154,13 @@ public class Apply extends Model<Apply> {
     private LocalDateTime UpdateDate;
 
     /**
-     * (0-正常  1-待审核  2--通过   3--不通过)
+     * (0-待审核  1-通过  2--不通过)
      */
     private Integer Statu;
+
+    @Override
+    protected Serializable pkVal() {
+        return this.Id;
+    }
 
 }

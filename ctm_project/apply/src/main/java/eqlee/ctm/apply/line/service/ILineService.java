@@ -48,4 +48,12 @@ public interface ILineService {
      * @param id
      */
     void updateNormal(Long id);
+
+
+    /**
+     * 根据Id查询一条线路
+     * @param Id
+     * @return
+     */
+    Line queryOneLine (Long Id);
 }

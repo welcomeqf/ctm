@@ -2,10 +2,7 @@ package eqlee.ctm.apply.entry.service;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import eqlee.ctm.apply.entry.entity.Apply;
-import eqlee.ctm.apply.entry.entity.query.ApplyCompanyQuery;
-import eqlee.ctm.apply.entry.entity.query.ApplyDoQuery;
-import eqlee.ctm.apply.entry.entity.query.ApplyQuery;
-import eqlee.ctm.apply.entry.entity.query.ApplyUpdateInfo;
+import eqlee.ctm.apply.entry.entity.query.*;
 import eqlee.ctm.apply.entry.entity.vo.ApplyVo;
 
 import java.util.List;
@@ -81,5 +78,13 @@ public interface IApplyService {
      * @return
      */
     List<Apply> selectAllApply();
+
+
+    /**
+     * 查询公司信息
+     * @param Id
+     * @return
+     */
+    Company queryOne(Long Id);
 
 }

@@ -19,7 +19,7 @@ public class ApplyVo {
     /**
      * 同行公司名
      */
-    private String CompanyName;
+    private Long CompanyNameId;
 
     /**
      * 同行代表人
@@ -40,11 +40,6 @@ public class ApplyVo {
      * 接送地点
      */
     private String Place;
-
-    /**
-     * 区域
-     */
-    private String Region;
 
     /**
      * 线路名
@@ -75,4 +70,8 @@ public class ApplyVo {
      * 支付类型(0--现结  1--月结 2--代付)默认0
      */
     private String PayType;
+
+    private Long CreateUserId;
+
+    private Long UpdateUserId;
 }

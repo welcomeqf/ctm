@@ -1,5 +1,7 @@
 package eqlee.ctm.api.entity.vo;
 
+import com.alibaba.fastjson.annotation.JSONField;
+import com.alibaba.fastjson.serializer.ToStringSerializer;
 import lombok.Data;
 
 
@@ -13,6 +15,7 @@ public class MenuVo {
 
     private String MenuName;
 
+    @JSONField(serializeUsing= ToStringSerializer.class)
     private Long Parent;
 
     private String Action;

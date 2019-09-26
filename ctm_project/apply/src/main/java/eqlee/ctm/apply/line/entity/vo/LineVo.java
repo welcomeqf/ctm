@@ -28,7 +28,7 @@ public class LineVo {
     /**
      * 出游情况（几日游）
      */
-    private String TravelSituation;
+    private Integer TravelSituation;
 
     /**
      * 最大人数

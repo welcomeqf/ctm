@@ -39,7 +39,7 @@ public class ApplyQuery {
     /**
      * 已报人数
      */
-    private Integer AllNumber;
+    private Integer DoAllNumber;
 
     /**
      * 最大人数

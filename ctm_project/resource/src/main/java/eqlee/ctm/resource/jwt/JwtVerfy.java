@@ -29,9 +29,9 @@ public class JwtVerfy {
                 //设置需要解析的jwt
                 .parseClaimsJws(token).getBody();
 
-        String Id = "Id";
+        String Password = "Password";
 
-        if (claims.get(Id).equals(user.getId())) {
+        if (claims.get(Password).equals(user.getPassword())) {
             return true;
         }
 

@@ -25,11 +25,6 @@ public class ApplyCompanyQuery {
     private LocalDate OutDate;
 
     /**
-     * 同行代表人
-     */
-    private String CompanyUser;
-
-    /**
      * 线路名
      */
     private String LineName;
@@ -50,7 +45,7 @@ public class ApplyCompanyQuery {
     private String ContactTel;
 
     /**
-     * (0-正常  1-待审核  2--通过   3--不通过)
+     * (0-待审核  1-通过  2--不通过)
      */
     private Integer Statu;
 }

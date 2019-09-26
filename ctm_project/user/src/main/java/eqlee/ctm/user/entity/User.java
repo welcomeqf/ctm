@@ -1,11 +1,14 @@
 package eqlee.ctm.user.entity;
 
+import com.alibaba.fastjson.annotation.JSONField;
+import com.alibaba.fastjson.serializer.ToStringSerializer;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 
 /**
@@ -18,6 +21,8 @@ import java.time.LocalDateTime;
 @Accessors(chain = true)
 @TableName("SystemUser")
 public class User extends Model<User> {
+
+    private static final long serialVersionUID = 1L;
 
     private Long Id;
 
@@ -140,4 +145,9 @@ public class User extends Model<User> {
      * 公司ID
      */
     private Long CompanyId;
+
+    @Override
+    protected Serializable pkVal() {
+        return this.Id;
+    }
 }

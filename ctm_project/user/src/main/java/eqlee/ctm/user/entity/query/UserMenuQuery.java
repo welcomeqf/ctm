@@ -1,5 +1,7 @@
 package eqlee.ctm.user.entity.query;
 
+import com.alibaba.fastjson.annotation.JSONField;
+import com.alibaba.fastjson.serializer.ToStringSerializer;
 import lombok.Data;
 
 /**

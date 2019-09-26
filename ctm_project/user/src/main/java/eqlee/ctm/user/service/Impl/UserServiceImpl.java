@@ -12,9 +12,7 @@ import eqlee.ctm.user.entity.UserRole;
 import eqlee.ctm.user.entity.query.PrivilegeMenuQuery;
 import eqlee.ctm.user.entity.query.UserLoginQuery;
 import eqlee.ctm.user.entity.query.UserQuery;
-import eqlee.ctm.user.entity.vo.ResultSignVo;
-import eqlee.ctm.user.entity.vo.UserRoleVo;
-import eqlee.ctm.user.entity.vo.UserVo;
+import eqlee.ctm.user.entity.vo.*;
 import eqlee.ctm.user.exception.ApplicationException;
 import eqlee.ctm.user.service.IPrivilegeService;
 import eqlee.ctm.user.service.IRoleService;
@@ -417,6 +415,82 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
             throw new ApplicationException(CodeType.AUTHENTICATION_ERROR);
         }
         return baseMapper.queryUserByName(page,userName);
+    }
+
+    /**
+     * 重置密码
+     * @param vo
+     */
+    @Override
+    public synchronized void updateUserPassword(UserUpdatePasswordVo vo) {
+        //验证签名
+        Sign sign = signService.queryOne(vo.getAppId());
+        Boolean result = null;
+        try {
+            result = SignData.getResult(DataUtils.getDcodeing(vo.getAppId()), DataUtils.getDcodeing(sign.getInformation()));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        if (!result) {
+            throw new ApplicationException(CodeType.AUTHENTICATION_ERROR);
+        }
+
+        //业务
+        LambdaQueryWrapper<User> queryWrapper = new LambdaQueryWrapper<User>()
+                .eq(User::getAccount,vo.getUserName());
+        User user = baseMapper.selectOne(queryWrapper);
+
+        if (user == null) {
+            throw new ApplicationException(CodeType.SERVICE_ERROR,"该用户不存在");
+        }
+
+        if (!user.getTel().equals(vo.getTel())) {
+            throw new ApplicationException(CodeType.SERVICE_ERROR, "手机号填写有误");
+        }
+
+        User u = new User();
+        u.setId(vo.getId());
+        u.setPassword(ShaUtils.getSha1(vo.getPassword()));
+        int updateById = baseMapper.updateById(u);
+
+        if (updateById <= 0) {
+            log.error("update password fail.");
+            throw new ApplicationException(CodeType.SERVICE_ERROR,"重置密码失败");
+        }
+    }
+
+    /**
+     * 修改用户信息
+     * @param vo
+     */
+    @Override
+    public void updateUser(UserUpdateVo vo) {
+        //验证签名
+        Sign sign = signService.queryOne(vo.getAppId());
+        Boolean result = null;
+        try {
+            result = SignData.getResult(DataUtils.getDcodeing(vo.getAppId()), DataUtils.getDcodeing(sign.getInformation()));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        if (!result) {
+            throw new ApplicationException(CodeType.AUTHENTICATION_ERROR);
+        }
+
+        //修改用户
+        User user = new User();
+        user.setId(vo.getId());
+        user.setCompanyId(vo.getCompanyId());
+        user.setCName(vo.getCName());
+        user.setSelfImagePath(vo.getSelfImagePath());
+        user.setTel(vo.getTel());
+
+        int byId = baseMapper.updateById(user);
+
+        if (byId <= 0) {
+            log.error("update user fail.");
+            throw new ApplicationException(CodeType.SERVICE_ERROR,"修改用户信息失败");
+        }
     }
 
 }

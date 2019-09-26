@@ -1,5 +1,7 @@
 package eqlee.ctm.api.entity;
 
+import com.alibaba.fastjson.annotation.JSONField;
+import com.alibaba.fastjson.serializer.ToStringSerializer;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
 import lombok.Data;
@@ -14,6 +16,7 @@ import lombok.experimental.Accessors;
 @Data
 public class UserRole {
 
+    @JSONField(serializeUsing= ToStringSerializer.class)
     private Long Id;
 
     /**
@@ -24,6 +27,7 @@ public class UserRole {
     /**
      * 公司ID
      */
+    @JSONField(serializeUsing= ToStringSerializer.class)
     private Long CompanyId;
 
     /**

@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 
 /**
@@ -18,6 +19,8 @@ import java.time.LocalDateTime;
 @Accessors(chain = true)
 @TableName("Line")
 public class Line extends Model<Line> {
+
+    private static final long serialVersionUID = 1L;
 
     /**
      * ID
@@ -42,7 +45,7 @@ public class Line extends Model<Line> {
     /**
      * 出游天数（几日游）
      */
-    private String TravelSituation;
+    private Integer TravelSituation;
 
     /**
      * 最大人数
@@ -83,4 +86,9 @@ public class Line extends Model<Line> {
      * 修改时间
      */
     private LocalDateTime UpdateDate;
+
+    @Override
+    protected Serializable pkVal() {
+        return this.Id;
+    }
 }

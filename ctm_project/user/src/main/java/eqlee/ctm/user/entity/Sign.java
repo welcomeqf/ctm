@@ -1,11 +1,13 @@
 package eqlee.ctm.user.entity;
 
+
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 
 /**
@@ -18,6 +20,8 @@ import java.time.LocalDateTime;
 @EqualsAndHashCode(callSuper = false)
 @TableName("SecutictySign")
 public class Sign extends Model<Sign> {
+
+    private static final long serialVersionUID = 1L;
 
     /**
      * 唯一（相当于设备ID）
@@ -73,4 +77,9 @@ public class Sign extends Model<Sign> {
      * 修改时间
      */
     private LocalDateTime UpdateDate;
+
+    @Override
+    protected Serializable pkVal() {
+        return this.Id;
+    }
 }

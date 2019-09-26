@@ -6,12 +6,15 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.yq.constanct.CodeType;
 import com.yq.utils.IdGenerator;
 import eqlee.ctm.apply.exception.ApplicationException;
+import eqlee.ctm.apply.jwt.contain.LocalUser;
+import eqlee.ctm.apply.jwt.entity.UserLoginQuery;
 import eqlee.ctm.apply.line.dao.LineMapper;
 import eqlee.ctm.apply.line.entity.Line;
 import eqlee.ctm.apply.line.entity.query.LinePageQuery;
 import eqlee.ctm.apply.line.entity.vo.LineVo;
 import eqlee.ctm.apply.line.service.ILineService;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -25,6 +28,8 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional(rollbackFor = Exception.class)
 public class LineServiceImpl extends ServiceImpl<LineMapper, Line> implements ILineService {
 
+    @Autowired
+    private LocalUser localUser;
 
     /**
      * 根据线路名查询线路
@@ -60,6 +65,10 @@ public class LineServiceImpl extends ServiceImpl<LineMapper, Line> implements IL
         line.setMinNumber(lineVo.getMinNumber());
         line.setTravelSituation(lineVo.getTravelSituation());
 
+        //获取用户信息
+        UserLoginQuery user = localUser.getUser("用户信息");
+        line.setCreateUserId(user.getId());
+        line.setUpdateUserId(user.getId());
         int insert = baseMapper.insert(line);
 
         if (insert <= 0) {
@@ -74,6 +83,12 @@ public class LineServiceImpl extends ServiceImpl<LineMapper, Line> implements IL
      */
     @Override
     public void updateLine(Line line) {
+        //获取用户信息
+        UserLoginQuery user = localUser.getUser("用户信息");
+
+        line.setCreateUserId(user.getId());
+        line.setUpdateUserId(user.getId());
+
         int i = baseMapper.updateById(line);
 
         if (i <= 0) {
@@ -106,9 +121,13 @@ public class LineServiceImpl extends ServiceImpl<LineMapper, Line> implements IL
      */
     @Override
     public void updateStatus(Long id) {
+        //获取用户信息
+        UserLoginQuery user = localUser.getUser("用户信息");
+
         Line line = new Line();
         line.setId(id);
         line.setStopped(true);
+        line.setUpdateUserId(user.getId());
         int i = baseMapper.updateById(line);
         if (i <= 0) {
             log.error("stop line fail.");
@@ -122,13 +141,27 @@ public class LineServiceImpl extends ServiceImpl<LineMapper, Line> implements IL
      */
     @Override
     public void updateNormal(Long id) {
+        //获取用户信息
+        UserLoginQuery user = localUser.getUser("用户信息");
+
         Line line = new Line();
         line.setId(id);
         line.setStopped(false);
+        line.setUpdateUserId(user.getId());
         int i = baseMapper.updateById(line);
         if (i <= 0) {
             log.error("start line fail.");
             throw new ApplicationException(CodeType.SERVICE_ERROR,"启用线路失败");
         }
+    }
+
+    /**|
+     * 根据Id查询一条线路
+     * @param Id
+     * @return
+     */
+    @Override
+    public Line queryOneLine(Long Id) {
+        return baseMapper.selectById(Id);
     }
 }

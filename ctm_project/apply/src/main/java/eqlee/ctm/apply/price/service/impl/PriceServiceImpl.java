@@ -11,6 +11,8 @@ import com.yq.utils.StringUtils;
 import eqlee.ctm.apply.channle.entity.Channel;
 import eqlee.ctm.apply.channle.service.IChannelService;
 import eqlee.ctm.apply.exception.ApplicationException;
+import eqlee.ctm.apply.jwt.contain.LocalUser;
+import eqlee.ctm.apply.jwt.entity.UserLoginQuery;
 import eqlee.ctm.apply.line.entity.Line;
 import eqlee.ctm.apply.line.service.ILineService;
 import eqlee.ctm.apply.price.dao.PriceMapper;
@@ -48,6 +50,9 @@ public class PriceServiceImpl extends ServiceImpl<PriceMapper, Price> implements
     @Autowired
     private IChannelService channelService;
 
+    @Autowired
+    private LocalUser localUser;
+
     /**
      * 根据出行日期查询价格
      *
@@ -72,6 +77,8 @@ public class PriceServiceImpl extends ServiceImpl<PriceMapper, Price> implements
         //根据线路名查询该线路的Id插入数据库
         Line line = lineService.queryLineByName(priceVo.getLineName());
         Channel channel = channelService.selectChannelByType("代理");
+        //获取用户信息
+        UserLoginQuery user = localUser.getUser("用户信息");
         IdGenerator idGenerator = new IdGenerator();
         //如果输入的开始时间和结束时间是同一天的话 或者其中一个时间为空  就只设定该天一天的价格
         if (priceVo.getStartTime().equals(priceVo.getEndTime()) || StringUtils.isBlank(priceVo.getStartTime())
@@ -84,6 +91,8 @@ public class PriceServiceImpl extends ServiceImpl<PriceMapper, Price> implements
             price.setChildPrice(priceVo.getChildPrice());
             price.setOutDate(outDate);
             price.setLineId(line.getId());
+            price.setCreateUserId(user.getId());
+            price.setUpdateUserId(user.getId());
             // 渠道ID
             price.setChannelId(channel.getId());
             baseMapper.insert(price);
@@ -107,6 +116,9 @@ public class PriceServiceImpl extends ServiceImpl<PriceMapper, Price> implements
             price.setBabyPrice(priceVo.getBabyPrice());
             price.setChildPrice(priceVo.getChildPrice());
             price.setLineId(line.getId());
+
+            price.setCreateUserId(user.getId());
+            price.setUpdateUserId(user.getId());
             // 渠道ID
             price.setChannelId(channel.getId());
             //设置每一天的日期
@@ -156,12 +168,15 @@ public class PriceServiceImpl extends ServiceImpl<PriceMapper, Price> implements
     }
 
     @Override
-    public void batchUpdatePrice(PriceVo priceVo) {
+    public synchronized void batchUpdatePrice(PriceVo priceVo) {
         Line line = lineService.queryLineByName(priceVo.getLineName());
         //根据线路id查找出对应的线路列表
         LambdaQueryWrapper<Price> queryWrapper = new LambdaQueryWrapper<Price>()
                 .eq(Price::getLineId, line.getId());
         List<Price> pricesList = baseMapper.selectList(queryWrapper);
+        //获取用户信息
+        UserLoginQuery user = localUser.getUser("用户信息");
+
         //如果输入的开始时间和结束时间是同一天的话 或者其中一个时间为空  就只设定该天一天的价格
         if (priceVo.getStartTime().equals(priceVo.getEndTime()) || StringUtils.isBlank(priceVo.getStartTime())
                 || StringUtils.isBlank(priceVo.getEndTime())) {
@@ -169,6 +184,7 @@ public class PriceServiceImpl extends ServiceImpl<PriceMapper, Price> implements
             if (time.isEmpty()) {
                 time = priceVo.getEndTime();
             }
+
             LambdaQueryWrapper<Price> lambdaQueryWrapper = new LambdaQueryWrapper<Price>()
                     .eq(Price::getLineId, line.getId()).eq(Price::getOutDate, LocalDate.parse(time));
             Price needUpdatePrice = baseMapper.selectOne(lambdaQueryWrapper);
@@ -176,6 +192,7 @@ public class PriceServiceImpl extends ServiceImpl<PriceMapper, Price> implements
             needUpdatePrice.setBabyPrice(priceVo.getBabyPrice());
             needUpdatePrice.setChildPrice(priceVo.getChildPrice());
             needUpdatePrice.setOldPrice(priceVo.getOldPrice());
+            needUpdatePrice.setUpdateUserId(user.getId());
             baseMapper.updateById(needUpdatePrice);
         }
         if (!priceVo.getStartTime().equals(priceVo.getEndTime()) && StringUtils.isNotBlank(priceVo.getStartTime())
@@ -230,6 +247,7 @@ public class PriceServiceImpl extends ServiceImpl<PriceMapper, Price> implements
                     }
                 }
             }
+
 
             int update = baseMapper.batchupdatePrice(pricesList);
             if (update <= 0) {

@@ -1,5 +1,9 @@
 
-[squid:UselessImportCheck"+Remove this unused import 'java.util.List'.(Õë±Äøÿÿÿÿ8Óş©óÔ-
-psquid:S00117;"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(­ Â»8éĞ¬’Ö-
-msquid:UselessImportCheck"DRemove this unused import 'org.springframework.util.JdkIdGenerator'.(®ÆÕúÿÿÿÿ
+psquid:S00117C"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(­ Â»8€“¦¾Ö-
+ysquid:UselessImportCheck"IRemove this unused import 'eqlee.ctm.resource.jwt.entity.UserLoginQuery'.(Áòœ«ûÿÿÿÿ8—ûå¿Ö-
 Ysquid:UselessImportCheck"5Remove this unused import 'com.yq.utils.IdGenerator'.(óğœÔ
+usquid:S00117g"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ïÈš£şÿÿÿÿ8€“¦¾Ö-
+[squid:UselessImportCheck"+Remove this unused import 'java.util.List'.(Õë±Äøÿÿÿÿ8Óş©óÔ-
+msquid:UselessImportCheck"DRemove this unused import 'org.springframework.util.JdkIdGenerator'.(®ÆÕúÿÿÿÿ
+[
+squid:S1068"9Replace this use of System.out or System.err by a logger.(ß¦ÑÚıÿÿÿÿ8…©ÀÀÖ-

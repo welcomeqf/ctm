@@ -1,13 +1,12 @@
 
-qsquid:S00117Î"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(€À…—8ü€–†Ö-
-qsquid:S00117‚"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(§ÃÙæ8ü€–†Ö-
-nsquid:UselessImportCheck"CRemove this unused import 'javax.servlet.http.HttpServletResponse'.(Á¨ïë8ÓÉšÄÔ-
-usquid:S00117t"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(÷ŒÌûÿÿÿÿ8ü€–†Ö-
-psquid:S00117J"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(àÔ™8ü€–†Ö-
-gsquid:UselessImportCheck"7Remove this unused import 'eqlee.ctm.user.entity.User'.(Ûƒâÿÿÿÿÿ8½Å›ÄÔ-
-psquid:S00117`"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(‚Ê½Ê8ü€–†Ö-
-osquid:S11927"SDefine a constant instead of duplicating this literal "å‚æ•°ä¸èƒ½ä¸ºç©º" 7 times.(ˆ¯ãõÿÿÿÿÿ
-qsquid:S00117í"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(§ÃÙæ8ü€–†Ö-
-vsquid:S00117œ"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(¦§Éıÿÿÿÿ8ü€–†Ö-
-osquid:S11926"SDefine a constant instead of duplicating this literal "param is not null." 7 times.(ÕòŒÌùÿÿÿÿ
-psquid:S00117ˆ"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(œÇ¨48ü€–†Ö-
+qsquid:S00117Í"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(€À…—8ü€–†Ö-
+psquid:S00117_"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(‚Ê½Ê8ü€–†Ö-
+osquid:S11925"SDefine a constant instead of duplicating this literal "param is not null." 7 times.(ÕòŒÌùÿÿÿÿ
+vsquid:S00117›"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(¦§Éıÿÿÿÿ8ü€–†Ö-
+qsquid:S00117ì"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(§ÃÙæ8ü€–†Ö-
+usquid:S00117s"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(÷ŒÌûÿÿÿÿ8ü€–†Ö-
+osquid:S11926"SDefine a constant instead of duplicating this literal "å‚æ•°ä¸èƒ½ä¸ºç©º" 7 times.(ˆ¯ãõÿÿÿÿÿ
+nsquid:UselessImportCheck"CRemove this unused import 'javax.servlet.http.HttpServletResponse'.(Á¨ïë8ÓÉšÄÔ-
+psquid:S00117I"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(àÔ™8ü€–†Ö-
+psquid:S00117‡"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(œÇ¨48ü€–†Ö-
+qsquid:S00117"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(§ÃÙæ8ü€–†Ö-

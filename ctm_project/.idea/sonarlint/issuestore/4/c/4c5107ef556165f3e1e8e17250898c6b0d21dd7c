@@ -1,8 +1,15 @@
 
+dsquid:S00112‰"FDefine and throw a dedicated exception instead of using a generic one.(Œô˜†úÿÿÿÿ
 csquid:S00112)"FDefine and throw a dedicated exception instead of using a generic one.(öÏö½ûÿÿÿÿ
-jsquid:S00112\"FDefine and throw a dedicated exception instead of using a generic one.(†€¬Åúÿÿÿÿ8Ôáô´Õ-
-qsquid:S2293"YReplace the type specification in this constructor call with the diamond operator ("<>").(Æ„•÷
-dsquid:S00112‰"FDefine and throw a dedicated exception instead of using a generic one.(§Ñáüÿÿÿÿ
+[squid:UselessImportCheck"0Remove this unused import 'java.util.ArrayList'.(÷‰îƒ8Ä£»Ö-
 ]squid:S1192J"FDefine a constant instead of duplicating this literal "UTF-8" 5 times.(„ÛÎ±
-dsquid:S00112¿"FDefine and throw a dedicated exception instead of using a generic one.(ÌèÎ¶üÿÿÿÿ
+dsquid:S00112µ"FDefine and throw a dedicated exception instead of using a generic one.(ÌèÎ¶üÿÿÿÿ
+wsquid:UselessImportCheck
+"GRemove this unused import 'org.apache.http.message.BasicNameValuePair'.(³öÖøşÿÿÿÿ8Ä£»Ö-
+jsquid:CommentedOutCodeLine"<This block of commented-out lines of code should be removed.(‡¥Ğ8Ä£»Ö-
+[squid:UselessImportCheck"+Remove this unused import 'java.util.List'.(Õë±Äøÿÿÿÿ8Ä£»Ö-
+dsquid:UselessImportCheck":Remove this unused import 'org.apache.http.NameValuePair'.(ß²óH8Ä£»Ö-
+ysquid:UselessImportCheck"ORemove this unused import 'org.apache.http.client.entity.UrlEncodedFormEntity'.(³à‡48Ä£»Ö-
+jsquid:S00112\"FDefine and throw a dedicated exception instead of using a generic one.(†€¬Åúÿÿÿÿ8Ôáô´Õ-
 isquid:CommentedOutCodeLineb"<This block of commented-out lines of code should be removed.(‡¥Ğ8Ôáô´Õ-
+tsquid:S1192`"QDefine a constant instead of duplicating this literal "application/json" 4 times.(ûÓ¦²ûÿÿÿÿ8Ä£»Ö-

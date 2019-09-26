@@ -26,7 +26,7 @@ import java.util.Map;
 @Slf4j
 @Api("公司Api")
 @RestController
-@RequestMapping("/v1/app/api/company")
+@RequestMapping("/v1/app/resource/company")
 public class CompanyApiController {
 
     @Value("${api.userIp}")

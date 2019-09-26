@@ -1,10 +1,14 @@
 package eqlee.ctm.user.entity;
 
+import com.alibaba.fastjson.annotation.JSONField;
+import com.alibaba.fastjson.serializer.ToStringSerializer;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
+
+import java.io.Serializable;
 
 /**
  * @Author qf
@@ -16,6 +20,8 @@ import lombok.experimental.Accessors;
 @Accessors(chain = true)
 @TableName("SystemMenu")
 public class UserMenu extends Model<UserMenu> {
+
+    private static final long serialVersionUID = 1L;
 
     /**
      * 菜单ID
@@ -61,4 +67,9 @@ public class UserMenu extends Model<UserMenu> {
      * 是否停用（默认0--停用  1--正常（正在使用））
      */
     private Boolean Stopped;
+
+    @Override
+    protected Serializable pkVal() {
+        return this.Id;
+    }
 }

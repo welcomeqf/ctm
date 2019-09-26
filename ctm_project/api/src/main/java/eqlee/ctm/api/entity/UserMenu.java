@@ -1,5 +1,7 @@
 package eqlee.ctm.api.entity;
 
+import com.alibaba.fastjson.annotation.JSONField;
+import com.alibaba.fastjson.serializer.ToStringSerializer;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
 import lombok.Data;
@@ -17,11 +19,13 @@ public class UserMenu {
     /**
      * 菜单ID
      */
+    @JSONField(serializeUsing= ToStringSerializer.class)
     private Long Id;
 
     /**
      * 父级ID
      */
+    @JSONField(serializeUsing= ToStringSerializer.class)
     private Long Parent;
 
     /**

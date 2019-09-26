@@ -1,10 +1,14 @@
 package eqlee.ctm.user.entity;
 
+import com.alibaba.fastjson.annotation.JSONField;
+import com.alibaba.fastjson.serializer.ToStringSerializer;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
+
+import java.io.Serializable;
 
 /**
  * @Author qf
@@ -17,6 +21,8 @@ import lombok.experimental.Accessors;
 @TableName("SystemRolePrivilege")
 public class UserPrivilege extends Model<UserPrivilege> {
 
+    private static final long serialVersionUID = 1L;
+
     /**
      * 角色ID
      */
@@ -26,4 +32,11 @@ public class UserPrivilege extends Model<UserPrivilege> {
      * 功能菜单ID
      */
     private Long SystemMenuId;
+
+    @Override
+    protected Serializable pkVal() {
+        return this.SystemRoleId;
+    }
+
+
 }

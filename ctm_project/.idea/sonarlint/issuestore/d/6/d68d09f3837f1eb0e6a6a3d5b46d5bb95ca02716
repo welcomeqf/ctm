@@ -1,0 +1,5 @@
+
+]squid:UselessImportCheck"4Remove this unused import 'java.time.LocalDateTime'.(æÃ§ƒüÿÿÿÿ
+nsquid:UselessImportCheck"ERemove this unused import 'eqlee.ctm.apply.guider.entity.vo.ApplyVo'.(ƒ„•èúÿÿÿÿ
+Tsquid:UselessImportCheck"0Remove this unused import 'java.util.ArrayList'.(÷‰îƒ
+Usquid:S11556">Use isEmpty() to check whether the collection is empty or not.(„á‰Î

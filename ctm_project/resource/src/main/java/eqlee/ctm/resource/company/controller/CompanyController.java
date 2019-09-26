@@ -10,6 +10,7 @@ import eqlee.ctm.resource.company.entity.vo.CompanyVo;
 import eqlee.ctm.resource.company.entity.vo.ResultVo;
 import eqlee.ctm.resource.company.service.ICompanyService;
 import eqlee.ctm.resource.exception.ApplicationException;
+import eqlee.ctm.resource.jwt.islogin.CheckToken;
 import io.swagger.annotations.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -77,6 +78,7 @@ public class CompanyController {
     })
     @PutMapping("/updateCompany")
     @CrossOrigin
+    @CheckToken
     public ResultVo updateCompany (@RequestBody CompanyVo companyVo) {
         if(companyVo.getId() == null || StringUtils.isBlank(companyVo.getPayMethod())
         || StringUtils.isBlank(companyVo.getEndDate())|| StringUtils.isBlank(companyVo.getStartDate())
@@ -141,6 +143,7 @@ public class CompanyController {
     })
     @PostMapping("/addCompany")
     @CrossOrigin
+    @CheckToken
     public ResultVo addCompany (@RequestBody CompanyVo companyVo) {
 
         if(StringUtils.isBlank(companyVo.getPayMethod())
@@ -161,6 +164,7 @@ public class CompanyController {
     @ApiImplicitParam(name = "Id", value = "公司Id", required = true, dataType = "Long", paramType = "path")
     @PutMapping("/UpdateCompanyStop")
     @CrossOrigin
+    @CheckToken
     public ResultVo UpdateCompanyStop (@RequestParam("Id") Long Id) {
         if(Id==null) {
             log.error("update company stop param is null");

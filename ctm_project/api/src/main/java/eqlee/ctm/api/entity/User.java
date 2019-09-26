@@ -1,6 +1,8 @@
 package eqlee.ctm.api.entity;
 
 
+import com.alibaba.fastjson.annotation.JSONField;
+import com.alibaba.fastjson.serializer.ToStringSerializer;
 import lombok.Data;
 
 import java.time.LocalDateTime;
@@ -13,6 +15,7 @@ import java.time.LocalDateTime;
 @Data
 public class User{
 
+    @JSONField(serializeUsing= ToStringSerializer.class)
     private Long Id;
 
     /**
@@ -63,6 +66,7 @@ public class User{
     /**
      * 用户角色ID
      */
+    @JSONField(serializeUsing= ToStringSerializer.class)
     private Long SystemRoleId;
 
     /**
@@ -118,6 +122,7 @@ public class User{
     /**
      * 创建人ID
      */
+    @JSONField(serializeUsing= ToStringSerializer.class)
     private Long CreateUserId;
 
     /**
@@ -128,10 +133,12 @@ public class User{
     /**
      * 修改人ID
      */
+    @JSONField(serializeUsing= ToStringSerializer.class)
     private Long UpdateUserId;
 
     /**
      * 公司ID
      */
+    @JSONField(serializeUsing= ToStringSerializer.class)
     private Long CompanyId;
 }

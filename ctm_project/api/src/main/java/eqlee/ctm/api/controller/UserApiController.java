@@ -77,7 +77,7 @@ public class UserApiController {
     @CrossOrigin
     public Object login(@RequestParam("userName") String userName, @RequestParam("password") String password) throws Exception {
         String encode = DataUtils.getEncodeing("RSA");
-        String url = "http://" + Ip + ":" + port  + "/v1/app/user/login?userName=" + userName + "&AppId=" + encode + "&password=" + password;
+        String url = "http://" + Ip + ":" + port + "/" + path  + "/v1/app/user/login?userName=" + userName + "&AppId=" + encode + "&password=" + password;
 
         Map<String, Object> map = new HashMap<>();
 
@@ -91,7 +91,7 @@ public class UserApiController {
         JSONObject jsonObject = new JSONObject();
         ResultVo object = JSONObject.parseObject(httpResult.getBody(), ResultVo.class);
 
-        String token = JwtUtil.createJWT(60 * 60 * 60 * 24 * 30, object.getData());
+        String token = JwtUtil.createJWT(1000 * 60 * 60 * 24, object.getData());
         jsonObject.put("token", token);
         jsonObject.put("user", object.getData());
         return jsonObject;

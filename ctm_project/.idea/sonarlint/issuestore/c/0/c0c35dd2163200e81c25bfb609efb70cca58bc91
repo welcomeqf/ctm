@@ -1,9 +1,10 @@
 
-qsquid:S00116#"MRename this field "Ip" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ÁãåÚıÿÿÿÿ8Å±À“Ö-
-hsquid:UselessImportCheck"=Remove this unused import 'eqlee.ctm.api.entity.vo.ResultVo'.(­Ê±¦8¸“Ö-
-‡squid:UselessImportCheck"WRemove this unused import 'com.baomidou.mybatisplus.extension.plugins.pagination.Page'.(±Ù¥Éúÿÿÿÿ8“½¬“Ö-
-usquid:S00116."QRename this field "Status" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ûĞüüÿÿÿÿ8Å±À“Ö-
-qsquid:S00117Œ"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(Úî°Â8“Ü¶“Ö-
-Dsquid:S1170."!Make this final field static too.(ûĞüüÿÿÿÿ8Å±À“Ö-
 ksquid:S1192<"HDefine a constant instead of duplicating this literal "http://" 5 times.(‰Ñ˜Ÿüÿÿÿÿ8ç²­“Ö-
+Dsquid:S1170."!Make this final field static too.(ûĞüüÿÿÿÿ8Å±À“Ö-
+qsquid:S00117Š"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(Úî°Â8“Ü¶“Ö-
 psquid:S00117{"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(’º‹á8Ù¼²“Ö-
+hsquid:UselessImportCheck"=Remove this unused import 'eqlee.ctm.api.entity.vo.ResultVo'.(­Ê±¦8¸“Ö-
+usquid:S00116."QRename this field "Status" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ûĞüüÿÿÿÿ8Å±À“Ö-
+jsquid:S00112U"FDefine and throw a dedicated exception instead of using a generic one.(¦„îòıÿÿÿÿ8ÖÑ°»Ö-
+qsquid:S00116#"MRename this field "Ip" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ÁãåÚıÿÿÿÿ8Å±À“Ö-
+‡squid:UselessImportCheck"WRemove this unused import 'com.baomidou.mybatisplus.extension.plugins.pagination.Page'.(±Ù¥Éúÿÿÿÿ8“½¬“Ö-

@@ -4,13 +4,13 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.yq.constanct.CodeType;
 import com.yq.utils.StringUtils;
 import eqlee.ctm.apply.entry.entity.Apply;
-import eqlee.ctm.apply.entry.entity.query.ApplyCompanyQuery;
-import eqlee.ctm.apply.entry.entity.query.ApplyDoQuery;
-import eqlee.ctm.apply.entry.entity.query.ApplyQuery;
-import eqlee.ctm.apply.entry.entity.query.ApplyUpdateInfo;
+import eqlee.ctm.apply.entry.entity.query.*;
 import eqlee.ctm.apply.entry.entity.vo.ApplyVo;
 import eqlee.ctm.apply.entry.service.IApplyService;
 import eqlee.ctm.apply.exception.ApplicationException;
+import eqlee.ctm.apply.jwt.contain.LocalUser;
+import eqlee.ctm.apply.jwt.entity.UserLoginQuery;
+import eqlee.ctm.apply.jwt.islogin.CheckToken;
 import eqlee.ctm.apply.line.entity.vo.LineVo;
 import eqlee.ctm.apply.line.entity.vo.ResultVo;
 import io.swagger.annotations.Api;
@@ -37,15 +37,15 @@ public class ApplyController {
     @Autowired
     private IApplyService applyService;
 
+    @Autowired
+    private LocalUser localUser;
+
     @ApiOperation(value = "申请报名", notes = "申请报名")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "OutDate", value = "出行日期", required = true, dataType = "String", paramType = "path"),
-            @ApiImplicitParam(name = "CompanyName", value = "同行公司名", required = true, dataType = "String", paramType = "path"),
-            @ApiImplicitParam(name = "CompanyUser", value = "同行代表人", required = true, dataType = "String", paramType = "path"),
             @ApiImplicitParam(name = "ContactName", value = "联系人名字", required = true, dataType = "String", paramType = "path"),
             @ApiImplicitParam(name = "ContactTel", value = "联系电话", required = true, dataType = "String", paramType = "path"),
             @ApiImplicitParam(name = "Place", value = "接送地点", required = true, dataType = "String", paramType = "path"),
-            @ApiImplicitParam(name = "Region", value = "区域", required = true, dataType = "String", paramType = "path"),
             @ApiImplicitParam(name = "LineName", value = "线路名", required = true, dataType = "String", paramType = "path"),
             @ApiImplicitParam(name = "AdultNumber", value = "成年人数", required = true, dataType = "int", paramType = "path"),
             @ApiImplicitParam(name = "BabyNumber", value = "幼儿人数", required = true, dataType = "int", paramType = "path"),
@@ -55,15 +55,20 @@ public class ApplyController {
     })
     @PostMapping("/insertApply")
     @CrossOrigin
+    @CheckToken
     public ResultVo insertApply(@RequestBody ApplyVo applyVo) {
-        if (StringUtils.isBlank(applyVo.getOutDate()) || StringUtils.isBlank(applyVo.getCompanyName()) ||
-            StringUtils.isBlank(applyVo.getCompanyUser()) || StringUtils.isBlank(applyVo.getContactName()) ||
+        if (StringUtils.isBlank(applyVo.getOutDate()) || StringUtils.isBlank(applyVo.getContactName()) ||
             StringUtils.isBlank(applyVo.getContactTel()) || StringUtils.isBlank(applyVo.getPlace()) ||
-            StringUtils.isBlank(applyVo.getRegion()) || StringUtils.isBlank(applyVo.getLineName()) ||
-            applyVo.getAdultNumber() == null || applyVo.getBabyNumber() == null || applyVo.getOldNumber() == null ||
+            StringUtils.isBlank(applyVo.getLineName()) || applyVo.getAdultNumber() == null ||
+            applyVo.getBabyNumber() == null || applyVo.getOldNumber() == null ||
             applyVo.getChildNumber() == null || StringUtils.isBlank(applyVo.getPayType())) {
             throw new ApplicationException(CodeType.PARAM_ERROR,"申请报名表参数不能为空");
         }
+        UserLoginQuery user = localUser.getUser("用户信息");
+        applyVo.setCompanyUser(user.getAccount());
+        applyVo.setCompanyNameId(user.getCompanyId());
+        applyVo.setCreateUserId(user.getId());
+        applyVo.setUpdateUserId(user.getId());
         applyService.insertApply(applyVo);
 
         ResultVo resultVo = new ResultVo();
@@ -72,7 +77,7 @@ public class ApplyController {
     }
 
 
-    @ApiOperation(value = "展示报名首页", notes = "展示报名首页")
+    @ApiOperation(value = "可报名线路", notes = "可报名线路")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "current", value = "当前页", required = true, dataType = "int", paramType = "path"),
             @ApiImplicitParam(name = "size", value = "每页显示的条数", required = true, dataType = "int", paramType = "path"),
@@ -90,7 +95,7 @@ public class ApplyController {
         return applyService.listPageApply(page,OutDate,LineNameOrRegion);
     }
 
-    @ApiOperation(value = "查询所有分页数据（可根据订单号和线路模糊查询）", notes = "查询所有分页数据（可根据订单号和线路模糊查询）")
+    @ApiOperation(value = "运营审核的报名记录（可根据订单号和线路模糊查询）", notes = "运营审核的报名记录（可根据订单号和线路模糊查询）")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "current", value = "当前页", required = true, dataType = "int", paramType = "path"),
             @ApiImplicitParam(name = "size", value = "每页显示的条数", required = true, dataType = "int", paramType = "path"),
@@ -109,27 +114,25 @@ public class ApplyController {
         return applyService.listPageDoApply(page,ApplyNo,LineName);
     }
 
-    @ApiOperation(value = "查询同一公司的所有分页数据（可根据时间进行条件查询）", notes = "查询同一公司的所有分页数据（可根据时间进行条件查询）")
+    @ApiOperation(value = "查询同一公司的所有分页数据（我的报名记录）", notes = "查询同一公司的所有分页数据（我的报名记录）")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "current", value = "当前页", required = true, dataType = "int", paramType = "path"),
             @ApiImplicitParam(name = "size", value = "每页显示的条数", required = true, dataType = "int", paramType = "path"),
-            @ApiImplicitParam(name = "ApplyNo", value = "订单号", required = false, dataType = "String", paramType = "path"),
-            @ApiImplicitParam(name = "LineName", value = "线路名", required = false, dataType = "String", paramType = "path")
+            @ApiImplicitParam(name = "OutTime", value = "出行时间", required = false, dataType = "String", paramType = "path"),
     })
     @GetMapping("/listPageDoApplyCompany")
     @CrossOrigin
+    @CheckToken
     public Page<ApplyCompanyQuery> listPageDoApply2Company(@RequestParam("current") Integer current, @RequestParam("size") Integer size,
-                                                           @RequestParam("OutTime") String OutTime, @RequestParam("CompanyName") String CompanyName) {
-        if (current == null || size == null || StringUtils.isBlank(CompanyName)) {
+                                                           @RequestParam("OutTime") String OutTime) {
+        if (current == null || size == null || StringUtils.isBlank(OutTime)) {
             throw new ApplicationException(CodeType.PARAM_ERROR);
         }
+        UserLoginQuery user = localUser.getUser("用户信息");
+        Company company = applyService.queryOne(user.getCompanyId());
         Page<ApplyCompanyQuery> page = new Page<>(current,size);
-        return applyService.listPageDoApply2Company(page,OutTime,CompanyName);
+        return applyService.listPageDoApply2Company(page,OutTime,company.getCompanyName());
 
     }
 
-    @GetMapping("/listPageDoApplyCom")
-    public List<Apply> com(){
-        return applyService.selectAllApply();
-    }
 }

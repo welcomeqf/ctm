@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.yq.constanct.CodeType;
 import com.yq.utils.StringUtils;
 import eqlee.ctm.apply.exception.ApplicationException;
+import eqlee.ctm.apply.jwt.islogin.CheckToken;
 import eqlee.ctm.apply.line.entity.Line;
 import eqlee.ctm.apply.line.entity.query.LinePageQuery;
 import eqlee.ctm.apply.line.entity.vo.LineVo;
@@ -38,15 +39,16 @@ public class LineController {
             @ApiImplicitParam(name = "LineName", value = "线路名", required = true, dataType = "String", paramType = "path"),
             @ApiImplicitParam(name = "Information", value = "线路简介", required = true, dataType = "String", paramType = "path"),
             @ApiImplicitParam(name = "Region", value = "区域", required = true, dataType = "String", paramType = "path"),
-            @ApiImplicitParam(name = "TravelSituation", value = "出游情况（几日游）", required = true, dataType = "String", paramType = "path"),
+            @ApiImplicitParam(name = "TravelSituation", value = "出游情况（几日游）", required = true, dataType = "int", paramType = "path"),
             @ApiImplicitParam(name = "MaxNumber", value = "最大人数", required = true, dataType = "int", paramType = "path"),
             @ApiImplicitParam(name = "MinNumber", value = "最小人数", required = true, dataType = "int", paramType = "path")
     })
     @PostMapping("/insertLine")
     @CrossOrigin
+    @CheckToken
     public ResultVo insertLine(@RequestBody LineVo lineVo) {
         if (StringUtils.isBlank(lineVo.getLineName()) || StringUtils.isBlank(lineVo.getInformation())
-        || StringUtils.isBlank(lineVo.getRegion()) || StringUtils.isBlank(lineVo.getTravelSituation())) {
+        || StringUtils.isBlank(lineVo.getRegion()) || lineVo.getTravelSituation() == null) {
             log.error("param is not null.");
             throw new ApplicationException(CodeType.PARAM_ERROR,"参数不能为空");
         }
@@ -64,13 +66,14 @@ public class LineController {
             @ApiImplicitParam(name = "LineName", value = "线路名", required = true, dataType = "String", paramType = "path"),
             @ApiImplicitParam(name = "Information", value = "线路简介", required = true, dataType = "String", paramType = "path"),
             @ApiImplicitParam(name = "Region", value = "区域", required = true, dataType = "String", paramType = "path"),
-            @ApiImplicitParam(name = "TravelSituation", value = "出游情况（几日游）", required = true, dataType = "String", paramType = "path"),
+            @ApiImplicitParam(name = "TravelSituation", value = "出游情况（几日游）", required = true, dataType = "int", paramType = "path"),
             @ApiImplicitParam(name = "Stopped", value = "是否停用(false-正常 1-禁用true)", required = true, dataType = "Boolean", paramType = "path"),
             @ApiImplicitParam(name = "MaxNumber", value = "最大人数", required = true, dataType = "int", paramType = "path"),
             @ApiImplicitParam(name = "MinNumber", value = "最小人数", required = true, dataType = "int", paramType = "path")
     })
     @PutMapping("/updateLine")
     @CrossOrigin
+    @CheckToken
     public ResultVo updateLine(@RequestBody Line line) {
         if (line.getId() == null) {
             log.error("update line param is not null.");
@@ -106,6 +109,7 @@ public class LineController {
     @ApiImplicitParam(name = "Id", value = "Id", required = true, dataType = "String", paramType = "path")
     @PutMapping("/stopLine")
     @CrossOrigin
+    @CheckToken
     public ResultVo stopLine(@RequestParam("Id") Long Id) {
         if (Id == null) {
             throw new ApplicationException(CodeType.PARAM_ERROR);
@@ -121,6 +125,7 @@ public class LineController {
     @ApiImplicitParam(name = "Id", value = "Id", required = true, dataType = "String", paramType = "path")
     @PutMapping("/startLine")
     @CrossOrigin
+    @CheckToken
     public ResultVo startLine(@RequestParam("Id") Long Id) {
         if (Id == null) {
             throw new ApplicationException(CodeType.PARAM_ERROR);
@@ -129,6 +134,17 @@ public class LineController {
         ResultVo resultVo = new ResultVo();
         resultVo.setResult("ok");
         return resultVo;
+    }
+
+    @ApiOperation(value = "根据Id查询一条线路", notes = "根据Id查询一条线路")
+    @ApiImplicitParam(name = "Id", value = "Id", required = true, dataType = "String", paramType = "path")
+    @GetMapping("/queryLineById")
+    @CrossOrigin
+    public Line queryLineById(@RequestParam("Id") Long Id) {
+        if (Id == null) {
+            throw new ApplicationException(CodeType.PARAM_ERROR);
+        }
+        return lineService.queryOneLine(Id);
     }
 
 }

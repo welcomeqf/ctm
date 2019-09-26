@@ -6,6 +6,7 @@ import eqlee.ctm.apply.entry.entity.Apply;
 import eqlee.ctm.apply.entry.entity.query.ApplyCompanyQuery;
 import eqlee.ctm.apply.entry.entity.query.ApplyDoQuery;
 import eqlee.ctm.apply.entry.entity.query.ApplyQuery;
+import eqlee.ctm.apply.entry.entity.query.Company;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Component;
 
@@ -111,4 +112,12 @@ public interface ApplyMapper extends IBaseMapper<Apply> {
     Page<ApplyCompanyQuery> listPageDoApply2CompanyByTime(Page<ApplyCompanyQuery> page,
                                                           @Param("OutTime") LocalDate OutTime,
                                                           @Param("CompanyName") String CompanyName);
+
+
+    /**
+     * 查询公司
+     * @param Id
+     * @return
+     */
+    Company queryCompanyById (Long Id);
 }

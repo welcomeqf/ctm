@@ -1,10 +1,14 @@
 package eqlee.ctm.user.entity;
 
+import com.alibaba.fastjson.annotation.JSONField;
+import com.alibaba.fastjson.serializer.ToStringSerializer;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
+
+import java.io.Serializable;
 
 /**
  * @Author qf
@@ -16,6 +20,8 @@ import lombok.experimental.Accessors;
 @Accessors(chain = true)
 @TableName("SystemRole")
 public class UserRole extends Model<UserRole> {
+
+    private static final long serialVersionUID = 1L;
 
     private Long Id;
 
@@ -48,5 +54,10 @@ public class UserRole extends Model<UserRole> {
      * 是否已删除(0--未删除  1--已删除  默认0)
      */
     private Boolean Deleted;
+
+    @Override
+    protected Serializable pkVal() {
+        return this.Id;
+    }
 
 }

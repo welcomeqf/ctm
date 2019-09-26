@@ -22,7 +22,7 @@ public class JwtVerfy {
         //签名秘钥，和生成的签名的秘钥一模一样
         String key = user.getPassword();
 
-        String Id = "Id";
+        String Password = "Password";
 
         //得到DefaultJwtParser
         Claims claims = Jwts.parser()
@@ -32,7 +32,7 @@ public class JwtVerfy {
                 .parseClaimsJws(token).getBody();
 
 
-        if (claims.get(Id).equals(user.getId())) {
+        if (claims.get(Password).equals(user.getPassword())) {
             return true;
         }
 

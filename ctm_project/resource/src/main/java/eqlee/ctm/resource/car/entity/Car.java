@@ -1,13 +1,12 @@
 package eqlee.ctm.resource.car.entity;
 
-import com.alibaba.fastjson.annotation.JSONField;
-import com.alibaba.fastjson.serializer.ToStringSerializer;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 
 /**
@@ -21,7 +20,8 @@ import java.time.LocalDateTime;
 @TableName("Car")
 public class Car extends Model<Car> {
 
-    @JSONField(serializeUsing= ToStringSerializer.class)
+    private static final long serialVersionUID = 1L;
+
     private Long Id;
 
     /**
@@ -70,4 +70,11 @@ public class Car extends Model<Car> {
      * (0-表示未出行  1--已出行  2--正在维修)
      */
     private Integer Statu;
+
+
+    @Override
+    protected Serializable pkVal() {
+        return this.Id;
+    }
+
 }

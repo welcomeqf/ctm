@@ -14,7 +14,10 @@ import eqlee.ctm.resource.company.entity.query.PageCompanyQuery;
 import eqlee.ctm.resource.company.entity.vo.CompanyVo;
 import eqlee.ctm.resource.company.service.ICompanyService;
 import eqlee.ctm.resource.exception.ApplicationException;
+import eqlee.ctm.resource.jwt.contain.LocalUser;
+import eqlee.ctm.resource.jwt.entity.UserLoginQuery;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -30,6 +33,9 @@ import java.util.List;
 @Service
 @Transactional(rollbackFor = Exception.class)
 public class CompanyServiceImp extends ServiceImpl<CompanyMapper,Company> implements ICompanyService {
+
+    @Autowired
+    private LocalUser localUser;
 
     /**
      * 查询所用同行信息（不分页）
@@ -49,10 +55,14 @@ public class CompanyServiceImp extends ServiceImpl<CompanyMapper,Company> implem
      */
     @Override
     public void addCompany(CompanyVo companyVo) {
+        UserLoginQuery user = localUser.getUser("用户信息");
+
         IdGenerator idGenerator = new IdGenerator();
         Company company = new Company();
         company.setId(idGenerator.getNumberId());
         company.setCompanyName(companyVo.getCompanyName());
+        company.setCreateUserId(user.getId());
+        company.setUpdateUserId(user.getId());
         company.setStartDate(LocalDateTime.parse(companyVo.getStartDate()));
         company.setEndDate(LocalDateTime.parse(companyVo.getEndDate()));
         company.setPayMethod(Integer.parseInt(companyVo.getPayMethod()));
@@ -87,11 +97,14 @@ public class CompanyServiceImp extends ServiceImpl<CompanyMapper,Company> implem
      */
     @Override
     public void UpdateCompany(CompanyVo companyVo) {
+        UserLoginQuery user = localUser.getUser("用户信息");
+
         Company company = new Company();
         company.setId(companyVo.getId());
         company.setCompanyName(companyVo.getCompanyName());
         company.setStartDate(LocalDateTime.parse(companyVo.getStartDate()));
         company.setEndDate(LocalDateTime.parse(companyVo.getEndDate()));
+        company.setUpdateUserId(user.getId());
         if(companyVo.getStopped() == "0"){
             company.setStopped(false);
         }
@@ -99,22 +112,7 @@ public class CompanyServiceImp extends ServiceImpl<CompanyMapper,Company> implem
             company.setStopped(true);
         }
         company.setPayMethod(Integer.parseInt(companyVo.getPayMethod()));
-        /**
-         *  if(StringUtils.isNotBlank(companyVo.getPayMethod())) {
-         *             if (companyVo.getPayMethod().equals("默认")) {
-         *                 company.setPayMethod(0);
-         *             }
-         *             if (companyVo.getPayMethod().equals("现结")) {
-         *                 company.setPayMethod(1);
-         *             }
-         *             if (companyVo.getPayMethod().equals("月结")) {
-         *                 company.setPayMethod(2);
-         *             }
-         *             if (companyVo.getPayMethod().equals("代收")) {
-         *                 company.setPayMethod(3);
-         *             }
-         *         }
-         */
+
         int update = baseMapper.updateById(company);
         if (update <= 0) {
             log.error("update company fail");
@@ -143,7 +141,8 @@ public class CompanyServiceImp extends ServiceImpl<CompanyMapper,Company> implem
      * @param id
      */
     @Override
-    public void UpdateCompanyStopped(Long id) {
+    public synchronized void UpdateCompanyStopped(Long id) {
+        UserLoginQuery user = localUser.getUser("用户信息");
         Company company = new Company();
         Company newCompany = baseMapper.selectById(id);
         if(newCompany.isStopped())
@@ -151,6 +150,7 @@ public class CompanyServiceImp extends ServiceImpl<CompanyMapper,Company> implem
         else
             company.setStopped(true);
         company.setId(id);
+        company.setUpdateUserId(user.getId());
         int update = baseMapper.updateById(company);
         if (update <= 0) {
             log.error("update stop fail");

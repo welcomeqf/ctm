@@ -14,7 +14,7 @@ import java.util.List;
 public interface ICarService {
     /**
      * 增加车辆
-     * @param car
+     * @param carVo
      */
     void addCar(CarVo carVo);
 

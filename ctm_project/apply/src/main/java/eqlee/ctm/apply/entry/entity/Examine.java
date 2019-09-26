@@ -1,11 +1,14 @@
 package eqlee.ctm.apply.entry.entity;
 
+import com.alibaba.fastjson.annotation.JSONField;
+import com.alibaba.fastjson.serializer.ToStringSerializer;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
@@ -19,6 +22,8 @@ import java.time.LocalDateTime;
 @Accessors(chain = true)
 @TableName("Examine")
 public class Examine extends Model<Examine> {
+
+    private static final long serialVersionUID = 1L;
 
     private Long Id;
 
@@ -61,4 +66,9 @@ public class Examine extends Model<Examine> {
      * 修改时间
      */
     private LocalDateTime UpdateDate;
+
+    @Override
+    protected Serializable pkVal() {
+        return this.Id;
+    }
 }

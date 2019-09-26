@@ -4,6 +4,8 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import eqlee.ctm.user.entity.User;
 import eqlee.ctm.user.entity.query.UserLoginQuery;
 import eqlee.ctm.user.entity.query.UserQuery;
+import eqlee.ctm.user.entity.vo.UserUpdatePasswordVo;
+import eqlee.ctm.user.entity.vo.UserUpdateVo;
 import eqlee.ctm.user.entity.vo.UserVo;
 
 /**
@@ -97,5 +99,18 @@ public interface IUserService {
      * @return
      */
     Page<UserQuery> queryUserByName(Page<UserQuery> page, String userName, String AppId);
+
+
+    /**
+     * 根据用户名和手机号重置密码
+     * @param vo
+     */
+    void updateUserPassword (UserUpdatePasswordVo vo);
+
+    /**
+     * 修改用户信息
+     * @param vo
+     */
+    void updateUser(UserUpdateVo vo);
 
 }

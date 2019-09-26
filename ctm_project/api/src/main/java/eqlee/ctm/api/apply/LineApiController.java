@@ -28,7 +28,7 @@ import java.util.Map;
 @Slf4j
 @Api("线路Api")
 @RestController
-@RequestMapping("/v1/app/api/line")
+@RequestMapping("/v1/app/apply/line")
 public class LineApiController {
 
     @Value("${api.userIp}")
@@ -50,7 +50,7 @@ public class LineApiController {
             @ApiImplicitParam(name = "LineName", value = "线路名", required = true, dataType = "String", paramType = "path"),
             @ApiImplicitParam(name = "Information", value = "线路简介", required = true, dataType = "String", paramType = "path"),
             @ApiImplicitParam(name = "Region", value = "区域", required = true, dataType = "String", paramType = "path"),
-            @ApiImplicitParam(name = "TravelSituation", value = "出游情况（几日游）", required = true, dataType = "String", paramType = "path"),
+            @ApiImplicitParam(name = "TravelSituation", value = "出游情况（几日游）", required = true, dataType = "int", paramType = "path"),
             @ApiImplicitParam(name = "MaxNumber", value = "最大人数", required = true, dataType = "int", paramType = "path"),
             @ApiImplicitParam(name = "MinNumber", value = "最小人数", required = true, dataType = "int", paramType = "path")
     })
@@ -75,7 +75,7 @@ public class LineApiController {
             @ApiImplicitParam(name = "LineName", value = "线路名", required = true, dataType = "String", paramType = "path"),
             @ApiImplicitParam(name = "Information", value = "线路简介", required = true, dataType = "String", paramType = "path"),
             @ApiImplicitParam(name = "Region", value = "区域", required = true, dataType = "String", paramType = "path"),
-            @ApiImplicitParam(name = "TravelSituation", value = "出游情况（几日游）", required = true, dataType = "String", paramType = "path"),
+            @ApiImplicitParam(name = "TravelSituation", value = "出游情况（几日游）", required = true, dataType = "int", paramType = "path"),
             @ApiImplicitParam(name = "Stopped", value = "是否停用(false-正常 1-禁用true)", required = true, dataType = "Boolean", paramType = "path"),
             @ApiImplicitParam(name = "MaxNumber", value = "最大人数", required = true, dataType = "int", paramType = "path"),
             @ApiImplicitParam(name = "MinNumber", value = "最小人数", required = true, dataType = "int", paramType = "path")
@@ -139,6 +139,23 @@ public class LineApiController {
         String url = "http://" + Ip +":" + port + "/" +path + "/v1/app/apply/line/startLine?Id=" + Id;
 
         HttpResult httpResult = apiService.doPut(url,null);
+
+        if (httpResult.getCode() != Status) {
+            return DataUtils.getError();
+        }
+        return JSONObject.parse(httpResult.getBody());
+    }
+
+    @ApiOperation(value = "根据Id查询一条线路", notes = "根据Id查询一条线路")
+    @ApiImplicitParam(name = "Id", value = "Id", required = true, dataType = "String", paramType = "path")
+    @GetMapping("/queryLineById")
+    @CrossOrigin
+    public Object queryLineById(@RequestParam("Id") Long Id) throws Exception{
+        String url = "http://" + Ip +":" + port + "/" + path + "/v1/app/apply/line/queryLineById?Id=" + Id;
+
+        Map<String,Object> map = new HashMap<>();
+
+        HttpResult httpResult = apiService.doGet(url, map);
 
         if (httpResult.getCode() != Status) {
             return DataUtils.getError();

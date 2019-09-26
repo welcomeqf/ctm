@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.yq.constanct.CodeType;
 import com.yq.utils.StringUtils;
 import eqlee.ctm.apply.exception.ApplicationException;
+import eqlee.ctm.apply.jwt.islogin.CheckToken;
 import eqlee.ctm.apply.line.entity.vo.ResultVo;
 import eqlee.ctm.apply.price.entity.query.PriceQuery;
 import eqlee.ctm.apply.price.entity.vo.PriceVo;
@@ -45,6 +46,7 @@ public class PriceController {
     })
     @PostMapping("/insertPrice")
     @CrossOrigin
+    @CheckToken
     public ResultVo insertPrice(@RequestBody PriceVo priceVo) {
         if (StringUtils.isBlank(priceVo.getStartTime()) || StringUtils.isBlank(priceVo.getEndTime())
         || StringUtils.isBlank(priceVo.getLineName()) || priceVo.getAdultPrice() == null
@@ -74,6 +76,7 @@ public class PriceController {
     })
     @PutMapping("/batchUpdatePrice")
     @CrossOrigin
+    @CheckToken
     public ResultVo batchUpdatePrice( PriceVo priceVo) {
         if (StringUtils.isBlank(priceVo.getStartTime()) || StringUtils.isBlank(priceVo.getEndTime())
                 || StringUtils.isBlank(priceVo.getLineName()) || priceVo.getAdultPrice() == null

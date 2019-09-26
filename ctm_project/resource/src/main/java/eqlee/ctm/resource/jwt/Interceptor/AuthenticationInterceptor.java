@@ -2,7 +2,6 @@ package eqlee.ctm.resource.jwt.Interceptor;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.exceptions.JWTDecodeException;
-import com.auth0.jwt.interfaces.DecodedJWT;
 import com.yq.constanct.CodeType;
 import eqlee.ctm.resource.exception.ApplicationException;
 import eqlee.ctm.resource.jwt.JwtVerfy;
@@ -62,15 +61,14 @@ public class AuthenticationInterceptor implements HandlerInterceptor {
                 // 获取 token 中的 user信息
                 UserLoginQuery query = new UserLoginQuery();
                 try {
-                    DecodedJWT decode = JWT.decode(token);
-                    query.setId(decode.getClaim("Id").asLong());
-                    query.setAccount(decode.getClaim("UserName").asString());
-                    query.setCName(decode.getClaim("CName").asString());
-                    query.setCompanyId(decode.getClaim("CompanyId").asLong());
-                    query.setMenuList(decode.getClaim("menuList").asList(PrivilegeMenuQuery.class));
-                    query.setPassword(decode.getClaim("Password").asString());
-                    query.setRoleName(decode.getClaim("roleName").asString());
-                    query.setTel(decode.getClaim("Tel").asString());
+                    query.setId(JWT.decode(token).getClaim("Id").asLong());
+                    query.setAccount(JWT.decode(token).getClaim("UserName").asString());
+                    query.setCName(JWT.decode(token).getClaim("CName").asString());
+                    query.setCompanyId(JWT.decode(token).getClaim("CompanyId").asLong());
+                    query.setMenuList(JWT.decode(token).getClaim("menuList").asList(PrivilegeMenuQuery.class));
+                    query.setPassword(JWT.decode(token).getClaim("Password").asString());
+                    query.setRoleName(JWT.decode(token).getClaim("roleName").asString());
+                    query.setTel(JWT.decode(token).getClaim("Tel").asString());
 
                 } catch (JWTDecodeException j) {
                     throw new ApplicationException(CodeType.DATABASE_ERROR);

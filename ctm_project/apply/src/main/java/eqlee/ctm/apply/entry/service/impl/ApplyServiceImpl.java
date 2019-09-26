@@ -1,6 +1,5 @@
 package eqlee.ctm.apply.entry.service.impl;
 
-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.yq.constanct.CodeType;
@@ -9,12 +8,8 @@ import com.yq.utils.IdGenerator;
 import com.yq.utils.StringUtils;
 import eqlee.ctm.apply.entry.dao.ApplyMapper;
 import eqlee.ctm.apply.entry.entity.Apply;
-import eqlee.ctm.apply.entry.entity.query.ApplyCompanyQuery;
-import eqlee.ctm.apply.entry.entity.query.ApplyDoQuery;
-import eqlee.ctm.apply.entry.entity.query.ApplyQuery;
-import eqlee.ctm.apply.entry.entity.query.ApplyUpdateInfo;
+import eqlee.ctm.apply.entry.entity.query.*;
 import eqlee.ctm.apply.entry.entity.vo.ApplyVo;
-import eqlee.ctm.apply.entry.entity.vo.ExamineVo;
 import eqlee.ctm.apply.entry.service.IApplyService;
 import eqlee.ctm.apply.exception.ApplicationException;
 import eqlee.ctm.apply.line.entity.Line;
@@ -70,6 +65,7 @@ public class ApplyServiceImpl extends ServiceImpl<ApplyMapper, Apply> implements
         //生成报名单号
         String orderCode = idGenerator.getOrderCode();
 
+        Company company = baseMapper.queryCompanyById(applyVo.getCompanyNameId());
         //装配实体类
         Apply apply = new Apply();
         apply.setId(idGenerator.getNumberId());
@@ -80,14 +76,16 @@ public class ApplyServiceImpl extends ServiceImpl<ApplyMapper, Apply> implements
         apply.setAllNumber(AllNumber);
         apply.setAllPrice(AllPrice);
         apply.setApplyNo(orderCode);
-        apply.setCompanyName(applyVo.getCompanyName());
+        apply.setCompanyName(company.getCompanyName());
         apply.setCompanyUser(applyVo.getCompanyUser());
         apply.setContactName(applyVo.getContactName());
         apply.setContactTel(applyVo.getContactTel());
         apply.setPlace(applyVo.getPlace());
-        apply.setRegion(applyVo.getRegion());
+        apply.setRegion(line.getRegion());
         apply.setLineId(line.getId());
         apply.setOutDate(localDate);
+        apply.setCreateUserId(applyVo.getCreateUserId());
+        apply.setUpdateUserId(applyVo.getUpdateUserId());
         if (MONTH_PAY.equals(applyVo.getPayType())) {
             apply.setPayType(1);
         }
@@ -216,7 +214,7 @@ public class ApplyServiceImpl extends ServiceImpl<ApplyMapper, Apply> implements
         Apply apply = new Apply();
         apply.setId(Id);
         apply.setIsCancel(true);
-        apply.setStatu(2);
+        apply.setStatu(1);
         int result = baseMapper.updateById(apply);
 
         if (result <= 0) {
@@ -243,9 +241,24 @@ public class ApplyServiceImpl extends ServiceImpl<ApplyMapper, Apply> implements
         }
     }
 
+    /**
+     * 查询所有报名表
+     * @return
+     */
     @Override
     public List<Apply> selectAllApply() {
         return baseMapper.selectList(null);
     }
+
+    /**
+     * 查询公司信息
+     * @param Id
+     * @return
+     */
+    @Override
+    public Company queryOne(Long Id) {
+        return baseMapper.queryCompanyById(Id);
+    }
+
 
 }

@@ -13,6 +13,8 @@ import eqlee.ctm.apply.entry.entity.vo.UpdateInfoVo;
 import eqlee.ctm.apply.entry.service.IApplyService;
 import eqlee.ctm.apply.entry.service.IExamineService;
 import eqlee.ctm.apply.exception.ApplicationException;
+import eqlee.ctm.apply.jwt.contain.LocalUser;
+import eqlee.ctm.apply.jwt.entity.UserLoginQuery;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -31,6 +33,9 @@ public class ExamineServiceImpl extends ServiceImpl<ExamineMapper, Examine> impl
     @Autowired
     private IApplyService applyService;
 
+    @Autowired
+    private LocalUser localUser;
+
     IdGenerator idGenerator = new IdGenerator();
 
     /**
@@ -45,8 +50,12 @@ public class ExamineServiceImpl extends ServiceImpl<ExamineMapper, Examine> impl
         examine.setExamineType("取消报名表");
         baseMapper.insert(examine);
 
+        UserLoginQuery user = localUser.getUser("用户信息");
+        examine.setCreateUserId(user.getId());
+        examine.setUpdateUserId(user.getId());
+
         //同时修改报名表的审核状态
-        applyService.updateExamineStatus(ApplyId,1);
+        applyService.updateExamineStatus(ApplyId,0);
     }
 
     /**
@@ -58,6 +67,7 @@ public class ExamineServiceImpl extends ServiceImpl<ExamineMapper, Examine> impl
         Examine examine = new Examine();
         examine.setId(idGenerator.getNumberId());
         examine.setApplyId(examineVo.getApplyId());
+        examine.setExamineType("修改报名表");
         //将修改的信息以json的形式装进备注字段
         UpdateInfoVo infoVo = new UpdateInfoVo();
         infoVo.setConnectName(examineVo.getConnectName());
@@ -65,10 +75,13 @@ public class ExamineServiceImpl extends ServiceImpl<ExamineMapper, Examine> impl
         infoVo.setPlace(examineVo.getPlace());
 
         examine.setRemark(infoVo.toString());
+        UserLoginQuery user = localUser.getUser("用户信息");
+        examine.setCreateUserId(user.getId());
+        examine.setUpdateUserId(user.getId());
         baseMapper.insert(examine);
 
         //同时修改报名表的审核状态
-        applyService.updateExamineStatus(examineVo.getApplyId(),1);
+        applyService.updateExamineStatus(examineVo.getApplyId(),0);
     }
 
     /**
@@ -81,6 +94,8 @@ public class ExamineServiceImpl extends ServiceImpl<ExamineMapper, Examine> impl
         LambdaQueryWrapper<Examine> queryWrapper = new LambdaQueryWrapper<Examine>()
                 .eq(Examine::getApplyId,ApplyId);
         examine.setExamineResult(1);
+        UserLoginQuery user = localUser.getUser("用户信息");
+        examine.setUpdateUserId(user.getId());
         int update = baseMapper.update(examine, queryWrapper);
 
         if (update <= 0) {
@@ -102,6 +117,8 @@ public class ExamineServiceImpl extends ServiceImpl<ExamineMapper, Examine> impl
         LambdaQueryWrapper<Examine> queryWrapper = new LambdaQueryWrapper<Examine>()
                 .eq(Examine::getApplyId,ApplyId);
         examine.setExamineResult(1);
+        UserLoginQuery user = localUser.getUser("用户信息");
+        examine.setUpdateUserId(user.getId());
         int update = baseMapper.update(examine, queryWrapper);
 
         if (update <= 0) {
@@ -126,6 +143,8 @@ public class ExamineServiceImpl extends ServiceImpl<ExamineMapper, Examine> impl
         examine.setExamineResult(2);
         LambdaQueryWrapper<Examine> queryWrapper = new LambdaQueryWrapper<Examine>()
                 .eq(Examine::getApplyId,ApplyId);
+        UserLoginQuery user = localUser.getUser("用户信息");
+        examine.setUpdateUserId(user.getId());
         int update = baseMapper.update(examine, queryWrapper);
 
         if (update <= 0) {
@@ -134,7 +153,7 @@ public class ExamineServiceImpl extends ServiceImpl<ExamineMapper, Examine> impl
         }
 
         //同步报名表的审核状态
-        applyService.updateExamineStatus(ApplyId,3);
+        applyService.updateExamineStatus(ApplyId,2);
     }
 
 

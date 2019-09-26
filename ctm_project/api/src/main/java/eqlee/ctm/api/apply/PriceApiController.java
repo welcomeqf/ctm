@@ -2,6 +2,7 @@ package eqlee.ctm.api.apply;
 
 import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.yq.constanct.CodeType;
 import eqlee.ctm.api.apply.vo.PriceVo;
 import eqlee.ctm.api.entity.vo.ResultVo;
 import eqlee.ctm.api.httpclient.HttpClientUtils;
@@ -12,6 +13,7 @@ import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
+import org.omg.CORBA.portable.ApplicationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
@@ -119,4 +121,5 @@ public class PriceApiController {
         }
         return JSONObject.parse(httpResult.getBody());
     }
+
 }

@@ -1,5 +1,7 @@
 package eqlee.ctm.api.entity;
 
+import com.alibaba.fastjson.annotation.JSONField;
+import com.alibaba.fastjson.serializer.ToStringSerializer;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
 import lombok.Data;
@@ -19,6 +21,7 @@ public class Sign{
     /**
      * 唯一（相当于设备ID）
      */
+    @JSONField(serializeUsing= ToStringSerializer.class)
     private Long Id;
 
     /**
@@ -54,6 +57,7 @@ public class Sign{
     /**
      * 创建人
      */
+    @JSONField(serializeUsing= ToStringSerializer.class)
     private Long CreateUserId;
 
     /**
@@ -64,6 +68,7 @@ public class Sign{
     /**
      * 修改人
      */
+    @JSONField(serializeUsing= ToStringSerializer.class)
     private Long UpdateUserId;
 
     /**

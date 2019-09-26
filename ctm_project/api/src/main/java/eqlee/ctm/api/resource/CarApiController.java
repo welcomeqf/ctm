@@ -25,7 +25,7 @@ import java.util.Map;
 @Slf4j
 @Api("车辆Api")
 @RestController
-@RequestMapping("/v1/app/api/car")
+@RequestMapping("/v1/app/resource/car")
 public class CarApiController {
 
     @Value("${api.userIp}")
@@ -51,7 +51,7 @@ public class CarApiController {
     @CrossOrigin
     public Object queryAllCar(@RequestParam("current") Integer current,
                                  @RequestParam("size") Integer size) throws Exception{
-        String url = "http://" + Ip +":" + port + "/" + path + "/v1/app/resource/car/queryCarPage?current=" +current + "&size=" + size;
+        String url = "http://" + Ip +":" + port  + "/v1/app/resource/car/queryCarPage?current=" +current + "&size=" + size;
 
         Map<String,Object> map = new HashMap<>();
 
@@ -129,11 +129,11 @@ public class CarApiController {
 
 
     @ApiOperation(value = "车辆修改页首页",notes = "车辆修改页首页")
-    @GetMapping("/updateCarIndex")
+    @GetMapping("/updateCarDetail")
     @ApiImplicitParam(name = "Id", value = "车辆Id", required = true, dataType = "Long", paramType = "path")
     @CrossOrigin
     public Object updateCarIndex(@RequestParam("Id") Long Id) throws Exception{
-        String url = "http://" + Ip +":" + port + "/" + path + "/v1/app/resource/car/updateCarIndex?Id=" +Id;
+        String url = "http://" + Ip +":" + port + "/" + path + "/v1/app/resource/car/updateCarDetail?Id=" +Id;
 
         Map<String,Object> map = new HashMap<>();
         HttpResult httpResult = apiService.doGet(url,map);

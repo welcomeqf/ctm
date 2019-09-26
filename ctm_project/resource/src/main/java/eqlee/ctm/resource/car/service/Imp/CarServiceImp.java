@@ -12,7 +12,10 @@ import eqlee.ctm.resource.car.entity.Car;
 import eqlee.ctm.resource.car.entity.Vo.CarVo;
 import eqlee.ctm.resource.car.service.ICarService;
 import eqlee.ctm.resource.exception.ApplicationException;
+import eqlee.ctm.resource.jwt.contain.LocalUser;
+import eqlee.ctm.resource.jwt.entity.UserLoginQuery;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -28,17 +31,23 @@ import java.util.List;
 @Transactional(rollbackFor = Exception.class)
 public class CarServiceImp extends ServiceImpl<CarMapper, Car>implements ICarService {
 
+    @Autowired
+    private LocalUser localUser;
+
     /**
      * 增加车辆
      * @param carVo
      */
     @Override
     public void addCar(CarVo carVo) {
+        UserLoginQuery user = localUser.getUser("用户信息");
         Car car = new Car();
         IdGenerator idGenerator = new IdGenerator();
         car.setId(idGenerator.getNumberId());
         car.setRemark(carVo.getRemark());
         car.setCarName(carVo.getCarName());
+        car.setCreateUserId(user.getId());
+        car.setUpdateUserId(user.getId());
         car.setCarNo(carVo.getCarNo());
         if(StringUtils.isNotBlank(carVo.getStatu())) {
             car.setStatu(Integer.parseInt(carVo.getStatu()));
@@ -69,8 +78,10 @@ public class CarServiceImp extends ServiceImpl<CarMapper, Car>implements ICarSer
      */
     @Override
     public void updateCar(CarVo carVo) {
+        UserLoginQuery user = localUser.getUser("用户信息");
 
         Car car = new Car();
+        car.setUpdateUserId(user.getId());
         car.setId(carVo.getId());
         car.setRemark(carVo.getRemark());
         car.setCarName(carVo.getCarName());
