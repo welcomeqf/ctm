@@ -16,6 +16,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.List;
 
 /**
@@ -73,13 +74,12 @@ public class PriceController {
     })
     @PutMapping("/batchUpdatePrice")
     @CrossOrigin
-    public ResultVo batchUpdatePrice(PriceVo priceVo) {
+    public ResultVo batchUpdatePrice( PriceVo priceVo) {
         if (StringUtils.isBlank(priceVo.getStartTime()) || StringUtils.isBlank(priceVo.getEndTime())
                 || StringUtils.isBlank(priceVo.getLineName()) || priceVo.getAdultPrice() == null
                 || priceVo.getOldPrice() == null || priceVo.getBabyPrice() == null || priceVo.getChildPrice() ==null) {
             throw new ApplicationException(CodeType.PARAM_ERROR,"价格修改参数不能为空");
         }
-
         priceService.batchUpdatePrice(priceVo);
 
         ResultVo resultVo = new ResultVo();

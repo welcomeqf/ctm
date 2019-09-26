@@ -84,13 +84,17 @@ public class CarController {
             @ApiImplicitParam(name = "Remark", value = "备注", required = true, dataType = "String", paramType = "path")
     })
     @CrossOrigin
-    public void addCar(@RequestBody CarVo carVo)
+    public void addCar()
     {
-        if(StringUtils.isBlank(carVo.getCarNo())||StringUtils.isBlank(carVo.getStatu())
+       /* if(StringUtils.isBlank(carVo.getCarNo())||StringUtils.isBlank(carVo.getStatu())
                 ||StringUtils.isBlank(carVo.getCarName())||StringUtils.isBlank(carVo.getRemark())){
             log.error("Add car param is null");
             throw new ApplicationException(CodeType.PARAMETER_ERROR,"增加车辆信息为空");
-        }
+            @RequestBody CarVo carVo
+        }*/
+        CarVo carVo =new CarVo();
+        carVo.setId(623953989137858562L);
+        carVo.setCarName("hj");
         carService.addCar(carVo);
     }
 

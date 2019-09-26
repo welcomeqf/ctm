@@ -40,7 +40,9 @@ public class CarServiceImp extends ServiceImpl<CarMapper, Car>implements ICarSer
         car.setRemark(carVo.getRemark());
         car.setCarName(carVo.getCarName());
         car.setCarNo(carVo.getCarNo());
-        car.setStatu(Integer.parseInt(carVo.getStatu()));
+        if(StringUtils.isNotBlank(carVo.getStatu())) {
+            car.setStatu(Integer.parseInt(carVo.getStatu()));
+        }
         int add = baseMapper.insert(car);
         if(add <= 0){
             log.error("insert car fail");

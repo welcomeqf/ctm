@@ -1,5 +1,7 @@
 package eqlee.ctm.resource.company.entity.vo;
 
+import com.alibaba.fastjson.annotation.JSONField;
+import com.alibaba.fastjson.serializer.ToStringSerializer;
 import lombok.Data;
 
 import java.time.LocalDateTime;

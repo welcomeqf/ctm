@@ -170,7 +170,7 @@ public class PriceServiceImpl extends ServiceImpl<PriceMapper, Price> implements
                 time = priceVo.getEndTime();
             }
             LambdaQueryWrapper<Price> lambdaQueryWrapper = new LambdaQueryWrapper<Price>()
-                    .eq(Price::getLineId, line.getId()).eq(Price::getOutDate, LocalDateTime.parse(time));
+                    .eq(Price::getLineId, line.getId()).eq(Price::getOutDate, LocalDate.parse(time));
             Price needUpdatePrice = baseMapper.selectOne(lambdaQueryWrapper);
             needUpdatePrice.setAdultPrice(priceVo.getAdultPrice());
             needUpdatePrice.setBabyPrice(priceVo.getBabyPrice());
@@ -178,60 +178,64 @@ public class PriceServiceImpl extends ServiceImpl<PriceMapper, Price> implements
             needUpdatePrice.setOldPrice(priceVo.getOldPrice());
             baseMapper.updateById(needUpdatePrice);
         }
-        //截取日期年 月  日
-        int startyear = Integer.parseInt(priceVo.getStartTime().substring(0, 4));
-        int startmonth = Integer.parseInt(priceVo.getStartTime().substring(5, 7));
-        int startday = Integer.parseInt(priceVo.getStartTime().substring(8, 10));
-        int endyear = Integer.parseInt(priceVo.getEndTime().substring(0, 4));
-        int endmonth = Integer.parseInt(priceVo.getEndTime().substring(5, 7));
-        int endday = Integer.parseInt(priceVo.getEndTime().substring(8, 10));
+        if (!priceVo.getStartTime().equals(priceVo.getEndTime()) && StringUtils.isNotBlank(priceVo.getStartTime())
+                && StringUtils.isNotBlank(priceVo.getEndTime())) {
+            //截取日期年 月  日
+            int startyear = Integer.parseInt(priceVo.getStartTime().substring(0, 4));
+            int startmonth = Integer.parseInt(priceVo.getStartTime().substring(5, 7));
+            int startday = Integer.parseInt(priceVo.getStartTime().substring(8, 10));
+            int endyear = Integer.parseInt(priceVo.getEndTime().substring(0, 4));
+            int endmonth = Integer.parseInt(priceVo.getEndTime().substring(5, 7));
+            int endday = Integer.parseInt(priceVo.getEndTime().substring(8, 10));
 //如果输入的开始时间和结束时间不是同一天的话，更改PriceList中出行时间在这个时间端的价格
-        for (Price price : pricesList) {
-            if (startyear < endyear) {
-                if (price.getOutDate().getYear() > startyear && price.getOutDate().getYear() < endyear) {
-                    updateFourPrice(price, priceVo);
-                }
-                if (price.getOutDate().getYear() == startyear) {
-                    if (price.getOutDate().getMonthValue() > startmonth || (price.getOutDate().getMonthValue() == startmonth && price.getOutDate().getDayOfMonth() >= startday)) {
+            for (Price price : pricesList) {
+                if (startyear < endyear) {
+                    if (price.getOutDate().getYear() > startyear && price.getOutDate().getYear() < endyear) {
                         updateFourPrice(price, priceVo);
                     }
-                }
-                if (price.getOutDate().getYear() == endyear) {
-                    if (price.getOutDate().getMonthValue() < endmonth || (price.getOutDate().getMonthValue() == endmonth &&
-                            price.getOutDate().getDayOfMonth() <= endday)) {
-                        updateFourPrice(price, priceVo);
-                    }
-                }
-            }
-            if (startyear == endyear) {
-                if (price.getOutDate().getYear() == startyear) {
-                    if (startmonth < endmonth) {
-                        if (price.getOutDate().getMonthValue() > startmonth && price.getOutDate().getMonthValue() < endmonth) {
+                    if (price.getOutDate().getYear() == startyear) {
+                        if (price.getOutDate().getMonthValue() > startmonth || (price.getOutDate().getMonthValue() == startmonth && price.getOutDate().getDayOfMonth() >= startday)) {
                             updateFourPrice(price, priceVo);
                         }
-                        if (price.getOutDate().getDayOfMonth() == startmonth) {
-                            if (price.getOutDate().getDayOfMonth() >= startday) {
-                                updateFourPrice(price, priceVo);
-                            }
-                        }
-                        if (price.getOutDate().getDayOfMonth() == endmonth) {
-                            if (price.getOutDate().getDayOfMonth() <= endday) {
-                                updateFourPrice(price, priceVo);
-                            }
-                        }
                     }
-                    if (startmonth == endmonth) {
-                        if (price.getOutDate().getDayOfMonth() <= endday && price.getOutDate().getDayOfMonth() >= startday) {
+                    if (price.getOutDate().getYear() == endyear) {
+                        if (price.getOutDate().getMonthValue() < endmonth || (price.getOutDate().getMonthValue() == endmonth &&
+                                price.getOutDate().getDayOfMonth() <= endday)) {
                             updateFourPrice(price, priceVo);
                         }
                     }
                 }
+                if (startyear == endyear) {
+                    if (price.getOutDate().getYear() == startyear) {
+                        if (startmonth < endmonth) {
+                            if (price.getOutDate().getMonthValue() > startmonth && price.getOutDate().getMonthValue() < endmonth) {
+                                updateFourPrice(price, priceVo);
+                            }
+                            if (price.getOutDate().getDayOfMonth() == startmonth) {
+                                if (price.getOutDate().getDayOfMonth() >= startday) {
+                                    updateFourPrice(price, priceVo);
+                                }
+                            }
+                            if (price.getOutDate().getDayOfMonth() == endmonth) {
+                                if (price.getOutDate().getDayOfMonth() <= endday) {
+                                    updateFourPrice(price, priceVo);
+                                }
+                            }
+                        }
+                        if (startmonth == endmonth) {
+                            if (price.getOutDate().getDayOfMonth() <= endday && price.getOutDate().getDayOfMonth() >= startday) {
+                                updateFourPrice(price, priceVo);
+                            }
+                        }
+                    }
+                }
             }
-        }
-        int update = baseMapper.batchupdatePrice(pricesList);
-        if(update <= 0){
-            log.error("batchUpdate price fail.");
-            throw new ApplicationException(CodeType.SERVICE_ERROR, "批量修改价格失败");
+
+            int update = baseMapper.batchupdatePrice(pricesList);
+            if (update <= 0) {
+                log.error("batchUpdate price fail.");
+                throw new ApplicationException(CodeType.SERVICE_ERROR, "批量修改价格失败");
+            }
         }
     }
 

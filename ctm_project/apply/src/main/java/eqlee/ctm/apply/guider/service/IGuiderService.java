@@ -31,6 +31,6 @@ public interface IGuiderService {
      * @param lineName
      * @return
      */
-    Page<ApplyVo> applyIndex(Integer current,Integer size,String outDate,String lineName);
+    Page<ApplyVo>  applyIndex(Integer current,Integer size,String outDate,String lineName);
 
 }

@@ -1,5 +1,7 @@
 package eqlee.ctm.resource.company.entity;
 
+import com.alibaba.fastjson.annotation.JSONField;
+import com.alibaba.fastjson.serializer.ToStringSerializer;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -19,6 +21,7 @@ import java.time.LocalDateTime;
 @TableName("Company")
 public class Company extends Model<Company> {
 
+    @JSONField(serializeUsing= ToStringSerializer.class)
     private Long Id;
 
     /**
