@@ -42,6 +42,7 @@ public class CompanyController {
     })
     @GetMapping("/queryCompany")
     @CrossOrigin
+    @CheckToken
     public Page<Company> queryCompany(@RequestParam("current") Integer current,@RequestParam("size") Integer size) {
         if(current == null||size == null){
             throw new ApplicationException(CodeType.PARAMETER_ERROR,"当前页或者页面大小为空");
@@ -57,6 +58,7 @@ public class CompanyController {
     @ApiImplicitParam(name = "Id", value = "公司Id", required = true, dataType = "Long", paramType = "path")
     @GetMapping("/updateCompanyIndex")
     @CrossOrigin
+    @CheckToken
     public CompanyVo updateCompanyIndex (@RequestParam("Id") Long Id) {
         if(Id == null){
             log.error("update company param is null");
@@ -99,6 +101,7 @@ public class CompanyController {
     @ApiImplicitParam(name = "Id", value = "公司Id", required = true, dataType = "Long", paramType = "path")
     @DeleteMapping("/deleteCompany")
     @CrossOrigin
+    @CheckToken
     public ResultVo deleteCompany (@RequestParam("Id") Long Id) {
 
         if(Id == null) {
@@ -120,6 +123,7 @@ public class CompanyController {
     })
     @GetMapping("/queryCompanyByName")
     @CrossOrigin
+    @CheckToken
     public Page<Company> queryCompanyByCompanyName (@RequestParam("size") Integer size,@RequestParam("CompanyName") String CompanyName,
                                                     @RequestParam("current") Integer current) {
 

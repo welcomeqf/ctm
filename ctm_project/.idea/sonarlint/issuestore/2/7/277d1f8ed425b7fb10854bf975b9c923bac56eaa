@@ -1,11 +1,13 @@
 
-osquid:S00116%"RRename this field "Stopped" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(Õ¼œòùÿÿÿÿ
-nsquid:S00116("QRename this field "Remark" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(é«´‘ùÿÿÿÿ
-lsquid:S00116""TRename this field "PayMethod" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(Âùšÿ
-osquid:S00116+"WRename this field "CreateUserId" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(—êÙç
-lsquid:S00116"TRename this field "StartDate" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(Å†¨á
-rsquid:S00116."URename this field "CreateDate" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(¿©Äýÿÿÿÿ
-esquid:S00116"MRename this field "Id" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(´ÕÛ”
-ssquid:S00116"VRename this field "CompanyName" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ëÁ°¬ùÿÿÿÿ
-osquid:S001160"WRename this field "UpdateUserId" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(–°ƒ¹
-rsquid:S001163"URename this field "UpdateDate" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(•˜Ðëýÿÿÿÿ
+vsquid:UselessImportCheck"FRemove this unused import 'com.alibaba.fastjson.annotation.JSONField'.(¾Ñ¯Àúÿÿÿÿ8ÿ£¥æÖ-
+ssquid:S00116 "VRename this field "CompanyName" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ëÁ°¬ùÿÿÿÿ
+osquid:S00116H"WRename this field "UpdateUserId" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(–°ƒ¹
+esquid:S00116"MRename this field "Id" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(´ÕÛ”
+rsquid:S00116C"URename this field "CreateDate" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(¿©Äýÿÿÿÿ
+osquid:S00116>"WRename this field "CreateUserId" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(—êÙç
+ysquid:UselessImportCheck"ORemove this unused import 'com.alibaba.fastjson.serializer.ToStringSerializer'.( ‰µ+8ÿ£¥æÖ-
+nsquid:S001169"QRename this field "Remark" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(é«´‘ùÿÿÿÿ
+lsquid:S00116%"TRename this field "StartDate" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(Å†¨á
+osquid:S001164"RRename this field "Stopped" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(Õ¼œòùÿÿÿÿ
+lsquid:S00116/"TRename this field "PayMethod" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(Âùšÿ
+rsquid:S00116M"URename this field "UpdateDate" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(•˜Ðëýÿÿÿÿ

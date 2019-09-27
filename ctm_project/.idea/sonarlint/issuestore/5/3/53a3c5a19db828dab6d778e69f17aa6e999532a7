@@ -1,0 +1,7 @@
+
+Ysquid:UselessImportCheck"5Remove this unused import 'lombok.EqualsAndHashCode'.(Ìà‰ò
+osquid:S00116"WRename this field "SystemMenuId" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ô­ïµ
+ssquid:UselessImportCheck"JRemove this unused import 'com.baomidou.mybatisplus.annotation.TableName'.(š»â—ÿÿÿÿÿ
+^squid:UselessImportCheck	":Remove this unused import 'lombok.experimental.Accessors'.(ş¡Ğ„
+vsquid:UselessImportCheck"RRemove this unused import 'com.baomidou.mybatisplus.extension.activerecord.Model'.(â­‘°
+tsquid:S00116"WRename this field "SystemRoleId" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ß„¯üÿÿÿÿ

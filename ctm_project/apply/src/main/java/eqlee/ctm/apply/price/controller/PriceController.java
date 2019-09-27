@@ -100,6 +100,7 @@ public class PriceController {
     })
     @GetMapping("/queryPricePageByFilter")
     @CrossOrigin
+    @CheckToken
     public Page<PriceVo> queryPricePageByFilter(@RequestParam("OutDate") String OutDate,
                                                 @RequestParam("LineName") String LineName,
                                                 @RequestParam("size") Integer size,

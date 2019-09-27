@@ -1,16 +1,16 @@
 
-esquid:S00116"MRename this field "Id" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(´ÕÛ”
-hsquid:S00116"PRename this field "AppId" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(¨Á’¿
-hsquid:S00116 "PRename this field "MySig" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(Ó˜µË
-rsquid:S00116%"URename this field "PrivateKey" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(îòÁÄıÿÿÿÿ
-lsquid:S00116*"TRename this field "PublicKey" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(îşû–
-nsquid:S00116/"VRename this field "Information" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(‹„ÒÒ
-nsquid:S001164"QRename this field "Remark" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(é«´‘ùÿÿÿÿ
-osquid:S001169"WRename this field "CreateUserId" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(—êÙç
-rsquid:S00116>"URename this field "CreateDate" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(¿©Äıÿÿÿÿ
-osquid:S00116C"WRename this field "UpdateUserId" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(–°ƒ¹
-rsquid:S00116H"URename this field "UpdateDate" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(•˜Ğëıÿÿÿÿ
-ssquid:UselessImportCheck"JRemove this unused import 'com.baomidou.mybatisplus.annotation.TableName'.(š»â—ÿÿÿÿÿ
-^squid:UselessImportCheck":Remove this unused import 'lombok.experimental.Accessors'.(ş¡Ğ„
-vsquid:UselessImportCheck"RRemove this unused import 'com.baomidou.mybatisplus.extension.activerecord.Model'.(â­‘°
-Ysquid:UselessImportCheck"5Remove this unused import 'lombok.EqualsAndHashCode'.(Ìà‰ò
+ssquid:UselessImportCheck"JRemove this unused import 'com.baomidou.mybatisplus.annotation.TableName'.(š»â—ÿÿÿÿÿ
+nsquid:S001167"QRename this field "Remark" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(é«´‘ùÿÿÿÿ
+vsquid:UselessImportCheck"RRemove this unused import 'com.baomidou.mybatisplus.extension.activerecord.Model'.(â­‘°
+^squid:UselessImportCheck	":Remove this unused import 'lombok.experimental.Accessors'.(ş¡Ğ„
+osquid:S00116H"WRename this field "UpdateUserId" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(–°ƒ¹
+osquid:S00116="WRename this field "CreateUserId" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(—êÙç
+rsquid:S00116("URename this field "PrivateKey" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(îòÁÄıÿÿÿÿ
+Ysquid:UselessImportCheck"5Remove this unused import 'lombok.EqualsAndHashCode'.(Ìà‰ò
+nsquid:S001162"VRename this field "Information" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(‹„ÒÒ
+rsquid:S00116B"URename this field "CreateDate" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(¿©Äıÿÿÿÿ
+esquid:S00116"MRename this field "Id" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(´ÕÛ”
+hsquid:S00116#"PRename this field "MySig" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(Ó˜µË
+rsquid:S00116M"URename this field "UpdateDate" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(•˜Ğëıÿÿÿÿ
+lsquid:S00116-"TRename this field "PublicKey" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(îşû–
+hsquid:S00116"PRename this field "AppId" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(¨Á’¿

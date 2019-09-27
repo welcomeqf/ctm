@@ -3,6 +3,7 @@
   <component name="FrameworkDetectionExcludesConfiguration">
     <file type="web" url="file://$PROJECT_DIR$/api" />
     <file type="web" url="file://$PROJECT_DIR$/apply" />
+    <file type="web" url="file://$PROJECT_DIR$/finance" />
     <file type="web" url="file://$PROJECT_DIR$/resource" />
     <file type="web" url="file://$PROJECT_DIR$/user" />
   </component>
@@ -14,6 +15,7 @@
         <option value="$PROJECT_DIR$/user/pom.xml" />
         <option value="$PROJECT_DIR$/apply/pom.xml" />
         <option value="$PROJECT_DIR$/api/pom.xml" />
+        <option value="$PROJECT_DIR$/finance/pom.xml" />
       </list>
     </option>
   </component>

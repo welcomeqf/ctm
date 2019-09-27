@@ -94,6 +94,7 @@ public class LineController {
     })
     @GetMapping("/listLine")
     @CrossOrigin
+    @CheckToken
     public Page<Line> listLine(@RequestParam("current") Integer current,
                                         @RequestParam("size") Integer size) {
         if (current == null || size == null) {
@@ -140,6 +141,7 @@ public class LineController {
     @ApiImplicitParam(name = "Id", value = "Id", required = true, dataType = "String", paramType = "path")
     @GetMapping("/queryLineById")
     @CrossOrigin
+    @CheckToken
     public Line queryLineById(@RequestParam("Id") Long Id) {
         if (Id == null) {
             throw new ApplicationException(CodeType.PARAM_ERROR);

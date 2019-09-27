@@ -3,9 +3,12 @@ package eqlee.ctm.api.controller;
 import com.alibaba.fastjson.JSONObject;
 import com.yq.utils.JwtUtil;
 import eqlee.ctm.api.entity.vo.ResultVo;
+import eqlee.ctm.api.entity.vo.UserUpdatePasswordVo;
+import eqlee.ctm.api.entity.vo.UserUpdateVo;
 import eqlee.ctm.api.entity.vo.UserVo;
 import eqlee.ctm.api.httpclient.HttpClientUtils;
 import eqlee.ctm.api.httpclient.HttpResult;
+import eqlee.ctm.api.jwt.islogin.CheckToken;
 import eqlee.ctm.api.vilidate.DataUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -55,6 +58,7 @@ public class UserApiController {
     })
     @PostMapping("/register")
     @CrossOrigin
+    @CheckToken
     public Object register(@RequestBody UserVo userVo) throws Exception{
         String url = "http://" + Ip +":" + port + "/" + path + "/v1/app/user/register";
 
@@ -102,6 +106,7 @@ public class UserApiController {
     @ApiImplicitParam(name = "userName", value = "用户名", required = true, dataType = "String", paramType = "path")
     @GetMapping("/deleteUser")
     @CrossOrigin
+    @CheckToken
     public Object deleteUser(@RequestParam("userName") String userName) throws Exception{
         String encode = DataUtils.getEncodeing("RSA");
         String url = "http://" + Ip +":" + port + "/" + path + "/v1/app/user/deleteUser?userName=" +userName + "&AppId=" +encode;
@@ -120,6 +125,7 @@ public class UserApiController {
     @ApiImplicitParam(name = "userName", value = "用户名", required = true, dataType = "String", paramType = "path")
     @GetMapping("/exitUser")
     @CrossOrigin
+    @CheckToken
     public Object exitUser(@RequestParam("userName") String userName) throws Exception{
         String encode = DataUtils.getEncodeing("RSA");
         String url = "http://" + Ip +":" + port + "/" + path + "/v1/app/user/exitUser?userName=" +userName + "&AppId=" +encode;
@@ -138,6 +144,7 @@ public class UserApiController {
     @ApiImplicitParam(name = "userName", value = "用户名", required = true, dataType = "String", paramType = "path")
     @GetMapping("/stopUser")
     @CrossOrigin
+    @CheckToken
     public Object stopUser(@RequestParam("userName") String userName) throws Exception{
         String encode = DataUtils.getEncodeing("RSA");
         String url = "http://" + Ip +":" + port + "/" + path + "/v1/app/user/stopUser?userName=" +userName + "&AppId=" +encode;
@@ -156,6 +163,7 @@ public class UserApiController {
     @ApiImplicitParam(name = "userName", value = "用户名", required = true, dataType = "String", paramType = "path")
     @GetMapping("/toStopUser")
     @CrossOrigin
+    @CheckToken
     public Object toStopUser(@RequestParam("userName") String userName) throws Exception{
         String encode = DataUtils.getEncodeing("RSA");
         String url = "http://" + Ip +":" + port + "/" + path + "/v1/app/user/toStopUser?userName=" +userName + "&AppId=" +encode;
@@ -182,6 +190,7 @@ public class UserApiController {
     })
     @PostMapping("/downRegister")
     @CrossOrigin
+    @CheckToken
     public Object downRegister(@RequestBody UserVo userVo) throws Exception{
         String encode = DataUtils.getEncodeing("RSA");
         userVo.setAppId(encode);
@@ -205,6 +214,7 @@ public class UserApiController {
     })
     @GetMapping("/pageListUser")
     @CrossOrigin
+    @CheckToken
     public Object pageListUser(@RequestParam("current") Integer current, @RequestParam("size") Integer size) throws Exception{
         String encode = DataUtils.getEncodeing("RSA");
         String url = "http://" + Ip +":" + port + "/" + path + "/v1/app/user/pageListUser?current=" +current + "&AppId=" +encode + "&size=" + size;
@@ -237,6 +247,7 @@ public class UserApiController {
     })
     @GetMapping("/queryPageUserByName")
     @CrossOrigin
+    @CheckToken
     public Object queryPageUserByName(@RequestParam("current") Integer current,
                                                @RequestParam("size") Integer size,
                                                @RequestParam("userName") String userName,
@@ -263,6 +274,7 @@ public class UserApiController {
     })
     @GetMapping("/queryUserByName")
     @CrossOrigin
+    @CheckToken
     public Object queryUserByName(@RequestParam("current") Integer current,
                                            @RequestParam("size") Integer size,
                                            @RequestParam("userName") String userName) throws Exception{
@@ -277,6 +289,58 @@ public class UserApiController {
         if (httpResult.getCode() != Status) {
             return DataUtils.getError();
         }
+        return JSONObject.parse(httpResult.getBody());
+    }
+
+    @ApiOperation(value = "根据用户名和手机号重置密码", notes = "根据用户名和手机号重置密码")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "Id", value = "Id", required = true, dataType = "Long", paramType = "path"),
+            @ApiImplicitParam(name = "userName", value = "用户名", required = true, dataType = "String", paramType = "path"),
+            @ApiImplicitParam(name = "password", value = "新密码", required = true, dataType = "String", paramType = "path"),
+            @ApiImplicitParam(name = "tel", value = "手机号", required = true, dataType = "String", paramType = "path")
+    })
+    @PostMapping("/updateUserPassword")
+    @CrossOrigin
+    @CheckToken
+    public Object updateUserPassword(@RequestBody UserUpdatePasswordVo vo) throws Exception{
+        String encode = DataUtils.getEncodeing("RSA");
+        vo.setAppId(encode);
+        String url = "http://" + Ip +":" + port + "/" + path + "/v1/app/user/updateUserPassword";
+
+        String s = JSONObject.toJSONString(vo);
+        HttpResult httpResult = apiService.doPost(url, s);
+
+        if (httpResult.getCode() != Status) {
+            return DataUtils.getError();
+        }
+
+        return JSONObject.parse(httpResult.getBody());
+    }
+
+
+    @ApiOperation(value = "修改用户信息", notes = "修改用户信息")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "Id", value = "Id", required = true, dataType = "Long", paramType = "path"),
+            @ApiImplicitParam(name = "CName", value = "姓名", required = true, dataType = "String", paramType = "path"),
+            @ApiImplicitParam(name = "SelfImagePath", value = "个人图片路径", required = true, dataType = "String", paramType = "path"),
+            @ApiImplicitParam(name = "tel", value = "手机号", required = true, dataType = "String", paramType = "path"),
+            @ApiImplicitParam(name = "CompanyId", value = "公司ID", required = true, dataType = "Long", paramType = "path")
+    })
+    @PostMapping("/updateUser")
+    @CrossOrigin
+    @CheckToken
+    public Object updateUser(@RequestBody UserUpdateVo vo) throws Exception{
+        String encode = DataUtils.getEncodeing("RSA");
+        vo.setAppId(encode);
+        String url = "http://" + Ip +":" + port + "/" + path + "/v1/app/user/updateUser";
+
+        String s = JSONObject.toJSONString(vo);
+        HttpResult httpResult = apiService.doPost(url, s);
+
+        if (httpResult.getCode() != Status) {
+            return DataUtils.getError();
+        }
+
         return JSONObject.parse(httpResult.getBody());
     }
 }

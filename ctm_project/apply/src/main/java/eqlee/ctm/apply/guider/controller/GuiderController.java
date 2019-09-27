@@ -8,6 +8,7 @@ import eqlee.ctm.apply.exception.ApplicationException;
 import eqlee.ctm.apply.guider.entity.vo.ApplyVo;
 import eqlee.ctm.apply.guider.entity.vo.GuiderVo;
 import eqlee.ctm.apply.guider.service.IGuiderService;
+import eqlee.ctm.apply.jwt.islogin.CheckToken;
 import eqlee.ctm.apply.line.entity.vo.ResultVo;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -44,6 +45,7 @@ public class GuiderController {
     })
     @GetMapping("guiderindex")
     @CrossOrigin
+    @CheckToken
     public Page<GuiderVo> guiderindex(Integer current,Integer size,String outDate){
         if(current == null || size == null){
             throw new ApplicationException(CodeType.PARAM_ERROR,"参数不能为空");
@@ -60,6 +62,7 @@ public class GuiderController {
             @ApiImplicitParam(name = "lineName", value = "线路名", required = true, dataType = "Long", paramType = "path")
     })
     @GetMapping("appllyedIndex")
+    @CheckToken
     public Page<ApplyVo> appllyedIndex(String outDate,String lineName,Integer current,Integer size){
         if(StringUtils.isBlank(outDate) || StringUtils.isBlank(lineName) || current == null
         || size == null){

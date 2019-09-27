@@ -1,0 +1,18 @@
+
+ysquid:S00116,"URename this field "LunchPrice" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(›†½™ıÿÿÿÿ8õÆ„×-
+vsquid:S00116T"WRename this field "CreateUserId" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(—êÙç8½³Ù„×-
+vsquid:S00116;"WRename this field "RentCarPrice" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(—…Ó8ÍÇÍ„×-
+ysquid:S00116""URename this field "TicketName" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(…¯£¡øÿÿÿÿ8íŸÃ„×-
+vsquid:S00116@"WRename this field "GuideSubsidy" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(»ó•ä8µìÏ„×-
+osquid:S001166"PRename this field "CarNo" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(Öçáı8Ğ¸‰×-
+`squid:UselessImportCheck	"0Remove this unused import 'java.time.LocalDate'.(›‘¬èıÿÿÿÿ8Ñåö‹×-
+ysquid:S00116Y"URename this field "CreateDate" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(¿©Äıÿÿÿÿ8½³Ù„×-
+zsquid:S00116'"VRename this field "TicketPrice" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(¢ñÙØùÿÿÿÿ8í©Ä„×-
+lsquid:S00116"MRename this field "Id" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(´ÕÛ”8ƒİµ„×-
+vsquid:S00116^"WRename this field "UpdateUserId" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(–°ƒ¹8ÔªÚ„×-
+wsquid:S00116E"XRename this field "DriverSubsidy" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(¨•€¿8…æĞ„×-
+ysquid:S00116c"URename this field "UpdateDate" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(•˜Ğëıÿÿÿÿ8¹ìÚ„×-
+ysquid:S001161"[Rename this field "ParkingRatePrice" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(Í”À8¹Ì„×-
+wsquid:S00116"SRename this field "IncomeId" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(àşÔ˜úÿÿÿÿ8˜Æş‹×-
+usquid:S00116O"QRename this field "Remark" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(é«´‘ùÿÿÿÿ8¸™×„×-
+zsquid:S00116J"VRename this field "AllOutPrice" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(°¢ÄÆøÿÿÿÿ8Ôè„×-

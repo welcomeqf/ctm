@@ -1,0 +1,13 @@
+
+vsquid:S00116:"WRename this field "CreateUserId" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(—êÙç8ªëû‘×-
+ysquid:S001160"ZRename this field "TreeChildNumber" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ôÜĞÔ8ë¦ù‘×-
+|squid:S00116"XRename this field "TrueAllNumber" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ÈÌîÜÿÿÿÿÿ8‚¬ó‘×-
+vsquid:S00116D"WRename this field "UpdateUserId" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(–°ƒ¹8‰Ÿÿ‘×-
+vsquid:S001165"WRename this field "UnpaidNumber" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(õ¢¸¸8ş«ú‘×-
+ysquid:S00116I"URename this field "UpdateDate" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(•˜Ğëıÿÿÿÿ8ªô€’×-
+}squid:S00116&"YRename this field "TreeBabyNumber" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ÿ¥¡Ïùÿÿÿÿ8œªö‘×-
+wsquid:S00116+"XRename this field "TreeOldNumber" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(à¶Üº8”Í÷‘×-
+ysquid:S00116?"URename this field "CreateDate" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(¿©Äıÿÿÿÿ8ºäı‘×-
+ysquid:S00116!"ZRename this field "TreeAdultNumber" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ÛºÒ¿8ê€õ‘×-
+usquid:S00116N"QRename this field "Remark" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(é«´‘ùÿÿÿÿ8ú•‚’×-
+lsquid:S00116"MRename this field "Id" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(´ÕÛ”8‚¬ó‘×-

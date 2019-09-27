@@ -9,6 +9,7 @@
         <module name="api" />
         <module name="apply" />
         <module name="common" />
+        <module name="finance" />
         <module name="resource" />
         <module name="user" />
       </profile>
@@ -18,6 +19,7 @@
       <module name="apply" target="1.8" />
       <module name="common" target="1.8" />
       <module name="ctm_project" target="1.8" />
+      <module name="finance" target="1.8" />
       <module name="resource" target="1.8" />
       <module name="user" target="1.8" />
     </bytecodeTargetLevel>

@@ -1,9 +1,9 @@
 
-vsquid:S00117¤"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(¼ï»Œûÿÿÿÿ8À‰“Ö-
-psquid:S00117y"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(Ûğò8Öñ£¾Ö-
-osquid:UselessImportCheck"FRemove this unused import 'org.springframework.stereotype.Controller'.(øŠ—Öùÿÿÿÿ
-ssquid:S00100¤"NRename this method name to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(¼ï»Œûÿÿÿÿ8·”œåÔ-
-usquid:S00117;"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(­æ†‘ÿÿÿÿÿ8Ì‘ã¶Ö-
+psquid:S00117"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(Ûğò8Öñ£¾Ö-
+ssquid:S00100¬"NRename this method name to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(¼ï»Œûÿÿÿÿ8·”œåÔ-
+Tsquid:UselessImportCheck"+Remove this unused import 'java.util.List'.(Õë±Äøÿÿÿÿ
+osquid:UselessImportCheck"FRemove this unused import 'org.springframework.stereotype.Controller'.(øŠ—Öùÿÿÿÿ
+usquid:S00117i"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(¬ñì€üÿÿÿÿ8Öñ£¾Ö-
+usquid:S00117>"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(­æ†‘ÿÿÿÿÿ8Ì‘ã¶Ö-
 Ysquid:UselessImportCheck"5Remove this unused import 'com.yq.utils.IdGenerator'.(óğœÔ
-usquid:S00117d"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(¬ñì€üÿÿÿÿ8Öñ£¾Ö-
-Tsquid:UselessImportCheck"+Remove this unused import 'java.util.List'.(Õë±Äøÿÿÿÿ
+vsquid:S00117¬"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(¼ï»Œûÿÿÿÿ8À‰“Ö-

@@ -86,6 +86,7 @@ public class ApplyController {
     })
     @GetMapping("/listPageApply")
     @CrossOrigin
+    @CheckToken
     public Page<ApplyQuery> listPageApply(@RequestParam("current") Integer current, @RequestParam("size") Integer size,
                                           @RequestParam("OutDate") String OutDate, @RequestParam("LineNameOrRegion") String LineNameOrRegion) {
         if (current == null || size == null) {
@@ -104,6 +105,7 @@ public class ApplyController {
     })
     @GetMapping("/listPageDoAplly")
     @CrossOrigin
+    @CheckToken
     public Page<ApplyDoQuery> listPageDoAplly(@RequestParam("current") Integer current, @RequestParam("size") Integer size,
                                     @RequestParam("ApplyNo") String ApplyNo, @RequestParam("LineName") String LineName) {
         if (current == null || size == null) {

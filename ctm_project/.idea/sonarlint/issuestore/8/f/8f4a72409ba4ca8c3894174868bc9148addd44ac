@@ -1,14 +1,14 @@
 
-wsquid:S00116-"ZRename this field "TravelSituation" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(àï‹•þÿÿÿÿ
-osquid:S00116<"RRename this field "Stopped" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(Çõ´¸üÿÿÿÿ
-nsquid:S00116#"VRename this field "Information" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(‹„ÒÒ
-osquid:S00116P"WRename this field "UpdateUserId" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(–°ƒ¹
-nsquid:S00116("QRename this field "Region" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ÓûìŽÿÿÿÿÿ
-nsquid:S00116A"QRename this field "Remark" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(é«´‘ùÿÿÿÿ
-rsquid:S00116U"URename this field "UpdateDate" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(•˜Ðëýÿÿÿÿ
-psquid:S00116"SRename this field "LineName" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ð¬ñúÿÿÿÿ
-rsquid:S00116K"URename this field "CreateDate" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(¿©Äýÿÿÿÿ
-esquid:S00116"MRename this field "Id" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(´ÕÛ”
-xsquid:S001167"TRename this field "MinNumber" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(®ÒÆÕüÿÿÿÿ8Ëý… Ô-
-ssquid:S001162"TRename this field "MaxNumber" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ïÕé´8Ëý… Ô-
-osquid:S00116F"WRename this field "CreateUserId" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(—êÙç
+esquid:S00116"MRename this field "Id" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(´ÕÛ”
+rsquid:S001160"ZRename this field "TravelSituation" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ç¾Îú
+osquid:S00116?"RRename this field "Stopped" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(Çõ´¸üÿÿÿÿ
+ssquid:S001165"TRename this field "MaxNumber" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ïÕé´8Ëý… Ô-
+rsquid:S00116N"URename this field "CreateDate" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(¿©Äýÿÿÿÿ
+xsquid:S00116:"TRename this field "MinNumber" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(®ÒÆÕüÿÿÿÿ8Ëý… Ô-
+nsquid:S00116+"QRename this field "Region" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ÓûìŽÿÿÿÿÿ
+osquid:S00116I"WRename this field "CreateUserId" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(—êÙç
+nsquid:S00116D"QRename this field "Remark" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(é«´‘ùÿÿÿÿ
+psquid:S00116!"SRename this field "LineName" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ð¬ñúÿÿÿÿ
+nsquid:S00116&"VRename this field "Information" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(‹„ÒÒ
+osquid:S00116S"WRename this field "UpdateUserId" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(–°ƒ¹
+rsquid:S00116X"URename this field "UpdateDate" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(•˜Ðëýÿÿÿÿ

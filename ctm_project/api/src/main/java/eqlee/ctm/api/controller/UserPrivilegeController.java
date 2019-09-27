@@ -5,6 +5,7 @@ import eqlee.ctm.api.entity.query.PrivilegeQuery;
 import eqlee.ctm.api.entity.vo.ResultVo;
 import eqlee.ctm.api.httpclient.HttpClientUtils;
 import eqlee.ctm.api.httpclient.HttpResult;
+import eqlee.ctm.api.jwt.islogin.CheckToken;
 import eqlee.ctm.api.vilidate.DataUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -47,6 +48,7 @@ public class UserPrivilegeController {
     })
     @PostMapping("/insertPrivilege")
     @CrossOrigin
+    @CheckToken
     public Object insertPrivilege(@RequestBody PrivilegeQuery query) throws Exception{
         String encode = DataUtils.getEncodeing("RSA");
         query.setAppId(encode);

@@ -1,0 +1,7 @@
+
+rsquid:S00116"NRename this field "Tel" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(Ü÷è‰øÿÿÿÿ8¡ñ¸éÖ-
+xsquid:S00116""TRename this field "CompanyId" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ö§§åøÿÿÿÿ8İï¼éÖ-
+nsquid:S00116"PRename this field "CName" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(›¾a8ŠØ·éÖ-
+osquid:S00116$"PRename this field "AppId" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(¨Á’¿8‹°ÿéÖ-
+|squid:S00116"XRename this field "SelfImagePath" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(·ÿ«‚ÿÿÿÿÿ8¡ñ¸éÖ-
+lsquid:S00116"MRename this field "Id" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(´ÕÛ”8ïù¶éÖ-

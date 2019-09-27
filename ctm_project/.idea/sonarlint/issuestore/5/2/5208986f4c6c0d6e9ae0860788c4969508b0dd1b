@@ -1,7 +1,5 @@
 
-ysquid:S00116"URename this field "ChildPrice" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(¼š…ıÿÿÿÿ8’Éß“Ô-
-qsquid:S00116"TRename this field "MaxNumber" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ïÕé´8ë¡”Ô-
 rsquid:S00116"SRename this field "OldPrice" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(éşè¿8ç†Ú“Ô-
-tsquid:S00116"URename this field "AdultPrice" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(£³ËÛ8ÈÃÖ“Ô-
 ssquid:S00116"TRename this field "BabyPrice" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(Ş¯Ş÷8²’ß“Ô-
-vsquid:S00116"TRename this field "MinNumber" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(®ÒÆÕüÿÿÿÿ8‚î”Ô-
+ysquid:S00116"URename this field "ChildPrice" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(¼š…ıÿÿÿÿ8’Éß“Ô-
+tsquid:S00116"URename this field "AdultPrice" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(£³ËÛ8ÈÃÖ“Ô-

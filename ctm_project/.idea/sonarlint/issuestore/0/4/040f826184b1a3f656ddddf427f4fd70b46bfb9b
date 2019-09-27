@@ -1,9 +1,13 @@
 
-}squid:S1488j"aImmediately return this expression instead of assigning it to the temporary variable "companies".(Ø¼° ýÿÿÿÿ
+~squid:S1488†"aImmediately return this expression instead of assigning it to the temporary variable "companies".(Ø¼° ýÿÿÿÿ
+bsquid:CommentedOutCodeLine¾"<This block of commented-out lines of code should be removed.(Çè—s
+xsquid:S1488/"aImmediately return this expression instead of assigning it to the temporary variable "companies".(ü”¹î
+qsquid:S00117Í"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(”ß¹ƒ8ÀõíèÖ-
 rsquid:S00120"ZRename this package name to match the regular expression '^[a-z_]+(\.[a-z_][a-z0-9_]*)*$'.(†Š‹
+Zsquid:S1854Ï";Remove this useless assignment to local variable "company".(©·—˜8ÀõíèÖ-
 rsquid:UselessImportCheck"IRemove this unused import 'com.baomidou.mybatisplus.core.metadata.IPage'.(¯à½ýÿÿÿÿ
-xsquid:S1488'"aImmediately return this expression instead of assigning it to the temporary variable "companies".(ü”¹î
-Ysquid:S1126w"BReplace this if-then-else statement by a single method invocation.(³˜…Ž
-qsquid:S2293Ž"YReplace the type specification in this constructor call with the diamond operator ("<>").(Ë¸Ïû
-bsquid:CommentedOutCodeLine "<This block of commented-out lines of code should be removed.(Çè—s
-qsquid:S2293¢"YReplace the type specification in this constructor call with the diamond operator ("<>").(Ë¸Ïû
+`squid:UselessImportCheck
+"5Remove this unused import 'com.yq.utils.StringUtils'.(ÛŸÝå8‹ËôèÖ-
+qsquid:S2293¬"YReplace the type specification in this constructor call with the diamond operator ("<>").(Ë¸Ïû
+qsquid:S2293À"YReplace the type specification in this constructor call with the diamond operator ("<>").(Ë¸Ïû
+Zsquid:S1126”"BReplace this if-then-else statement by a single method invocation.(³˜…Ž

@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSONObject;
 import eqlee.ctm.api.entity.vo.UserRoleVo;
 import eqlee.ctm.api.httpclient.HttpClientUtils;
 import eqlee.ctm.api.httpclient.HttpResult;
+import eqlee.ctm.api.jwt.islogin.CheckToken;
 import eqlee.ctm.api.vilidate.DataUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -46,6 +47,7 @@ public class UserRoleController {
     @ApiImplicitParam(name = "RoleName", value = "角色名称", required = true, dataType = "String", paramType = "path")
     @PostMapping("/insertRole")
     @CrossOrigin
+    @CheckToken
     public Object addRole(@RequestBody UserRoleVo roleVo) throws Exception{
         String url = "http://" + Ip +":" + port + "/" + path + "/v1/app/user/role/addRole";
 
@@ -64,6 +66,7 @@ public class UserRoleController {
     @ApiImplicitParam(name = "Id", value = "Id", required = true, dataType = "int", paramType = "path")
     @GetMapping("/deleteRole")
     @CrossOrigin
+    @CheckToken
     public Object deleteRole(@RequestParam("Id") Long Id) throws Exception{
         String encode = DataUtils.getEncodeing("RSA");
         String url = "http://" + Ip +":" + port + "/" + path + "/v1/app/user/role/deleteRole?Id=" +Id + "&AppId=" +encode;
@@ -82,6 +85,7 @@ public class UserRoleController {
     @ApiOperation(value = "查询角色", notes = "查询角色")
     @GetMapping("/RoleInfo")
     @CrossOrigin
+    @CheckToken
     public Object getRole() throws Exception{
         String encode = DataUtils.getEncodeing("RSA");
         String url = "http://" + Ip +":" + port + "/" + path + "/v1/app/user/role/RoleInfo?AppId=" +encode;
@@ -105,6 +109,7 @@ public class UserRoleController {
     })
     @GetMapping("/queryPageRole")
     @CrossOrigin
+    @CheckToken
     public Object queryPageRole(@RequestParam("current") Integer current, @RequestParam("size") Integer size) throws Exception{
         String encode = DataUtils.getEncodeing("RSA");
         String url = "http://" + Ip +":" + port + "/" + path + "/v1/app/user/role/queryPageRole?AppId=" +encode + "&current=" +current + "&size=" +size;

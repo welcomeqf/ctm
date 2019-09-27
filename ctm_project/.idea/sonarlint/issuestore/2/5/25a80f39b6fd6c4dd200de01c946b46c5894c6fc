@@ -1,10 +1,10 @@
 
-ysquid:S00116%"URename this field "ChildPrice" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(¼š…ıÿÿÿÿ8Ù¡µÈÔ-
-xsquid:S00116*"TRename this field "AllNumber" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(àõŞ¤ûÿÿÿÿ8¤Á•ÉÔ-
-ssquid:S00116/"TRename this field "MaxNumber" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ïÕé´8£õºÈÔ-
-tsquid:S00116"URename this field "AdultPrice" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(£³ËÛ8Ù¡µÈÔ-
-usquid:S001161"QRename this field "Region" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(Óûìÿÿÿÿÿ8Ôù„ÊÔ-
-vsquid:S00116"RRename this field "OutDate" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(Ç“‹ÿÿÿÿÿ8ñ±ÈÔ-
-rsquid:S00116"SRename this field "OldPrice" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(éşè¿8Ù¡µÈÔ-
 wsquid:S00116"SRename this field "LineName" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ğ¬ñúÿÿÿÿ8ó¯ÈÔ-
+usquid:S001161"QRename this field "Region" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(Óûìÿÿÿÿÿ8Ôù„ÊÔ-
+ysquid:S00116%"URename this field "ChildPrice" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(¼š…ıÿÿÿÿ8Ù¡µÈÔ-
+vsquid:S00116"RRename this field "OutDate" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(Ç“‹ÿÿÿÿÿ8ñ±ÈÔ-
+ssquid:S00116/"TRename this field "MaxNumber" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ïÕé´8£õºÈÔ-
+zsquid:S00116*"VRename this field "DoAllNumber" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ù©¯‰üÿÿÿÿ8øÁØİÖ-
 ssquid:S00116 "TRename this field "BabyPrice" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(Ş¯Ş÷8Ù¡µÈÔ-
+rsquid:S00116"SRename this field "OldPrice" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(éşè¿8Ù¡µÈÔ-
+tsquid:S00116"URename this field "AdultPrice" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(£³ËÛ8Ù¡µÈÔ-

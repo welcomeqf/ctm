@@ -1,14 +1,14 @@
 
 xsquid:S00116A"TRename this field "IsPayment" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(×šÈÑıÿÿÿÿ8ŸóÆêÔ-
-osquid:S00116F"PRename this field "Statu" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(Î§š8®³ÇêÔ-
-wsquid:S00116K"SRename this field "IsCancel" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(¦±À©úÿÿÿÿ8íŒŠìÔ-
-zsquid:S00116<"VRename this field "CompanyUser" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(«¯ÙŞıÿÿÿÿ8úšÅêÔ-
-zsquid:S001167"VRename this field "CompanyName" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ëÁ°¬ùÿÿÿÿ8úšÅêÔ-
-vsquid:S00116"RRename this field "OutDate" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(Ç“‹ÿÿÿÿÿ8ÚÌ·êÔ-
-ssquid:S00116-"TRename this field "OldNumber" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ÃÁ«è8«óÃêÔ-
-zsquid:S00116#"VRename this field "AdultNumber" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(í÷ÖÎúÿÿÿÿ8«óÃêÔ-
 vsquid:S00116"RRename this field "ApplyNo" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(Òéò¬úÿÿÿÿ8ÚÌ·êÔ-
-ssquid:S00116("URename this field "BabyNumber" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(˜Ú‡C8«óÃêÔ-
-lsquid:S00116"MRename this field "Id" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(´ÕÛ”8ò©êÔ-
-wsquid:S00116"SRename this field "LineName" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ğ¬ñúÿÿÿÿ8ºÉºêÔ-
+osquid:S00116F"PRename this field "Statu" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(Î§š8®³ÇêÔ-
 zsquid:S001162"VRename this field "ChildNumber" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(¹¤áñûÿÿÿÿ8«óÃêÔ-
+ssquid:S00116-"TRename this field "OldNumber" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ÃÁ«è8«óÃêÔ-
+wsquid:S00116"SRename this field "LineName" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ğ¬ñúÿÿÿÿ8ºÉºêÔ-
+zsquid:S001167"VRename this field "CompanyName" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ëÁ°¬ùÿÿÿÿ8ûàÜÖ-
+zsquid:S00116#"VRename this field "AdultNumber" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(í÷ÖÎúÿÿÿÿ8«óÃêÔ-
+lsquid:S00116"MRename this field "Id" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(´ÕÛ”8ò©êÔ-
+zsquid:S00116<"VRename this field "CompanyUser" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(«¯ÙŞıÿÿÿÿ8ûàÜÖ-
+ssquid:S00116("URename this field "BabyNumber" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(˜Ú‡C8«óÃêÔ-
+vsquid:S00116"RRename this field "OutDate" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(Ç“‹ÿÿÿÿÿ8ÚÌ·êÔ-
+wsquid:S00116K"SRename this field "IsCancel" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(¦±À©úÿÿÿÿ8íŒŠìÔ-

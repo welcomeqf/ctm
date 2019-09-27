@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSONObject;
 import eqlee.ctm.api.entity.vo.MenuVo;
 import eqlee.ctm.api.httpclient.HttpClientUtils;
 import eqlee.ctm.api.httpclient.HttpResult;
+import eqlee.ctm.api.jwt.islogin.CheckToken;
 import eqlee.ctm.api.vilidate.DataUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -51,6 +52,7 @@ public class UserMenuController {
     })
     @PostMapping("/insertMenu")
     @CrossOrigin
+    @CheckToken
     public Object addMenu(@RequestBody MenuVo vo) throws Exception{
         String encode = DataUtils.getEncodeing("RSA");
         vo.setAppId(encode);
@@ -71,6 +73,7 @@ public class UserMenuController {
     @ApiImplicitParam(name = "Id", value = "Id", required = true, dataType = "Long", paramType = "path")
     @GetMapping("/queryAllMenu")
     @CrossOrigin
+    @CheckToken
     public Object queryMenu(@RequestParam("Id") Long Id) throws Exception{
         String encode = DataUtils.getEncodeing("RSA");
         String url = "http://" + Ip +":" + port + "/" + path + "/v1/app/user/menu/queryMenu?Id=" +Id + "&AppId=" +encode;

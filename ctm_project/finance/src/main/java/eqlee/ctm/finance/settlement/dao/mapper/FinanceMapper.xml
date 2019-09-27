@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="eqlee.ctm.finance.settlement.dao.InFinanceMapper">
+
+    <select id="queryOrderNumber" parameterType="long" resultType="eqlee.ctm.finance.settlement.entity.vo.OrderDetailedVo">
+        select a.AdultNumber, a.BabyNumber, a.OldNumber, a.ChildNumber from OrderDetailed a join Orders b on a.OrderId = b.Id
+        where  a.PayType = 2 and b.CreateUserId = #{Id}
+    </select>
+
+
+</mapper>

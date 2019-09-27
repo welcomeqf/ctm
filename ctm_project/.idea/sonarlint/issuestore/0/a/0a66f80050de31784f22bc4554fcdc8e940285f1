@@ -1,0 +1,12 @@
+
+qsquid:S00116"TRename this field "CompanyId" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ö§§åøÿÿÿÿ
+hsquid:S00116)"PRename this field "Statu" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(Î§š
+osquid:S00116$"RRename this field "Stopped" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(Çõ´¸üÿÿÿÿ
+psquid:S00116"SRename this field "RoleName" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ôÏÁŒùÿÿÿÿ
+esquid:S00116"MRename this field "Id" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(´ÕÛ”
+nsquid:S00116."QRename this field "Remark" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(é«´‘ùÿÿÿÿ
+^squid:UselessImportCheck	":Remove this unused import 'lombok.experimental.Accessors'.(ş¡Ğ„
+vsquid:UselessImportCheck"RRemove this unused import 'com.baomidou.mybatisplus.extension.activerecord.Model'.(â­‘°
+Ysquid:UselessImportCheck"5Remove this unused import 'lombok.EqualsAndHashCode'.(Ìà‰ò
+ssquid:UselessImportCheck"JRemove this unused import 'com.baomidou.mybatisplus.annotation.TableName'.(š»â—ÿÿÿÿÿ
+osquid:S001163"RRename this field "Deleted" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(‡úşüÿÿÿÿ

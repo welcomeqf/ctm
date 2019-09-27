@@ -1,0 +1,5 @@
+
+ssquid:S00116"VRename this field "ContactName" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(àÚº¡üÿÿÿÿ
+rsquid:S00116"URename this field "ContactTel" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(×ÜÜ²ùÿÿÿÿ
+nsquid:S00116"QRename this field "Region" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ÓûìŽÿÿÿÿÿ
+msquid:S00116"PRename this field "Place" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ÍâçÕûÿÿÿÿ

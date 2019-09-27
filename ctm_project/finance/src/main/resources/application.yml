@@ -1,0 +1,16 @@
+server:
+  port: 8004
+mybatis-plus:
+  configuration:
+    map-underscore-to-camel-case: false
+  mapper-locations: classpath:eqlee/ctm/finance/*/dao/mapper/*.xml
+spring:
+  profiles:
+    active: test
+  application:
+    name: service-finance
+  jmx:
+    enabled: false
+app:
+  workerId: 9
+  dataCenterId: 1

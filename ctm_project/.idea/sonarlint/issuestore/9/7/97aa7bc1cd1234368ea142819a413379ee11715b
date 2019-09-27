@@ -1,0 +1,14 @@
+
+esquid:S00116"MRename this field "Id" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(´ÕÛ”
+ssquid:UselessImportCheck"JRemove this unused import 'com.baomidou.mybatisplus.annotation.TableName'.(š»â—ÿÿÿÿÿ
+^squid:UselessImportCheck	":Remove this unused import 'lombok.experimental.Accessors'.(ş¡Ğ„
+Ysquid:UselessImportCheck"5Remove this unused import 'lombok.EqualsAndHashCode'.(Ìà‰ò
+vsquid:UselessImportCheck"RRemove this unused import 'com.baomidou.mybatisplus.extension.activerecord.Model'.(â­‘°
+usquid:S00116"QRename this field "Parent" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(¥‰Ì§ûÿÿÿÿ8½÷İäÖ-
+wsquid:S00116""SRename this field "MenuName" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ï¼²çùÿÿÿÿ8½÷İäÖ-
+usquid:S00116'"QRename this field "Action" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(òåáşÿÿÿÿ8½÷İäÖ-
+msquid:S00116,"ORename this field "Sort" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ëºÏ8½÷İäÖ-
+rsquid:S001161"TRename this field "IconClass" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(Ç Ô8½÷İäÖ-
+xsquid:S001166"TRename this field "IconColor" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(œ’Ôòüÿÿÿÿ8½÷İäÖ-
+wsquid:S00116;"SRename this field "Systemic" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(‡ò‘ùÿÿÿÿ8½÷İäÖ-
+vsquid:S00116@"RRename this field "Stopped" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(Çõ´¸üÿÿÿÿ8½÷İäÖ-

@@ -1,5 +1,4 @@
 
-wsquid:S00116"SRename this field "RoleName" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ôÏÁŒùÿÿÿÿ8†¡÷»Ô-
-vsquid:S00116"RRename this field "Account" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(³œÃûþÿÿÿÿ8È¶ï»Ô-
 rsquid:S00116"NRename this field "Tel" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(Ü÷è‰øÿÿÿÿ8û¾ð»Ô-
-bsquid:UselessImportCheck"2Remove this unused import 'com.yq.data.PageUtils'.(°å°¡üÿÿÿÿ8Ð‘˜¼Ô-
+vsquid:S00116"RRename this field "Account" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(³œÃûþÿÿÿÿ8È¶ï»Ô-
+wsquid:S00116"SRename this field "RoleName" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ôÏÁŒùÿÿÿÿ8†¡÷»Ô-

@@ -5,6 +5,8 @@ import com.yq.constanct.CodeType;
 import eqlee.ctm.user.entity.query.UserLoginQuery;
 import eqlee.ctm.user.entity.query.UserQuery;
 import eqlee.ctm.user.entity.vo.ResultVo;
+import eqlee.ctm.user.entity.vo.UserUpdatePasswordVo;
+import eqlee.ctm.user.entity.vo.UserUpdateVo;
 import eqlee.ctm.user.entity.vo.UserVo;
 import eqlee.ctm.user.exception.ApplicationException;
 import eqlee.ctm.user.service.IUserService;
@@ -252,15 +254,59 @@ public class UserController {
     @GetMapping("/queryUserByName")
     @CrossOrigin
     public Page<UserQuery> queryUserByName(@RequestParam("current") Integer current,
-                                               @RequestParam("size") Integer size,
-                                               @RequestParam("userName") String userName,
-                                               @RequestParam("AppId") String AppId) {
-        if (current == null || size == null || StringUtils.isBlank(userName)) {
+                                           @RequestParam("size") Integer size,
+                                           @RequestParam("userName") String userName,
+                                           @RequestParam("AppId") String AppId) {
+        if (current == null || size == null || StringUtils.isBlank(userName) || StringUtils.isBlank(AppId)) {
             throw new ApplicationException(CodeType.PARAM_ERROR,"模糊加分页查询用户参数不能为空");
         }
         Page<UserQuery> page = new Page<>(current,size);
         return userService.queryUserByName(page,userName,AppId);
 
     }
+
+    @ApiOperation(value = "根据用户名和手机号重置密码", notes = "根据用户名和手机号重置密码")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "Id", value = "Id", required = true, dataType = "Long", paramType = "path"),
+            @ApiImplicitParam(name = "userName", value = "用户名", required = true, dataType = "String", paramType = "path"),
+            @ApiImplicitParam(name = "password", value = "新密码", required = true, dataType = "String", paramType = "path"),
+            @ApiImplicitParam(name = "AppId", value = "签名Id", required = true, dataType = "String", paramType = "path"),
+            @ApiImplicitParam(name = "tel", value = "手机号", required = true, dataType = "String", paramType = "path")
+    })
+    @PostMapping("/updateUserPassword")
+    @CrossOrigin
+    public ResultVo updateUserPassword(@RequestBody UserUpdatePasswordVo vo) {
+        if (vo.getId() == null || StringUtils.isBlank(vo.getUserName()) || StringUtils.isBlank(vo.getTel()) ||
+            StringUtils.isBlank(vo.getPassword()) || StringUtils.isBlank(vo.getAppId())) {
+            throw new ApplicationException(CodeType.PARAM_ERROR, "参数不能为空");
+        }
+        userService.updateUserPassword(vo);
+        ResultVo resultVo = new ResultVo();
+        resultVo.setResult("ok");
+        return resultVo;
+    }
+
+    @ApiOperation(value = "修改用户信息", notes = "修改用户信息")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "Id", value = "Id", required = true, dataType = "Long", paramType = "path"),
+            @ApiImplicitParam(name = "CName", value = "姓名", required = true, dataType = "String", paramType = "path"),
+            @ApiImplicitParam(name = "SelfImagePath", value = "个人图片路径", required = true, dataType = "String", paramType = "path"),
+            @ApiImplicitParam(name = "AppId", value = "签名Id", required = true, dataType = "String", paramType = "path"),
+            @ApiImplicitParam(name = "tel", value = "手机号", required = true, dataType = "String", paramType = "path"),
+            @ApiImplicitParam(name = "CompanyId", value = "公司ID", required = true, dataType = "Long", paramType = "path")
+    })
+    @PostMapping("/updateUser")
+    @CrossOrigin
+    public ResultVo updateUser(@RequestBody UserUpdateVo vo) {
+        if (vo.getId() == null || StringUtils.isBlank(vo.getCName()) || StringUtils.isBlank(vo.getTel()) ||
+                StringUtils.isBlank(vo.getSelfImagePath()) || StringUtils.isBlank(vo.getAppId()) || vo.getCompanyId() == null) {
+            throw new ApplicationException(CodeType.PARAM_ERROR, "参数不能为空");
+        }
+        userService.updateUser(vo);
+        ResultVo resultVo = new ResultVo();
+        resultVo.setResult("ok");
+        return resultVo;
+    }
+
 
 }

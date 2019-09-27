@@ -9,6 +9,7 @@
         <module>user</module>
         <module>resource</module>
         <module>api</module>
+        <module>finance</module>
     </modules>
     <parent>
         <groupId>org.springframework.boot</groupId>

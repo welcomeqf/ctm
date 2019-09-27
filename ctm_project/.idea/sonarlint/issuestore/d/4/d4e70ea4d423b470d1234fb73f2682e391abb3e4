@@ -1,6 +1,6 @@
 
-osquid:S00116"PRename this field "AppId" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(¨Á’¿8‚˜¯ŠÖ-
-nsquid:S00116"QRename this field "Action" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(òåáşÿÿÿÿ
-nsquid:S00116"QRename this field "Parent" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(¥‰Ì§ûÿÿÿÿ
-psquid:S00116"SRename this field "MenuName" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ï¼²çùÿÿÿÿ
-ksquid:S00116"TRename this field "IconClass" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(Ç Ô
+nsquid:S00116"QRename this field "Action" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(òåáşÿÿÿÿ
+nsquid:S00116"QRename this field "Parent" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(¥‰Ì§ûÿÿÿÿ
+psquid:S00116"SRename this field "MenuName" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ï¼²çùÿÿÿÿ
+osquid:S00116"PRename this field "AppId" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(¨Á’¿8‚˜¯ŠÖ-
+ksquid:S00116"TRename this field "IconClass" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(Ç Ô
