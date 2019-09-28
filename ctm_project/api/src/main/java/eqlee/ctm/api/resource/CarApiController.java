@@ -65,10 +65,10 @@ public class CarApiController {
 
 
     @ApiOperation(value = "车辆删除",notes = "车辆删除")
-    @DeleteMapping("/deleteCar")
+    @DeleteMapping("/{Id}")
     @ApiImplicitParam(name = "Id",value = "车辆Id",required = true,dataType = "Long",paramType = "path")
     @CrossOrigin
-    public Object deleteCar(@RequestParam("Id") Long Id) throws Exception{
+    public Object deleteCar(@PathVariable("Id") Long Id) throws Exception{
         String url = "http://" + Ip +":" + port + "/" + path + "/v1/app/resource/car/deleteCar?Id=" + Id;
 
         Map<String,Object> map = new HashMap<>();
@@ -105,7 +105,7 @@ public class CarApiController {
     }
 
     @ApiOperation(value = "车辆修改",notes = "车辆修改")
-    @PutMapping("/updateCar")
+    @PutMapping("/updateCar/{Id}")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "Id", value = "车辆Id", required = true, dataType = "Long", paramType = "path"),
             @ApiImplicitParam(name = "CarName", value = "车辆名", required = true, dataType = "String", paramType = "path"),
@@ -114,7 +114,7 @@ public class CarApiController {
             @ApiImplicitParam(name = "Remark", value = "备注", required = true, dataType = "String", paramType = "path")
     })
     @CrossOrigin
-    public Object updateCar(@RequestBody CarVo carVo) throws Exception{
+    public Object updateCar(@PathVariable("Id") Long Id,@RequestBody CarVo carVo) throws Exception{
         String url = "http://" + Ip +":" + port + "/" + path + "/v1/app/resource/car/updateCar";
 
         String s = JSONObject.toJSONString(carVo);
@@ -128,8 +128,8 @@ public class CarApiController {
     }
 
 
-    @ApiOperation(value = "车辆修改页首页",notes = "车辆修改页首页")
-    @GetMapping("/updateCarDetail")
+    @ApiOperation(value = "查询车辆修改页首页",notes = "查询车辆修改页首页")
+    @GetMapping("/CarDetail")
     @ApiImplicitParam(name = "Id", value = "车辆Id", required = true, dataType = "Long", paramType = "path")
     @CrossOrigin
     public Object updateCarIndex(@RequestParam("Id") Long Id) throws Exception{

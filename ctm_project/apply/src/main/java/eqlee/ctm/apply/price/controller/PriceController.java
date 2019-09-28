@@ -77,7 +77,7 @@ public class PriceController {
     @PutMapping("/batchUpdatePrice")
     @CrossOrigin
     @CheckToken
-    public ResultVo batchUpdatePrice( PriceVo priceVo) {
+    public ResultVo batchUpdatePrice(@RequestBody PriceVo priceVo) {
         if (StringUtils.isBlank(priceVo.getStartTime()) || StringUtils.isBlank(priceVo.getEndTime())
                 || StringUtils.isBlank(priceVo.getLineName()) || priceVo.getAdultPrice() == null
                 || priceVo.getOldPrice() == null || priceVo.getBabyPrice() == null || priceVo.getChildPrice() ==null) {

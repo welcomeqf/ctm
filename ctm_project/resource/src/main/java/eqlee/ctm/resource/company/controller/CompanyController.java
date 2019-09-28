@@ -6,6 +6,7 @@ import com.yq.utils.IdGenerator;
 import com.yq.utils.StringUtils;
 import eqlee.ctm.resource.company.entity.Company;
 import eqlee.ctm.resource.company.entity.query.PageCompanyQuery;
+import eqlee.ctm.resource.company.entity.vo.CompanyQueryVo;
 import eqlee.ctm.resource.company.entity.vo.CompanyVo;
 import eqlee.ctm.resource.company.entity.vo.ResultVo;
 import eqlee.ctm.resource.company.service.ICompanyService;
@@ -54,12 +55,12 @@ public class CompanyController {
     }
 
 
-    @ApiOperation(value = "同行信息修改首页", notes = "同行信息修改首页")
+    @ApiOperation(value = "展示同行信息修改首页", notes = "展示同行信息修改首页")
     @ApiImplicitParam(name = "Id", value = "公司Id", required = true, dataType = "Long", paramType = "path")
-    @GetMapping("/updateCompanyIndex")
+    @GetMapping("/CompanyIndex")
     @CrossOrigin
     @CheckToken
-    public CompanyVo updateCompanyIndex (@RequestParam("Id") Long Id) {
+    public CompanyQueryVo CompanyIndex (@RequestParam("Id") Long Id) {
         if(Id == null){
             log.error("update company param is null");
             throw new ApplicationException(CodeType.PARAMETER_ERROR);
@@ -76,19 +77,19 @@ public class CompanyController {
             @ApiImplicitParam(name = "StartDate", value = "合同开始时间", required = true, dataType = "String", paramType = "path"),
             @ApiImplicitParam(name = "endDate", value = "合同结束时间", required = true, dataType = "String", paramType = "path"),
             @ApiImplicitParam(name = "PayMethod", value = "支付方式", required = true, dataType = "String", paramType = "path"),
-            @ApiImplicitParam(name = "Stopped", value = "状态", required = true, dataType = "Boolen", paramType = "path")
+            @ApiImplicitParam(name = "Stopped", value = "状态", required = true, dataType = "String", paramType = "path")
     })
-    @PutMapping("/updateCompany")
+    @PutMapping("/updateCompany/{Id}")
     @CrossOrigin
     @CheckToken
-    public ResultVo updateCompany (@RequestBody CompanyVo companyVo) {
-        if(companyVo.getId() == null || StringUtils.isBlank(companyVo.getPayMethod())
+    public ResultVo updateCompany (@PathVariable("Id") Long Id,@RequestBody CompanyVo companyVo) {
+        if(Id == null || StringUtils.isBlank(companyVo.getPayMethod())
         || StringUtils.isBlank(companyVo.getEndDate())|| StringUtils.isBlank(companyVo.getStartDate())
         || StringUtils.isBlank(companyVo.getCompanyName())){
             log.error("update company param is null");
             throw new ApplicationException(CodeType.PARAMETER_ERROR);
         }
-        companyService.UpdateCompany(companyVo);
+        companyService.UpdateCompany(Id,companyVo);
         ResultVo resultVo = new ResultVo();
         resultVo.setResult("ok");
         return resultVo;
@@ -99,10 +100,10 @@ public class CompanyController {
 
     @ApiOperation(value = "同行信息删除", notes = "同行信息删除")
     @ApiImplicitParam(name = "Id", value = "公司Id", required = true, dataType = "Long", paramType = "path")
-    @DeleteMapping("/deleteCompany")
+    @DeleteMapping("/deleteCompany/{Id}")
     @CrossOrigin
     @CheckToken
-    public ResultVo deleteCompany (@RequestParam("Id") Long Id) {
+    public ResultVo deleteCompany (@PathVariable("Id") Long Id) {
 
         if(Id == null) {
             log.error("delete company param is null");
@@ -166,10 +167,10 @@ public class CompanyController {
 
     @ApiOperation(value = "同行状态", notes = "同行状态修改")
     @ApiImplicitParam(name = "Id", value = "公司Id", required = true, dataType = "Long", paramType = "path")
-    @PutMapping("/UpdateCompanyStop")
+    @PutMapping("/Stu/{Id}")
     @CrossOrigin
     @CheckToken
-    public ResultVo UpdateCompanyStop (@RequestParam("Id") Long Id) {
+    public ResultVo UpdateCompanyStop (@PathVariable("Id") Long Id) {
         if(Id==null) {
             log.error("update company stop param is null");
             throw new ApplicationException(CodeType.PARAMETER_ERROR,"修改公司状态Id为空");

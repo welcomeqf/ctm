@@ -28,15 +28,21 @@ public interface ICarService {
      * 更新车辆
      * @param carVo
      */
-    void updateCar(CarVo carVo);
+    void updateCar(CarVo carVo , Long Id);
 
     /**
      * 查询车辆列表
+     * @param current
+     * @param size
      * @return
      */
     Page<Car> queryAllCar(Integer current,Integer size);
 
-
-    CarVo updateCarIndex(Long Id);
+    /**
+     * 展示
+     * @param Id
+     * @return
+     */
+    Car updateCarIndex(Long Id);
 
 }

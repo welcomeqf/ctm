@@ -71,16 +71,16 @@ public class LineController {
             @ApiImplicitParam(name = "MaxNumber", value = "最大人数", required = true, dataType = "int", paramType = "path"),
             @ApiImplicitParam(name = "MinNumber", value = "最小人数", required = true, dataType = "int", paramType = "path")
     })
-    @PutMapping("/updateLine")
+    @PutMapping("/updateLine/{Id}")
     @CrossOrigin
     @CheckToken
-    public ResultVo updateLine(@RequestBody Line line) {
-        if (line.getId() == null) {
+    public ResultVo updateLine(@PathVariable("Id") Long Id,@RequestBody Line line) {
+        if (Id == null) {
             log.error("update line param is not null.");
             throw new ApplicationException(CodeType.PARAM_ERROR,"修改线路参数不能为空");
         }
 
-        lineService.updateLine(line);
+        lineService.updateLine(line,Id);
 
         ResultVo resultVo = new ResultVo();
         resultVo.setResult("ok");
@@ -107,11 +107,11 @@ public class LineController {
     }
 
     @ApiOperation(value = "停用线路", notes = "停用线路")
-    @ApiImplicitParam(name = "Id", value = "Id", required = true, dataType = "String", paramType = "path")
-    @PutMapping("/stopLine")
+    @ApiImplicitParam(name = "Id", value = "Id", required = true, dataType = "Long", paramType = "path")
+    @PutMapping("/stopLine/{Id}")
     @CrossOrigin
     @CheckToken
-    public ResultVo stopLine(@RequestParam("Id") Long Id) {
+    public ResultVo stopLine(@PathVariable("Id") Long Id) {
         if (Id == null) {
             throw new ApplicationException(CodeType.PARAM_ERROR);
         }
@@ -123,11 +123,11 @@ public class LineController {
 
 
     @ApiOperation(value = "启用线路", notes = "启用线路")
-    @ApiImplicitParam(name = "Id", value = "Id", required = true, dataType = "String", paramType = "path")
-    @PutMapping("/startLine")
+    @ApiImplicitParam(name = "Id", value = "Id", required = true, dataType = "Long", paramType = "path")
+    @PutMapping("/startLine/{Id}")
     @CrossOrigin
     @CheckToken
-    public ResultVo startLine(@RequestParam("Id") Long Id) {
+    public ResultVo startLine(@PathVariable("Id") Long Id) {
         if (Id == null) {
             throw new ApplicationException(CodeType.PARAM_ERROR);
         }
@@ -138,7 +138,7 @@ public class LineController {
     }
 
     @ApiOperation(value = "根据Id查询一条线路", notes = "根据Id查询一条线路")
-    @ApiImplicitParam(name = "Id", value = "Id", required = true, dataType = "String", paramType = "path")
+    @ApiImplicitParam(name = "Id", value = "Id", required = true, dataType = "Long", paramType = "path")
     @GetMapping("/queryLineById")
     @CrossOrigin
     @CheckToken

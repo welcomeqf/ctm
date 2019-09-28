@@ -6,11 +6,13 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.yq.constanct.CodeType;
+import com.yq.utils.DateUtil;
 import com.yq.utils.IdGenerator;
 import com.yq.utils.StringUtils;
 import eqlee.ctm.resource.company.dao.CompanyMapper;
 import eqlee.ctm.resource.company.entity.Company;
 import eqlee.ctm.resource.company.entity.query.PageCompanyQuery;
+import eqlee.ctm.resource.company.entity.vo.CompanyQueryVo;
 import eqlee.ctm.resource.company.entity.vo.CompanyVo;
 import eqlee.ctm.resource.company.service.ICompanyService;
 import eqlee.ctm.resource.exception.ApplicationException;
@@ -36,6 +38,12 @@ public class CompanyServiceImp extends ServiceImpl<CompanyMapper,Company> implem
 
     @Autowired
     private LocalUser localUser;
+
+    private final String MONTH_PAY = "月结";
+
+    private final String NOW_PAY = "现结";
+
+    private final String WITH_PAY = "面收";
 
     /**
      * 查询所用同行信息（不分页）
@@ -65,7 +73,15 @@ public class CompanyServiceImp extends ServiceImpl<CompanyMapper,Company> implem
         company.setUpdateUserId(user.getId());
         company.setStartDate(LocalDateTime.parse(companyVo.getStartDate()));
         company.setEndDate(LocalDateTime.parse(companyVo.getEndDate()));
-        company.setPayMethod(Integer.parseInt(companyVo.getPayMethod()));
+        if (NOW_PAY.equals(companyVo.getPayMethod())) {
+            company.setPayMethod(1);
+        }
+        if (MONTH_PAY.equals(companyVo.getPayMethod())) {
+            company.setPayMethod(2);
+        }
+        if (WITH_PAY.equals(companyVo.getPayMethod())) {
+            company.setPayMethod(3);
+        }
         int insert = baseMapper.insert(company);
 
         if (insert <= 0) {
@@ -90,26 +106,20 @@ public class CompanyServiceImp extends ServiceImpl<CompanyMapper,Company> implem
         }
     }
 
-
-    /**
-     * 更新同行信息
-     * @param companyVo
-     */
     @Override
-    public void UpdateCompany(CompanyVo companyVo) {
+    public void UpdateCompany(Long Id, CompanyVo companyVo) {
         UserLoginQuery user = localUser.getUser("用户信息");
 
         Company company = new Company();
-        company.setId(companyVo.getId());
+        company.setId(Id);
         company.setCompanyName(companyVo.getCompanyName());
         company.setStartDate(LocalDateTime.parse(companyVo.getStartDate()));
         company.setEndDate(LocalDateTime.parse(companyVo.getEndDate()));
         company.setUpdateUserId(user.getId());
-        if(companyVo.getStopped() == "0"){
-            company.setStopped(false);
-        }
-        if(companyVo.getStopped() == "1"){
+        if("停用".equals(companyVo.getStopped())){
             company.setStopped(true);
+        }else {
+            company.setStopped(false);
         }
         company.setPayMethod(Integer.parseInt(companyVo.getPayMethod()));
 
@@ -117,7 +127,7 @@ public class CompanyServiceImp extends ServiceImpl<CompanyMapper,Company> implem
         if (update <= 0) {
             log.error("update company fail");
             throw new ApplicationException(CodeType.SERVICE_ERROR,"更新同行公司失败");
-         }
+        }
     }
 
 
@@ -145,10 +155,11 @@ public class CompanyServiceImp extends ServiceImpl<CompanyMapper,Company> implem
         UserLoginQuery user = localUser.getUser("用户信息");
         Company company = new Company();
         Company newCompany = baseMapper.selectById(id);
-        if(newCompany.isStopped())
+        if(newCompany.isStopped()) {
             company.setStopped(false);
-        else
+        } else {
             company.setStopped(true);
+        }
         company.setId(id);
         company.setUpdateUserId(user.getId());
         int update = baseMapper.updateById(company);
@@ -198,29 +209,25 @@ public class CompanyServiceImp extends ServiceImpl<CompanyMapper,Company> implem
 
 
     /**
-     * 修改公司信息首页
+     * 展示修改公司信息首页
      * @param Id
      */
     @Override
-    public CompanyVo UpdateCompanyIndex(Long Id) {
-        CompanyVo companyVo = new CompanyVo();
-        Company company = new Company();
-        company = baseMapper.selectById(Id);
+    public CompanyQueryVo UpdateCompanyIndex(Long Id) {
+        CompanyQueryVo companyVo = new CompanyQueryVo();
+        Company company = baseMapper.selectById(Id);
         companyVo.setStartDate(company.getStartDate().toString());
-        companyVo.setEndDate(company.getEndDate().toString());
+        companyVo.setEndDate(DateUtil.formatDate(company.getEndDate()));
         companyVo.setCompanyName(company.getCompanyName());
         companyVo.setId(Id);
-        if (company.getPayMethod() == 0) {
-            companyVo.setPayMethod("默认");
+        if (company.getPayMethod() == 1) {
+            companyVo.setPayMethod(NOW_PAY);
         }
-        if (company.getPayMethod() == 0) {
-            companyVo.setPayMethod("现结");
+        if (company.getPayMethod() == 2) {
+            companyVo.setPayMethod(MONTH_PAY);
         }
-        if (company.getPayMethod() == 0) {
-            companyVo.setPayMethod("月结");
-        }
-        if (company.getPayMethod() == 0) {
-            companyVo.setPayMethod("代收");
+        if (company.getPayMethod() == 3) {
+            companyVo.setPayMethod(WITH_PAY);
         }
         if (company.isStopped()){
             companyVo.setStopped("停用");

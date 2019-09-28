@@ -12,8 +12,6 @@ import java.time.LocalDateTime;
 @Data
 public class CarVo {
 
-    private Long Id;
-
     private String CarNo;
 
     private String CarName;

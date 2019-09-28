@@ -9,5 +9,9 @@ import eqlee.ctm.finance.settlement.entity.Number;
  */
 public interface INumberService {
 
+    /**
+     * 增加未付款代收的人数信息
+     * @param number
+     */
     void insertNumber (Number number);
 }

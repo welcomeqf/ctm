@@ -52,11 +52,11 @@ public class CarController {
 
 
     @ApiOperation(value = "车辆删除",notes = "车辆删除")
-    @DeleteMapping("/deleteCar")
+    @DeleteMapping("/{Id}")
     @ApiImplicitParam(name = "Id",value = "车辆Id",required = true,dataType = "Long",paramType = "path")
     @CrossOrigin
     @CheckToken
-    public void deleteCar(@RequestParam("Id") Long Id) {
+    public void deleteCar(@PathVariable("Id") Long Id) {
         if(Id == null){
             log.error("delete car param is null");
             throw new ApplicationException(CodeType.PARAMETER_ERROR,"删除车辆的Id为空");
@@ -86,12 +86,12 @@ public class CarController {
 
 
 
-    @ApiOperation(value = "车辆修改页首页",notes = "车辆修改页首页")
-    @GetMapping("/updateCarDetail")
+    @ApiOperation(value = "查询车辆修改页首页",notes = "查询车辆修改页首页")
+    @GetMapping("/CarDetail")
     @ApiImplicitParam(name = "Id", value = "车辆Id", required = true, dataType = "Long", paramType = "path")
     @CrossOrigin
     @CheckToken
-    public CarVo updateCarDetail(@RequestParam("Id") Long Id) {
+    public Car CarDetail(@RequestParam("Id") Long Id) {
         if(Id == null){
             throw new ApplicationException(CodeType.PARAMETER_ERROR,"修改车辆首页的Id不能为空");
         }
@@ -103,7 +103,7 @@ public class CarController {
 
 
     @ApiOperation(value = "车辆修改",notes = "车辆修改")
-    @PutMapping("/updateCar")
+    @PutMapping("/updateCar/{Id}")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "Id", value = "车辆Id", required = true, dataType = "Long", paramType = "path"),
             @ApiImplicitParam(name = "CarName", value = "车辆名", required = true, dataType = "String", paramType = "path"),
@@ -113,13 +113,13 @@ public class CarController {
     })
     @CrossOrigin
     @CheckToken
-    public void updateCar(@RequestBody CarVo carVo) {
+    public void updateCar(@PathVariable("Id") Long Id,@RequestBody CarVo carVo) {
         if(StringUtils.isBlank(carVo.getCarNo())||StringUtils.isBlank(carVo.getStatu())
            ||StringUtils.isBlank(carVo.getCarName())||StringUtils.isBlank(carVo.getRemark())
-           ||carVo.getId() == null){
+           ||Id == null){
             log.error("update car param is null");
             throw new ApplicationException(CodeType.PARAMETER_ERROR,"修改车辆信息为空");
         }
-        carService.updateCar(carVo);
+        carService.updateCar(carVo,Id);
     }
 }

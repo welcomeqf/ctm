@@ -1,16 +1,16 @@
 package eqlee.ctm.resource.company.entity.vo;
 
-
 import lombok.Data;
 
-
 /**
- * @Author Claire
- * @Date 2019/9/17 0017
+ * @Author qf
+ * @Date 2019/9/28
  * @Version 1.0
  */
 @Data
-public class CompanyVo {
+public class CompanyQueryVo {
+
+    private Long Id;
 
     private String CompanyName;
 
@@ -21,5 +21,4 @@ public class CompanyVo {
     private String PayMethod;
 
     private String Stopped;
-
 }

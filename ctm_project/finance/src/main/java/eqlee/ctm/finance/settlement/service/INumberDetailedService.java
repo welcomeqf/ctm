@@ -12,5 +12,9 @@ import java.util.List;
 public interface INumberDetailedService {
 
 
+    /**
+     * 批量增加未付款代收具体人员信息
+     * @param vo
+     */
     void insertAllNumberDetailed(List<ContectUserNumberVo> vo);
 }

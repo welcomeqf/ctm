@@ -77,12 +77,12 @@ public class CarServiceImp extends ServiceImpl<CarMapper, Car>implements ICarSer
      * @param carVo
      */
     @Override
-    public void updateCar(CarVo carVo) {
+    public void updateCar(CarVo carVo, Long Id) {
         UserLoginQuery user = localUser.getUser("用户信息");
 
         Car car = new Car();
         car.setUpdateUserId(user.getId());
-        car.setId(carVo.getId());
+        car.setId(Id);
         car.setRemark(carVo.getRemark());
         car.setCarName(carVo.getCarName());
         car.setCarNo(carVo.getCarNo());
@@ -117,23 +117,7 @@ public class CarServiceImp extends ServiceImpl<CarMapper, Car>implements ICarSer
      * @return
      */
     @Override
-    public CarVo updateCarIndex(Long Id) {
-        CarVo carVo = new CarVo();
-        Car car = new Car();
-        car = baseMapper.selectById(Id);
-        carVo.setCarName(car.getCarName());
-        carVo.setCarNo(car.getCarNo());
-        carVo.setId(car.getId());
-        if (car.getStatu() == 0) {
-            carVo.setStatu("未出行");
-        }
-        if (car.getStatu() == 1) {
-            carVo.setStatu("已出行");
-        }
-        if (car.getStatu() == 2) {
-            carVo.setStatu("已报废");
-        }
-        carVo.setRemark(carVo.getRemark());
-        return carVo;
+    public Car updateCarIndex(Long Id) {
+        return baseMapper.selectById(Id);
     }
 }

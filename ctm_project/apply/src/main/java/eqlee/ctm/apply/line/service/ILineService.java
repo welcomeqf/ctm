@@ -28,11 +28,13 @@ public interface ILineService {
     /**
      * 修改线路
      * @param line
+     * @param Id
      */
-    void updateLine(Line line);
+    void updateLine(Line line, Long Id);
 
     /**
      * 查询所有线路
+     * @param query
      * @return
      */
     Page<Line> listPageLine(LinePageQuery query);

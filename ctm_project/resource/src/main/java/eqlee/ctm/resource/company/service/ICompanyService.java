@@ -3,6 +3,7 @@ package eqlee.ctm.resource.company.service;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import eqlee.ctm.resource.company.entity.Company;
 import eqlee.ctm.resource.company.entity.query.PageCompanyQuery;
+import eqlee.ctm.resource.company.entity.vo.CompanyQueryVo;
 import eqlee.ctm.resource.company.entity.vo.CompanyVo;
 
 import java.util.List;
@@ -34,7 +35,7 @@ public interface ICompanyService {
      * 修改同行信息
      * @return
      */
-    void UpdateCompany(CompanyVo companyVo);
+    void UpdateCompany(Long Id,CompanyVo companyVo);
     /**
      * 根据公司名查询(不分页)
      * @return
@@ -66,6 +67,6 @@ public interface ICompanyService {
      *
      * @param Id
      */
-    CompanyVo UpdateCompanyIndex(Long Id);
+    CompanyQueryVo UpdateCompanyIndex(Long Id);
 
 }

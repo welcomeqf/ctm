@@ -82,12 +82,13 @@ public class LineServiceImpl extends ServiceImpl<LineMapper, Line> implements IL
      * @param line
      */
     @Override
-    public void updateLine(Line line) {
+    public void updateLine(Line line, Long Id) {
         //获取用户信息
         UserLoginQuery user = localUser.getUser("用户信息");
 
         line.setCreateUserId(user.getId());
         line.setUpdateUserId(user.getId());
+        line.setId(Id);
 
         int i = baseMapper.updateById(line);
 
