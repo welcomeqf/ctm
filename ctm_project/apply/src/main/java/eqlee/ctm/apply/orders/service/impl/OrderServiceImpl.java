@@ -116,7 +116,7 @@ public class OrderServiceImpl extends ServiceImpl<OrdersMapper, Orders> implemen
     @Override
     public Page<OrderIndexVo> ChoisedIndex(Page<OrderIndexVo> page, String LineName, String OutDate) {
         UserLoginQuery user = localUser.getUser("用户信息");
-        return baseMapper.selectOrdersByCreateUserId(page,user.getId(),LineName,OutDate);
+        return baseMapper.selectOrdersByCreateUserId(page,user.getId(),LineName,DateUtil.parseDate(OutDate));
     }
 
 
@@ -200,8 +200,6 @@ public class OrderServiceImpl extends ServiceImpl<OrdersMapper, Orders> implemen
     public List<ChangedVo> waiteChangeIndex() {
 
         UserLoginQuery user = localUser.getUser("用户信息");
-        log.info("wr");
-        log.info(user.getCName());
         return baseMapper.waiteChangeIndex(String.valueOf(user.getId()));
     }
 
@@ -217,9 +215,9 @@ public class OrderServiceImpl extends ServiceImpl<OrdersMapper, Orders> implemen
         for (ChoisedVo choisedVo:choisedList) {
             choisedVo.setUpdatedId(String.valueOf(user.getId()));
         }
-        int insert = baseMapper.sureChoised(choisedList);
-        if(insert == 0){
-            throw new ApplicationException(CodeType.SERVICE_ERROR,"插入失败");
+        int update = baseMapper.sureChoised(choisedList);
+        if(update == 0){
+            throw new ApplicationException(CodeType.SERVICE_ERROR,"修改失败");
         }
     }
 
@@ -264,7 +262,7 @@ public class OrderServiceImpl extends ServiceImpl<OrdersMapper, Orders> implemen
     @Override
     public IncomeVo IncomeCount(String LineName, String OutDate) {
         UserLoginQuery user = localUser.getUser("用户信息");
-        List<InComeRemerberVo> incomeRemerberVoList = baseMapper.selectIncomeCount(LineName,OutDate,user.getId());
+        List<InComeRemerberVo> incomeRemerberVoList = baseMapper.selectIncomeCount(LineName,DateUtil.parseDate(OutDate),user.getId());
         Price price = priceService.queryPriceByTimeAndLineName(DateUtil.parseDate(OutDate),LineName);
         IncomeVo incomeVo = new IncomeVo();
         incomeVo.setComeedCount(0);
@@ -311,7 +309,15 @@ public class OrderServiceImpl extends ServiceImpl<OrdersMapper, Orders> implemen
      */
     @Override
     public UnpaidInformationVo unpaidInformation(String ContactTel, String LineName, String OutDate) {
-        return baseMapper.unpaidInformation(ContactTel,LineName,OutDate);
+        UnpaidInformationVo unpaidInformationVo = baseMapper.unpaidInformation(ContactTel,LineName,DateUtil.parseDate(OutDate));
+        Price price = priceService.queryPriceByTimeAndLineName(DateUtil.parseDate(OutDate),LineName);
+        Double sum = unpaidInformationVo.getOldNumber()*price.getOldPrice()+
+                unpaidInformationVo.getBabyNumber()*price.getBabyPrice()+
+                unpaidInformationVo.getAdultNumber()*price.getAdultPrice()+
+                unpaidInformationVo.getChildNumber()*price.getChildPrice();
+        unpaidInformationVo.setSumPaid(sum);
+        return unpaidInformationVo;
+
     }
 
 

@@ -58,7 +58,7 @@ public class OrdersController {
             @ApiImplicitParam(name = "OutDate", value = "出发日期", required = true, dataType = "String", paramType = "path"),
 
     })
-    @PostMapping("saveApplyed")
+    @PostMapping("saveOrders")
     @CrossOrigin
     @CheckToken
     public ResultVo saveApplyed(@RequestBody List<OrdersVo> applyVoList){
@@ -209,13 +209,19 @@ public class OrdersController {
             @ApiImplicitParam(name = "ContactTel", value = "联系电话", required = true, dataType = "String", paramType = "path"),
             @ApiImplicitParam(name = "ContactName", value = "联系人", required = true, dataType = "String", paramType = "path")
     })
-    @PostMapping("sureChoised")
+    @PutMapping("sureChoised")
     @CrossOrigin
     @CheckToken
-    public ResultVo sureChoised(@RequestBody List<ChoisedVo> choisedList){
-        if(choisedList.size() == 0){
+    public ResultVo sureChoised(){
+        /*if(choisedList.size() == 0){
             throw new ApplicationException(CodeType.PARAM_ERROR,"参数不能为空");
-        }
+        }*/
+        ChoisedVo choisedVo = new ChoisedVo();
+        choisedVo.setId(625693528420253696L);
+        choisedVo.setLineName("长隆线");
+        choisedVo.setOutDate("1905-07-03");
+        List<ChoisedVo> choisedList = new ArrayList<ChoisedVo>();
+        choisedList.add(choisedVo);
         ordersService.sureChoised(choisedList);
         ResultVo resultVo = new ResultVo();
         resultVo.setResult("ok");
@@ -236,7 +242,7 @@ public class OrdersController {
             @ApiImplicitParam(name = "ContactTel", value = "联系电话", required = true, dataType = "String", paramType = "path"),
             @ApiImplicitParam(name = "ContactName", value = "联系人", required = true, dataType = "String", paramType = "path")
     })
-    @PostMapping("denyChoised")
+    @PutMapping("denyChoised")
     @CrossOrigin
     @CheckToken
     public ResultVo denyChoised(@RequestBody List<ChoisedVo> choisedList){
@@ -256,7 +262,7 @@ public class OrdersController {
             @ApiImplicitParam(name = "LineName", value = "线路名", required = true, dataType = "String", paramType = "path"),
             @ApiImplicitParam(name = "OutDate", value = "出发日期", required = true, dataType = "String", paramType = "path")
     })
-    @PostMapping("denyChoisedindex")
+    @GetMapping("denyChoisedindex")
     @CrossOrigin
     @CheckToken
     public List<ChangedVo> denyChoisedindex(@Param("LineName") String LineName,

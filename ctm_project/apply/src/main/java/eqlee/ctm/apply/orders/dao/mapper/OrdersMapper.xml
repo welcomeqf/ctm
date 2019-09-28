@@ -12,7 +12,7 @@
     </insert>
     <select id="selectOrdersByCreateUserId" resultType="eqlee.ctm.apply.orders.entity.Vo.OrderIndexVo">
        select b.OrderNo,a.ContactName,a.Place,a.AdultNumber,a.BabyNumber,a.OldNumber,a.ChildNumber from OrderDetailed a
-       join Orders b on a.OrderId = b.Id where a.CreateUserId = #{CreateUserId} and convert(varchar,b.OutDate,120)=
+       join Orders b on a.OrderId = b.Id where a.CreateUserId = #{CreateUserId} and b.OutDate=
        #{OutDate} and b.LineName=#{LineName}
     </select>
     
@@ -25,7 +25,7 @@
 
     <update id="updateOrdersCarNo">
         update Orders set CarNumber=#{CarNumber} where LineName=#{LineName}
-        and convert(varchar,OutDate,120)=#{OutDate} and CreateUserId=#{Id}
+        and OutDate=#{OutDate} and CreateUserId=#{Id}
     </update>
 
     <update id="updateOrdersOutsideCarNo">
@@ -54,16 +54,16 @@
     </update>
 
     <select id="waiteChangeIndex" resultType="eqlee.ctm.apply.orders.entity.Vo.ChangedVo">
-       select a.CreateUserId,b.ContactName,b.ContactTel,a.OutDate,a.GuideName,a.LineName from Orders a join OrderDetailed b on a.Id = b.OrderId
+       select a.CreateUserId CreateUserId,b.ContactName,b.ContactTel,a.OutDate,a.GuideName,a.LineName from Orders a join OrderDetailed b on a.Id = b.OrderId
        and a.Remark = #{Id}
     </select>
 
     <update id="sureChoised" parameterType="eqlee.ctm.apply.orders.entity.Vo.ChoisedVo">
         <foreach collection="list" item="item" index="index">
             update Orders set GuideName=(select CName from SystemUser where Id = #{item.updatedId}),CreateUserId =#{item.updatedId},
-            Statu=3 where Statu=1 and CreateUserId=#{item.Id} and OutDate=#{item.OutDate} and LineName =#{item.LineName}
+            Statu=3 where Statu=1 and CreateUserId=#{item.Id} and convert(varchar,OutDate,120)=#{item.OutDate} and LineName =#{item.LineName}
             update OrderDetailed set Statu=2 where Statu=1 and OrderId in (select Id from Orders where Statu=1
-            and CreateUserId=#{item.Id} and OutDate=#{item.OutDate} and LineName =#{item.LineName})
+            and CreateUserId=#{item.Id} and convert(varchar,OutDate,120)=#{item.OutDate} and LineName =#{item.LineName})
         </foreach>
     </update>
 

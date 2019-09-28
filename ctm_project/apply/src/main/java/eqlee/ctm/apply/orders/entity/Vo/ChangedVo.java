@@ -15,7 +15,7 @@ public class ChangedVo {
     /**
      *导游Id
      */
-    private Long Id;
+    private Long CreateUserId;
 
     /**
      * 联系人

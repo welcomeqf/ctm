@@ -39,7 +39,7 @@ public interface OrdersMapper extends IBaseMapper<Orders> {
     Page<OrderIndexVo> selectOrdersByCreateUserId(@Param("page") Page<OrderIndexVo> pager,
                                                   @Param("CreateUserId") Long CreateUserId,
                                                   @Param("LineName")  String LineName,
-                                                  @Param("OutDate") String OutDate);
+                                                  @Param("OutDate") LocalDate OutDate);
 
 
 
@@ -84,7 +84,7 @@ public interface OrdersMapper extends IBaseMapper<Orders> {
      * @param CarNo
      * @return
      */
-        CarVo isCompanyCar(String CarNo);
+    CarVo isCompanyCar(String CarNo);
 
 
     /**
@@ -159,8 +159,7 @@ public interface OrdersMapper extends IBaseMapper<Orders> {
      * @return
      */
     List<InComeRemerberVo> selectIncomeCount(@Param("LineName") String LineName,
-                                             @Param("OutDate") String OutDate,
-
+                                             @Param("OutDate") LocalDate OutDate,
                                              @Param("Id") Long Id);
     /**
      * 未付款人信息
@@ -169,5 +168,5 @@ public interface OrdersMapper extends IBaseMapper<Orders> {
      */
     UnpaidInformationVo unpaidInformation(@Param("ContactTel") String ContactTel,
                                           @Param("LineName") String LineName,
-                                          @Param("OutDate") String OutDate);
+                                          @Param("OutDate") LocalDate OutDate);
 }

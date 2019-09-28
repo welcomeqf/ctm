@@ -77,9 +77,9 @@ public class CarController {
     })
     @CrossOrigin
     @CheckToken
-    public void addCar(@RequestBody CarVo carVo) {
-        if(StringUtils.isBlank(carVo.getCarNo())||carVo.getStatu() == null
-                ||StringUtils.isBlank(carVo.getCarName())||StringUtils.isBlank(carVo.getRemark())){
+    public void addCar(CarVo carVo) {
+        System.out.println("11111111111");
+        if(StringUtils.isBlank(carVo.getCarNo()) ||StringUtils.isBlank(carVo.getCarName())){
             throw new ApplicationException(CodeType.PARAMETER_ERROR,"增加车辆信息为空");
         }
         carService.addCar(carVo);
@@ -110,14 +110,14 @@ public class CarController {
             @ApiImplicitParam(name = "CarName", value = "车辆名", required = true, dataType = "String", paramType = "path"),
             @ApiImplicitParam(name = "CarNo", value = "车辆号", required = true, dataType = "String", paramType = "path"),
             @ApiImplicitParam(name = "Statu", value = "状态", required = true, dataType = "String", paramType = "path"),
-            @ApiImplicitParam(name = "Remark", value = "备注", required = true, dataType = "String", paramType = "path")
+            @ApiImplicitParam(name = "Remark", value = "备注", required = true, dataType = "String", paramType = "path"),
+            @ApiImplicitParam(name = "IsStop", value = "是否启用", required = true, dataType = "boolean", paramType = "path")
     })
     @CrossOrigin
     @CheckToken
-    public void updateCar(@PathVariable("Id") Long Id,@RequestBody CarUpdateVo carUpdateVo) {
-        if(StringUtils.isBlank(carUpdateVo.getCarNo())||carUpdateVo.getStatu() == null
-           ||StringUtils.isBlank(carUpdateVo.getCarName())||StringUtils.isBlank(carUpdateVo.getRemark())
-           ||Id == null){
+    public void updateCar(@PathVariable("Id") Long Id, CarUpdateVo carUpdateVo) {
+        System.out.println("1111111");
+        if(StringUtils.isBlank(carUpdateVo.getCarNo()) ||StringUtils.isBlank(carUpdateVo.getCarName())||Id == null){
             throw new ApplicationException(CodeType.PARAMETER_ERROR);
         }
         carService.updateCar(carUpdateVo,Id);

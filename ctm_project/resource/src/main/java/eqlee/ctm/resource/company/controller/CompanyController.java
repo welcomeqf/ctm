@@ -82,7 +82,7 @@ public class CompanyController {
     @PutMapping("/updateCompany/{Id}")
     @CrossOrigin
     @CheckToken
-    public ResultVo updateCompany (@PathVariable("Id") Long Id,@RequestBody CompanyVo companyVo) {
+    public ResultVo updateCompany (@PathVariable("Id") Long Id, CompanyVo companyVo) {
         if(Id == null || StringUtils.isBlank(companyVo.getPayMethod())
         || StringUtils.isBlank(companyVo.getEndDate())|| StringUtils.isBlank(companyVo.getStartDate())
         || StringUtils.isBlank(companyVo.getCompanyName())){
