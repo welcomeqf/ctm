@@ -71,7 +71,10 @@ public class Car extends Model<Car> {
      */
     private Integer Statu;
 
-
+    /**
+     * (0-- 启用  1--停用)
+     */
+    private Boolean IsStop;
     @Override
     protected Serializable pkVal() {
         return this.Id;

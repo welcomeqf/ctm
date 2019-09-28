@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 
 /**
@@ -18,6 +19,7 @@ import java.time.LocalDateTime;
 @Accessors(chain = true)
 @TableName("OrderDetailed")
 public class OrderDetailed extends Model<OrderDetailed> {
+    private static final long serialVersionUID = 1L;
     private Long Id;
 
     /**
@@ -109,4 +111,9 @@ public class OrderDetailed extends Model<OrderDetailed> {
      * 0--正常    1--换人中   2--已完成
      */
     private Integer Statu;
+
+    @Override
+    protected Serializable pkVal() {
+        return this.Id;
+    }
 }

@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.yq.constanct.CodeType;
 import com.yq.utils.StringUtils;
 import eqlee.ctm.resource.car.entity.Car;
+import eqlee.ctm.resource.car.entity.Vo.CarUpdateVo;
 import eqlee.ctm.resource.car.entity.Vo.CarVo;
 import eqlee.ctm.resource.car.service.ICarService;
 import eqlee.ctm.resource.exception.ApplicationException;
@@ -52,7 +53,7 @@ public class CarController {
 
 
     @ApiOperation(value = "车辆删除",notes = "车辆删除")
-    @DeleteMapping("/{Id}")
+    @DeleteMapping("deleteCar/{Id}")
     @ApiImplicitParam(name = "Id",value = "车辆Id",required = true,dataType = "Long",paramType = "path")
     @CrossOrigin
     @CheckToken
@@ -113,12 +114,12 @@ public class CarController {
     })
     @CrossOrigin
     @CheckToken
-    public void updateCar(@PathVariable("Id") Long Id,@RequestBody CarVo carVo) {
-        if(StringUtils.isBlank(carVo.getCarNo())||carVo.getStatu() == null
-           ||StringUtils.isBlank(carVo.getCarName())||StringUtils.isBlank(carVo.getRemark())
+    public void updateCar(@PathVariable("Id") Long Id,@RequestBody CarUpdateVo carUpdateVo) {
+        if(StringUtils.isBlank(carUpdateVo.getCarNo())||carUpdateVo.getStatu() == null
+           ||StringUtils.isBlank(carUpdateVo.getCarName())||StringUtils.isBlank(carUpdateVo.getRemark())
            ||Id == null){
             throw new ApplicationException(CodeType.PARAMETER_ERROR);
         }
-        carService.updateCar(carVo,Id);
+        carService.updateCar(carUpdateVo,Id);
     }
 }

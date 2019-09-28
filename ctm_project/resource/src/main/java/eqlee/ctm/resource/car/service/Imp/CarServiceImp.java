@@ -9,6 +9,7 @@ import com.yq.utils.IdGenerator;
 import com.yq.utils.StringUtils;
 import eqlee.ctm.resource.car.dao.CarMapper;
 import eqlee.ctm.resource.car.entity.Car;
+import eqlee.ctm.resource.car.entity.Vo.CarUpdateVo;
 import eqlee.ctm.resource.car.entity.Vo.CarVo;
 import eqlee.ctm.resource.car.service.ICarService;
 import eqlee.ctm.resource.exception.ApplicationException;
@@ -83,7 +84,7 @@ public class CarServiceImp extends ServiceImpl<CarMapper, Car>implements ICarSer
      * @param carVo
      */
     @Override
-    public void updateCar(CarVo carVo, Long Id) {
+    public void updateCar(CarUpdateVo carVo, Long Id) {
         UserLoginQuery user = localUser.getUser("用户信息");
 
         Car car = new Car();
@@ -93,6 +94,11 @@ public class CarServiceImp extends ServiceImpl<CarMapper, Car>implements ICarSer
         car.setCarName(carVo.getCarName());
         car.setCarNo(carVo.getCarNo());
         car.setStatu(carVo.getStatu());
+        if(carVo.isIsStop()) {
+            car.setIsStop(true);
+        }
+        else
+            car.setIsStop(false);
         int update = baseMapper.updateById(car);
         if(update <= 0){
             log.error("update car fail");
