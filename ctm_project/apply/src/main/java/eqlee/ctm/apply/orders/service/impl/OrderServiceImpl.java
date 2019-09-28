@@ -1,24 +1,38 @@
 package eqlee.ctm.apply.orders.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.yq.constanct.CodeType;
 import com.yq.utils.DateUtil;
 import com.yq.utils.IdGenerator;
 import eqlee.ctm.apply.entry.entity.Apply;
 import eqlee.ctm.apply.entry.service.IApplyService;
+import eqlee.ctm.apply.exception.ApplicationException;
+import eqlee.ctm.apply.jwt.contain.LocalUser;
+import eqlee.ctm.apply.jwt.entity.UserLoginQuery;
+import eqlee.ctm.apply.jwt.islogin.CheckToken;
+import eqlee.ctm.apply.line.entity.Line;
+import eqlee.ctm.apply.line.service.ILineService;
 import eqlee.ctm.apply.orders.dao.OrdersMapper;
 import eqlee.ctm.apply.orders.entity.OrderDetailed;
 import eqlee.ctm.apply.orders.entity.Orders;
-import eqlee.ctm.apply.orders.entity.Vo.OrdersVo;
+import eqlee.ctm.apply.orders.entity.Vo.*;
 import eqlee.ctm.apply.orders.service.IOrdersDetailedService;
 import eqlee.ctm.apply.orders.service.IOrdersService;
+import eqlee.ctm.apply.price.entity.Price;
+import eqlee.ctm.apply.price.service.IPriceService;
 import lombok.extern.slf4j.Slf4j;
+import net.sf.jsqlparser.expression.DateTimeLiteralExpression;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.GetMapping;
 
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 /**
  * @Author Claire
@@ -27,14 +41,22 @@ import java.util.List;
  */
 @Service
 @Slf4j
+@Transactional(rollbackFor = Exception.class)
 public class OrderServiceImpl extends ServiceImpl<OrdersMapper, Orders> implements IOrdersService {
 
    @Autowired
    private IApplyService applyService;
    @Autowired
    private IOrdersDetailedService orderDetailedService;
+   @Autowired
+   private ILineService lineService;
+   @Autowired
+   private LocalUser localUser;
+   @Autowired
+   private IPriceService priceService;
 
    IdGenerator idGenerator = new IdGenerator();
+
 
     @Override
     public void saveApply(List<OrdersVo> applyVoList) {
@@ -48,22 +70,24 @@ public class OrderServiceImpl extends ServiceImpl<OrdersMapper, Orders> implemen
             orders.setId(numberId);
             orders.setLineName(ordersVo.getLineName());
             orders.setOutDate(LocalDate.parse(ordersVo.getOutDate()));
-            //TODO 导游姓名
+            UserLoginQuery user = localUser.getUser("用户信息");
             orders.setRegion(ordersVo.getRegion());
             for (Apply apply:applyList) {
                 if(apply.getContactTel().equals(ordersVo.getContactTel()) && String.valueOf(apply.getLineId()).equals(String.valueOf(ordersVo.getLineId()))
                         && DateUtil.formatDate(apply.getOutDate()).equals(ordersVo.getOutDate())){
-                    log.info("io");
                     orders.setAccountName(apply.getCompanyUser());
                     orders.setOrderNo(apply.getApplyNo());
                     orders.setCompanyName(apply.getCompanyName());
                     orders.setAllPrice(apply.getAllPrice());
+                    orders.setGuideName(user.getCName());
+                    orders.setCreateUserId(user.getId());
                     orderDetailed.setAdultNumber(apply.getAdultNumber());
                     orderDetailed.setBabyNumber(apply.getBabyNumber());
                     orderDetailed.setChildNumber(apply.getChildNumber());
                     orderDetailed.setOldNumber(apply.getOldNumber());
                     orderDetailed.setAllNumber(apply.getAllNumber());
                     orderDetailed.setPrice(apply.getAllPrice());
+                    orderDetailed.setCreateUserId(user.getId());
                 }
             }
             ordersList.add(orders);
@@ -79,4 +103,216 @@ public class OrderServiceImpl extends ServiceImpl<OrdersMapper, Orders> implemen
         baseMapper.batchInsertOrders(ordersList);
         orderDetailedService.batchInsertorderDetailed(orderDetailedList);
     }
+
+
+
+    /**
+     * 查看导游已选人情况
+     * @param page
+     * @param LineName
+     * @param OutDate
+     * @return
+     */
+    @Override
+    public Page<OrderIndexVo> ChoisedIndex(Page<OrderIndexVo> page, String LineName, String OutDate) {
+        UserLoginQuery user = localUser.getUser("用户信息");
+        return baseMapper.selectOrdersByCreateUserId(page,user.getId(),LineName,OutDate);
+    }
+
+
+
+    /**
+     *由线路名，出发时间，导游姓名得到车牌号
+     * @return
+     */
+    @Override
+    public String getCarNumber(String LineName, String OutDate) {
+        UserLoginQuery user = localUser.getUser("用户信息");
+        LambdaQueryWrapper<Orders> queryWrapper = new LambdaQueryWrapper<Orders>()
+                .eq(Orders::getLineName,LineName).eq(Orders::getCreateUserId,user.getId())
+                .eq(Orders::getOutDate,OutDate);
+        List<Orders> ordersList = baseMapper.selectList(queryWrapper);
+        String carNumber = "";
+        for (Orders orders:ordersList) {
+          carNumber = orders.getCarNumber();
+          break;
+        }
+        return carNumber;
+    }
+
+
+
+    /**
+     * 更换导游
+     * @param orderIndexVos
+     * @param Id
+     */
+    @Override
+    public void updateApply(List<OrderIndexVo> orderIndexVos,Long Id) {
+       int i = baseMapper.updateOrderDetailed(orderIndexVos,String.valueOf(Id));
+       if (i<= 0){
+           throw new ApplicationException(CodeType.SERVICE_ERROR,"更新失败");
+       }
+    }
+
+    @Override
+    public synchronized void save(String LineName, String OutDate, String CarNumber) {
+        UserLoginQuery userLoginQuery = localUser.getUser("用户信息");
+        CarVo car = baseMapper.isCompanyCar(CarNumber);
+        int update =0;
+        if(car == null) {
+            Long id = idGenerator.getNumberId();
+            baseMapper.insertCar(id,CarNumber,userLoginQuery.getId());
+            update = baseMapper.updateOrdersOutsideCarNo(LineName,DateUtil.parseDate(OutDate),CarNumber,userLoginQuery.getId());
+        }else
+            update = baseMapper.updateOrdersCarNo(LineName,DateUtil.parseDate(OutDate),CarNumber,userLoginQuery.getId());
+        if(update == 0){
+            throw new ApplicationException(CodeType.SERVICE_ERROR,"更新失败");
+        }
+
+    }
+
+
+
+    /**
+     * 展示导游已选游客
+     * @param page
+     * @param OutDate
+     * @param ContactName
+     * @param LineName
+     * @return
+     */
+    @Override
+    public Page<VisitorInformation> choisedVisitor(Page<VisitorInformation> page, String OutDate, String ContactName, String LineName) {
+
+
+           return baseMapper.selectVisitor(page,DateUtil.parseDate(OutDate), ContactName, LineName);
+
+    }
+
+
+
+    /**
+     * 导游换人消息展示
+     * @return
+     */
+    @Override
+    public List<ChangedVo> waiteChangeIndex() {
+
+        UserLoginQuery user = localUser.getUser("用户信息");
+        log.info("wr");
+        log.info(user.getCName());
+        return baseMapper.waiteChangeIndex(String.valueOf(user.getId()));
+    }
+
+
+
+    /**
+     * 接受换人
+     * @param choisedList
+     */
+    @Override
+    public void sureChoised(List<ChoisedVo> choisedList) {
+        UserLoginQuery user = localUser.getUser("用户信息");
+        for (ChoisedVo choisedVo:choisedList) {
+            choisedVo.setUpdatedId(String.valueOf(user.getId()));
+        }
+        int insert = baseMapper.sureChoised(choisedList);
+        if(insert == 0){
+            throw new ApplicationException(CodeType.SERVICE_ERROR,"插入失败");
+        }
+    }
+
+
+    /**
+     * 拒绝换人
+     * @param choisedList
+     */
+    @Override
+    public void denyChoised(List<ChoisedVo> choisedList) {
+        UserLoginQuery user = localUser.getUser("用户信息");
+        for (ChoisedVo choisedVo:choisedList) {
+            choisedVo.setUpdatedId(String.valueOf(user.getId()));
+        }
+        int insert = baseMapper.denyChoised(choisedList);
+        if(insert == 0){
+            throw new ApplicationException(CodeType.SERVICE_ERROR,"插入失败");
+        }
+    }
+
+
+    /**
+     * 换人拒绝列表查询
+     * @param LineName
+     * @param OutDate
+     * @return
+     */
+    @Override
+    public List<ChangedVo> denyChoisedindex(String LineName, String OutDate) {
+        UserLoginQuery user = localUser.getUser("用户信息");
+        return baseMapper.denyChoisedindex(LineName,DateUtil.parseDate(OutDate),user.getId());
+    }
+
+
+
+    /**
+     * 导游收入统计
+     * @param LineName
+     * @param OutDate
+     * @return
+     */
+    @Override
+    public IncomeVo IncomeCount(String LineName, String OutDate) {
+        UserLoginQuery user = localUser.getUser("用户信息");
+        List<InComeRemerberVo> incomeRemerberVoList = baseMapper.selectIncomeCount(LineName,OutDate,user.getId());
+        Price price = priceService.queryPriceByTimeAndLineName(DateUtil.parseDate(OutDate),LineName);
+        IncomeVo incomeVo = new IncomeVo();
+        incomeVo.setComeedCount(0);
+        incomeVo.setAdultNumber(0);
+        incomeVo.setChildNumber(0);
+        incomeVo.setBabyNumber(0);
+        incomeVo.setOldNumber(0);
+        incomeVo.setUnpaid(0);
+        incomeVo.setSumInCome(0.0);
+        Double sum = 0.0;
+        Double realsum = 0.0;
+        Map<String,String> list = new HashMap<String,String>();
+        for (InComeRemerberVo item:incomeRemerberVoList) {
+           incomeVo.setComeedCount(incomeVo.getComeedCount() + item.getAllNumber());
+           incomeVo.setAdultNumber(incomeVo.getAdultNumber()+item.getAdultNumber());
+           incomeVo.setBabyNumber(incomeVo.getBabyNumber()+item.getBabyNumber());
+           incomeVo.setOldNumber(incomeVo.getOldNumber() + item.getOldNumber());
+           incomeVo.setChildNumber(incomeVo.getChildNumber() + item.getChildNumber());
+           if(!item.getIsPayment()){
+               incomeVo.setUnpaid(incomeVo.getUnpaid()+1);
+           }else{
+               realsum = realsum + item.getOldNumber()*price.getOldPrice()+
+                       item.getBabyNumber()*price.getBabyPrice()+
+                       item.getAdultNumber()*price.getAdultPrice()+
+                       item.getChildNumber()*price.getChildPrice();
+           }
+           sum = sum + item.getOldNumber()*price.getOldPrice()+
+                   item.getBabyNumber()*price.getBabyPrice()+
+                   item.getAdultNumber()*price.getAdultPrice()+
+                   item.getChildNumber()*price.getChildPrice();
+           list.put(item.getContactTel(),item.getContactName());
+        }
+        incomeVo.setContactNames(list);
+        incomeVo.setSumInCome(sum);
+        incomeVo.setRealInCome(realsum);
+        return incomeVo;
+    }
+
+
+    /**
+     * 未付款人信息
+     * @param ContactTel
+     * @return
+     */
+    @Override
+    public UnpaidInformationVo unpaidInformation(String ContactTel, String LineName, String OutDate) {
+        return baseMapper.unpaidInformation(ContactTel,LineName,OutDate);
+    }
+
+
 }

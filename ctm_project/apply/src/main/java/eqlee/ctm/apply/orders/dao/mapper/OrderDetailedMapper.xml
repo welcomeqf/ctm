@@ -5,9 +5,9 @@
     <insert id="batchInsertorderDetailed" parameterType="eqlee.ctm.apply.orders.entity.OrderDetailed">
         <foreach collection="list" item="item" index="index">
             insert into OrderDetailed(Id,OrderId,ContactName,ContactTel,Place,AdultNumber,BabyNumber,
-            OldNumber,ChildNumber,AllNumber,Price) values(#{item.Id},#{item.OrderId},#{item.ContactName},
+            OldNumber,ChildNumber,AllNumber,Price,CreateUserId) values(#{item.Id},#{item.OrderId},#{item.ContactName},
             #{item.ContactTel},#{item.Place},#{item.AdultNumber},#{item.BabyNumber},#{item.OldNumber},#{item.ChildNumber},
-            #{item.AllNumber},#{item.Price})
+            #{item.AllNumber},#{item.Price},#{item.CreateUserId})
         </foreach>
     </insert>
 

@@ -13,6 +13,7 @@ import eqlee.ctm.apply.line.entity.Line;
 import eqlee.ctm.apply.line.entity.query.LinePageQuery;
 import eqlee.ctm.apply.line.entity.vo.LineVo;
 import eqlee.ctm.apply.line.service.ILineService;
+import eqlee.ctm.apply.price.entity.Price;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -165,4 +166,8 @@ public class LineServiceImpl extends ServiceImpl<LineMapper, Line> implements IL
     public Line queryOneLine(Long Id) {
         return baseMapper.selectById(Id);
     }
+
+
+
+
 }

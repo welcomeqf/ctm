@@ -53,6 +53,7 @@ public class PriceServiceImpl extends ServiceImpl<PriceMapper, Price> implements
     @Autowired
     private LocalUser localUser;
 
+
     /**
      * 根据出行日期查询价格
      *
@@ -271,5 +272,21 @@ public class PriceServiceImpl extends ServiceImpl<PriceMapper, Price> implements
         page.setSize(priceQuery.getSize());
         return baseMapper.slectPriceByFilter( page,priceQuery);
 
+    }
+
+
+
+    /**
+     * 根据日期和线路名查询价格
+     * @param Outdate
+     * @param LineName
+     * @return
+     */
+    @Override
+    public Price queryPriceByTimeAndLineName(LocalDate Outdate, String LineName) {
+        Line line = lineService.queryLineByName(LineName);
+        LambdaQueryWrapper<Price> queryWrapper = new LambdaQueryWrapper<Price>()
+                .eq(Price::getLineId,line.getId()).eq(Price::getOutDate,Outdate);
+        return baseMapper.selectOne(queryWrapper);
     }
 }

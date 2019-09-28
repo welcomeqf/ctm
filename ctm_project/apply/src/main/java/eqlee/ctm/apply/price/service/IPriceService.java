@@ -42,5 +42,21 @@ public interface IPriceService {
      */
     void batchUpdatePrice(PriceVo priceVo);
 
+
+    /**
+     * 根据出行时间或者线路名查看价格序列
+     *
+     * @param priceQuery
+     * @return
+     */
     Page<PriceVo> queryPricePageByFilter(PriceQuery priceQuery);
+
+
+    /**
+     * 根据日期和线路名查询价格
+     * @param Outdate
+     * @param LineName
+     * @return
+     */
+    Price queryPriceByTimeAndLineName(LocalDate Outdate,String LineName);
 }

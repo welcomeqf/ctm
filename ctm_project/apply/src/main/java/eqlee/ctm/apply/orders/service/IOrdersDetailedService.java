@@ -10,5 +10,12 @@ import java.util.List;
  * @Version 1.0
  */
 public interface IOrdersDetailedService {
+
+    /**
+     * 导游选人后生成订单
+     * @param orderDetailedList
+     */
     void batchInsertorderDetailed(List<OrderDetailed> orderDetailedList);
+
+
 }

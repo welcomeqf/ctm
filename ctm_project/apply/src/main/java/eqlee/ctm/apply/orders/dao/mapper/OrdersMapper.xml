@@ -5,10 +5,90 @@
     <insert id="batchInsertOrders" parameterType="eqlee.ctm.apply.orders.entity.Orders">
         <foreach collection="list" item="item" index="index">
             insert into Orders(Id,OrderNo,AccountName,OutDate,CompanyName,LineName,AllPrice,
-            Region) values(#{item.Id},#{item.OrderNo},#{item.AccountName},
-            #{item.OutDate},#{item.CompanyName},#{item.LineName},#{item.AllPrice},#{item.Region})
+            Region,GuideName,CreateUserId) values(#{item.Id},#{item.OrderNo},#{item.AccountName},
+            #{item.OutDate},#{item.CompanyName},#{item.LineName},#{item.AllPrice},#{item.Region},#{item.GuideName},
+            #{item.CreateUserId})
         </foreach>
     </insert>
+    <select id="selectOrdersByCreateUserId" resultType="eqlee.ctm.apply.orders.entity.Vo.OrderIndexVo">
+       select b.OrderNo,a.ContactName,a.Place,a.AdultNumber,a.BabyNumber,a.OldNumber,a.ChildNumber from OrderDetailed a
+       join Orders b on a.OrderId = b.Id where a.CreateUserId = #{CreateUserId} and convert(varchar,b.OutDate,120)=
+       #{OutDate} and b.LineName=#{LineName}
+    </select>
+    
+    <update id="updateOrderDetailed" parameterType="eqlee.ctm.apply.orders.entity.Vo.OrderIndexVo">
+        <foreach collection="list" item="item" index="index">
+            update Orders set Statu= 1,Remark = #{Id} where OrderNo = #{item.OrderNo}
+            update OrderDetailed set Statu= 1 where OrderId in (select Id from Orders where OrderNo = #{item.OrderNo})
+        </foreach>
+    </update>
 
+    <update id="updateOrdersCarNo">
+        update Orders set CarNumber=#{CarNumber} where LineName=#{LineName}
+        and convert(varchar,OutDate,120)=#{OutDate} and CreateUserId=#{Id}
+    </update>
 
-</mapper>                                     
+    <update id="updateOrdersOutsideCarNo">
+        update Orders set CarNumber=#{CarNumber},CarType=1 where LineName=#{LineName}
+        and convert(varchar,OutDate,120)=#{OutDate} and CreateUserId=#{Id}
+    </update>
+
+    <select id="isCompanyCar" parameterType="string" resultType="eqlee.ctm.apply.orders.entity.Vo.CarVo">
+        select * from Car where CarNo=#{CarNo}
+    </select>
+
+    <insert id="insertCar">
+        insert into Car(Id,CarNo,IsCompany,CreateUserId,Statu) values(#{Id},#{CarNumber},0 ,#{UserId},1)
+    </insert>
+
+    <select id="selectVisitor" resultType="eqlee.ctm.apply.orders.entity.Vo.VisitorInformation">
+        <bind name="contactName" value="'%' + ContactName + '%'"/>
+        select b.ContactName,b.ContactTel,b.Place from Orders a join OrderDetailed b on a.Id = b.OrderId
+        where a.OutDate=#{OutDate} and a.LineName = #{LineName} and b.ContactName like #{contactName}
+    </select>
+
+    <update id="updateOrdersInformation">
+        update Orders set GuideName=(select CName where Id =#{Id}),set CarType=#{CarType},set CarNumber=#{CarNumber},
+        set CreateUserId =#{CreateUserId},set Statu=0 where OutDate=#{OutDate} and LineName=${LineName} and GuideName=#{GuideName}
+        and Statu=1
+    </update>
+
+    <select id="waiteChangeIndex" resultType="eqlee.ctm.apply.orders.entity.Vo.ChangedVo">
+       select a.CreateUserId,b.ContactName,b.ContactTel,a.OutDate,a.GuideName,a.LineName from Orders a join OrderDetailed b on a.Id = b.OrderId
+       and a.Remark = #{Id}
+    </select>
+
+    <update id="sureChoised" parameterType="eqlee.ctm.apply.orders.entity.Vo.ChoisedVo">
+        <foreach collection="list" item="item" index="index">
+            update Orders set GuideName=(select CName from SystemUser where Id = #{item.updatedId}),CreateUserId =#{item.updatedId},
+            Statu=3 where Statu=1 and CreateUserId=#{item.Id} and OutDate=#{item.OutDate} and LineName =#{item.LineName}
+            update OrderDetailed set Statu=2 where Statu=1 and OrderId in (select Id from Orders where Statu=1
+            and CreateUserId=#{item.Id} and OutDate=#{item.OutDate} and LineName =#{item.LineName})
+        </foreach>
+    </update>
+
+    <update id="denyChoised" parameterType="eqlee.ctm.apply.orders.entity.Vo.ChoisedVo">
+        <foreach collection="list" item="item" index="index">
+            update Orders set Remark = null,Statu=2 where Statu=1 and CreateUserId=#{item.Id} and OutDate=#{item.OutDate} and LineName =#{item.LineName}
+            update OrderDetailed set Statu=2 where Statu=1 and OrderId in (select Id from Orders where Statu=1
+            and CreateUserId=#{item.Id} and OutDate=#{item.OutDate} and LineName =#{item.LineName})
+        </foreach>
+    </update>
+
+    <select id="denyChoisedindex" resultType="eqlee.ctm.apply.orders.entity.Vo.ChangedVo">
+       select a.CreateUserId,b.ContactName,b.ContactTel,a.OutDate,a.GuideName,a.LineName from Orders a join OrderDetailed b on a.Id = b.OrderId
+       and a.LineName=#{LineName} and a.OutDate=#{OutDate} and a.CreateUserId=#{CreateUserId} and a.Statu=2
+    </select>
+
+    <select id="selectIncomeCount" resultType="eqlee.ctm.apply.orders.entity.Vo.InComeRemerberVo">
+        select a.AdultNumber,a.BabyNumber,a.OldNumber,a.ChildNumber,a.IsPayment,a.ContactName,a.PayType,a.AllNumber,a.ContactTel from OrderDetailed a join Orders b on
+        a.OrderId = b.Id where b.OutDate=#{OutDate} and b.LineName=#{LineName} and b.CreateUserId=#{Id}
+    </select>
+
+    <select id="unpaidInformation" resultType="eqlee.ctm.apply.orders.entity.Vo.UnpaidInformationVo">
+        select a.ContactName,a.ContactTel,a.AllNumber,a.AdultNumber,a.BabyNumber,a.OldNumber,a.ChildNumber from OrderDetailed
+        from OrderDetailed a join Orders b on
+        a.OrderId = b.Id where b.OutDate=#{OutDate} and b.LineName=#{LineName} and a.ContactTel = #{ContactTel}
+    </select>
+</mapper>
+

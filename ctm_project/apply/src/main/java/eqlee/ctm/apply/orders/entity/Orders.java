@@ -1,6 +1,7 @@
 package eqlee.ctm.apply.orders.entity;
 
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.baomidou.mybatisplus.extension.activerecord.Model;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
@@ -17,7 +18,7 @@ import java.time.LocalDateTime;
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
 @TableName("Orders")
-public class Orders {
+public class Orders extends Model<Orders> {
     private Long Id;
 
     /**
@@ -81,7 +82,7 @@ public class Orders {
     private String CarNumber;
 
     /**
-     * 备注
+     * 备注(XX提交换人申请)被申请人的Id
      */
     private String Remark;
 
@@ -104,6 +105,12 @@ public class Orders {
      * 更新时间
      */
     private LocalDateTime UpdateDate;
+
+
+    /**
+     * 0-- 正常   1--换人申请
+     */
+    private Integer Statu;
 
 
 }
