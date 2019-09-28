@@ -77,7 +77,7 @@ public class CarController {
     @CrossOrigin
     @CheckToken
     public void addCar(@RequestBody CarVo carVo) {
-        if(StringUtils.isBlank(carVo.getCarNo())||StringUtils.isBlank(carVo.getStatu())
+        if(StringUtils.isBlank(carVo.getCarNo())||carVo.getStatu() == null
                 ||StringUtils.isBlank(carVo.getCarName())||StringUtils.isBlank(carVo.getRemark())){
             throw new ApplicationException(CodeType.PARAMETER_ERROR,"增加车辆信息为空");
         }
@@ -114,11 +114,10 @@ public class CarController {
     @CrossOrigin
     @CheckToken
     public void updateCar(@PathVariable("Id") Long Id,@RequestBody CarVo carVo) {
-        if(StringUtils.isBlank(carVo.getCarNo())||StringUtils.isBlank(carVo.getStatu())
+        if(StringUtils.isBlank(carVo.getCarNo())||carVo.getStatu() == null
            ||StringUtils.isBlank(carVo.getCarName())||StringUtils.isBlank(carVo.getRemark())
            ||Id == null){
-            log.error("update car param is null");
-            throw new ApplicationException(CodeType.PARAMETER_ERROR,"修改车辆信息为空");
+            throw new ApplicationException(CodeType.PARAMETER_ERROR);
         }
         carService.updateCar(carVo,Id);
     }

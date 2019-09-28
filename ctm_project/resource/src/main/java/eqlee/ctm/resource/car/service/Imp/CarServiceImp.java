@@ -48,9 +48,15 @@ public class CarServiceImp extends ServiceImpl<CarMapper, Car>implements ICarSer
         car.setCarName(carVo.getCarName());
         car.setCreateUserId(user.getId());
         car.setUpdateUserId(user.getId());
+        LambdaQueryWrapper<Car> queryWrapper = new LambdaQueryWrapper<Car>()
+                .eq(Car::getCarNo,carVo.getCarNo());
+        Car one = baseMapper.selectOne(queryWrapper);
+        if (one != null) {
+            throw new ApplicationException(CodeType.SERVICE_ERROR,"车牌号已被使用");
+        }
         car.setCarNo(carVo.getCarNo());
-        if(StringUtils.isNotBlank(carVo.getStatu())) {
-            car.setStatu(Integer.parseInt(carVo.getStatu()));
+        if(carVo.getStatu() != null) {
+            car.setStatu(carVo.getStatu());
         }
         int add = baseMapper.insert(car);
         if(add <= 0){
@@ -86,7 +92,7 @@ public class CarServiceImp extends ServiceImpl<CarMapper, Car>implements ICarSer
         car.setRemark(carVo.getRemark());
         car.setCarName(carVo.getCarName());
         car.setCarNo(carVo.getCarNo());
-        car.setStatu(Integer.parseInt(carVo.getStatu()));
+        car.setStatu(carVo.getStatu());
         int update = baseMapper.updateById(car);
         if(update <= 0){
             log.error("update car fail");

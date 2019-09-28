@@ -89,6 +89,7 @@ public class InFinanceServiceImpl extends ServiceImpl<InFinanceMapper, Income> i
         for (ContectUserVo contectUserVo : vo.getUnpaidList()) {
             ContectUserNumberVo vo1 = new ContectUserNumberVo();
             vo1.setId(idGenerator.getNumberId());
+            vo1.setNumberId(id);
             vo1.setAdultNumber(contectUserVo.getAdultNumber());
             vo1.setAllNumber(contectUserVo.getAllNumber());
             vo1.setAllPrice(contectUserVo.getAllPrice());
@@ -97,6 +98,8 @@ public class InFinanceServiceImpl extends ServiceImpl<InFinanceMapper, Income> i
             vo1.setContectUserName(contectUserVo.getContectUserName());
             vo1.setContectUserTel(contectUserVo.getContectUserTel());
             vo1.setOldNumber(contectUserVo.getOldNumber());
+            vo1.setCreateUserId(user.getId());
+            vo1.setUpdateUserId(user.getId());
             list.add(vo1);
         }
         numberDetailedService.insertAllNumberDetailed(list);
@@ -109,6 +112,7 @@ public class InFinanceServiceImpl extends ServiceImpl<InFinanceMapper, Income> i
         //代收费用（实收金额）
         income.setSubstitutionPrice(vo.getTrueMoney());
         income.setUpdateUserId(user.getId());
+        income.setNumberId(id);
         int insert = baseMapper.insert(income);
 
         if (insert<= 0) {
@@ -121,7 +125,7 @@ public class InFinanceServiceImpl extends ServiceImpl<InFinanceMapper, Income> i
         outcome.setId(idGenerator.getNumberId());
         outcome.setIncomeId(numberId);
         outcome.setCarNo(vo.getCarNo());
-        outcome.setAllOutPrice(null);
+        outcome.setAllOutPrice(vo.getAllOutPrice());
         outcome.setCreateUserId(user.getId());
         //司机补助
         outcome.setDriverSubsidy(vo.getDriverSubsidy());

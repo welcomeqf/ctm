@@ -4,10 +4,10 @@
 <mapper namespace="eqlee.ctm.finance.settlement.dao.NumberDetailedMapper">
 
     <insert id="insertNumberDetailed" parameterType="eqlee.ctm.finance.settlement.entity.vo.ContectUserNumberVo">
-        insert into NumberDetailed (Id,ContectUserName,ContectUserTel,AllNumber,AllPrice,BabyNumber,OldNumber,ChildNumber,AdultNumber)
+        insert into NumberDetailed (Id,NumberId,ContectUserName,ContectUserTel,AllNumber,AllPrice,BabyNumber,OldNumber,ChildNumber,AdultNumber,CreateUserId,UpdateUserId)
         <foreach collection="list" item="item" index="index" separator="union all">
-            select #{item.Id},#{item.ContectUserName},#{item.ContectUserTel},#{item.AllNumber},#{item.AllPrice},
-            #{item.BabyNumber},#{item.OldNumber},#{item.ChildNumber},#{item.AdultNumber}
+            select #{item.Id},#{item.NumberId},#{item.ContectUserName},#{item.ContectUserTel},#{item.AllNumber},#{item.AllPrice},
+            #{item.BabyNumber},#{item.OldNumber},#{item.ChildNumber},#{item.AdultNumber},#{item.CreateUserId},#{item.UpdateUserId}
         </foreach>
     </insert>
 

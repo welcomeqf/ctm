@@ -4,6 +4,7 @@ import com.yq.constanct.CodeType;
 import com.yq.utils.StringUtils;
 import eqlee.ctm.finance.exception.ApplicationException;
 import eqlee.ctm.finance.jwt.islogin.CheckToken;
+import eqlee.ctm.finance.settlement.entity.vo.ContectUserVo;
 import eqlee.ctm.finance.settlement.entity.vo.FinanceVo;
 import eqlee.ctm.finance.settlement.entity.vo.ResultVo;
 import eqlee.ctm.finance.settlement.service.IInFinanceService;
@@ -14,6 +15,9 @@ import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @Author qf
@@ -29,7 +33,7 @@ public class FinanceController {
     @Autowired
     private IInFinanceService inFinanceService;
 
-    @ApiOperation(value = "申请报名", notes = "申请报名")
+    @ApiOperation(value = "提交导游支出收入消费", notes = "提交导游支出收入消费")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "OutDate", value = "出行日期", required = true, dataType = "String", paramType = "path"),
             @ApiImplicitParam(name = "LineName", value = "线路名", required = true, dataType = "String", paramType = "path"),
@@ -70,5 +74,6 @@ public class FinanceController {
         resultVo.setResult("OK");
         return resultVo;
     }
+
 
 }

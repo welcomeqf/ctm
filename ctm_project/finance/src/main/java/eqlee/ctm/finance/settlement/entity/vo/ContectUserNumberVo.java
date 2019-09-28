@@ -2,6 +2,8 @@ package eqlee.ctm.finance.settlement.entity.vo;
 
 import lombok.Data;
 
+import java.time.LocalDateTime;
+
 /**
  * @Author qf
  * @Date 2019/9/27
@@ -11,6 +13,8 @@ import lombok.Data;
 public class ContectUserNumberVo {
 
     private Long Id;
+
+    private Long NumberId;
 
     private String ContectUserName;
 
@@ -39,4 +43,8 @@ public class ContectUserNumberVo {
      * 未付款代收成年人数
      */
     private Integer AdultNumber;
+
+    private Long CreateUserId;
+
+    private Long UpdateUserId;
 }

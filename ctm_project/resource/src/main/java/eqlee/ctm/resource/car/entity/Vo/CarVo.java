@@ -19,5 +19,5 @@ public class CarVo {
     private String Remark;
 
 
-    private String Statu;
+    private Integer Statu;
 }
