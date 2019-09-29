@@ -22,7 +22,7 @@ public class ApplyDoQuery {
     /**
      * 出行日期
      */
-    private LocalDate OutDate;
+    private String OutDate;
 
     /**
      * 线路名

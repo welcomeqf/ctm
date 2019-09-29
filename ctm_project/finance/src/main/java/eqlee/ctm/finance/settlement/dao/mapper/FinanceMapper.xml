@@ -10,7 +10,7 @@
 
 
     <select id="listExamine2Page" resultType="eqlee.ctm.finance.settlement.entity.query.ExamineResultQuery">
-        select a.GuideName,a.OutDate,a.LineName,c.Tel,(a.SettlementPrice - b.AllOutPrice) as 'InPrice',
+        select a.GuideName,convert(char(10),a.OutDate,120) as 'OutDate',a.LineName,c.Tel,(a.SettlementPrice - b.AllOutPrice) as 'InPrice',
         (a.SubstitutionPrice - b.AllOutPrice) as 'FinallyPrice',b.AllOutPrice from Income a join Outcome b
         on a.Id = b.IncomeId join SystemUser c on a.CreateUserId = c.Id
     </select>

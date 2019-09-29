@@ -14,7 +14,7 @@ public class ApplyQuery {
 
     private String LineName;
 
-    private LocalDate OutDate;
+    private String OutDate;
 
     /**
      * 成年价格

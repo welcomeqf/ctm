@@ -81,8 +81,8 @@ public class ApplyController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "current", value = "当前页", required = true, dataType = "int", paramType = "path"),
             @ApiImplicitParam(name = "size", value = "每页显示的条数", required = true, dataType = "int", paramType = "path"),
-            @ApiImplicitParam(name = "OutDate", value = "出发日期", required = true, dataType = "String", paramType = "path"),
-            @ApiImplicitParam(name = "LineNameOrRegion", value = "线路名称或区域", required = true, dataType = "String", paramType = "path")
+            @ApiImplicitParam(name = "OutDate", value = "出发日期", required = false, dataType = "String", paramType = "path"),
+            @ApiImplicitParam(name = "LineNameOrRegion", value = "线路名称或区域", required = false, dataType = "String", paramType = "path")
     })
     @GetMapping("/listPageApply")
     @CrossOrigin

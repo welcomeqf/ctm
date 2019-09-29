@@ -4,7 +4,7 @@
 <mapper namespace="eqlee.ctm.apply.guider.dao.GuiderMapper">
     <select id ="guiderIndex" resultType="eqlee.ctm.apply.guider.entity.vo.GuiderVo">
         <bind name="OutDateTime" value="'%' + outDate + '%'"/>
-        select a.Id,a.LineName,b.OutDate,b.AdultPrice,b.OldPrice,b.BabyPrice,b.ChildPrice,c.AllNumber AppliedNumber,
+        select a.Id,a.LineName,convert(char(10),a.OutDate,120) as 'OutDate',b.AdultPrice,b.OldPrice,b.BabyPrice,b.ChildPrice,c.AllNumber AppliedNumber,
          e.AllNumber ChooisedNumber,c.AllNumber-e.AllNumber WaitedPeople
         from Line a join Price b on a.Id = b.LineId join Apply c on a.Id = c.LineId join orders d on a.LineName = d.LineName
         join OrderDetailed e on d.Id = e.OrderId

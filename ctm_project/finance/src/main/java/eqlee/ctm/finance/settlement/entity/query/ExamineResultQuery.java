@@ -20,7 +20,7 @@ public class ExamineResultQuery {
     /**
      * 出发日期
      */
-    private LocalDate OutDate;
+    private String OutDate;
 
     /**
      * 线路名
