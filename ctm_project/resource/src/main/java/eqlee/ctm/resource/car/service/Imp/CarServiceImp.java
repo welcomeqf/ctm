@@ -28,9 +28,9 @@ import java.util.List;
  * @Version 1.0
  */
 @Slf4j
-@Service
 @Transactional(rollbackFor = Exception.class)
-public class CarServiceImp extends ServiceImpl<CarMapper, Car>implements ICarService {
+@Service
+public class CarServiceImp extends ServiceImpl<CarMapper, Car> implements ICarService {
 
     @Autowired
     private LocalUser localUser;

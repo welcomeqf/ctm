@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.yq.IBaseMapper.IBaseMapper;
 import eqlee.ctm.apply.price.entity.Price;
 import eqlee.ctm.apply.price.entity.query.PriceQuery;
+import eqlee.ctm.apply.price.entity.vo.PriceSelectVo;
 import eqlee.ctm.apply.price.entity.vo.PriceVo;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Component;
@@ -37,8 +38,8 @@ public interface PriceMapper extends IBaseMapper<Price> {
      * @param priceQuery
      * @return
      */
-    Page<PriceVo> slectPriceByFilter(@Param("page") Page<PriceVo> page,
-                                     @Param("priceQuery") PriceQuery priceQuery);
+    Page<PriceSelectVo> selectPriceByFilter(@Param("page") Page<PriceVo> page,
+                                            @Param("priceQuery") PriceQuery priceQuery);
 
 
 }

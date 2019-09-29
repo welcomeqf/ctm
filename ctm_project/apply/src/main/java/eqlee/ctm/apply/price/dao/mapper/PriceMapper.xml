@@ -20,7 +20,7 @@
     </update>
 
 
-    <select id="slectPriceByFilter" parameterType="eqlee.ctm.apply.price.entity.query.PriceQuery" resultType="eqlee.ctm.apply.price.entity.vo.PriceVo" >
+    <select id="selectPriceByFilter" parameterType="eqlee.ctm.apply.price.entity.query.PriceQuery" resultType="eqlee.ctm.apply.price.entity.vo.PriceSelectVo" >
         <bind name="_OutDate" value="'%' + priceQuery.OutDate + '%'"/>
         <bind name="_LineName" value="'%' + priceQuery.LineName + '%'"/>
         select b.LineName,a.OutDate,a.AdultPrice,a.OldPrice,a.BabyPrice,a.ChildPrice from Price a,Line b

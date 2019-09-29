@@ -7,6 +7,7 @@ import eqlee.ctm.apply.exception.ApplicationException;
 import eqlee.ctm.apply.jwt.islogin.CheckToken;
 import eqlee.ctm.apply.line.entity.vo.ResultVo;
 import eqlee.ctm.apply.price.entity.query.PriceQuery;
+import eqlee.ctm.apply.price.entity.vo.PriceSelectVo;
 import eqlee.ctm.apply.price.entity.vo.PriceVo;
 import eqlee.ctm.apply.price.service.IPriceService;
 import io.swagger.annotations.Api;
@@ -101,10 +102,10 @@ public class PriceController {
     @GetMapping("/queryPricePageByFilter")
     @CrossOrigin
     @CheckToken
-    public Page<PriceVo> queryPricePageByFilter(@RequestParam("OutDate") String OutDate,
-                                                @RequestParam("LineName") String LineName,
-                                                @RequestParam("size") Integer size,
-                                                @RequestParam("current") Integer current) {
+    public Page<PriceSelectVo> queryPricePageByFilter(@RequestParam("OutDate") String OutDate,
+                                                      @RequestParam("LineName") String LineName,
+                                                      @RequestParam("size") Integer size,
+                                                      @RequestParam("current") Integer current) {
         PriceQuery priceQuery =new PriceQuery();
         priceQuery.setOutDate(OutDate);
         priceQuery.setLineName(LineName);

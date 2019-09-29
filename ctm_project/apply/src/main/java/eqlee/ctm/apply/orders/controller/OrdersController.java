@@ -210,11 +210,7 @@ public class OrdersController {
     @PutMapping("/sureChoised")
     @CrossOrigin
     @CheckToken
-<<<<<<< Updated upstream
     public ResultVo sureChoised(@RequestBody List<ChoisedVo> choisedList){
-=======
-    public ResultVo sureChoised(@RequestBody List<ChoisedVo> choisedList ){
->>>>>>> Stashed changes
         if(choisedList.size() == 0){
             throw new ApplicationException(CodeType.PARAM_ERROR,"参数不能为空");
         }

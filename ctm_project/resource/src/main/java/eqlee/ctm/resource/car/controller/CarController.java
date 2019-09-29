@@ -54,7 +54,7 @@ public class CarController {
 
 
     @ApiOperation(value = "车辆删除",notes = "车辆删除")
-    @DeleteMapping("/{Id}")
+    @DeleteMapping("/delete/{Id}")
     @ApiImplicitParam(name = "Id",value = "车辆Id",required = true,dataType = "Long",paramType = "path")
     @CrossOrigin
     @CheckToken
@@ -78,11 +78,7 @@ public class CarController {
     })
     @CrossOrigin
     @CheckToken
-<<<<<<< Updated upstream
     public void addCar(@RequestBody CarVo carVo) {
-=======
-    public void addCar(CarVo carVo) {
->>>>>>> Stashed changes
         if(StringUtils.isBlank(carVo.getCarNo()) ||StringUtils.isBlank(carVo.getCarName())){
             throw new ApplicationException(CodeType.PARAMETER_ERROR,"增加车辆信息为空");
         }
@@ -119,11 +115,7 @@ public class CarController {
     })
     @CrossOrigin
     @CheckToken
-<<<<<<< Updated upstream
     public void updateCar(@PathVariable("Id") Long Id, @RequestBody CarUpdateVo carUpdateVo) {
-=======
-    public void updateCar(@PathVariable("Id") Long Id,CarUpdateVo carUpdateVo) {
->>>>>>> Stashed changes
         if(StringUtils.isBlank(carUpdateVo.getCarNo()) ||StringUtils.isBlank(carUpdateVo.getCarName())||Id == null){
             throw new ApplicationException(CodeType.PARAMETER_ERROR);
         }

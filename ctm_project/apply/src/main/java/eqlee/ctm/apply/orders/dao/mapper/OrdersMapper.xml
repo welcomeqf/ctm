@@ -77,7 +77,7 @@
     </update>
 
     <select id="denyChoisedindex" resultType="eqlee.ctm.apply.orders.entity.Vo.ChangedVo">
-       select a.CreateUserId,b.ContactName,b.ContactTel,a.OutDate,a.GuideName,a.LineName from Orders a join OrderDetailed b on a.Id = b.OrderId
+       select a.CreateUserId,b.ContactName,b.ContactTel,convert(varchar,a.OutDate,120) as OutDate, a.GuideName,a.LineName from Orders a join OrderDetailed b on a.Id = b.OrderId
        and a.LineName=#{LineName} and a.OutDate=#{OutDate} and a.CreateUserId=#{Id} and a.Statu=2
     </select>
 

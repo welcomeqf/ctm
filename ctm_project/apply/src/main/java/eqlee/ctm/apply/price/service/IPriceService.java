@@ -3,6 +3,7 @@ package eqlee.ctm.apply.price.service;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import eqlee.ctm.apply.price.entity.Price;
 import eqlee.ctm.apply.price.entity.query.PriceQuery;
+import eqlee.ctm.apply.price.entity.vo.PriceSelectVo;
 import eqlee.ctm.apply.price.entity.vo.PriceVo;
 
 import java.time.LocalDateTime;
@@ -44,12 +45,12 @@ public interface IPriceService {
 
 
     /**
-     * 根据出行时间或者线路名查看价格序列
+     * 根据出行时间或者线路名查看价格序列(模糊查询)
      *
      * @param priceQuery
      * @return
      */
-    Page<PriceVo> queryPricePageByFilter(PriceQuery priceQuery);
+    Page<PriceSelectVo> queryPricePageByFilter(PriceQuery priceQuery);
 
 
     /**

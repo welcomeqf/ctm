@@ -18,6 +18,7 @@ import eqlee.ctm.apply.line.service.ILineService;
 import eqlee.ctm.apply.price.dao.PriceMapper;
 import eqlee.ctm.apply.price.entity.Price;
 import eqlee.ctm.apply.price.entity.query.PriceQuery;
+import eqlee.ctm.apply.price.entity.vo.PriceSelectVo;
 import eqlee.ctm.apply.price.entity.vo.PriceVo;
 import eqlee.ctm.apply.price.service.IPriceService;
 import lombok.extern.slf4j.Slf4j;
@@ -266,11 +267,11 @@ public class PriceServiceImpl extends ServiceImpl<PriceMapper, Price> implements
      * @return
      */
     @Override
-    public Page<PriceVo> queryPricePageByFilter(PriceQuery priceQuery) {
+    public Page<PriceSelectVo> queryPricePageByFilter(PriceQuery priceQuery) {
         Page<PriceVo> page =new Page<PriceVo>();
         page.setCurrent(priceQuery.getCurrent());
         page.setSize(priceQuery.getSize());
-        return baseMapper.slectPriceByFilter( page,priceQuery);
+        return baseMapper.selectPriceByFilter( page,priceQuery);
 
     }
 

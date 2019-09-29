@@ -25,7 +25,7 @@ public class ChangedVo {
     /**
      * 出行时间
      */
-    private LocalDate OutDate;
+    private String OutDate;
 
     /**
      * 联系电话
