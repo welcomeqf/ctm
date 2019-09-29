@@ -78,7 +78,11 @@ public class CarController {
     })
     @CrossOrigin
     @CheckToken
+<<<<<<< Updated upstream
     public void addCar(@RequestBody CarVo carVo) {
+=======
+    public void addCar(CarVo carVo) {
+>>>>>>> Stashed changes
         if(StringUtils.isBlank(carVo.getCarNo()) ||StringUtils.isBlank(carVo.getCarName())){
             throw new ApplicationException(CodeType.PARAMETER_ERROR,"增加车辆信息为空");
         }
@@ -115,7 +119,11 @@ public class CarController {
     })
     @CrossOrigin
     @CheckToken
+<<<<<<< Updated upstream
     public void updateCar(@PathVariable("Id") Long Id, @RequestBody CarUpdateVo carUpdateVo) {
+=======
+    public void updateCar(@PathVariable("Id") Long Id,CarUpdateVo carUpdateVo) {
+>>>>>>> Stashed changes
         if(StringUtils.isBlank(carUpdateVo.getCarNo()) ||StringUtils.isBlank(carUpdateVo.getCarName())||Id == null){
             throw new ApplicationException(CodeType.PARAMETER_ERROR);
         }

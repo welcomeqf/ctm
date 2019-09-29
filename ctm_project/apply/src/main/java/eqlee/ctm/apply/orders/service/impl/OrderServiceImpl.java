@@ -212,6 +212,7 @@ public class OrderServiceImpl extends ServiceImpl<OrdersMapper, Orders> implemen
     @Override
     public void sureChoised(List<ChoisedVo> choisedList) {
         UserLoginQuery user = localUser.getUser("用户信息");
+        log.info(String.valueOf(user.getId()));
         for (ChoisedVo choisedVo:choisedList) {
             choisedVo.setUpdatedId(String.valueOf(user.getId()));
         }

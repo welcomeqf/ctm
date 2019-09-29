@@ -61,11 +61,12 @@
     <update id="sureChoised" parameterType="eqlee.ctm.apply.orders.entity.Vo.ChoisedVo">
         <foreach collection="list" item="item" index="index">
             update Orders set GuideName=(select CName from SystemUser where Id = #{item.updatedId}),CreateUserId =#{item.updatedId},
-            Statu=3 where Statu=1 and CreateUserId=#{item.Id} and convert(varchar,OutDate,120)=#{item.OutDate} and LineName =#{item.LineName}
+            Statu=3 where Statu=1 and CreateUserId=#{item.Id} and OutDate=#{item.OutDate} and LineName =#{item.LineName}
             update OrderDetailed set Statu=2 where Statu=1 and OrderId in (select Id from Orders where Statu=1
-            and CreateUserId=#{item.Id} and convert(varchar,OutDate,120)=#{item.OutDate} and LineName =#{item.LineName})
+            and CreateUserId=#{item.Id} and OutDate=#{item.OutDate} and LineName =#{item.LineName})
         </foreach>
     </update>
+
 
     <update id="denyChoised" parameterType="eqlee.ctm.apply.orders.entity.Vo.ChoisedVo">
         <foreach collection="list" item="item" index="index">
@@ -77,7 +78,7 @@
 
     <select id="denyChoisedindex" resultType="eqlee.ctm.apply.orders.entity.Vo.ChangedVo">
        select a.CreateUserId,b.ContactName,b.ContactTel,a.OutDate,a.GuideName,a.LineName from Orders a join OrderDetailed b on a.Id = b.OrderId
-       and a.LineName=#{LineName} and a.OutDate=#{OutDate} and a.CreateUserId=#{CreateUserId} and a.Statu=2
+       and a.LineName=#{LineName} and a.OutDate=#{OutDate} and a.CreateUserId=#{Id} and a.Statu=2
     </select>
 
     <select id="selectIncomeCount" resultType="eqlee.ctm.apply.orders.entity.Vo.InComeRemerberVo">
@@ -86,7 +87,7 @@
     </select>
 
     <select id="unpaidInformation" resultType="eqlee.ctm.apply.orders.entity.Vo.UnpaidInformationVo">
-        select a.ContactName,a.ContactTel,a.AllNumber,a.AdultNumber,a.BabyNumber,a.OldNumber,a.ChildNumber from OrderDetailed
+        select a.ContactName,a.ContactTel,a.AllNumber,a.AdultNumber,a.BabyNumber,a.OldNumber,a.ChildNumber
         from OrderDetailed a join Orders b on
         a.OrderId = b.Id where b.OutDate=#{OutDate} and b.LineName=#{LineName} and a.ContactTel = #{ContactTel}
     </select>
