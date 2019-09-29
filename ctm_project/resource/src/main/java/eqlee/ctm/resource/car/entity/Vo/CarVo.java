@@ -21,4 +21,6 @@ public class CarVo {
 
     private Integer statu;
 
+    private Boolean isStop;
+
 }

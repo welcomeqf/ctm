@@ -74,7 +74,8 @@ public class CarController {
             @ApiImplicitParam(name = "carName", value = "车辆名", required = true, dataType = "String", paramType = "path"),
             @ApiImplicitParam(name = "carNo", value = "车牌号", required = true, dataType = "String", paramType = "path"),
             @ApiImplicitParam(name = "statu", value = "状态", required = true, dataType = "String", paramType = "path"),
-            @ApiImplicitParam(name = "remark", value = "备注", required = true, dataType = "String", paramType = "path")
+            @ApiImplicitParam(name = "remark", value = "备注", required = true, dataType = "String", paramType = "path"),
+            @ApiImplicitParam(name = "isStop", value = "是否停用", required = true, dataType = "Boolean", paramType = "path")
     })
     @CrossOrigin
     @CheckToken
@@ -104,7 +105,7 @@ public class CarController {
 
 
     @ApiOperation(value = "车辆修改",notes = "车辆修改")
-    @PutMapping("/updateCar/{Id}")
+    @PostMapping("/updateCar")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "Id", value = "车辆Id", required = true, dataType = "Long", paramType = "path"),
             @ApiImplicitParam(name = "carName", value = "车辆名", required = true, dataType = "String", paramType = "path"),
@@ -115,11 +116,11 @@ public class CarController {
     })
     @CrossOrigin
     @CheckToken
-    public void updateCar(@PathVariable("Id") Long Id, @RequestBody CarUpdateVo carUpdateVo) {
-        if(StringUtils.isBlank(carUpdateVo.getCarNo()) ||StringUtils.isBlank(carUpdateVo.getCarName())||Id == null){
+    public void updateCar(@RequestBody CarUpdateVo carUpdateVo) {
+        if(StringUtils.isBlank(carUpdateVo.getCarNo()) ||StringUtils.isBlank(carUpdateVo.getCarName())||carUpdateVo.getId() == null){
             throw new ApplicationException(CodeType.PARAMETER_ERROR);
         }
-        carService.updateCar(carUpdateVo,Id);
+        carService.updateCar(carUpdateVo,carUpdateVo.getId());
     }
 
 

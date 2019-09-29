@@ -11,6 +11,8 @@ import lombok.Data;
 public class UserUpdateVo {
 
 
+    private Long id;
+
     /**
      * 中文名
      */

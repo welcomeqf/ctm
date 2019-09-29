@@ -1,13 +1,11 @@
 
-ssquid:UselessImportCheck"HRemove this unused import 'org.omg.CORBA.portable.ApplicationException'.(ÓŸë¹8Ù’¼¶×-
+squid:S1186Z"€Add a nested comment explaining why this method is empty, throw an UnsupportedOperationException or complete the implementation.(ÌÒ³•øÿÿÿÿ
 fsquid:UselessImportCheck"6Remove this unused import 'com.yq.constanct.CodeType'.(›Å·¢úÿÿÿÿ8Ù’¼¶×-
-esquid:S00112R"FDefine and throw a dedicated exception instead of using a generic one.(É´†œ8ÔÉŞ‚×-
-\squid:S3516#"9Refactor this method to not always return the same value.(É—ˆ¤üÿÿÿÿ8Ù’¼¶×-
-nsquid:S3776#"RRefactor this method to reduce its Cognitive Complexity from 16 to the 15 allowed.(É—ˆ¤üÿÿÿÿ
-dsquid:S00112M"FDefine and throw a dedicated exception instead of using a generic one.(È¦›(8Ù’¼¶×-
-˜squid:S1186`"€Add a nested comment explaining why this method is empty, throw an UnsupportedOperationException or complete the implementation.(ÆŒ‰Ò
-O
-squid:S106'"9Replace this use of System.out or System.err by a logger.(ñšÔ
-squid:S1186["€Add a nested comment explaining why this method is empty, throw an UnsupportedOperationException or complete the implementation.(ÌÒ³•øÿÿÿÿ
-esquid:S00112="FDefine and throw a dedicated exception instead of using a generic one.(ÀŒ–É8‚Ââ‚×-
 wsquid:S00120"ZRename this package name to match the regular expression '^[a-z_]+(\.[a-z_][a-z0-9_]*)*$'.(ƒŒ ¦şÿÿÿÿ
+nsquid:S3776#"RRefactor this method to reduce its Cognitive Complexity from 16 to the 15 allowed.(É—ˆ¤üÿÿÿÿ
+esquid:S00112Q"FDefine and throw a dedicated exception instead of using a generic one.(É´†œ8ÔÉŞ‚×-
+˜squid:S1186_"€Add a nested comment explaining why this method is empty, throw an UnsupportedOperationException or complete the implementation.(ÆŒ‰Ò
+esquid:S00112<"FDefine and throw a dedicated exception instead of using a generic one.(ÀŒ–É8‚Ââ‚×-
+dsquid:S00112L"FDefine and throw a dedicated exception instead of using a generic one.(È¦›(8Ù’¼¶×-
+ssquid:UselessImportCheck"HRemove this unused import 'org.omg.CORBA.portable.ApplicationException'.(ÓŸë¹8Ù’¼¶×-
+\squid:S3516#"9Refactor this method to not always return the same value.(É—ˆ¤üÿÿÿÿ8Ù’¼¶×-

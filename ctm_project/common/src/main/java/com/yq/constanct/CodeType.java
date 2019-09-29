@@ -13,6 +13,11 @@ public enum CodeType {
     SUCCESS(0, "操作成功", 200),
 
     /**
+     * 用户名重复
+     */
+    SUCC_ERROR(1,"名字重复",200),
+
+    /**
      * 未知错误
      */
     UNKNOWN_ERROR(999, "未知错误", 500),
@@ -53,6 +58,11 @@ public enum CodeType {
      * 参数错误
      */
     PARAM_ERROR(1008,"参数错误",500),
+
+    /**
+     * token过期
+     */
+    OVENDU_ERROR(1010,"token过期",401),
     /**
      * 数据库操作失败
      */

@@ -9,6 +9,8 @@ import lombok.Data;
  */
 @Data
 public class CarUpdateVo {
+    private Long id;
+
     private String carNo;
 
     private String carName;

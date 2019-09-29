@@ -81,9 +81,9 @@ public class LineApiController {
             @ApiImplicitParam(name = "minNumber", value = "最小人数", required = true, dataType = "int", paramType = "path"),
             @ApiImplicitParam(name = "remark", value = "备注", required = true, dataType = "String", paramType = "path")
     })
-    @PutMapping("/updateLine/{Id}")
+    @PostMapping("/updateLine")
     @CrossOrigin
-    public Object updateLine(@PathVariable("Id") Line line) throws Exception{
+    public Object updateLine(Line line) throws Exception{
         String url = "http://" + Ip +":" + port + "/" +path + "/v1/app/apply/line/updateLine";
 
         String s = JSONObject.toJSONString(line);
@@ -119,7 +119,7 @@ public class LineApiController {
 
     @ApiOperation(value = "停用线路", notes = "停用线路")
     @ApiImplicitParam(name = "Id", value = "Id", required = true, dataType = "String", paramType = "path")
-    @PutMapping("/stopLine/{Id}")
+    @GetMapping("/stopLine/{Id}")
     @CrossOrigin
     public Object stopLine(@PathVariable("Id") Long Id) throws Exception{
         String url = "http://" + Ip +":" + port + "/" +path + "/v1/app/apply/line/stopLine?Id=" + Id;
@@ -134,7 +134,7 @@ public class LineApiController {
 
     @ApiOperation(value = "启用线路", notes = "启用线路")
     @ApiImplicitParam(name = "Id", value = "Id", required = true, dataType = "String", paramType = "path")
-    @PutMapping("/startLine/{Id}")
+    @GetMapping("/startLine/{Id}")
     @CrossOrigin
     public Object startLine(@PathVariable("Id") Long Id) throws Exception{
         String url = "http://" + Ip +":" + port + "/" +path + "/v1/app/apply/line/startLine?Id=" + Id;

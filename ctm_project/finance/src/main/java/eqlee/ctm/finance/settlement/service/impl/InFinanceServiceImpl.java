@@ -13,9 +13,12 @@ import eqlee.ctm.finance.settlement.entity.Income;
 import eqlee.ctm.finance.settlement.entity.Number;
 import eqlee.ctm.finance.settlement.entity.NumberDetailed;
 import eqlee.ctm.finance.settlement.entity.Outcome;
+import eqlee.ctm.finance.settlement.entity.query.ExamineContectQuery;
+import eqlee.ctm.finance.settlement.entity.query.ExamineDetailedQuery;
 import eqlee.ctm.finance.settlement.entity.query.ExamineResultQuery;
 import eqlee.ctm.finance.settlement.entity.vo.ContectUserNumberVo;
 import eqlee.ctm.finance.settlement.entity.vo.ContectUserVo;
+import eqlee.ctm.finance.settlement.entity.vo.ExamineResultVo;
 import eqlee.ctm.finance.settlement.entity.vo.FinanceVo;
 import eqlee.ctm.finance.settlement.service.IInFinanceService;
 import eqlee.ctm.finance.settlement.service.INumberDetailedService;
@@ -155,5 +158,67 @@ public class InFinanceServiceImpl extends ServiceImpl<InFinanceMapper, Income> i
     @Override
     public Page<ExamineResultQuery> listExamine2Page(Page<ExamineResultQuery> page) {
         return baseMapper.listExamine2Page(page);
+    }
+
+    /**
+     * 展示该导游的审核详情信息
+     * @param Id
+     * @return
+     */
+    @Override
+    public ExamineDetailedQuery queryExamineDetailed(Long Id) {
+        List<ExamineResultVo> voList = baseMapper.listExamineDetailed(Id);
+        //重新装配数据返回
+        ExamineDetailedQuery query = new ExamineDetailedQuery();
+        List<ExamineContectQuery> queryList = new ArrayList<>();
+        Integer allNoNumber = 0;
+        Double allNoPrice = 0.0;
+        for (ExamineResultVo vo : voList) {
+            ExamineContectQuery contectQuery = new ExamineContectQuery();
+            //装配联系人
+            contectQuery.setAdultNumber(vo.getAdultNumber());
+            contectQuery.setAllNumber(vo.getAllNumber());
+            contectQuery.setAllPrice(vo.getAllPrice());
+            contectQuery.setBabyNumber(vo.getBabyNumber());
+            contectQuery.setChildNumber(vo.getChildNumber());
+            contectQuery.setContectUserName(vo.getContectUserName());
+            contectQuery.setContectUserTel(vo.getContectUserTel());
+            contectQuery.setOldNumber(vo.getOldNumber());
+            queryList.add(contectQuery);
+
+            //装配审核详情结果类
+            query.setAllDoNumber(vo.getAllDoNumber());
+            query.setAllOutPrice(vo.getAllOutPrice());
+            query.setCarNo(vo.getCarNo());
+            query.setDriverSubsidy(vo.getDriverSubsidy());
+            query.setFinallyPrice(vo.getFinallyPrice());
+            query.setGuideName(vo.getGuideName());
+            query.setGuideSubsidy(vo.getGuideSubsidy());
+            query.setInPrice(vo.getInPrice());
+            query.setLineName(vo.getLineName());
+            query.setLunchPrice(vo.getLunchPrice());
+            query.setOutDate(vo.getOutDate());
+            query.setParkingRatePrice(vo.getParkingRatePrice());
+            query.setRentCarPrice(vo.getRentCarPrice());
+            query.setSettlementPrice(vo.getSettlementPrice());
+            query.setSubstitutionPrice(vo.getSubstitutionPrice());
+            query.setTicketName(vo.getTicketName());
+            query.setTicketPrice(vo.getTicketPrice());
+            query.setTreeAdultNumber(vo.getTreeAdultNumber());
+            query.setTreeBabyNumber(vo.getTreeBabyNumber());
+            query.setTreeChildNumber(vo.getTreeChildNumber());
+            query.setTreeOldNumber(vo.getTreeOldNumber());
+            query.setTrueAllNumber(vo.getTrueAllNumber());
+            query.setUnpaidNumber(vo.getUnpaidNumber());
+
+            allNoNumber =allNoNumber + vo.getAllNumber();
+            allNoPrice = allNoPrice + vo.getAllPrice();
+        }
+
+        query.setQueryList(queryList);
+        query.setAllNoNumber(allNoNumber);
+        query.setAllNoPrice(allNoPrice);
+
+        return query;
     }
 }

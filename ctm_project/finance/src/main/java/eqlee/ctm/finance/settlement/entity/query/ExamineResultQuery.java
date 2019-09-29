@@ -12,6 +12,8 @@ import java.time.LocalDate;
 @Data
 public class ExamineResultQuery {
 
+
+    private Long Id;
     /**
      * 导游名字
      */

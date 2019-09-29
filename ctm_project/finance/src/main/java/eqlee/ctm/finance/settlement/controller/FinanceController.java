@@ -5,6 +5,7 @@ import com.yq.constanct.CodeType;
 import com.yq.utils.StringUtils;
 import eqlee.ctm.finance.exception.ApplicationException;
 import eqlee.ctm.finance.jwt.islogin.CheckToken;
+import eqlee.ctm.finance.settlement.entity.query.ExamineDetailedQuery;
 import eqlee.ctm.finance.settlement.entity.query.ExamineResultQuery;
 import eqlee.ctm.finance.settlement.entity.vo.ContectUserVo;
 import eqlee.ctm.finance.settlement.entity.vo.FinanceVo;
@@ -103,5 +104,21 @@ public class FinanceController {
         Page<ExamineResultQuery> page = new Page<>(current,size);
 
         return inFinanceService.listExamine2Page(page);
+    }
+
+
+    @ApiOperation(value = "展示该导游的审核详情", notes = "展示该导游的审核详情")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "Id", value = "Id", required = true, dataType = "Long", paramType = "path")
+    })
+    @GetMapping("/listExamineDetailed")
+    @CrossOrigin
+    @CheckToken
+    public ExamineDetailedQuery listExamineDetailed (@RequestParam("Id") Long Id) {
+        if (Id == null) {
+            throw new ApplicationException(CodeType.PARAM_ERROR);
+        }
+
+        return inFinanceService.queryExamineDetailed(Id);
     }
 }

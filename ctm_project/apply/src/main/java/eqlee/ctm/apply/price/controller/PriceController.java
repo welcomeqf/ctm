@@ -75,7 +75,7 @@ public class PriceController {
             @ApiImplicitParam(name = "babyPrice", value = "幼儿价格", required = true, dataType = "double", paramType = "path"),
             @ApiImplicitParam(name = "childPrice", value = "小孩价格", required = true, dataType = "double", paramType = "path"),
     })
-    @PutMapping("/batchUpdatePrice")
+    @PostMapping("/batchUpdatePrice")
     @CrossOrigin
     @CheckToken
     public ResultVo batchUpdatePrice(@RequestBody PriceVo priceVo) {

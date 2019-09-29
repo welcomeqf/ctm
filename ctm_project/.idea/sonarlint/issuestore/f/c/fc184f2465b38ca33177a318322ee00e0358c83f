@@ -1,11 +1,12 @@
 
-esquid:S00116"MRename this field "Id" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(´ÕÛ”
-psquid:S00116"SRename this field "LineName" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ğ¬ñúÿÿÿÿ
-osquid:S00116"RRename this field "OutDate" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(Ç“‹ÿÿÿÿÿ
-msquid:S00116"URename this field "AdultPrice" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(£³ËÛ
-ksquid:S00116"SRename this field "OldPrice" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(éşè¿
 lsquid:S00116"TRename this field "BabyPrice" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(Ş¯Ş÷
-rsquid:S00116"URename this field "ChildPrice" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(¼š…ıÿÿÿÿ
-psquid:S00116 "XRename this field "AppliedNumber" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.( ÄÅ¬
-qsquid:S00116&"YRename this field "ChooisedNumber" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(»øßÈ
 tsquid:S00116+"WRename this field "WaitedPeople" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ÕÖ«ÿÿÿÿÿ
+jsquid:S00116"RRename this field "OutDate" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ƒ©¯î
+qsquid:S00116&"YRename this field "ChooisedNumber" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(»øßÈ
+esquid:S00116"MRename this field "Id" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(´ÕÛ”
+msquid:S00116"URename this field "AdultPrice" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(£³ËÛ
+rsquid:S00116"URename this field "ChildPrice" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(¼š…ıÿÿÿÿ
+psquid:S00116"SRename this field "LineName" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ğ¬ñúÿÿÿÿ
+psquid:S00116 "XRename this field "AppliedNumber" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.( ÄÅ¬
+ksquid:S00116"SRename this field "OldPrice" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(éşè¿
+`squid:UselessImportCheck"0Remove this unused import 'java.time.LocalDate'.(›‘¬èıÿÿÿÿ8¹ºñÖ×-

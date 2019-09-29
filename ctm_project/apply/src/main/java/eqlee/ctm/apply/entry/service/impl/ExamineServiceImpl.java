@@ -39,7 +39,7 @@ public class ExamineServiceImpl extends ServiceImpl<ExamineMapper, Examine> impl
     IdGenerator idGenerator = new IdGenerator();
 
     /**
-     * 增加一条取消报名表的审核记录
+     * 提交取消报名表的审核
      * @param ApplyId
      */
     @Override
@@ -59,7 +59,7 @@ public class ExamineServiceImpl extends ServiceImpl<ExamineMapper, Examine> impl
     }
 
     /**
-     * 增加一条修改报名表的审核记录
+     * 提交修改报名表的审核
      * @param examineVo
      */
     @Override
@@ -90,20 +90,8 @@ public class ExamineServiceImpl extends ServiceImpl<ExamineMapper, Examine> impl
      */
     @Override
     public void AdoptCancelExamine(Long ApplyId) {
-        Examine examine = new Examine();
-        LambdaQueryWrapper<Examine> queryWrapper = new LambdaQueryWrapper<Examine>()
-                .eq(Examine::getApplyId,ApplyId);
-        examine.setExamineResult(1);
-        UserLoginQuery user = localUser.getUser("用户信息");
-        examine.setUpdateUserId(user.getId());
-        int update = baseMapper.update(examine, queryWrapper);
 
-        if (update <= 0) {
-            log.error("cancel apply examine fail.");
-            throw new ApplicationException(CodeType.SERVICE_ERROR,"审核失败，请重试");
-        }
-
-        //同时改变报名表的状态
+        //改变报名表
         applyService.cancelApply(ApplyId);
     }
 
@@ -113,18 +101,8 @@ public class ExamineServiceImpl extends ServiceImpl<ExamineMapper, Examine> impl
      */
     @Override
     public void AdoptUpdateExamine(Long ApplyId) {
-        Examine examine = new Examine();
         LambdaQueryWrapper<Examine> queryWrapper = new LambdaQueryWrapper<Examine>()
                 .eq(Examine::getApplyId,ApplyId);
-        examine.setExamineResult(1);
-        UserLoginQuery user = localUser.getUser("用户信息");
-        examine.setUpdateUserId(user.getId());
-        int update = baseMapper.update(examine, queryWrapper);
-
-        if (update <= 0) {
-            log.error("update apply examine fail.");
-            throw new ApplicationException(CodeType.SERVICE_ERROR,"通过修改报名表失败,请重试");
-        }
 
         Examine result = baseMapper.selectOne(queryWrapper);
 
@@ -134,12 +112,13 @@ public class ExamineServiceImpl extends ServiceImpl<ExamineMapper, Examine> impl
     }
 
     /**
-     * 不通过审核
+     * 不通过报名审核
      * @param ApplyId
      */
     @Override
     public void NotAdoptExamine(Long ApplyId) {
         Examine examine = new Examine();
+        examine.setExamineType("报名审核");
         examine.setExamineResult(2);
         LambdaQueryWrapper<Examine> queryWrapper = new LambdaQueryWrapper<Examine>()
                 .eq(Examine::getApplyId,ApplyId);
@@ -154,6 +133,30 @@ public class ExamineServiceImpl extends ServiceImpl<ExamineMapper, Examine> impl
 
         //同步报名表的审核状态
         applyService.updateExamineStatus(ApplyId,2);
+    }
+
+    /**
+     * 通过报名表的审核
+     * @param ApplyId
+     */
+    @Override
+    public void doptExamine(Long ApplyId) {
+        Examine examine = new Examine();
+        examine.setExamineType("报名审核");
+        examine.setExamineResult(1);
+        LambdaQueryWrapper<Examine> queryWrapper = new LambdaQueryWrapper<Examine>()
+                .eq(Examine::getApplyId,ApplyId);
+        UserLoginQuery user = localUser.getUser("用户信息");
+        examine.setUpdateUserId(user.getId());
+        int update = baseMapper.update(examine, queryWrapper);
+
+        if (update <= 0) {
+            log.error("not examine fail.");
+            throw new ApplicationException(CodeType.SERVICE_ERROR,"不通过审核失败，请重试");
+        }
+
+        //同步报名表的审核状态
+        applyService.updateExamineStatus(ApplyId,1);
     }
 
 

@@ -89,7 +89,8 @@ public class CarApiController {
             @ApiImplicitParam(name = "carName", value = "车辆名", required = true, dataType = "String", paramType = "path"),
             @ApiImplicitParam(name = "carNo", value = "车牌号", required = true, dataType = "String", paramType = "path"),
             @ApiImplicitParam(name = "statu", value = "状态", required = true, dataType = "String", paramType = "path"),
-            @ApiImplicitParam(name = "remark", value = "备注", required = true, dataType = "String", paramType = "path")
+            @ApiImplicitParam(name = "remark", value = "备注", required = true, dataType = "String", paramType = "path"),
+            @ApiImplicitParam(name = "isStop", value = "是否启用", required = true, dataType = "boolean", paramType = "path")
     })
     public Object addCar(@RequestBody CarVo carVo) throws Exception{
         String url = "http://" + Ip +":" + port + "/" + path + "/v1/app/resource/car/addCar";
@@ -105,7 +106,7 @@ public class CarApiController {
     }
 
     @ApiOperation(value = "车辆修改",notes = "车辆修改")
-    @PutMapping("/updateCar/{Id}")
+    @PostMapping("/updateCar")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "Id", value = "车辆Id", required = true, dataType = "Long", paramType = "path"),
             @ApiImplicitParam(name = "carName", value = "车辆名", required = true, dataType = "String", paramType = "path"),
@@ -114,7 +115,7 @@ public class CarApiController {
             @ApiImplicitParam(name = "remark", value = "备注", required = true, dataType = "String", paramType = "path"),
             @ApiImplicitParam(name = "isStop", value = "是否启用", required = true, dataType = "boolean", paramType = "path")
     })
-    public Object updateCar(@PathVariable("Id") Long Id,@RequestBody CarVo carVo) throws Exception{
+    public Object updateCar(Long Id,@RequestBody CarVo carVo) throws Exception{
         String url = "http://" + Ip +":" + port + "/" + path + "/v1/app/resource/car/updateCar";
 
         String s = JSONObject.toJSONString(carVo);
@@ -129,10 +130,10 @@ public class CarApiController {
 
 
     @ApiOperation(value = "查询车辆修改页首页",notes = "查询车辆修改页首页")
-    @GetMapping("/CarDetail")
+    @GetMapping("/CarDetail/{Id}")
     @ApiImplicitParam(name = "Id", value = "车辆Id", required = true, dataType = "Long", paramType = "path")
     @CrossOrigin
-    public Object updateCarIndex(@RequestParam("Id") Long Id) throws Exception{
+    public Object updateCarIndex(@PathVariable("Id") Long Id) throws Exception{
         String url = "http://" + Ip +":" + port + "/" + path + "/v1/app/resource/car/updateCarDetail?Id=" +Id;
 
         Map<String,Object> map = new HashMap<>();

@@ -3,6 +3,8 @@ package eqlee.ctm.user.jwt.Interceptor;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.exceptions.JWTDecodeException;
 import com.auth0.jwt.interfaces.DecodedJWT;
+import com.yq.constanct.CodeType;
+import eqlee.ctm.user.exception.ApplicationException;
 import eqlee.ctm.user.jwt.JwtVerfy;
 import eqlee.ctm.user.jwt.contain.LocalUser;
 import eqlee.ctm.user.jwt.entity.PrivilegeMenuQuery;
@@ -55,7 +57,7 @@ public class AuthenticationInterceptor implements HandlerInterceptor {
             if (checkToken.required()) {
                 // 执行认证
                 if (token == null) {
-                    throw new RuntimeException("无token,请重新登录");
+                    throw new ApplicationException(CodeType.OVENDU_ERROR);
                 }
                 // 获取 token 中的 user信息
                 UserLoginQuery query = new UserLoginQuery();

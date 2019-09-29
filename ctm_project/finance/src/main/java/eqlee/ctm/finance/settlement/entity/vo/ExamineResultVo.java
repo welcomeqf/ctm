@@ -20,7 +20,7 @@ public class ExamineResultVo {
     /**
      * 出发日期
      */
-    private LocalDate OutDate;
+    private String OutDate;
 
     /**
      * 线路名
@@ -71,6 +71,17 @@ public class ExamineResultVo {
      * 代收费用（实收金额）
      */
     private Double SubstitutionPrice;
+
+
+    /**
+     * 联系人名字
+     */
+    private String ContectUserName;
+
+    /**
+     * 联系电话
+     */
+    private String ContectUserTel;
 
     /**
      * 面收未付款总人数
@@ -146,6 +157,11 @@ public class ExamineResultVo {
      * 总支出费用
      */
     private Double AllOutPrice;
+
+    /**
+     * 应得收入（应收金额-总支出费用）
+     */
+    private Double InPrice;
 
     /**
      * 结算金额

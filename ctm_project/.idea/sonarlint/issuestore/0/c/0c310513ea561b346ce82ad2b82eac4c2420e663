@@ -1,9 +1,9 @@
 
-ˆsquid:UselessImportCheck"XRemove this unused import 'com.baomidou.mybatisplus.core.conditions.query.QueryWrapper'.(ÓÆÂæÿÿÿÿÿ8’ëÛèÖ-
-esquid:S1126a"BReplace this if-then-else statement by a single method invocation.(ÉÞ£¢üÿÿÿÿ8Àˆ¸¼×-
 [squid:UselessImportCheck"+Remove this unused import 'java.util.List'.(Õë±Äøÿÿÿÿ8Àˆ¸¼×-
-psquid:S00117W"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(¯ÁÎš8Àˆ¸¼×-
 wsquid:S2293v"YReplace the type specification in this constructor call with the diamond operator ("<>").(è©ÀÞ8 Þä¶Ö-
-rsquid:S00120"ZRename this package name to match the regular expression '^[a-z_]+(\.[a-z_][a-z0-9_]*)*$'.(ëù¹ˆ
-qsquid:S00117„"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ØÙ¤“8 Þä¶Ö-
+psquid:S00117W"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(¯ÁÎš8Àˆ¸¼×-
+ˆsquid:UselessImportCheck"XRemove this unused import 'com.baomidou.mybatisplus.core.conditions.query.QueryWrapper'.(ÓÆÂæÿÿÿÿÿ8’ëÛèÖ-
 `squid:UselessImportCheck	"5Remove this unused import 'com.yq.utils.StringUtils'.(ÛŸÝå8‹Ô¡µ×-
+rsquid:S00120"ZRename this package name to match the regular expression '^[a-z_]+(\.[a-z_][a-z0-9_]*)*$'.(ëù¹ˆ
+esquid:S1126a"BReplace this if-then-else statement by a single method invocation.(ÉÞ£¢üÿÿÿÿ8Àˆ¸¼×-
+qsquid:S00117„"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ØÙ¤“8 Þä¶Ö-

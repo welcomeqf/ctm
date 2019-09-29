@@ -53,7 +53,7 @@ public class CarServiceImp extends ServiceImpl<CarMapper, Car> implements ICarSe
                 .eq(Car::getCarNo,carVo.getCarNo());
         Car one = baseMapper.selectOne(queryWrapper);
         if (one != null) {
-            throw new ApplicationException(CodeType.SERVICE_ERROR,"车牌号已被使用");
+            throw new ApplicationException(CodeType.SUCC_ERROR,"车牌号已被使用");
         }
         car.setCarNo(carVo.getCarNo());
         if(carVo.getStatu() != null) {

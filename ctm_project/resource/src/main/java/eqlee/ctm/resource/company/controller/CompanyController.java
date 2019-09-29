@@ -79,17 +79,17 @@ public class CompanyController {
             @ApiImplicitParam(name = "payMethod", value = "支付方式", required = true, dataType = "String", paramType = "path"),
             @ApiImplicitParam(name = "stopped", value = "状态", required = true, dataType = "String", paramType = "path")
     })
-    @PutMapping("/updateCompany/{Id}")
+    @PostMapping("/updateCompany")
     @CrossOrigin
     @CheckToken
-    public ResultVo updateCompany (@PathVariable("Id") Long id, @RequestBody CompanyVo companyVo) {
-        if(id == null || StringUtils.isBlank(companyVo.getPayMethod())
+    public ResultVo updateCompany (@RequestBody CompanyVo companyVo) {
+        if(companyVo.getId() == null || StringUtils.isBlank(companyVo.getPayMethod())
         || StringUtils.isBlank(companyVo.getEndDate())|| StringUtils.isBlank(companyVo.getStartDate())
         || StringUtils.isBlank(companyVo.getCompanyName())){
             log.error("update company param is null");
             throw new ApplicationException(CodeType.PARAMETER_ERROR);
         }
-        companyService.UpdateCompany(id,companyVo);
+        companyService.UpdateCompany(companyVo.getId(),companyVo);
         ResultVo resultVo = new ResultVo();
         resultVo.setResult("ok");
         return resultVo;
@@ -167,7 +167,7 @@ public class CompanyController {
 
     @ApiOperation(value = "同行状态", notes = "同行状态修改")
     @ApiImplicitParam(name = "Id", value = "公司Id", required = true, dataType = "Long", paramType = "path")
-    @PutMapping("/Stu/{Id}")
+    @GetMapping("/Stu/{Id}")
     @CrossOrigin
     @CheckToken
     public ResultVo UpdateCompanyStop (@PathVariable("Id") Long Id) {

@@ -131,10 +131,21 @@ public class ApplyController {
             throw new ApplicationException(CodeType.PARAM_ERROR);
         }
         UserLoginQuery user = localUser.getUser("用户信息");
-        Company company = applyService.queryOne(user.getCompanyId());
+        Company company = applyService.queryCompany(user.getCompanyId());
         Page<ApplyCompanyQuery> page = new Page<>(current,size);
         return applyService.listPageDoApply2Company(page,OutTime,company.getCompanyName());
 
     }
 
+
+    @ApiOperation(value = "查询同一公司的所有分页数据（我的报名记录）", notes = "查询同一公司的所有分页数据（我的报名记录）")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "Id", value = "报名Id", required = true, dataType = "int", paramType = "path")
+    })
+    @GetMapping("/queryApply")
+    @CrossOrigin
+    @CheckToken
+    public Apply queryById (@RequestParam("Id") Long Id) {
+        return applyService.queryById(Id);
+    }
 }

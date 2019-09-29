@@ -49,6 +49,8 @@ public class UserRoleController {
     @CrossOrigin
     @CheckToken
     public Object addRole(@RequestBody UserRoleVo roleVo) throws Exception{
+        String encode = DataUtils.getEncodeing("RSA");
+        roleVo.setAppId(encode);
         String url = "http://" + Ip +":" + port + "/" + path + "/v1/app/user/role/addRole";
 
         String s = JSONObject.toJSONString(roleVo);
@@ -64,12 +66,12 @@ public class UserRoleController {
 
     @ApiOperation(value = "删除角色", notes = "删除角色")
     @ApiImplicitParam(name = "Id", value = "Id", required = true, dataType = "int", paramType = "path")
-    @GetMapping("/deleteRole")
+    @DeleteMapping("/{Id}")
     @CrossOrigin
     @CheckToken
-    public Object deleteRole(@RequestParam("Id") Long Id) throws Exception{
+    public Object deleteRole(@PathVariable("Id") Long Id) throws Exception{
         String encode = DataUtils.getEncodeing("RSA");
-        String url = "http://" + Ip +":" + port + "/" + path + "/v1/app/user/role/deleteRole?Id=" +Id + "&AppId=" +encode;
+        String url = "http://" + Ip +":" + port + "/" + path + "/v1/app/user/role/deleteRole/" +Id + "/" +encode;
 
         Map<String,Object> map = new HashMap<>();
 

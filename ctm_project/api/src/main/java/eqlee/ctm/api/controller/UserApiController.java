@@ -81,7 +81,7 @@ public class UserApiController {
     @CrossOrigin
     public Object login(@RequestParam("userName") String userName, @RequestParam("password") String password) throws Exception {
         String encode = DataUtils.getEncodeing("RSA");
-        String url = "http://" + Ip + ":" + port + "/" + path  + "/v1/app/user/login?userName=" + userName + "&AppId=" + encode + "&password=" + password;
+        String url = "http://" + Ip + ":" + port + "/" + path + "/v1/app/user/login?userName=" + userName + "&AppId=" + encode + "&password=" + password;
 
         Map<String, Object> map = new HashMap<>();
 
@@ -104,12 +104,12 @@ public class UserApiController {
 
     @ApiOperation(value = "注销", notes = "注销")
     @ApiImplicitParam(name = "userName", value = "用户名", required = true, dataType = "String", paramType = "path")
-    @GetMapping("/deleteUser")
+    @DeleteMapping("/deleteUser/{userName}")
     @CrossOrigin
     @CheckToken
-    public Object deleteUser(@RequestParam("userName") String userName) throws Exception{
+    public Object deleteUser(@PathVariable("userName") String userName) throws Exception{
         String encode = DataUtils.getEncodeing("RSA");
-        String url = "http://" + Ip +":" + port + "/" + path + "/v1/app/user/deleteUser?userName=" +userName + "&AppId=" +encode;
+        String url = "http://" + Ip +":" + port + "/" + path + "/v1/app/user/deleteUser/" +userName + "/" +encode;
 
         Map<String,Object> map = new HashMap<>();
 
@@ -123,12 +123,12 @@ public class UserApiController {
 
     @ApiOperation(value = "退出账号", notes = "退出账号")
     @ApiImplicitParam(name = "userName", value = "用户名", required = true, dataType = "String", paramType = "path")
-    @GetMapping("/exitUser")
+    @DeleteMapping("/exitUser/{userName}")
     @CrossOrigin
     @CheckToken
-    public Object exitUser(@RequestParam("userName") String userName) throws Exception{
+    public Object exitUser(@PathVariable("userName") String userName) throws Exception{
         String encode = DataUtils.getEncodeing("RSA");
-        String url = "http://" + Ip +":" + port + "/" + path + "/v1/app/user/exitUser?userName=" +userName + "&AppId=" +encode;
+        String url = "http://" + Ip +":" + port + "/" + path + "/v1/app/user/exitUser/" +userName + "/" +encode;
 
         Map<String,Object> map = new HashMap<>();
 
@@ -142,12 +142,12 @@ public class UserApiController {
 
     @ApiOperation(value = "冻结账户", notes = "冻结账户")
     @ApiImplicitParam(name = "userName", value = "用户名", required = true, dataType = "String", paramType = "path")
-    @GetMapping("/stopUser")
+    @GetMapping("/stopUser/{userName}")
     @CrossOrigin
     @CheckToken
-    public Object stopUser(@RequestParam("userName") String userName) throws Exception{
+    public Object stopUser(@PathVariable("userName") String userName) throws Exception{
         String encode = DataUtils.getEncodeing("RSA");
-        String url = "http://" + Ip +":" + port + "/" + path + "/v1/app/user/stopUser?userName=" +userName + "&AppId=" +encode;
+        String url = "http://" + Ip +":" + port + "/" + path + "/v1/app/user/stopUser/" +userName + "/" +encode;
 
         Map<String,Object> map = new HashMap<>();
 
@@ -161,12 +161,12 @@ public class UserApiController {
 
     @ApiOperation(value = "解冻账户", notes = "解冻账户")
     @ApiImplicitParam(name = "userName", value = "用户名", required = true, dataType = "String", paramType = "path")
-    @GetMapping("/toStopUser")
+    @GetMapping("/toStopUser/{userName}")
     @CrossOrigin
     @CheckToken
-    public Object toStopUser(@RequestParam("userName") String userName) throws Exception{
+    public Object toStopUser(@PathVariable("userName") String userName) throws Exception{
         String encode = DataUtils.getEncodeing("RSA");
-        String url = "http://" + Ip +":" + port + "/" + path + "/v1/app/user/toStopUser?userName=" +userName + "&AppId=" +encode;
+        String url = "http://" + Ip +":" + port + "/" + path + "/v1/app/user/toStopUser/" +userName + "/" +encode;
 
         Map<String,Object> map = new HashMap<>();
 

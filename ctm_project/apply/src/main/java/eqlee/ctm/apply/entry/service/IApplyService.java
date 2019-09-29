@@ -85,6 +85,13 @@ public interface IApplyService {
      * @param Id
      * @return
      */
-    Company queryOne(Long Id);
+    Company queryCompany (Long Id);
+
+    /**
+     * 查询一条报名记录
+     * @param Id
+     * @return
+     */
+    Apply queryById(Long Id);
 
 }

@@ -1,5 +1,7 @@
 
-\squid:S1155L">Use isEmpty() to check whether the collection is empty or not.(°ÅÓÂ8È‹€µ×-
-[squid:UselessImportCheck"0Remove this unused import 'java.util.ArrayList'.(÷‰îƒ8ƒ¢ë·×-
-[squid:UselessImportCheck"+Remove this unused import 'java.util.List'.(Õë±Äøÿÿÿÿ8ƒ¢ë·×-
-squid:UselessImportCheck	"QRemove this unused import 'eqlee.ctm.finance.settlement.entity.vo.ContectUserVo'.(Ó—ùúÿÿÿÿ8ƒ¢ë·×-
+[squid:UselessImportCheck"+Remove this unused import 'java.util.List'.(Õë±Äøÿÿÿÿ8ƒ¢ë·×-
+squid:UselessImportCheck
+"QRemove this unused import 'eqlee.ctm.finance.settlement.entity.vo.ContectUserVo'.(Ó—ùúÿÿÿÿ8ƒ¢ë·×-
+psquid:S00117u"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(«™æ8ºÛ›Þ×-
+\squid:S1155M">Use isEmpty() to check whether the collection is empty or not.(°ÅÓÂ8È‹€µ×-
+[squid:UselessImportCheck"0Remove this unused import 'java.util.ArrayList'.(÷‰îƒ8ƒ¢ë·×-

@@ -1,31 +1,31 @@
 
+wsquid:S1192C"TDefine a constant instead of duplicating this literal "å‚æ•°ä¸èƒ½ä¸ºç©º" 10 times.(ˆ¯ãõÿÿÿÿÿ8¬èæ¿×-
 usquid:S00117y"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(Å«©Èúÿÿÿÿ8¬èæ¿×-
 [squid:UselessImportCheck"0Remove this unused import 'java.util.ArrayList'.(÷‰îƒ8‘–À×-
-qsquid:UselessImportCheck	"FRemove this unused import 'eqlee.ctm.apply.jwt.entity.UserLoginQuery'.(ÎßĞ8¬èæ¿×-
+qsquid:S00117˜"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(×¹œÊ8¬èæ¿×-
 qsquid:S00117"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(¢Ã8¬èæ¿×-
-qsquid:S00117«"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(èä…ş8¬èæ¿×-
+osquid:S00117Z"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(†Ğ†^8¬èæ¿×-
+]squid:UselessImportCheck"4Remove this unused import 'java.time.LocalDateTime'.(æÃ§ƒüÿÿÿÿ
+Usquid:S1155B">Use isEmpty() to check whether the collection is empty or not.(„á‰Î
+vsquid:S00117ª"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(²ÊÄÛıÿÿÿÿ8¬èæ¿×-
 V
 squid:S106j"9Replace this use of System.out or System.err by a logger.(µˆœÑ8¬èæ¿×-
-usquid:S00117\"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(—ŒÌüÿÿÿÿ8¬èæ¿×-
-vsquid:S00117ª"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(²ÊÄÛıÿÿÿÿ8¬èæ¿×-
-qsquid:S00117…"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(×¹œÊ8¬èæ¿×-
-nsquid:UselessImportCheck"ERemove this unused import 'eqlee.ctm.apply.guider.entity.vo.ApplyVo'.(ƒ„•èúÿÿÿÿ
-msquid:S00100—"NRename this method name to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(­¢í?8¬èæ¿×-
-psquid:S00117["QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(èä…ş8¬èæ¿×-
-wsquid:S1192C"TDefine a constant instead of duplicating this literal "å‚æ•°ä¸èƒ½ä¸ºç©º" 10 times.(ˆ¯ãõÿÿÿÿÿ8¬èæ¿×-
-psquid:S00117z"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(èä…ş8¬èæ¿×-
-osquid:S00117Z"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(†Ğ†^8¬èæ¿×-
-usquid:S00117{"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(—ŒÌüÿÿÿÿ8¬èæ¿×-
-lsquid:UselessImportCheck"ARemove this unused import 'eqlee.ctm.apply.orders.entity.Orders'.(¨‡8¬èæ¿×-
-qsquid:S00117¬"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(×¹œÊ8¬èæ¿×-
-Usquid:S1155B">Use isEmpty() to check whether the collection is empty or not.(„á‰Î
-bsquid:S1155Ö">Use isEmpty() to check whether the collection is empty or not.(—êùÛøÿÿÿÿ8â½”À×-
 ksquid:UselessImportCheck"@Remove this unused import 'org.apache.ibatis.annotations.Param'.(á¬Ó²8æ’ªÀ×-
+usquid:S00117{"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(—ŒÌüÿÿÿÿ8¬èæ¿×-
 psquid:S00117—"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(­¢í?8¬èæ¿×-
-]squid:UselessImportCheck"4Remove this unused import 'java.time.LocalDateTime'.(æÃ§ƒüÿÿÿÿ
-bsquid:S1155ñ">Use isEmpty() to check whether the collection is empty or not.(—êùÛøÿÿÿÿ8¬èæ¿×-
-bsquid:S1155">Use isEmpty() to check whether the collection is empty or not.(¾©Ôùÿÿÿÿÿ8¬èæ¿×-
-}squid:S2293‚"YReplace the type specification in this constructor call with the diamond operator ("<>").(ôÖ÷ıÿÿÿÿ8¬èæ¿×-
+msquid:S00100—"NRename this method name to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(­¢í?8¬èæ¿×-
 vsquid:S00117„"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(»¿ß’şÿÿÿÿ8¬èæ¿×-
-qsquid:S00117˜"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(×¹œÊ8¬èæ¿×-
+qsquid:UselessImportCheck	"FRemove this unused import 'eqlee.ctm.apply.jwt.entity.UserLoginQuery'.(ÎßĞ8¬èæ¿×-
+nsquid:UselessImportCheck"ERemove this unused import 'eqlee.ctm.apply.guider.entity.vo.ApplyVo'.(ƒ„•èúÿÿÿÿ
+lsquid:UselessImportCheck"ARemove this unused import 'eqlee.ctm.apply.orders.entity.Orders'.(¨‡8¬èæ¿×-
+qsquid:S00117…"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(×¹œÊ8¬èæ¿×-
+qsquid:S00117«"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(èä…ş8¬èæ¿×-
+bsquid:S1155">Use isEmpty() to check whether the collection is empty or not.(¾©Ôùÿÿÿÿÿ8¬èæ¿×-
+psquid:S00117z"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(èä…ş8¬èæ¿×-
+bsquid:S1155Ö">Use isEmpty() to check whether the collection is empty or not.(—êùÛøÿÿÿÿ8â½”À×-
+psquid:S00117["QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(èä…ş8¬èæ¿×-
+bsquid:S1155ñ">Use isEmpty() to check whether the collection is empty or not.(—êùÛøÿÿÿÿ8¬èæ¿×-
+qsquid:S00117¬"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(×¹œÊ8¬èæ¿×-
+usquid:S00117\"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(—ŒÌüÿÿÿÿ8¬èæ¿×-
 |squid:S2293b"YReplace the type specification in this constructor call with the diamond operator ("<>").(Ü¸ªşÿÿÿÿ8¬èæ¿×-
+}squid:S2293‚"YReplace the type specification in this constructor call with the diamond operator ("<>").(ôÖ÷ıÿÿÿÿ8¬èæ¿×-

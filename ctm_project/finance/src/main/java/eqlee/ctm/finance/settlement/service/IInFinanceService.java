@@ -1,6 +1,7 @@
 package eqlee.ctm.finance.settlement.service;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import eqlee.ctm.finance.settlement.entity.query.ExamineDetailedQuery;
 import eqlee.ctm.finance.settlement.entity.query.ExamineResultQuery;
 import eqlee.ctm.finance.settlement.entity.vo.FinanceVo;
 
@@ -24,4 +25,14 @@ public interface IInFinanceService {
      * @return
      */
     Page<ExamineResultQuery> listExamine2Page(Page<ExamineResultQuery> page);
+
+
+    /**
+     * 展示该导游的审核详情
+     * @param Id
+     * @return
+     */
+    ExamineDetailedQuery queryExamineDetailed(Long Id);
+
+
 }

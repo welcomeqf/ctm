@@ -60,7 +60,7 @@ public class RoleController {
             @ApiImplicitParam(name = "AppId", value = "签名Id", required = true, dataType = "String", paramType = "path"),
             @ApiImplicitParam(name = "id", value = "id", required = true, dataType = "int", paramType = "path")
     })
-    @DeleteMapping("/{id}/{AppId}")
+    @GetMapping("/{id}/{AppId}")
     @CrossOrigin
     public ResultVo deleteRole(@PathVariable("id") Long id,@PathVariable("AppId") String AppId) {
         if (id == null || StringUtils.isBlank(AppId)) {

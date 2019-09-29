@@ -70,7 +70,7 @@ public class UserMenuController {
 
 
     @ApiOperation(value = "查询所有权限", notes = "查询所有权限")
-    @ApiImplicitParam(name = "Id", value = "Id", required = true, dataType = "Long", paramType = "path")
+    @ApiImplicitParam(name = "Id", value = "Id", required = false, dataType = "Long", paramType = "path")
     @GetMapping("/queryAllMenu")
     @CrossOrigin
     @CheckToken

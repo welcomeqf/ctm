@@ -81,7 +81,7 @@ public class PriceApiController {
             @ApiImplicitParam(name = "babyPrice", value = "幼儿价格", required = true, dataType = "double", paramType = "path"),
             @ApiImplicitParam(name = "childPrice", value = "小孩价格", required = true, dataType = "double", paramType = "path"),
     })
-    @PutMapping("/batchUpdatePrice")
+    @PostMapping("/batchUpdatePrice")
     @CrossOrigin
     public Object batchUpdatePrice(PriceVo priceVo) throws Exception{
         String url = "http://" + Ip +":" + port + "/" + path + "/v1/app/apply/price/batchUpdatePrice";

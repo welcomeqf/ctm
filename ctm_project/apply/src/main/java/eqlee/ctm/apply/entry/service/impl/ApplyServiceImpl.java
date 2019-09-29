@@ -21,6 +21,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.time.LocalDate;
 
@@ -149,7 +150,8 @@ public class ApplyServiceImpl extends ServiceImpl<ApplyMapper, Apply> implements
         apply.setContactName(updateInfo.getContactName());
         apply.setContactTel(updateInfo.getContactTel());
         apply.setPlace(updateInfo.getPlace());
-        apply.setStatu(2);
+        LocalDateTime now = LocalDateTime.now();
+        apply.setRemark(now + "修改");
         int result = baseMapper.updateById(apply);
 
         if (result <= 0) {
@@ -214,7 +216,8 @@ public class ApplyServiceImpl extends ServiceImpl<ApplyMapper, Apply> implements
         Apply apply = new Apply();
         apply.setId(Id);
         apply.setIsCancel(true);
-        apply.setStatu(1);
+        LocalDateTime now = LocalDateTime.now();
+        apply.setRemark(now + "取消");
         int result = baseMapper.updateById(apply);
 
         if (result <= 0) {
@@ -256,8 +259,18 @@ public class ApplyServiceImpl extends ServiceImpl<ApplyMapper, Apply> implements
      * @return
      */
     @Override
-    public Company queryOne(Long Id) {
+    public Company queryCompany(Long Id) {
         return baseMapper.queryCompanyById(Id);
+    }
+
+    /**
+     * 查询一条报名记录
+     * @param Id
+     * @return
+     */
+    @Override
+    public Apply queryById(Long Id) {
+        return baseMapper.selectById(Id);
     }
 
 

@@ -10,6 +10,8 @@ import lombok.Data;
 @Data
 public class UserUpdatePasswordVo {
 
+    private Long id;
+
     private String userName;
 
     private String password;

@@ -57,7 +57,7 @@ public class AuthenticationInterceptor implements HandlerInterceptor {
             if (checkToken.required()) {
                 // 执行认证
                 if (token == null) {
-                    throw new RuntimeException("无token,请重新登录");
+                    throw new ApplicationException(CodeType.OVENDU_ERROR);
                 }
                 // 获取 token 中的 user信息
                 UserLoginQuery query = new UserLoginQuery();

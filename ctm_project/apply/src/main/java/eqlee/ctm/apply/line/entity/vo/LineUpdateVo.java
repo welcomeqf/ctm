@@ -12,6 +12,8 @@ import java.time.LocalDateTime;
 @Data
 public class LineUpdateVo {
 
+    private Long id;
+
     private String lineName;
 
     private String information;

@@ -35,10 +35,16 @@ public interface IExamineService {
     void AdoptUpdateExamine(Long ApplyId);
 
     /**
-     * 不通过取消报名表的审核
+     * 不通过报名审核
      * @param ApplyId
      */
     void NotAdoptExamine(Long ApplyId);
+
+    /**
+     *  通过报名表的审核
+     * @param ApplyId
+     */
+    void doptExamine(Long ApplyId);
 
 
 }

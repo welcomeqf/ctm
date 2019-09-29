@@ -12,6 +12,8 @@ import lombok.Data;
 @Data
 public class CompanyVo {
 
+    private Long id;
+
     private String companyName;
 
     private String startDate;
