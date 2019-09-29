@@ -57,7 +57,7 @@ public class AuthenticationInterceptor implements HandlerInterceptor {
             if (checkToken.required()) {
                 // 执行认证
                 if (token == null) {
-                    throw new ApplicationException(CodeType.SERVICE_ERROR,"无token，请重新登录");
+                    throw new RuntimeException("无token,请重新登录");
                 }
                 // 获取 token 中的 user信息
                 UserLoginQuery query = new UserLoginQuery();
@@ -73,7 +73,7 @@ public class AuthenticationInterceptor implements HandlerInterceptor {
                     query.setRoleName(decode.getClaim("roleName").asString());
 
                 } catch (JWTDecodeException j) {
-                    throw new ApplicationException(CodeType.DATABASE_ERROR);
+                    throw new ApplicationException(CodeType.DATABASE_ERROR,"JWT解码失败");
                 }
                 localUser.setUser(query);
                 Boolean verify = JwtVerfy.isVerify(token, query);

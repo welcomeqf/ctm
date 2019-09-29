@@ -35,12 +35,12 @@ public class NumberDetailed extends Model<NumberDetailed> {
     private String ContectUserTel;
 
     /**
-     * 未付款代收总人数
+     * 面收未付款总人数
      */
     private Integer AllNumber;
 
     /**
-     * 未付款代收总价格
+     * 面收未付款总价格
      */
     private Double AllPrice;
 

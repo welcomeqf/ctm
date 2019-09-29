@@ -22,7 +22,7 @@ import java.util.List;
 @Slf4j
 @Api
 @RestController
-@RequestMapping("/v1/app/user/menu")
+@RequestMapping("/v1/app/menu")
 public class MenuController {
 
     @Autowired
@@ -30,11 +30,11 @@ public class MenuController {
 
     @ApiOperation(value = "增加菜单", notes = "增加菜单")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "MenuName", value = "菜单名称", required = true, dataType = "String", paramType = "path"),
-            @ApiImplicitParam(name = "AppId", value = "签名Id", required = true, dataType = "String", paramType = "path"),
-            @ApiImplicitParam(name = "Parent", value = "父级ID", required = true, dataType = "Long", paramType = "path"),
-            @ApiImplicitParam(name = "Action", value = "链接地址", required = true, dataType = "String", paramType = "path"),
-            @ApiImplicitParam(name = "IconClass", value = "图标", required = true, dataType = "String", paramType = "path")
+            @ApiImplicitParam(name = "menuName", value = "菜单名称", required = true, dataType = "String", paramType = "path"),
+            @ApiImplicitParam(name = "appId", value = "签名Id", required = true, dataType = "String", paramType = "path"),
+            @ApiImplicitParam(name = "parent", value = "父级ID", required = true, dataType = "Long", paramType = "path"),
+            @ApiImplicitParam(name = "action", value = "链接地址", required = true, dataType = "String", paramType = "path"),
+            @ApiImplicitParam(name = "iconClass", value = "图标", required = true, dataType = "String", paramType = "path")
     })
     @PostMapping("/addMenu")
     @CrossOrigin
@@ -49,7 +49,7 @@ public class MenuController {
 
     @ApiOperation(value = "查询所有权限", notes = "查询所有权限")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "Id", value = "Id", required = true, dataType = "Long", paramType = "path"),
+            @ApiImplicitParam(name = "Id", value = "Id", required = false, dataType = "Long", paramType = "path"),
             @ApiImplicitParam(name = "AppId", value = "签名Id", required = true, dataType = "String", paramType = "path")
     })
     @GetMapping("/queryMenu")

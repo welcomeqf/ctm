@@ -10,17 +10,17 @@ import lombok.Data;
 @Data
 public class OrderIndexVo {
 
-    private String OrderNo;
+    private String orderNo;
 
-    private String ContactName;
+    private String contactName;
 
-    private String Place;
+    private String place;
 
-    private Integer AdultNumber;
+    private Integer adultNumber;
 
-    private Integer BabyNumber;
+    private Integer babyNumber;
 
-    private Integer OldNumber;
+    private Integer oldNumber;
 
-    private Integer ChildNumber;
+    private Integer childNumber;
 }

@@ -12,35 +12,35 @@ import java.time.LocalDate;
 @Data
 public class OrdersVo {
 
-    private Long LineId;
+    private Long lineId;
     /**
      * 联系人姓名
      */
-    private String ContactName;
+    private String contactName;
 
     /**
      * 联系方式
      */
-    private String ContactTel;
+    private String contactTel;
 
     /**
      * 区域
      */
-    private String Region;
+    private String region;
 
     /**
      * 接送地
      */
-    private String Place;
+    private String place;
 
     /**
      * 线路名
      */
-    private String LineName;
+    private String lineName;
 
     /**
      * 出发日期
      */
-    private String OutDate;
+    private String outDate;
 
 }

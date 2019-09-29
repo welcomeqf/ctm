@@ -28,7 +28,7 @@ import java.util.Map;
 @Slf4j
 @Api("线路Api")
 @RestController
-@RequestMapping("/v1/app/apply/line")
+@RequestMapping("/v1/app/line")
 public class LineApiController {
 
     @Value("${api.userIp}")
@@ -47,12 +47,12 @@ public class LineApiController {
 
     @ApiOperation(value = "增加线路", notes = "增加线路")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "LineName", value = "线路名", required = true, dataType = "String", paramType = "path"),
-            @ApiImplicitParam(name = "Information", value = "线路简介", required = true, dataType = "String", paramType = "path"),
-            @ApiImplicitParam(name = "Region", value = "区域", required = true, dataType = "String", paramType = "path"),
-            @ApiImplicitParam(name = "TravelSituation", value = "出游情况（几日游）", required = true, dataType = "int", paramType = "path"),
-            @ApiImplicitParam(name = "MaxNumber", value = "最大人数", required = true, dataType = "int", paramType = "path"),
-            @ApiImplicitParam(name = "MinNumber", value = "最小人数", required = true, dataType = "int", paramType = "path")
+            @ApiImplicitParam(name = "lineName", value = "线路名", required = true, dataType = "String", paramType = "path"),
+            @ApiImplicitParam(name = "information", value = "线路简介", required = true, dataType = "String", paramType = "path"),
+            @ApiImplicitParam(name = "region", value = "区域", required = true, dataType = "String", paramType = "path"),
+            @ApiImplicitParam(name = "travelSituation", value = "出游情况（几日游）", required = true, dataType = "int", paramType = "path"),
+            @ApiImplicitParam(name = "maxNumber", value = "最大人数", required = true, dataType = "int", paramType = "path"),
+            @ApiImplicitParam(name = "minNumber", value = "最小人数", required = true, dataType = "int", paramType = "path")
     })
     @PostMapping("/insertLine")
     @CrossOrigin
@@ -72,13 +72,14 @@ public class LineApiController {
     @ApiOperation(value = "修改线路", notes = "修改线路")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "Id", value = "Id", required = true, dataType = "Long", paramType = "path"),
-            @ApiImplicitParam(name = "LineName", value = "线路名", required = true, dataType = "String", paramType = "path"),
-            @ApiImplicitParam(name = "Information", value = "线路简介", required = true, dataType = "String", paramType = "path"),
-            @ApiImplicitParam(name = "Region", value = "区域", required = true, dataType = "String", paramType = "path"),
-            @ApiImplicitParam(name = "TravelSituation", value = "出游情况（几日游）", required = true, dataType = "int", paramType = "path"),
-            @ApiImplicitParam(name = "Stopped", value = "是否停用(false-正常 1-禁用true)", required = true, dataType = "Boolean", paramType = "path"),
-            @ApiImplicitParam(name = "MaxNumber", value = "最大人数", required = true, dataType = "int", paramType = "path"),
-            @ApiImplicitParam(name = "MinNumber", value = "最小人数", required = true, dataType = "int", paramType = "path")
+            @ApiImplicitParam(name = "lineName", value = "线路名", required = true, dataType = "String", paramType = "path"),
+            @ApiImplicitParam(name = "information", value = "线路简介", required = true, dataType = "String", paramType = "path"),
+            @ApiImplicitParam(name = "region", value = "区域", required = true, dataType = "String", paramType = "path"),
+            @ApiImplicitParam(name = "travelSituation", value = "出游情况（几日游）", required = true, dataType = "int", paramType = "path"),
+            @ApiImplicitParam(name = "stopped", value = "是否停用(false-正常 1-禁用true)", required = true, dataType = "Boolean", paramType = "path"),
+            @ApiImplicitParam(name = "maxNumber", value = "最大人数", required = true, dataType = "int", paramType = "path"),
+            @ApiImplicitParam(name = "minNumber", value = "最小人数", required = true, dataType = "int", paramType = "path"),
+            @ApiImplicitParam(name = "remark", value = "备注", required = true, dataType = "String", paramType = "path")
     })
     @PutMapping("/updateLine/{Id}")
     @CrossOrigin

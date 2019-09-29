@@ -13,20 +13,20 @@ public class ExamineVo {
     /**
      * 报名ID
      */
-    private Long ApplyId;
+    private Long applyId;
 
     /**
      * 联系人
      */
-    private String ConnectName;
+    private String connectName;
 
     /**
      * 联系电话
      */
-    private String ConnectTel;
+    private String connectTel;
 
     /**
      * 接送地点
      */
-    private String Place;
+    private String place;
 }

@@ -74,12 +74,12 @@ public class AuthenticationInterceptor implements HandlerInterceptor {
                     query.setRoleName(decode.getClaim("roleName").asString());
 
                 } catch (JWTDecodeException j) {
-                    throw new RuntimeException("访问异常！");
+                    throw new RuntimeException("JWT解码失败");
                 }
                 localUser.setUser(query);
                 Boolean verify = JwtVerfy.isVerify(token, query);
                 if (!verify) {
-                    throw new RuntimeException("非法访问！");
+                    throw new RuntimeException("身份认证错误！");
                 }
                 return true;
             }

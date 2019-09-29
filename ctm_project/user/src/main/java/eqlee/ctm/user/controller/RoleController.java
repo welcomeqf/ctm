@@ -7,6 +7,9 @@ import eqlee.ctm.user.entity.vo.ResultVo;
 import eqlee.ctm.user.entity.vo.RoleVo;
 import eqlee.ctm.user.entity.vo.UserRoleVo;
 import eqlee.ctm.user.exception.ApplicationException;
+import eqlee.ctm.user.jwt.contain.LocalUser;
+import eqlee.ctm.user.jwt.entity.UserLoginQuery;
+import eqlee.ctm.user.jwt.islogin.CheckToken;
 import eqlee.ctm.user.service.IRoleService;
 import com.yq.utils.StringUtils;
 import io.swagger.annotations.Api;
@@ -27,22 +30,22 @@ import java.util.List;
 @RestController
 @Slf4j
 @Api
-@RequestMapping("/v1/app/user/role")
+@RequestMapping("/v1/app/role")
 public class RoleController {
 
     @Autowired
     private IRoleService roleService;
 
+
     @ApiOperation(value = "增加角色", notes = "增加角色")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "RoleName", value = "角色名称", required = true, dataType = "String", paramType = "path"),
-            @ApiImplicitParam(name = "AppId", value = "签名Id", required = true, dataType = "String", paramType = "path")
+            @ApiImplicitParam(name = "roleName", value = "角色名称", required = true, dataType = "String", paramType = "path"),
+            @ApiImplicitParam(name = "appId", value = "签名Id", required = true, dataType = "String", paramType = "path")
     })
     @PostMapping("/addRole")
     @CrossOrigin
     public ResultVo addRole(@RequestBody UserRoleVo roleVo) {
         if (StringUtils.isBlank(roleVo.getRoleName())) {
-            log.error("param not is null.");
             throw new ApplicationException(CodeType.PARAM_ERROR);
         }
 
@@ -57,11 +60,10 @@ public class RoleController {
             @ApiImplicitParam(name = "AppId", value = "签名Id", required = true, dataType = "String", paramType = "path"),
             @ApiImplicitParam(name = "id", value = "id", required = true, dataType = "int", paramType = "path")
     })
-    @GetMapping("/deleteRole")
+    @DeleteMapping("/{id}/{AppId}")
     @CrossOrigin
-    public ResultVo deleteRole(@RequestParam("id") Long id,@RequestParam("AppId") String AppId) {
+    public ResultVo deleteRole(@PathVariable("id") Long id,@PathVariable("AppId") String AppId) {
         if (id == null || StringUtils.isBlank(AppId)) {
-            log.error("param not is null.");
             throw new ApplicationException(CodeType.PARAM_ERROR);
         }
         roleService.deleteRole(id,AppId);

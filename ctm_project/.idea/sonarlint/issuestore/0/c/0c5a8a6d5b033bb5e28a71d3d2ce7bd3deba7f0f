@@ -1,0 +1,28 @@
+
+usquid:S2293?"YReplace the type specification in this constructor call with the diamond operator ("<>").(”€ùïüÿÿÿÿ
+usquid:S2293@"YReplace the type specification in this constructor call with the diamond operator ("<>").(ÉÒÛ£üÿÿÿÿ
+vsquid:S2293•"YReplace the type specification in this constructor call with the diamond operator ("<>").(¸±ô¤ıÿÿÿÿ
+Msquid:S1751Š"5Remove this "break" statement or make it conditional.(›ûä·
+isquid:S00117u"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(¹ÚÃ‰
+isquid:S00117u"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(¹ÚÃ‰
+jsquid:S00117"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(¾óÏ›
+jsquid:S00117"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(¾óÏ›
+jsquid:S00117—"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ÏÒı’
+osquid:S00117Ÿ"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(¡‡ùËúÿÿÿÿ
+osquid:S00117Ÿ"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(¡‡ùËúÿÿÿÿ
+osquid:S00117Ÿ"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(¡‡ùËúÿÿÿÿ
+jsquid:S00117º"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(É–’ˆ
+jsquid:S00117º"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(É–’ˆ
+jsquid:S00117º"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(É–’ˆ
+isquid:S00117ù"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ƒÇëJ
+isquid:S00117ù"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ƒÇëJ
+jsquid:S00117‡"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(¨â” 
+jsquid:S00117‡"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(¨â” 
+jsquid:S00117·"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ñÕÕÉ
+jsquid:S00117·"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ñÕÕÉ
+jsquid:S00117·"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ñÕÕÉ
+gsquid:UselessImportCheck"CRemove this unused import 'eqlee.ctm.apply.jwt.islogin.CheckToken'.(Œ‰ÈÖ
+]squid:UselessImportCheck""4Remove this unused import 'java.time.LocalDateTime'.(æÃ§ƒüÿÿÿÿ
+[squid:UselessImportCheck "7Remove this unused import 'java.text.SimpleDateFormat'.(ú¡ÙÛ
+ssquid:UselessImportCheck"ORemove this unused import 'org.springframework.web.bind.annotation.GetMapping'.(‡¡‰Ø
+|squid:UselessImportCheck"SRemove this unused import 'net.sf.jsqlparser.expression.DateTimeLiteralExpression'.(Çû™îÿÿÿÿÿ

@@ -28,7 +28,7 @@ import java.util.List;
 @Api("公司Api")
 @Slf4j
 @RestController
-@RequestMapping("/v1/app/resource/company")
+@RequestMapping("/v1/app/company")
 public class CompanyController {
 
     @Autowired
@@ -73,23 +73,23 @@ public class CompanyController {
     @ApiOperation(value = "同行信息修改", notes = "同行信息修改")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "Id", value = "公司Id", required = true, dataType = "Long", paramType = "path"),
-            @ApiImplicitParam(name = "CompanyName", value = "公司名称", required = true, dataType = "String", paramType = "path"),
-            @ApiImplicitParam(name = "StartDate", value = "合同开始时间", required = true, dataType = "String", paramType = "path"),
+            @ApiImplicitParam(name = "companyName", value = "公司名称", required = true, dataType = "String", paramType = "path"),
+            @ApiImplicitParam(name = "startDate", value = "合同开始时间", required = true, dataType = "String", paramType = "path"),
             @ApiImplicitParam(name = "endDate", value = "合同结束时间", required = true, dataType = "String", paramType = "path"),
-            @ApiImplicitParam(name = "PayMethod", value = "支付方式", required = true, dataType = "String", paramType = "path"),
-            @ApiImplicitParam(name = "Stopped", value = "状态", required = true, dataType = "String", paramType = "path")
+            @ApiImplicitParam(name = "payMethod", value = "支付方式", required = true, dataType = "String", paramType = "path"),
+            @ApiImplicitParam(name = "stopped", value = "状态", required = true, dataType = "String", paramType = "path")
     })
     @PutMapping("/updateCompany/{Id}")
     @CrossOrigin
     @CheckToken
-    public ResultVo updateCompany (@PathVariable("Id") Long Id, CompanyVo companyVo) {
-        if(Id == null || StringUtils.isBlank(companyVo.getPayMethod())
+    public ResultVo updateCompany (@PathVariable("Id") Long id, @RequestBody CompanyVo companyVo) {
+        if(id == null || StringUtils.isBlank(companyVo.getPayMethod())
         || StringUtils.isBlank(companyVo.getEndDate())|| StringUtils.isBlank(companyVo.getStartDate())
         || StringUtils.isBlank(companyVo.getCompanyName())){
             log.error("update company param is null");
             throw new ApplicationException(CodeType.PARAMETER_ERROR);
         }
-        companyService.UpdateCompany(Id,companyVo);
+        companyService.UpdateCompany(id,companyVo);
         ResultVo resultVo = new ResultVo();
         resultVo.setResult("ok");
         return resultVo;
@@ -118,33 +118,33 @@ public class CompanyController {
 
     @ApiOperation(value = "同行列表", notes = "由公司名查询的公司列表")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "CompanyName", value = "公司名称", required = true, dataType = "String", paramType = "path"),
+            @ApiImplicitParam(name = "companyName", value = "公司名称", required = true, dataType = "String", paramType = "path"),
             @ApiImplicitParam(name = "current", value = "当前页", required = true, dataType = "Integer", paramType = "path"),
             @ApiImplicitParam(name = "size", value = "页面大小", required = true, dataType = "Integer", paramType = "path")
     })
     @GetMapping("/queryCompanyByName")
     @CrossOrigin
     @CheckToken
-    public Page<Company> queryCompanyByCompanyName (@RequestParam("size") Integer size,@RequestParam("CompanyName") String CompanyName,
+    public Page<Company> queryCompanyByCompanyName (@RequestParam("size") Integer size,@RequestParam("companyName") String companyName,
                                                     @RequestParam("current") Integer current) {
 
-        if(current == null||size == null||StringUtils.isBlank(CompanyName)){
+        if(current == null||size == null||StringUtils.isBlank(companyName)){
             throw new ApplicationException(CodeType.PARAMETER_ERROR,"当前页或者页面大小为空");
         }
         PageCompanyQuery pageCompany = new PageCompanyQuery();
         pageCompany.setCurrent(current);
         pageCompany.setSize(size);
-        pageCompany.setName(CompanyName);
+        pageCompany.setName(companyName);
         return  companyService.GetCompanyPageByName(pageCompany);
     }
 
 
     @ApiOperation(value = "添加", notes = "添加同行信息")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "CompanyName", value = "公司名称", required = true, dataType = "String", paramType = "path"),
-            @ApiImplicitParam(name = "StartDate", value = "合同开始时间", required = true, dataType = "String", paramType = "path"),
+            @ApiImplicitParam(name = "companyName", value = "公司名称", required = true, dataType = "String", paramType = "path"),
+            @ApiImplicitParam(name = "startDate", value = "合同开始时间", required = true, dataType = "String", paramType = "path"),
             @ApiImplicitParam(name = "endDate", value = "合同结束时间", required = true, dataType = "String", paramType = "path"),
-            @ApiImplicitParam(name = "PayMethod", value = "支付方式", required = true, dataType = "String", paramType = "path"),
+            @ApiImplicitParam(name = "payMethod", value = "支付方式", required = true, dataType = "String", paramType = "path"),
     })
     @PostMapping("/addCompany")
     @CrossOrigin

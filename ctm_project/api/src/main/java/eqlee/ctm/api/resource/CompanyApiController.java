@@ -26,7 +26,7 @@ import java.util.Map;
 @Slf4j
 @Api("公司Api")
 @RestController
-@RequestMapping("/v1/app/resource/company")
+@RequestMapping("/v1/app/company")
 public class CompanyApiController {
 
     @Value("${api.userIp}")
@@ -67,11 +67,11 @@ public class CompanyApiController {
     @ApiOperation(value = "同行信息修改", notes = "同行信息修改")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "Id", value = "公司Id", required = true, dataType = "Long", paramType = "path"),
-            @ApiImplicitParam(name = "CompanyName", value = "公司名称", required = true, dataType = "String", paramType = "path"),
-            @ApiImplicitParam(name = "StartDate", value = "合同开始时间", required = true, dataType = "String", paramType = "path"),
+            @ApiImplicitParam(name = "companyName", value = "公司名称", required = true, dataType = "String", paramType = "path"),
+            @ApiImplicitParam(name = "startDate", value = "合同开始时间", required = true, dataType = "String", paramType = "path"),
             @ApiImplicitParam(name = "endDate", value = "合同结束时间", required = true, dataType = "String", paramType = "path"),
-            @ApiImplicitParam(name = "PayMethod", value = "支付方式", required = true, dataType = "String", paramType = "path"),
-            @ApiImplicitParam(name = "Stopped", value = "状态", required = true, dataType = "Boolen", paramType = "path")
+            @ApiImplicitParam(name = "payMethod", value = "支付方式", required = true, dataType = "String", paramType = "path"),
+            @ApiImplicitParam(name = "stopped", value = "状态", required = true, dataType = "String", paramType = "path")
     })
     @PutMapping("/updateCompany/{Id}")
     @CrossOrigin
@@ -107,13 +107,13 @@ public class CompanyApiController {
 
     @ApiOperation(value = "同行列表", notes = "由公司名查询的公司列表")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "CompanyName", value = "公司名称", required = true, dataType = "String", paramType = "path"),
+            @ApiImplicitParam(name = "companyName", value = "公司名称", required = true, dataType = "String", paramType = "path"),
             @ApiImplicitParam(name = "current", value = "当前页", required = true, dataType = "Integer", paramType = "path"),
             @ApiImplicitParam(name = "current", value = "页面大小", required = true, dataType = "Integer", paramType = "path")
     })
     @GetMapping("/queryCompanyByName")
     @CrossOrigin
-    public Object queryCompanyByCompanyName (@RequestParam("size") Integer size,@RequestParam("CompanyName") String CompanyName,
+    public Object queryCompanyByCompanyName (@RequestParam("size") Integer size,@RequestParam("companyName") String CompanyName,
                                                     @RequestParam("current") Integer current) throws Exception{
         String url = "http://" + Ip +":" + port + "/" + path + "/v1/app/resource/company/queryCompanyByName?current=" +current +
                 "&size=" + size + "CompanyName=" +CompanyName;
@@ -130,10 +130,10 @@ public class CompanyApiController {
 
     @ApiOperation(value = "添加", notes = "添加同行信息")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "CompanyName", value = "公司名称", required = true, dataType = "String", paramType = "path"),
-            @ApiImplicitParam(name = "StartDate", value = "合同开始时间", required = true, dataType = "String", paramType = "path"),
+            @ApiImplicitParam(name = "companyName", value = "公司名称", required = true, dataType = "String", paramType = "path"),
+            @ApiImplicitParam(name = "startDate", value = "合同开始时间", required = true, dataType = "String", paramType = "path"),
             @ApiImplicitParam(name = "endDate", value = "合同结束时间", required = true, dataType = "String", paramType = "path"),
-            @ApiImplicitParam(name = "PayMethod", value = "支付方式", required = true, dataType = "String", paramType = "path"),
+            @ApiImplicitParam(name = "payMethod", value = "支付方式", required = true, dataType = "String", paramType = "path"),
     })
     @PostMapping("/addCompany")
     @CrossOrigin
@@ -152,7 +152,7 @@ public class CompanyApiController {
 
     @ApiOperation(value = "同行状态", notes = "同行状态修改")
     @ApiImplicitParam(name = "Id", value = "公司Id", required = true, dataType = "Long", paramType = "path")
-    @PutMapping("//Stu/{Id}")
+    @PutMapping("/Stu/{Id}")
     @CrossOrigin
     public Object UpdateCompanyStop (@PathVariable("Id") Long Id) throws Exception{
         String url = "http://" + Ip +":" + port + "/" + path + "/v1/app/resource/company/UpdateCompanyStop?Id=" + Id;

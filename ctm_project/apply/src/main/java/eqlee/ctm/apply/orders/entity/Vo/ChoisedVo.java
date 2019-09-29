@@ -15,32 +15,32 @@ public class ChoisedVo {
     /**
      *导游Id
      */
-    private Long Id;
+    private Long id;
 
     /**
      * 联系人
      */
-    private String ContactName;
+    private String contactName;
 
     /**
      * 出行时间
      */
-    private String OutDate;
+    private String outDate;
 
     /**
      * 联系电话
      */
-    private String ContactTel;
+    private String contactTel;
 
     /**
      * 导游姓名
      */
-    private String GuideName;
+    private String guideName;
 
     /**
      * 线路名
      */
-    private String LineName;
+    private String lineName;
 
 
     /**

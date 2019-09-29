@@ -1,5 +1,6 @@
 package eqlee.ctm.finance.settlement.service.impl;
 
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.yq.constanct.CodeType;
 import com.yq.utils.DateUtil;
@@ -12,6 +13,7 @@ import eqlee.ctm.finance.settlement.entity.Income;
 import eqlee.ctm.finance.settlement.entity.Number;
 import eqlee.ctm.finance.settlement.entity.NumberDetailed;
 import eqlee.ctm.finance.settlement.entity.Outcome;
+import eqlee.ctm.finance.settlement.entity.query.ExamineResultQuery;
 import eqlee.ctm.finance.settlement.entity.vo.ContectUserNumberVo;
 import eqlee.ctm.finance.settlement.entity.vo.ContectUserVo;
 import eqlee.ctm.finance.settlement.entity.vo.FinanceVo;
@@ -73,6 +75,7 @@ public class InFinanceServiceImpl extends ServiceImpl<InFinanceMapper, Income> i
         Long id = idGenerator.getNumberId();
         number.setId(id);
         number.setCreateUserId(user.getId());
+        number.setAllDoNumber(vo.getAllDoNumber());
         number.setTreeAdultNumber(vo.getTreeAdultNumber());
         number.setTreeBabyNumber(vo.getTreeBabyNumber());
         number.setTreeChildNumber(vo.getTreeChildNumber());
@@ -142,5 +145,15 @@ public class InFinanceServiceImpl extends ServiceImpl<InFinanceMapper, Income> i
         outcome.setTicketPrice(vo.getTicketPrice());
         outcome.setUpdateUserId(user.getId());
         outFinanceService.insertOutFinance(outcome);
+    }
+
+    /**
+     * 分页查询所有财务审核
+     * @param page
+     * @return
+     */
+    @Override
+    public Page<ExamineResultQuery> listExamine2Page(Page<ExamineResultQuery> page) {
+        return baseMapper.listExamine2Page(page);
     }
 }

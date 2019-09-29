@@ -10,32 +10,32 @@ import lombok.Data;
 @Data
 public class ContectUserVo {
 
-    private String ContectUserName;
+    private String contectUserName;
 
-    private String ContectUserTel;
+    private String contectUserTel;
 
-    private Integer AllNumber;
+    private Integer allNumber;
 
     /**
      * 未付款代收总价格
      */
-    private Double AllPrice;
+    private Double allPrice;
 
-    private Integer BabyNumber;
+    private Integer babyNumber;
 
     /**
      * 未付款代收老人人数
      */
-    private Integer OldNumber;
+    private Integer oldNumber;
 
     /**
      * 未付款代收小孩人数
      */
-    private Integer ChildNumber;
+    private Integer childNumber;
 
     /**
      * 未付款代收成年人数
      */
-    private Integer AdultNumber;
+    private Integer adultNumber;
 
 }

@@ -12,13 +12,13 @@ import java.time.LocalDateTime;
 @Data
 public class CarVo {
 
-    private String CarNo;
+    private String carNo;
 
-    private String CarName;
+    private String carName;
 
-    private String Remark;
+    private String remark;
 
 
-    private Integer Statu;
+    private Integer statu;
 
 }

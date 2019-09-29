@@ -10,7 +10,6 @@ import lombok.Data;
 @Data
 public class UserUpdateVo {
 
-    private Long Id;
 
     /**
      * 中文名

@@ -104,13 +104,15 @@ public interface IUserService {
     /**
      * 根据用户名和手机号重置密码
      * @param vo
+     * @param Id
      */
-    void updateUserPassword (UserUpdatePasswordVo vo);
+    void updateUserPassword (Long Id,UserUpdatePasswordVo vo);
 
     /**
      * 修改用户信息
      * @param vo
+     * @param Id
      */
-    void updateUser(UserUpdateVo vo);
+    void updateUser(UserUpdateVo vo,Long Id);
 
 }

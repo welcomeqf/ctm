@@ -15,63 +15,63 @@ public class ApplyVo {
     /**
      * 出行日期
      */
-    private String OutDate;
+    private String outDate;
     /**
      * 同行公司名
      */
-    private Long CompanyNameId;
+    private Long companyNameId;
 
     /**
      * 同行代表人
      */
-    private String CompanyUser;
+    private String companyUser;
 
     /**
      *联系人名字
      */
-    private String ContactName;
+    private String contactName;
 
     /**
      * 联系电话
      */
-    private String ContactTel;
+    private String contactTel;
 
     /**
      * 接送地点
      */
-    private String Place;
+    private String place;
 
     /**
      * 线路名
      */
-    private String LineName;
+    private String lineName;
 
     /**
      * 成年人数
      */
-    private Integer AdultNumber;
+    private Integer adultNumber;
 
     /**
      * 幼儿人数
      */
-    private Integer BabyNumber;
+    private Integer babyNumber;
 
     /**
      * 老人人数
      */
-    private Integer OldNumber;
+    private Integer oldNumber;
 
     /**
      * 小孩人数
      */
-    private Integer ChildNumber;
+    private Integer childNumber;
 
     /**
      * 支付类型(0--现结  1--月结 2--代付)默认0
      */
-    private String PayType;
+    private String payType;
 
-    private Long CreateUserId;
+    private Long createUserId;
 
-    private Long UpdateUserId;
+    private Long updateUserId;
 }

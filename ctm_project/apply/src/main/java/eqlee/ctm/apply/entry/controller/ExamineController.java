@@ -25,18 +25,18 @@ import org.springframework.web.bind.annotation.*;
 @Api
 @Slf4j
 @RestController
-@RequestMapping("/v1/app/apply/examine")
+@RequestMapping("/v1/app/examine")
 public class ExamineController {
 
     @Autowired
     private IExamineService examineService;
 
     @ApiOperation(value = "同行提交取消报名表的审核记录", notes = "同行取消修改报名表的审核记录")
-    @ApiImplicitParam(name = "ApplyId", value = "报名Id", required = true, dataType = "Long", paramType = "path")
+    @ApiImplicitParam(name = "applyId", value = "报名Id", required = true, dataType = "Long", paramType = "path")
     @PostMapping("/insertCancelExamine")
     @CrossOrigin
     @CheckToken
-    public ResultVo CancelExamine(@RequestBody ExamineAddInfoVo infoVo) {
+    public ResultVo cancelExamine(@RequestBody ExamineAddInfoVo infoVo) {
         if (infoVo.getApplyId() == null) {
             throw new ApplicationException(CodeType.PARAM_ERROR);
         }
@@ -49,15 +49,15 @@ public class ExamineController {
 
     @ApiOperation(value = "同行提交修改报名表的审核记录", notes = "同行提交修改报名表的审核记录")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "ApplyId", value = "报名Id", required = true, dataType = "Long", paramType = "path"),
-            @ApiImplicitParam(name = "ConnectName", value = "联系人", required = true, dataType = "String", paramType = "path"),
-            @ApiImplicitParam(name = "ConnectTel", value = "联系电话", required = true, dataType = "String", paramType = "path"),
-            @ApiImplicitParam(name = "Place", value = "接送地点", required = true, dataType = "String", paramType = "path")
+            @ApiImplicitParam(name = "applyId", value = "报名Id", required = true, dataType = "Long", paramType = "path"),
+            @ApiImplicitParam(name = "connectName", value = "联系人", required = true, dataType = "String", paramType = "path"),
+            @ApiImplicitParam(name = "connectTel", value = "联系电话", required = true, dataType = "String", paramType = "path"),
+            @ApiImplicitParam(name = "place", value = "接送地点", required = true, dataType = "String", paramType = "path")
     })
     @PostMapping("/insertUpdateExamine")
     @CrossOrigin
     @CheckToken
-    public ResultVo CancelExamine(@RequestBody ExamineVo vo) {
+    public ResultVo insertUpdateExamine(@RequestBody ExamineVo vo) {
         if (vo.getApplyId() == null || StringUtils.isBlank(vo.getConnectName()) ||
             StringUtils.isBlank(vo.getConnectTel()) || StringUtils.isBlank(vo.getPlace())) {
             throw new ApplicationException(CodeType.PARAM_ERROR);
@@ -70,11 +70,11 @@ public class ExamineController {
     }
 
     @ApiOperation(value = "通过取消报名表的审核（运营操作）", notes = "通过取消报名表的审核（运营操作）")
-    @ApiImplicitParam(name = "ApplyId", value = "报名Id", required = true, dataType = "Long", paramType = "path")
-    @PostMapping("/AdoptCancelExamine")
+    @ApiImplicitParam(name = "applyId", value = "报名Id", required = true, dataType = "Long", paramType = "path")
+    @PostMapping("/adoptCancelExamine")
     @CrossOrigin
     @CheckToken
-    public ResultVo AdoptCancelExamine(@RequestBody ExamineAddInfoVo infoVo) {
+    public ResultVo adoptCancelExamine(@RequestBody ExamineAddInfoVo infoVo) {
         if (infoVo.getApplyId() == null) {
             throw new ApplicationException(CodeType.PARAM_ERROR);
         }
@@ -86,11 +86,11 @@ public class ExamineController {
     }
 
     @ApiOperation(value = "通过修改报名表记录的审核（运营操作）", notes = "通过修改报名表记录的审核（运营操作）")
-    @ApiImplicitParam(name = "ApplyId", value = "报名Id", required = true, dataType = "Long", paramType = "path")
-    @PostMapping("/AdoptUpdateExamine")
+    @ApiImplicitParam(name = "applyId", value = "报名Id", required = true, dataType = "Long", paramType = "path")
+    @PostMapping("/adoptUpdateExamine")
     @CrossOrigin
     @CheckToken
-    public ResultVo AdoptUpdateExamine(@RequestBody ExamineAddInfoVo infoVo) {
+    public ResultVo adoptUpdateExamine(@RequestBody ExamineAddInfoVo infoVo) {
         if (infoVo.getApplyId() == null) {
             throw new ApplicationException(CodeType.PARAM_ERROR);
         }
@@ -102,11 +102,11 @@ public class ExamineController {
     }
 
     @ApiOperation(value = "不通过取消或修改报名表的审核（运营操作）", notes = "不通过取消或修改报名表的审核（运营操作）")
-    @ApiImplicitParam(name = "ApplyId", value = "报名Id", required = true, dataType = "Long", paramType = "path")
-    @PostMapping("/NotAdoptExamine")
+    @ApiImplicitParam(name = "applyId", value = "报名Id", required = true, dataType = "Long", paramType = "path")
+    @PostMapping("/notAdoptExamine")
     @CrossOrigin
     @CheckToken
-    public ResultVo NotAdoptExamine(@RequestBody ExamineAddInfoVo infoVo) {
+    public ResultVo notAdoptExamine(@RequestBody ExamineAddInfoVo infoVo) {
         if (infoVo.getApplyId() == null) {
             throw new ApplicationException(CodeType.PARAM_ERROR);
         }

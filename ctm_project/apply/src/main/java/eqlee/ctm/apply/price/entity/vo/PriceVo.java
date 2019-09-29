@@ -17,11 +17,11 @@ public class PriceVo {
 
     private String lineName;
 
-    private Double AdultPrice;
+    private Double adultPrice;
 
-    private Double OldPrice;
+    private Double oldPrice;
 
-    private Double BabyPrice;
+    private Double babyPrice;
 
-    private Double ChildPrice;
+    private Double childPrice;
 }

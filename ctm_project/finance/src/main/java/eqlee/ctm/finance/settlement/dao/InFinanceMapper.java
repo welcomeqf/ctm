@@ -1,7 +1,9 @@
 package eqlee.ctm.finance.settlement.dao;
 
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.yq.IBaseMapper.IBaseMapper;
 import eqlee.ctm.finance.settlement.entity.Income;
+import eqlee.ctm.finance.settlement.entity.query.ExamineResultQuery;
 import eqlee.ctm.finance.settlement.entity.vo.ContectUserNumberVo;
 import eqlee.ctm.finance.settlement.entity.vo.OrderDetailedVo;
 import org.springframework.stereotype.Component;
@@ -22,5 +24,12 @@ public interface InFinanceMapper extends IBaseMapper<Income> {
      * @return
      */
     List<OrderDetailedVo> queryOrderNumber (Long Id);
+
+    /**
+     * 分页查询所有审核数据
+     * @param page
+     * @return
+     */
+    Page<ExamineResultQuery> listExamine2Page(Page<ExamineResultQuery> page);
 
 }

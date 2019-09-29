@@ -29,7 +29,7 @@ import java.util.Map;
 @Slf4j
 @Api("价格Api")
 @RestController
-@RequestMapping("/v1/app/api/price")
+@RequestMapping("/v1/app/price")
 public class PriceApiController {
 
     @Value("${api.userIp}")
@@ -51,10 +51,10 @@ public class PriceApiController {
             @ApiImplicitParam(name = "startTime", value = "开始时间", required = true, dataType = "String", paramType = "path"),
             @ApiImplicitParam(name = "endTime", value = "结束时间", required = true, dataType = "String", paramType = "path"),
             @ApiImplicitParam(name = "lineName", value = "线路名", required = true, dataType = "String", paramType = "path"),
-            @ApiImplicitParam(name = "AdultPrice", value = "成年价格", required = true, dataType = "double", paramType = "path"),
-            @ApiImplicitParam(name = "OldPrice", value = "老人价格", required = true, dataType = "double", paramType = "path"),
-            @ApiImplicitParam(name = "BabyPrice", value = "幼儿价格", required = true, dataType = "double", paramType = "path"),
-            @ApiImplicitParam(name = "ChildPrice", value = "小孩价格", required = true, dataType = "double", paramType = "path"),
+            @ApiImplicitParam(name = "adultPrice", value = "成年价格", required = true, dataType = "double", paramType = "path"),
+            @ApiImplicitParam(name = "oldPrice", value = "老人价格", required = true, dataType = "double", paramType = "path"),
+            @ApiImplicitParam(name = "babyPrice", value = "幼儿价格", required = true, dataType = "double", paramType = "path"),
+            @ApiImplicitParam(name = "childPrice", value = "小孩价格", required = true, dataType = "double", paramType = "path"),
     })
     @PostMapping("/insertPrice")
     @CrossOrigin
@@ -76,10 +76,10 @@ public class PriceApiController {
             @ApiImplicitParam(name = "startTime", value = "开始时间", required = true, dataType = "String", paramType = "path"),
             @ApiImplicitParam(name = "endTime", value = "结束时间", required = true, dataType = "String", paramType = "path"),
             @ApiImplicitParam(name = "lineName", value = "线路名", required = true, dataType = "String", paramType = "path"),
-            @ApiImplicitParam(name = "AdultPrice", value = "成年价格", required = true, dataType = "double", paramType = "path"),
-            @ApiImplicitParam(name = "OldPrice", value = "老人价格", required = true, dataType = "double", paramType = "path"),
-            @ApiImplicitParam(name = "BabyPrice", value = "幼儿价格", required = true, dataType = "double", paramType = "path"),
-            @ApiImplicitParam(name = "ChildPrice", value = "小孩价格", required = true, dataType = "double", paramType = "path"),
+            @ApiImplicitParam(name = "adultPrice", value = "成年价格", required = true, dataType = "double", paramType = "path"),
+            @ApiImplicitParam(name = "oldPrice", value = "老人价格", required = true, dataType = "double", paramType = "path"),
+            @ApiImplicitParam(name = "babyPrice", value = "幼儿价格", required = true, dataType = "double", paramType = "path"),
+            @ApiImplicitParam(name = "childPrice", value = "小孩价格", required = true, dataType = "double", paramType = "path"),
     })
     @PutMapping("/batchUpdatePrice")
     @CrossOrigin

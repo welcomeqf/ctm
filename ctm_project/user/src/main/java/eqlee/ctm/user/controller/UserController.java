@@ -52,8 +52,7 @@ public class UserController {
         if (StringUtils.isBlank(userVo.getUserName()) || StringUtils.isBlank(userVo.getPassword())
         || StringUtils.isBlank(userVo.getName()) || StringUtils.isBlank(userVo.getPhone()) ||
         StringUtils.isBlank(userVo.getRoleName()) || userVo.getCompanyId() == null) {
-            log.error("param is not null.");
-            throw new ApplicationException(CodeType.PARAM_ERROR,"参数不能为空");
+            throw new ApplicationException(CodeType.PARAM_ERROR);
         }
 
         userService.register(userVo);
@@ -74,8 +73,7 @@ public class UserController {
     public UserLoginQuery login(@RequestParam("userName") String userName, @RequestParam("password") String password,
                                 @RequestParam("AppId") String AppId) throws Exception{
         if (StringUtils.isBlank(userName) || StringUtils.isBlank(password) || StringUtils.isBlank(AppId)) {
-            log.error("param is not null.");
-            throw new ApplicationException(CodeType.PARAM_ERROR, "参数不能为空");
+            throw new ApplicationException(CodeType.PARAM_ERROR);
         }
         //验证签名
         String dcode = DataUtils.getDcodeing(AppId);
@@ -92,12 +90,11 @@ public class UserController {
             @ApiImplicitParam(name = "userName", value = "用户名", required = true, dataType = "String", paramType = "path"),
             @ApiImplicitParam(name = "AppId", value = "签名Id", required = true, dataType = "String", paramType = "path")
     })
-    @GetMapping("/deleteUser")
+    @DeleteMapping("/deleteUser/{userName}/{AppId}")
     @CrossOrigin
-    public ResultVo deleteUser(@RequestParam("userName") String userName, @RequestParam("AppId")String AppId) {
+    public ResultVo deleteUser(@PathVariable("userName") String userName, @PathVariable("AppId")String AppId) {
         if (StringUtils.isBlank(userName)) {
-            log.error("param is not null.");
-            throw new ApplicationException(CodeType.PARAM_ERROR,"参数不能为空");
+            throw new ApplicationException(CodeType.PARAM_ERROR);
         }
         userService.deleteUser(userName,AppId);
 
@@ -112,12 +109,11 @@ public class UserController {
             @ApiImplicitParam(name = "userName", value = "用户名", required = true, dataType = "String", paramType = "path"),
             @ApiImplicitParam(name = "AppId", value = "签名Id", required = true, dataType = "String", paramType = "path")
     })
-    @GetMapping("/exitUser")
+    @DeleteMapping("/exitUser/{userName}/{AppId}")
     @CrossOrigin
-    public ResultVo exitUser(@RequestParam("userName") String userName, @RequestParam("AppId")String AppId) {
+    public ResultVo exitUser(@PathVariable("userName") String userName, @PathVariable("AppId")String AppId) {
         if (StringUtils.isBlank(userName)) {
-            log.error("param is not null.");
-            throw new ApplicationException(CodeType.PARAM_ERROR,"参数不能为空");
+            throw new ApplicationException(CodeType.PARAM_ERROR);
         }
         userService.exitUser(userName,AppId);
 
@@ -132,12 +128,11 @@ public class UserController {
             @ApiImplicitParam(name = "userName", value = "用户名", required = true, dataType = "String", paramType = "path"),
             @ApiImplicitParam(name = "AppId", value = "签名Id", required = true, dataType = "String", paramType = "path")
     })
-    @GetMapping("/stopUser")
+    @PutMapping("/stopUser/{userName}/{AppId}")
     @CrossOrigin
-    public ResultVo stopUser(@RequestParam("userName") String userName, @RequestParam("AppId")String AppId) {
+    public ResultVo stopUser(@PathVariable("userName") String userName, @PathVariable("AppId")String AppId) {
         if (StringUtils.isBlank(userName)) {
-            log.error("param is not null.");
-            throw new ApplicationException(CodeType.PARAM_ERROR,"参数不能为空");
+            throw new ApplicationException(CodeType.PARAM_ERROR);
         }
         userService.stopUser(userName,AppId);
 
@@ -152,9 +147,9 @@ public class UserController {
             @ApiImplicitParam(name = "userName", value = "用户名", required = true, dataType = "String", paramType = "path"),
             @ApiImplicitParam(name = "AppId", value = "签名Id", required = true, dataType = "String", paramType = "path")
     })
-    @GetMapping("/toStopUser")
+    @PutMapping("/toStopUser/{userName}/{AppId}")
     @CrossOrigin
-    public ResultVo toStopUser(@RequestParam("userName") String userName, @RequestParam("AppId") String AppId) {
+    public ResultVo toStopUser(@PathVariable("userName") String userName, @PathVariable("AppId") String AppId) {
         if (StringUtils.isBlank(userName)) {
             log.error("param is not null.");
             throw new ApplicationException(CodeType.PARAM_ERROR,"参数不能为空");
@@ -176,7 +171,7 @@ public class UserController {
             @ApiImplicitParam(name = "phone", value = "电话", required = true, dataType = "String", paramType = "path"),
             @ApiImplicitParam(name = "roleName", value = "角色名", required = true, dataType = "String", paramType = "path"),
             @ApiImplicitParam(name = "companyId", value = "公司Id", required = true, dataType = "String", paramType = "path"),
-            @ApiImplicitParam(name = "AppId", value = "签名Id", required = true, dataType = "String", paramType = "path")
+            @ApiImplicitParam(name = "appId", value = "签名Id", required = true, dataType = "String", paramType = "path")
     })
     @PostMapping("/downRegister")
     @CrossOrigin
@@ -270,17 +265,17 @@ public class UserController {
             @ApiImplicitParam(name = "Id", value = "Id", required = true, dataType = "Long", paramType = "path"),
             @ApiImplicitParam(name = "userName", value = "用户名", required = true, dataType = "String", paramType = "path"),
             @ApiImplicitParam(name = "password", value = "新密码", required = true, dataType = "String", paramType = "path"),
-            @ApiImplicitParam(name = "AppId", value = "签名Id", required = true, dataType = "String", paramType = "path"),
+            @ApiImplicitParam(name = "appId", value = "签名Id", required = true, dataType = "String", paramType = "path"),
             @ApiImplicitParam(name = "tel", value = "手机号", required = true, dataType = "String", paramType = "path")
     })
-    @PostMapping("/updateUserPassword")
+    @PutMapping("/updateUserPassword/{Id}")
     @CrossOrigin
-    public ResultVo updateUserPassword(@RequestBody UserUpdatePasswordVo vo) {
-        if (vo.getId() == null || StringUtils.isBlank(vo.getUserName()) || StringUtils.isBlank(vo.getTel()) ||
+    public ResultVo updateUserPassword(@PathVariable("Id") Long Id,@RequestBody UserUpdatePasswordVo vo) {
+        if (Id == null || StringUtils.isBlank(vo.getUserName()) || StringUtils.isBlank(vo.getTel()) ||
             StringUtils.isBlank(vo.getPassword()) || StringUtils.isBlank(vo.getAppId())) {
             throw new ApplicationException(CodeType.PARAM_ERROR, "参数不能为空");
         }
-        userService.updateUserPassword(vo);
+        userService.updateUserPassword(Id,vo);
         ResultVo resultVo = new ResultVo();
         resultVo.setResult("ok");
         return resultVo;
@@ -295,14 +290,14 @@ public class UserController {
             @ApiImplicitParam(name = "tel", value = "手机号", required = true, dataType = "String", paramType = "path"),
             @ApiImplicitParam(name = "CompanyId", value = "公司ID", required = true, dataType = "Long", paramType = "path")
     })
-    @PostMapping("/updateUser")
+    @PutMapping("/updateUser/{Id}")
     @CrossOrigin
-    public ResultVo updateUser(@RequestBody UserUpdateVo vo) {
-        if (vo.getId() == null || StringUtils.isBlank(vo.getCName()) || StringUtils.isBlank(vo.getTel()) ||
+    public ResultVo updateUser(@PathVariable("Id") Long Id,@RequestBody UserUpdateVo vo) {
+        if (Id == null || StringUtils.isBlank(vo.getCName()) || StringUtils.isBlank(vo.getTel()) ||
                 StringUtils.isBlank(vo.getSelfImagePath()) || StringUtils.isBlank(vo.getAppId()) || vo.getCompanyId() == null) {
             throw new ApplicationException(CodeType.PARAM_ERROR, "参数不能为空");
         }
-        userService.updateUser(vo);
+        userService.updateUser(vo,Id);
         ResultVo resultVo = new ResultVo();
         resultVo.setResult("ok");
         return resultVo;

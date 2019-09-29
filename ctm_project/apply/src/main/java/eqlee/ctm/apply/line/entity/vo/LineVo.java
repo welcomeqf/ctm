@@ -13,30 +13,30 @@ public class LineVo {
     /**
      * 线路名
      */
-    private String LineName;
+    private String lineName;
 
     /**
      * 线路简介
      */
-    private String Information;
+    private String information;
 
     /**
      * 区域
      */
-    private String Region;
+    private String region;
 
     /**
      * 出游情况（几日游）
      */
-    private Integer TravelSituation;
+    private Integer travelSituation;
 
     /**
      * 最大人数
      */
-    private Integer MaxNumber;
+    private Integer maxNumber;
 
     /**
      * 最小人数
      */
-    private Integer MinNumber;
+    private Integer minNumber;
 }

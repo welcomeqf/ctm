@@ -23,7 +23,7 @@ import org.springframework.web.bind.annotation.*;
 @Api
 @RestController
 @Slf4j
-@RequestMapping("v1/app/user/privilege")
+@RequestMapping("v1/app/privilege")
 public class PrivilegeController {
 
     @Autowired
@@ -33,7 +33,7 @@ public class PrivilegeController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "roleName", value = "角色名", required = true, dataType = "String", paramType = "path"),
             @ApiImplicitParam(name = "menuList", value = "所有菜单集合", required = true, dataType = "List", paramType = "path"),
-            @ApiImplicitParam(name = "AppId", value = "签名Id", required = true, dataType = "String", paramType = "path")
+            @ApiImplicitParam(name = "appId", value = "签名Id", required = true, dataType = "String", paramType = "path")
     })
     @PostMapping("/insertPrivilege")
     @CrossOrigin

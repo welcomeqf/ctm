@@ -15,101 +15,106 @@ public class FinanceVo {
     /**
      * 出发日期
      */
-    private String OutDate;
+    private String outDate;
 
     /**
      * 线路名
      */
-    private String LineName;
+    private String lineName;
 
     /**
      * 车牌号
      */
-    private String CarNo;
+    private String carNo;
+
+    /**
+     * 应到人数
+     */
+    private Integer allDoNumber;
 
     /**
      * 实到人数
      */
-    private Integer TrueAllNumber;
+    private Integer trueAllNumber;
 
     /**
      * 实到成年人数
      */
-    private Integer TreeAdultNumber;
+    private Integer treeAdultNumber;
 
     /**
      * 实到幼儿人数
      */
-    private Integer TreeBabyNumber;
+    private Integer treeBabyNumber;
 
     /**
      * 实到老人人数
      */
-    private Integer TreeOldNumber;
+    private Integer treeOldNumber;
 
     /**
      * 实到小孩人数
      */
-    private Integer TreeChildNumber;
+    private Integer treeChildNumber;
 
     /**
      * 未付款的联系人列表
      */
-    private List<ContectUserVo> UnpaidList;
+    private List<ContectUserVo> unpaidList;
 
     /**
      * 未付款人数
      */
-    private Integer UnpaidNumber;
+    private Integer unpaidNumber;
 
     /**
      * 应收金额
      */
-    private Double GaiMoney;
+    private Double gaiMoney;
 
     /**
      * 实收金额
      */
-    private Double TrueMoney;
+    private Double trueMoney;
 
     /**
      * 门票名
      */
-    private String TicketName;
+    private String ticketName;
 
     /**
      * 门票价格
      */
-    private Double TicketPrice;
+    private Double ticketPrice;
 
     /**
      * 午餐费用
      */
-    private Double LunchPrice;
+    private Double lunchPrice;
 
     /**
      * 停车费
      */
-    private Double ParkingRatePrice;
+    private Double parkingRatePrice;
 
     /**
      * 租车费用
      */
-    private Double RentCarPrice;
+    private Double rentCarPrice;
 
     /**
      * 导游补助
      */
-    private Double GuideSubsidy;
+    private Double guideSubsidy;
 
     /**
      * 司机补助
      */
-    private Double DriverSubsidy;
+    private Double driverSubsidy;
 
     /**
      * 总支出费用
      */
-    private Double AllOutPrice;
+    private Double allOutPrice;
 
 }

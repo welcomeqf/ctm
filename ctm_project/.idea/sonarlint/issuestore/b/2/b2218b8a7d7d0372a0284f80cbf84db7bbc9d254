@@ -1,11 +1,13 @@
 
-qsquid:S3776«"RRefactor this method to reduce its Cognitive Complexity from 97 to the 15 allowed.(¿Ñº‹8ù €åÔ-
-Nsquid:S1066Û"/Merge this if statement with the enclosing one.(á¥«…8ù €åÔ-
-Ssquid:S1066ó"/Merge this if statement with the enclosing one.(ÍØÎùÿÿÿÿ8ù €åÔ-
-Ssquid:S1066í"/Merge this if statement with the enclosing one.(êÌ×Şıÿÿÿÿ8ù €åÔ-
-Ssquid:S1066è"/Merge this if statement with the enclosing one.(ÄÔÙµÿÿÿÿÿ8ù €åÔ-
+xsquid:S2293"YReplace the type specification in this constructor call with the diamond operator ("<>").(şÌŠ8ù €åÔ-
+qsquid:S3776¬"RRefactor this method to reduce its Cognitive Complexity from 97 to the 15 allowed.(¿Ñº‹8ù €åÔ-
+Ssquid:S1066ô"/Merge this if statement with the enclosing one.(ÍØÎùÿÿÿÿ8ù €åÔ-
+qsquid:S00117"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(àºÉ‡8ÌÛº¿×-
+Nsquid:S1066Ü"/Merge this if statement with the enclosing one.(á¥«…8ù €åÔ-
+Ssquid:S1066×"/Merge this if statement with the enclosing one.(µ¦Òñıÿÿÿÿ8ù €åÔ-
+qsquid:S00117"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(àºÉ‡8ÌÛº¿×-
+Ssquid:S1066î"/Merge this if statement with the enclosing one.(êÌ×Şıÿÿÿÿ8ù €åÔ-
+psquid:S00117@"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(·æš8œÒÑòÓ-
 ˆsquid:UselessImportCheck"XRemove this unused import 'com.baomidou.mybatisplus.core.conditions.query.QueryWrapper'.(ÓÆÂæÿÿÿÿÿ8ù €åÔ-
-xsquid:S2293"YReplace the type specification in this constructor call with the diamond operator ("<>").(şÌŠ8ù €åÔ-
-Ssquid:S1066Ö"/Merge this if statement with the enclosing one.(µ¦Òñıÿÿÿÿ8ù €åÔ-
-Nsquid:S1066â"/Merge this if statement with the enclosing one.(ß…—8ù €åÔ-
-psquid:S00117?"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(·æš8œÒÑòÓ-
+Ssquid:S1066é"/Merge this if statement with the enclosing one.(ÄÔÙµÿÿÿÿÿ8ù €åÔ-
+Nsquid:S1066ã"/Merge this if statement with the enclosing one.(ß…—8ù €åÔ-

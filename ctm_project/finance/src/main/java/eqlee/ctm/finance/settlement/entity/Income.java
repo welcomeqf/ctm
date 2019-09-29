@@ -46,7 +46,7 @@ public class Income extends Model<Income> {
     private String Department;
 
     /**
-     * 订单明细ID
+     * 人数ID
      */
     private Long NumberId;
 

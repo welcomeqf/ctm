@@ -12,14 +12,14 @@ import lombok.Data;
 @Data
 public class CompanyVo {
 
-    private String CompanyName;
+    private String companyName;
 
-    private String StartDate;
+    private String startDate;
 
-    private String EndDate;
+    private String endDate;
 
-    private String PayMethod;
+    private String payMethod;
 
-    private String Stopped;
+    private String stopped;
 
 }

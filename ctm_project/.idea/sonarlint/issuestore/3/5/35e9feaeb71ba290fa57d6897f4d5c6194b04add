@@ -1,0 +1,8 @@
+
+rsquid:S00116!"NRename this field "Tel" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(Ü÷è‰øÿÿÿÿ8¤‡’¹×-
+ssquid:S00116"TRename this field "GuideName" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ÓØ8¤‡’¹×-
+vsquid:S00116"RRename this field "OutDate" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(Ç“‹ÿÿÿÿÿ8¤‡’¹×-
+vsquid:S001160"WRename this field "FinallyPrice" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(‚Ü®¥8¤‡’¹×-
+qsquid:S00116+"RRename this field "InPrice" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ëáìÔ8¤‡’¹×-
+zsquid:S00116&"VRename this field "AllOutPrice" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(°¢ÄÆøÿÿÿÿ8·Åœ¹×-
+wsquid:S00116"SRename this field "LineName" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ğ¬ñúÿÿÿÿ8¤‡’¹×-

@@ -10,5 +10,5 @@ import lombok.Data;
 @Data
 public class ExamineAddInfoVo {
 
-    private Long ApplyId;
+    private Long applyId;
 }

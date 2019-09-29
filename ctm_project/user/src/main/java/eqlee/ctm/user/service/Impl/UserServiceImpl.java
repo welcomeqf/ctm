@@ -422,7 +422,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
      * @param vo
      */
     @Override
-    public synchronized void updateUserPassword(UserUpdatePasswordVo vo) {
+    public synchronized void updateUserPassword(Long Id,UserUpdatePasswordVo vo) {
         //验证签名
         Sign sign = signService.queryOne(vo.getAppId());
         Boolean result = null;
@@ -449,7 +449,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
         }
 
         User u = new User();
-        u.setId(vo.getId());
+        u.setId(Id);
         u.setPassword(ShaUtils.getSha1(vo.getPassword()));
         int updateById = baseMapper.updateById(u);
 
@@ -464,7 +464,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
      * @param vo
      */
     @Override
-    public void updateUser(UserUpdateVo vo) {
+    public void updateUser(UserUpdateVo vo,Long Id) {
         //验证签名
         Sign sign = signService.queryOne(vo.getAppId());
         Boolean result = null;
@@ -479,7 +479,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
 
         //修改用户
         User user = new User();
-        user.setId(vo.getId());
+        user.setId(Id);
         user.setCompanyId(vo.getCompanyId());
         user.setCName(vo.getCName());
         user.setSelfImagePath(vo.getSelfImagePath());

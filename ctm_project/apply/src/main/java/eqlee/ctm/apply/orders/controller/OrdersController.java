@@ -11,6 +11,7 @@ import eqlee.ctm.apply.jwt.islogin.CheckToken;
 import eqlee.ctm.apply.line.entity.vo.ResultVo;
 import eqlee.ctm.apply.orders.entity.Orders;
 import eqlee.ctm.apply.orders.entity.Vo.*;
+import eqlee.ctm.apply.orders.entity.bo.CarBo;
 import eqlee.ctm.apply.orders.service.IOrdersService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -49,16 +50,16 @@ public class OrdersController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "applyVoList", value = "已选人信息", required = true, dataType = "List<ApplyVo>", paramType = "path"),
             //ApplyNo里面的字段信息
-            @ApiImplicitParam(name = "LineId", value = "线路Id", required = true, dataType = "Long", paramType = "path"),
-            @ApiImplicitParam(name = "ContactName", value = "联系人姓名", required = true, dataType = "String", paramType = "path"),
-            @ApiImplicitParam(name = "ContactTel", value = "联系方式", required = true, dataType = "String", paramType = "path"),
-            @ApiImplicitParam(name = "Region", value = "区域", required = true, dataType = "String", paramType = "path"),
-            @ApiImplicitParam(name = "Place", value = "接送地", required = true, dataType = "String", paramType = "path"),
-            @ApiImplicitParam(name = "LineName", value = "线路名", required = true, dataType = "String", paramType = "path"),
-            @ApiImplicitParam(name = "OutDate", value = "出发日期", required = true, dataType = "String", paramType = "path"),
+            @ApiImplicitParam(name = "lineId", value = "线路Id", required = true, dataType = "Long", paramType = "path"),
+            @ApiImplicitParam(name = "contactName", value = "联系人姓名", required = true, dataType = "String", paramType = "path"),
+            @ApiImplicitParam(name = "contactTel", value = "联系方式", required = true, dataType = "String", paramType = "path"),
+            @ApiImplicitParam(name = "region", value = "区域", required = true, dataType = "String", paramType = "path"),
+            @ApiImplicitParam(name = "place", value = "接送地", required = true, dataType = "String", paramType = "path"),
+            @ApiImplicitParam(name = "lineName", value = "线路名", required = true, dataType = "String", paramType = "path"),
+            @ApiImplicitParam(name = "outDate", value = "出发日期", required = true, dataType = "String", paramType = "path"),
 
     })
-    @PostMapping("saveOrders")
+    @PostMapping("/saveOrders")
     @CrossOrigin
     @CheckToken
     public ResultVo saveApplyed(@RequestBody List<OrdersVo> applyVoList){
@@ -83,10 +84,10 @@ public class OrdersController {
             @ApiImplicitParam(name = "size", value = "每页显示条数", required = true, dataType = "Integer", paramType = "path")
 
     })
-    @GetMapping("ChoisedIndex")
+    @GetMapping("/choisedIndex")
     @CrossOrigin
     @CheckToken
-    public Map<String,Object> ChoisedIndex(@RequestParam("Region") String Region,
+    public Map<String,Object> choisedIndex(@RequestParam("Region") String Region,
                                                              @RequestParam("LineName") String LineName,
                                                              @RequestParam("OutDate") String OutDate,
                                                              @RequestParam("current") Integer current,
@@ -114,7 +115,7 @@ public class OrdersController {
             @ApiImplicitParam(name = "size", value = "每页显示条数", required = true, dataType = "Integer", paramType = "path")
 
     })
-    @GetMapping("choisedVisitor")
+    @GetMapping("/choisedVisitor")
     @CrossOrigin
     @CheckToken
     public Page<VisitorInformation> choisedVisitor(@RequestParam("ContactName") String ContactName,
@@ -140,19 +141,19 @@ public class OrdersController {
             @ApiImplicitParam(name = "applyVoList", value = "已选人信息", required = true, dataType = "List<ApplyVo>", paramType = "path"),
             @ApiImplicitParam(name = "Id", value = "更换导游人的Id", required = true, dataType = "Long", paramType = "path"),
             //ApplyNo里面的字段信息
-            @ApiImplicitParam(name = "LineId", value = "线路Id", required = true, dataType = "Long", paramType = "path"),
-            @ApiImplicitParam(name = "ContactName", value = "联系人姓名", required = true, dataType = "String", paramType = "path"),
-            @ApiImplicitParam(name = "ContactTel", value = "联系方式", required = true, dataType = "String", paramType = "path"),
-            @ApiImplicitParam(name = "Region", value = "区域", required = true, dataType = "String", paramType = "path"),
-            @ApiImplicitParam(name = "Place", value = "接送地", required = true, dataType = "String", paramType = "path"),
-            @ApiImplicitParam(name = "LineName", value = "线路名", required = true, dataType = "String", paramType = "path"),
-            @ApiImplicitParam(name = "OutDate", value = "出发日期", required = true, dataType = "String", paramType = "path"),
+            @ApiImplicitParam(name = "lineId", value = "线路Id", required = true, dataType = "Long", paramType = "path"),
+            @ApiImplicitParam(name = "contactName", value = "联系人姓名", required = true, dataType = "String", paramType = "path"),
+            @ApiImplicitParam(name = "contactTel", value = "联系方式", required = true, dataType = "String", paramType = "path"),
+            @ApiImplicitParam(name = "region", value = "区域", required = true, dataType = "String", paramType = "path"),
+            @ApiImplicitParam(name = "place", value = "接送地", required = true, dataType = "String", paramType = "path"),
+            @ApiImplicitParam(name = "lineName", value = "线路名", required = true, dataType = "String", paramType = "path"),
+            @ApiImplicitParam(name = "outDate", value = "出发日期", required = true, dataType = "String", paramType = "path"),
 
     })
-    @PutMapping("UpdateApply/{Id}")
+    @PutMapping("/updateApply/{Id}")
     @CrossOrigin
     @CheckToken
-    public ResultVo UpdateApply(@RequestBody List<OrderIndexVo> orderIndexVos,
+    public ResultVo updateApply(@RequestBody List<OrderIndexVo> orderIndexVos,
                                  @PathVariable("Id") Long Id){
         if(orderIndexVos.size() == 0|| Id == null){
             throw new ApplicationException(CodeType.PARAM_ERROR,"参数不能为空");
@@ -170,16 +171,14 @@ public class OrdersController {
             @ApiImplicitParam(name = "OutDate", value = "出发日期", required = true, dataType = "String", paramType = "path"),
             @ApiImplicitParam(name = "CarNumber", value = "车牌号", required = true, dataType = "String", paramType = "path")
     })
-    @PostMapping("saveCar")
+    @PostMapping("/saveCar")
     @CrossOrigin
     @CheckToken
-    public ResultVo saveCar(@RequestParam("LineName") String LineName,
-                             @RequestParam("OutDate") String OutDate,
-                             @RequestParam("CarNumber") String CarNumber){
-        if(StringUtils.isBlank(LineName)||StringUtils.isBlank(OutDate)){
+    public ResultVo saveCar(@RequestBody CarBo bo){
+        if(StringUtils.isBlank(bo.getLineName())||StringUtils.isBlank(bo.getOutDate())){
             throw new ApplicationException(CodeType.PARAM_ERROR,"参数不能为空");
         }
-        ordersService.save(LineName,OutDate,CarNumber);
+        ordersService.save(bo.getLineName(),bo.getOutDate(),bo.getCarNumber());
         ResultVo resultVo = new ResultVo();
         resultVo.setResult("ok");
         return resultVo;
@@ -187,13 +186,12 @@ public class OrdersController {
 
 
 
-    @ApiOperation(value = "导游换人消息列表",notes = "导游换人消息列表                                                                   ")
-    @GetMapping("sureChangeIndex")
+    @ApiOperation(value = "导游换人消息列表",notes = "导游换人消息列表")
+    @GetMapping("/sureChangeIndex")
     @CrossOrigin
     @CheckToken
     public List<ChangedVo> sureChangeIndex(){
-
-        return ordersService. waiteChangeIndex();
+        return ordersService.waiteChangeIndex();
     }
 
 
@@ -202,26 +200,20 @@ public class OrdersController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "changedVoList", value = "游客信息表", required = true, dataType = "List<Choised>", paramType = "path"),
             //ChangedVo中信息字段
-            @ApiImplicitParam(name = "Id", value = "导游Id", required = true, dataType = "Long", paramType = "path"),
-            @ApiImplicitParam(name = "GuideName", value = "导游姓名", required = true, dataType = "String", paramType = "path"),
-            @ApiImplicitParam(name = "LineName", value = "线路名", required = true, dataType = "String", paramType = "path"),
-            @ApiImplicitParam(name = "OutDate", value = "出发日期", required = true, dataType = "String", paramType = "path"),
-            @ApiImplicitParam(name = "ContactTel", value = "联系电话", required = true, dataType = "String", paramType = "path"),
-            @ApiImplicitParam(name = "ContactName", value = "联系人", required = true, dataType = "String", paramType = "path")
+            @ApiImplicitParam(name = "id", value = "导游Id", required = true, dataType = "Long", paramType = "path"),
+            @ApiImplicitParam(name = "guideName", value = "导游姓名", required = true, dataType = "String", paramType = "path"),
+            @ApiImplicitParam(name = "lineName", value = "线路名", required = true, dataType = "String", paramType = "path"),
+            @ApiImplicitParam(name = "outDate", value = "出发日期", required = true, dataType = "String", paramType = "path"),
+            @ApiImplicitParam(name = "contactTel", value = "联系电话", required = true, dataType = "String", paramType = "path"),
+            @ApiImplicitParam(name = "contactName", value = "联系人", required = true, dataType = "String", paramType = "path")
     })
-    @PutMapping("sureChoised")
+    @PutMapping("/sureChoised")
     @CrossOrigin
     @CheckToken
-    public ResultVo sureChoised(){
-        /*if(choisedList.size() == 0){
+    public ResultVo sureChoised(@RequestBody List<ChoisedVo> choisedList){
+        if(choisedList.size() == 0){
             throw new ApplicationException(CodeType.PARAM_ERROR,"参数不能为空");
-        }*/
-        ChoisedVo choisedVo = new ChoisedVo();
-        choisedVo.setId(625693528420253696L);
-        choisedVo.setLineName("长隆线");
-        choisedVo.setOutDate("1905-07-03");
-        List<ChoisedVo> choisedList = new ArrayList<ChoisedVo>();
-        choisedList.add(choisedVo);
+        }
         ordersService.sureChoised(choisedList);
         ResultVo resultVo = new ResultVo();
         resultVo.setResult("ok");
@@ -235,14 +227,14 @@ public class OrdersController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "changedVoList", value = "游客信息表", required = true, dataType = "List<Choised>", paramType = "path"),
             //ChangedVo中信息字段
-            @ApiImplicitParam(name = "Id", value = "导游Id", required = true, dataType = "Long", paramType = "path"),
-            @ApiImplicitParam(name = "GuideName", value = "导游姓名", required = true, dataType = "String", paramType = "path"),
-            @ApiImplicitParam(name = "LineName", value = "线路名", required = true, dataType = "String", paramType = "path"),
-            @ApiImplicitParam(name = "OutDate", value = "出发日期", required = true, dataType = "String", paramType = "path"),
-            @ApiImplicitParam(name = "ContactTel", value = "联系电话", required = true, dataType = "String", paramType = "path"),
-            @ApiImplicitParam(name = "ContactName", value = "联系人", required = true, dataType = "String", paramType = "path")
+            @ApiImplicitParam(name = "id", value = "导游Id", required = true, dataType = "Long", paramType = "path"),
+            @ApiImplicitParam(name = "guideName", value = "导游姓名", required = true, dataType = "String", paramType = "path"),
+            @ApiImplicitParam(name = "lineName", value = "线路名", required = true, dataType = "String", paramType = "path"),
+            @ApiImplicitParam(name = "outDate", value = "出发日期", required = true, dataType = "String", paramType = "path"),
+            @ApiImplicitParam(name = "contactTel", value = "联系电话", required = true, dataType = "String", paramType = "path"),
+            @ApiImplicitParam(name = "contactName", value = "联系人", required = true, dataType = "String", paramType = "path")
     })
-    @PutMapping("denyChoised")
+    @PutMapping("/denyChoised")
     @CrossOrigin
     @CheckToken
     public ResultVo denyChoised(@RequestBody List<ChoisedVo> choisedList){
@@ -262,11 +254,11 @@ public class OrdersController {
             @ApiImplicitParam(name = "LineName", value = "线路名", required = true, dataType = "String", paramType = "path"),
             @ApiImplicitParam(name = "OutDate", value = "出发日期", required = true, dataType = "String", paramType = "path")
     })
-    @GetMapping("denyChoisedindex")
+    @GetMapping("/denyChoisedindex")
     @CrossOrigin
     @CheckToken
-    public List<ChangedVo> denyChoisedindex(@Param("LineName") String LineName,
-                                      @Param("OutDate") String OutDate){
+    public List<ChangedVo> denyChoisedindex(@RequestParam("LineName") String LineName,
+                                      @RequestParam("OutDate") String OutDate){
         if(StringUtils.isBlank(LineName)||StringUtils.isBlank(OutDate)){
             throw new ApplicationException(CodeType.PARAM_ERROR,"参数不能为空");
         }
@@ -281,11 +273,11 @@ public class OrdersController {
             @ApiImplicitParam(name = "LineName", value = "线路名", required = true, dataType = "String", paramType = "path"),
             @ApiImplicitParam(name = "OutDate", value = "出发日期", required = true, dataType = "String", paramType = "path")
     })
-    @GetMapping("IncomeCount")
+    @GetMapping("/incomeCount")
     @CrossOrigin
     @CheckToken
-    public IncomeVo IncomeCount(@Param("LineName") String LineName,
-                                @Param("OutDate") String OutDate){
+    public IncomeVo IncomeCount(@RequestParam("LineName") String LineName,
+                                @RequestParam("OutDate") String OutDate){
         if(StringUtils.isBlank(LineName)||StringUtils.isBlank(OutDate)){
             throw new ApplicationException(CodeType.PARAM_ERROR,"参数不能为空");
         }
@@ -300,12 +292,12 @@ public class OrdersController {
             @ApiImplicitParam(name = "LineName", value = "线路名", required = true, dataType = "String", paramType = "path"),
             @ApiImplicitParam(name = "OutDate", value = "出发日期", required = true, dataType = "String", paramType = "path")
     })
-    @GetMapping("unpaidIndex")
+    @GetMapping("/unpaidIndex")
     @CrossOrigin
     @CheckToken
-    public UnpaidInformationVo unpaidIndex(@Param("ContactTel") String ContactTel,
-                                                 @Param("LineName") String LineName,
-                                                 @Param("OutDate") String OutDate){
+    public UnpaidInformationVo unpaidIndex(@RequestParam("ContactTel") String ContactTel,
+                                                 @RequestParam("LineName") String LineName,
+                                                 @RequestParam("OutDate") String OutDate){
         if(StringUtils.isBlank(LineName)||StringUtils.isBlank(OutDate)||StringUtils.isBlank(ContactTel)){
             throw new ApplicationException(CodeType.PARAM_ERROR,"参数不能为空");
         }

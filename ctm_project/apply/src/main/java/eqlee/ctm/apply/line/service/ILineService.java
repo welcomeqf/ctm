@@ -3,6 +3,7 @@ package eqlee.ctm.apply.line.service;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import eqlee.ctm.apply.line.entity.Line;
 import eqlee.ctm.apply.line.entity.query.LinePageQuery;
+import eqlee.ctm.apply.line.entity.vo.LineUpdateVo;
 import eqlee.ctm.apply.line.entity.vo.LineVo;
 
 /**
@@ -30,7 +31,7 @@ public interface ILineService {
      * @param line
      * @param Id
      */
-    void updateLine(Line line, Long Id);
+    void updateLine(LineUpdateVo line, Long Id);
 
     /**
      * 查询所有线路

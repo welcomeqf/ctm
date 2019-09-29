@@ -7,6 +7,7 @@ import eqlee.ctm.resource.car.entity.Car;
 import eqlee.ctm.resource.car.entity.Vo.CarUpdateVo;
 import eqlee.ctm.resource.car.entity.Vo.CarVo;
 import eqlee.ctm.resource.car.service.ICarService;
+import eqlee.ctm.resource.company.entity.vo.ResultVo;
 import eqlee.ctm.resource.exception.ApplicationException;
 import eqlee.ctm.resource.jwt.contain.LocalUser;
 import eqlee.ctm.resource.jwt.islogin.CheckToken;
@@ -28,7 +29,7 @@ import org.springframework.web.bind.annotation.*;
 @Api("车辆管理Api")
 @Slf4j
 @RestController
-@RequestMapping("/v1/app/resource/car")
+@RequestMapping("/v1/app/car")
 public class CarController {
 
     @Autowired
@@ -53,7 +54,7 @@ public class CarController {
 
 
     @ApiOperation(value = "车辆删除",notes = "车辆删除")
-    @DeleteMapping("deleteCar/{Id}")
+    @DeleteMapping("/{Id}")
     @ApiImplicitParam(name = "Id",value = "车辆Id",required = true,dataType = "Long",paramType = "path")
     @CrossOrigin
     @CheckToken
@@ -70,15 +71,14 @@ public class CarController {
     @ApiOperation(value = "车辆增加",notes = "车辆增加")
     @PostMapping("/addCar")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "CarName", value = "车辆名", required = true, dataType = "String", paramType = "path"),
-            @ApiImplicitParam(name = "CarNo", value = "车牌号", required = true, dataType = "String", paramType = "path"),
-            @ApiImplicitParam(name = "Statu", value = "状态", required = true, dataType = "String", paramType = "path"),
-            @ApiImplicitParam(name = "Remark", value = "备注", required = true, dataType = "String", paramType = "path")
+            @ApiImplicitParam(name = "carName", value = "车辆名", required = true, dataType = "String", paramType = "path"),
+            @ApiImplicitParam(name = "carNo", value = "车牌号", required = true, dataType = "String", paramType = "path"),
+            @ApiImplicitParam(name = "statu", value = "状态", required = true, dataType = "String", paramType = "path"),
+            @ApiImplicitParam(name = "remark", value = "备注", required = true, dataType = "String", paramType = "path")
     })
     @CrossOrigin
     @CheckToken
-    public void addCar(CarVo carVo) {
-        System.out.println("11111111111");
+    public void addCar(@RequestBody CarVo carVo) {
         if(StringUtils.isBlank(carVo.getCarNo()) ||StringUtils.isBlank(carVo.getCarName())){
             throw new ApplicationException(CodeType.PARAMETER_ERROR,"增加车辆信息为空");
         }
@@ -107,19 +107,20 @@ public class CarController {
     @PutMapping("/updateCar/{Id}")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "Id", value = "车辆Id", required = true, dataType = "Long", paramType = "path"),
-            @ApiImplicitParam(name = "CarName", value = "车辆名", required = true, dataType = "String", paramType = "path"),
-            @ApiImplicitParam(name = "CarNo", value = "车辆号", required = true, dataType = "String", paramType = "path"),
-            @ApiImplicitParam(name = "Statu", value = "状态", required = true, dataType = "String", paramType = "path"),
-            @ApiImplicitParam(name = "Remark", value = "备注", required = true, dataType = "String", paramType = "path"),
-            @ApiImplicitParam(name = "IsStop", value = "是否启用", required = true, dataType = "boolean", paramType = "path")
+            @ApiImplicitParam(name = "carName", value = "车辆名", required = true, dataType = "String", paramType = "path"),
+            @ApiImplicitParam(name = "carNo", value = "车辆号", required = true, dataType = "String", paramType = "path"),
+            @ApiImplicitParam(name = "statu", value = "状态", required = true, dataType = "String", paramType = "path"),
+            @ApiImplicitParam(name = "remark", value = "备注", required = true, dataType = "String", paramType = "path"),
+            @ApiImplicitParam(name = "isStop", value = "是否启用", required = true, dataType = "boolean", paramType = "path")
     })
     @CrossOrigin
     @CheckToken
-    public void updateCar(@PathVariable("Id") Long Id, CarUpdateVo carUpdateVo) {
-        System.out.println("1111111");
+    public void updateCar(@PathVariable("Id") Long Id, @RequestBody CarUpdateVo carUpdateVo) {
         if(StringUtils.isBlank(carUpdateVo.getCarNo()) ||StringUtils.isBlank(carUpdateVo.getCarName())||Id == null){
             throw new ApplicationException(CodeType.PARAMETER_ERROR);
         }
         carService.updateCar(carUpdateVo,Id);
     }
+
+
 }

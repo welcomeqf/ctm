@@ -42,16 +42,16 @@ public class ApplyController {
 
     @ApiOperation(value = "申请报名", notes = "申请报名")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "OutDate", value = "出行日期", required = true, dataType = "String", paramType = "path"),
-            @ApiImplicitParam(name = "ContactName", value = "联系人名字", required = true, dataType = "String", paramType = "path"),
-            @ApiImplicitParam(name = "ContactTel", value = "联系电话", required = true, dataType = "String", paramType = "path"),
-            @ApiImplicitParam(name = "Place", value = "接送地点", required = true, dataType = "String", paramType = "path"),
-            @ApiImplicitParam(name = "LineName", value = "线路名", required = true, dataType = "String", paramType = "path"),
-            @ApiImplicitParam(name = "AdultNumber", value = "成年人数", required = true, dataType = "int", paramType = "path"),
-            @ApiImplicitParam(name = "BabyNumber", value = "幼儿人数", required = true, dataType = "int", paramType = "path"),
-            @ApiImplicitParam(name = "OldNumber", value = "老人人数", required = true, dataType = "int", paramType = "path"),
-            @ApiImplicitParam(name = "ChildNumber", value = "小孩人数", required = true, dataType = "int", paramType = "path"),
-            @ApiImplicitParam(name = "PayType", value = "支付类型", required = true, dataType = "String", paramType = "path")
+            @ApiImplicitParam(name = "outDate", value = "出行日期", required = true, dataType = "String", paramType = "path"),
+            @ApiImplicitParam(name = "contactName", value = "联系人名字", required = true, dataType = "String", paramType = "path"),
+            @ApiImplicitParam(name = "contactTel", value = "联系电话", required = true, dataType = "String", paramType = "path"),
+            @ApiImplicitParam(name = "place", value = "接送地点", required = true, dataType = "String", paramType = "path"),
+            @ApiImplicitParam(name = "lineName", value = "线路名", required = true, dataType = "String", paramType = "path"),
+            @ApiImplicitParam(name = "adultNumber", value = "成年人数", required = true, dataType = "int", paramType = "path"),
+            @ApiImplicitParam(name = "babyNumber", value = "幼儿人数", required = true, dataType = "int", paramType = "path"),
+            @ApiImplicitParam(name = "oldNumber", value = "老人人数", required = true, dataType = "int", paramType = "path"),
+            @ApiImplicitParam(name = "childNumber", value = "小孩人数", required = true, dataType = "int", paramType = "path"),
+            @ApiImplicitParam(name = "payType", value = "支付类型", required = true, dataType = "String", paramType = "path")
     })
     @PostMapping("/insertApply")
     @CrossOrigin

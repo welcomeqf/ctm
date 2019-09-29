@@ -94,7 +94,7 @@ public class CarServiceImp extends ServiceImpl<CarMapper, Car>implements ICarSer
         car.setCarName(carVo.getCarName());
         car.setCarNo(carVo.getCarNo());
         car.setStatu(carVo.getStatu());
-        if(carVo.isIsStop()) {
+        if(carVo.isStop()) {
             car.setIsStop(true);
         }
         else

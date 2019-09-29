@@ -1,0 +1,31 @@
+package eqlee.ctm.apply.line.entity.vo;
+
+import lombok.Data;
+
+import java.time.LocalDateTime;
+
+/**
+ * @Author qf
+ * @Date 2019/9/28
+ * @Version 1.0
+ */
+@Data
+public class LineUpdateVo {
+
+    private String lineName;
+
+    private String information;
+
+    private String region;
+
+    private Integer travelSituation;
+
+    private Integer maxNumber;
+
+    private Integer minNumber;
+
+    private Boolean stopped;
+
+    private String remark;
+
+}

@@ -1,7 +1,2 @@
 
-msquid:S00100<"NRename this method name to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ï³£ƒ8•Í÷ñÔ-
-rsquid:S00100M"NRename this method name to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ÅÍæúÿÿÿÿ8ù†›òÔ-
-msquid:S00100m"NRename this method name to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(‚úŸÀ8àáÏòÔ-
-rsquid:S00100'"NRename this method name to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ş¢ê¿ùÿÿÿÿ8åĞæñÔ-
 rsquid:UselessImportCheck	"BRemove this unused import 'eqlee.ctm.apply.jwt.contain.LocalUser'.(÷”ŠÁıÿÿÿÿ8ßÅõçÖ-
-rsquid:S00100]"NRename this method name to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ÄÊêÙûÿÿÿÿ8ä×ÇòÔ-

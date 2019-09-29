@@ -1,9 +1,11 @@
 package eqlee.ctm.finance.settlement.controller;
 
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.yq.constanct.CodeType;
 import com.yq.utils.StringUtils;
 import eqlee.ctm.finance.exception.ApplicationException;
 import eqlee.ctm.finance.jwt.islogin.CheckToken;
+import eqlee.ctm.finance.settlement.entity.query.ExamineResultQuery;
 import eqlee.ctm.finance.settlement.entity.vo.ContectUserVo;
 import eqlee.ctm.finance.settlement.entity.vo.FinanceVo;
 import eqlee.ctm.finance.settlement.entity.vo.ResultVo;
@@ -35,26 +37,35 @@ public class FinanceController {
 
     @ApiOperation(value = "提交导游支出收入消费", notes = "提交导游支出收入消费")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "OutDate", value = "出行日期", required = true, dataType = "String", paramType = "path"),
-            @ApiImplicitParam(name = "LineName", value = "线路名", required = true, dataType = "String", paramType = "path"),
-            @ApiImplicitParam(name = "CarNo", value = "车牌号", required = true, dataType = "String", paramType = "path"),
-            @ApiImplicitParam(name = "TrueAllNumber", value = "实到人数", required = true, dataType = "int", paramType = "path"),
-            @ApiImplicitParam(name = "TreeAdultNumber", value = "实到成年人数", required = true, dataType = "int", paramType = "path"),
-            @ApiImplicitParam(name = "TreeBabyNumber", value = "实到幼儿人数", required = true, dataType = "int", paramType = "path"),
-            @ApiImplicitParam(name = "TreeOldNumber", value = "实到老人人数", required = true, dataType = "int", paramType = "path"),
-            @ApiImplicitParam(name = "TreeChildNumber", value = "实到小孩人数", required = true, dataType = "int", paramType = "path"),
-            @ApiImplicitParam(name = "UnpaidList", value = "未付款的联系人列表", required = true, dataType = "list", paramType = "path"),
-            @ApiImplicitParam(name = "UnpaidNumber", value = "未付款人数", required = true, dataType = "int", paramType = "path"),
-            @ApiImplicitParam(name = "GaiMoney", value = "应收金额", required = true, dataType = "double", paramType = "path"),
-            @ApiImplicitParam(name = "TrueMoney", value = "实收金额", required = true, dataType = "double", paramType = "path"),
-            @ApiImplicitParam(name = "TicketName", value = "门票名", required = true, dataType = "String", paramType = "path"),
-            @ApiImplicitParam(name = "TicketPrice", value = "门票价格", required = true, dataType = "double", paramType = "path"),
-            @ApiImplicitParam(name = "LunchPrice", value = "午餐费用", required = true, dataType = "double", paramType = "path"),
-            @ApiImplicitParam(name = "ParkingRatePrice", value = "停车费", required = true, dataType = "double", paramType = "path"),
-            @ApiImplicitParam(name = "RentCarPrice", value = "租车费用", required = true, dataType = "double", paramType = "path"),
-            @ApiImplicitParam(name = "GuideSubsidy", value = "导游补助", required = true, dataType = "double", paramType = "path"),
-            @ApiImplicitParam(name = "DriverSubsidy", value = "司机补助", required = true, dataType = "double", paramType = "path"),
-            @ApiImplicitParam(name = "AllOutPrice", value = "总支出费用", required = true, dataType = "double", paramType = "path")
+            @ApiImplicitParam(name = "outDate", value = "出行日期", required = true, dataType = "String", paramType = "path"),
+            @ApiImplicitParam(name = "lineName", value = "线路名", required = true, dataType = "String", paramType = "path"),
+            @ApiImplicitParam(name = "carNo", value = "车牌号", required = true, dataType = "String", paramType = "path"),
+            @ApiImplicitParam(name = "allDoNumber", value = "应到人数", required = true, dataType = "int", paramType = "path"),
+            @ApiImplicitParam(name = "trueAllNumber", value = "实到人数", required = true, dataType = "int", paramType = "path"),
+            @ApiImplicitParam(name = "treeAdultNumber", value = "实到成年人数", required = true, dataType = "int", paramType = "path"),
+            @ApiImplicitParam(name = "treeBabyNumber", value = "实到幼儿人数", required = true, dataType = "int", paramType = "path"),
+            @ApiImplicitParam(name = "treeOldNumber", value = "实到老人人数", required = true, dataType = "int", paramType = "path"),
+            @ApiImplicitParam(name = "treeChildNumber", value = "实到小孩人数", required = true, dataType = "int", paramType = "path"),
+            @ApiImplicitParam(name = "unpaidList", value = "未付款的联系人列表（以下是数组的具体字段）", required = true, dataType = "list", paramType = "path"),
+            @ApiImplicitParam(name = "contectUserName", value = "联系人名字（这是数组的第一个字段）", required = true, dataType = "int", paramType = "path"),
+            @ApiImplicitParam(name = "contectUserTel", value = "联系电话", required = true, dataType = "int", paramType = "path"),
+            @ApiImplicitParam(name = "allNumber", value = "一个联系人代表的未付款代收总人数", required = true, dataType = "int", paramType = "path"),
+            @ApiImplicitParam(name = "allPrice", value = "一个联系人代表的未付款代收总价格", required = true, dataType = "int", paramType = "path"),
+            @ApiImplicitParam(name = "babyNumber", value = "一个联系人代表的幼儿人数", required = true, dataType = "int", paramType = "path"),
+            @ApiImplicitParam(name = "oldNumber", value = "一个联系人代表的老人人数", required = true, dataType = "int", paramType = "path"),
+            @ApiImplicitParam(name = "childNumber", value = "一个联系人代表的小孩人数", required = true, dataType = "int", paramType = "path"),
+            @ApiImplicitParam(name = "adultNumber", value = "一个联系人代表的成年人数（这是数组的最后一个字段）", required = true, dataType = "int", paramType = "path"),
+            @ApiImplicitParam(name = "unpaidNumber", value = "未付款人数", required = true, dataType = "int", paramType = "path"),
+            @ApiImplicitParam(name = "gaiMoney", value = "应收金额", required = true, dataType = "double", paramType = "path"),
+            @ApiImplicitParam(name = "trueMoney", value = "实收金额", required = true, dataType = "double", paramType = "path"),
+            @ApiImplicitParam(name = "ticketName", value = "门票名", required = true, dataType = "String", paramType = "path"),
+            @ApiImplicitParam(name = "ticketPrice", value = "门票费用", required = true, dataType = "double", paramType = "path"),
+            @ApiImplicitParam(name = "lunchPrice", value = "午餐费用", required = true, dataType = "double", paramType = "path"),
+            @ApiImplicitParam(name = "parkingRatePrice", value = "停车费", required = true, dataType = "double", paramType = "path"),
+            @ApiImplicitParam(name = "rentCarPrice", value = "租车费用", required = true, dataType = "double", paramType = "path"),
+            @ApiImplicitParam(name = "guideSubsidy", value = "导游补助", required = true, dataType = "double", paramType = "path"),
+            @ApiImplicitParam(name = "driverSubsidy", value = "司机补助", required = true, dataType = "double", paramType = "path"),
+            @ApiImplicitParam(name = "allOutPrice", value = "总支出费用", required = true, dataType = "double", paramType = "path")
     })
     @PostMapping("/insertFinance")
     @CrossOrigin
@@ -75,5 +86,22 @@ public class FinanceController {
         return resultVo;
     }
 
+    @ApiOperation(value = "分页查询所有财务审核记录", notes = "分页查询所有财务审核记录")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "current", value = "当前页", required = true, dataType = "int", paramType = "path"),
+            @ApiImplicitParam(name = "size", value = "每页显示条数", required = true, dataType = "int", paramType = "path")
+    })
+    @GetMapping("/listExamine2Page")
+    @CrossOrigin
+    @CheckToken
+    public Page<ExamineResultQuery> listExamine2Page (@RequestParam("current") Integer current,
+                                                      @RequestParam("size") Integer size) {
+        if (current == null || size == null) {
+            throw new ApplicationException(CodeType.PARAM_ERROR);
+        }
 
+        Page<ExamineResultQuery> page = new Page<>(current,size);
+
+        return inFinanceService.listExamine2Page(page);
+    }
 }

@@ -11,6 +11,7 @@ import eqlee.ctm.apply.jwt.entity.UserLoginQuery;
 import eqlee.ctm.apply.line.dao.LineMapper;
 import eqlee.ctm.apply.line.entity.Line;
 import eqlee.ctm.apply.line.entity.query.LinePageQuery;
+import eqlee.ctm.apply.line.entity.vo.LineUpdateVo;
 import eqlee.ctm.apply.line.entity.vo.LineVo;
 import eqlee.ctm.apply.line.service.ILineService;
 import eqlee.ctm.apply.price.entity.Price;
@@ -80,14 +81,23 @@ public class LineServiceImpl extends ServiceImpl<LineMapper, Line> implements IL
 
     /**
      * 修改线路
-     * @param line
+     * @param vo
      */
     @Override
-    public void updateLine(Line line, Long Id) {
+    public void updateLine(LineUpdateVo vo, Long Id) {
         //获取用户信息
         UserLoginQuery user = localUser.getUser("用户信息");
 
-        line.setCreateUserId(user.getId());
+        Line line = new Line();
+
+        line.setMinNumber(vo.getMinNumber());
+        line.setMaxNumber(vo.getMaxNumber());
+        line.setStopped(vo.getStopped());
+        line.setRegion(vo.getRegion());
+        line.setInformation(vo.getInformation());
+        line.setLineName(vo.getLineName());
+        line.setRemark(vo.getRemark());
+        line.setTravelSituation(vo.getTravelSituation());
         line.setUpdateUserId(user.getId());
         line.setId(Id);
 

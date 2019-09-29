@@ -3,6 +3,7 @@ package eqlee.ctm.api.resource;
 import com.alibaba.fastjson.JSONObject;
 import eqlee.ctm.api.httpclient.HttpClientUtils;
 import eqlee.ctm.api.httpclient.HttpResult;
+import eqlee.ctm.api.jwt.islogin.CheckToken;
 import eqlee.ctm.api.resource.Vo.CarVo;
 import eqlee.ctm.api.vilidate.DataUtils;
 import io.swagger.annotations.Api;
@@ -25,7 +26,7 @@ import java.util.Map;
 @Slf4j
 @Api("车辆Api")
 @RestController
-@RequestMapping("/v1/app/resource/car")
+@RequestMapping("/v1/app/car")
 public class CarApiController {
 
     @Value("${api.userIp}")
@@ -85,12 +86,11 @@ public class CarApiController {
     @ApiOperation(value = "车辆增加",notes = "车辆增加")
     @PostMapping("/addCar")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "CarName", value = "车辆名", required = true, dataType = "String", paramType = "path"),
-            @ApiImplicitParam(name = "CarNo", value = "车牌号", required = true, dataType = "String", paramType = "path"),
-            @ApiImplicitParam(name = "Statu", value = "状态", required = true, dataType = "String", paramType = "path"),
-            @ApiImplicitParam(name = "Remark", value = "备注", required = true, dataType = "String", paramType = "path")
+            @ApiImplicitParam(name = "carName", value = "车辆名", required = true, dataType = "String", paramType = "path"),
+            @ApiImplicitParam(name = "carNo", value = "车牌号", required = true, dataType = "String", paramType = "path"),
+            @ApiImplicitParam(name = "statu", value = "状态", required = true, dataType = "String", paramType = "path"),
+            @ApiImplicitParam(name = "remark", value = "备注", required = true, dataType = "String", paramType = "path")
     })
-    @CrossOrigin
     public Object addCar(@RequestBody CarVo carVo) throws Exception{
         String url = "http://" + Ip +":" + port + "/" + path + "/v1/app/resource/car/addCar";
 
@@ -108,12 +108,12 @@ public class CarApiController {
     @PutMapping("/updateCar/{Id}")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "Id", value = "车辆Id", required = true, dataType = "Long", paramType = "path"),
-            @ApiImplicitParam(name = "CarName", value = "车辆名", required = true, dataType = "String", paramType = "path"),
-            @ApiImplicitParam(name = "CarNo", value = "车辆号", required = true, dataType = "String", paramType = "path"),
-            @ApiImplicitParam(name = "Statu", value = "状态", required = true, dataType = "String", paramType = "path"),
-            @ApiImplicitParam(name = "Remark", value = "备注", required = true, dataType = "String", paramType = "path")
+            @ApiImplicitParam(name = "carName", value = "车辆名", required = true, dataType = "String", paramType = "path"),
+            @ApiImplicitParam(name = "carNo", value = "车辆号", required = true, dataType = "String", paramType = "path"),
+            @ApiImplicitParam(name = "statu", value = "状态", required = true, dataType = "String", paramType = "path"),
+            @ApiImplicitParam(name = "remark", value = "备注", required = true, dataType = "String", paramType = "path"),
+            @ApiImplicitParam(name = "isStop", value = "是否启用", required = true, dataType = "boolean", paramType = "path")
     })
-    @CrossOrigin
     public Object updateCar(@PathVariable("Id") Long Id,@RequestBody CarVo carVo) throws Exception{
         String url = "http://" + Ip +":" + port + "/" + path + "/v1/app/resource/car/updateCar";
 

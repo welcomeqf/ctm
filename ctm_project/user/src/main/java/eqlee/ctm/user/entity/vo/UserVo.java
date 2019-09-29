@@ -1,7 +1,6 @@
 package eqlee.ctm.user.entity.vo;
 
-import com.alibaba.fastjson.annotation.JSONField;
-import com.alibaba.fastjson.serializer.ToStringSerializer;
+
 import lombok.Data;
 
 /**
@@ -22,9 +21,8 @@ public class UserVo {
 
     private String roleName;
 
-    @JSONField(serializeUsing= ToStringSerializer.class)
     private Long companyId;
 
-    private String AppId;
+    private String appId;
 
 }

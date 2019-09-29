@@ -1,12 +1,13 @@
 
-qsquid:S00117î"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(§ÃÙæ8 ‘‡ïÖ-
-psquid:S00117K"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(àÔ™8 ‘‡ïÖ-
-psquid:S00117a"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(‚Ê½Ê8 ‘‡ïÖ-
-vsquid:S00117"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(¦§Éıÿÿÿÿ8 ‘‡ïÖ-
-qsquid:S00117ƒ"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(§ÃÙæ8 ‘‡ïÖ-
-usquid:S00117u"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(÷ŒÌûÿÿÿÿ8 ‘‡ïÖ-
-psquid:S00117‰"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(œÇ¨48 ‘‡ïÖ-
-qsquid:S00117Ï"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(€À…—8 ‘‡ïÖ-
+qsquid:S00117˜"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(›Éß£8 ‘‡ïÖ-
+vsquid:S00117…"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(÷ã“¥úÿÿÿÿ8 ‘‡ïÖ-
+qsquid:S00117é"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(§ÃÙæ8 ‘‡ïÖ-
+vsquid:S00117‘"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(‘â‹Üùÿÿÿÿ8©ëÅÂ×-
+psquid:S00117_"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(Ğ8 ‘‡ïÖ-
+wsquid:S1192›"SDefine a constant instead of duplicating this literal "å‚æ•°ä¸èƒ½ä¸ºç©º" 4 times.(ˆ¯ãõÿÿÿÿÿ8Ò›´Â×-
+qsquid:S00117ş"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(§ÃÙæ8 ‘‡ïÖ-
+qsquid:S00117Ê"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(€À…—8 ‘‡ïÖ-
+psquid:S00117r"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ê¹àÆ8 ‘‡ïÖ-
+psquid:S00117J"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(àÔ™8 ‘‡ïÖ-
 nsquid:UselessImportCheck"CRemove this unused import 'javax.servlet.http.HttpServletResponse'.(Á¨ïë8 ‘‡ïÖ-
-vsquid:S11928"SDefine a constant instead of duplicating this literal "å‚æ•°ä¸èƒ½ä¸ºç©º" 9 times.(ˆ¯ãõÿÿÿÿÿ8 ‘‡ïÖ-
-osquid:S11927"SDefine a constant instead of duplicating this literal "param is not null." 7 times.(ÕòŒÌùÿÿÿÿ
+vsquid:S00117§"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(‘äûãûÿÿÿÿ8´¤ÊÂ×-

@@ -23,6 +23,10 @@ public class Number extends Model<Number> {
     private Long Id;
 
     /**
+     * 应到人数
+     */
+    private Integer AllDoNumber;
+    /**
      * 实到人数
      */
     private Integer TrueAllNumber;
