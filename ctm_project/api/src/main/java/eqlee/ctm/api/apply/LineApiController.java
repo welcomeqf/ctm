@@ -2,6 +2,7 @@ package eqlee.ctm.api.apply;
 
 import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.yq.jwt.islogin.CheckToken;
 import eqlee.ctm.api.apply.query.Line;
 import eqlee.ctm.api.apply.vo.LineVo;
 import eqlee.ctm.api.entity.vo.ResultVo;
@@ -96,13 +97,13 @@ public class LineApiController {
         return JSONObject.parse(httpResult.getBody());
     }
 
-    @ApiOperation(value = "分页查询所有线路", notes = "分页查询所有线路")
+    @ApiOperation(value = "模糊查询分页查询所有线路", notes = "模糊查询分页查询所有线路")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "current", value = "当前页", required = true, dataType = "int", paramType = "path"),
-            @ApiImplicitParam(name = "size", value = "每页显示条数", required = true, dataType = "int", paramType = "path")
+            @ApiImplicitParam(name = "size", value = "每页显示条数", required = true, dataType = "int", paramType = "path"),
+            @ApiImplicitParam(name = "lineName", value = "线路名", required = false, dataType = "String", paramType = "path")
     })
     @GetMapping("/listLine")
-    @CrossOrigin
     public Object listLine(@RequestParam("current") Integer current,
                                @RequestParam("size") Integer size) throws Exception{
         String url = "http://" + Ip +":" + port + "/" +path + "/v1/app/apply/line/listLine?current=" + current + "&size=" +size;
@@ -162,5 +163,13 @@ public class LineApiController {
             return DataUtils.getError();
         }
         return JSONObject.parse(httpResult.getBody());
+    }
+
+    @ApiOperation(value = "根据Id删除一条线路", notes = "根据Id删除一条线路")
+    @ApiImplicitParam(name = "Id", value = "Id", required = true, dataType = "Long", paramType = "path")
+    @GetMapping("/deleteLine/{Id}")
+    public ResultVo deleteLine(@PathVariable("Id") Long Id) {
+
+        return null;
     }
 }

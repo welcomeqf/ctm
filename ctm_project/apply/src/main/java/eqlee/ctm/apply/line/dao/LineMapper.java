@@ -1,7 +1,9 @@
 package eqlee.ctm.apply.line.dao;
 
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.yq.IBaseMapper.IBaseMapper;
 import eqlee.ctm.apply.line.entity.Line;
+import eqlee.ctm.apply.line.entity.query.LineSeacherQuery;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Component;
 
@@ -15,5 +17,20 @@ import java.util.List;
  */
 @Component
 public interface LineMapper extends IBaseMapper<Line> {
+
+    /**
+     * 默认分页查询线路
+     * @param page
+     * @return
+     */
+    Page<LineSeacherQuery> queryLine2Page(Page<LineSeacherQuery> page);
+
+    /**
+     * 根据线路名模糊查询
+     * @param page
+     * @param lineName
+     * @return
+     */
+    Page<LineSeacherQuery> queryLine2PageAndName(Page<LineSeacherQuery> page,String lineName);
 
 }

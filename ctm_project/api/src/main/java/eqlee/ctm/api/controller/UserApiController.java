@@ -95,7 +95,8 @@ public class UserApiController {
         JSONObject jsonObject = new JSONObject();
         ResultVo object = JSONObject.parseObject(httpResult.getBody(), ResultVo.class);
 
-        String token = JwtUtil.createJWT(1000 * 60 * 60 * 24, object.getData());
+        //2592000000
+        String token = JwtUtil.createJWT(86400000L, object.getData());
         jsonObject.put("token", token);
         jsonObject.put("user", object.getData());
         return jsonObject;

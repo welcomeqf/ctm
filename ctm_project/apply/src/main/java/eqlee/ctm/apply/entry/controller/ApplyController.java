@@ -137,7 +137,7 @@ public class ApplyController {
     }
 
 
-    @ApiOperation(value = "查询同一公司的所有分页数据（我的报名记录）", notes = "查询同一公司的所有分页数据（我的报名记录）")
+    @ApiOperation(value = "根据ID查询一条报名记录", notes = "根据ID查询一条报名记录")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "Id", value = "报名Id", required = true, dataType = "int", paramType = "path")
     })

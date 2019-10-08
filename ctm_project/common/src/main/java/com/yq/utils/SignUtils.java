@@ -67,30 +67,11 @@ public class SignUtils {
             mySig.update(infomation.getBytes());
             //得到验证结果
             verify= mySig.verify(publicInfo);
-            System.out.println("签名"+mySig);
         } catch (Exception e) {
             e.printStackTrace();
         }
         return verify;
     }
-
-
-//    public static void main(String[] args) {
-//        try {
-//            String s1 = DataUtils.getDcodeing("D433KFHWXYDFRZ4ZRVYGLYZHVM");
-//            KeyPair keyPair=getKeypair(s1);
-//            //用指定算法产生签名对象
-//            Signature mySig = Signature.getInstance("MD5WithRSA");
-//            byte[] publicinfo=getpublicByKeypair(mySig,keyPair,"irjg".getBytes());
-//            boolean verify=decryptBypublic(mySig, keyPair, "irjg", publicinfo);
-//            System.out.println("验证签名的结果是："+verify);
-//            String s = mySig.toString();
-////            Signature t = Signature.getInstance(s);
-////            System.out.println(t == mySig);
-//        } catch (NoSuchAlgorithmException e) {
-//            e.printStackTrace();
-//        }
-//    }
 
 
 }

@@ -8,9 +8,11 @@ import com.yq.exception.ApplicationException;
 import com.yq.jwt.contain.LocalUser;
 import com.yq.jwt.entity.UserLoginQuery;
 import com.yq.utils.IdGenerator;
+import com.yq.utils.StringUtils;
 import eqlee.ctm.apply.line.dao.LineMapper;
 import eqlee.ctm.apply.line.entity.Line;
 import eqlee.ctm.apply.line.entity.query.LinePageQuery;
+import eqlee.ctm.apply.line.entity.query.LineSeacherQuery;
 import eqlee.ctm.apply.line.entity.vo.LineUpdateVo;
 import eqlee.ctm.apply.line.entity.vo.LineVo;
 import eqlee.ctm.apply.line.service.ILineService;
@@ -114,15 +116,12 @@ public class LineServiceImpl extends ServiceImpl<LineMapper, Line> implements IL
      * @return
      */
     @Override
-    public Page<Line> listPageLine(LinePageQuery query) {
-        Page<Line> page = new Page<>();
-        page.setCurrent(query.getCurrent());
-        page.setSize(query.getSize());
+    public Page<LineSeacherQuery> listPageLine(Page<LineSeacherQuery> query, String lineName) {
+        if (StringUtils.isNotBlank(lineName)) {
+            return baseMapper.queryLine2PageAndName(query,lineName);
+        }
 
-        LambdaQueryWrapper<Line> queryWrapper = new LambdaQueryWrapper<Line>()
-                .orderByDesc(Line::getCreateDate);
-        baseMapper.selectPage(page,queryWrapper);
-        return page;
+        return baseMapper.queryLine2Page(query);
     }
 
 
@@ -176,7 +175,19 @@ public class LineServiceImpl extends ServiceImpl<LineMapper, Line> implements IL
         return baseMapper.selectById(Id);
     }
 
+    /**
+     * 删除线路
+     * @param Id
+     */
+    @Override
+    public void deleteLine(Long Id) {
+        int delete = baseMapper.deleteById(Id);
 
+        if (delete <= 0) {
+            log.error("delete line fail.");
+            throw new ApplicationException(CodeType.SERVICE_ERROR,"删除线路失败");
+        }
+    }
 
 
 }

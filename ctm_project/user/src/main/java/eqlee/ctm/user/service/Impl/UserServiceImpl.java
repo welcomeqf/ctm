@@ -111,9 +111,6 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
         if (user.getStatus() == 1) {
             throw new ApplicationException(CodeType.SERVICE_ERROR,"该账户已被冻结,请解冻后再登录");
         }
-        if (user.getStopped()) {
-            throw new ApplicationException(CodeType.SERVICE_ERROR,"该账号已经登录");
-        }
 
         LocalDateTime now = LocalDateTime.now();
         user.setLastLoginTime(now);

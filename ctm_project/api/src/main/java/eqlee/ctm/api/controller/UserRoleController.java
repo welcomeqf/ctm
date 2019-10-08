@@ -51,7 +51,7 @@ public class UserRoleController {
     public Object addRole(@RequestBody UserRoleVo roleVo) throws Exception{
         String encode = DataUtils.getEncodeing("RSA");
         roleVo.setAppId(encode);
-        String url = "http://" + Ip +":" + port + "/" + path + "/v1/app/user/role/addRole";
+        String url = "http://" + Ip +":" + port + "/" + path + "/v1/app/role/addRole";
 
         String s = JSONObject.toJSONString(roleVo);
         HttpResult httpResult = apiService.doPost(url, s);
@@ -71,7 +71,7 @@ public class UserRoleController {
     @CheckToken
     public Object deleteRole(@PathVariable("Id") Long Id) throws Exception{
         String encode = DataUtils.getEncodeing("RSA");
-        String url = "http://" + Ip +":" + port + "/" + path + "/v1/app/user/role/deleteRole/" +Id + "/" +encode;
+        String url = "http://" + Ip +":" + port + "/" + path + "/v1/app/role/deleteRole/" +Id + "/" +encode;
 
         Map<String,Object> map = new HashMap<>();
 
@@ -90,7 +90,7 @@ public class UserRoleController {
     @CheckToken
     public Object getRole() throws Exception{
         String encode = DataUtils.getEncodeing("RSA");
-        String url = "http://" + Ip +":" + port + "/" + path + "/v1/app/user/role/RoleInfo?AppId=" +encode;
+        String url = "http://" + Ip +":" + port + "/" + path + "/v1/app/role/RoleInfo?AppId=" +encode;
 
         Map<String,Object> map = new HashMap<>();
 
@@ -106,15 +106,14 @@ public class UserRoleController {
     @ApiOperation(value = "分页查询所有角色", notes = "分页查询所有角色")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "current", value = "当前页", required = true, dataType = "int", paramType = "path"),
-            @ApiImplicitParam(name = "size", value = "每页显示的条数", required = true, dataType = "int", paramType = "path"),
-            @ApiImplicitParam(name = "AppId", value = "签名Id", required = true, dataType = "String", paramType = "path")
+            @ApiImplicitParam(name = "size", value = "每页显示的条数", required = true, dataType = "int", paramType = "path")
     })
     @GetMapping("/queryPageRole")
     @CrossOrigin
     @CheckToken
     public Object queryPageRole(@RequestParam("current") Integer current, @RequestParam("size") Integer size) throws Exception{
         String encode = DataUtils.getEncodeing("RSA");
-        String url = "http://" + Ip +":" + port + "/" + path + "/v1/app/user/role/queryPageRole?AppId=" +encode + "&current=" +current + "&size=" +size;
+        String url = "http://" + Ip +":" + port + "/" + path +  "/v1/app/role/queryPageRole?AppId=" +encode + "&current=" +current + "&size=" +size;
 
         Map<String,Object> map = new HashMap<>();
 

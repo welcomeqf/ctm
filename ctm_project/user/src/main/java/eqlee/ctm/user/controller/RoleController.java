@@ -94,6 +94,7 @@ public class RoleController {
         RoleVo roleVo = new RoleVo();
         roleVo.setCurrent(current);
         roleVo.setSize(size);
+        roleVo.setAppId(AppId);
         return roleService.queryPageRole(roleVo);
     }
 }

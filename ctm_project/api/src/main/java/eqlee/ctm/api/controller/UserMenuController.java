@@ -56,7 +56,7 @@ public class UserMenuController {
     public Object addMenu(@RequestBody MenuVo vo) throws Exception{
         String encode = DataUtils.getEncodeing("RSA");
         vo.setAppId(encode);
-        String url = "http://" + Ip +":" + port + "/" + path + "/v1/app/user/menu/addMenu";
+        String url = "http://" + Ip +":" + port + "/" + path + "/v1/app/menu/addMenu";
 
         String s = JSONObject.toJSONString(vo);
         HttpResult httpResult = apiService.doPost(url, s);
@@ -76,7 +76,7 @@ public class UserMenuController {
     @CheckToken
     public Object queryMenu(@RequestParam("Id") Long Id) throws Exception{
         String encode = DataUtils.getEncodeing("RSA");
-        String url = "http://" + Ip +":" + port + "/" + path + "/v1/app/user/menu/queryMenu?Id=" +Id + "&AppId=" +encode;
+        String url = "http://" + Ip +":" + port + "/" + path + "/v1/app/menu/queryMenu?Id=" +Id + "&AppId=" +encode;
 
         Map<String,Object> map = new HashMap<>();
 

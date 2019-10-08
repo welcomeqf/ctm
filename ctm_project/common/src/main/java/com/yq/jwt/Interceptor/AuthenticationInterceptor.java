@@ -58,7 +58,7 @@ public class AuthenticationInterceptor implements HandlerInterceptor {
             if (checkToken.required()) {
                 // 执行认证
                 if (token == null) {
-                    throw new ApplicationException(CodeType.TOKENNULL_ERROR);
+                    throw new ApplicationException(CodeType.OVENDU_ERROR,"token 为空");
                 }
                 // 获取 token 中的 user信息
                 UserLoginQuery query = new UserLoginQuery();
@@ -73,7 +73,7 @@ public class AuthenticationInterceptor implements HandlerInterceptor {
                     query.setTel(JWT.decode(token).getClaim("Tel").asString());
 
                 } catch (JWTDecodeException j) {
-                    throw new ApplicationException(CodeType.DECODING_ERROR,"JWT解码失败");
+                    throw new ApplicationException(CodeType.OVENDU_ERROR, "解码失败");
                 }
                 user.setUser(query);
 
@@ -91,7 +91,7 @@ public class AuthenticationInterceptor implements HandlerInterceptor {
 
                 Boolean verify = JwtVerfy.isVerify(token, query);
                 if (!verify) {
-                    throw new ApplicationException(CodeType.AUTHENTICATION_ERROR);
+                    throw new ApplicationException(CodeType.OVENDU_ERROR, "身份验证失败");
                 }
                 return true;
             }

@@ -3,6 +3,8 @@ package eqlee.ctm.resource.car.controller;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.yq.constanct.CodeType;
 import com.yq.exception.ApplicationException;
+import com.yq.jwt.contain.LocalUser;
+import com.yq.jwt.entity.UserLoginQuery;
 import com.yq.jwt.islogin.CheckToken;
 import com.yq.utils.StringUtils;
 import eqlee.ctm.resource.car.entity.Car;
