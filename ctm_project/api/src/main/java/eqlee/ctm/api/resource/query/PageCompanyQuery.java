@@ -9,6 +9,5 @@ import lombok.Data;
  * @Version 1.0
  */
 @Data
-public class PageCompanyQuery extends PageUtils {
-    private String name;
+public class PageCompanyQuery extends PageUtils {    private String name;
 }

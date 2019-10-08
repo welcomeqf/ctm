@@ -168,23 +168,6 @@ public class CompanyServiceImp extends ServiceImpl<CompanyMapper,Company> implem
     }
 
 
-    /**
-     * 查询所用同行信息（分页）
-     * @param pageCompany
-     * @return
-     */
-    @Override
-    public Page<Company> GetCompanyPage(PageCompanyQuery pageCompany) {
-        LambdaQueryWrapper<Company> queryWrapper = new LambdaQueryWrapper<Company>()
-                .orderByDesc(Company::getCreateDate);
-
-        Page<Company> page = new Page<Company>();
-        page.setCurrent(pageCompany.getCurrent());
-        baseMapper.selectPage(page, queryWrapper);
-        return page;
-
-    }
-
 
     /**
      * 根据公司名称查询公司信息（分页）

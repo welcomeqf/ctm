@@ -34,24 +34,6 @@ public class CompanyController {
 
 
 
-    @ApiOperation(value = "同行列表", notes = "同行列表展示")
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "current", value = "当前页", required = true, dataType = "Integer", paramType = "path"),
-            @ApiImplicitParam(name = "current", value = "页面大小", required = true, dataType = "Integer", paramType = "path")
-    })
-    @GetMapping("/queryCompany")
-    @CrossOrigin
-    @CheckToken
-    public Page<Company> queryCompany(@RequestParam("current") Integer current,@RequestParam("size") Integer size) {
-        if(current == null||size == null){
-            throw new ApplicationException(CodeType.PARAMETER_ERROR,"当前页或者页面大小为空");
-        }
-        PageCompanyQuery pageCompany = new PageCompanyQuery();
-        pageCompany.setCurrent(current);
-        pageCompany.setSize(size);
-        return companyService.GetCompanyPage(pageCompany);
-    }
-
 
     @ApiOperation(value = "展示同行信息修改首页", notes = "展示同行信息修改首页")
     @ApiImplicitParam(name = "Id", value = "公司Id", required = true, dataType = "Long", paramType = "path")
@@ -163,7 +145,7 @@ public class CompanyController {
 
 
 
-    @ApiOperation(value = "同行状态", notes = "同行状态修改")
+    @ApiOperation(value = "同行状态修改", notes = "同行状态修改")
     @ApiImplicitParam(name = "Id", value = "公司Id", required = true, dataType = "Long", paramType = "path")
     @GetMapping("/Stu/{Id}")
     @CrossOrigin

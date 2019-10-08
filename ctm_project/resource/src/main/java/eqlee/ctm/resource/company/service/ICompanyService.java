@@ -48,12 +48,6 @@ public interface ICompanyService {
      */
     public void UpdateCompanyStopped(Long id);
 
-    /**
-     *查询所有同行列表（分页）
-     * @param pageCompany
-     * @return
-     */
-    Page<Company> GetCompanyPage(PageCompanyQuery pageCompany);
 
     /**
      * 根据公司名称得到同行列表（分页）
