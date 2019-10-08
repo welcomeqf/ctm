@@ -1,7 +1,0 @@
-
-qsquid:S00116-"TRename this field "CompanyId" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ö§§åøÿÿÿÿ
-psquid:S00116"SRename this field "Password" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(¬›™Âûÿÿÿÿ
-osquid:S00116"RRename this field "Account" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(³œÃûşÿÿÿÿ
-ksquid:S00116#"NRename this field "Tel" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(Ü÷è‰øÿÿÿÿ
-gsquid:S00116"PRename this field "CName" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(›¾a
-esquid:S00116"MRename this field "Id" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(´ÕÛ”

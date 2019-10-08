@@ -1,8 +1,8 @@
 package eqlee.ctm.api.apply;
 
 
+import com.yq.jwt.islogin.CheckToken;
 import eqlee.ctm.api.entity.vo.ResultVo;
-import eqlee.ctm.api.jwt.islogin.CheckToken;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;

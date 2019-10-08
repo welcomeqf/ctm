@@ -1,9 +1,8 @@
 
-usquid:S00116,"QRename this field "Status" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ûĞüüÿÿÿÿ8©•’Ö-
-Dsquid:S1170,"!Make this final field static too.(ûĞüüÿÿÿÿ8©•’Ö-
-vsquid:S00117ˆ"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(¶Åøÿÿÿÿ8ê‡·Ö-
-fsquid:S11927"HDefine a constant instead of duplicating this literal "http://" 5 times.(ßîè±8´ˆ¶’Ö-
-qsquid:UselessImportCheck"ARemove this unused import 'eqlee.ctm.api.jwt.islogin.CheckToken'.(‚†ĞÄøÿÿÿÿ8âéÙÀ×-
-usquid:S00117v"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(Ñİıëıÿÿÿÿ8‰€Œ®×-
-psquid:S00117H"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(”Ü‚™8¾Ç©’Ö-
-qsquid:S00116!"MRename this field "Ip" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ÁãåÚıÿÿÿÿ8©•’Ö-
+Dsquid:S1170+"!Make this final field static too.(ûĞüüÿÿÿÿ8©•’Ö-
+vsquid:S00117‡"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(¶Åøÿÿÿÿ8ê‡·Ö-
+psquid:S00117G"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(”Ü‚™8¾Ç©’Ö-
+usquid:S00117u"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(Ñİıëıÿÿÿÿ8‰€Œ®×-
+qsquid:S00116 "MRename this field "Ip" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ÁãåÚıÿÿÿÿ8©•’Ö-
+fsquid:S11926"HDefine a constant instead of duplicating this literal "http://" 5 times.(ßîè±8´ˆ¶’Ö-
+usquid:S00116+"QRename this field "Status" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ûĞüüÿÿÿÿ8©•’Ö-

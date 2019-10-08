@@ -25,12 +25,6 @@ import java.util.List;
 public class GuiderServiceImpl implements IGuiderService {
 
     @Autowired
-    private ILineService lineService;
-
-    @Autowired
-    private IPriceService priceService;
-
-    @Autowired
     private GuiderMapper guiderMapper;
 
 

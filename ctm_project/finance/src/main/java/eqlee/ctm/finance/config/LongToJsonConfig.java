@@ -3,7 +3,7 @@ package eqlee.ctm.finance.config;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
-import eqlee.ctm.finance.jwt.Interceptor.AuthenticationInterceptor;
+import com.yq.jwt.Interceptor.AuthenticationInterceptor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.format.FormatterRegistry;

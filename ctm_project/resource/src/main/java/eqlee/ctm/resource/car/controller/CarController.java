@@ -2,15 +2,13 @@ package eqlee.ctm.resource.car.controller;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.yq.constanct.CodeType;
+import com.yq.exception.ApplicationException;
+import com.yq.jwt.islogin.CheckToken;
 import com.yq.utils.StringUtils;
 import eqlee.ctm.resource.car.entity.Car;
 import eqlee.ctm.resource.car.entity.Vo.CarUpdateVo;
 import eqlee.ctm.resource.car.entity.Vo.CarVo;
 import eqlee.ctm.resource.car.service.ICarService;
-import eqlee.ctm.resource.company.entity.vo.ResultVo;
-import eqlee.ctm.resource.exception.ApplicationException;
-import eqlee.ctm.resource.jwt.contain.LocalUser;
-import eqlee.ctm.resource.jwt.islogin.CheckToken;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;

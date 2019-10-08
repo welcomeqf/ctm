@@ -1,20 +1,18 @@
 package eqlee.ctm.resource.car.service.Imp;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.yq.constanct.CodeType;
+import com.yq.exception.ApplicationException;
+import com.yq.jwt.contain.LocalUser;
+import com.yq.jwt.entity.UserLoginQuery;
 import com.yq.utils.IdGenerator;
-import com.yq.utils.StringUtils;
 import eqlee.ctm.resource.car.dao.CarMapper;
 import eqlee.ctm.resource.car.entity.Car;
 import eqlee.ctm.resource.car.entity.Vo.CarUpdateVo;
 import eqlee.ctm.resource.car.entity.Vo.CarVo;
 import eqlee.ctm.resource.car.service.ICarService;
-import eqlee.ctm.resource.exception.ApplicationException;
-import eqlee.ctm.resource.jwt.contain.LocalUser;
-import eqlee.ctm.resource.jwt.entity.UserLoginQuery;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

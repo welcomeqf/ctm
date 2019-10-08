@@ -1,6 +1,7 @@
 package eqlee.ctm.api.entity.vo;
 
-import com.yq.utils.data.UserLoginQuery;
+
+import com.yq.jwt.entity.UserLoginQuery;
 import lombok.Data;
 
 /**

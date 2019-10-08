@@ -1,6 +1,7 @@
 package eqlee.ctm.api.controller;
 
 import com.alibaba.fastjson.JSONObject;
+import com.yq.jwt.islogin.CheckToken;
 import com.yq.utils.JwtUtil;
 import eqlee.ctm.api.entity.vo.ResultVo;
 import eqlee.ctm.api.entity.vo.UserUpdatePasswordVo;
@@ -8,7 +9,6 @@ import eqlee.ctm.api.entity.vo.UserUpdateVo;
 import eqlee.ctm.api.entity.vo.UserVo;
 import eqlee.ctm.api.httpclient.HttpClientUtils;
 import eqlee.ctm.api.httpclient.HttpResult;
-import eqlee.ctm.api.jwt.islogin.CheckToken;
 import eqlee.ctm.api.vilidate.DataUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;

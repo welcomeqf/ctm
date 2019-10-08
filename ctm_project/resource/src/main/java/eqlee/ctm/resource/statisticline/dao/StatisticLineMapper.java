@@ -1,9 +1,8 @@
 package eqlee.ctm.resource.statisticline.dao;
 
-import com.yq.IBaseMapper.IBaseMapper;
+
 import eqlee.ctm.resource.statisticline.entity.vo.OrderDetailedVo;
 import eqlee.ctm.resource.statisticline.entity.vo.OrdersVo;
-import eqlee.ctm.resource.statisticline.entity.vo.StatisticLineVo;
 import eqlee.ctm.resource.statisticline.entity.vo.TimeVo;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Component;

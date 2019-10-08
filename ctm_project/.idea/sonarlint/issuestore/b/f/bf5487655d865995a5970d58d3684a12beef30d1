@@ -1,8 +1,4 @@
 
-psquid:S00117O"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ÙˇŒ◊8»†ùÜ÷-
-ksquid:UselessImportCheck
-"ARemove this unused import 'eqlee.ctm.user.jwt.contain.LocalUser'.(¨àå88ü±¨√◊-
-psquid:S00117]"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(Ä¿Öó8»†ùÜ÷-
-psquid:S00117A"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(â‘ÿ©8»†ùÜ÷-
-msquid:UselessImportCheck"BRemove this unused import 'eqlee.ctm.user.jwt.islogin.CheckToken'.(œª ’8ü±¨√◊-
-psquid:UselessImportCheck"ERemove this unused import 'eqlee.ctm.user.jwt.entity.UserLoginQuery'.(∆º◊©8é”™√◊-
+psquid:S00117Z"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(Ä¿Öó8»†ùÜ÷-
+psquid:S00117L"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ÙˇŒ◊8»†ùÜ÷-
+psquid:S00117>"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(â‘ÿ©8»†ùÜ÷-

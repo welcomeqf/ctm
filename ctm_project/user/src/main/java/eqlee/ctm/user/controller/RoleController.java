@@ -2,14 +2,11 @@ package eqlee.ctm.user.controller;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.yq.constanct.CodeType;
+import com.yq.exception.ApplicationException;
 import eqlee.ctm.user.entity.UserRole;
 import eqlee.ctm.user.entity.vo.ResultVo;
 import eqlee.ctm.user.entity.vo.RoleVo;
 import eqlee.ctm.user.entity.vo.UserRoleVo;
-import eqlee.ctm.user.exception.ApplicationException;
-import eqlee.ctm.user.jwt.contain.LocalUser;
-import eqlee.ctm.user.jwt.entity.UserLoginQuery;
-import eqlee.ctm.user.jwt.islogin.CheckToken;
 import eqlee.ctm.user.service.IRoleService;
 import com.yq.utils.StringUtils;
 import io.swagger.annotations.Api;

@@ -1,7 +1,6 @@
 package com.yq.utils;
 
-import com.yq.utils.data.UserLoginQuery;
-import io.jsonwebtoken.Claims;
+import com.yq.jwt.entity.UserLoginQuery;
 import io.jsonwebtoken.JwtBuilder;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -67,59 +66,14 @@ public class JwtUtil {
                 //设置签名使用的签名算法和签名使用的秘钥
                 .signWith(signatureAlgorithm, key);
         if (ttlMillis >= 0) {
-            long expMillis = nowMillis + ttlMillis;
-            Date exp = new Date(expMillis);
+            Long expMillis = nowMillis + ttlMillis;
+            String exp = expMillis.toString();
             //设置过期时间
-            builder.setExpiration(exp);
+            builder.setAudience(exp);
         }
+
         return builder.compact();
     }
 
 
-    /**
-     * Token的解密
-     * @param token 加密后的token
-     * @param user  用户的对象
-     * @return
-     */
-    public static Claims parseJWT(String token, UserLoginQuery user) {
-        //签名秘钥，和生成的签名的秘钥一模一样
-        String key = user.getPassword();
-
-        //得到DefaultJwtParser
-        Claims claims = Jwts.parser()
-                //设置签名的秘钥
-                .setSigningKey(key)
-                //设置需要解析的jwt
-                .parseClaimsJws(token).getBody();
-        return claims;
-    }
-
-
-    /**
-     * 校验token
-     * 在这里可以使用官方的校验，我这里校验的是token中携带的密码于数据库一致的话就校验通过
-     * @param token
-     * @param user
-     * @return
-     */
-//    public static Boolean isVerify(String token, User user) {
-//        //签名秘钥，和生成的签名的秘钥一模一样
-//        String key = user.getPassword();
-//
-//        //得到DefaultJwtParser
-//        Claims claims = Jwts.parser()
-//                //设置签名的秘钥
-//                .setSigningKey(key)
-//                //设置需要解析的jwt
-//                .parseClaimsJws(token).getBody();
-//
-//        String PassWord = "Password";
-//
-//        if (claims.get(PassWord).equals(user.getPassword())) {
-//            return true;
-//        }
-//
-//        return false;
-//    }
 }

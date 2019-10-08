@@ -1,13 +1,12 @@
 package eqlee.ctm.apply.entry.controller;
 
 import com.yq.constanct.CodeType;
+import com.yq.exception.ApplicationException;
+import com.yq.jwt.islogin.CheckToken;
 import com.yq.utils.StringUtils;
 import eqlee.ctm.apply.entry.entity.vo.ExamineAddInfoVo;
 import eqlee.ctm.apply.entry.entity.vo.ExamineVo;
 import eqlee.ctm.apply.entry.service.IExamineService;
-import eqlee.ctm.apply.exception.ApplicationException;
-import eqlee.ctm.apply.jwt.contain.LocalUser;
-import eqlee.ctm.apply.jwt.islogin.CheckToken;
 import eqlee.ctm.apply.line.entity.vo.ResultVo;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;

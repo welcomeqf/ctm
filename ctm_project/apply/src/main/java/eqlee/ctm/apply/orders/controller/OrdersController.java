@@ -2,14 +2,10 @@ package eqlee.ctm.apply.orders.controller;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.yq.constanct.CodeType;
+import com.yq.exception.ApplicationException;
+import com.yq.jwt.islogin.CheckToken;
 import com.yq.utils.StringUtils;
-import eqlee.ctm.apply.exception.ApplicationException;
-import eqlee.ctm.apply.guider.entity.vo.ApplyVo;
-import eqlee.ctm.apply.jwt.contain.LocalUser;
-import eqlee.ctm.apply.jwt.entity.UserLoginQuery;
-import eqlee.ctm.apply.jwt.islogin.CheckToken;
 import eqlee.ctm.apply.line.entity.vo.ResultVo;
-import eqlee.ctm.apply.orders.entity.Orders;
 import eqlee.ctm.apply.orders.entity.Vo.*;
 import eqlee.ctm.apply.orders.entity.bo.CarBo;
 import eqlee.ctm.apply.orders.service.IOrdersService;
@@ -18,12 +14,9 @@ import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -41,8 +34,6 @@ public class OrdersController {
 
     @Autowired
     private IOrdersService ordersService;
-    @Autowired
-    LocalUser localUser = new LocalUser();
 
 
 

@@ -3,7 +3,6 @@ package eqlee.ctm.api.resource;
 import com.alibaba.fastjson.JSONObject;
 import eqlee.ctm.api.httpclient.HttpClientUtils;
 import eqlee.ctm.api.httpclient.HttpResult;
-import eqlee.ctm.api.jwt.islogin.CheckToken;
 import eqlee.ctm.api.resource.Vo.CarVo;
 import eqlee.ctm.api.vilidate.DataUtils;
 import io.swagger.annotations.Api;

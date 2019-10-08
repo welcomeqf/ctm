@@ -1,6 +1,5 @@
 package eqlee.ctm.resource.statisticline.service.impl;
 
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.yq.utils.DateUtil;
 import com.yq.utils.StringUtils;
 import eqlee.ctm.resource.statisticline.dao.StatisticLineMapper;

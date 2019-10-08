@@ -1,9 +1,9 @@
 package eqlee.ctm.user.controller;
 
 import com.yq.constanct.CodeType;
+import com.yq.exception.ApplicationException;
 import eqlee.ctm.user.entity.query.PrivilegeQuery;
 import eqlee.ctm.user.entity.vo.ResultVo;
-import eqlee.ctm.user.exception.ApplicationException;
 import eqlee.ctm.user.service.IPrivilegeService;
 import com.yq.utils.StringUtils;
 import io.swagger.annotations.Api;

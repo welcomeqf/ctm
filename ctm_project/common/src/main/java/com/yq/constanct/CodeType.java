@@ -63,6 +63,17 @@ public enum CodeType {
      * token过期
      */
     OVENDU_ERROR(1010,"token过期",401),
+
+    /**
+     * token为空
+     */
+    TOKENNULL_ERROR(1011,"token为空",406),
+
+    /**
+     * 解码失败
+     */
+    DECODING_ERROR(1012,"解码失败",405),
+
     /**
      * 数据库操作失败
      */

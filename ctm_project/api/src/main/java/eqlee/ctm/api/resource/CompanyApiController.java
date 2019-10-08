@@ -1,7 +1,6 @@
 package eqlee.ctm.api.resource;
 
 import com.alibaba.fastjson.JSONObject;
-import eqlee.ctm.api.entity.vo.ResultVo;
 import eqlee.ctm.api.httpclient.HttpClientUtils;
 import eqlee.ctm.api.httpclient.HttpResult;
 import eqlee.ctm.api.resource.Vo.CompanyVo;

@@ -1,3 +1,2 @@
 
-squid:UselessImportCheck"ORemove this unused import 'eqlee.ctm.finance.settlement.entity.NumberDetailed'.(£ã¾ÿÿÿÿÿ8Ù·Š•×-
-psquid:S00117©"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(Ãüµ_8¡îÑÜ×-
+psquid:S00117¨"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(Ãüµ_8¡îÑÜ×-

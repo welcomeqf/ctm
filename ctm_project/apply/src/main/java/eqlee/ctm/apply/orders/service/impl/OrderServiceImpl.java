@@ -4,16 +4,13 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.yq.constanct.CodeType;
+import com.yq.exception.ApplicationException;
+import com.yq.jwt.contain.LocalUser;
+import com.yq.jwt.entity.UserLoginQuery;
 import com.yq.utils.DateUtil;
 import com.yq.utils.IdGenerator;
 import eqlee.ctm.apply.entry.entity.Apply;
 import eqlee.ctm.apply.entry.service.IApplyService;
-import eqlee.ctm.apply.exception.ApplicationException;
-import eqlee.ctm.apply.jwt.contain.LocalUser;
-import eqlee.ctm.apply.jwt.entity.UserLoginQuery;
-import eqlee.ctm.apply.jwt.islogin.CheckToken;
-import eqlee.ctm.apply.line.entity.Line;
-import eqlee.ctm.apply.line.service.ILineService;
 import eqlee.ctm.apply.orders.dao.OrdersMapper;
 import eqlee.ctm.apply.orders.entity.OrderDetailed;
 import eqlee.ctm.apply.orders.entity.Orders;
@@ -23,15 +20,11 @@ import eqlee.ctm.apply.orders.service.IOrdersService;
 import eqlee.ctm.apply.price.entity.Price;
 import eqlee.ctm.apply.price.service.IPriceService;
 import lombok.extern.slf4j.Slf4j;
-import net.sf.jsqlparser.expression.DateTimeLiteralExpression;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.GetMapping;
 
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.*;
 
 /**
@@ -48,8 +41,7 @@ public class OrderServiceImpl extends ServiceImpl<OrdersMapper, Orders> implemen
    private IApplyService applyService;
    @Autowired
    private IOrdersDetailedService orderDetailedService;
-   @Autowired
-   private ILineService lineService;
+
    @Autowired
    private LocalUser localUser;
    @Autowired

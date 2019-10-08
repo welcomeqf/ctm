@@ -2,12 +2,11 @@ package eqlee.ctm.finance.settlement.controller;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.yq.constanct.CodeType;
+import com.yq.exception.ApplicationException;
+import com.yq.jwt.islogin.CheckToken;
 import com.yq.utils.StringUtils;
-import eqlee.ctm.finance.exception.ApplicationException;
-import eqlee.ctm.finance.jwt.islogin.CheckToken;
 import eqlee.ctm.finance.settlement.entity.query.ExamineDetailedQuery;
 import eqlee.ctm.finance.settlement.entity.query.ExamineResultQuery;
-import eqlee.ctm.finance.settlement.entity.vo.ContectUserVo;
 import eqlee.ctm.finance.settlement.entity.vo.FinanceVo;
 import eqlee.ctm.finance.settlement.entity.vo.ResultVo;
 import eqlee.ctm.finance.settlement.service.IInFinanceService;
@@ -78,7 +77,7 @@ public class FinanceController {
         || vo.getTrueMoney() == null || StringUtils.isBlank(vo.getTicketName()) || vo.getTicketPrice() == null || vo.getLunchPrice() == null
         || vo.getParkingRatePrice() == null || vo.getRentCarPrice() == null || vo.getGuideSubsidy() == null || vo.getDriverSubsidy() == null
         || vo.getAllOutPrice() == null) {
-            throw new ApplicationException(CodeType.PARAM_ERROR);
+            throw new ApplicationException(CodeType.PARAMETER_ERROR);
         }
 
         inFinanceService.insertFinance(vo);
@@ -98,7 +97,7 @@ public class FinanceController {
     public Page<ExamineResultQuery> listExamine2Page (@RequestParam("current") Integer current,
                                                       @RequestParam("size") Integer size) {
         if (current == null || size == null) {
-            throw new ApplicationException(CodeType.PARAM_ERROR);
+            throw new ApplicationException(CodeType.PARAMETER_ERROR);
         }
 
         Page<ExamineResultQuery> page = new Page<>(current,size);
@@ -116,7 +115,7 @@ public class FinanceController {
     @CheckToken
     public ExamineDetailedQuery listExamineDetailed (@RequestParam("Id") Long Id) {
         if (Id == null) {
-            throw new ApplicationException(CodeType.PARAM_ERROR);
+            throw new ApplicationException(CodeType.PARAMETER_ERROR);
         }
 
         return inFinanceService.queryExamineDetailed(Id);

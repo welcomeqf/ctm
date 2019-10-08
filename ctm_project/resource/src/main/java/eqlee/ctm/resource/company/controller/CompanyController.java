@@ -2,7 +2,8 @@ package eqlee.ctm.resource.company.controller;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.yq.constanct.CodeType;
-import com.yq.utils.IdGenerator;
+import com.yq.exception.ApplicationException;
+import com.yq.jwt.islogin.CheckToken;
 import com.yq.utils.StringUtils;
 import eqlee.ctm.resource.company.entity.Company;
 import eqlee.ctm.resource.company.entity.query.PageCompanyQuery;
@@ -10,12 +11,9 @@ import eqlee.ctm.resource.company.entity.vo.CompanyQueryVo;
 import eqlee.ctm.resource.company.entity.vo.CompanyVo;
 import eqlee.ctm.resource.company.entity.vo.ResultVo;
 import eqlee.ctm.resource.company.service.ICompanyService;
-import eqlee.ctm.resource.exception.ApplicationException;
-import eqlee.ctm.resource.jwt.islogin.CheckToken;
 import io.swagger.annotations.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
