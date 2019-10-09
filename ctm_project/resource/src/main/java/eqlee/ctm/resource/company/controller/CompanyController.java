@@ -63,7 +63,7 @@ public class CompanyController {
     @CrossOrigin
     @CheckToken
     public ResultVo updateCompany (@RequestBody CompanyVo companyVo) {
-        if(companyVo.getId() == null || StringUtils.isBlank(companyVo.getPayMethod())
+        if(companyVo.getId() == null || companyVo.getPayMethod() == null
         || StringUtils.isBlank(companyVo.getEndDate())|| StringUtils.isBlank(companyVo.getStartDate())
         || StringUtils.isBlank(companyVo.getCompanyName())){
             log.error("update company param is null");
@@ -108,7 +108,7 @@ public class CompanyController {
     public Page<Company> queryCompanyByCompanyName (@RequestParam("size") Integer size,@RequestParam("companyName") String companyName,
                                                     @RequestParam("current") Integer current) {
 
-        if(current == null||size == null||StringUtils.isBlank(companyName)){
+        if(current == null||size == null){
             throw new ApplicationException(CodeType.PARAMETER_ERROR,"当前页或者页面大小为空");
         }
         PageCompanyQuery pageCompany = new PageCompanyQuery();
@@ -124,19 +124,18 @@ public class CompanyController {
             @ApiImplicitParam(name = "companyName", value = "公司名称", required = true, dataType = "String", paramType = "path"),
             @ApiImplicitParam(name = "startDate", value = "合同开始时间", required = true, dataType = "String", paramType = "path"),
             @ApiImplicitParam(name = "endDate", value = "合同结束时间", required = true, dataType = "String", paramType = "path"),
-            @ApiImplicitParam(name = "payMethod", value = "支付方式", required = true, dataType = "String", paramType = "path"),
+            @ApiImplicitParam(name = "payMethod", value = "支付方式", required = true, dataType = "Integer", paramType = "path"),
     })
     @PostMapping("/addCompany")
     @CrossOrigin
     @CheckToken
     public ResultVo addCompany (@RequestBody CompanyVo companyVo) {
-
-        if(StringUtils.isBlank(companyVo.getPayMethod())
+        log.info("yu");
+        if(companyVo.getPayMethod() == null
                 || StringUtils.isBlank(companyVo.getEndDate())|| StringUtils.isBlank(companyVo.getStartDate())
                 || StringUtils.isBlank(companyVo.getCompanyName())) {
             throw new ApplicationException(CodeType.PARAMETER_ERROR,"增加公司参数不能为空.");
         }
-
         companyService.addCompany(companyVo);
         ResultVo resultVo = new ResultVo();
         resultVo.setResult("ok");

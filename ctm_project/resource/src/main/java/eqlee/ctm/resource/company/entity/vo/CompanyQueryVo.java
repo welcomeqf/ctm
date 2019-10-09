@@ -18,7 +18,7 @@ public class CompanyQueryVo {
 
     private String EndDate;
 
-    private String PayMethod;
+    private Integer PayMethod;
 
-    private String Stopped;
+    private Boolean Stopped;
 }

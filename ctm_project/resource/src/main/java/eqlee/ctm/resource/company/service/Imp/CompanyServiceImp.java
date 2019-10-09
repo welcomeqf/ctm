@@ -69,8 +69,10 @@ public class CompanyServiceImp extends ServiceImpl<CompanyMapper,Company> implem
         company.setCompanyName(companyVo.getCompanyName());
         company.setCreateUserId(user.getId());
         company.setUpdateUserId(user.getId());
-        company.setStartDate(LocalDateTime.parse(companyVo.getStartDate()));
-        company.setEndDate(LocalDateTime.parse(companyVo.getEndDate()));
+        String startDate = companyVo.getStartDate() + " 00:00:00";
+        String endDate = companyVo.getEndDate() + " 23:59:59";
+        company.setStartDate(DateUtil.parseDateTime(startDate));
+        company.setEndDate(DateUtil.parseDateTime(endDate));
         if (NOW_PAY.equals(companyVo.getPayMethod())) {
             company.setPayMethod(1);
         }
@@ -111,15 +113,17 @@ public class CompanyServiceImp extends ServiceImpl<CompanyMapper,Company> implem
         Company company = new Company();
         company.setId(Id);
         company.setCompanyName(companyVo.getCompanyName());
-        company.setStartDate(LocalDateTime.parse(companyVo.getStartDate()));
-        company.setEndDate(LocalDateTime.parse(companyVo.getEndDate()));
+        String startDate = companyVo.getStartDate() + " 00:00:00";
+        String endDate = companyVo.getEndDate() + " 23:59:59";
+        company.setStartDate(DateUtil.parseDateTime(startDate));
+        company.setEndDate(DateUtil.parseDateTime(endDate));
         company.setUpdateUserId(user.getId());
-        if("停用".equals(companyVo.getStopped())){
+        if(companyVo.getStopped()){
             company.setStopped(true);
         }else {
             company.setStopped(false);
         }
-        company.setPayMethod(Integer.parseInt(companyVo.getPayMethod()));
+        company.setPayMethod(companyVo.getPayMethod());
 
         int update = baseMapper.updateById(company);
         if (update <= 0) {
@@ -201,20 +205,12 @@ public class CompanyServiceImp extends ServiceImpl<CompanyMapper,Company> implem
         companyVo.setEndDate(DateUtil.formatDate(company.getEndDate()));
         companyVo.setCompanyName(company.getCompanyName());
         companyVo.setId(Id);
-        if (company.getPayMethod() == 1) {
-            companyVo.setPayMethod(NOW_PAY);
-        }
-        if (company.getPayMethod() == 2) {
-            companyVo.setPayMethod(MONTH_PAY);
-        }
-        if (company.getPayMethod() == 3) {
-            companyVo.setPayMethod(WITH_PAY);
-        }
+        companyVo.setPayMethod(company.getPayMethod());
         if (company.isStopped()){
-            companyVo.setStopped("停用");
+            companyVo.setStopped(true);
         }
         if (!company.isStopped()){
-            companyVo.setStopped("正常");
+            companyVo.setStopped(false);
         }
         return companyVo;
     }

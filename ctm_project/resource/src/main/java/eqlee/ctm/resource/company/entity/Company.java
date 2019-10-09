@@ -44,7 +44,7 @@ public class Company extends Model<Company> {
     /**
      * 支付方式
      */
-    private int PayMethod;
+    private Integer PayMethod;
 
     /**
      * 公司状态

@@ -20,8 +20,8 @@ public class CompanyVo {
 
     private String endDate;
 
-    private String payMethod;
+    private Integer payMethod;
 
-    private String stopped;
+    private Boolean stopped;
 
 }
