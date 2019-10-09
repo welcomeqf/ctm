@@ -56,8 +56,8 @@ public class CompanyController {
             @ApiImplicitParam(name = "companyName", value = "公司名称", required = true, dataType = "String", paramType = "path"),
             @ApiImplicitParam(name = "startDate", value = "合同开始时间", required = true, dataType = "String", paramType = "path"),
             @ApiImplicitParam(name = "endDate", value = "合同结束时间", required = true, dataType = "String", paramType = "path"),
-            @ApiImplicitParam(name = "payMethod", value = "支付方式", required = true, dataType = "String", paramType = "path"),
-            @ApiImplicitParam(name = "stopped", value = "状态", required = true, dataType = "String", paramType = "path")
+            @ApiImplicitParam(name = "payMethod", value = "支付方式", required = true, dataType = "Integer", paramType = "path"),
+            @ApiImplicitParam(name = "stopped", value = "状态", required = true, dataType = "Boolean", paramType = "path")
     })
     @PostMapping("/updateCompany")
     @CrossOrigin
@@ -98,7 +98,7 @@ public class CompanyController {
 
     @ApiOperation(value = "同行列表", notes = "由公司名查询的公司列表")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "companyName", value = "公司名称", required = true, dataType = "String", paramType = "path"),
+            @ApiImplicitParam(name = "companyName", value = "公司名称", required = false, dataType = "String", paramType = "path"),
             @ApiImplicitParam(name = "current", value = "当前页", required = true, dataType = "Integer", paramType = "path"),
             @ApiImplicitParam(name = "size", value = "页面大小", required = true, dataType = "Integer", paramType = "path")
     })
