@@ -100,7 +100,7 @@ public class FinanceExpressController {
             @ApiImplicitParam(name = "time", value = "时间", required = false, dataType = "String", paramType = "path"),
             @ApiImplicitParam(name = "companyName", value = "公司名称", required = false, dataType = "String", paramType = "path"),
     })
-    @GetMapping("/getfinancecount")
+    @GetMapping("/getAllfinancecount")
     @CrossOrigin
     public Page<AllCountVo> getAllfinancecount(@RequestParam("current") Integer current,
                                                @RequestParam("size") Integer size,

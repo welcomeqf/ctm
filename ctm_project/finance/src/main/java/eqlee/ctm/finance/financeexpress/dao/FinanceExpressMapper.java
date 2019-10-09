@@ -67,5 +67,8 @@ public interface FinanceExpressMapper {
      * @param companyName
      * @return
      */
-    Page<AllCountVo> getAllfinancecount(Page<AllCountVo> page, String year, String month, String companyName);
+    Page<AllCountVo> getAllfinancecount(Page<AllCountVo> page,
+                                        @Param("year") String year,
+                                        @Param("month") String month,
+                                        @Param("companyName") String companyName);
 }

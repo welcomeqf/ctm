@@ -29,13 +29,13 @@
         group by All AccountName,datepart(year,OutDate),CompanyName,datepart(month,OutDate)
     </select>
 
-    <select id="queryfinancecollection" resultType="eqlee.ctm.finance.financeexpress.entity.FinanceExpressCountVo">
+    <select id="getAllfinancecount" resultType="eqlee.ctm.finance.financeexpress.entity.AllCountVo">
         <bind name="_companyName" value="'%' + companyName + '%'"/>
         select  datepart(month,a.OutDate) as month,a.AccountName as accountName,a.CompanyName as companyName,
         sum(b.SettlementPrice) as settlementPrice,sum(b.SubstitutionPrice) as substitutionPrice,
         sum(b.SettlementPrice)-sum(b.SubstitutionPrice) as count
         from Orders a join Income b on a.GuideName = b.GuideName
-        where datepart(year,OutDate)=#{year} and datepart(month,OutDate)=#{month} and
+        where datepart(year,a.OutDate)=#{year} and datepart(month,a.OutDate)=#{month} and
         CompanyName like #{_companyName} group by all a.AccountName,a.CompanyName,datepart(year,a.OutDate),datepart(month,a.OutDate)
     </select>
 </mapper>
