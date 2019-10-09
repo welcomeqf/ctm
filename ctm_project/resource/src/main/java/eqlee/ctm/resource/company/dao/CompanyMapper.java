@@ -1,7 +1,11 @@
 package eqlee.ctm.resource.company.dao;
 
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.yq.IBaseMapper.IBaseMapper;
 import eqlee.ctm.resource.company.entity.Company;
+import eqlee.ctm.resource.company.entity.query.PageCompanyQuery;
+import eqlee.ctm.resource.company.entity.vo.CompanyIndexVo;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Component;
 
 /**
@@ -11,4 +15,6 @@ import org.springframework.stereotype.Component;
  */
 @Component
 public interface CompanyMapper extends IBaseMapper<Company> {
+    Page<CompanyIndexVo> getCompanyPageByName(Page<CompanyIndexVo>page,
+                                               @Param("companyName") String companyName);
 }

@@ -7,6 +7,7 @@ import com.yq.jwt.islogin.CheckToken;
 import com.yq.utils.StringUtils;
 import eqlee.ctm.resource.company.entity.Company;
 import eqlee.ctm.resource.company.entity.query.PageCompanyQuery;
+import eqlee.ctm.resource.company.entity.vo.CompanyIndexVo;
 import eqlee.ctm.resource.company.entity.vo.CompanyQueryVo;
 import eqlee.ctm.resource.company.entity.vo.CompanyVo;
 import eqlee.ctm.resource.company.entity.vo.ResultVo;
@@ -105,8 +106,8 @@ public class CompanyController {
     @GetMapping("/queryCompanyByName")
     @CrossOrigin
     @CheckToken
-    public Page<Company> queryCompanyByCompanyName (@RequestParam("size") Integer size,@RequestParam("companyName") String companyName,
-                                                    @RequestParam("current") Integer current) {
+    public Page<CompanyIndexVo> queryCompanyByCompanyName (@RequestParam("size") Integer size, @RequestParam("companyName") String companyName,
+                                                           @RequestParam("current") Integer current) {
 
         if(current == null||size == null){
             throw new ApplicationException(CodeType.PARAMETER_ERROR,"当前页或者页面大小为空");

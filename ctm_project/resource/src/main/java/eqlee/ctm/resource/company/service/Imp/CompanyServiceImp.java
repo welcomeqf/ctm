@@ -13,6 +13,7 @@ import com.yq.utils.IdGenerator;
 import eqlee.ctm.resource.company.dao.CompanyMapper;
 import eqlee.ctm.resource.company.entity.Company;
 import eqlee.ctm.resource.company.entity.query.PageCompanyQuery;
+import eqlee.ctm.resource.company.entity.vo.CompanyIndexVo;
 import eqlee.ctm.resource.company.entity.vo.CompanyQueryVo;
 import eqlee.ctm.resource.company.entity.vo.CompanyVo;
 import eqlee.ctm.resource.company.service.ICompanyService;
@@ -179,17 +180,11 @@ public class CompanyServiceImp extends ServiceImpl<CompanyMapper,Company> implem
      * @return
      */
     @Override
-    public Page<Company> GetCompanyPageByName(PageCompanyQuery pageCompany) {
-        QueryWrapper<Company> queryWrapper = new QueryWrapper<>();
-        queryWrapper.like(true, "CompanyName", pageCompany.getName());
-//        LambdaQueryWrapper<Company> queryWrapper = new LambdaQueryWrapper<Company>()
-//                .like(Company::getCompanyName,pageCompany.getName());
-//        log.info(queryWrapper.toString());
-        Page<Company> page = new Page<Company>();
+    public Page<CompanyIndexVo> GetCompanyPageByName(PageCompanyQuery pageCompany) {
+        Page<CompanyIndexVo> page = new Page<CompanyIndexVo>();
         page.setCurrent(pageCompany.getCurrent());
         page.setSize(pageCompany.getSize());
-        baseMapper.selectPage(page, queryWrapper);
-        return page;
+        return baseMapper.getCompanyPageByName(page,pageCompany.getName());
     }
 
 
@@ -202,7 +197,7 @@ public class CompanyServiceImp extends ServiceImpl<CompanyMapper,Company> implem
         CompanyQueryVo companyVo = new CompanyQueryVo();
         Company company = baseMapper.selectById(Id);
         companyVo.setStartDate(company.getStartDate().toString());
-        companyVo.setEndDate(DateUtil.formatDate(company.getEndDate()));
+        companyVo.setEndDate(company.getEndDate().toString());
         companyVo.setCompanyName(company.getCompanyName());
         companyVo.setId(Id);
         companyVo.setPayMethod(company.getPayMethod());

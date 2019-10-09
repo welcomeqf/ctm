@@ -3,6 +3,7 @@ package eqlee.ctm.resource.company.service;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import eqlee.ctm.resource.company.entity.Company;
 import eqlee.ctm.resource.company.entity.query.PageCompanyQuery;
+import eqlee.ctm.resource.company.entity.vo.CompanyIndexVo;
 import eqlee.ctm.resource.company.entity.vo.CompanyQueryVo;
 import eqlee.ctm.resource.company.entity.vo.CompanyVo;
 
@@ -54,7 +55,7 @@ public interface ICompanyService {
      * @param pageCompany
      * @return
      */
-    Page<Company> GetCompanyPageByName(PageCompanyQuery pageCompany);
+    Page<CompanyIndexVo> GetCompanyPageByName(PageCompanyQuery pageCompany);
 
 
     /**

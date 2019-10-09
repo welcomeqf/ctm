@@ -9,6 +9,9 @@ import lombok.Data;
  */
 @Data
 public class PriceSelectVo {
+
+    private Long id;
+
     private String OutDate;
 
     private String lineName;
