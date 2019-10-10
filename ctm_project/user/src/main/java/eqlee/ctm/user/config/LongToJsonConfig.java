@@ -16,7 +16,7 @@ import java.util.List;
  * @Version 1.0
  */
 @Configuration
-public class LongToJsonConfig extends WebMvcConfigurationSupport {
+public class  LongToJsonConfig extends WebMvcConfigurationSupport {
 
 
     public void configureMessageConverters(List<HttpMessageConverter<?>> converters) {

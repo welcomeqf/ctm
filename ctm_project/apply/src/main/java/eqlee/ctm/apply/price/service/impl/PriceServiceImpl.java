@@ -205,7 +205,10 @@ public class PriceServiceImpl extends ServiceImpl<PriceMapper, Price> implements
             int endyear = Integer.parseInt(priceVo.getEndTime().substring(0, 4));
             int endmonth = Integer.parseInt(priceVo.getEndTime().substring(5, 7));
             int endday = Integer.parseInt(priceVo.getEndTime().substring(8, 10));
-//如果输入的开始时间和结束时间不是同一天的话，更改PriceList中出行时间在这个时间端的价格
+           //如果输入的开始时间和结束时间不是同一天的话，更改PriceList中出行时间在这个时间端的价格
+            if (priceVo.getStartTime().compareTo(priceVo.getEndTime())>0){
+                throw new ApplicationException(CodeType.SERVICE_ERROR, "开始时间大于结束时间");
+            }
             for (Price price : pricesList) {
                 if (startyear < endyear) {
                     if (price.getOutDate().getYear() > startyear && price.getOutDate().getYear() < endyear) {
@@ -248,12 +251,13 @@ public class PriceServiceImpl extends ServiceImpl<PriceMapper, Price> implements
                     }
                 }
             }
-
-
-            int update = baseMapper.batchupdatePrice(pricesList);
-            if (update <= 0) {
-                log.error("batchUpdate price fail.");
-                throw new ApplicationException(CodeType.SERVICE_ERROR, "批量修改价格失败");
+            if(pricesList.size()==0){
+                throw new ApplicationException(CodeType.SERVICE_ERROR, "该线路不存在该日期，请重新输入");
+            }else {
+                int update = baseMapper.batchupdatePrice(pricesList);
+                if (update <= 0) {
+                    throw new ApplicationException(CodeType.SERVICE_ERROR, "批量更新失败");
+                }
             }
         }
     }
