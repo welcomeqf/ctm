@@ -5,7 +5,7 @@
     <select id ="guiderIndex" resultType="eqlee.ctm.apply.guider.entity.vo.GuiderVo">
         <bind name="OutDateTime" value="'%' + outDate + '%'"/>
         <bind name="LineName" value="'%' + lineName + '%'"/>
-        select a.Id,a.LineName,convert(varchar(20),b.OutDate,23) as OutDate,b.AdultPrice,b.OldPrice,b.BabyPrice,b.ChildPrice,c.AllNumber AppliedNumber,
+        select a.Region as Region,a.Id,a.LineName,convert(varchar(20),b.OutDate,23) as OutDate,b.AdultPrice,b.OldPrice,b.BabyPrice,b.ChildPrice,c.AllNumber AppliedNumber,
         e.AllNumber ChooisedNumber,c.AllNumber-e.AllNumber WaitedPeople
         from Line a join Price b on a.Id = b.LineId join Apply c on a.Id = c.LineId join orders d on a.LineName = d.LineName
         join OrderDetailed e on d.Id = e.OrderId
@@ -15,7 +15,7 @@
     </select>
 
     <select id="applyIndex" resultType="eqlee.ctm.apply.guider.entity.vo.ApplyVo">
-        select a.ContactName,a.ContactTel,a.Region,a.Place from Apply a
+        select a.AllNumber,a.ContactName,a.ContactTel,a.Region,a.Place from Apply a
         join Line b on a.LineId = b.Id where b.LineName =#{lineName} and a.OutDate=#{outDate}
         and a.ApplyNo not in(select OrderNo from Orders)
     </select>

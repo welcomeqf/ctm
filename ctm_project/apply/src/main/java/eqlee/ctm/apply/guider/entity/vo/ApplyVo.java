@@ -29,4 +29,9 @@ public class ApplyVo {
      */
     private String Place;
 
+    /**
+     * 人数
+     */
+    private String AllNumber;
+
 }

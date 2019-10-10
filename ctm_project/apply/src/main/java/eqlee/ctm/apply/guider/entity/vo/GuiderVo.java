@@ -16,6 +16,8 @@ public class GuiderVo {
 
     private String LineName;
 
+    private String Region;
+
     private String OutDate;
 
     private Double AdultPrice;
