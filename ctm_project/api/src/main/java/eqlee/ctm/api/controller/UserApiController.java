@@ -1,12 +1,10 @@
 package eqlee.ctm.api.controller;
 
 import com.alibaba.fastjson.JSONObject;
+import com.yq.data.Result;
 import com.yq.jwt.islogin.CheckToken;
 import com.yq.utils.JwtUtil;
-import eqlee.ctm.api.entity.vo.ResultVo;
-import eqlee.ctm.api.entity.vo.UserUpdatePasswordVo;
-import eqlee.ctm.api.entity.vo.UserUpdateVo;
-import eqlee.ctm.api.entity.vo.UserVo;
+import eqlee.ctm.api.entity.vo.*;
 import eqlee.ctm.api.httpclient.HttpClientUtils;
 import eqlee.ctm.api.httpclient.HttpResult;
 import eqlee.ctm.api.vilidate.DataUtils;
@@ -39,8 +37,7 @@ public class UserApiController {
     @Value("${api.port}")
     private String port;
 
-    @Value("{api.path}")
-    private String path;
+    private final String path = "user";
 
     @Autowired
     private HttpClientUtils apiService;
@@ -66,7 +63,8 @@ public class UserApiController {
         HttpResult httpResult = apiService.doPost(url, s);
 
         if (httpResult.getCode() != Status) {
-            return DataUtils.getError();
+            String msg = DataUtils.getMsg(httpResult.getBody());
+            return DataUtils.getError(msg);
         }
 
         return JSONObject.parse(httpResult.getBody());
@@ -77,18 +75,19 @@ public class UserApiController {
             @ApiImplicitParam(name = "userName", value = "用户名", required = true, dataType = "String", paramType = "path"),
             @ApiImplicitParam(name = "password", value = "密码", required = true, dataType = "String", paramType = "path")
     })
-    @GetMapping("/login")
+    @PostMapping("/login")
     @CrossOrigin
-    public Object login(@RequestParam("userName") String userName, @RequestParam("password") String password) throws Exception {
+    public Object login(@RequestBody UserLoginVo userLoginVo) throws Exception {
         String encode = DataUtils.getEncodeing("RSA");
-        String url = "http://" + Ip + ":" + port + "/" + path + "/v1/app/user/login?userName=" + userName + "&AppId=" + encode + "&password=" + password;
+        String url = "http://" + Ip + ":" + port + "/" + path + "/v1/app/user/login?userName=" + userLoginVo.getUserName() + "&AppId=" + encode + "&password=" + userLoginVo.getPassword();
 
         Map<String, Object> map = new HashMap<>();
 
         HttpResult httpResult = apiService.doGet(url, map);
 
         if (httpResult.getCode() != Status) {
-            return DataUtils.getError();
+            String msg = DataUtils.getMsg(httpResult.getBody());
+            return DataUtils.getError(msg);
         }
 
         //JWT验证
@@ -99,8 +98,7 @@ public class UserApiController {
         String token = JwtUtil.createJWT(86400000L, object.getData());
         jsonObject.put("token", token);
         jsonObject.put("user", object.getData());
-        return jsonObject;
-
+        return Result.SUCCESS(jsonObject);
     }
 
     @ApiOperation(value = "注销", notes = "注销")
@@ -117,7 +115,8 @@ public class UserApiController {
         HttpResult httpResult = apiService.doGet(url, map);
 
         if (httpResult.getCode() != Status) {
-            return DataUtils.getError();
+            String msg = DataUtils.getMsg(httpResult.getBody());
+            return DataUtils.getError(msg);
         }
         return JSONObject.parse(httpResult.getBody());
     }
@@ -136,7 +135,8 @@ public class UserApiController {
         HttpResult httpResult = apiService.doGet(url, map);
 
         if (httpResult.getCode() != Status) {
-            return DataUtils.getError();
+            String msg = DataUtils.getMsg(httpResult.getBody());
+            return DataUtils.getError(msg);
         }
         return JSONObject.parse(httpResult.getBody());
     }
@@ -155,7 +155,8 @@ public class UserApiController {
         HttpResult httpResult = apiService.doGet(url, map);
 
         if (httpResult.getCode() != Status) {
-            return DataUtils.getError();
+            String msg = DataUtils.getMsg(httpResult.getBody());
+            return DataUtils.getError(msg);
         }
         return JSONObject.parse(httpResult.getBody());
     }
@@ -174,7 +175,8 @@ public class UserApiController {
         HttpResult httpResult = apiService.doGet(url, map);
 
         if (httpResult.getCode() != Status) {
-            return DataUtils.getError();
+            String msg = DataUtils.getMsg(httpResult.getBody());
+            return DataUtils.getError(msg);
         }
         return JSONObject.parse(httpResult.getBody());
     }
@@ -201,7 +203,8 @@ public class UserApiController {
         HttpResult httpResult = apiService.doPost(url, s);
 
         if (httpResult.getCode() != Status) {
-            return DataUtils.getError();
+            String msg = DataUtils.getMsg(httpResult.getBody());
+            return DataUtils.getError(msg);
         }
 
         return JSONObject.parse(httpResult.getBody());
@@ -225,7 +228,8 @@ public class UserApiController {
         HttpResult httpResult = apiService.doGet(url, map);
 
         if (httpResult.getCode() != Status) {
-            return DataUtils.getError();
+            String msg = DataUtils.getMsg(httpResult.getBody());
+            return DataUtils.getError(msg);
         }
         return JSONObject.parse(httpResult.getBody());
     }
@@ -262,7 +266,8 @@ public class UserApiController {
         HttpResult httpResult = apiService.doGet(url, map);
 
         if (httpResult.getCode() != Status) {
-            return DataUtils.getError();
+            String msg = DataUtils.getMsg(httpResult.getBody());
+            return DataUtils.getError(msg);
         }
         return JSONObject.parse(httpResult.getBody());
     }
@@ -288,7 +293,8 @@ public class UserApiController {
         HttpResult httpResult = apiService.doGet(url, map);
 
         if (httpResult.getCode() != Status) {
-            return DataUtils.getError();
+            String msg = DataUtils.getMsg(httpResult.getBody());
+            return DataUtils.getError(msg);
         }
         return JSONObject.parse(httpResult.getBody());
     }
@@ -312,7 +318,8 @@ public class UserApiController {
         HttpResult httpResult = apiService.doPost(url, s);
 
         if (httpResult.getCode() != Status) {
-            return DataUtils.getError();
+            String msg = DataUtils.getMsg(httpResult.getBody());
+            return DataUtils.getError(msg);
         }
 
         return JSONObject.parse(httpResult.getBody());
@@ -339,7 +346,8 @@ public class UserApiController {
         HttpResult httpResult = apiService.doPost(url, s);
 
         if (httpResult.getCode() != Status) {
-            return DataUtils.getError();
+            String msg = DataUtils.getMsg(httpResult.getBody());
+            return DataUtils.getError(msg);
         }
 
         return JSONObject.parse(httpResult.getBody());

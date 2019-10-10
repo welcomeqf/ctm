@@ -1,7 +1,11 @@
 package eqlee.ctm.api.vilidate;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
+import com.baomidou.mybatisplus.extension.api.R;
 import com.yq.utils.Base64Util;
 import com.yq.utils.CryptoUtils;
+import eqlee.ctm.api.entity.vo.ResoultJosnVo;
 import eqlee.ctm.api.httpclient.ErrorResult;
 
 /**
@@ -15,9 +19,9 @@ public class DataUtils {
      * 调用Api返回错误结果
      * @return
      */
-    public static ErrorResult getError () {
+    public static ErrorResult getError (String msg) {
         ErrorResult result = new ErrorResult();
-        result.setMsg("调用Api出错,请重试");
+        result.setMsg(msg);
         result.setCode(400);
         return result;
     }
@@ -43,5 +47,15 @@ public class DataUtils {
         String decode = CryptoUtils.decrypt(encodeString);
         String decodeString = Base64Util.decodeString(decode);
         return decodeString;
+    }
+
+    /**
+     * 返回具体错误
+     * @param result
+     * @return
+     */
+    public static String getMsg (String result) {
+        ResoultJosnVo parse = JSONObject.parseObject(result, ResoultJosnVo.class);
+        return parse.getMsg();
     }
 }

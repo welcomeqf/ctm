@@ -58,7 +58,7 @@ public class CarApiController {
         HttpResult httpResult = apiService.doGet(url, map);
 
         if (httpResult.getCode() != Status) {
-            return DataUtils.getError();
+            return DataUtils.getError(httpResult.getBody());
         }
         return JSONObject.parse(httpResult.getBody());
     }
@@ -76,7 +76,7 @@ public class CarApiController {
         HttpResult httpResult = apiService.doDelete(url,map);
 
         if (httpResult.getCode() != Status) {
-            return DataUtils.getError();
+            return DataUtils.getError(httpResult.getBody());
         }
         return JSONObject.parse(httpResult.getBody());
     }
@@ -98,7 +98,7 @@ public class CarApiController {
         HttpResult httpResult = apiService.doPost(url, s);
 
         if (httpResult.getCode() != Status) {
-            return DataUtils.getError();
+            return DataUtils.getError(httpResult.getBody());
         }
 
         return JSONObject.parse(httpResult.getBody());
@@ -121,7 +121,7 @@ public class CarApiController {
         HttpResult httpResult = apiService.doPut(url,s);
 
         if (httpResult.getCode() != Status) {
-            return DataUtils.getError();
+            return DataUtils.getError(httpResult.getBody());
         }
 
         return JSONObject.parse(httpResult.getBody());
@@ -139,7 +139,7 @@ public class CarApiController {
         HttpResult httpResult = apiService.doGet(url,map);
 
         if (httpResult.getCode() != Status) {
-            return DataUtils.getError();
+            return DataUtils.getError(httpResult.getBody());
         }
 
         return JSONObject.parse(httpResult.getBody());

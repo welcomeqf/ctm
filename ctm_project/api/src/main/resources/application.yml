@@ -17,7 +17,6 @@ app:
 api:
   userIp: 192.168.0.253
   port: 9092
-  path: user
 resourceApi:
   port: 9091
   path: resource

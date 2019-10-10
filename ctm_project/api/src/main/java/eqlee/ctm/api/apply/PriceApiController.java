@@ -67,7 +67,7 @@ public class PriceApiController {
         HttpResult httpResult = apiService.doPost(url, s);
 
         if (httpResult.getCode() != Status) {
-            return DataUtils.getError();
+            return DataUtils.getError(httpResult.getBody());
         }
 
         return JSONObject.parse(httpResult.getBody());
@@ -92,7 +92,7 @@ public class PriceApiController {
         HttpResult httpResult = apiService.doPut(url,s);
 
         if (httpResult.getCode() != Status) {
-            return DataUtils.getError();
+            return DataUtils.getError(httpResult.getBody());
         }
 
         return JSONObject.parse(httpResult.getBody());
@@ -119,7 +119,7 @@ public class PriceApiController {
         HttpResult httpResult = apiService.doGet(url, map);
 
         if (httpResult.getCode() != Status) {
-            return DataUtils.getError();
+            return DataUtils.getError(httpResult.getBody());
         }
         return JSONObject.parse(httpResult.getBody());
     }

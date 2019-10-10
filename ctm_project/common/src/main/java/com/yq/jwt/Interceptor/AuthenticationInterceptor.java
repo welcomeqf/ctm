@@ -74,7 +74,7 @@ public class AuthenticationInterceptor implements HandlerInterceptor {
                     query.setTel(JWT.decode(token).getClaim("Tel").asString());
 
                 } catch (JWTDecodeException j) {
-                    throw new ApplicationException(CodeType.OVENDU_ERROR, "解码失败");
+                    throw new ApplicationException(CodeType.OVENDU_ERROR, "token错误,解码失败");
                 }
                 user.setUser(query);
 

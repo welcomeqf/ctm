@@ -35,8 +35,7 @@ public class UserRoleController {
     @Value("${api.port}")
     private String port;
 
-    @Value("${api.path}")
-    private String path;
+    private final String path = "user";
 
     @Autowired
     private HttpClientUtils apiService;
@@ -57,7 +56,8 @@ public class UserRoleController {
         HttpResult httpResult = apiService.doPost(url, s);
 
         if (httpResult.getCode() != Status) {
-            return DataUtils.getError();
+            String msg = DataUtils.getMsg(httpResult.getBody());
+            return DataUtils.getError(msg);
         }
 
         return JSONObject.parse(httpResult.getBody());
@@ -78,7 +78,8 @@ public class UserRoleController {
         HttpResult httpResult = apiService.doGet(url, map);
 
         if (httpResult.getCode() != Status) {
-            return DataUtils.getError();
+            String msg = DataUtils.getMsg(httpResult.getBody());
+            return DataUtils.getError(msg);
         }
         return JSONObject.parse(httpResult.getBody());
     }
@@ -97,7 +98,8 @@ public class UserRoleController {
         HttpResult httpResult = apiService.doGet(url, map);
 
         if (httpResult.getCode() != Status) {
-            return DataUtils.getError();
+            String msg = DataUtils.getMsg(httpResult.getBody());
+            return DataUtils.getError(msg);
         }
         return JSONObject.parse(httpResult.getBody());
     }
@@ -120,7 +122,8 @@ public class UserRoleController {
         HttpResult httpResult = apiService.doGet(url, map);
 
         if (httpResult.getCode() != Status) {
-            return DataUtils.getError();
+            String msg = DataUtils.getMsg(httpResult.getBody());
+            return DataUtils.getError(msg);
         }
         return JSONObject.parse(httpResult.getBody());
     }
