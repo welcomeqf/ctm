@@ -17,7 +17,9 @@ import eqlee.ctm.apply.line.service.ILineService;
 import eqlee.ctm.apply.price.dao.PriceMapper;
 import eqlee.ctm.apply.price.entity.Price;
 import eqlee.ctm.apply.price.entity.query.PriceQuery;
+import eqlee.ctm.apply.price.entity.vo.PriceSeacherVo;
 import eqlee.ctm.apply.price.entity.vo.PriceSelectVo;
+import eqlee.ctm.apply.price.entity.vo.PriceUpdateVo;
 import eqlee.ctm.apply.price.entity.vo.PriceVo;
 import eqlee.ctm.apply.price.service.IPriceService;
 import lombok.extern.slf4j.Slf4j;
@@ -90,6 +92,8 @@ public class PriceServiceImpl extends ServiceImpl<PriceMapper, Price> implements
             price.setAdultPrice(priceVo.getAdultPrice());
             price.setBabyPrice(priceVo.getBabyPrice());
             price.setChildPrice(priceVo.getChildPrice());
+            price.setRemark(priceVo.getRemark());
+            price.setOldPrice(priceVo.getOldPrice());
             price.setOutDate(outDate);
             price.setLineId(line.getId());
             price.setCreateUserId(user.getId());
@@ -116,6 +120,8 @@ public class PriceServiceImpl extends ServiceImpl<PriceMapper, Price> implements
             price.setAdultPrice(priceVo.getAdultPrice());
             price.setBabyPrice(priceVo.getBabyPrice());
             price.setChildPrice(priceVo.getChildPrice());
+            price.setOldPrice(priceVo.getOldPrice());
+            price.setRemark(priceVo.getRemark());
             price.setLineId(line.getId());
 
             price.setCreateUserId(user.getId());
@@ -143,10 +149,18 @@ public class PriceServiceImpl extends ServiceImpl<PriceMapper, Price> implements
     /**
      * 价格修改
      *
-     * @param price
+     * @param price1
      */
     @Override
-    public void updatePrice(Price price) {
+    public void updatePrice(PriceUpdateVo price1) {
+
+        Price price = new Price();
+        price.setId(price1.getId());
+        price.setChildPrice(price1.getChildPrice());
+        price.setBabyPrice(price1.getBabyPrice());
+        price.setAdultPrice(price1.getAdultPrice());
+        price.setOldPrice(price1.getOldPrice());
+
         int result = baseMapper.updateById(price);
 
         if (result <= 0) {
@@ -292,5 +306,15 @@ public class PriceServiceImpl extends ServiceImpl<PriceMapper, Price> implements
         LambdaQueryWrapper<Price> queryWrapper = new LambdaQueryWrapper<Price>()
                 .eq(Price::getLineId,line.getId()).eq(Price::getOutDate,Outdate);
         return baseMapper.selectOne(queryWrapper);
+    }
+
+    /**
+     * 查询一条记录
+     * @param Id
+     * @return
+     */
+    @Override
+    public PriceSeacherVo queryPriceById(Long Id) {
+        return baseMapper.queryOne(Id);
     }
 }

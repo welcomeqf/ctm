@@ -61,7 +61,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
                 .eq(User::getAccount,userVo.getUserName());
         User user1 = baseMapper.selectOne(queryWrapper);
         if (user1 != null) {
-            throw new ApplicationException(CodeType.SERVICE_ERROR,"该账号已被使用");
+            throw new ApplicationException(CodeType.SUCC_ERROR,"该账号已被使用");
         }
         String s = ShaUtils.getSha1(userVo.getPassword());
         User user = new User();
@@ -316,7 +316,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
                 .eq(User::getAccount,userVo.getUserName());
         User user1 = baseMapper.selectOne(queryWrapper);
         if (user1 != null) {
-            throw new ApplicationException(CodeType.SERVICE_ERROR,"该账号已被使用");
+            throw new ApplicationException(CodeType.SUCC_ERROR,"该账号已被使用");
         }
         String s = ShaUtils.getSha1(userVo.getPassword());
         User user = new User();

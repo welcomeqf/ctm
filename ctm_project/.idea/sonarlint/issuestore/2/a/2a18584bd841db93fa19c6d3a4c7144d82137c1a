@@ -1,4 +1,5 @@
 
-ksquid:UselessImportCheck"@Remove this unused import 'org.apache.ibatis.annotations.Param'.(á¬Ó²8íªÅâÔ-
-[squid:UselessImportCheck	"+Remove this unused import 'java.util.List'.(Õë±Äøÿÿÿÿ8íªÅâÔ-
-dsquid:UselessImportCheck"4Remove this unused import 'java.time.LocalDateTime'.(æÃ§ƒüÿÿÿÿ8íªÅâÔ-
+ksquid:UselessImportCheck"@Remove this unused import 'org.apache.ibatis.annotations.Param'.(á¬Ó²8íªÅâÔ-
+dsquid:UselessImportCheck
+"4Remove this unused import 'java.time.LocalDateTime'.(æÃ§ƒüÿÿÿÿ8íªÅâÔ-
+[squid:UselessImportCheck"+Remove this unused import 'java.util.List'.(Õë±Äøÿÿÿÿ8íªÅâÔ-

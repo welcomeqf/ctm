@@ -6,8 +6,11 @@ import com.yq.exception.ApplicationException;
 import com.yq.jwt.islogin.CheckToken;
 import com.yq.utils.StringUtils;
 import eqlee.ctm.apply.line.entity.vo.ResultVo;
+import eqlee.ctm.apply.price.entity.Price;
 import eqlee.ctm.apply.price.entity.query.PriceQuery;
+import eqlee.ctm.apply.price.entity.vo.PriceSeacherVo;
 import eqlee.ctm.apply.price.entity.vo.PriceSelectVo;
+import eqlee.ctm.apply.price.entity.vo.PriceUpdateVo;
 import eqlee.ctm.apply.price.entity.vo.PriceVo;
 import eqlee.ctm.apply.price.service.IPriceService;
 import io.swagger.annotations.Api;
@@ -44,6 +47,7 @@ public class PriceController {
             @ApiImplicitParam(name = "oldPrice", value = "老人价格", required = true, dataType = "double", paramType = "path"),
             @ApiImplicitParam(name = "babyPrice", value = "幼儿价格", required = true, dataType = "double", paramType = "path"),
             @ApiImplicitParam(name = "childPrice", value = "小孩价格", required = true, dataType = "double", paramType = "path"),
+            @ApiImplicitParam(name = "remark", value = "备注", required = false, dataType = "String", paramType = "path")
     })
     @PostMapping("/insertPrice")
     @CrossOrigin
@@ -118,4 +122,36 @@ public class PriceController {
     }
 
 
+    @ApiOperation(value = "查询一条价格记录", notes = "查询一条价格记录")
+    @ApiImplicitParam(name = "Id", value = "Id", required = true, dataType = "Long", paramType = "path")
+    @GetMapping("/queryPriceById")
+    @CrossOrigin
+    @CheckToken
+    public PriceSeacherVo queryPriceById (@RequestParam("Id") Long Id) {
+        return priceService.queryPriceById(Id);
+    }
+
+
+    @ApiOperation(value = "修改一条价格记录", notes = "修改一条价格记录")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "id", value = "id", required = true, dataType = "Long", paramType = "path"),
+            @ApiImplicitParam(name = "adultPrice", value = "成年价格", required = true, dataType = "double", paramType = "path"),
+            @ApiImplicitParam(name = "oldPrice", value = "老人价格", required = true, dataType = "double", paramType = "path"),
+            @ApiImplicitParam(name = "babyPrice", value = "幼儿价格", required = true, dataType = "double", paramType = "path"),
+            @ApiImplicitParam(name = "childPrice", value = "小孩价格", required = true, dataType = "double", paramType = "path")
+    })
+    @PostMapping("/updateOnePrice")
+    @CrossOrigin
+    @CheckToken
+    public ResultVo updateOnePrice(@RequestBody PriceUpdateVo priceVo) {
+        if ( priceVo.getAdultPrice() == null || priceVo.getId() == null || priceVo.getOldPrice() == null
+                || priceVo.getBabyPrice() == null || priceVo.getChildPrice() ==null) {
+            log.error("price param is not null.");
+            throw new ApplicationException(CodeType.PARAM_ERROR);
+        }
+        priceService.updatePrice(priceVo);
+        ResultVo resultVo = new ResultVo();
+        resultVo.setResult("ok");
+        return resultVo;
+    }
 }

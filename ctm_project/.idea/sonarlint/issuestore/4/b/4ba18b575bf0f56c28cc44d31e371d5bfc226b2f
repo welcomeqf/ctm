@@ -1,8 +1,8 @@
 
-usquid:S00117Z"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ûÇÉ»ıÿÿÿÿ8ö†ÛÖ-
+psquid:S00117m"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ûÀ©Í8ö†ÛÖ-
+vsquid:S00117€"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(òÇŒ™şÿÿÿÿ8ö†ÛÖ-
 psquid:S00117m"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ûÀ©Í8ö†ÛÖ-
 vsquid:S00117“"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(›ìÄÂıÿÿÿÿ8ÛÃâ×-
-psquid:S00117m"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ûÀ©Í8ö†ÛÖ-
+usquid:S00117Z"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ûÇÉ»ıÿÿÿÿ8ö†ÛÖ-
 [squid:UselessImportCheck"+Remove this unused import 'java.util.List'.(Õë±Äøÿÿÿÿ8ÇÓÛÛÖ-
-vsquid:S00117€"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(òÇŒ™şÿÿÿÿ8ö†ÛÖ-
 usquid:S00117Z"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ûÇÉ»ıÿÿÿÿ8ö†ÛÖ-

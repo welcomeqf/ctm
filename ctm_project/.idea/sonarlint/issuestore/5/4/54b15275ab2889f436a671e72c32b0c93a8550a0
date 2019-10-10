@@ -1,12 +1,8 @@
 
 bsquid:S2259"FA "NullPointerException" could be thrown; "myKeyGen" is nullable here.(ð”Ÿºÿÿÿÿÿ
-?squid:S11481"#Use a logger to log this exception.(€ÉÔ…ýÿÿÿÿ
-}squid:S1488"aImmediately return this expression instead of assigning it to the temporary variable "myKeyPair".(ð”Ÿºÿÿÿÿÿ
-nsquid:CommentedOutCodeLineN"<This block of commented-out lines of code should be removed.(»ž•ûÿÿÿÿ8ìÂ¹¹Ö-
-nsquid:CommentedOutCodeLineS"<This block of commented-out lines of code should be removed.(­¼¼òúÿÿÿÿ8ìÂ¹¹Ö-
-?squid:S1148"#Use a logger to log this exception.(€ÉÔ…ýÿÿÿÿ
-?squid:S1148H"#Use a logger to log this exception.(€ÉÔ…ýÿÿÿÿ
-T
-squid:S106F"9Replace this use of System.out or System.err by a logger.(¦ûÓÙÿÿÿÿÿ
+?squid:S1148G"#Use a logger to log this exception.(€ÉÔ…ýÿÿÿÿ
 Wsquid:S1118":Add a private constructor to hide the implicit public one.(×™Ú8ìÂ¹¹Ö-
 isquid:S00117"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(¬¶€ï
+?squid:S11481"#Use a logger to log this exception.(€ÉÔ…ýÿÿÿÿ
+?squid:S1148"#Use a logger to log this exception.(€ÉÔ…ýÿÿÿÿ
+}squid:S1488"aImmediately return this expression instead of assigning it to the temporary variable "myKeyPair".(ð”Ÿºÿÿÿÿÿ

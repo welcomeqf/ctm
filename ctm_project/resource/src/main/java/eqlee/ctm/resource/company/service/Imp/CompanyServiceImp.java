@@ -196,8 +196,8 @@ public class CompanyServiceImp extends ServiceImpl<CompanyMapper,Company> implem
     public CompanyQueryVo UpdateCompanyIndex(Long Id) {
         CompanyQueryVo companyVo = new CompanyQueryVo();
         Company company = baseMapper.selectById(Id);
-        companyVo.setStartDate(company.getStartDate().toString());
-        companyVo.setEndDate(company.getEndDate().toString());
+        companyVo.setStartDate(DateUtil.formatDateTime(company.getStartDate()));
+        companyVo.setEndDate(DateUtil.formatDateTime(company.getEndDate()));
         companyVo.setCompanyName(company.getCompanyName());
         companyVo.setId(Id);
         companyVo.setPayMethod(company.getPayMethod());

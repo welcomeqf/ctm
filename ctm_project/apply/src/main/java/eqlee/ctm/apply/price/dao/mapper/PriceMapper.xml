@@ -4,10 +4,10 @@
 <mapper namespace="eqlee.ctm.apply.price.dao.PriceMapper">
 
     <insert id="allInsertPrice" parameterType="eqlee.ctm.apply.price.entity.Price">
-        insert into Price (Id,OutDate,LineId,ChannelId,AllPrice,AdultPrice,OldPrice,BabyPrice,ChildPrice,MaxNumber,MinNumber)
+        insert into Price (Id,OutDate,LineId,ChannelId,AdultPrice,OldPrice,BabyPrice,ChildPrice,Remark,CreateUserId,UpdateUserId)
         <foreach collection="list" item="item" index="index" separator="union all">
-            select #{item.Id},#{item.OutDate},#{item.LineId},#{item.ChannelId},#{item.AllPrice},
-            #{item.AdultPrice},#{item.OldPrice},#{item.BabyPrice},#{item.ChildPrice},#{item.MaxNumber},#{item.MinNumber}
+            select #{item.Id},#{item.OutDate},#{item.LineId},#{item.ChannelId},
+            #{item.AdultPrice},#{item.OldPrice},#{item.BabyPrice},#{item.ChildPrice},#{item.Remark},#{item.CreateUserId},#{item.UpdateUserId}
         </foreach>
     </insert>
 
@@ -23,8 +23,16 @@
     <select id="selectPriceByFilter" parameterType="eqlee.ctm.apply.price.entity.query.PriceQuery" resultType="eqlee.ctm.apply.price.entity.vo.PriceSelectVo" >
         <bind name="_OutDate" value="'%' + priceQuery.OutDate + '%'"/>
         <bind name="_LineName" value="'%' + priceQuery.LineName + '%'"/>
-        select a.Id as id,b.LineName,a.OutDate,a.AdultPrice,a.OldPrice,a.BabyPrice,a.ChildPrice from Price a,Line b
-        where convert(varchar,a.OutDate,120) like #{_OutDate} and b.LineName like #{_LineName}
+        select a.Id as id,b.LineName,convert(varchar(20),a.OutDate,23) as OutDate,a.AdultPrice,a.OldPrice,a.BabyPrice,a.ChildPrice from Price a,Line b
+        where convert(varchar,a.OutDate,120) like #{_OutDate} and b.LineName like #{_LineName} Order by a.OutDate desc
+    </select>
+
+
+    <select id="queryOne" parameterType="long" resultType="eqlee.ctm.apply.price.entity.vo.PriceSeacherVo" >
+        select b.LineName as 'lineName',convert(char(10),a.OutDate,120) as 'outDate',a.AdultPrice as 'adultPrice',a.OldPrice as 'oldPrice',
+        a.BabyPrice as 'babyPrice',a.ChildPrice as 'childPrice'
+        from Price a join Line b on a.LineId = b.Id
+        where a.Id = #{Id}
     </select>
 
 

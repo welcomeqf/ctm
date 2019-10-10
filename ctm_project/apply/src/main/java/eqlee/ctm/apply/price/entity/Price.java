@@ -64,7 +64,7 @@ public class Price extends Model<Price> {
     private Double ChildPrice;
 
     /**
-     * 是否停用(0默认表示false--不出行1--出行)
+     * 是否停用(0默认表示false--使用1--不使用)
      */
     private Boolean Stopped;
 

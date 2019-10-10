@@ -1,24 +1,24 @@
 
-vsquid:S00117¬"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(üÀªÿÿÿÿÿ8àÀèêÔ-
+usquid:S00117x"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ã»„Íıÿÿÿÿ8‰ÑÉÔ-
 ssquid:S001161"TRename this field "AGENT_PAY" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(çğÓ½8·ŠøÇÔ-
-usquid:S00117A"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(´¦ñØÿÿÿÿÿ8âÀÑóÓ-
-usquid:S00117x"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ã»„Íıÿÿÿÿ8‰ÑÉÔ-
-qsquid:S00117É"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(¾¤§²8Ú¯äíÔ-
-usquid:S00117="QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(‡À¹ñûÿÿÿÿ8ÀÀœóÓ-
-usquid:S00117;"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(Ú©¦Ÿùÿÿÿÿ8³õ˜óÓ-
-?squid:S11701"!Make this final field static too.(çğÓ½8·ŠøÇÔ-
-?squid:S1170-"!Make this final field static too.(ûé›¦8·ŠîÇÔ-
-psquid:S00117†"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ˆÜ‹T8®Ê³ÛÖ-
-vsquid:S00117¬"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(üÀªÿÿÿÿÿ8£–ÔêÔ-
-vsquid:S00117ë"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(¥¡‡€úÿÿÿÿ8ÔùïğÔ-
-psquid:S00117<"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(¦¾‚¹8ÀÀœóÓ-
-osquid:S00117>"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(¿ñ”28Î¹óÓ-
-vsquid:S00117"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(”ÇĞøÿÿÿÿ8°çºâ×-
-qsquid:S00117É"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(¾¤§²8Ú¯äíÔ-
-vsquid:S00116/"RRename this field "NOW_PAY" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(Šïşÿÿÿÿ8·ŠøÇÔ-
-usquid:S00117x"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ã»„Íıÿÿÿÿ8‰ÑÉÔ-
-Dsquid:S1170/"!Make this final field static too.(Šïşÿÿÿÿ8·ŠøÇÔ-
-ssquid:S00116-"TRename this field "MONTH_PAY" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ûé›¦8ÀàîÇÔ-
-usquid:S00117?"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ô°Ğøÿÿÿÿ8éõ¥óÓ-
 vsquid:S00117×"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ıòÓÜøÿÿÿÿ8˜¦ñïÔ-
+?squid:S11701"!Make this final field static too.(çğÓ½8·ŠøÇÔ-
+psquid:S00117†"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ˆÜ‹T8®Ê³ÛÖ-
+usquid:S00117x"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ã»„Íıÿÿÿÿ8‰ÑÉÔ-
+vsquid:S00117ë"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(¥¡‡€úÿÿÿÿ8ÔùïğÔ-
+vsquid:S00117¬"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(üÀªÿÿÿÿÿ8àÀèêÔ-
+qsquid:S00117É"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(¾¤§²8Ú¯äíÔ-
+?squid:S1170-"!Make this final field static too.(ûé›¦8·ŠîÇÔ-
+vsquid:S00117"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(”ÇĞøÿÿÿÿ8°çºâ×-
+usquid:S00117;"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(Ú©¦Ÿùÿÿÿÿ8³õ˜óÓ-
+psquid:S00117<"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(¦¾‚¹8ÀÀœóÓ-
+usquid:S00117="QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(‡À¹ñûÿÿÿÿ8ÀÀœóÓ-
+Dsquid:S1170/"!Make this final field static too.(Šïşÿÿÿÿ8·ŠøÇÔ-
+usquid:S00117?"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ô°Ğøÿÿÿÿ8éõ¥óÓ-
+usquid:S00117A"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(´¦ñØÿÿÿÿÿ8âÀÑóÓ-
 vsquid:S00117ë"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(¥¡‡€úÿÿÿÿ8®¿ëğÔ-
+ssquid:S00116-"TRename this field "MONTH_PAY" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ûé›¦8ÀàîÇÔ-
+qsquid:S00117É"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(¾¤§²8Ú¯äíÔ-
+osquid:S00117>"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(¿ñ”28Î¹óÓ-
+vsquid:S00116/"RRename this field "NOW_PAY" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(Šïşÿÿÿÿ8·ŠøÇÔ-
+vsquid:S00117¬"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(üÀªÿÿÿÿÿ8£–ÔêÔ-

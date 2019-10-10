@@ -3,7 +3,9 @@ package eqlee.ctm.apply.price.service;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import eqlee.ctm.apply.price.entity.Price;
 import eqlee.ctm.apply.price.entity.query.PriceQuery;
+import eqlee.ctm.apply.price.entity.vo.PriceSeacherVo;
 import eqlee.ctm.apply.price.entity.vo.PriceSelectVo;
+import eqlee.ctm.apply.price.entity.vo.PriceUpdateVo;
 import eqlee.ctm.apply.price.entity.vo.PriceVo;
 
 import java.time.LocalDateTime;
@@ -31,10 +33,10 @@ public interface IPriceService {
     void insertPrice(PriceVo priceVo);
 
     /**
-     * 价格修改(..用不上)
+     * 单条价格修改
      * @param price
      */
-    void updatePrice(Price price);
+    void updatePrice(PriceUpdateVo price);
 
 
     /**
@@ -60,4 +62,13 @@ public interface IPriceService {
      * @return
      */
     Price queryPriceByTimeAndLineName(LocalDate Outdate,String LineName);
+
+
+    /**
+     * 查询一条数据
+     * @param Id
+     * @return
+     */
+    PriceSeacherVo queryPriceById (Long Id);
+
 }

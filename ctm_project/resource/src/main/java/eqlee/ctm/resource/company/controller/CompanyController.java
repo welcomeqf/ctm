@@ -131,7 +131,6 @@ public class CompanyController {
     @CrossOrigin
     @CheckToken
     public ResultVo addCompany (@RequestBody CompanyVo companyVo) {
-        log.info("yu");
         if(companyVo.getPayMethod() == null
                 || StringUtils.isBlank(companyVo.getEndDate())|| StringUtils.isBlank(companyVo.getStartDate())
                 || StringUtils.isBlank(companyVo.getCompanyName())) {

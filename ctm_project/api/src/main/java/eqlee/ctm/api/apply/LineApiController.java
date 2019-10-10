@@ -19,6 +19,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -167,8 +168,15 @@ public class LineApiController {
 
     @ApiOperation(value = "根据Id删除一条线路", notes = "根据Id删除一条线路")
     @ApiImplicitParam(name = "Id", value = "Id", required = true, dataType = "Long", paramType = "path")
-    @GetMapping("/deleteLine/{Id}")
+    @DeleteMapping("/deleteLine/{Id}")
     public ResultVo deleteLine(@PathVariable("Id") Long Id) {
+
+        return null;
+    }
+
+    @ApiOperation(value = "查询所有线路", notes = "查询所有线路")
+    @GetMapping("/listAllLine")
+    public List<Line> listAllLine () {
 
         return null;
     }

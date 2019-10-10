@@ -12,7 +12,7 @@ public class PriceSelectVo {
 
     private Long id;
 
-    private String OutDate;
+    private String outDate;
 
     private String lineName;
 

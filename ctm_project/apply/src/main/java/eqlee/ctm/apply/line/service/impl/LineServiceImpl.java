@@ -21,6 +21,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 /**
  * @Author qf
  * @Date 2019/9/17
@@ -56,7 +58,7 @@ public class LineServiceImpl extends ServiceImpl<LineMapper, Line> implements IL
                 .eq(Line::getLineName,lineVo.getLineName());
         Line line1 = baseMapper.selectOne(queryWrapper);
         if (line1 != null) {
-            throw new ApplicationException(CodeType.SERVICE_ERROR,"该线路名已被使用");
+            throw new ApplicationException(CodeType.SUCC_ERROR,"该线路名已被使用");
         }
         IdGenerator idGenerator = new IdGenerator();
         Line line = new Line();
@@ -187,6 +189,15 @@ public class LineServiceImpl extends ServiceImpl<LineMapper, Line> implements IL
             log.error("delete line fail.");
             throw new ApplicationException(CodeType.SERVICE_ERROR,"删除线路失败");
         }
+    }
+
+    /**
+     * 查询所有线路
+     * @return
+     */
+    @Override
+    public List<Line> listAllLine() {
+        return baseMapper.selectList(null);
     }
 
 

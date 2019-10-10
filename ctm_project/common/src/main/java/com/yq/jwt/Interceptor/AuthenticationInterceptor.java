@@ -10,6 +10,7 @@ import com.yq.jwt.entity.PrivilegeMenuQuery;
 import com.yq.jwt.entity.UserLoginQuery;
 import com.yq.jwt.islogin.CheckToken;
 import com.yq.jwt.islogin.LoginToken;
+import com.yq.utils.StringUtils;
 import io.jsonwebtoken.Claims;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.method.HandlerMethod;
@@ -57,7 +58,7 @@ public class AuthenticationInterceptor implements HandlerInterceptor {
             CheckToken checkToken = method.getAnnotation(CheckToken.class);
             if (checkToken.required()) {
                 // 执行认证
-                if (token == null) {
+                if (StringUtils.isBlank(token)) {
                     throw new ApplicationException(CodeType.OVENDU_ERROR,"token 为空");
                 }
                 // 获取 token 中的 user信息

@@ -7,6 +7,8 @@ import eqlee.ctm.apply.line.entity.query.LineSeacherQuery;
 import eqlee.ctm.apply.line.entity.vo.LineUpdateVo;
 import eqlee.ctm.apply.line.entity.vo.LineVo;
 
+import java.util.List;
+
 /**
  * @Author qf
  * @Date 2019/9/17
@@ -68,5 +70,11 @@ public interface ILineService {
      * @param Id
      */
     void deleteLine (Long Id);
+
+    /**
+     * 查询所有线路
+     * @return
+     */
+    List<Line> listAllLine ();
 
 }

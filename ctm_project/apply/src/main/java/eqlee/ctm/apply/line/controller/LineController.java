@@ -19,6 +19,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 
 /**
  * @Author qf
@@ -47,7 +49,7 @@ public class LineController {
     @CrossOrigin
     @CheckToken
     public ResultVo insertLine(@RequestBody LineVo lineVo) {
-        if (StringUtils.isBlank(lineVo.getLineName()) || StringUtils.isBlank(lineVo.getInformation())
+        if (StringUtils.isBlank(lineVo.getLineName()) || lineVo.getMaxNumber() == null || lineVo.getMinNumber() == null
         || StringUtils.isBlank(lineVo.getRegion()) || lineVo.getTravelSituation() == null) {
             log.error("param is not null.");
             throw new ApplicationException(CodeType.PARAM_ERROR,"参数不能为空");
@@ -153,7 +155,7 @@ public class LineController {
 
     @ApiOperation(value = "根据Id删除一条线路", notes = "根据Id删除一条线路")
     @ApiImplicitParam(name = "Id", value = "Id", required = true, dataType = "Long", paramType = "path")
-    @GetMapping("/deleteLine/{Id}")
+    @DeleteMapping("/deleteLine/{Id}")
     @CrossOrigin
     @CheckToken
     public ResultVo deleteLine(@PathVariable("Id") Long Id) {
@@ -165,6 +167,15 @@ public class LineController {
         ResultVo resultVo = new ResultVo();
         resultVo.setResult("ok");
         return resultVo;
+    }
+
+
+    @ApiOperation(value = "查询所有线路", notes = "查询所有线路")
+    @GetMapping("/listAllLine")
+    @CrossOrigin
+    @CheckToken
+    public List<Line> listAllLine () {
+        return lineService.listAllLine();
     }
 
 }

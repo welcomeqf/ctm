@@ -3,6 +3,7 @@ package eqlee.ctm.finance.financeexpress.controller;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.yq.constanct.CodeType;
 import com.yq.exception.ApplicationException;
+import com.yq.jwt.islogin.CheckToken;
 import eqlee.ctm.finance.financeexpress.entity.AllCountVo;
 import eqlee.ctm.finance.financeexpress.entity.CountVo;
 import eqlee.ctm.finance.financeexpress.entity.FinanceExpressCountVo;
@@ -40,6 +41,7 @@ public class FinanceExpressController {
     })
     @GetMapping("/queryfinancecount")
     @CrossOrigin
+    @CheckToken
     public Page<CashCountVo> queryfinancecount(@RequestParam("current") Integer current,
                                                @RequestParam("size") Integer size,
                                                @RequestParam("time") String time,
@@ -61,6 +63,7 @@ public class FinanceExpressController {
     })
     @GetMapping("/queryfinancecollection")
     @CrossOrigin
+    @CheckToken
     public Page<FinanceExpressCountVo> queryfinancecollection(@RequestParam("current") Integer current,
                                                               @RequestParam("size") Integer size,
                                                               @RequestParam("time") String time,
@@ -82,6 +85,7 @@ public class FinanceExpressController {
     })
     @GetMapping("/getfinancecount")
     @CrossOrigin
+    @CheckToken
     public Page<CountVo> getfinancecount(@RequestParam("current") Integer current,
                                          @RequestParam("size") Integer size,
                                          @RequestParam("time") String time,
@@ -102,6 +106,7 @@ public class FinanceExpressController {
     })
     @GetMapping("/getAllfinancecount")
     @CrossOrigin
+    @CheckToken
     public Page<AllCountVo> getAllfinancecount(@RequestParam("current") Integer current,
                                                @RequestParam("size") Integer size,
                                                @RequestParam("time") String time,

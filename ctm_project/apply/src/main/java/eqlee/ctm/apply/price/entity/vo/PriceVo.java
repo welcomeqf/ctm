@@ -24,4 +24,6 @@ public class PriceVo {
     private Double babyPrice;
 
     private Double childPrice;
+
+    private String remark;
 }

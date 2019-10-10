@@ -1,10 +1,12 @@
 
-ksquid:S1192<"HDefine a constant instead of duplicating this literal "http://" 6 times.(‰Ñ˜Ÿüÿÿÿÿ8ç²­“Ö-
-psquid:S00117|"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(œ¼ƒà8Ù¼²“Ö-
-Dsquid:S1170."!Make this final field static too.(ûĞüüÿÿÿÿ8Å±À“Ö-
-qsquid:S00116#"MRename this field "Ip" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ÁãåÚıÿÿÿÿ8Å±À“Ö-
-usquid:S00116."QRename this field "Status" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ûĞüüÿÿÿÿ8Å±À“Ö-
-psquid:S00117š"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(êøœg8ù€ãÖ-
-qsquid:S00117‹"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ÿÁÖÉ8“Ü¶“Ö-
-‡squid:UselessImportCheck"WRemove this unused import 'com.baomidou.mybatisplus.extension.plugins.pagination.Page'.(±Ù¥Éúÿÿÿÿ8“½¬“Ö-
-hsquid:UselessImportCheck"=Remove this unused import 'eqlee.ctm.api.entity.vo.ResultVo'.(­Ê±¦8¸“Ö-
+Jsquid:S1168µ"+Return an empty collection instead of null.(¥¹ï8Ë«ËûÚ-
+‡squid:UselessImportCheck"WRemove this unused import 'com.baomidou.mybatisplus.extension.plugins.pagination.Page'.(±Ù¥Éúÿÿÿÿ8¯ ìÕÚ-
+Dsquid:S11700"!Make this final field static too.(ûĞüüÿÿÿÿ8Å±À“Ö-
+psquid:S00117œ"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(êøœg8ù€ãÖ-
+qsquid:S00117¬"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ŸÛ¦8ÓŞôÕÚ-
+qsquid:S00116%"MRename this field "Ip" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ÁãåÚıÿÿÿÿ8Å±À“Ö-
+psquid:S00117~"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(œ¼ƒà8Ù¼²“Ö-
+ksquid:S1192>"HDefine a constant instead of duplicating this literal "http://" 6 times.(‰Ñ˜Ÿüÿÿÿÿ8ç²­“Ö-
+usquid:S001160"QRename this field "Status" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ûĞüüÿÿÿÿ8Å±À“Ö-
+qsquid:S00117"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ÿÁÖÉ8“Ü¶“Ö-
+esquid:UselessImportCheck":Remove this unused import 'com.yq.jwt.islogin.CheckToken'.(¦öş8¬ÏËûÚ-
