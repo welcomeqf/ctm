@@ -3,6 +3,7 @@ package eqlee.ctm.apply.entry.service;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import eqlee.ctm.apply.entry.entity.Apply;
 import eqlee.ctm.apply.entry.entity.query.*;
+import eqlee.ctm.apply.entry.entity.vo.ApplySeacherVo;
 import eqlee.ctm.apply.entry.entity.vo.ApplyVo;
 
 import java.util.List;
@@ -92,6 +93,6 @@ public interface IApplyService {
      * @param Id
      * @return
      */
-    Apply queryById(Long Id);
+    ApplySeacherVo queryById(Long Id);
 
 }

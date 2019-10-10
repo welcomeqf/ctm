@@ -10,6 +10,7 @@ import com.yq.utils.StringUtils;
 import eqlee.ctm.apply.entry.dao.ApplyMapper;
 import eqlee.ctm.apply.entry.entity.Apply;
 import eqlee.ctm.apply.entry.entity.query.*;
+import eqlee.ctm.apply.entry.entity.vo.ApplySeacherVo;
 import eqlee.ctm.apply.entry.entity.vo.ApplyVo;
 import eqlee.ctm.apply.entry.service.IApplyService;
 import eqlee.ctm.apply.line.entity.Line;
@@ -269,8 +270,43 @@ public class ApplyServiceImpl extends ServiceImpl<ApplyMapper, Apply> implements
      * @return
      */
     @Override
-    public Apply queryById(Long Id) {
-        return baseMapper.selectById(Id);
+    public ApplySeacherVo queryById(Long Id) {
+        Apply apply = baseMapper.selectById(Id);
+
+        //装配vo
+        ApplySeacherVo vo = new ApplySeacherVo();
+        vo.setAdultNumber(apply.getAdultNumber());
+        vo.setAllNumber(apply.getAllNumber());
+        vo.setAllPrice(apply.getAllPrice());
+        vo.setApplyNo(apply.getApplyNo());
+        vo.setBabyNumber(apply.getBabyNumber());
+        vo.setChildNumber(apply.getChildNumber());
+        vo.setCity(apply.getCity());
+        vo.setCompanyName(apply.getCompanyName());
+        vo.setCompanyUser(apply.getCompanyUser());
+        vo.setContactName(apply.getContactName());
+        vo.setContactTel(apply.getContactTel());
+        vo.setCreateUserId(apply.getCreateUserId());
+        vo.setId(apply.getId());
+        vo.setIsCancel(apply.getIsCancel());
+        vo.setIsPayment(apply.getIsPayment());
+        vo.setLineId(apply.getLineId());
+        vo.setOldNumber(apply.getOldNumber());
+        vo.setPayType(apply.getPayType());
+        vo.setPlace(apply.getPlace());
+        vo.setProvince(apply.getProvince());
+        vo.setRegion(apply.getRegion());
+        vo.setRemark(apply.getRemark());
+        vo.setStatu(apply.getStatu());
+        vo.setUpdateUserId(apply.getUpdateUserId());
+
+        //出发日期
+        vo.setOutDate(DateUtil.formatDate(apply.getOutDate()));
+
+        vo.setCreateDate(DateUtil.formatDateTime(apply.getCreateDate()));
+        vo.setUpdateDate(DateUtil.formatDateTime(apply.getUpdateDate()));
+
+        return vo;
     }
 
 

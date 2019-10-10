@@ -9,6 +9,7 @@ import com.yq.jwt.islogin.CheckToken;
 import com.yq.utils.StringUtils;
 import eqlee.ctm.apply.entry.entity.Apply;
 import eqlee.ctm.apply.entry.entity.query.*;
+import eqlee.ctm.apply.entry.entity.vo.ApplySeacherVo;
 import eqlee.ctm.apply.entry.entity.vo.ApplyVo;
 import eqlee.ctm.apply.entry.service.IApplyService;
 import eqlee.ctm.apply.line.entity.vo.ResultVo;
@@ -144,7 +145,7 @@ public class ApplyController {
     @GetMapping("/queryApply")
     @CrossOrigin
     @CheckToken
-    public Apply queryById (@RequestParam("Id") Long Id) {
+    public ApplySeacherVo queryById (@RequestParam("Id") Long Id) {
         return applyService.queryById(Id);
     }
 }
