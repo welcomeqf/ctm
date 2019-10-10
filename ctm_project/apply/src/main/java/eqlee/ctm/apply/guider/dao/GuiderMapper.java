@@ -16,7 +16,8 @@ import java.time.LocalDateTime;
 @Component
 public interface GuiderMapper {
      Page<GuiderVo> guiderIndex(@Param("page") Page<GuiderVo> page,
-                                @Param("outDate") String outDate);
+                                @Param("outDate") String outDate,
+                                @Param("lineName") String lineName);
 
      Page<ApplyVo> applyIndex(@Param("page") Page<ApplyVo> page,
                               @Param("outDate") String outDate,

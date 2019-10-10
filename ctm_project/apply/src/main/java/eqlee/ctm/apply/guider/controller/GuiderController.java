@@ -35,18 +35,20 @@ public class GuiderController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "current", value = "当前页", required = true, dataType = "Long", paramType = "path"),
             @ApiImplicitParam(name = "size", value = "页面大小", required = true, dataType = "Long", paramType = "path"),
-            @ApiImplicitParam(name = "OutDate", value = "出发时间", required = false, dataType = "String", paramType = "path")
+            @ApiImplicitParam(name = "outDate", value = "出发时间", required = false, dataType = "String", paramType = "path"),
+            @ApiImplicitParam(name = "lineName", value = "线路名", required = false, dataType = "String", paramType = "path")
     })
     @GetMapping("/guiderIndex")
     @CrossOrigin
     @CheckToken
     public Page<GuiderVo> guiderIndex(@RequestParam("current") Integer current,
                                       @RequestParam("size") Integer size,
-                                      @RequestParam("outDate") String outDate){
+                                      @RequestParam("outDate") String outDate,
+                                      @RequestParam("lineName") String lineName){
         if(current == null || size == null){
             throw new ApplicationException(CodeType.PARAM_ERROR,"参数不能为空");
         }
-        return guiderService.guiderIndex(current,size,outDate);
+        return guiderService.guiderIndex(current,size,outDate,lineName);
     }
 
 

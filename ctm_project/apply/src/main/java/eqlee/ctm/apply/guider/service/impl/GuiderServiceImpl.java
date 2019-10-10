@@ -35,11 +35,11 @@ public class GuiderServiceImpl implements IGuiderService {
      * @return
      */
     @Override
-    public Page<GuiderVo> guiderIndex(Integer current,Integer size,String outDate) {
+    public Page<GuiderVo> guiderIndex(Integer current,Integer size,String outDate,String lineName) {
         Page<GuiderVo> page = new Page<GuiderVo>();
         page.setCurrent(current);
         page.setSize(size);
-        return guiderMapper.guiderIndex(page, outDate);
+        return guiderMapper.guiderIndex(page, outDate,lineName);
     }
 
 

@@ -20,7 +20,7 @@ public interface IGuiderService {
      * @param outDate
      * @return
      */
-    Page<GuiderVo> guiderIndex(Integer current,Integer size,String outDate);
+    Page<GuiderVo> guiderIndex(Integer current,Integer size,String outDate,String lineName);
 
 
     /**
