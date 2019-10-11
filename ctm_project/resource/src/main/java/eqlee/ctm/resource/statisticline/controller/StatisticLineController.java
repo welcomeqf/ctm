@@ -1,5 +1,6 @@
 package eqlee.ctm.resource.statisticline.controller;
 
+import com.yq.jwt.islogin.CheckToken;
 import eqlee.ctm.resource.statisticline.entity.vo.StatisticLineVo;
 import eqlee.ctm.resource.statisticline.entity.vo.StatisticNumVo;
 import eqlee.ctm.resource.statisticline.service.IStatisticLineService;
@@ -35,6 +36,7 @@ public class StatisticLineController {
     })
     @GetMapping("/statisticLineQuery")
     @CrossOrigin
+    @CheckToken
     public List<StatisticLineVo> statisticQuery(@RequestParam("startTime") String startTime,
                                                 @RequestParam("endTime") String endTime) {
         return statisticLineService.getstatisticQuery(startTime,endTime);
@@ -49,6 +51,7 @@ public class StatisticLineController {
     })
     @GetMapping("/statisticCountQuery")
     @CrossOrigin
+    @CheckToken
     public List<StatisticNumVo> statisticCountQuery(@RequestParam("startTime") String startTime,
                                                     @RequestParam("endTime") String endTime) {
         return statisticLineService.getstatisticCountQuery(startTime,endTime);

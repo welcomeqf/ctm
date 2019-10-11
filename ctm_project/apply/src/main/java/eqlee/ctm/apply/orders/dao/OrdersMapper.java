@@ -171,5 +171,5 @@ public interface OrdersMapper extends IBaseMapper<Orders> {
      * @param IndexVoList
      * @return
      */
-    List<OrdersVo> selectApplyVoList(List<IdVo> IndexVoList);
+    List<OrdersVo> selectApplyVoList(List<LongVo> IndexVoList);
 }

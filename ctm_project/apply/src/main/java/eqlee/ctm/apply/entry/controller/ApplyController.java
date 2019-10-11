@@ -31,7 +31,7 @@ import java.util.List;
 @Api
 @Slf4j
 @RestController
-@RequestMapping("/v1/app/apply")
+@RequestMapping("/v1/app/entry")
 public class ApplyController {
 
     @Autowired

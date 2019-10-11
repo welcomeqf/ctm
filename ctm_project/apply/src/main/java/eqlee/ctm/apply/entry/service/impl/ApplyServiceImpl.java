@@ -107,6 +107,10 @@ public class ApplyServiceImpl extends ServiceImpl<ApplyMapper, Apply> implements
             apply.setPayType(2);
         }
 
+        if (!MONTH_PAY.equals(applyVo.getPayType()) && !NOW_PAY.equals(applyVo.getPayType()) && !AGENT_PAY.equals(applyVo.getPayType())) {
+            throw new ApplicationException(CodeType.SERVICE_ERROR,"您输入支付类型有误，请重新输入");
+        }
+
         int insert = baseMapper.insert(apply);
 
         if (insert <= 0) {

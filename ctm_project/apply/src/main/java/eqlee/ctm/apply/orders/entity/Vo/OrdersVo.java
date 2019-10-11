@@ -51,4 +51,6 @@ public class OrdersVo {
      */
     private String outDate;
 
+    private Integer allNumber;
+
 }

@@ -51,19 +51,21 @@ public class OrderServiceImpl extends ServiceImpl<OrdersMapper, Orders> implemen
 
 
     @Override
-    public void saveApply(List<IdVo> IndexVoList) {
+    public void saveApply(List<LongVo> IndexVoList) {
         List<OrderDetailed> orderDetailedList = new ArrayList<OrderDetailed>();
         List<Orders> ordersList = new ArrayList<Orders>();
         List<Apply> applyList = applyService.selectAllApply();
         List<OrdersVo> applyVoList = baseMapper.selectApplyVoList(IndexVoList);
+        UserLoginQuery user = localUser.getUser("用户信息");
+        System.out.println(applyVoList);
         for (OrdersVo ordersVo:applyVoList) {
             Orders orders = new Orders();
             OrderDetailed orderDetailed = new OrderDetailed();
             long numberId = idGenerator.getNumberId();
             orders.setId(numberId);
             orders.setLineName(ordersVo.getLineName());
-            orders.setOutDate(LocalDate.parse(ordersVo.getOutDate()));
-            UserLoginQuery user = localUser.getUser("用户信息");
+            String date = ordersVo.getOutDate().substring(0,10);
+            orders.setOutDate(DateUtil.parseDate(date));
             orders.setRegion(ordersVo.getRegion());
             for (Apply apply:applyList) {
                 if(apply.getContactTel().equals(ordersVo.getContactTel()) && String.valueOf(apply.getLineId()).equals(String.valueOf(ordersVo.getLineId()))

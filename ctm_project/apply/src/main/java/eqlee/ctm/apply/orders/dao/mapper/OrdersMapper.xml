@@ -87,10 +87,12 @@
         a.OrderId = b.Id where b.OutDate=#{OutDate} and b.LineName=#{LineName} and a.ContactTel = #{ContactTel}
     </select>
 
-    <select id="selectApplyVoList" resultType="eqlee.ctm.apply.guider.entity.vo.ApplyVo">
+    <select id="selectApplyVoList" resultType="eqlee.ctm.apply.orders.entity.Vo.OrdersVo">
         <foreach collection="list" item="item" index="index">
-            select a.Id as id,a.LineId as lineId,a.AllNumber,a.ContactName,a.ContactTel,a.Region,a.Place from Apply a
-            join Line b on a.LineId = b.Id where a.Id = #{item.Id}
+            select a.Id as id,a.LineId as lineId,a.AllNumber as 'allNumber',a.ContactName as 'contactName',
+            a.ContactTel as 'contactTel',a.Region as 'region',a.Place as 'place',
+            b.LineName as 'lineName',a.OutDate as 'outDate' from Apply a
+            join Line b on a.LineId = b.Id where a.Id = #{item.id}
         </foreach>
     </select>
 </mapper>
