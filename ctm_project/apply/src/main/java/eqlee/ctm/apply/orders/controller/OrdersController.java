@@ -87,25 +87,21 @@ public class OrdersController {
     }
 
 
-
-
-
     @ApiOperation(value = "导游换人",notes = "导游换人")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "applyVoList", value = "已选人信息", required = true, dataType = "List<ApplyVo>", paramType = "path"),
-            @ApiImplicitParam(name = "Id", value = "更换导游人的Id", required = true, dataType = "Long", paramType = "path"),
+            @ApiImplicitParam(name = "id", value = "更换导游人的Id", required = true, dataType = "Long", paramType = "path"),
             //ApplyNo里面的字段信息
-            @ApiImplicitParam(name = "Id", value = "已选人信息的Id", required = true, dataType = "Long", paramType = "path")
+            @ApiImplicitParam(name = "chiooseId", value = "已选人信息的Id的数组", required = true, dataType = "Long", paramType = "path")
     })
-    @PutMapping("/updateApply/{Id}")
+    @PostMapping("/updateApply")
     @CrossOrigin
     @CheckToken
-    public ResultVo updateApply(@RequestBody List<OrderIndexVo> orderIndexVos,
-                                 @PathVariable("Id") Long Id){
-        if(orderIndexVos.size() == 0|| Id == null){
+    public ResultVo updateApply(@RequestBody OrderWithVo vo){
+        if(vo.getId() == null || vo.getOrderIndexVos() == null){
             throw new ApplicationException(CodeType.PARAM_ERROR,"参数不能为空");
         }
-        ordersService.updateApply(orderIndexVos,Id);
+        ordersService.updateApply(vo.getOrderIndexVos(),vo.getId());
         ResultVo resultVo = new ResultVo();
         resultVo.setResult("ok");
         return resultVo;

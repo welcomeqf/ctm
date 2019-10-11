@@ -23,7 +23,7 @@
     <select id="selectPriceByFilter" parameterType="eqlee.ctm.apply.price.entity.query.PriceQuery" resultType="eqlee.ctm.apply.price.entity.vo.PriceSelectVo" >
         <bind name="_OutDate" value="'%' + priceQuery.OutDate + '%'"/>
         <bind name="_LineName" value="'%' + priceQuery.LineName + '%'"/>
-        select a.Id as id,b.LineName,convert(varchar(20),a.OutDate,23) as OutDate,a.AdultPrice,a.OldPrice,a.BabyPrice,a.ChildPrice from Price a,Line b
+        select a.Id as id,b.LineName,convert(varchar(20),a.OutDate,23) as 'outDate',a.AdultPrice,a.OldPrice,a.BabyPrice,a.ChildPrice from Price a,Line b
         where convert(varchar,a.OutDate,120) like #{_OutDate} and b.LineName like #{_LineName} Order by a.OutDate desc
     </select>
 

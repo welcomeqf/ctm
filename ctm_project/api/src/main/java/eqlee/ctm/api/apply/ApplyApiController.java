@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.*;
 @Api("报名Api")
 @Slf4j
 @RestController
-@RequestMapping("/v1/app/entry")
+@RequestMapping("/v1/app/apply")
 public class ApplyApiController {
 
     @ApiOperation(value = "申请报名", notes = "申请报名")

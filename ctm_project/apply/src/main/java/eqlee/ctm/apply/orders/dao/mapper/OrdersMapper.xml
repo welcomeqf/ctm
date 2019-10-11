@@ -18,8 +18,8 @@
     
     <update id="updateOrderDetailed" parameterType="eqlee.ctm.apply.orders.entity.Vo.OrderIndexVo">
         <foreach collection="list" item="item" index="index">
-            update Orders set Statu= 1,Remark = #{Id} where OrderNo = #{item.OrderNo}
-            update OrderDetailed set Statu= 1 where OrderId in (select Id from Orders where OrderNo = #{item.OrderNo})
+            update Orders set Statu= 1,Remark = #{id} where OrderNo = #{item.orderNo}
+            update OrderDetailed set Statu= 1 where OrderId in (select Id from Orders where OrderNo = #{item.orderNo})
         </foreach>
     </update>
 

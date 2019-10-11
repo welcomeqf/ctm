@@ -12,7 +12,7 @@ public class OrderIndexVo {
     /**
      * 订单号
      */
-    private Long id;
+    private Long chiooseId;
 
     private String orderNo;
 

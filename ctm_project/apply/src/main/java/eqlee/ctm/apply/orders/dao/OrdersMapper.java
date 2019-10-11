@@ -47,11 +47,11 @@ public interface OrdersMapper extends IBaseMapper<Orders> {
     /**
      * 修改订单和订单详情的状态
      * @param orderIndexVos
-     * @param Id
+     * @param id
      * @return
      */
      int updateOrderDetailed(@Param("list") List<OrderIndexVo> orderIndexVos,
-                              @Param("Id") String Id);
+                              @Param("id") String id);
 
 
     /**

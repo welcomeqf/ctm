@@ -4,73 +4,82 @@
 <mapper namespace="eqlee.ctm.apply.entry.dao.ApplyMapper">
 
     <select id="listPageApply" resultType="eqlee.ctm.apply.entry.entity.query.ApplyQuery">
-      select b.LineName,b.Region,convert(char(10),a.OutDate,120) as 'OutDate',a.AdultPrice,a.OldPrice,a.BabyPrice,a.ChildPrice,b.MaxNumber,
+      select b.LineName,b.Region,convert(varchar(20),a.OutDate,23) as 'OutDate',a.AdultPrice,a.OldPrice,a.BabyPrice,a.ChildPrice,b.MaxNumber,
       (select sum(AllNumber) from Apply where OutDate = a.OutDate group by ApplyNo) as 'DoAllNumber'
       from Price a join Line b on a.LineId = b.Id join Apply c on c.LineId = b.Id
+      ORDER by a.OutDate desc
     </select>
 
 
     <select id="listPageApplyByDate" resultType="eqlee.ctm.apply.entry.entity.query.ApplyQuery">
-      select b.LineName,b.Region,convert(char(10),a.OutDate,120) as 'OutDate',a.AdultPrice,a.OldPrice,a.BabyPrice,a.ChildPrice,b.MaxNumber,
+      select b.LineName,b.Region,convert(varchar(20),a.OutDate,23) as 'OutDate',a.AdultPrice,a.OldPrice,a.BabyPrice,a.ChildPrice,b.MaxNumber,
       (select sum(AllNumber) from Apply where OutDate = #{OutDate} group by ApplyNo) as 'DoAllNumber'
       from Price a join Line b on a.LineId = b.Id join Apply c on c.LineId = b.Id where a.OutDate = #{OutDate}
+      ORDER by a.OutDate desc
     </select>
 
     <select id="listPageApplyByLine" resultType="eqlee.ctm.apply.entry.entity.query.ApplyQuery">
         <bind name="line_region_name" value="'%' + LineNameOrRegion + '%'"/>
-      select b.LineName,b.Region,convert(char(10),a.OutDate,120) as 'OutDate',a.AdultPrice,a.OldPrice,a.BabyPrice,a.ChildPrice,b.MaxNumber,
+      select b.LineName,b.Region,convert(varchar(20),a.OutDate,23) as 'OutDate',a.AdultPrice,a.OldPrice,a.BabyPrice,a.ChildPrice,b.MaxNumber,
       (select sum(AllNumber) from Apply where OutDate = a.OutDate group by ApplyNo) as 'DoAllNumber'
       from Price a join Line b on a.LineId = b.Id join Apply c on c.LineId = b.Id
       where b.LineName like #{line_region_name} or b.Region like #{line_region_name}
+      ORDER by a.OutDate desc
     </select>
 
     <select id="listPageApplyByAll" resultType="eqlee.ctm.apply.entry.entity.query.ApplyQuery">
         <bind name="line_region_name" value="'%' + LineNameOrRegion + '%'"/>
-        select b.LineName,b.Region,convert(char(10),a.OutDate,120) as 'OutDate',a.AdultPrice,a.OldPrice,a.BabyPrice,a.ChildPrice,b.MaxNumber,
+        select b.LineName,b.Region,convert(varchar(20),a.OutDate,23) as 'OutDate',a.AdultPrice,a.OldPrice,a.BabyPrice,a.ChildPrice,b.MaxNumber,
         (select sum(AllNumber) from Apply where OutDate = #{OutDate} group by ApplyNo) as 'DoAllNumber'
         from Price a join Line b on a.LineId = b.Id join Apply c on c.LineId = b.Id
         where b.LineName like #{line_region_name} or b.Region like #{line_region_name} and a.OutDate = #{OutDate}
+        ORDER by a.OutDate desc
     </select>
 
     <select id="listPageDoApply" resultType="eqlee.ctm.apply.entry.entity.query.ApplyDoQuery">
-      select a.Id,a.ApplyNo,convert(char(10),a.OutDate,120) as 'OutDate',b.LineName,a.AdultNumber,a.BabyNumber,a.OldNumber,a.ChildNumber,
+      select a.Id,a.ApplyNo,convert(varchar(20),a.OutDate,23) as 'OutDate',b.LineName,a.AdultNumber,a.BabyNumber,a.OldNumber,a.ChildNumber,
       a.statu,a.CompanyName,a.CompanyUser,a.IsPayment,a.IsCancel
-      from Apply a join Line b on a.LineId = b.Id
+      from Apply a join Line b on a.LineId = b.Id ORDER by a.OutDate desc
     </select>
 
     <select id="listPageDoApplyByNoWithLine" resultType="eqlee.ctm.apply.entry.entity.query.ApplyDoQuery">
       <bind name="applyNo_name" value="'%' + ApplyNo + '%'"/>
       <bind name="lineName_name" value="'%' + LineName + '%'"/>
-      select a.Id,a.ApplyNo,convert(char(10),a.OutDate,120) as 'OutDate',b.LineName,a.AdultNumber,a.BabyNumber,a.OldNumber,a.ChildNumber,
+      select a.Id,a.ApplyNo,convert(varchar(20),a.OutDate,23) as 'OutDate',b.LineName,a.AdultNumber,a.BabyNumber,a.OldNumber,a.ChildNumber,
       a.statu,a.CompanyName,a.CompanyUser,a.IsPayment,a.IsCancel
       from Apply a join Line b on a.LineId = b.Id
       where a.ApplyNo like #{applyNo_name} and b.LineName like #{lineName_name}
+      ORDER by a.OutDate desc
     </select>
 
     <select id="listPageDoApplyByLineName" resultType="eqlee.ctm.apply.entry.entity.query.ApplyDoQuery">
       <bind name="lineName_name" value="'%' + LineName + '%'"/>
-      select a.Id,a.ApplyNo,convert(char(10),a.OutDate,120) as 'OutDate',b.LineName,a.AdultNumber,a.BabyNumber,a.OldNumber,a.ChildNumber,
+      select a.Id,a.ApplyNo,convert(varchar(20),a.OutDate,23) as 'OutDate',b.LineName,a.AdultNumber,a.BabyNumber,a.OldNumber,a.ChildNumber,
       a.statu,a.CompanyName,a.CompanyUser,a.IsPayment,a.IsCancel
       from Apply a join Line b on a.LineId = b.Id where b.LineName like #{lineName_name}
+      ORDER by a.OutDate desc
     </select>
 
     <select id="listPageDoApplyByNo" resultType="eqlee.ctm.apply.entry.entity.query.ApplyDoQuery">
         <bind name="applyNo_name" value="'%' + ApplyNo + '%'"/>
-        select a.Id,a.ApplyNo,convert(char(10),a.OutDate,120) as 'OutDate',b.LineName,a.AdultNumber,a.BabyNumber,a.OldNumber,a.ChildNumber,
+        select a.Id,a.ApplyNo,convert(varchar(20),a.OutDate,23) as 'OutDate',b.LineName,a.AdultNumber,a.BabyNumber,a.OldNumber,a.ChildNumber,
         a.statu,a.CompanyName,a.CompanyUser,a.IsPayment,a.IsCancel
         from Apply a join Line b on a.LineId = b.Id where a.ApplyNo like #{applyNo_name}
+        ORDER by a.OutDate desc
     </select>
 
     <select id="listPageDoApply2Company" resultType="eqlee.ctm.apply.entry.entity.query.ApplyCompanyQuery">
-        select a.Id,a.ApplyNo,convert(char(10),a.OutDate,120) as 'OutDate',b.LineName,a.AllNumber,
+        select a.Id,a.ApplyNo,convert(varchar(20),a.OutDate,23) as 'OutDate',b.LineName,a.AllNumber,
         a.ContactName,a.ContactTel,a.Statu
         from Apply a join Line b on a.LineId = b.Id where a.CompanyName = #{CompanyName}
+        ORDER by a.OutDate desc
     </select>
 
     <select id="listPageDoApply2CompanyByTime" resultType="eqlee.ctm.apply.entry.entity.query.ApplyCompanyQuery">
-        select a.Id,a.ApplyNo,convert(char(10),a.OutDate,120) as 'OutDate',b.LineName,a.AllNumber,
+        select a.Id,a.ApplyNo,convert(varchar(20),a.OutDate,23) as 'OutDate',b.LineName,a.AllNumber,
         a.ContactName,a.ContactTel,a.Statu
         from Apply a join Line b on a.LineId = b.Id where a.CompanyName = #{CompanyName} and a.OutDate = #{OutTime}
+        ORDER by a.OutDate desc
     </select>
 
     <select id="queryCompanyById" parameterType="long" resultType="eqlee.ctm.apply.entry.entity.query.Company">
