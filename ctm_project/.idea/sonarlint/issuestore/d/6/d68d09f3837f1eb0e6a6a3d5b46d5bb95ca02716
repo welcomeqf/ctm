@@ -1,25 +1,25 @@
 
-bsquid:S1155è">Use isEmpty() to check whether the collection is empty or not.(—êùÛøÿÿÿÿ8¼òò«Ø-
-qsquid:S00117”"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(¢Ã8¼òò«Ø-
-wsquid:S1192:"TDefine a constant instead of duplicating this literal "å‚æ•°ä¸èƒ½ä¸ºç©º" 10 times.(ˆ¯ãõÿÿÿÿÿ8¼òò«Ø-
-vsquid:S00117¡"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(²ÊÄÛıÿÿÿÿ8¼òò«Ø-
-usquid:S00117r"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(—ŒÌüÿÿÿÿ8—Éò«Ø-
-|squid:S2293y"YReplace the type specification in this constructor call with the diamond operator ("<>").(ôÖ÷ıÿÿÿÿ8¼òò«Ø-
-vsquid:S00117û"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(»¿ß’şÿÿÿÿ8¼òò«Ø-
-psquid:S00117R"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(èä…ş8—Éò«Ø-
-osquid:S00117Q"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(†Ğ†^8¼òò«Ø-
-|squid:S2293Y"YReplace the type specification in this constructor call with the diamond operator ("<>").(Ü¸ªşÿÿÿÿ8¼òò«Ø-
-\squid:S11559">Use isEmpty() to check whether the collection is empty or not.(„á‰Î8¼òò«Ø-
-qsquid:S00117ü"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(×¹œÊ8—Éò«Ø-
-bsquid:S1155•">Use isEmpty() to check whether the collection is empty or not.(¾©Ôùÿÿÿÿÿ8¼òò«Ø-
 qsquid:S00117£"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(×¹œÊ8—Éò«Ø-
-psquid:S00117q"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(èä…ş8—Éò«Ø-
-bsquid:S1155Í">Use isEmpty() to check whether the collection is empty or not.(—êùÛøÿÿÿÿ8¼òò«Ø-
-psquid:S00117"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(­¢í?8¼òò«Ø-
+vsquid:S00117û"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(»¿ß’şÿÿÿÿ8¼òò«Ø-
 msquid:S00100"NRename this method name to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(­¢í?8¼òò«Ø-
+qsquid:S00117¢"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(èä…ş8—Éò«Ø-
 usquid:S00117p"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(Å«©Èúÿÿÿÿ8¼òò«Ø-
+|squid:S2293y"YReplace the type specification in this constructor call with the diamond operator ("<>").(ôÖ÷ıÿÿÿÿ8¼òò«Ø-
+usquid:S00117S"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(—ŒÌüÿÿÿÿ8—Éò«Ø-
+psquid:S00117"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(­¢í?8¼òò«Ø-
+bsquid:S1155•">Use isEmpty() to check whether the collection is empty or not.(¾©Ôùÿÿÿÿÿ8¼òò«Ø-
+psquid:S00117q"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(èä…ş8—Éò«Ø-
 V
 squid:S106a"9Replace this use of System.out or System.err by a logger.(µˆœÑ8¼òò«Ø-
+osquid:S00117Q"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(†Ğ†^8¼òò«Ø-
+qsquid:S00117”"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(¢Ã8¼òò«Ø-
 qsquid:S00117"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(×¹œÊ8—Éò«Ø-
-qsquid:S00117¢"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(èä…ş8—Éò«Ø-
-usquid:S00117S"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(—ŒÌüÿÿÿÿ8—Éò«Ø-
+bsquid:S1155Í">Use isEmpty() to check whether the collection is empty or not.(—êùÛøÿÿÿÿ8¼òò«Ø-
+psquid:S00117R"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(èä…ş8—Éò«Ø-
+usquid:S00117r"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(—ŒÌüÿÿÿÿ8—Éò«Ø-
+\squid:S11559">Use isEmpty() to check whether the collection is empty or not.(„á‰Î8¼òò«Ø-
+wsquid:S1192:"TDefine a constant instead of duplicating this literal "å‚æ•°ä¸èƒ½ä¸ºç©º" 10 times.(ˆ¯ãõÿÿÿÿÿ8¼òò«Ø-
+|squid:S2293Y"YReplace the type specification in this constructor call with the diamond operator ("<>").(Ü¸ªşÿÿÿÿ8¼òò«Ø-
+vsquid:S00117¡"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(²ÊÄÛıÿÿÿÿ8¼òò«Ø-
+bsquid:S1155è">Use isEmpty() to check whether the collection is empty or not.(—êùÛøÿÿÿÿ8¼òò«Ø-
+qsquid:S00117ü"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(×¹œÊ8—Éò«Ø-

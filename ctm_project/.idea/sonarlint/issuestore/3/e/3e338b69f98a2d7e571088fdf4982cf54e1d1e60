@@ -1,15 +1,15 @@
 
-?squid:S11482"#Use a logger to log this exception.(€ÉÔ…ýÿÿÿÿ
 rsquid:S1488º"ZImmediately return this expression instead of assigning it to the temporary variable "n1".( ºñ·
-Rsquid:S1854¢":Remove this useless assignment to local variable "cipher".(ö”ùæ
-msquid:S3008"VRename this field "DEFAULT_KEY" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(µÌæâ
-Hsquid:S1444"1Make this "public static DEFAULT_KEY" field final(µÌæâ
 Qsquid:S1118":Add a private constructor to hide the implicit public one.(”Ð³¬
-@squid:S1148 "#Use a logger to log this exception.(€ÉÔ…ýÿÿÿÿ
-…"squid:ClassVariableVisibilityCheck"WMake DEFAULT_KEY a static final constant or non-public and provide accessors if needed.(µÌæâ
-?squid:S1148z"#Use a logger to log this exception.(€ÉÔ…ýÿÿÿÿ
-csquid:S22594"GA "NullPointerException" could be thrown; "generator" is nullable here.(¯‚Òçÿÿÿÿÿ
-Ysquid:S18546"=Remove this useless assignment to local variable "generator".(çÅ‚›þÿÿÿÿ
+?squid:S11482"#Use a logger to log this exception.(€ÉÔ…ýÿÿÿÿ
 rsquid:S1488®"ZImmediately return this expression instead of assigning it to the temporary variable "m1".(ŽÝš“
+Rsquid:S1854¢":Remove this useless assignment to local variable "cipher".(ö”ùæ
 Rsquid:S1854Ž":Remove this useless assignment to local variable "cipher".(ö”ùæ
 @squid:S1148Œ"#Use a logger to log this exception.(€ÉÔ…ýÿÿÿÿ
+@squid:S1148 "#Use a logger to log this exception.(€ÉÔ…ýÿÿÿÿ
+msquid:S3008"VRename this field "DEFAULT_KEY" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(µÌæâ
+…"squid:ClassVariableVisibilityCheck"WMake DEFAULT_KEY a static final constant or non-public and provide accessors if needed.(µÌæâ
+?squid:S1148z"#Use a logger to log this exception.(€ÉÔ…ýÿÿÿÿ
+Ysquid:S18546"=Remove this useless assignment to local variable "generator".(çÅ‚›þÿÿÿÿ
+Hsquid:S1444"1Make this "public static DEFAULT_KEY" field final(µÌæâ
+csquid:S22594"GA "NullPointerException" could be thrown; "generator" is nullable here.(¯‚Òçÿÿÿÿÿ

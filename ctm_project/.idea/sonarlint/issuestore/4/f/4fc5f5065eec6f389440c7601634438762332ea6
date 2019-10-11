@@ -1,6 +1,6 @@
 
-usquid:S22939"YReplace the type specification in this constructor call with the diamond operator ("<>").(“‰ßÿùÿÿÿÿ
-Tsquid:UselessImportCheck"+Remove this unused import 'java.util.List'.(Õë±Äøÿÿÿÿ
-psquid:S2293'"YReplace the type specification in this constructor call with the diamond operator ("<>").(õ¹ßö
+nsquid:S2293"YReplace the type specification in this constructor call with the diamond operator ("<>").(õ¹ßö
 qsquid:UselessImportCheck"FRemove this unused import 'eqlee.ctm.apply.line.service.ILineService'.(›Ÿ©¸8÷ËÔ¬Ø-
+Tsquid:UselessImportCheck"+Remove this unused import 'java.util.List'.(Õë±Äøÿÿÿÿ
+usquid:S22939"YReplace the type specification in this constructor call with the diamond operator ("<>").(“‰ßÿùÿÿÿÿ
 ssquid:UselessImportCheck	"HRemove this unused import 'eqlee.ctm.apply.price.service.IPriceService'.(¢ˆ³Ä8÷ËÔ¬Ø-

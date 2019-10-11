@@ -497,3 +497,15 @@ v
 Fapply/src/main/java/eqlee/ctm/apply/price/entity/vo/PriceSelectVo.java,4\1\410cccd6d4d9e7695b9edd5db0a99950d884137a
 v
 Fapply/src/main/java/eqlee/ctm/apply/price/entity/vo/PriceUpdateVo.java,7\b\7be294e28655419785360adfce71404468fc19f3
+w
+Gapply/src/main/java/eqlee/ctm/apply/price/entity/vo/PriceSeacherVo.java,7\7\770ebed8b8b2a48d471dbba2e9920dcdaba841c9
+j
+:api/src/main/java/eqlee/ctm/api/entity/vo/UserLoginVo.java,d\d\ddf1950b1c71f433a351efc8416702de2ffef271
+l
+<api/src/main/java/eqlee/ctm/api/entity/vo/ResoultJosnVo.java,a\1\a1238208656d082117f96910db993acdebfb72af
+v
+Fapply/src/main/java/eqlee/ctm/apply/guider/service/IGuiderService.java,8\0\808d7e01bc0fa521e6dbf7375510cf107a171579
+p
+@apply/src/main/java/eqlee/ctm/apply/guider/dao/GuiderMapper.java,2\8\2884b4c315a8fc7fca31d320fb2ac3f417c0e5b2
+w
+Gapply/src/main/java/eqlee/ctm/apply/entry/entity/vo/ApplySeacherVo.java,1\b\1bada25d6eba1eacfa4ae1a4731877c34dd941f2
