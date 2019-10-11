@@ -20,7 +20,7 @@ public interface IOrdersService {
      *
      * @param applyVoList
      */
-    void saveApply(List<OrdersVo> applyVoList);
+    void saveApply(List<IdVo> applyVoList);
 
 
     /**

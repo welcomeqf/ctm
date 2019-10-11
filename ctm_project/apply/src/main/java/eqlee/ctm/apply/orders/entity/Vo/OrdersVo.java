@@ -12,6 +12,14 @@ import java.time.LocalDate;
 @Data
 public class OrdersVo {
 
+    /**
+     * 报名表Id
+     */
+    private Long id;
+
+    /**
+     * 联系人姓名
+     */
     private Long lineId;
     /**
      * 联系人姓名

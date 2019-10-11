@@ -9,6 +9,11 @@ import lombok.Data;
  */
 @Data
 public class ApplyVo {
+
+    /**
+     * 报名表Id
+     */
+    private Long Id;
     /**
      * 联系人姓名
      */

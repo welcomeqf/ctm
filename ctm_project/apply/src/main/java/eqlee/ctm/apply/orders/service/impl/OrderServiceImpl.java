@@ -51,10 +51,11 @@ public class OrderServiceImpl extends ServiceImpl<OrdersMapper, Orders> implemen
 
 
     @Override
-    public void saveApply(List<OrdersVo> applyVoList) {
+    public void saveApply(List<IdVo> IndexVoList) {
         List<OrderDetailed> orderDetailedList = new ArrayList<OrderDetailed>();
         List<Orders> ordersList = new ArrayList<Orders>();
         List<Apply> applyList = applyService.selectAllApply();
+        List<OrdersVo> applyVoList = baseMapper.selectApplyVoList(IndexVoList);
         for (OrdersVo ordersVo:applyVoList) {
             Orders orders = new Orders();
             OrderDetailed orderDetailed = new OrderDetailed();

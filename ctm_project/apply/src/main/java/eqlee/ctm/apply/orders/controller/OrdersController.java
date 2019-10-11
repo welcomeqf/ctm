@@ -39,21 +39,14 @@ public class OrdersController {
 
     @ApiOperation(value = "导游选人确认",notes = "导游选人确认")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "applyVoList", value = "已选人信息", required = true, dataType = "List<ApplyVo>", paramType = "path"),
+            @ApiImplicitParam(name = "applyVoList", value = "已选人信息", required = true, dataType = "List<IdVo>", paramType = "path"),
             //ApplyNo里面的字段信息
-            @ApiImplicitParam(name = "lineId", value = "线路Id", required = true, dataType = "Long", paramType = "path"),
-            @ApiImplicitParam(name = "contactName", value = "联系人姓名", required = true, dataType = "String", paramType = "path"),
-            @ApiImplicitParam(name = "contactTel", value = "联系方式", required = true, dataType = "String", paramType = "path"),
-            @ApiImplicitParam(name = "region", value = "区域", required = true, dataType = "String", paramType = "path"),
-            @ApiImplicitParam(name = "place", value = "接送地", required = true, dataType = "String", paramType = "path"),
-            @ApiImplicitParam(name = "lineName", value = "线路名", required = true, dataType = "String", paramType = "path"),
-            @ApiImplicitParam(name = "outDate", value = "出发日期", required = true, dataType = "String", paramType = "path"),
-
+            @ApiImplicitParam(name = "Id", value = "报名表Id", required = true, dataType = "Long", paramType = "path"),
     })
     @PostMapping("/saveOrders")
     @CrossOrigin
     @CheckToken
-    public ResultVo saveApplyed(@RequestBody List<OrdersVo> applyVoList){
+    public ResultVo saveApplyed(@RequestBody List<IdVo> applyVoList){
         if(applyVoList.size() == 0){
             throw new ApplicationException(CodeType.PARAM_ERROR,"参数不能为空");
         }

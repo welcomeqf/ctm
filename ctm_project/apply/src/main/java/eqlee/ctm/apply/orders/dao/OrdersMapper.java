@@ -3,6 +3,7 @@ package eqlee.ctm.apply.orders.dao;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.yq.IBaseMapper.IBaseMapper;
 import com.yq.utils.DateUtil;
+import eqlee.ctm.apply.guider.entity.vo.ApplyVo;
 import eqlee.ctm.apply.orders.entity.OrderDetailed;
 import eqlee.ctm.apply.orders.entity.Orders;
 import eqlee.ctm.apply.orders.entity.Vo.*;
@@ -169,4 +170,11 @@ public interface OrdersMapper extends IBaseMapper<Orders> {
     UnpaidInformationVo unpaidInformation(@Param("ContactTel") String ContactTel,
                                           @Param("LineName") String LineName,
                                           @Param("OutDate") LocalDate OutDate);
+
+    /**
+     * 根据报名表的Id查出ApplyVo列表
+     * @param IndexVoList
+     * @return
+     */
+    List<OrdersVo> selectApplyVoList(List<IdVo> IndexVoList);
 }
