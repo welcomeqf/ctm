@@ -56,6 +56,10 @@ public class ApplyServiceImpl extends ServiceImpl<ApplyMapper, Apply> implements
         LocalDate localDate = DateUtil.parseDate(applyVo.getOutDate());
         //查询该天的价格情况
         Price price = priceService.queryPrice(localDate);
+
+        if (price == null) {
+            throw new ApplicationException(CodeType.SERVICE_ERROR,"该天还未开放");
+        }
         //算出总价格
         Double AdultPrice = price.getAdultPrice()*applyVo.getAdultNumber();
         Double BabyPrice = price.getBabyPrice()*applyVo.getBabyNumber();
@@ -68,6 +72,11 @@ public class ApplyServiceImpl extends ServiceImpl<ApplyMapper, Apply> implements
         String orderCode = idGenerator.getOrderCode();
 
         Company company = baseMapper.queryCompanyById(applyVo.getCompanyNameId());
+
+        if (company == null) {
+            throw new ApplicationException(CodeType.SERVICE_ERROR, "您的公司还未注册.");
+        }
+
         //装配实体类
         Apply apply = new Apply();
         apply.setId(idGenerator.getNumberId());
