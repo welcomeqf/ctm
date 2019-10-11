@@ -11,7 +11,7 @@
         </foreach>
     </insert>
     <select id="selectOrdersByCreateUserId" resultType="eqlee.ctm.apply.orders.entity.Vo.OrderIndexVo">
-       select b.OrderNo,a.ContactName,a.Place,a.AdultNumber,a.BabyNumber,a.OldNumber,a.ChildNumber from OrderDetailed a
+       select b.Id,b.OrderNo,a.ContactName,a.Place,a.AdultNumber,a.BabyNumber,a.OldNumber,a.ChildNumber from OrderDetailed a
        join Orders b on a.OrderId = b.Id where a.CreateUserId = #{CreateUserId} and b.OutDate=
        #{OutDate} and b.LineName=#{LineName}
     </select>
@@ -41,11 +41,6 @@
         insert into Car(Id,CarNo,IsCompany,CreateUserId,Statu) values(#{Id},#{CarNumber},0 ,#{UserId},1)
     </insert>
 
-    <select id="selectVisitor" resultType="eqlee.ctm.apply.orders.entity.Vo.VisitorInformation">
-        <bind name="contactName" value="'%' + ContactName + '%'"/>
-        select b.ContactName,b.ContactTel,b.Place from Orders a join OrderDetailed b on a.Id = b.OrderId
-        where a.OutDate=#{OutDate} and a.LineName = #{LineName} and b.ContactName like #{contactName}
-    </select>
 
     <update id="updateOrdersInformation">
         update Orders set GuideName=(select CName where Id =#{Id}),set CarType=#{CarType},set CarNumber=#{CarNumber},

@@ -87,36 +87,10 @@ public class OrdersController {
         Page<OrderIndexVo> pageList = ordersService.ChoisedIndex(page,LineName,OutDate);
         map.put("data",pageList);
         map.put("CarNo",carNumber);
-        System.out.println(map);
         return map;
     }
 
 
-    @ApiOperation(value = "导游已选游客",notes = "导游已选游客")
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "ContactName", value = "姓名", required = true, dataType = "String", paramType = "path"),
-            @ApiImplicitParam(name = "current", value = "当前页", required = true, dataType = "Integer", paramType = "path"),
-            @ApiImplicitParam(name = "size", value = "每页显示条数", required = true, dataType = "Integer", paramType = "path")
-
-    })
-    @GetMapping("/choisedVisitor")
-    @CrossOrigin
-    @CheckToken
-    public Page<VisitorInformation> choisedVisitor(@RequestParam("ContactName") String ContactName,
-                                                    @RequestParam("LineName") String LineName,
-                                                    @RequestParam("OutDate") String OutDate,
-                                                    @RequestParam("current") Integer current,
-                                                    @RequestParam("size") Integer size) {
-        if(StringUtils.isBlank(LineName)||StringUtils.isBlank(OutDate)
-        ||current == null|| size == null){
-            throw new ApplicationException(CodeType.PARAM_ERROR,"参数不能为空");
-        }
-        Page<VisitorInformation> page = new Page<VisitorInformation>();
-        page.setCurrent(current);
-        page.setSize(size);
-        return ordersService.choisedVisitor(page,OutDate,ContactName,LineName);
-
-    }
 
 
 

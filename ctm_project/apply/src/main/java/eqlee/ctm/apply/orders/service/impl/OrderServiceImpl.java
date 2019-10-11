@@ -166,25 +166,6 @@ public class OrderServiceImpl extends ServiceImpl<OrdersMapper, Orders> implemen
     }
 
 
-
-    /**
-     * 展示导游已选游客
-     * @param page
-     * @param OutDate
-     * @param ContactName
-     * @param LineName
-     * @return
-     */
-    @Override
-    public Page<VisitorInformation> choisedVisitor(Page<VisitorInformation> page, String OutDate, String ContactName, String LineName) {
-
-
-           return baseMapper.selectVisitor(page,DateUtil.parseDate(OutDate), ContactName, LineName);
-
-    }
-
-
-
     /**
      * 导游换人消息展示
      * @return

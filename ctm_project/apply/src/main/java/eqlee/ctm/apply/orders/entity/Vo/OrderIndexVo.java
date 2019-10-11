@@ -9,6 +9,10 @@ import lombok.Data;
  */
 @Data
 public class OrderIndexVo {
+    /**
+     * 订单号
+     */
+    private Long id;
 
     private String orderNo;
 

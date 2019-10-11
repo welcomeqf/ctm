@@ -100,11 +100,6 @@ public interface OrdersMapper extends IBaseMapper<Orders> {
 
 
 
-    Page<VisitorInformation> selectVisitor(@Param("page") Page<VisitorInformation> page,
-                                            @Param("OutDate") LocalDate OutDate,
-                                            @Param("ContactName") String ContactName,
-                                            @Param("LineName") String LineName);
-
 
     /**
      *更新Orders表

@@ -61,16 +61,6 @@ public interface IOrdersService {
     void save(String LineName, String OutDate, String CarNumber);
 
 
-    /**
-     * 展示导游已选游客
-     *
-     * @param page
-     * @param OutDate
-     * @param ContactName
-     * @param LineName
-     * @return
-     */
-    Page<VisitorInformation> choisedVisitor(Page<VisitorInformation> page, String OutDate, String ContactName, String LineName);
 
 
     /**
