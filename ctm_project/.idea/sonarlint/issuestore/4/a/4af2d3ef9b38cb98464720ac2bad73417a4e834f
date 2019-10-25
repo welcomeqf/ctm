@@ -1,5 +1,4 @@
 
-msquid:S2068 "V'Password' detected in this expression, review this potentially hard-coded credential.(Ø¤ÓÌ
-isquid:S00117 "QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(Ø¤ÓÌ
-Qsquid:S1118":Add a private constructor to hide the implicit public one.(£°Óš
-Wsquid:S1126""AReplace this if-then-else statement by a single return statement.(øü®)
+Xsquid:S1126*"AReplace this if-then-else statement by a single return statement.(÷Â—›
+nsquid:S00117("QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(öäŸÏÿÿÿÿÿ
+Qsquid:S1118":Add a private constructor to hide the implicit public one.(£°Óš

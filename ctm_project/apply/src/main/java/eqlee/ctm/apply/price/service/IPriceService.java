@@ -20,11 +20,12 @@ import java.time.LocalDate;
 public interface IPriceService {
 
     /**
-     * 根据出行日期查询价格
+     * 根据出行日期,线路名查询价格
      * @param OutDate
+     * @param LineName
      * @return
      */
-    Price queryPrice(LocalDate OutDate);
+    Price queryPrice(LocalDate OutDate, String LineName);
 
     /**
      * 价格设定
@@ -48,11 +49,12 @@ public interface IPriceService {
 
     /**
      * 根据出行时间或者线路名查看价格序列(模糊查询)
-     *
-     * @param priceQuery
+     * @param page
+     * @param OutDate
+     * @param LineName
      * @return
      */
-    Page<PriceSelectVo> queryPricePageByFilter(PriceQuery priceQuery);
+    Page<PriceSelectVo> queryPricePageByFilter(Page<PriceSelectVo> page, String OutDate, String LineName);
 
 
     /**
@@ -70,5 +72,11 @@ public interface IPriceService {
      * @return
      */
     PriceSeacherVo queryPriceById (Long Id);
+
+    /**
+     * 删除价格
+     * @param id
+     */
+    void deletePriceById (Long id);
 
 }

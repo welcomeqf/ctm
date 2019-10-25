@@ -2,8 +2,11 @@ package eqlee.ctm.api.controller;
 
 import com.alibaba.fastjson.JSONObject;
 import com.yq.data.Result;
+import com.yq.jwt.contain.LocalUser;
+import com.yq.jwt.entity.UserLoginQuery;
 import com.yq.jwt.islogin.CheckToken;
 import com.yq.utils.JwtUtil;
+import eqlee.ctm.api.entity.query.UserWithQuery;
 import eqlee.ctm.api.entity.vo.*;
 import eqlee.ctm.api.httpclient.HttpClientUtils;
 import eqlee.ctm.api.httpclient.HttpResult;
@@ -26,7 +29,7 @@ import java.util.Map;
  * @Version 1.0
  */
 @Slf4j
-@Api("用户Api")
+@Api("用户Api--9093:api")
 @RestController
 @RequestMapping("/v1/app/api/user")
 public class UserApiController {
@@ -37,14 +40,17 @@ public class UserApiController {
     @Value("${api.port}")
     private String port;
 
-    private final String path = "user";
+    private final String path = "ctm_user";
+
+    @Autowired
+    private LocalUser localUser;
 
     @Autowired
     private HttpClientUtils apiService;
 
     private final Integer Status = 200;
 
-    @ApiOperation(value = "注册", notes = "注册")
+    @ApiOperation(value = "注册-- 9093:api", notes = "注册-- 9093:api")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "userName", value = "用户名", required = true, dataType = "String", paramType = "path"),
             @ApiImplicitParam(name = "password", value = "密码", required = true, dataType = "String", paramType = "path"),
@@ -62,8 +68,9 @@ public class UserApiController {
         String s = JSONObject.toJSONString(userVo);
         HttpResult httpResult = apiService.doPost(url, s);
 
-        if (httpResult.getCode() != Status) {
-            String msg = DataUtils.getMsg(httpResult.getBody());
+        ResultResposeVo vo = JSONObject.parseObject(httpResult.getBody(),ResultResposeVo.class);
+        if (vo.getCode() != 0) {
+            String msg = DataUtils.getMsg(vo.getMsg());
             return DataUtils.getError(msg);
         }
 
@@ -85,8 +92,9 @@ public class UserApiController {
 
         HttpResult httpResult = apiService.doGet(url, map);
 
-        if (httpResult.getCode() != Status) {
-            String msg = DataUtils.getMsg(httpResult.getBody());
+        ResultResposeVo vo = JSONObject.parseObject(httpResult.getBody(),ResultResposeVo.class);
+        if (vo.getCode() != 0) {
+            String msg = DataUtils.getMsg(vo.toString());
             return DataUtils.getError(msg);
         }
 
@@ -95,7 +103,7 @@ public class UserApiController {
         ResultVo object = JSONObject.parseObject(httpResult.getBody(), ResultVo.class);
 
         //2592000000
-        String token = JwtUtil.createJWT(86400000L, object.getData());
+        String token = JwtUtil.createJWT(86400000, object.getData());
         jsonObject.put("token", token);
         jsonObject.put("user", object.getData());
         return Result.SUCCESS(jsonObject);
@@ -114,10 +122,12 @@ public class UserApiController {
 
         HttpResult httpResult = apiService.doGet(url, map);
 
-        if (httpResult.getCode() != Status) {
-            String msg = DataUtils.getMsg(httpResult.getBody());
+        ResultResposeVo vo = JSONObject.parseObject(httpResult.getBody(),ResultResposeVo.class);
+        if (vo.getCode() != 0) {
+            String msg = DataUtils.getMsg(vo.getMsg());
             return DataUtils.getError(msg);
         }
+
         return JSONObject.parse(httpResult.getBody());
     }
 
@@ -134,8 +144,9 @@ public class UserApiController {
 
         HttpResult httpResult = apiService.doGet(url, map);
 
-        if (httpResult.getCode() != Status) {
-            String msg = DataUtils.getMsg(httpResult.getBody());
+        ResultResposeVo vo = JSONObject.parseObject(httpResult.getBody(),ResultResposeVo.class);
+        if (vo.getCode() != 0) {
+            String msg = DataUtils.getMsg(vo.getMsg());
             return DataUtils.getError(msg);
         }
         return JSONObject.parse(httpResult.getBody());
@@ -154,8 +165,9 @@ public class UserApiController {
 
         HttpResult httpResult = apiService.doGet(url, map);
 
-        if (httpResult.getCode() != Status) {
-            String msg = DataUtils.getMsg(httpResult.getBody());
+        ResultResposeVo vo = JSONObject.parseObject(httpResult.getBody(),ResultResposeVo.class);
+        if (vo.getCode() != 0) {
+            String msg = DataUtils.getMsg(vo.getMsg());
             return DataUtils.getError(msg);
         }
         return JSONObject.parse(httpResult.getBody());
@@ -174,8 +186,9 @@ public class UserApiController {
 
         HttpResult httpResult = apiService.doGet(url, map);
 
-        if (httpResult.getCode() != Status) {
-            String msg = DataUtils.getMsg(httpResult.getBody());
+        ResultResposeVo vo = JSONObject.parseObject(httpResult.getBody(),ResultResposeVo.class);
+        if (vo.getCode() != 0) {
+            String msg = DataUtils.getMsg(vo.getMsg());
             return DataUtils.getError(msg);
         }
         return JSONObject.parse(httpResult.getBody());
@@ -187,53 +200,39 @@ public class UserApiController {
             @ApiImplicitParam(name = "userName", value = "用户名", required = true, dataType = "String", paramType = "path"),
             @ApiImplicitParam(name = "password", value = "密码", required = true, dataType = "String", paramType = "path"),
             @ApiImplicitParam(name = "name", value = "名称", required = true, dataType = "String", paramType = "path"),
-            @ApiImplicitParam(name = "phone", value = "电话", required = true, dataType = "String", paramType = "path"),
-            @ApiImplicitParam(name = "roleName", value = "角色名", required = true, dataType = "String", paramType = "path"),
-            @ApiImplicitParam(name = "companyId", value = "公司Id", required = true, dataType = "String", paramType = "path")
+            @ApiImplicitParam(name = "phone", value = "电话", required = true, dataType = "String", paramType = "path")
     })
     @PostMapping("/downRegister")
     @CrossOrigin
     @CheckToken
     public Object downRegister(@RequestBody UserVo userVo) throws Exception{
+        UserLoginQuery user = localUser.getUser("用户信息");
         String encode = DataUtils.getEncodeing("RSA");
-        userVo.setAppId(encode);
+        UserWithQuery query = new UserWithQuery();
+
+        //装配query
+        query.setAppId(encode);
+        query.setCompanyId(user.getCompanyId());
+        query.setRoleName(user.getRoleName());
+        query.setName(userVo.getName());
+        query.setPassword(userVo.getPassword());
+        query.setPhone(userVo.getPhone());
+        query.setUserName(userVo.getUserName());
+
         String url = "http://" + Ip +":" + port + "/" + path + "/v1/app/user/downRegister";
 
-        String s = JSONObject.toJSONString(userVo);
+        String s = JSONObject.toJSONString(query);
         HttpResult httpResult = apiService.doPost(url, s);
 
-        if (httpResult.getCode() != Status) {
-            String msg = DataUtils.getMsg(httpResult.getBody());
+        ResultResposeVo vo = JSONObject.parseObject(httpResult.getBody(),ResultResposeVo.class);
+        if (vo.getCode() != 0) {
+            String msg = DataUtils.getMsg(vo.getMsg());
             return DataUtils.getError(msg);
         }
 
         return JSONObject.parse(httpResult.getBody());
 
     }
-
-    @ApiOperation(value = "分页查询用户信息", notes = "分页查询用户信息")
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "current", value = "当前页", required = true, dataType = "int", paramType = "path"),
-            @ApiImplicitParam(name = "size", value = "每页显示条数", required = true, dataType = "int", paramType = "path")
-    })
-    @GetMapping("/pageListUser")
-    @CrossOrigin
-    @CheckToken
-    public Object pageListUser(@RequestParam("current") Integer current, @RequestParam("size") Integer size) throws Exception{
-        String encode = DataUtils.getEncodeing("RSA");
-        String url = "http://" + Ip +":" + port + "/" + path + "/v1/app/user/pageListUser?current=" +current + "&AppId=" +encode + "&size=" + size;
-
-        Map<String,Object> map = new HashMap<>();
-
-        HttpResult httpResult = apiService.doGet(url, map);
-
-        if (httpResult.getCode() != Status) {
-            String msg = DataUtils.getMsg(httpResult.getBody());
-            return DataUtils.getError(msg);
-        }
-        return JSONObject.parse(httpResult.getBody());
-    }
-
 
     /**
      * 该接口作为用户模块以及子用户设置的共同接口
@@ -247,8 +246,8 @@ public class UserApiController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "current", value = "当前页", required = true, dataType = "int", paramType = "path"),
             @ApiImplicitParam(name = "size", value = "每页显示条数", required = true, dataType = "int", paramType = "path"),
-            @ApiImplicitParam(name = "userName", value = "用户名或用户名一部分", required = true, dataType = "String", paramType = "path"),
-            @ApiImplicitParam(name = "roleName", value = "角色名", required = true, dataType = "String", paramType = "path")
+            @ApiImplicitParam(name = "userName", value = "用户名或用户名一部分", required = false, dataType = "String", paramType = "path"),
+            @ApiImplicitParam(name = "roleName", value = "角色名", required = false, dataType = "String", paramType = "path")
     })
     @GetMapping("/queryPageUserByName")
     @CrossOrigin
@@ -265,35 +264,37 @@ public class UserApiController {
 
         HttpResult httpResult = apiService.doGet(url, map);
 
-        if (httpResult.getCode() != Status) {
-            String msg = DataUtils.getMsg(httpResult.getBody());
+        ResultResposeVo vo = JSONObject.parseObject(httpResult.getBody(),ResultResposeVo.class);
+        if (vo.getCode() != 0) {
+            String msg = DataUtils.getMsg(vo.getMsg());
             return DataUtils.getError(msg);
         }
         return JSONObject.parse(httpResult.getBody());
     }
 
-    @ApiOperation(value = "对用户名模糊查询加分页查询", notes = "对用户名模糊查询加分页查询")
+    @ApiOperation(value = "对用户名或角色模糊查询加分页查询", notes = "对用户名或角色模糊查询加分页查询")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "current", value = "当前页", required = true, dataType = "int", paramType = "path"),
             @ApiImplicitParam(name = "size", value = "每页显示条数", required = true, dataType = "int", paramType = "path"),
-            @ApiImplicitParam(name = "userName", value = "用户名或用户名一部分", required = true, dataType = "String", paramType = "path")
+            @ApiImplicitParam(name = "userNameOrRole", value = "用户名或角色", required = true, dataType = "String", paramType = "path")
     })
-    @GetMapping("/queryUserByName")
+    @GetMapping("/queryUserByNameOrRole")
     @CrossOrigin
     @CheckToken
     public Object queryUserByName(@RequestParam("current") Integer current,
                                            @RequestParam("size") Integer size,
-                                           @RequestParam("userName") String userName) throws Exception{
+                                           @RequestParam("userNameOrRole") String userNameOrRole) throws Exception{
         String encode = DataUtils.getEncodeing("RSA");
-        String url = "http://" + Ip +":" + port + "/" + path + "/v1/app/user/queryUserByName?current=" +current + "&AppId=" +encode + "&size=" + size
-                + "&userName=" + userName;
+        String url = "http://" + Ip +":" + port + "/" + path + "/v1/app/user/queryUserByNameOrRole?current=" +current + "&AppId=" +encode + "&size=" + size
+                + "&userNameOrRole=" + userNameOrRole;
 
         Map<String,Object> map = new HashMap<>();
 
         HttpResult httpResult = apiService.doGet(url, map);
 
-        if (httpResult.getCode() != Status) {
-            String msg = DataUtils.getMsg(httpResult.getBody());
+        ResultResposeVo vo = JSONObject.parseObject(httpResult.getBody(),ResultResposeVo.class);
+        if (vo.getCode() != 0) {
+            String msg = DataUtils.getMsg(vo.getMsg());
             return DataUtils.getError(msg);
         }
         return JSONObject.parse(httpResult.getBody());
@@ -317,8 +318,9 @@ public class UserApiController {
         String s = JSONObject.toJSONString(vo);
         HttpResult httpResult = apiService.doPost(url, s);
 
-        if (httpResult.getCode() != Status) {
-            String msg = DataUtils.getMsg(httpResult.getBody());
+        ResultResposeVo vo1 = JSONObject.parseObject(httpResult.getBody(),ResultResposeVo.class);
+        if (vo1.getCode() != 0) {
+            String msg = DataUtils.getMsg(vo1.getMsg());
             return DataUtils.getError(msg);
         }
 
@@ -328,28 +330,57 @@ public class UserApiController {
 
     @ApiOperation(value = "修改用户信息", notes = "修改用户信息")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "Id", value = "Id", required = true, dataType = "Long", paramType = "path"),
-            @ApiImplicitParam(name = "CName", value = "姓名", required = true, dataType = "String", paramType = "path"),
-            @ApiImplicitParam(name = "SelfImagePath", value = "个人图片路径", required = true, dataType = "String", paramType = "path"),
+            @ApiImplicitParam(name = "id", value = "id", required = true, dataType = "Long", paramType = "path"),
+            @ApiImplicitParam(name = "cname", value = "姓名", required = true, dataType = "String", paramType = "path"),
             @ApiImplicitParam(name = "tel", value = "手机号", required = true, dataType = "String", paramType = "path"),
-            @ApiImplicitParam(name = "CompanyId", value = "公司ID", required = true, dataType = "Long", paramType = "path")
+            @ApiImplicitParam(name = "newPassword", value = "新密码", required = false, dataType = "String", paramType = "path"),
+            @ApiImplicitParam(name = "stopped", value = "是否停用(false--正常  true--停用)", required = true, dataType = "Boolean", paramType = "path")
     })
     @PostMapping("/updateUser")
     @CrossOrigin
     @CheckToken
     public Object updateUser(@RequestBody UserUpdateVo vo) throws Exception{
+        UserUpdateInfoVo infoVo = new UserUpdateInfoVo();
         String encode = DataUtils.getEncodeing("RSA");
-        vo.setAppId(encode);
+        infoVo.setAppId(encode);
+        infoVo.setCname(vo.getCname());
+        infoVo.setId(vo.getId());
+        infoVo.setNewPassword(vo.getNewPassword());
+        infoVo.setStopped(vo.getStopped());
+        infoVo.setTel(vo.getTel());
         String url = "http://" + Ip +":" + port + "/" + path + "/v1/app/user/updateUser";
 
-        String s = JSONObject.toJSONString(vo);
+        String s = JSONObject.toJSONString(infoVo);
         HttpResult httpResult = apiService.doPost(url, s);
 
-        if (httpResult.getCode() != Status) {
-            String msg = DataUtils.getMsg(httpResult.getBody());
+        ResultResposeVo vo1 = JSONObject.parseObject(httpResult.getBody(),ResultResposeVo.class);
+        if (vo1.getCode() != 0) {
+            String msg = DataUtils.getMsg(vo1.getMsg());
             return DataUtils.getError(msg);
         }
 
         return JSONObject.parse(httpResult.getBody());
     }
+
+    @ApiOperation(value = "根据Id查询用户", notes = "根据Id查询用户")
+    @ApiImplicitParam(name = "id", value = "id", required = true, dataType = "Long", paramType = "path")
+    @GetMapping("/getUserById")
+    @CrossOrigin
+    @CheckToken
+    public Object getUserById (@RequestParam("id") Long id) throws Exception{
+        String encode = DataUtils.getEncodeing("RSA");
+        String url = "http://" + Ip +":" + port + "/" + path + "/v1/app/user/getUserById?appId=" +encode + "&id=" +id;
+
+        Map<String,Object> map = new HashMap<>();
+
+        HttpResult httpResult = apiService.doGet(url, map);
+
+        ResultResposeVo vo = JSONObject.parseObject(httpResult.getBody(),ResultResposeVo.class);
+        if (vo.getCode() != 0) {
+            String msg = DataUtils.getMsg(vo.getMsg());
+            return DataUtils.getError(msg);
+        }
+        return JSONObject.parse(httpResult.getBody());
+    }
+
 }

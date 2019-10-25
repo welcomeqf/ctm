@@ -28,7 +28,7 @@ import java.util.Map;
  * @Version 1.0
  */
 @Slf4j
-@Api("价格Api")
+@Api("价格Api--9090:apply")
 @RestController
 @RequestMapping("/v1/app/price")
 public class PriceApiController {
@@ -47,7 +47,7 @@ public class PriceApiController {
 
     private final Integer Status = 200;
 
-    @ApiOperation(value = "价格设定", notes = "价格设定")
+    @ApiOperation(value = "价格设定--9090:apply", notes = "价格设定--9090:apply")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "startTime", value = "开始时间", required = true, dataType = "String", paramType = "path"),
             @ApiImplicitParam(name = "endTime", value = "结束时间", required = true, dataType = "String", paramType = "path"),
@@ -143,6 +143,26 @@ public class PriceApiController {
     })
     @PostMapping("/updateOnePrice")
     public ResultVo updateOnePrice() {
+
+        return null;
+    }
+
+    @ApiOperation(value = "根据时间和线路查询一条价格记录", notes = "根据时间和线路查询一条价格记录")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "OutDate", value = "出发时间", required = true, dataType = "String", paramType = "path"),
+            @ApiImplicitParam(name = "LineName", value = "线路名", required = true, dataType = "String", paramType = "path")
+    })
+    @GetMapping("/queryPrice")
+    public Object queryPrice () {
+
+        return null;
+    }
+
+
+    @ApiOperation(value = "删除价格", notes = "删除价格")
+    @ApiImplicitParam(name = "id", value = "id", required = true, dataType = "long", paramType = "path")
+    @GetMapping("/deletePriceById")
+    public ResultVo deletePriceById () {
 
         return null;
     }

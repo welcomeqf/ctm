@@ -2,6 +2,7 @@ package eqlee.ctm.resource.company.service;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import eqlee.ctm.resource.company.entity.Company;
+import eqlee.ctm.resource.company.entity.query.CompanyQuery;
 import eqlee.ctm.resource.company.entity.query.PageCompanyQuery;
 import eqlee.ctm.resource.company.entity.vo.CompanyIndexVo;
 import eqlee.ctm.resource.company.entity.vo.CompanyQueryVo;
@@ -64,4 +65,16 @@ public interface ICompanyService {
      */
     CompanyQueryVo UpdateCompanyIndex(Long Id);
 
+    /**
+     * 查询公司
+     * @param id
+     * @return
+     */
+    Company queryCompanyById (Long id);
+
+      /**
+       * 得到公司名
+       * @return
+       */
+      CompanyQuery getCompanyName ();
 }

@@ -3,6 +3,7 @@ package eqlee.ctm.user;
 import com.baomidou.mybatisplus.extension.plugins.PaginationInterceptor;
 import com.yq.handle.ApplicationAdviceHandle;
 import com.yq.handle.GlobalResponseHandler;
+import com.yq.jwt.contain.LocalUser;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -21,7 +22,6 @@ public class UserApplication extends SpringBootServletInitializer {
     public static void main(String[] args) {
         SpringApplication.run(UserApplication.class, args);
     }
-
 
     @Bean
     public GlobalResponseHandler getGlobalResponseHandler() {

@@ -29,19 +29,10 @@ public class Orders extends Model<Orders> {
     private String OrderNo;
 
     /**
-     * 同行代表人姓名
-     */
-    private String AccountName;
-
-    /**
      * 出行时间
      */
     private LocalDate OutDate;
 
-    /**
-     * 同行公司名
-     */
-    private String CompanyName;
 
     /**
      * 线路名
@@ -84,7 +75,12 @@ public class Orders extends Model<Orders> {
     private String CarNumber;
 
     /**
-     * 备注(XX提交换人申请)被申请人的Id
+     * (0-- 未完成  1--已完成)
+     */
+    private Boolean IsFinash;
+
+    /**
+     * 备注
      */
     private String Remark;
 
@@ -109,9 +105,6 @@ public class Orders extends Model<Orders> {
     private LocalDateTime UpdateDate;
 
 
-    /**
-     * 0-- 正常   1--换人申请
-     */
     private Integer Statu;
 
     @Override

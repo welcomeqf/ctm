@@ -16,14 +16,14 @@ import org.springframework.web.bind.annotation.*;
  * @Date 2019/10/8
  * @Version 1.0
  */
-@Api("财务审核APi")
+@Api("财务审核APi--9094:finance")
 @Slf4j
 @RestController
 @RequestMapping("/v1/app/settlement")
 public class FinanceApiController {
 
 
-    @ApiOperation(value = "提交导游支出收入消费", notes = "提交导游支出收入消费")
+    @ApiOperation(value = "提交导游支出收入消费-- 9094:finance", notes = "提交导游支出收入消费-- 9094:finance")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "outDate", value = "出行日期", required = true, dataType = "String", paramType = "path"),
             @ApiImplicitParam(name = "lineName", value = "线路名", required = true, dataType = "String", paramType = "path"),
@@ -64,7 +64,9 @@ public class FinanceApiController {
     @ApiOperation(value = "分页查询所有财务审核记录", notes = "分页查询所有财务审核记录")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "current", value = "当前页", required = true, dataType = "int", paramType = "path"),
-            @ApiImplicitParam(name = "size", value = "每页显示条数", required = true, dataType = "int", paramType = "path")
+            @ApiImplicitParam(name = "size", value = "每页显示条数", required = true, dataType = "int", paramType = "path"),
+            @ApiImplicitParam(name = "GuestName", value = "导游名字", required = false, dataType = "String", paramType = "path"),
+            @ApiImplicitParam(name = "type", value = "类型(未审核,已审核)", required = false, dataType = "String", paramType = "path")
     })
     @GetMapping("/listExamine2Page")
     public Page<ExamineResultQuery> listExamine2Page () {
@@ -73,12 +75,48 @@ public class FinanceApiController {
     }
 
     @ApiOperation(value = "展示该导游的审核详情", notes = "展示该导游的审核详情")
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "Id", value = "Id", required = true, dataType = "Long", paramType = "path")
-    })
+    @ApiImplicitParam(name = "Id", value = "Id", required = true, dataType = "Long", paramType = "path")
     @GetMapping("/listExamineDetailed")
     public ExamineDetailedQuery listExamineDetailed (@RequestParam("Id") Long Id) {
 
+        return null;
+    }
+
+
+    @ApiOperation(value = "展示导游个人记录", notes = "展示导游个人记录")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "current", value = "当前页", required = true, dataType = "int", paramType = "path"),
+            @ApiImplicitParam(name = "size", value = "每页显示条数", required = true, dataType = "int", paramType = "path"),
+            @ApiImplicitParam(name = "exaType", value = "审核类型(待审核,或已通过,或已拒绝)", required = false, dataType = "String", paramType = "path")
+    })
+    @GetMapping("/guestPage2Me")
+    public Object guestPage2Me () {
+
+        return null;
+    }
+
+    @ApiOperation(value = "财务审核同意或拒绝操作", notes = "财务审核同意或拒绝操作")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "outDate", value = "出发时间", required = true, dataType = "String", paramType = "path"),
+            @ApiImplicitParam(name = "lineName", value = "线路名", required = true, dataType = "String", paramType = "path"),
+            @ApiImplicitParam(name = "guestId", value = "导游id", required = true, dataType = "Long", paramType = "path"),
+            @ApiImplicitParam(name = "type", value = "(1-代表通过，2-拒绝)", required = true, dataType = "int", paramType = "path")
+    })
+    @PostMapping("/examineGuestResult")
+    public Object examineGuestResult () {
+        return null;
+    }
+
+    @ApiOperation(value = "展示所有财务审核的结果", notes = "展示所有财务审核的结果")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "outDate", value = "出发时间", required = true, dataType = "String", paramType = "path"),
+            @ApiImplicitParam(name = "lineName", value = "线路名", required = true, dataType = "String", paramType = "path"),
+            @ApiImplicitParam(name = "guestId", value = "导游id", required = true, dataType = "Long", paramType = "path"),
+            @ApiImplicitParam(name = "current", value = "当前页", required = true, dataType = "int", paramType = "path"),
+            @ApiImplicitParam(name = "size", value = "每页显示条数", required = true, dataType = "int", paramType = "path")
+    })
+    @GetMapping("/pageExamine")
+    public Object pageExamine () {
         return null;
     }
 }

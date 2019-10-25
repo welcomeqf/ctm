@@ -10,18 +10,95 @@
 
 
     <select id="listExamine2Page" resultType="eqlee.ctm.finance.settlement.entity.query.ExamineResultQuery">
-        select a.Id, a.GuideName,convert(char(10),a.OutDate,120) as 'OutDate',a.LineName,c.Tel,(a.SettlementPrice - b.AllOutPrice) as 'InPrice',
+        select a.Id, a.GuideName,convert(varchar(20),a.OutDate,23) as 'OutDate',a.LineName,c.Tel,(a.SettlementPrice - b.AllOutPrice) as 'InPrice',
         (a.SubstitutionPrice - b.AllOutPrice) as 'FinallyPrice',b.AllOutPrice from Income a join Outcome b
-        on a.Id = b.IncomeId join SystemUser c on a.CreateUserId = c.Id
+        on a.Id = b.IncomeId join SystemUser c on a.CreateUserId = c.Id order by a.OutDate desc
+    </select>
+
+
+    <select id="listExamine2No" resultType="eqlee.ctm.finance.settlement.entity.query.ExamineResultQuery">
+        select a.Id, a.GuideName,convert(varchar(20),a.OutDate,23) as 'OutDate',a.LineName,c.Tel,(a.SettlementPrice - b.AllOutPrice) as 'InPrice',
+        (a.SubstitutionPrice - b.AllOutPrice) as 'FinallyPrice',b.AllOutPrice from Income a join Outcome b
+        on a.Id = b.IncomeId join SystemUser c on a.CreateUserId = c.Id where a.Status = 0
+        order by a.OutDate desc
+    </select>
+
+    <select id="listExamine2Do" resultType="eqlee.ctm.finance.settlement.entity.query.ExamineResultQuery">
+        select a.Id, a.GuideName,convert(varchar(20),a.OutDate,23) as 'OutDate',a.LineName,c.Tel,(a.SettlementPrice - b.AllOutPrice) as 'InPrice',
+        (a.SubstitutionPrice - b.AllOutPrice) as 'FinallyPrice',b.AllOutPrice from Income a join Outcome b
+        on a.Id = b.IncomeId join SystemUser c on a.CreateUserId = c.Id where a.Status != 0
+        order by a.OutDate desc
+    </select>
+
+    <select id="listExamine2NoByGuestName" resultType="eqlee.ctm.finance.settlement.entity.query.ExamineResultQuery">
+        <bind name="guestName_name" value="'%' + guestName + '%'"/>
+        select a.Id, a.GuideName,convert(varchar(20),a.OutDate,23) as 'OutDate',a.LineName,c.Tel,(a.SettlementPrice - b.AllOutPrice) as 'InPrice',
+        (a.SubstitutionPrice - b.AllOutPrice) as 'FinallyPrice',b.AllOutPrice from Income a join Outcome b
+        on a.Id = b.IncomeId join SystemUser c on a.CreateUserId = c.Id where c.CName like #{guestName_name} and a.Status = 0
+        order by a.OutDate desc
+    </select>
+
+    <select id="listExamine2DoByGuestName" resultType="eqlee.ctm.finance.settlement.entity.query.ExamineResultQuery">
+        <bind name="guestName_name" value="'%' + guestName + '%'"/>
+        select a.Id, a.GuideName,convert(varchar(20),a.OutDate,23) as 'OutDate',a.LineName,c.Tel,(a.SettlementPrice - b.AllOutPrice) as 'InPrice',
+        (a.SubstitutionPrice - b.AllOutPrice) as 'FinallyPrice',b.AllOutPrice from Income a join Outcome b
+        on a.Id = b.IncomeId join SystemUser c on a.CreateUserId = c.Id where c.CName like #{guestName_name} and a.Status != 0
+        order by a.OutDate desc
+    </select>
+
+
+    <select id="listExamine2PageByGuestName" resultType="eqlee.ctm.finance.settlement.entity.query.ExamineResultQuery">
+        <bind name="guestName_name" value="'%' + guestName + '%'"/>
+        select a.Id, a.GuideName,convert(varchar(20),a.OutDate,23) as 'OutDate',a.LineName,c.Tel,(a.SettlementPrice - b.AllOutPrice) as 'InPrice',
+        (a.SubstitutionPrice - b.AllOutPrice) as 'FinallyPrice',b.AllOutPrice from Income a join Outcome b
+        on a.Id = b.IncomeId join SystemUser c on a.CreateUserId = c.Id where c.CName like #{guestName_name}
+        order by a.OutDate desc
     </select>
 
     <select id="listExamineDetailed" parameterType="long" resultType="eqlee.ctm.finance.settlement.entity.vo.ExamineResultVo">
-        select a.GuideName,convert(char(10),a.OutDate,120) as 'OutDate',a.LineName,a.SettlementPrice,a.substitutionPrice,b.TicketName,
+        select a.CreateUserId as 'GuestId',a.GuideName,convert(varchar(20),a.OutDate,23) as 'OutDate',a.LineName,a.SettlementPrice,a.substitutionPrice,b.TicketName,
         b.TicketPrice,b.LunchPrice,b.ParkingRatePrice,b.CarNo,b.RentCarPrice,b.GuideSubsidy,b.DriverSubsidy,b.AllOutPrice,
         (a.SettlementPrice - b.AllOutPrice) as 'InPrice',(a.SubstitutionPrice - b.AllOutPrice) as 'FinallyPrice',c.AllDoNumber,
         c.TrueAllNumber,c.TreeAdultNumber,c.TreeBabyNumber,c.TreeOldNumber,c.TreeChildNumber,c.UnpaidNumber,d.ContectUserName,
         d.ContectUserTel,d.AllNumber,d.AllPrice,d.BabyNumber,d.OldNumber,d.ChildNumber,d.AdultNumber
-        from Income a join OutCome b on a.Id = b.IncomeId join Number c on a.NumberId = c.Id join NumberDetailed d on c.Id = d.NumberId
+        from Income a join OutCome b on a.Id = b.IncomeId join Number c on a.NumberId = c.Id left join NumberDetailed d on c.Id = d.NumberId
         where a.Id = #{Id}
     </select>
+
+    <select id="pageGuest2Me" resultType="eqlee.ctm.finance.settlement.entity.query.GuestResultQuery">
+        select convert(varchar(20),a.OutDate,23) as 'OutDate',a.LineName,c.TrueAllNumber,a.SubstitutionPrice,b.AllOutPrice,
+        (b.AllOutPrice-a.SubstitutionPrice)ResultPrice,a.Status
+        from Income a join OutCome b on a.Id = b.IncomeId join Number c on a.NumberId = c.Id order by a.OutDate desc
+    </select>
+
+    <select id="pageGuest2MeByStatus" resultType="eqlee.ctm.finance.settlement.entity.query.GuestResultQuery">
+        select convert(varchar(20),a.OutDate,23) as 'OutDate',a.LineName,c.TrueAllNumber,a.SubstitutionPrice,b.AllOutPrice,
+        (b.AllOutPrice-a.SubstitutionPrice)ResultPrice,a.Status
+        from Income a join OutCome b on a.Id = b.IncomeId join Number c on a.NumberId = c.Id where a.Status = #{Status}
+        order by a.OutDate desc
+    </select>
+
+    <update id="updateIsFinash">
+        update Orders set IsFinash = 1, UpdateDate = #{dateTime} where OutDate = #{outDate} and LineName = #{lineName}
+        and CreateUserId = #{id}
+    </update>
+
+    <update id="examineGuestResult">
+        update Income set Status = 1, UpdateDate = #{time} where OutDate = #{outDate} and LineName = #{lineName}
+        and CreateUserId = #{guestId}
+    </update>
+
+    <update id="examineResult">
+        update Income set Status = 2, UpdateDate = #{time} where OutDate = #{outDate} and LineName = #{lineName}
+        and CreateUserId = #{guestId}
+    </update>
+
+    <select id="pageExamine" resultType="eqlee.ctm.finance.settlement.entity.query.ExamineInfoQuery">
+        select a.CreateUserId as 'guideId',a.GuideName as 'guideName',convert(varchar(100),a.OutDate,20) as 'outDate',a.LineName as 'lineName',
+       (a.SubstitutionPrice - b.AllOutPrice) as 'finallyPrice',a.UpdateDate as 'updateDate'
+        from Income a join OutCome b on a.Id = b.IncomeId
+        where a.CreateUserId = #{guideId} and OutDate = #{outDate} and LineName = #{lineName}
+        order by a.UpdateDate desc
+    </select>
+
 </mapper>

@@ -1,0 +1,12 @@
+
+ysquid:S00116A"URename this field "CreateDate" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(¿©Äıÿÿÿÿ8¹çòçŞ-
+usquid:S00116P"QRename this field "Remark" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(é«´‘ùÿÿÿÿ8âÛûçŞ-
+ysquid:S00116K"URename this field "UpdateDate" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(•˜Ğëıÿÿÿÿ8ÿ˜ôçŞ-
+wsquid:S001162"SRename this field "LineName" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ğ¬ñúÿÿÿÿ8‡€ñçŞ-
+vsquid:S00116<"WRename this field "CreateUserId" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(—êÙç8õñçŞ-
+vsquid:S00116F"WRename this field "UpdateUserId" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(–°ƒ¹8©µóçŞ-
+vsquid:S00116-"RRename this field "OutDate" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(Ç“‹ÿÿÿÿÿ8‡€ñçŞ-
+lsquid:S00116"MRename this field "Id" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(´ÕÛ”8¢‰íçŞ-
+ssquid:S00116#"TRename this field "GuideName" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ÓØ8‡€ñçŞ-
+xsquid:S00116("TRename this field "ToGuideId" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ò…ßÛıÿÿÿÿ8‡€ñçŞ-
+usquid:S001167"QRename this field "Status" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(Åßœşÿÿÿÿ8‡€ñçŞ-

@@ -2,6 +2,8 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="eqlee.ctm.finance.financeexpress.dao.FinanceExpressMapper">
+
+
     <select id="queryfinancecount" resultType="eqlee.ctm.finance.financeexpress.entity.CashCountVo">
         <bind name="_companyName" value="'%' + companyName + '%'"/>
         select datepart(month,OutDate) as month,AccountName accountName,CompanyName as companyName,sum(AllPrice) as substitutionPrice
@@ -10,6 +12,7 @@
         having datepart(year,OutDate) = #{year} and datepart(month,OutDate) = #{month} and
         CompanyName like #{_companyName} and b.PayType = 2
     </select>
+
 
     <select id="queryfinancecollection" resultType="eqlee.ctm.finance.financeexpress.entity.FinanceExpressCountVo">
         <bind name="_guideName" value="'%' + guideName + '%'"/>

@@ -2,8 +2,7 @@ package eqlee.ctm.user.service;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import eqlee.ctm.user.entity.User;
-import eqlee.ctm.user.entity.query.UserLoginQuery;
-import eqlee.ctm.user.entity.query.UserQuery;
+import eqlee.ctm.user.entity.query.*;
 import eqlee.ctm.user.entity.vo.UserUpdatePasswordVo;
 import eqlee.ctm.user.entity.vo.UserUpdateVo;
 import eqlee.ctm.user.entity.vo.UserVo;
@@ -71,7 +70,7 @@ public interface IUserService {
      * 注册子账户
      * @param userVo
      */
-    void dowmRegister(UserVo userVo);
+    void dowmRegister(UserZiQuery userVo);
 
     /**
      * 分页查询所有用户加模糊查询
@@ -94,11 +93,11 @@ public interface IUserService {
     /**
      * 只模糊查询加分页
      * @param page
-     * @param userName
+     * @param userNameOrRole
      * @param AppId
      * @return
      */
-    Page<UserQuery> queryUserByName(Page<UserQuery> page, String userName, String AppId);
+    Page<User2Query> queryUserByName(Page<User2Query> page, String userNameOrRole, String AppId);
 
 
     /**
@@ -111,8 +110,15 @@ public interface IUserService {
     /**
      * 修改用户信息
      * @param vo
-     * @param Id
      */
-    void updateUser(UserUpdateVo vo,Long Id);
+    void updateUser(UserUpdateVo vo);
+
+    /**
+     * 根绝ID查询用户信息
+     * @param id
+     * @param appId
+     * @return
+     */
+    UserByIdQuery getUserById (Long id, String appId);
 
 }

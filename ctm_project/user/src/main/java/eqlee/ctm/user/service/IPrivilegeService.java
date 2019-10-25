@@ -3,6 +3,7 @@ package eqlee.ctm.user.service;
 import eqlee.ctm.user.entity.UserPrivilege;
 import eqlee.ctm.user.entity.query.PrivilegeMenuQuery;
 import eqlee.ctm.user.entity.query.PrivilegeQuery;
+import eqlee.ctm.user.entity.query.PrivilegeWithQuery;
 
 import java.util.List;
 
@@ -14,13 +15,6 @@ import java.util.List;
 public interface IPrivilegeService {
 
     /**
-     * 根据角色名，菜单名增加（无用）
-     * @param RoleName
-     * @param MenuName
-     */
-    void insertPrivilege(String RoleName, String MenuName);
-
-    /**
      * 查询所有
      * @return
      */
@@ -28,16 +22,20 @@ public interface IPrivilegeService {
 
     /**
      * 一次性增加一个角色的所有权限
-     * @param roleName
+     * @param roleId
      * @param menuList
      * @param AppId
      */
-    void insertAllPrivilege(String roleName, List<String> menuList, String AppId);
+    void insertAllPrivilege(Long roleId, List<PrivilegeWithQuery> menuList, String AppId);
 
     /**
      * 根据角色名查询所有菜单权限
-     * @param roleName
+     * @param roleId
      * @return
      */
-    List<PrivilegeMenuQuery> queryAllMenu(String roleName);
+    List<PrivilegeMenuQuery> queryAllMenu(Long roleId);
+
+
+
+
 }

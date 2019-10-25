@@ -1,7 +1,8 @@
 
-Dsquid:S1170+"!Make this final field static too.(ûĞüüÿÿÿÿ8¶Ö-
-osquid:S00117H"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(—Î¥28ßåÕÖ-
-ksquid:S11925"HDefine a constant instead of duplicating this literal "http://" 4 times.(í‰ºÀşÿÿÿÿ8Ö¾Ö-
-Dsquid:S1170&"!Make this final field static too.(ü¶À¦üÿÿÿÿ8üÍ§¢Û-
-qsquid:S00116!"MRename this field "Ip" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ÁãåÚıÿÿÿÿ8¶Ö-
-usquid:S00116+"QRename this field "Status" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ûĞüüÿÿÿÿ8¶Ö-
+Dsquid:S1170-"!Make this final field static too.(ûĞüüÿÿÿÿ8¶Ö-
+osquid:S00117K"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(—Î¥28ßåÕÖ-
+ksquid:S11927"HDefine a constant instead of duplicating this literal "http://" 5 times.(í‰ºÀşÿÿÿÿ8Ö¾Ö-
+Dsquid:S1170("!Make this final field static too.(ü¶À¦üÿÿÿÿ8üÍ§¢Û-
+usquid:S00116-"QRename this field "Status" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ûĞüüÿÿÿÿ8¶Ö-
+qsquid:S00116#"MRename this field "Ip" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ÁãåÚıÿÿÿÿ8¶Ö-
+Msquid:S1068-"*Remove this unused "Status" private field.(ûĞüüÿÿÿÿ8üËĞ–ß-

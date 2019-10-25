@@ -1,5 +1,11 @@
 package eqlee.ctm.apply.entry.service;
 
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import eqlee.ctm.apply.entry.entity.Examine;
+import eqlee.ctm.apply.entry.entity.query.ExaMqAdminQuery;
+import eqlee.ctm.apply.entry.entity.vo.ExamineAddVo;
+import eqlee.ctm.apply.entry.entity.vo.ExamineInfoVo;
+import eqlee.ctm.apply.entry.entity.vo.ExamineUpdateInfoVo;
 import eqlee.ctm.apply.entry.entity.vo.ExamineVo;
 
 /**
@@ -17,7 +23,7 @@ public interface IExamineService {
     void CancelExamine(Long ApplyId);
 
     /**
-     * 增加一条修改报名表的记录
+     * 修改报名表
      * @param examineVo
      */
     void UpdateApplyExamine(ExamineVo examineVo);
@@ -29,10 +35,11 @@ public interface IExamineService {
     void AdoptCancelExamine(Long ApplyId);
 
     /**
-     * 通过修改报名表记录的审核
+     * 拒绝取消报名表的审核
      * @param ApplyId
      */
-    void AdoptUpdateExamine(Long ApplyId);
+    void NotAdoptCancelExamine (Long ApplyId);
+
 
     /**
      * 不通过报名审核
@@ -46,5 +53,27 @@ public interface IExamineService {
      */
     void doptExamine(Long ApplyId);
 
+
+    /**
+     * 增加审核记录
+     * @param vo
+     */
+    void insertExamine (ExamineAddVo vo);
+
+
+    /**
+     * 修改记录展示
+     * @param page
+     * @return
+     */
+    Page<ExamineUpdateInfoVo> listUpdateInfo (Page<ExamineUpdateInfoVo> page);
+
+
+    /**
+     * 查询修改记录详情
+     * @param Id
+     * @return
+     */
+    ExamineInfoVo queryUpdateInfo (Long Id);
 
 }

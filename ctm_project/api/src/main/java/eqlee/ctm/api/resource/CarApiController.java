@@ -23,7 +23,7 @@ import java.util.Map;
  * @Version 1.0
  */
 @Slf4j
-@Api("车辆Api")
+@Api("车辆Api--9091:resource")
 @RestController
 @RequestMapping("/v1/app/car")
 public class CarApiController {
@@ -42,7 +42,7 @@ public class CarApiController {
 
     private final Integer Status = 200;
 
-    @ApiOperation(value = "车辆列表",notes = "车辆列表展示（分页）")
+    @ApiOperation(value = "车辆列表--9091:resource",notes = "车辆列表展示（分页）--9091:resource")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "current", value = "当前页", required = true, dataType = "Integer", paramType = "path"),
             @ApiImplicitParam(name = "current", value = "页面大小", required = true, dataType = "Integer", paramType = "path")

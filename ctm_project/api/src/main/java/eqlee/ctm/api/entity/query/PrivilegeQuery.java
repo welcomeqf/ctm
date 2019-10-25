@@ -1,5 +1,6 @@
 package eqlee.ctm.api.entity.query;
 
+import eqlee.ctm.api.entity.UserMenu;
 import lombok.Data;
 
 import java.util.List;
@@ -12,9 +13,9 @@ import java.util.List;
 @Data
 public class PrivilegeQuery {
 
-    private String roleName;
+    private Long roleId;
 
-    private List<String> menuList;
+    private List<UserMenu> menuList;
 
-    private String AppId;
+
 }

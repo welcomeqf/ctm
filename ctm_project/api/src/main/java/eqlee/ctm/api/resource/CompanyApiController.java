@@ -1,5 +1,6 @@
 package eqlee.ctm.api.resource;
 
+import com.yq.jwt.islogin.CheckToken;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -16,7 +17,7 @@ import org.springframework.web.bind.annotation.*;
  * @Version 1.0
  */
 @Slf4j
-@Api("公司Api")
+@Api("公司Api--9091:resource")
 @RestController
 @RequestMapping("/v1/app/company")
 public class CompanyApiController {
@@ -33,7 +34,7 @@ public class CompanyApiController {
 
     private final Integer Status = 200;
 
-    @ApiOperation(value = "展示同行信息修改首页", notes = "展示同行信息修改首页")
+    @ApiOperation(value = "展示同行信息修改首页--9091:resource", notes = "展示同行信息修改首页--9091:resource")
     @ApiImplicitParam(name = "Id", value = "公司Id", required = true, dataType = "Long", paramType = "path")
     @GetMapping("/CompanyIndex")
     public Object CompanyIndex () {
@@ -98,6 +99,21 @@ public class CompanyApiController {
     @ApiImplicitParam(name = "Id", value = "公司Id", required = true, dataType = "Long", paramType = "path")
     @GetMapping("/Stu/{Id}")
     public Object UpdateCompanyStop () {
+
+        return null;
+    }
+
+    @ApiOperation(value = "根据id查询公司", notes = "根据id查询公司")
+    @ApiImplicitParam(name = "id", value = "公司Id", required = true, dataType = "Long", paramType = "path")
+    @GetMapping("/queryCompanyById")
+    public Object queryCompanyById () {
+
+        return null;
+    }
+
+    @ApiOperation(value = "返回个人信息", notes = "返回个人信息")
+    @GetMapping("/get")
+    public Object queryAllMenu() {
 
         return null;
     }

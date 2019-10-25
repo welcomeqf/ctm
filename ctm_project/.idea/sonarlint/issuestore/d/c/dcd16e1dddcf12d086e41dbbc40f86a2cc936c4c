@@ -1,19 +1,19 @@
 
-esquid:S00116"MRename this field "Id" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(´ÕÛ”
-jsquid:S00116"RRename this field "OrderNo" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(­øÁ
-nsquid:S00116"VRename this field "AccountName" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ë“
-osquid:S00116$"RRename this field "OutDate" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(Ç“‹ÿÿÿÿÿ
-ssquid:S00116)"VRename this field "CompanyName" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ëÁ°¬ùÿÿÿÿ
-psquid:S00116."SRename this field "LineName" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ğ¬ñúÿÿÿÿ
-jsquid:S001163"SRename this field "AllPrice" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ĞéÉl
-jsquid:S001168"SRename this field "Province" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(¾Ç”a
-gsquid:S00116="ORename this field "City" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ÑùÛ
-nsquid:S00116B"QRename this field "Region" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(Óûìÿÿÿÿÿ
-lsquid:S00116G"TRename this field "GuideName" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ÓØ
-osquid:S00116L"RRename this field "CarType" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(Œñå¾øÿÿÿÿ
-qsquid:S00116Q"TRename this field "CarNumber" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(–¯÷úûÿÿÿÿ
-nsquid:S00116V"QRename this field "Remark" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(é«´‘ùÿÿÿÿ
-osquid:S00116["WRename this field "CreateUserId" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(—êÙç
-rsquid:S00116`"URename this field "CreateDate" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(¿©Äıÿÿÿÿ
-osquid:S00116e"WRename this field "UpdateUserId" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(–°ƒ¹
-rsquid:S00116j"URename this field "UpdateDate" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(•˜Ğëıÿÿÿÿ
+osquid:S00116F"RRename this field "CarType" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(Œñå¾øÿÿÿÿ
+lsquid:S00116A"TRename this field "GuideName" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ÓØ
+psquid:S00116("SRename this field "LineName" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ğ¬ñúÿÿÿÿ
+osquid:S00116""RRename this field "OutDate" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(Ç“‹ÿÿÿÿÿ
+qsquid:S00116K"TRename this field "CarNumber" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(–¯÷úûÿÿÿÿ
+rsquid:S00116_"URename this field "CreateDate" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(¿©Äıÿÿÿÿ
+osquid:S00116l"PRename this field "Statu" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(Î§š8±ŠÍÁİ-
+osquid:S00116d"WRename this field "UpdateUserId" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(–°ƒ¹
+esquid:S00116"MRename this field "Id" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(´ÕÛ”
+nsquid:S00116U"QRename this field "Remark" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(é«´‘ùÿÿÿÿ
+jsquid:S00116-"SRename this field "AllPrice" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ĞéÉl
+osquid:S00116Z"WRename this field "CreateUserId" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(—êÙç
+rsquid:S00116i"URename this field "UpdateDate" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(•˜Ğëıÿÿÿÿ
+wsquid:S00116P"SRename this field "IsFinash" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(±Ô–¸øÿÿÿÿ8¥²€Äİ-
+jsquid:S001162"SRename this field "Province" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(¾Ç”a
+nsquid:S00116<"QRename this field "Region" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(Óûìÿÿÿÿÿ
+jsquid:S00116"RRename this field "OrderNo" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(­øÁ
+gsquid:S001167"ORename this field "City" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ÑùÛ

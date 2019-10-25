@@ -1,8 +1,8 @@
 
-lsquid:S1192<"IDefine a constant instead of duplicating this literal "http://" 12 times.(¦Ø‹­øÿÿÿÿ8ÌêåÖ-
-usquid:S00116-"QRename this field "Status" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ûĞüüÿÿÿÿ8¬¶»Ö-
-fsquid:S1192à"GDefine a constant instead of duplicating this literal "&size=" 3 times.(ûäŞ®8šé‘ºÖ-
-Dsquid:S1170-"!Make this final field static too.(ûĞüüÿÿÿÿ8¬¶»Ö-
-qsquid:S00116#"MRename this field "Ip" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ÁãåÚıÿÿÿÿ8¬¶»Ö-
-Dsquid:S1170("!Make this final field static too.(ü¶À¦üÿÿÿÿ8 —¦¢Û-
-ksquid:S1192R"HDefine a constant instead of duplicating this literal "&AppId=" 4 times.(˜ÖµÁúÿÿÿÿ8°¹ëÖ-
+Dsquid:S11703"!Make this final field static too.(ûĞüüÿÿÿÿ8¬¶»Ö-
+Dsquid:S1170+"!Make this final field static too.(ü¶À¦üÿÿÿÿ8 —¦¢Û-
+Msquid:S10683"*Remove this unused "Status" private field.(ûĞüüÿÿÿÿ8À‰Ì–ß-
+lsquid:S1192B"IDefine a constant instead of duplicating this literal "http://" 12 times.(¦Ø‹­øÿÿÿÿ8ÌêåÖ-
+ksquid:S1192Y"HDefine a constant instead of duplicating this literal "&AppId=" 3 times.(˜ÖµÁúÿÿÿÿ8°¹ëÖ-
+usquid:S001163"QRename this field "Status" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ûĞüüÿÿÿÿ8¬¶»Ö-
+qsquid:S00116&"MRename this field "Ip" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ÁãåÚıÿÿÿÿ8¬¶»Ö-

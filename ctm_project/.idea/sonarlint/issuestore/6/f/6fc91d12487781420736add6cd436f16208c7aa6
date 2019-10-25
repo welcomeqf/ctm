@@ -1,6 +1,6 @@
 
-ssquid:S00116"TRename this field "OldNumber" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ÃÁ«è8°®þ“×-
+ssquid:S00116"URename this field "BabyNumber" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(˜Ú‡C8°®þ“×-
 dsquid:UselessImportCheck"4Remove this unused import 'java.time.LocalDateTime'.(æÃ§ƒüÿÿÿÿ8Õãþ“×-
 zsquid:S00116!"VRename this field "ChildNumber" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(¹¤áñûÿÿÿÿ8°®þ“×-
-ssquid:S00116"URename this field "BabyNumber" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(˜Ú‡C8°®þ“×-
+ssquid:S00116"TRename this field "OldNumber" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ÃÁ«è8°®þ“×-
 zsquid:S00116"VRename this field "AdultNumber" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(í÷ÖÎúÿÿÿÿ8°®þ“×-

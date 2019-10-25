@@ -6,13 +6,12 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.yq.constanct.CodeType;
 import com.yq.exception.ApplicationException;
 import com.yq.utils.ShaUtils;
+import com.yq.utils.StringUtils;
 import eqlee.ctm.user.dao.UserMapper;
 import eqlee.ctm.user.entity.Sign;
 import eqlee.ctm.user.entity.User;
 import eqlee.ctm.user.entity.UserRole;
-import eqlee.ctm.user.entity.query.PrivilegeMenuQuery;
-import eqlee.ctm.user.entity.query.UserLoginQuery;
-import eqlee.ctm.user.entity.query.UserQuery;
+import eqlee.ctm.user.entity.query.*;
 import eqlee.ctm.user.entity.vo.*;
 import eqlee.ctm.user.service.IPrivilegeService;
 import eqlee.ctm.user.service.IRoleService;
@@ -72,7 +71,12 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
         user.setTel(userVo.getPhone());
         user.setCompanyId(userVo.getCompanyId());
 
-        UserRole role = roleService.queryOne(userVo.getRoleName());
+
+        UserRole role = roleService.queryOne(userVo.getRoleName(),0);
+
+        if (role == null) {
+            throw new ApplicationException(CodeType.SERVICE_ERROR,"该角色不存在");
+        }
         user.setSystemRoleId(role.getId());
 
         if (role.getStopped()) {
@@ -138,7 +142,10 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
         signService.insertSign(sign);
 
         UserRole userRole = roleService.queryRoleById(user.getSystemRoleId());
-        List<PrivilegeMenuQuery> list = privilegeService.queryAllMenu(userRole.getRoleName());
+        if (userRole == null) {
+            throw new ApplicationException(CodeType.SERVICE_ERROR,"该账户尚未绑定角色");
+        }
+        List<PrivilegeMenuQuery> list = privilegeService.queryAllMenu(user.getSystemRoleId());
         //装配UserLoginQuery
         UserLoginQuery query = new UserLoginQuery();
         query.setId(user.getId());
@@ -298,7 +305,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
      * @param userVo
      */
     @Override
-    public synchronized void dowmRegister(UserVo userVo) {
+    public synchronized void dowmRegister(UserZiQuery userVo) {
         //验证签名
         Sign sign = signService.queryOne(userVo.getAppId());
         Boolean result = null;
@@ -327,13 +334,21 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
         user.setTel(userVo.getPhone());
         user.setCompanyId(userVo.getCompanyId());
 
+        UserRole role = roleService.queryOne(userVo.getRoleName(), 1);
+
+        if (role == null) {
+            throw new ApplicationException(CodeType.SERVICE_ERROR,"该角色不存在");
+        }
+
         //装配用户角色
-        UserRoleVo userRole = new UserRoleVo();
+        RoleAddQuery userRole = new RoleAddQuery();
         long numberId = idGenerator.getNumberId();
         userRole.setId(numberId);
-        userRole.setRoleName(userVo.getRoleName());
+        userRole.setRoleName(role.getRoleName());
         userRole.setStatu(1);
-        roleService.addRole(userRole);
+        userRole.setCompanyId(userVo.getCompanyId());
+
+        roleService.insertRole(userRole);
 
         user.setSystemRoleId(numberId);
 
@@ -389,17 +404,31 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
             throw new ApplicationException(CodeType.AUTHENTICATION_ERROR);
         }
 
+        if (StringUtils.isBlank(userName) && StringUtils.isBlank(roleName)) {
+            return baseMapper.queryUserInfo(page);
+        }
+
+        if (StringUtils.isBlank(userName) && StringUtils.isNotBlank(roleName)) {
+            //对角色模糊查询
+            return baseMapper.queryUserInfoByRole(page,roleName);
+        }
+
+        if (StringUtils.isNotBlank(userName) && StringUtils.isBlank(roleName)) {
+            //对用户名模糊查询
+            return baseMapper.queryUserInfoByUser(page,userName);
+        }
+
         return baseMapper.queryPageUserByName(page,userName,roleName);
     }
 
     /**
      * 模糊查询加分页
      * @param page
-     * @param userName
+     * @param userNameOrRole
      * @return
      */
     @Override
-    public Page<UserQuery> queryUserByName(Page<UserQuery> page, String userName, String AppId) {
+    public Page<User2Query> queryUserByName(Page<User2Query> page, String userNameOrRole, String AppId) {
         //验证签名
         Sign sign = signService.queryOne(AppId);
         Boolean result = null;
@@ -411,7 +440,12 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
         if (!result) {
             throw new ApplicationException(CodeType.AUTHENTICATION_ERROR);
         }
-        return baseMapper.queryUserByName(page,userName);
+
+        if (StringUtils.isBlank(userNameOrRole)) {
+            return baseMapper.queryUser2Info(page);
+        }
+
+        return baseMapper.queryUserByName(page,userNameOrRole);
     }
 
     /**
@@ -461,7 +495,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
      * @param vo
      */
     @Override
-    public void updateUser(UserUpdateVo vo,Long Id) {
+    public void updateUser(UserUpdateVo vo) {
         //验证签名
         Sign sign = signService.queryOne(vo.getAppId());
         Boolean result = null;
@@ -476,11 +510,15 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
 
         //修改用户
         User user = new User();
-        user.setId(Id);
-        user.setCompanyId(vo.getCompanyId());
-        user.setCName(vo.getCName());
-        user.setSelfImagePath(vo.getSelfImagePath());
+        user.setId(vo.getId());
+        user.setCName(vo.getCname());
         user.setTel(vo.getTel());
+        if (StringUtils.isNotBlank(vo.getNewPassword())) {
+            String s = ShaUtils.getSha1(vo.getNewPassword());
+            user.setPassword(s);
+        }
+        user.setStopped(vo.getStopped());
+        user.setUpdateDate(LocalDateTime.now());
 
         int byId = baseMapper.updateById(user);
 
@@ -488,6 +526,29 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
             log.error("update user fail.");
             throw new ApplicationException(CodeType.SERVICE_ERROR,"修改用户信息失败");
         }
+    }
+
+    /**
+     * 根据id查询用户信息
+     * @param id
+     * @param appId
+     * @return
+     */
+    @Override
+    public UserByIdQuery getUserById(Long id, String appId) {
+        //验证签名
+        Sign sign = signService.queryOne(appId);
+        Boolean result = null;
+        try {
+            result = SignData.getResult(DataUtils.getDcodeing(appId), DataUtils.getDcodeing(sign.getInformation()));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        if (!result) {
+            throw new ApplicationException(CodeType.AUTHENTICATION_ERROR);
+        }
+
+        return baseMapper.queryUserById(id);
     }
 
 }

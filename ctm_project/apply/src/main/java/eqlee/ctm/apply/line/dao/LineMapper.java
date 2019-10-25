@@ -31,6 +31,7 @@ public interface LineMapper extends IBaseMapper<Line> {
      * @param lineName
      * @return
      */
-    Page<LineSeacherQuery> queryLine2PageAndName(Page<LineSeacherQuery> page,String lineName);
+    Page<LineSeacherQuery> queryLine2PageAndName(Page<LineSeacherQuery> page,
+                                                 @Param("lineName") String lineName);
 
 }

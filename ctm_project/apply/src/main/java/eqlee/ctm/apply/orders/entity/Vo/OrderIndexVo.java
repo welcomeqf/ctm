@@ -9,22 +9,10 @@ import lombok.Data;
  */
 @Data
 public class OrderIndexVo {
+
     /**
-     * 订单号
+     * 订单id
      */
-    private Long chiooseId;
+    private Long orderId;
 
-    private String orderNo;
-
-    private String contactName;
-
-    private String place;
-
-    private Integer adultNumber;
-
-    private Integer babyNumber;
-
-    private Integer oldNumber;
-
-    private Integer childNumber;
 }

@@ -1,7 +1,12 @@
 package eqlee.ctm.user.controller;
 
-import eqlee.ctm.user.entity.query.UserMenuQuery;
+import com.yq.constanct.CodeType;
+import com.yq.exception.ApplicationException;
+import com.yq.utils.StringUtils;
+import eqlee.ctm.user.entity.query.*;
+import eqlee.ctm.user.entity.vo.MenuUpdateVo;
 import eqlee.ctm.user.entity.vo.MenuVo;
+import eqlee.ctm.user.entity.vo.MenuZiVo;
 import eqlee.ctm.user.entity.vo.ResultVo;
 import eqlee.ctm.user.service.IMenuService;
 import io.swagger.annotations.Api;
@@ -28,24 +33,7 @@ public class MenuController {
     @Autowired
     private IMenuService menuService;
 
-    @ApiOperation(value = "增加菜单", notes = "增加菜单")
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "menuName", value = "菜单名称", required = true, dataType = "String", paramType = "path"),
-            @ApiImplicitParam(name = "appId", value = "签名Id", required = true, dataType = "String", paramType = "path"),
-            @ApiImplicitParam(name = "parent", value = "父级ID", required = true, dataType = "Long", paramType = "path"),
-            @ApiImplicitParam(name = "action", value = "链接地址", required = true, dataType = "String", paramType = "path"),
-            @ApiImplicitParam(name = "iconClass", value = "图标", required = true, dataType = "String", paramType = "path")
-    })
-    @PostMapping("/addMenu")
-    @CrossOrigin
-    public ResultVo addMenu(@RequestBody MenuVo vo) {
 
-        menuService.addMenu(vo);
-
-        ResultVo resultVo = new ResultVo();
-        resultVo.setResult("ok");
-        return resultVo;
-    }
 
     @ApiOperation(value = "查询所有权限", notes = "查询所有权限")
     @ApiImplicitParams({
@@ -56,5 +44,38 @@ public class MenuController {
     @CrossOrigin
     public List<UserMenuQuery> queryMenu(@RequestParam("Id") Long Id, @RequestParam("AppId") String AppId) {
         return menuService.queryAllMenu(Id,AppId);
+    }
+
+
+    @ApiOperation(value = "查看权限", notes = "查看权限")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "roleId", value = "角色id", required = true, dataType = "Long", paramType = "path"),
+            @ApiImplicitParam(name = "AppId", value = "签名Id", required = true, dataType = "String", paramType = "path")
+    })
+    @GetMapping("/queryAll")
+    @CrossOrigin
+    public List<WithQuery> queryAll (@RequestParam("AppId") String AppId, @RequestParam("roleId") Long roleId) {
+
+        return menuService.queryAll(AppId,roleId);
+    }
+
+    @ApiOperation(value = "查看所有父权限", notes = "查看所有父权限")
+    @GetMapping("/queryAllParent")
+    @CrossOrigin
+    public List<WithQuery> queryAllParent (@RequestParam("AppId") String AppId) {
+
+        return menuService.queryAllParent(AppId);
+    }
+
+    @ApiOperation(value = "查看所有子角色权限", notes = "查看所有子角色权限")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "roleId", value = "角色id", required = true, dataType = "Long", paramType = "path"),
+            @ApiImplicitParam(name = "AppId", value = "签名Id", required = true, dataType = "String", paramType = "path")
+    })
+    @PostMapping("/queryZiAll")
+    @CrossOrigin
+    public List<WithQuery> queryAll (@RequestBody MenuZiVo vo) {
+
+        return menuService.queryZiAll(vo.getAppId(),vo.getRoleId(),vo.getList());
     }
 }

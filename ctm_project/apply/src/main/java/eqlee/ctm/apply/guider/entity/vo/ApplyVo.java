@@ -39,4 +39,8 @@ public class ApplyVo {
      */
     private String AllNumber;
 
+    private String LineName;
+
+    private String OutDate;
+
 }

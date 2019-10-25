@@ -134,6 +134,11 @@ public class Apply extends Model<Apply> {
     private Boolean IsCancel;
 
     /**
+     * 导游是否选人（0--未选 1--已选）
+     */
+    private Boolean IsSelect;
+
+    /**
      * 创建人
      */
     private Long CreateUserId;

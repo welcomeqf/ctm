@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="eqlee.ctm.apply.entry.dao.ExamineMapper">
+
+    <select id="listUpdateInfo" resultType="eqlee.ctm.apply.entry.entity.vo.ExamineUpdateInfoVo">
+      select a.Id, b.CName as 'UpdateUserName',convert(varchar(100),a.UpdateDate,20) as 'UpdateDate',a.Remark
+      from Examine a join SystemUser b on a.CreateUserId = b.Id where a.ExamineType = '2'
+      ORDER by a.UpdateDate desc
+    </select>
+
+
+
+    <select id="queryUpdateInfo" resultType="eqlee.ctm.apply.entry.entity.vo.ExamineUpdateInfoVo" parameterType="long">
+      select a.Id, b.CName as 'UpdateUserName',convert(varchar(100),a.UpdateDate,20) as 'UpdateDate',a.Remark
+      from Examine a join SystemUser b on a.CreateUserId = b.Id where a.ExamineType = '2' and a.Id = #{Id}
+    </select>
+
+
+
+</mapper>

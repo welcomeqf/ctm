@@ -64,17 +64,16 @@ public class AuthenticationInterceptor implements HandlerInterceptor {
                 // 获取 token 中的 user信息
                 UserLoginQuery query = new UserLoginQuery();
                 try {
-                    query.setId(JWT.decode(token).getClaim("Id").asLong());
-                    query.setAccount(JWT.decode(token).getClaim("UserName").asString());
-                    query.setCName(JWT.decode(token).getClaim("CName").asString());
-                    query.setCompanyId(JWT.decode(token).getClaim("CompanyId").asLong());
+                    query.setId(JWT.decode(token).getClaim("id").asLong());
+                    query.setAccount(JWT.decode(token).getClaim("userName").asString());
+                    query.setCName(JWT.decode(token).getClaim("cName").asString());
+                    query.setCompanyId(JWT.decode(token).getClaim("companyId").asLong());
                     query.setMenuList(JWT.decode(token).getClaim("menuList").asList(PrivilegeMenuQuery.class));
-                    query.setPassword(JWT.decode(token).getClaim("Password").asString());
                     query.setRoleName(JWT.decode(token).getClaim("roleName").asString());
-                    query.setTel(JWT.decode(token).getClaim("Tel").asString());
+                    query.setTel(JWT.decode(token).getClaim("tel").asString());
 
                 } catch (JWTDecodeException j) {
-                    throw new ApplicationException(CodeType.OVENDU_ERROR, "token错误,解码失败");
+                    throw new ApplicationException(CodeType.OVENDU_ERROR,"token错误");
                 }
                 user.setUser(query);
 
@@ -85,6 +84,7 @@ public class AuthenticationInterceptor implements HandlerInterceptor {
                 String audience = jwt.getAudience();
                 Long erp = Long.parseLong(audience);
                 Date erpDate = new Date(erp);
+                erpDate.before(date);
                 //判断token时间是否过期
                 if (erpDate.before(date)) {
                     throw new ApplicationException(CodeType.OVENDU_ERROR);

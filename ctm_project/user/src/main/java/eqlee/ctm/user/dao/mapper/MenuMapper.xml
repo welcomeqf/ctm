@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="eqlee.ctm.user.dao.MenuMapper">
+
+
+    <select id="queryMenu" resultType="eqlee.ctm.user.entity.query.WithQuery">
+        select Id as 'id', MenuName as 'menuName',Parent as 'parent' from SystemMenu where Parent =0
+    </select>
+
+
+    <select id="queryListMenu" resultType="eqlee.ctm.user.entity.query.WithQuery">
+        select Id as 'id',MenuName as 'menuName',Parent as 'parent'
+        from SystemMenu where Parent in(select Id from SystemMenu where Parent = 0)
+    </select>
+</mapper>

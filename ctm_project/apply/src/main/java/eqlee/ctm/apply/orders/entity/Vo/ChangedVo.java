@@ -12,36 +12,28 @@ import java.time.LocalDate;
 @Data
 public class ChangedVo {
 
-    /**
-     *导游Id
-     */
-    private Long OreateUserId;
 
     /**
-     * 联系人
+     *订单Id
      */
-    private String ContactName;
-
-    /**
-     * 出行时间
-     */
-    private String OutDate;
+    private Long OrderId;
 
     /**
      * 联系电话
      */
-    private String ContactTel;
+    private String Tel;
 
     /**
      * 导游姓名
      */
     private String GuideName;
 
-    /**
-     * 线路名
-     */
+    private String Place;
+
     private String LineName;
 
+    private String OutDate;
 
+    private Integer AllNumber;
 
 }

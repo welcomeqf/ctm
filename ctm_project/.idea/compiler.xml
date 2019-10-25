@@ -10,6 +10,7 @@
         <module name="apply" />
         <module name="common" />
         <module name="finance" />
+        <module name="report" />
         <module name="resource" />
         <module name="user" />
       </profile>
@@ -20,8 +21,19 @@
       <module name="common" target="1.8" />
       <module name="ctm_project" target="1.8" />
       <module name="finance" target="1.8" />
+      <module name="report" target="1.8" />
       <module name="resource" target="1.8" />
       <module name="user" target="1.8" />
     </bytecodeTargetLevel>
+  </component>
+  <component name="JavacSettings">
+    <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="api" options="" />
+      <module name="apply" options="" />
+      <module name="common" options="" />
+      <module name="finance" options="" />
+      <module name="resource" options="" />
+      <module name="user" options="" />
+    </option>
   </component>
 </project>

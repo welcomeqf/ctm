@@ -21,7 +21,7 @@ public class DataUtils {
     public static ErrorResult getError (String msg) {
         ErrorResult result = new ErrorResult();
         result.setMsg(msg);
-        result.setCode(400);
+        result.setCode(401);
         return result;
     }
 
@@ -54,7 +54,16 @@ public class DataUtils {
      * @return
      */
     public static String getMsg (String result) {
-        ResoultJosnVo parse = JSONObject.parseObject(result, ResoultJosnVo.class);
-        return parse.getMsg();
+        String MSG = "请求失败";
+        if (MSG.equals(result)) {
+            return "服务正在启动，请稍候";
+        }
+
+
+
+        if (result == null) {
+            return "未知错误";
+        }
+        return result;
     }
 }

@@ -2,22 +2,61 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="eqlee.ctm.apply.guider.dao.GuiderMapper">
+
+
     <select id ="guiderIndex" resultType="eqlee.ctm.apply.guider.entity.vo.GuiderVo">
-        <bind name="OutDateTime" value="'%' + outDate + '%'"/>
-        <bind name="LineName" value="'%' + lineName + '%'"/>
-        select a.Region as Region,a.Id,a.LineName,convert(varchar(20),b.OutDate,23) as OutDate,b.AdultPrice,b.OldPrice,b.BabyPrice,b.ChildPrice,c.AllNumber AppliedNumber,
-        e.AllNumber ChooisedNumber,c.AllNumber-e.AllNumber WaitedPeople
-        from Line a join Price b on a.Id = b.LineId join Apply c on a.Id = c.LineId join orders d on a.LineName = d.LineName
-        join OrderDetailed e on d.Id = e.OrderId
-        where c.OutDate = b.OutDate and
-        b.OutDate = d.OutDate and convert(varchar,b.OutDate,120) like #{OutDateTime}
-        and a.LineName like #{LineName}
+        select * from(
+        select max(Id)id,max(LineName)lineName,max(convert(varchar(20),OutDate,23))outDate,sum(AllNumber)allNumber,
+        sum(case when isnull(IsSelect,0)=1 then isnull(AllNumber,0) else 0 end)slcCnt
+        from(
+        select a.Id,a.LineId,b.LineName,a.OutDate,a.AllNumber,a.IsSelect from Apply a
+        left join Line b  on a.LineId = b.Id)tab
+        group by OutDate,LineId)tab
+        order by OutDate desc
     </select>
 
+    <select id ="guiderIndexByLine" resultType="eqlee.ctm.apply.guider.entity.vo.GuiderVo">
+        <bind name="LineName" value="'%' + lineName + '%'"/>
+        select * from(
+        select max(Id)id,max(LineName)lineName,max(convert(varchar(20),OutDate,23))outDate,sum(AllNumber)allNumber,
+        sum(case when isnull(IsSelect,0)=1 then isnull(AllNumber,0) else 0 end)slcCnt
+        from(
+        select a.Id,a.LineId,b.LineName,a.OutDate,a.AllNumber,a.IsSelect from Apply a
+        left join Line b  on a.LineId = b.Id)tab
+        group by OutDate,LineId)tab where LineName like #{LineName}
+        order by OutDate desc
+    </select>
+
+    <select id ="guiderIndexByTime" resultType="eqlee.ctm.apply.guider.entity.vo.GuiderVo">
+         select * from(
+        select max(Id)id,max(LineName)lineName,max(convert(varchar(20),OutDate,23))outDate,sum(AllNumber)allNumber,
+        sum(case when isnull(IsSelect,0)=1 then isnull(AllNumber,0) else 0 end)slcCnt
+        from(
+        select a.Id,a.LineId,b.LineName,a.OutDate,a.AllNumber,a.IsSelect from Apply a
+        left join Line b  on a.LineId = b.Id)tab
+        group by OutDate,LineId)tab where OutDate = #{outDate}
+        order by OutDate desc
+    </select>
+
+    <select id ="guiderIndexByLineAndTime" resultType="eqlee.ctm.apply.guider.entity.vo.GuiderVo">
+        <bind name="LineName" value="'%' + lineName + '%'"/>
+        select * from(
+        select max(Id)id,max(LineName)lineName,max(convert(varchar(20),OutDate,23))outDate,sum(AllNumber)allNumber,
+        sum(case when isnull(IsSelect,0)=1 then isnull(AllNumber,0) else 0 end)slcCnt
+        from(
+        select a.Id,a.LineId,b.LineName,a.OutDate,a.AllNumber,a.IsSelect from Apply a
+        left join Line b  on a.LineId = b.Id)tab
+        group by OutDate,LineId)tab where OutDate = #{outDate} and LineName like #{LineName}
+        order by OutDate desc
+    </select>
+
+
+
     <select id="applyIndex" resultType="eqlee.ctm.apply.guider.entity.vo.ApplyVo">
-        select a.Id,a.AllNumber,a.ContactName,a.ContactTel,a.Region,a.Place from Apply a
-        join Line b on a.LineId = b.Id where b.LineName =#{lineName} and a.OutDate=#{outDate}
-        and a.ApplyNo not in(select OrderNo from Orders)
+        select a.Id,a.AllNumber,a.ContactName,a.ContactTel,a.Region,a.Place,
+        convert(varchar(20),a.OutDate,23)OutDate,b.LineName from Apply a
+        join Line b on a.LineId = b.Id where a.OutDate = #{outDate} and b.Id = #{lineId}
+        and isnull(a.IsSelect,0) = 0
     </select>
 </mapper>
 

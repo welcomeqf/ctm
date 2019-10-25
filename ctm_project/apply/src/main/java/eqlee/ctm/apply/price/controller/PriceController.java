@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.yq.constanct.CodeType;
 import com.yq.exception.ApplicationException;
 import com.yq.jwt.islogin.CheckToken;
+import com.yq.utils.DateUtil;
 import com.yq.utils.StringUtils;
 import eqlee.ctm.apply.line.entity.vo.ResultVo;
 import eqlee.ctm.apply.price.entity.Price;
@@ -113,12 +114,8 @@ public class PriceController {
         if(size == null || current == null){
             throw new ApplicationException(CodeType.PARAM_ERROR,"价格修改参数不能为空");
         }
-        PriceQuery priceQuery =new PriceQuery();
-        priceQuery.setOutDate(OutDate);
-        priceQuery.setLineName(LineName);
-        priceQuery.setSize(size);
-        priceQuery.setCurrent(current);
-        return priceService.queryPricePageByFilter(priceQuery);
+        Page<PriceSelectVo> page = new Page<>(current,size);
+        return priceService.queryPricePageByFilter(page,OutDate,LineName);
     }
 
 
@@ -150,6 +147,38 @@ public class PriceController {
             throw new ApplicationException(CodeType.PARAM_ERROR);
         }
         priceService.updatePrice(priceVo);
+        ResultVo resultVo = new ResultVo();
+        resultVo.setResult("ok");
+        return resultVo;
+    }
+
+    @ApiOperation(value = "根据时间和线路查询一条价格记录", notes = "根据时间和线路查询一条价格记录")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "OutDate", value = "出发时间", required = true, dataType = "String", paramType = "path"),
+            @ApiImplicitParam(name = "LineName", value = "线路名", required = true, dataType = "String", paramType = "path")
+    })
+    @GetMapping("/queryPrice")
+    @CrossOrigin
+    @CheckToken
+    public Price queryPrice (@RequestParam("OutDate") String OutDate, @RequestParam("LineName") String LineName) {
+        if (StringUtils.isBlank(OutDate) || StringUtils.isBlank(LineName)) {
+            throw new ApplicationException(CodeType.PARAM_ERROR);
+        }
+        LocalDate localDate = DateUtil.parseDate(OutDate);
+        return priceService.queryPrice(localDate,LineName);
+    }
+
+    @ApiOperation(value = "删除价格", notes = "删除价格")
+    @ApiImplicitParam(name = "id", value = "id", required = true, dataType = "long", paramType = "path")
+    @GetMapping("/deletePriceById")
+    @CrossOrigin
+    @CheckToken
+    public ResultVo deletePriceById (@RequestParam("id") Long id) {
+        if (id == null) {
+            throw new ApplicationException(CodeType.PARAM_ERROR);
+        }
+        priceService.deletePriceById(id);
+
         ResultVo resultVo = new ResultVo();
         resultVo.setResult("ok");
         return resultVo;

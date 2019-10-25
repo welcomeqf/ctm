@@ -16,23 +16,25 @@ public class UserUpdateVo {
     /**
      * 中文名
      */
-    private String CName;
-
+    private String cname;
 
     /**
-     * 个人图像路径
+     * 新密码
      */
-    private String SelfImagePath;
+    private String newPassword;
 
     /**
      * 电话
      */
-    private String Tel;
+    private String tel;
 
     /**
-     * 公司ID
+     * 签名ID
      */
-    private Long CompanyId;
+    private String appId;
 
-    private String AppId;
+    /**
+     * 是否停用（false--正常  true--停用）
+     */
+    private Boolean stopped;
 }

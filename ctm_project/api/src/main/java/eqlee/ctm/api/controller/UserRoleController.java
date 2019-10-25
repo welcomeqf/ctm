@@ -1,7 +1,12 @@
 package eqlee.ctm.api.controller;
 
 import com.alibaba.fastjson.JSONObject;
+import com.yq.jwt.contain.LocalUser;
+import com.yq.jwt.entity.UserLoginQuery;
 import com.yq.jwt.islogin.CheckToken;
+import eqlee.ctm.api.entity.query.UserRoleZiQuery;
+import eqlee.ctm.api.entity.vo.ResultResposeVo;
+import eqlee.ctm.api.entity.vo.RoleUpdateVo;
 import eqlee.ctm.api.entity.vo.UserRoleVo;
 import eqlee.ctm.api.httpclient.HttpClientUtils;
 import eqlee.ctm.api.httpclient.HttpResult;
@@ -15,6 +20,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -24,7 +30,7 @@ import java.util.Map;
  * @Version 1.0
  */
 @Slf4j
-@Api("用户角色Api")
+@Api("用户角色Api--9093:api")
 @RestController
 @RequestMapping("/v1/app/api/role")
 public class UserRoleController {
@@ -35,28 +41,67 @@ public class UserRoleController {
     @Value("${api.port}")
     private String port;
 
-    private final String path = "user";
+    private final String path = "ctm_user";
 
     @Autowired
     private HttpClientUtils apiService;
 
+    @Autowired
+    private LocalUser localUser;
+
     private final Integer Status = 200;
 
-    @ApiOperation(value = "增加角色", notes = "增加角色")
-    @ApiImplicitParam(name = "RoleName", value = "角色名称", required = true, dataType = "String", paramType = "path")
+    @ApiOperation(value = "增加角色-- 9093:api", notes = "增加角色-- 9093:api")
+    @ApiImplicitParam(name = "roleName", value = "角色名称", required = true, dataType = "String", paramType = "path")
     @PostMapping("/insertRole")
     @CrossOrigin
     @CheckToken
     public Object addRole(@RequestBody UserRoleVo roleVo) throws Exception{
         String encode = DataUtils.getEncodeing("RSA");
         roleVo.setAppId(encode);
-        String url = "http://" + Ip +":" + port + "/" + path + "/v1/app/role/addRole";
+        String url = "http://" + Ip +":" + port + "/" + path +  "/v1/app/role/addRole";
 
-        String s = JSONObject.toJSONString(roleVo);
+        UserLoginQuery user = localUser.getUser("用户信息");
+        UserRoleZiQuery query = new UserRoleZiQuery();
+        query.setAppId(roleVo.getAppId());
+        query.setCompanyId(user.getCompanyId());
+        query.setRoleName(roleVo.getRoleName());
+
+        String s = JSONObject.toJSONString(query);
         HttpResult httpResult = apiService.doPost(url, s);
 
-        if (httpResult.getCode() != Status) {
-            String msg = DataUtils.getMsg(httpResult.getBody());
+        ResultResposeVo vo = JSONObject.parseObject(httpResult.getBody(),ResultResposeVo.class);
+        if (vo.getCode() != 0) {
+            String msg = DataUtils.getMsg(vo.getMsg());
+            return DataUtils.getError(msg);
+        }
+
+        return JSONObject.parse(httpResult.getBody());
+    }
+
+
+    @ApiOperation(value = "增加子角色", notes = "增加子角色")
+    @ApiImplicitParam(name = "roleName", value = "角色名称", required = true, dataType = "String", paramType = "path")
+    @PostMapping("/addZiRole")
+    @CrossOrigin
+    @CheckToken
+    public Object addZiRole(@RequestBody UserRoleVo roleVo) throws Exception{
+        String encode = DataUtils.getEncodeing("RSA");
+        roleVo.setAppId(encode);
+        String url = "http://" + Ip +":" + port + "/" + path +  "/v1/app/role/addZiRole";
+
+        UserLoginQuery user = localUser.getUser("用户信息");
+        UserRoleZiQuery query = new UserRoleZiQuery();
+        query.setAppId(roleVo.getAppId());
+        query.setCompanyId(user.getCompanyId());
+        query.setRoleName(roleVo.getRoleName());
+
+        String s = JSONObject.toJSONString(query);
+        HttpResult httpResult = apiService.doPost(url, s);
+
+        ResultResposeVo vo = JSONObject.parseObject(httpResult.getBody(),ResultResposeVo.class);
+        if (vo.getCode() != 0) {
+            String msg = DataUtils.getMsg(vo.getMsg());
             return DataUtils.getError(msg);
         }
 
@@ -71,14 +116,15 @@ public class UserRoleController {
     @CheckToken
     public Object deleteRole(@PathVariable("Id") Long Id) throws Exception{
         String encode = DataUtils.getEncodeing("RSA");
-        String url = "http://" + Ip +":" + port + "/" + path + "/v1/app/role/deleteRole/" +Id + "/" +encode;
+        String url = "http://" + Ip +":" + port + "/" + path + "/v1/app/role/" +Id + "/" +encode;
 
         Map<String,Object> map = new HashMap<>();
 
         HttpResult httpResult = apiService.doGet(url, map);
 
-        if (httpResult.getCode() != Status) {
-            String msg = DataUtils.getMsg(httpResult.getBody());
+        ResultResposeVo vo = JSONObject.parseObject(httpResult.getBody(),ResultResposeVo.class);
+        if (vo.getCode() != 0) {
+            String msg = DataUtils.getMsg(vo.getMsg());
             return DataUtils.getError(msg);
         }
         return JSONObject.parse(httpResult.getBody());
@@ -97,8 +143,9 @@ public class UserRoleController {
 
         HttpResult httpResult = apiService.doGet(url, map);
 
-        if (httpResult.getCode() != Status) {
-            String msg = DataUtils.getMsg(httpResult.getBody());
+        ResultResposeVo vo = JSONObject.parseObject(httpResult.getBody(),ResultResposeVo.class);
+        if (vo.getCode() != 0) {
+            String msg = DataUtils.getMsg(vo.getMsg());
             return DataUtils.getError(msg);
         }
         return JSONObject.parse(httpResult.getBody());
@@ -112,17 +159,76 @@ public class UserRoleController {
     })
     @GetMapping("/queryPageRole")
     @CrossOrigin
-    @CheckToken
     public Object queryPageRole(@RequestParam("current") Integer current, @RequestParam("size") Integer size) throws Exception{
         String encode = DataUtils.getEncodeing("RSA");
-        String url = "http://" + Ip +":" + port + "/" + path +  "/v1/app/role/queryPageRole?AppId=" +encode + "&current=" +current + "&size=" +size;
+        String url = "http://" + Ip +":" + port + "/" + path + "/v1/app/role/queryPageRole?AppId=" +encode + "&current=" +current + "&size=" +size;
 
         Map<String,Object> map = new HashMap<>();
 
         HttpResult httpResult = apiService.doGet(url, map);
 
-        if (httpResult.getCode() != Status) {
-            String msg = DataUtils.getMsg(httpResult.getBody());
+        ResultResposeVo vo = JSONObject.parseObject(httpResult.getBody(),ResultResposeVo.class);
+        if (vo.getCode() != 0) {
+            String msg = DataUtils.getMsg(vo.getMsg());
+            return DataUtils.getError(msg);
+        }
+        return JSONObject.parse(httpResult.getBody());
+    }
+
+
+    @ApiOperation(value = "修改角色", notes = "修改角色")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "id", value = "id", required = true, dataType = "int", paramType = "path"),
+            @ApiImplicitParam(name = "roleName", value = "角色名", required = true, dataType = "String", paramType = "path"),
+            @ApiImplicitParam(name = "stopped", value = "是否停用", required = true, dataType = "Boolean", paramType = "path")
+    })
+    @PostMapping("/updateRole")
+    @CrossOrigin
+    @CheckToken
+    public Object updateRole (@RequestBody RoleUpdateVo vo) throws Exception{
+        String encode = DataUtils.getEncodeing("RSA");
+        vo.setAppId(encode);
+        String url = "http://" + Ip +":" + port + "/" + path + "/v1/app/role/updateRole";
+
+        String s = JSONObject.toJSONString(vo);
+        HttpResult httpResult = apiService.doPost(url, s);
+
+        ResultResposeVo vo1 = JSONObject.parseObject(httpResult.getBody(),ResultResposeVo.class);
+        if (vo1.getCode() != 0) {
+            String msg = DataUtils.getMsg(vo1.getMsg());
+            return DataUtils.getError(msg);
+        }
+
+        return JSONObject.parse(httpResult.getBody());
+    }
+
+
+
+    @ApiOperation(value = "分页查询所有子角色", notes = "分页查询所有子角色")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "current", value = "当前页", required = true, dataType = "int", paramType = "path"),
+            @ApiImplicitParam(name = "size", value = "每页显示的条数", required = true, dataType = "int", paramType = "path")
+    })
+    @GetMapping("/queryZiPageRole")
+    @CrossOrigin
+    @CheckToken
+    public Object queryZiPageRole(@RequestParam("current") Integer current,
+                                  @RequestParam("size") Integer size) throws Exception{
+
+        UserLoginQuery user = localUser.getUser("用户信息");
+        Long companyId = user.getCompanyId();
+
+        String encode = DataUtils.getEncodeing("RSA");
+        String url = "http://" + Ip +":" + port + "/" + path + "/v1/app/role/queryZiPageRole?AppId="
+                +encode + "&current=" +current + "&size=" +size + "&companyId=" +companyId;
+
+        Map<String,Object> map = new HashMap<>();
+
+        HttpResult httpResult = apiService.doGet(url, map);
+
+        ResultResposeVo vo = JSONObject.parseObject(httpResult.getBody(),ResultResposeVo.class);
+        if (vo.getCode() != 0) {
+            String msg = DataUtils.getMsg(vo.getMsg());
             return DataUtils.getError(msg);
         }
         return JSONObject.parse(httpResult.getBody());

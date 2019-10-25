@@ -11,4 +11,6 @@ import lombok.Data;
 public class ExamineAddInfoVo {
 
     private Long applyId;
+
+    private Integer status;
 }

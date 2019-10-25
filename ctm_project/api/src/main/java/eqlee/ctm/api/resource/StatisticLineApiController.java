@@ -16,19 +16,19 @@ import org.springframework.web.bind.annotation.RestController;
  * @Date 2019/10/11
  * @Version 1.0
  */
-@Api("线路统计报表Api")
+@Api("统计报表Api--9091:resource")
 @Slf4j
 @RestController
-@RequestMapping("/v1/app/statisticline")
+@RequestMapping("/v1/app/statistic")
 public class StatisticLineApiController {
 
 
-    @ApiOperation(value = "线路报表", notes = "线路报表")
+    @ApiOperation(value = "金额统计报表", notes = "金额统计报表")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "startTime", value = "开始时间", required = false, dataType = "String", paramType = "path"),
             @ApiImplicitParam(name = "endTime", value = "结束时间", required = false, dataType = "String", paramType = "path")
     })
-    @GetMapping("/statisticLineQuery")
+    @GetMapping("/selectPriceByTime")
     public Object statisticQuery () {
 
         return null;
@@ -41,7 +41,7 @@ public class StatisticLineApiController {
             @ApiImplicitParam(name = "startTime", value = "开始时间", required = false, dataType = "String", paramType = "path"),
             @ApiImplicitParam(name = "endTime", value = "结束时间", required = false, dataType = "String", paramType = "path")
     })
-    @GetMapping("/statisticCountQuery")
+    @GetMapping("/selectCountByTime")
     public Object statisticCountQuery () {
 
         return null;

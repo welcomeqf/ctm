@@ -10,9 +10,13 @@ import lombok.Data;
 @Data
 public class UserQuery {
 
+    private Long Id;
+
     private String Account;
 
     private String Tel;
 
     private String RoleName;
+
+    private Boolean Stopped;
 }

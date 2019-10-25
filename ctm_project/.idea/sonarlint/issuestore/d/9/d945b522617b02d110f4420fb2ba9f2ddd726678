@@ -1,13 +1,23 @@
 
-usquid:S00117f"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(“’ËÎüÿÿÿÿ8óÄííÔ-
-usquid:S00117z"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ò±½ıÿÿÿÿ8ÖåÛÖ-
-usquid:S00117%"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(çª˜´øÿÿÿÿ8ƒ÷šÊÔ-
-usquid:S00117."QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ø¿šùÿÿÿÿ8Ä‘ÃÊÔ-
-usquid:S00117;"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(çª˜´øÿÿÿÿ8™·ŠËÔ-
-psquid:S00117q"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(•­®»8’­óíÔ-
-psquid:S00117:"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(»¯Ì8™·ŠËÔ-
-psquid:S00117\"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(şë°8ˆ—´ëÔ-
-usquid:S00117r"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(“’ËÎüÿÿÿÿ8’­óíÔ-
-usquid:S00117J"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(”´ØÂıÿÿÿÿ8ÏÊüìÔ-
-usquid:S00117R"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ŠÌÔšıÿÿÿÿ8ÑºÿìÔ-
-psquid:S00117]"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(Á·´Û8æÔµëÔ-
+qsquid:S00117Ë"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(Åå½ı8«™’ÍÜ-
+qsquid:S00117³"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(Åå½ı8ï‘ÍÜ-
+usquid:S00117+"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ø¿šùÿÿÿÿ8Ä‘ÃÊÔ-
+qsquid:S00117‚"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ÈÙËÊ8òŞş‘İ-
+qsquid:S00117¾"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(Åå½ı8‡Ø‘ÍÜ-
+usquid:S00117w"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ò±½ıÿÿÿÿ8ÖåÛÖ-
+qsquid:S00117É"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(şë°8íõ…ÍÜ-
+qsquid:S00117ï"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(şë°8’ñ£ÂÜ-
+usquid:S00117o"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(“’ËÎüÿÿÿÿ8’­óíÔ-
+qsquid:S00117‹"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(‡ûÏš8Õõ•öÛ-
+qsquid:S00117"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(şë°8Õõ•öÛ-
+usquid:S001178"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(çª˜´øÿÿÿÿ8™·ŠËÔ-
+qsquid:S00117²"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(şë°8íõ…ÍÜ-
+psquid:S001177"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(»¯Ì8™·ŠËÔ-
+usquid:S00117c"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(“’ËÎüÿÿÿÿ8óÄííÔ-
+qsquid:S00117¨"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(Åå½ı8•‹‰ÍÜ-
+psquid:S00117G"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ºœ«ô8ÏÊüìÔ-
+psquid:S00117Y"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(şë°8ˆ—´ëÔ-
+psquid:S00117n"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(•­®»8’­óíÔ-
+vsquid:S00117İ"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(×ç şÿÿÿÿ8’ñ£ÂÜ-
+usquid:S00117""QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(çª˜´øÿÿÿÿ8ƒ÷šÊÔ-
+qsquid:S00117˜"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ÈÙËÊ8“µ’İ-

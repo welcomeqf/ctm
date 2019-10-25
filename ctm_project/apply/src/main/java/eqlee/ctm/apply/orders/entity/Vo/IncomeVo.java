@@ -18,6 +18,11 @@ public class IncomeVo {
     private Integer comeedCount;
 
     /**
+     * 实到人数
+     */
+    private Integer DoNumber;
+
+    /**
      * 成人人数
      */
     private Integer AdultNumber;
@@ -40,7 +45,7 @@ public class IncomeVo {
     /**
      * 联系人列表
      */
-    private Map<String,String> ContactNames;
+    private List<Map<String,Object>> ContactNames;
 
     /**
      * 未付人数
@@ -52,9 +57,11 @@ public class IncomeVo {
      */
     private Double SumInCome;
 
+    private String CarNumber;
+
     /**
-     * 实际收入
+     * false--本公司车辆   true--外部车辆
      */
-    private Double RealInCome;
+    private Boolean CarType;
 
 }

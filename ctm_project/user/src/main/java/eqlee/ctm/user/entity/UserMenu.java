@@ -2,6 +2,7 @@ package eqlee.ctm.user.entity;
 
 import com.alibaba.fastjson.annotation.JSONField;
 import com.alibaba.fastjson.serializer.ToStringSerializer;
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
 import lombok.Data;
@@ -67,6 +68,10 @@ public class UserMenu extends Model<UserMenu> {
      * 是否停用（默认0--停用  1--正常（正在使用））
      */
     private Boolean Stopped;
+
+    @TableField(exist = false)
+    private Boolean start;
+
 
     @Override
     protected Serializable pkVal() {

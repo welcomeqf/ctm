@@ -40,6 +40,7 @@ public class ApplyController {
     @Autowired
     private LocalUser localUser;
 
+
     @ApiOperation(value = "申请报名", notes = "申请报名")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "outDate", value = "出行日期", required = true, dataType = "String", paramType = "path"),
@@ -51,7 +52,7 @@ public class ApplyController {
             @ApiImplicitParam(name = "babyNumber", value = "幼儿人数", required = true, dataType = "int", paramType = "path"),
             @ApiImplicitParam(name = "oldNumber", value = "老人人数", required = true, dataType = "int", paramType = "path"),
             @ApiImplicitParam(name = "childNumber", value = "小孩人数", required = true, dataType = "int", paramType = "path"),
-            @ApiImplicitParam(name = "payType", value = "支付类型", required = true, dataType = "String", paramType = "path")
+            @ApiImplicitParam(name = "payType", value = "支付类型(月结,现结,面收)", required = true, dataType = "String", paramType = "path")
     })
     @PostMapping("/insertApply")
     @CrossOrigin
@@ -69,11 +70,12 @@ public class ApplyController {
         applyVo.setCompanyNameId(user.getCompanyId());
         applyVo.setCreateUserId(user.getId());
         applyVo.setUpdateUserId(user.getId());
+
         applyService.insertApply(applyVo);
 
-        ResultVo resultVo = new ResultVo();
-        resultVo.setResult("ok");
-        return resultVo;
+        ResultVo vo = new ResultVo();
+        vo.setResult("ok");
+        return vo;
     }
 
 
@@ -96,27 +98,56 @@ public class ApplyController {
         return applyService.listPageApply(page,OutDate,LineNameOrRegion);
     }
 
-    @ApiOperation(value = "运营审核的报名记录（可根据订单号和线路模糊查询）", notes = "运营审核的报名记录（可根据订单号和线路模糊查询）")
+    @ApiOperation(value = "运营审核未审核的报名记录（可根据出发日期和线路模糊查询）", notes = "运营审核未审核的报名记录（可根据出发日期和线路模糊查询）")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "current", value = "当前页", required = true, dataType = "int", paramType = "path"),
             @ApiImplicitParam(name = "size", value = "每页显示的条数", required = true, dataType = "int", paramType = "path"),
-            @ApiImplicitParam(name = "ApplyNo", value = "订单号", required = false, dataType = "String", paramType = "path"),
-            @ApiImplicitParam(name = "LineName", value = "线路名", required = false, dataType = "String", paramType = "path")
+            @ApiImplicitParam(name = "OutDate", value = "出发时间", required = false, dataType = "String", paramType = "path"),
+            @ApiImplicitParam(name = "LineName", value = "线路名", required = false, dataType = "String", paramType = "path"),
+            @ApiImplicitParam(name = "ApplyType", value = "类型(报名审核,取消报名的审核)", required = false, dataType = "String", paramType = "path")
     })
     @GetMapping("/listPageDoAplly")
     @CrossOrigin
     @CheckToken
-    public Page<ApplyDoQuery> listPageDoAplly(@RequestParam("current") Integer current, @RequestParam("size") Integer size,
-                                    @RequestParam("ApplyNo") String ApplyNo, @RequestParam("LineName") String LineName) {
+    public Page<ApplyDoExaQuery> listPageDoAplly(@RequestParam("current") Integer current, @RequestParam("size") Integer size,
+                                              @RequestParam("OutDate") String OutDate, @RequestParam("LineName") String LineName,
+                                               @RequestParam("ApplyType") String ApplyType) {
         if (current == null || size == null) {
             throw new ApplicationException(CodeType.PARAM_ERROR);
         }
-        Page<ApplyDoQuery> page = new Page<>(current,size);
 
-        return applyService.listPageDoApply(page,ApplyNo,LineName);
+        Page<ApplyDoExaQuery> page = new Page<>(current,size);
+
+        return applyService.listPageDoApply(page,OutDate,LineName,ApplyType);
     }
 
-    @ApiOperation(value = "查询同一公司的所有分页数据（我的报名记录）", notes = "查询同一公司的所有分页数据（我的报名记录）")
+
+
+    @ApiOperation(value = "运营审核已审核的报名记录（可根据出发日期和线路模糊查询）", notes = "运营审核已审核的报名记录（可根据出发日期和线路模糊查询）")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "current", value = "当前页", required = true, dataType = "int", paramType = "path"),
+            @ApiImplicitParam(name = "size", value = "每页显示的条数", required = true, dataType = "int", paramType = "path"),
+            @ApiImplicitParam(name = "OutDate", value = "出发时间", required = false, dataType = "String", paramType = "path"),
+            @ApiImplicitParam(name = "LineName", value = "线路名", required = false, dataType = "String", paramType = "path"),
+            @ApiImplicitParam(name = "ApplyType", value = "类型（报名审核,取消报名的审核）", required = false, dataType = "String", paramType = "path")
+    })
+    @GetMapping("/toListPageDoAplly")
+    @CrossOrigin
+    @CheckToken
+    public Page<ApplyDoExaQuery> toListPageDoAplly(@RequestParam("current") Integer current, @RequestParam("size") Integer size,
+                                              @RequestParam("OutDate") String OutDate, @RequestParam("LineName") String LineName,
+                                              @RequestParam("ApplyType") String ApplyType) {
+        if (current == null || size == null) {
+            throw new ApplicationException(CodeType.PARAM_ERROR);
+        }
+
+
+        Page<ApplyDoExaQuery> page = new Page<>(current,size);
+
+        return applyService.toListPageDoApply(page,OutDate,LineName,ApplyType);
+    }
+
+    @ApiOperation(value = "查询同一公司的所有分页数据（同行的报名记录）", notes = "查询同一公司的所有分页数据（同行的报名记录）")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "current", value = "当前页", required = true, dataType = "int", paramType = "path"),
             @ApiImplicitParam(name = "size", value = "每页显示的条数", required = true, dataType = "int", paramType = "path"),
@@ -147,5 +178,24 @@ public class ApplyController {
     @CheckToken
     public ApplySeacherVo queryById (@RequestParam("Id") Long Id) {
         return applyService.queryById(Id);
+    }
+
+
+    @ApiOperation(value = "我的报名记录", notes = "我的报名记录")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "current", value = "当前页", required = true, dataType = "int", paramType = "path"),
+            @ApiImplicitParam(name = "size", value = "每页显示的条数", required = true, dataType = "int", paramType = "path"),
+            @ApiImplicitParam(name = "OutTime", value = "出行时间", required = false, dataType = "String", paramType = "path"),
+            @ApiImplicitParam(name = "LineName", value = "线路名模糊查询", required = false, dataType = "String", paramType = "path")
+    })
+    @GetMapping("/page2MeApply")
+    @CrossOrigin
+    @CheckToken
+    public Page<ApplyCompanyQuery> page2MeApply(@RequestParam("current") Integer current, @RequestParam("size") Integer size,
+                                             @RequestParam("OutTime") String OutTime, @RequestParam("LineName") String LineName) {
+
+        Page<ApplyCompanyQuery> page = new Page<>(current,size);
+        return applyService.page2MeApply(page,OutTime,LineName);
+
     }
 }

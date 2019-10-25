@@ -23,6 +23,8 @@ public class UserPrivilege extends Model<UserPrivilege> {
 
     private static final long serialVersionUID = 1L;
 
+    private Long Id;
+
     /**
      * 角色ID
      */

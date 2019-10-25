@@ -48,29 +48,29 @@ public class GuiderController {
         if(current == null || size == null){
             throw new ApplicationException(CodeType.PARAM_ERROR,"参数不能为空");
         }
-        return guiderService.guiderIndex(current,size,outDate,lineName);
+        Page<GuiderVo> page = new Page<>(current,size);
+        return guiderService.guiderIndex(page,outDate,lineName);
     }
 
 
     @ApiOperation(value = "导游选人时看到的报名表",notes = "导游选人时看到的报名表")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "current", value = "当前页", required = true, dataType = "Long", paramType = "path"),
-            @ApiImplicitParam(name = "size", value = "每页条数", required = true, dataType = "Long", paramType = "path"),
-            @ApiImplicitParam(name = "outDate", value = "出发时间", required = true, dataType = "String", paramType = "path"),
-            @ApiImplicitParam(name = "lineName", value = "线路名", required = true, dataType = "Long", paramType = "path")
+            @ApiImplicitParam(name = "current", value = "当前页", required = true, dataType = "int", paramType = "path"),
+            @ApiImplicitParam(name = "size", value = "每页条数", required = true, dataType = "int", paramType = "path"),
+            @ApiImplicitParam(name = "lineName", value = "线路名", required = true, dataType = "String", paramType = "path"),
+            @ApiImplicitParam(name = "outDate", value = "日期", required = true, dataType = "String", paramType = "path")
     })
     @GetMapping("/applyIndex")
     @CrossOrigin
     @CheckToken
-    public Page<ApplyVo> applyIndex(@RequestParam("outDate") String outDate,
-                                    @RequestParam("lineName") String lineName,
+    public Page<ApplyVo> applyIndex(@RequestParam("lineName") String lineName,
+                                    @RequestParam("outDate") String outDate,
                                     @RequestParam("current") Integer current,
                                     @RequestParam("size") Integer size){
-        if(StringUtils.isBlank(outDate) || StringUtils.isBlank(lineName) || current == null
-        || size == null){
+        if(StringUtils.isBlank(lineName) || current == null || size == null || StringUtils.isBlank(outDate)){
             throw new ApplicationException(CodeType.PARAM_ERROR,"参数不能为空");
         }
-        return guiderService.applyIndex(current,size,outDate,lineName);
+        return guiderService.applyIndex(current,size,lineName,outDate);
     }
 
 }

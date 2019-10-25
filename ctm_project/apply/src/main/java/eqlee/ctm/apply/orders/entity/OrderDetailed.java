@@ -7,6 +7,7 @@ import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
 
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 /**
@@ -28,6 +29,11 @@ public class OrderDetailed extends Model<OrderDetailed> {
     private Long OrderId;
 
     /**
+     * 换人id
+     */
+    private Long OrderSubstitutId;
+
+    /**
      * 联系人
      */
     private String ContactName;
@@ -36,6 +42,16 @@ public class OrderDetailed extends Model<OrderDetailed> {
       * 联系电话
      */
     private String ContactTel;
+
+    /**
+     * 同行代表人姓名
+     */
+    private String AccountName;
+
+    /**
+     * 同行公司名
+     */
+    private String CompanyName;
 
     /**
      * 接送地

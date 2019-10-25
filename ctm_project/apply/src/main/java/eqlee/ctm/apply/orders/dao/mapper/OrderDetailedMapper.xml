@@ -12,4 +12,16 @@
     </insert>
 
 
+    <select id="pageOrderDetailed" resultType="eqlee.ctm.apply.orders.entity.query.OrderDetailedQuery">
+        select a.Id as 'OrderId',a.ContactName,a.ContactTel,a.Place,a.AllNumber,a.PayType,b.OrderNo
+        from OrderDetailed a join Orders b on a.OrderId = b.Id
+        where b.OutDate = #{outDate} and b.LineName = #{lineName} and b.CreateUserId = #{id}
+    </select>
+
+    <select id="pageOrderDetailedByType" resultType="eqlee.ctm.apply.orders.entity.query.OrderDetailedQuery">
+        select a.Id as 'OrderId',a.ContactName,a.ContactTel,a.Place,a.AllNumber,a.PayType,b.OrderNo
+        from OrderDetailed a join Orders b on a.OrderId = b.Id
+        where b.OutDate = #{outDate} and b.LineName = #{lineName} and b.CreateUserId = #{id} and a.PayType = #{type}
+    </select>
+
 </mapper>

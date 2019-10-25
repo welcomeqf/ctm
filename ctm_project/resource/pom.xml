@@ -60,7 +60,7 @@
             </plugin>
 
         </plugins>
-        <finalName>resource</finalName>
+        <finalName>ctm_main</finalName>
 
         <resources>
             <resource>

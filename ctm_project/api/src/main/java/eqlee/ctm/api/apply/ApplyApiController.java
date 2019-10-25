@@ -1,5 +1,6 @@
 package eqlee.ctm.api.apply;
 
+import com.yq.jwt.islogin.CheckToken;
 import eqlee.ctm.api.entity.vo.ResultVo;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -13,13 +14,13 @@ import org.springframework.web.bind.annotation.*;
  * @Date 2019/9/28
  * @Version 1.0
  */
-@Api("报名Api")
+@Api("报名Api--9090:apply")
 @Slf4j
 @RestController
 @RequestMapping("/v1/app/apply")
 public class ApplyApiController {
 
-    @ApiOperation(value = "申请报名", notes = "申请报名")
+    @ApiOperation(value = "申请报名--9090:apply", notes = "申请报名--9090:apply")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "outDate", value = "出行日期", required = true, dataType = "String", paramType = "path"),
             @ApiImplicitParam(name = "contactName", value = "联系人名字", required = true, dataType = "String", paramType = "path"),
@@ -30,7 +31,7 @@ public class ApplyApiController {
             @ApiImplicitParam(name = "babyNumber", value = "幼儿人数", required = true, dataType = "int", paramType = "path"),
             @ApiImplicitParam(name = "oldNumber", value = "老人人数", required = true, dataType = "int", paramType = "path"),
             @ApiImplicitParam(name = "childNumber", value = "小孩人数", required = true, dataType = "int", paramType = "path"),
-            @ApiImplicitParam(name = "payType", value = "支付类型", required = true, dataType = "String", paramType = "path")
+            @ApiImplicitParam(name = "payType", value = "支付类型(月结,现结,面收)", required = true, dataType = "String", paramType = "path")
     })
     @PostMapping("/insertApply")
     public ResultVo insertApply() {
@@ -41,8 +42,8 @@ public class ApplyApiController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "current", value = "当前页", required = true, dataType = "int", paramType = "path"),
             @ApiImplicitParam(name = "size", value = "每页显示的条数", required = true, dataType = "int", paramType = "path"),
-            @ApiImplicitParam(name = "OutDate", value = "出发日期", required = true, dataType = "String", paramType = "path"),
-            @ApiImplicitParam(name = "LineNameOrRegion", value = "线路名称或区域", required = true, dataType = "String", paramType = "path")
+            @ApiImplicitParam(name = "OutDate", value = "出发日期", required = false, dataType = "String", paramType = "path"),
+            @ApiImplicitParam(name = "LineNameOrRegion", value = "线路名称或区域", required = false, dataType = "String", paramType = "path")
     })
     @GetMapping("/listPageApply")
     public Object listPageApply () {
@@ -50,12 +51,13 @@ public class ApplyApiController {
         return null;
     }
 
-    @ApiOperation(value = "运营审核的报名记录（可根据订单号和线路模糊查询）", notes = "运营审核的报名记录（可根据订单号和线路模糊查询）")
+    @ApiOperation(value = "运营审核未审核的报名记录（可根据出发日期和线路模糊查询）", notes = "运营审核未审核的报名记录（可根据出发日期和线路模糊查询）")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "current", value = "当前页", required = true, dataType = "int", paramType = "path"),
             @ApiImplicitParam(name = "size", value = "每页显示的条数", required = true, dataType = "int", paramType = "path"),
-            @ApiImplicitParam(name = "ApplyNo", value = "订单号", required = false, dataType = "String", paramType = "path"),
-            @ApiImplicitParam(name = "LineName", value = "线路名", required = false, dataType = "String", paramType = "path")
+            @ApiImplicitParam(name = "OutDate", value = "出发时间", required = false, dataType = "String", paramType = "path"),
+            @ApiImplicitParam(name = "LineName", value = "线路名", required = false, dataType = "String", paramType = "path"),
+            @ApiImplicitParam(name = "ApplyType", value = "类型(报名审核,取消报名的审核)", required = false, dataType = "String", paramType = "path")
     })
     @GetMapping("/listPageDoAplly")
     public Object listPageDoAplly () {
@@ -63,7 +65,21 @@ public class ApplyApiController {
         return null;
     }
 
-    @ApiOperation(value = "查询同一公司的所有分页数据（我的报名记录）", notes = "查询同一公司的所有分页数据（我的报名记录）")
+    @ApiOperation(value = "运营审核已审核的报名记录（可根据出发日期和线路模糊查询）", notes = "运营审核已审核的报名记录（可根据出发日期和线路模糊查询）")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "current", value = "当前页", required = true, dataType = "int", paramType = "path"),
+            @ApiImplicitParam(name = "size", value = "每页显示的条数", required = true, dataType = "int", paramType = "path"),
+            @ApiImplicitParam(name = "OutDate", value = "出发时间", required = false, dataType = "String", paramType = "path"),
+            @ApiImplicitParam(name = "LineName", value = "线路名", required = false, dataType = "String", paramType = "path"),
+            @ApiImplicitParam(name = "ApplyType", value = "类型（报名审核,取消报名的审核）", required = false, dataType = "String", paramType = "path")
+    })
+    @GetMapping("/toListPageDoAplly")
+    public Object toListPageDoAplly () {
+
+        return null;
+    }
+
+    @ApiOperation(value = "查询同一公司的所有分页数据（同行的报名记录）", notes = "查询同一公司的所有分页数据（同行的报名记录）")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "current", value = "当前页", required = true, dataType = "int", paramType = "path"),
             @ApiImplicitParam(name = "size", value = "每页显示的条数", required = true, dataType = "int", paramType = "path"),
@@ -81,6 +97,19 @@ public class ApplyApiController {
     })
     @GetMapping("/queryApply")
     public Object queryById (@RequestParam("Id") Long Id) {
+
+        return null;
+    }
+
+    @ApiOperation(value = "我的报名记录", notes = "我的报名记录")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "current", value = "当前页", required = true, dataType = "int", paramType = "path"),
+            @ApiImplicitParam(name = "size", value = "每页显示的条数", required = true, dataType = "int", paramType = "path"),
+            @ApiImplicitParam(name = "OutTime", value = "出行时间", required = false, dataType = "String", paramType = "path"),
+            @ApiImplicitParam(name = "LineName", value = "线路名模糊查询", required = false, dataType = "String", paramType = "path")
+    })
+    @GetMapping("/page2MeApply")
+    public Object page2MeApply () {
 
         return null;
     }

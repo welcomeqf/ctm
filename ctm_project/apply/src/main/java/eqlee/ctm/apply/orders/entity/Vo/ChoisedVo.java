@@ -13,40 +13,9 @@ import java.time.LocalDate;
 public class ChoisedVo {
 
     /**
-     *导游Id
+     *订单Id
      */
-    private Long id;
-
-    /**
-     * 联系人
-     */
-    private String contactName;
-
-    /**
-     * 出行时间
-     */
-    private String outDate;
-
-    /**
-     * 联系电话
-     */
-    private String contactTel;
-
-    /**
-     * 导游姓名
-     */
-    private String guideName;
-
-    /**
-     * 线路名
-     */
-    private String lineName;
-
-
-    /**
-     * 被更换导游的Id
-     */
-    private String updatedId;
+    private Long orderId;
 
 
 

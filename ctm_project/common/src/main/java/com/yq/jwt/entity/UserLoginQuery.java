@@ -12,27 +12,22 @@ import java.util.List;
 @Data
 public class UserLoginQuery {
 
-    private Long Id;
+    private Long id;
 
     /**
      * 用户名
      */
-    private String Account;
-
-    /**
-     * 密码
-     */
-    private String Password;
+    private String account;
 
     /**
      * 中文名
      */
-    private String CName;
+    private String cName;
 
     /**
      * 电话
      */
-    private String Tel;
+    private String tel;
 
     /**
      * 角色名
@@ -42,7 +37,7 @@ public class UserLoginQuery {
     /**
      * 公司ID
      */
-    private Long CompanyId;
+    private Long companyId;
 
     /**
      * 权限列表

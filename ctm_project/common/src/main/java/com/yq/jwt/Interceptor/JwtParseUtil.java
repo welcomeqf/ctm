@@ -1,5 +1,7 @@
 package com.yq.jwt.Interceptor;
 
+import com.yq.constanct.CodeType;
+import com.yq.exception.ApplicationException;
 import com.yq.jwt.entity.UserLoginQuery;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
@@ -19,14 +21,27 @@ public class JwtParseUtil {
      */
     public static Claims parseJWT(String token, UserLoginQuery user) {
         //签名秘钥，和生成的签名的秘钥一模一样
-        String key = user.getPassword();
+
+        Long id = user.getId();
+
+        if (id == null) {
+            throw new ApplicationException(CodeType.OVENDU_ERROR,"token有误，请重新登录");
+        }
+
+        String key = id.toString();
 
         //得到DefaultJwtParser
-        Claims claims = Jwts.parser()
-                //设置签名的秘钥
-                .setSigningKey(key)
-                //设置需要解析的jwt
-                .parseClaimsJws(token).getBody();
+        Claims claims;
+        try {
+            claims = Jwts.parser()
+                    //设置签名的秘钥
+                    .setSigningKey(key)
+                    //设置需要解析的jwt
+                    .parseClaimsJws(token).getBody();
+        }catch (Exception e) {
+            throw new ApplicationException(CodeType.OVENDU_ERROR,"token错误");
+        }
+
         return claims;
     }
 }

@@ -60,7 +60,7 @@
             </plugin>
 
         </plugins>
-        <finalName>api</finalName>
+        <finalName>ctm_api</finalName>
 
         <resources>
             <resource>

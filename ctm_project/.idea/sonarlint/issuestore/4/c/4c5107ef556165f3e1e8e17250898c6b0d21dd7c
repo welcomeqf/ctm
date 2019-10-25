@@ -1,9 +1,9 @@
 
-jsquid:S00112W"FDefine and throw a dedicated exception instead of using a generic one.(†€¬Εϊÿÿÿÿ8ΉΣερΪ-
-jsquid:S00112$"FDefine and throw a dedicated exception instead of using a generic one.(φΟφ½ϋÿÿÿÿ8ΉΣερΪ-
-ksquid:S00112„"FDefine and throw a dedicated exception instead of using a generic one.(τ†ϊÿÿÿÿ8ΉΣερΪ-
+isquid:CommentedOutCodeLine]"<This block of commented-out lines of code should be removed.(‡¥Π8ΉΣερΪ-
 jsquid:CommentedOutCodeLine"<This block of commented-out lines of code should be removed.(‡¥Π8ΉΣερΪ-
 ksquid:S00112°"FDefine and throw a dedicated exception instead of using a generic one.(ΜθΞ¶όÿÿÿÿ8ΉΣερΪ-
-dsquid:S1192E"FDefine a constant instead of duplicating this literal "UTF-8" 5 times.(„ΫΞ±8ΉΣερΪ-
 tsquid:S1192["QDefine a constant instead of duplicating this literal "application/json" 4 times.(ϋΣ¦²ϋÿÿÿÿ8ΉΣερΪ-
-isquid:CommentedOutCodeLine]"<This block of commented-out lines of code should be removed.(‡¥Π8ΉΣερΪ-
+dsquid:S1192E"FDefine a constant instead of duplicating this literal "UTF-8" 5 times.(„ΫΞ±8ΉΣερΪ-
+jsquid:S00112$"FDefine and throw a dedicated exception instead of using a generic one.(φΟφ½ϋÿÿÿÿ8ΉΣερΪ-
+jsquid:S00112W"FDefine and throw a dedicated exception instead of using a generic one.(†€¬Εϊÿÿÿÿ8ΉΣερΪ-
+ksquid:S00112„"FDefine and throw a dedicated exception instead of using a generic one.(τ†ϊÿÿÿÿ8ΉΣερΪ-

@@ -18,4 +18,8 @@ public class OrderWithVo {
      * 更换导游人的Id
      */
     private Long id;
+
+    private String lineName;
+
+    private String outDate;
 }

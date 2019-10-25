@@ -1,7 +1,8 @@
 
-psquid:UselessImportCheck"ERemove this unused import 'com.baomidou.mybatisplus.extension.api.R'.(™¬ŸÏ8òõŸ£Û-
-‡squid:S14880"dImmediately return this expression instead of assigning it to the temporary variable "decodeString".(öÙ¯¾ıÿÿÿÿ8·§¥µÕ-
-}squid:S1488$"_Immediately return this expression instead of assigning it to the temporary variable "encrypt".(Œ©·è8‘æ„‹Ö-
-usquid:S00117""QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(¹ïú€øÿÿÿÿ8‘æ„‹Ö-
-]squid:S1118":Add a private constructor to hide the implicit public one.(³¡¸ÿÿÿÿÿ8’‰Š£Û-
-`squid:UselessImportCheck"6Remove this unused import 'com.alibaba.fastjson.JSON'.(Ö¢å$8»›™£Û-
+‡squid:S1488/"dImmediately return this expression instead of assigning it to the temporary variable "decodeString".(öÙ¯¾ıÿÿÿÿ8·§¥µÕ-
+]squid:S1118":Add a private constructor to hide the implicit public one.(³¡¸ÿÿÿÿÿ8´˜–ß-
+}squid:S1488#"_Immediately return this expression instead of assigning it to the temporary variable "encrypt".(Œ©·è8‘æ„‹Ö-
+usquid:S00117!"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(¹ïú€øÿÿÿÿ8‘æ„‹Ö-
+usquid:S001179"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(§Î·ƒúÿÿÿÿ8ÂĞ˜–ß-
+msquid:UselessImportCheck"BRemove this unused import 'eqlee.ctm.api.entity.vo.ResoultJosnVo'.(µ•±†8ğÄùãß-
+gsquid:UselessImportCheck"<Remove this unused import 'com.alibaba.fastjson.JSONObject'.(äıµ8ğÄùãß-

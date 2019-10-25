@@ -12,6 +12,8 @@ import java.time.LocalDate;
 @Data
 public class ExamineResultVo {
 
+
+    private Long GuestId;
     /**
      * 导游名字
      */

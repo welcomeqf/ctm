@@ -20,32 +20,7 @@ public class UnpaidInformationVo {
     private String ContactTel;
 
     /**
-     * 总人数
-     */
-    private Integer AllNumber;
-
-    /**
-     * 成人人数
-     */
-    private Integer AdultNumber;
-
-    /**
-     * 幼儿人数
-     */
-    private Integer BabyNumber;
-
-    /**
-     * 老人人数
-     */
-    private Integer OldNumber;
-
-    /**
-     * 小孩人数
-     */
-    private Integer ChildNumber;
-
-    /**
      * 总付款
      */
-    private Double SumPaid;
+    private Double Price;
 }

@@ -16,10 +16,9 @@
        #{OutDate} and b.LineName=#{LineName}
     </select>
     
-    <update id="updateOrderDetailed" parameterType="eqlee.ctm.apply.orders.entity.Vo.OrderIndexVo">
+    <update id="updateOrderDetailed">
         <foreach collection="list" item="item" index="index">
-            update Orders set Statu= 1,Remark = #{id} where OrderNo = #{item.orderNo}
-            update OrderDetailed set Statu= 1 where OrderId in (select Id from Orders where OrderNo = #{item.orderNo})
+            update OrderDetailed set Statu= 1,OrderSubstitutId =#{Id} where Id = #{item.orderId}
         </foreach>
     </update>
 
@@ -30,7 +29,7 @@
 
     <update id="updateOrdersOutsideCarNo">
         update Orders set CarNumber=#{CarNumber},CarType=1 where LineName=#{LineName}
-        and convert(varchar,OutDate,120)=#{OutDate} and CreateUserId=#{Id}
+        and OutDate=#{OutDate} and CreateUserId=#{Id}
     </update>
 
     <select id="isCompanyCar" parameterType="string" resultType="eqlee.ctm.apply.orders.entity.Vo.CarVo">
@@ -49,51 +48,65 @@
     </update>
 
     <select id="waiteChangeIndex" resultType="eqlee.ctm.apply.orders.entity.Vo.ChangedVo">
-       select a.CreateUserId CreateUserId,b.ContactName,b.ContactTel,a.OutDate,a.GuideName,a.LineName from Orders a join OrderDetailed b on a.Id = b.OrderId
-       and a.Remark = #{Id}
+        select b.Id as 'OrderId',b.Place,d.Tel,a.LineName,convert(varchar(20),a.OutDate,23)OutDate,b.AllNumber,
+       a.GuideName from OrderSubstitut a join OrderDetailed b on a.Id = b.OrderSubstitutId join SystemUser d on d.Id = a.CreateUserId
+       where a.ToGuideId = #{Id} and a.Status = 0 and b.Statu = 1
     </select>
 
-    <update id="sureChoised" parameterType="eqlee.ctm.apply.orders.entity.Vo.ChoisedVo">
+    <update id="sureChoised" >
         <foreach collection="list" item="item" index="index">
-            update Orders set GuideName=(select CName from SystemUser where Id = #{item.updatedId}),CreateUserId =#{item.updatedId},
-            Statu=3 where Statu=1 and CreateUserId=#{item.Id} and OutDate=#{item.OutDate} and LineName =#{item.LineName}
-            update OrderDetailed set Statu=2 where Statu=1 and OrderId in (select Id from Orders where Statu=1
-            and CreateUserId=#{item.Id} and OutDate=#{item.OutDate} and LineName =#{item.LineName})
+            update OrderDetailed set Statu=2 where Statu=1 and Id = #{item.orderId}
         </foreach>
+    </update>
+
+    <update id="sureOrders">
+        update Orders set GuideName = (select CName from SystemUser where Id = #{Id}),CreateUserId =#{Id}
+         where LineName = #{lineName} and OutDate = #{outDate}
     </update>
 
 
     <update id="denyChoised" parameterType="eqlee.ctm.apply.orders.entity.Vo.ChoisedVo">
         <foreach collection="list" item="item" index="index">
-            update Orders set Remark = null,Statu=2 where Statu=1 and CreateUserId=#{item.Id} and OutDate=#{item.OutDate} and LineName =#{item.LineName}
-            update OrderDetailed set Statu=2 where Statu=1 and OrderId in (select Id from Orders where Statu=1
-            and CreateUserId=#{item.Id} and OutDate=#{item.OutDate} and LineName =#{item.LineName})
+            update OrderDetailed set Statu=2 where Statu=1 and Id = #{item.orderId}
         </foreach>
     </update>
 
-    <select id="denyChoisedindex" resultType="eqlee.ctm.apply.orders.entity.Vo.ChangedVo">
-       select a.CreateUserId,b.ContactName,b.ContactTel,convert(varchar,a.OutDate,120) as OutDate, a.GuideName,a.LineName from Orders a join OrderDetailed b on a.Id = b.OrderId
-       and a.LineName=#{LineName} and a.OutDate=#{OutDate} and a.CreateUserId=#{Id} and a.Statu=2
+    <select id="denyChoisedindex" resultType="eqlee.ctm.apply.orders.entity.query.ChangedQuery">
+         select u.Tel as 'guideTel',a.LineName as 'lineName',a.ToGuideId as 'guestId',a.Status,
+        convert(varchar(20),a.OutDate,23)outDate,b.AllNumber,b.ContactName,b.ContactTel,u.CName as 'guestName'
+        from OrderSubstitut a left join OrderDetailed b on a.Id = b.OrderSubstitutId join SystemUser u on a.ToGuideId = u.Id
+       where a.CreateUserId=#{Id}
+    </select>
+
+    <select id="withChoiseIndex" resultType="eqlee.ctm.apply.orders.entity.query.ChangedQuery">
+       select u.Tel as 'guideTel',a.LineName as 'lineName',a.ToGuideId as 'guestId',a.Status,convert(varchar(20),a.OutDate,23)outDate,
+       b.AllNumber,b.ContactName,b.ContactTel,a.GuideName as 'guestName'
+        from OrderSubstitut a left join OrderDetailed b on a.Id = b.OrderSubstitutId join SystemUser u on a.ToGuideId = u.Id
+       where a.ToGuideId = #{Id}
     </select>
 
     <select id="selectIncomeCount" resultType="eqlee.ctm.apply.orders.entity.Vo.InComeRemerberVo">
-        select a.AdultNumber,a.BabyNumber,a.OldNumber,a.ChildNumber,a.IsPayment,a.ContactName,a.PayType,a.AllNumber,a.ContactTel from OrderDetailed a join Orders b on
+        select a.Id,b.CarNumber,b.CarType,a.AdultNumber,a.BabyNumber,a.OldNumber,a.ChildNumber,a.IsPayment,a.ContactName,a.PayType,a.AllNumber,a.ContactTel from OrderDetailed a join Orders b on
         a.OrderId = b.Id where b.OutDate=#{OutDate} and b.LineName=#{LineName} and b.CreateUserId=#{Id}
     </select>
 
     <select id="unpaidInformation" resultType="eqlee.ctm.apply.orders.entity.Vo.UnpaidInformationVo">
-        select a.ContactName,a.ContactTel,a.AllNumber,a.AdultNumber,a.BabyNumber,a.OldNumber,a.ChildNumber
-        from OrderDetailed a join Orders b on
-        a.OrderId = b.Id where b.OutDate=#{OutDate} and b.LineName=#{LineName} and a.ContactTel = #{ContactTel}
+        select ContactName,ContactTel,Price from OrderDetailed where PayType = 2
     </select>
 
     <select id="selectApplyVoList" resultType="eqlee.ctm.apply.orders.entity.Vo.OrdersVo">
         <foreach collection="list" item="item" index="index">
             select a.Id as id,a.LineId as lineId,a.AllNumber as 'allNumber',a.ContactName as 'contactName',
             a.ContactTel as 'contactTel',a.Region as 'region',a.Place as 'place',
-            b.LineName as 'lineName',a.OutDate as 'outDate' from Apply a
+            b.LineName as 'lineName',convert(varchar(20),a.OutDate,23) as 'outDate' from Apply a
             join Line b on a.LineId = b.Id where a.Id = #{item.id}
         </foreach>
+    </select>
+
+
+    <select id="listContect" resultType="eqlee.ctm.apply.orders.entity.query.OrderContectQuery">
+        select a.Id,a.AdultNumber,a.BabyNumber,a.OldNumber,a.ChildNumber,a.ContactName,a.AllNumber,a.ContactTel from OrderDetailed a join Orders b on
+        a.OrderId = b.Id where b.OutDate=#{OutDate} and b.LineName=#{LineName} and b.CreateUserId=#{Id} and a.PayType = 2
     </select>
 </mapper>
 

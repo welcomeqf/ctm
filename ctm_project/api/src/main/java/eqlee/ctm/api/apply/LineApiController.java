@@ -28,7 +28,7 @@ import java.util.Map;
  * @Version 1.0
  */
 @Slf4j
-@Api("线路Api")
+@Api("线路Api--9090:apply")
 @RestController
 @RequestMapping("/v1/app/line")
 public class LineApiController {
@@ -47,7 +47,7 @@ public class LineApiController {
 
     private final Integer Status = 200;
 
-    @ApiOperation(value = "增加线路", notes = "增加线路")
+    @ApiOperation(value = "增加线路--9090:apply", notes = "增加线路--9090:apply")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "lineName", value = "线路名", required = true, dataType = "String", paramType = "path"),
             @ApiImplicitParam(name = "information", value = "线路简介", required = true, dataType = "String", paramType = "path"),

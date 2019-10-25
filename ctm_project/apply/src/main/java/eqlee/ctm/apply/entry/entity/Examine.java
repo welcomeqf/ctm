@@ -33,7 +33,7 @@ public class Examine extends Model<Examine> {
     private Long ApplyId;
 
     /**
-     * 审核类型
+     * 审核类型(0--报名审核  1--取消审核 2-修改报名表)
      */
     private String ExamineType;
 

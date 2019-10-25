@@ -7,10 +7,12 @@ import com.yq.exception.ApplicationException;
 import eqlee.ctm.user.dao.MenuMapper;
 import eqlee.ctm.user.entity.Sign;
 import eqlee.ctm.user.entity.UserMenu;
-import eqlee.ctm.user.entity.query.UserMenuQuery;
+import eqlee.ctm.user.entity.query.*;
+import eqlee.ctm.user.entity.vo.MenuUpdateVo;
 import eqlee.ctm.user.entity.vo.MenuVo;
 import eqlee.ctm.user.service.IMenuService;
 import com.yq.utils.IdGenerator;
+import eqlee.ctm.user.service.IPrivilegeService;
 import eqlee.ctm.user.service.ISignService;
 import eqlee.ctm.user.vilidata.DataUtils;
 import eqlee.ctm.user.vilidata.SignData;
@@ -35,6 +37,9 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, UserMenu> implement
 
     @Autowired
     private ISignService signService;
+
+    @Autowired
+    private IPrivilegeService privilegeService;
 
     /**
      * 增加
@@ -137,7 +142,7 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, UserMenu> implement
     }
 
     /**
-     * 根据ID查询所有菜单
+     * 根据ID查询菜单
      * @param Id
      * @return
      */
@@ -145,4 +150,188 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, UserMenu> implement
     public UserMenu queryMenuById(Long Id) {
         return baseMapper.selectById(Id);
     }
+
+    /**
+     * 修改增加链接地址和图标
+     * @param vo
+     */
+    @Override
+    public void updateMenu(MenuUpdateVo vo) {
+
+        //验证签名
+        Sign sign = signService.queryOne(vo.getAppId());
+        Boolean result = null;
+        try {
+            result = SignData.getResult(DataUtils.getDcodeing(vo.getAppId()), DataUtils.getDcodeing(sign.getInformation()));
+        } catch (Exception e) {
+            throw new ApplicationException(CodeType.DATABASE_ERROR,"签名认证失败");
+        }
+        if (!result) {
+            throw new ApplicationException(CodeType.AUTHENTICATION_ERROR);
+        }
+
+        UserMenu menu = new UserMenu();
+
+        menu.setId(vo.getId());
+        menu.setAction(vo.getAction());
+        menu.setIconColor(vo.getIconClass());
+
+        int i = baseMapper.updateById(menu);
+
+        if (i <= 0) {
+            log.error("修改菜单失败");
+            throw new ApplicationException(CodeType.SERVICE_ERROR,"增加链接地址失败");
+        }
+    }
+
+    /**
+     * 查询所有
+     * @param AppId
+     * @param roleId
+     * @return
+     */
+    @Override
+    public List<WithQuery> queryAll(String AppId, Long roleId) {
+
+        //验证签名
+        Sign sign = signService.queryOne(AppId);
+        Boolean result = null;
+        try {
+            result = SignData.getResult(DataUtils.getDcodeing(AppId), DataUtils.getDcodeing(sign.getInformation()));
+        } catch (Exception e) {
+            throw new ApplicationException(CodeType.DATABASE_ERROR,"签名认证失败");
+        }
+        if (!result) {
+            throw new ApplicationException(CodeType.AUTHENTICATION_ERROR);
+        }
+
+
+        List<WithQuery> queries = new ArrayList<>();
+
+        //菜单表
+        List<WithQuery> withQueries = baseMapper.queryListMenu();
+
+        if (roleId == null) {
+            throw new ApplicationException(CodeType.PARAM_ERROR,"角色id不能为空");
+        }
+        //权限表
+        List<PrivilegeMenuQuery> list1 = privilegeService.queryAllMenu(roleId);
+
+
+        //对所有菜单摔选
+        for (WithQuery query : withQueries) {
+
+            for (PrivilegeMenuQuery menuQuery : list1) {
+
+                if (menuQuery.getMenuId().equals(query.getId())) {
+                    query.setStart(true);
+                    break;
+                } else {
+                    query.setStart(false);
+                }
+
+            }
+            queries.add(query);
+        }
+        return queries;
+    }
+
+    /**
+     * 查询所有子菜单
+     * @param AppId
+     * @param roleId
+     * @return
+     */
+    @Override
+    public List<WithQuery> queryZiAll(String AppId, Long roleId,List<UserPrivilegeQuery> list) {
+
+        //验证签名
+        Sign sign = signService.queryOne(AppId);
+        Boolean result = null;
+        try {
+            result = SignData.getResult(DataUtils.getDcodeing(AppId), DataUtils.getDcodeing(sign.getInformation()));
+        } catch (Exception e) {
+            throw new ApplicationException(CodeType.DATABASE_ERROR,"签名认证失败");
+        }
+        if (!result) {
+            throw new ApplicationException(CodeType.AUTHENTICATION_ERROR);
+        }
+
+
+        List<WithQuery> queries = new ArrayList<>();
+
+
+        if (roleId == null) {
+            throw new ApplicationException(CodeType.PARAM_ERROR,"角色id不能为空");
+        }
+        //权限表
+        List<PrivilegeMenuQuery> list1 = privilegeService.queryAllMenu(roleId);
+
+
+        //对所有菜单摔选
+        for (UserPrivilegeQuery query : list) {
+
+            WithQuery withQuery = new WithQuery();
+            withQuery.setMenuName(query.getMenuName());
+            for (PrivilegeMenuQuery menuQuery : list1) {
+
+                if (menuQuery.getMenuName().equals(query.getMenuName())) {
+                    query.setStart(true);
+                    withQuery.setId(menuQuery.getMenuId());
+                    break;
+                } else {
+                    query.setStart(false);
+                    withQuery.setId(menuQuery.getMenuId());
+                }
+
+            }
+            queries.add(withQuery);
+        }
+        return queries;
+    }
+
+    /**
+     * 修改启用状态
+     * @param id
+     * @param start
+     */
+    @Override
+    public void updateStart(Long id, Boolean start) {
+        UserMenu menu = new UserMenu();
+
+        menu.setId(id);
+
+        int byId = baseMapper.updateById(menu);
+
+        if (byId <= 0) {
+            throw new ApplicationException(CodeType.SERVICE_ERROR,"修改菜单启用状态失败");
+        }
+
+
+    }
+
+    /**
+     * 查询所有父
+     * @param AppId
+     * @return
+     */
+    @Override
+    public List<WithQuery> queryAllParent(String AppId) {
+        //验证签名
+        Sign sign = signService.queryOne(AppId);
+        Boolean result = null;
+        try {
+            result = SignData.getResult(DataUtils.getDcodeing(AppId), DataUtils.getDcodeing(sign.getInformation()));
+        } catch (Exception e) {
+            throw new ApplicationException(CodeType.DATABASE_ERROR,"签名认证失败");
+        }
+        if (!result) {
+            throw new ApplicationException(CodeType.AUTHENTICATION_ERROR);
+        }
+
+        return baseMapper.queryMenu();
+    }
+
+
+
 }

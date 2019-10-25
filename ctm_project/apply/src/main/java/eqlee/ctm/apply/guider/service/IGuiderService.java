@@ -15,22 +15,22 @@ public interface IGuiderService {
 
     /**
      * 导游首页展示
-     * @param current
-     * @param size
+     * @param page
      * @param outDate
+     * @param lineName
      * @return
      */
-    Page<GuiderVo> guiderIndex(Integer current,Integer size,String outDate,String lineName);
+    Page<GuiderVo> guiderIndex(Page<GuiderVo> page,String outDate,String lineName);
 
 
     /**
      *导游看到的报名表
      * @param current
      * @param size
-     * @param outDate
      * @param lineName
+     * @param outDate
      * @return
      */
-    Page<ApplyVo>  applyIndex(Integer current,Integer size,String outDate,String lineName);
+    Page<ApplyVo>  applyIndex(Integer current,Integer size,String lineName, String outDate);
 
 }

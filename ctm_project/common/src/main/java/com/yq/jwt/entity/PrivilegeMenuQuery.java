@@ -12,4 +12,10 @@ import lombok.Data;
 public class PrivilegeMenuQuery {
 
     private String menuName;
+
+    private String action;
+
+    private String iconClass;
+
+    private String iconColor;
 }

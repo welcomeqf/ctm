@@ -15,12 +15,12 @@ import org.springframework.web.bind.annotation.RestController;
  * @Version 1.0
  */
 @Slf4j
-@Api("财务展示APi")
+@Api("财务展示APi--9094:finance")
 @RestController
-@RequestMapping("/v1/app/financeezpress")
+@RequestMapping("/v1/app/financeePress")
 public class FinanceExpressApiController {
 
-    @ApiOperation(value = "财务现结结算列表", notes = "财务现结结算列表")
+    @ApiOperation(value = "财务现结结算列表-- 9094:finance", notes = "财务现结结算列表-- 9094:finance")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "current", value = "当前页", required = true, dataType = "Integer", paramType = "path"),
             @ApiImplicitParam(name = "size", value = "页面大小", required = true, dataType = "Integer", paramType = "path"),

@@ -4,6 +4,8 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import eqlee.ctm.apply.guider.entity.vo.ApplyVo;
 import eqlee.ctm.apply.orders.entity.Orders;
 import eqlee.ctm.apply.orders.entity.Vo.*;
+import eqlee.ctm.apply.orders.entity.query.ChangedQuery;
+import eqlee.ctm.apply.orders.entity.query.OrderQuery;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -35,20 +37,22 @@ public interface IOrdersService {
 
 
     /**
-     * 由线路名，出发时间，导游姓名得到车牌号
-     *
+     * 由线路名，出发时间，导游ID得到车牌号
+     * @param LineName
+     * @param OutDate
      * @return
      */
     String getCarNumber(String LineName, String OutDate);
 
 
     /**
-     * 更换导游
-     *
+     * 导游换人
      * @param orderIndexVos
      * @param Id
+     * @param lineName
+     * @param outDate
      */
-    void updateApply(List<OrderIndexVo> orderIndexVos, Long Id);
+    void updateApply(List<OrderIndexVo> orderIndexVos, Long Id, String lineName, String outDate);
 
 
     /**
@@ -65,33 +69,37 @@ public interface IOrdersService {
 
     /**
      * 导游换人消息展示
-     *
+     * @param page
      * @return
      */
-    List<ChangedVo> waiteChangeIndex();
+    Page<ChangedVo> waiteChangeIndex(Page<ChangedVo> page);
 
 
     /**
      * 接受换人
      * @param choisedList
+     * @param outDate
+     * @param lineName
      */
-    void sureChoised(List<ChoisedVo> choisedList);
+    void sureChoised(List<ChoisedVo> choisedList, String outDate, String lineName);
 
 
     /**
      * 拒绝换人
      * @param choisedList
+     * @param outDate
+     * @param lineName
      */
-    void denyChoised(List<ChoisedVo> choisedList);
+    void denyChoised(List<ChoisedVo> choisedList, String outDate, String lineName);
 
 
     /**
-     * 换人拒绝列表查询
-     * @param LineName
-     * @param OutDate
+     * 换人列表查询
+     * @param page
+     * @param type
      * @return
      */
-    List<ChangedVo> denyChoisedindex(String LineName,String OutDate);
+    Page<ChangedQuery> denyChoisedindex(Page<ChangedQuery> page, Integer type);
 
 
 
@@ -107,8 +115,14 @@ public interface IOrdersService {
 
     /**
      * 未付款人列表
-     * @param ContactTel
+     * @param page
      * @return
      */
-    UnpaidInformationVo unpaidInformation(String ContactTel,String LineName,String OutDate);
+    Page<UnpaidInformationVo> unpaidInformation(Page<UnpaidInformationVo> page);
+
+    /**
+     * 查询日期和线路
+     * @return
+     */
+    List<OrderQuery> queryLineAndTime ();
 }

@@ -25,7 +25,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @Slf4j
 @Api("财务展示Api")
-@RequestMapping("/v1/app/financeezpress")
+@RequestMapping("/v1/app/financeePress")
 public class FinanceExpressController {
 
     @Autowired
@@ -47,7 +47,7 @@ public class FinanceExpressController {
                                                @RequestParam("time") String time,
                                                @RequestParam("companyName") String companyName) {
         if (current == null || size == null) {
-            throw new ApplicationException(CodeType.PARAMETER_ERROR, "当前页或者页面大小为空");
+            throw new ApplicationException(CodeType.PARAMETER_ERROR);
         }
         return financeExpressService.queryfinancecount(current, size, time, companyName);
     }
@@ -69,7 +69,7 @@ public class FinanceExpressController {
                                                               @RequestParam("time") String time,
                                                               @RequestParam("guideName") String guideName){
         if(current == null||size == null){
-            throw new ApplicationException(CodeType.PARAMETER_ERROR,"当前页或者页面大小为空");
+            throw new ApplicationException(CodeType.PARAMETER_ERROR);
         }
         return financeExpressService.queryfinancecollection(current,size,time,guideName);
     }
@@ -112,7 +112,7 @@ public class FinanceExpressController {
                                                @RequestParam("time") String time,
                                                @RequestParam("companyName") String companyName) {
         if (current == null || size == null) {
-            throw new ApplicationException(CodeType.PARAMETER_ERROR, "当前页或者页面大小为空");
+            throw new ApplicationException(CodeType.PARAMETER_ERROR);
         }
         return financeExpressService.getAllfinancecount(current, size, time, companyName);
     }

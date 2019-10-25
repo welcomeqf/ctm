@@ -1,0 +1,13 @@
+
+msquid:S00116""ORename this field "Sort" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ëºÏ8Ššû´ß-
+usquid:S00116"QRename this field "RoleId" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(¦Ô®üÿÿÿÿ8‘ö´ß-
+vsquid:S00116&"RRename this field "Stopped" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(Çõ´¸üÿÿÿÿ8ú²ü´ß-
+lsquid:S00116"MRename this field "Id" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(´ÕÛ”8‘ö´ß-
+vsquid:S00116*"WRename this field "CreateUserId" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(—êÙç8şŸş´ß-
+ssquid:S00116$"TRename this field "IsDefault" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(áØ8¡åû´ß-
+vsquid:S00116("RRename this field "Deleted" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(‡úşüÿÿÿÿ8¾ôü´ß-
+ssquid:S00116 "ORename this field "Name" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(É¬­Áøÿÿÿÿ8Å¹ú´ß-
+}squid:S00116,"YRename this field "CreateUserDate" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ì½è³ûÿÿÿÿ8şŸş´ß-
+usquid:S00116"QRename this field "MenuId" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(©Úÿ³úÿÿÿÿ8‘ö´ß-
+nsquid:S00116"ORename this field "Type" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(Ê€³‘8ÖÚ÷´ß-
+vsquid:S00116"RRename this field "Started" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(Ï„¹³úÿÿÿÿ8Ìµ»·ß-

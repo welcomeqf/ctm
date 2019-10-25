@@ -13,6 +13,9 @@ import java.util.List;
 @Data
 public class ExamineDetailedQuery {
 
+
+    private Long guideId;
+
     /**
      * 导游名字
      */

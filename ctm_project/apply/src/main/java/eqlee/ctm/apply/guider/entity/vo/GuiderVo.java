@@ -12,36 +12,23 @@ import java.time.LocalDate;
 @Data
 public class GuiderVo {
 
-    private Long Id;
+    private Long id;
 
-    private String LineName;
+    private String lineName;
 
-    private String Region;
-
-    private String OutDate;
-
-    private Double AdultPrice;
-
-    private Double OldPrice;
-
-    private Double BabyPrice;
-
-    private Double ChildPrice;
-
-    /**
-     * 报名人数
-     */
-    private Integer AppliedNumber;
+    private String outDate;
 
     /**
      * 已选人数
-     *
      */
-    private Integer ChooisedNumber;
+    private Integer slcCnt;
 
     /**
-     * 待选人数
+     * 最大人数
+     *
      */
-    private Integer WaitedPeople;
+    private Integer allNumber;
+
+
 }
 

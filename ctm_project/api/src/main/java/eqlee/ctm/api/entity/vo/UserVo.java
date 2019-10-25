@@ -20,10 +20,8 @@ public class UserVo {
 
     private String phone;
 
-    private String roleName;
-
-    @JSONField(serializeUsing= ToStringSerializer.class)
     private Long companyId;
 
-    private String AppId;
+    private String roleName;
+
 }

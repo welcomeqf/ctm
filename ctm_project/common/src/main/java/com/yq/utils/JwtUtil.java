@@ -1,5 +1,7 @@
 package com.yq.utils;
 
+import com.yq.constanct.CodeType;
+import com.yq.exception.ApplicationException;
 import com.yq.jwt.entity.UserLoginQuery;
 import io.jsonwebtoken.JwtBuilder;
 import io.jsonwebtoken.Jwts;
@@ -33,19 +35,22 @@ public class JwtUtil {
         long nowMillis = System.currentTimeMillis();
         Date now = new Date(nowMillis);
 
+        if (user == null) {
+            throw new ApplicationException(CodeType.OVENDU_ERROR,"账号异常");
+        }
+
         //创建payload的私有声明（根据特定的业务需要添加，如果要拿这个做验证，一般是需要和jwt的接收方提前沟通好验证方式的）
         Map<String, Object> claims = new HashMap<String, Object>();
-        claims.put("Id", user.getId());
-        claims.put("UserName", user.getAccount());
-        claims.put("Password", user.getPassword());
-        claims.put("CName",user.getCName());
-        claims.put("CompanyId",user.getCompanyId());
-        claims.put("Tel",user.getTel());
+        claims.put("id", user.getId());
+        claims.put("userName", user.getAccount());
+        claims.put("cName",user.getCName());
+        claims.put("companyId",user.getCompanyId());
+        claims.put("tel",user.getTel());
         claims.put("roleName",user.getRoleName());
         claims.put("menuList",user.getMenuList());
 
         //生成签名的时候使用的秘钥secret,这个方法本地封装了的，一般可以从本地配置文件中读取，切记这个秘钥不能外露哦。它就是你服务端的私钥，在任何场景都不应该流露出去。一旦客户端得知这个secret, 那就意味着客户端是可以自我签发jwt了。
-        String key = user.getPassword();
+        String key = user.getId().toString();
 
         //生成签发人
         String subject = user.getAccount();

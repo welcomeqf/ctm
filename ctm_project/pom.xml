@@ -10,6 +10,7 @@
         <module>resource</module>
         <module>api</module>
         <module>finance</module>
+        <module>report</module>
     </modules>
     <parent>
         <groupId>org.springframework.boot</groupId>

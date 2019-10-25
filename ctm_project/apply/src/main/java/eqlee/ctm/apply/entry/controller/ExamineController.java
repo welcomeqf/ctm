@@ -1,10 +1,14 @@
 package eqlee.ctm.apply.entry.controller;
 
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.yq.constanct.CodeType;
 import com.yq.exception.ApplicationException;
 import com.yq.jwt.islogin.CheckToken;
 import com.yq.utils.StringUtils;
+import eqlee.ctm.apply.entry.entity.Examine;
 import eqlee.ctm.apply.entry.entity.vo.ExamineAddInfoVo;
+import eqlee.ctm.apply.entry.entity.vo.ExamineInfoVo;
+import eqlee.ctm.apply.entry.entity.vo.ExamineUpdateInfoVo;
 import eqlee.ctm.apply.entry.entity.vo.ExamineVo;
 import eqlee.ctm.apply.entry.service.IExamineService;
 import eqlee.ctm.apply.line.entity.vo.ResultVo;
@@ -46,7 +50,7 @@ public class ExamineController {
         return resultVo;
     }
 
-    @ApiOperation(value = "同行提交修改报名表的审核记录", notes = "同行提交修改报名表的审核记录")
+    @ApiOperation(value = "修改报名表", notes = "修改报名表")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "applyId", value = "报名Id", required = true, dataType = "Long", paramType = "path"),
             @ApiImplicitParam(name = "connectName", value = "联系人", required = true, dataType = "String", paramType = "path"),
@@ -68,67 +72,85 @@ public class ExamineController {
         return resultVo;
     }
 
-    @ApiOperation(value = "通过取消报名表的审核（运营操作）", notes = "通过取消报名表的审核（运营操作）")
-    @ApiImplicitParam(name = "applyId", value = "报名Id", required = true, dataType = "Long", paramType = "path")
+    @ApiOperation(value = "通过或拒绝-取消报名表的审核", notes = "通过或拒绝-取消报名表的审核）")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "applyId", value = "报名Id", required = true, dataType = "Long", paramType = "path"),
+            @ApiImplicitParam(name = "status", value = "通过（1）或取消（2）", required = true, dataType = "int", paramType = "path")
+    })
     @PostMapping("/adoptCancelExamine")
     @CrossOrigin
     @CheckToken
     public ResultVo adoptCancelExamine(@RequestBody ExamineAddInfoVo infoVo) {
-        if (infoVo.getApplyId() == null) {
+        if (infoVo.getApplyId() == null || infoVo.getStatus() == null) {
             throw new ApplicationException(CodeType.PARAM_ERROR);
         }
-        examineService.AdoptCancelExamine(infoVo.getApplyId());
+        if (infoVo.getStatus() != 1 && infoVo.getStatus() != 2) {
+            throw new ApplicationException(CodeType.PARAM_ERROR,"status传入有误");
+        }
+
+        if (infoVo.getStatus() == 1) {
+            examineService.AdoptCancelExamine(infoVo.getApplyId());
+        }
+        if (infoVo.getStatus() == 2) {
+            examineService.NotAdoptCancelExamine(infoVo.getApplyId());
+        }
 
         ResultVo resultVo = new ResultVo();
         resultVo.setResult("ok");
         return resultVo;
     }
 
-    @ApiOperation(value = "通过修改报名表记录的审核（运营操作）", notes = "通过修改报名表记录的审核（运营操作）")
-    @ApiImplicitParam(name = "applyId", value = "报名Id", required = true, dataType = "Long", paramType = "path")
-    @PostMapping("/adoptUpdateExamine")
+
+    @ApiOperation(value = "通过或拒绝报名审核", notes = "通过或拒绝报名审核")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "applyId", value = "报名Id", required = true, dataType = "Long", paramType = "path"),
+            @ApiImplicitParam(name = "status", value = "通过（1）或取消（2）", required = true, dataType = "int", paramType = "path")
+    })
+    @PostMapping("/notAdoptExamine")
     @CrossOrigin
     @CheckToken
-    public ResultVo adoptUpdateExamine(@RequestBody ExamineAddInfoVo infoVo) {
-        if (infoVo.getApplyId() == null) {
+    public ResultVo notAdoptExamine(@RequestBody ExamineAddInfoVo infoVo) {
+        if (infoVo.getApplyId() == null || infoVo.getStatus() == null) {
             throw new ApplicationException(CodeType.PARAM_ERROR);
         }
-        examineService.AdoptUpdateExamine(infoVo.getApplyId());
+        if (infoVo.getStatus() != 1 && infoVo.getStatus() != 2) {
+            throw new ApplicationException(CodeType.PARAM_ERROR,"status传入有误");
+        }
+
+        if (infoVo.getStatus() == 1) {
+            examineService.doptExamine(infoVo.getApplyId());
+        }
+
+        if (infoVo.getStatus() == 2) {
+            examineService.NotAdoptExamine(infoVo.getApplyId());
+        }
 
         ResultVo resultVo = new ResultVo();
         resultVo.setResult("ok");
         return resultVo;
     }
 
-    @ApiOperation(value = "不通过报名审核（运营操作）", notes = "不通过报名审核（运营操作）")
-    @ApiImplicitParam(name = "applyId", value = "报名Id", required = true, dataType = "Long", paramType = "path")
-    @GetMapping("/notAdoptExamine")
+    @ApiOperation(value = "展示修改报名表记录", notes = "展示修改报名表记录")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "current", value = "当前页", required = true, dataType = "int", paramType = "path"),
+            @ApiImplicitParam(name = "size", value = "每页显示条数", required = true, dataType = "int", paramType = "path")
+    })
+    @GetMapping("/listUpdateInfo")
     @CrossOrigin
     @CheckToken
-    public ResultVo notAdoptExamine(@RequestParam("applyId") Long applyId) {
-        if (applyId == null) {
-            throw new ApplicationException(CodeType.PARAM_ERROR);
-        }
-        examineService.NotAdoptExamine(applyId);
-
-        ResultVo resultVo = new ResultVo();
-        resultVo.setResult("ok");
-        return resultVo;
+    public Page<ExamineUpdateInfoVo> listUpdateInfo(@RequestParam("current") Integer current,
+                                        @RequestParam("size") Integer size) {
+       Page<ExamineUpdateInfoVo> page = new Page<>(current,size);
+        return examineService.listUpdateInfo(page);
     }
 
-    @ApiOperation(value = "通过报名表的审核（运营操作）", notes = "通过报名表的审核（运营操作）")
-    @ApiImplicitParam(name = "applyId", value = "报名Id", required = true, dataType = "Long", paramType = "path")
-    @GetMapping("/doptExamine")
+
+    @ApiOperation(value = "展示修改记录详情", notes = "展示修改记录详情")
+    @ApiImplicitParam(name = "Id", value = "Id", required = true, dataType = "Long", paramType = "path")
+    @GetMapping("/queryUpdateInfo")
     @CrossOrigin
     @CheckToken
-    public ResultVo doptExamine(@RequestParam("applyId") Long applyId) {
-        if (applyId == null) {
-            throw new ApplicationException(CodeType.PARAM_ERROR);
-        }
-        examineService.doptExamine(applyId);
-
-        ResultVo resultVo = new ResultVo();
-        resultVo.setResult("ok");
-        return resultVo;
+    public ExamineInfoVo queryUpdateInfo(@RequestParam("Id") Long Id) {
+        return examineService.queryUpdateInfo(Id);
     }
 }

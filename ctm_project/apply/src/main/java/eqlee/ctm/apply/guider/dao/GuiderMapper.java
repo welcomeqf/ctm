@@ -6,6 +6,7 @@ import eqlee.ctm.apply.guider.entity.vo.GuiderVo;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 /**
@@ -15,11 +16,52 @@ import java.time.LocalDateTime;
  */
 @Component
 public interface GuiderMapper {
-     Page<GuiderVo> guiderIndex(@Param("page") Page<GuiderVo> page,
-                                @Param("outDate") String outDate,
+
+     /**
+      *  根据日期和线路查询
+      * @param page
+      * @param outDate
+      * @param lineName
+      * @return
+      */
+     Page<GuiderVo> guiderIndexByLineAndTime(Page<GuiderVo> page,
+                                @Param("outDate") LocalDate outDate,
                                 @Param("lineName") String lineName);
 
-     Page<ApplyVo> applyIndex(@Param("page") Page<ApplyVo> page,
-                              @Param("outDate") String outDate,
-                              @Param("lineName") String lineName);
+     /**
+      *  根据日期查询
+      * @param page
+      * @param outDate
+      * @return
+      */
+     Page<GuiderVo> guiderIndexByTime(Page<GuiderVo> page,
+                                @Param("outDate") LocalDate outDate);
+
+     /**
+      *  根据线路查询
+      * @param page
+      * @param lineName
+      * @return
+      */
+     Page<GuiderVo> guiderIndexByLine(Page<GuiderVo> page,
+                                      @Param("lineName") String lineName);
+
+     /**
+      *  查询导游首页
+      * @param page
+      * @return
+      */
+     Page<GuiderVo> guiderIndex(Page<GuiderVo> page);
+
+
+     /**
+      *   查询选人的信息
+      * @param page
+      * @param lineId
+      * @param outDate
+      * @return
+      */
+     Page<ApplyVo> applyIndex(Page<ApplyVo> page,
+                              @Param("lineId") Long lineId,
+                              @Param("outDate") LocalDate outDate);
 }

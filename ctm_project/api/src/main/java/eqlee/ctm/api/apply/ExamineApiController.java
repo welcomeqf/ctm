@@ -16,13 +16,13 @@ import org.springframework.web.bind.annotation.*;
  * @Date 2019/9/28
  * @Version 1.0
  */
-@Api("报名审核Api")
+@Api("报名审核Api--9090:apply")
 @Slf4j
 @RestController
 @RequestMapping("/v1/app/examine")
 public class ExamineApiController {
 
-    @ApiOperation(value = "同行提交取消报名表的审核记录", notes = "同行取消修改报名表的审核记录")
+    @ApiOperation(value = "同行提交取消报名表的审核记录--9090:apply", notes = "同行取消修改报名表的审核记录--9090:apply")
     @ApiImplicitParam(name = "applyId", value = "报名Id", required = true, dataType = "Long", paramType = "path")
     @PostMapping("/insertCancelExamine")
     public Object cancelExamine () {
@@ -30,7 +30,7 @@ public class ExamineApiController {
         return null;
     }
 
-    @ApiOperation(value = "同行提交修改报名表的审核记录", notes = "同行提交修改报名表的审核记录")
+    @ApiOperation(value = "修改报名表", notes = "修改报名表")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "applyId", value = "报名Id", required = true, dataType = "Long", paramType = "path"),
             @ApiImplicitParam(name = "connectName", value = "联系人", required = true, dataType = "String", paramType = "path"),
@@ -45,35 +45,45 @@ public class ExamineApiController {
         return null;
     }
 
-    @ApiOperation(value = "通过取消报名表的审核（运营操作）", notes = "通过取消报名表的审核（运营操作）")
-    @ApiImplicitParam(name = "applyId", value = "报名Id", required = true, dataType = "Long", paramType = "path")
+    @ApiOperation(value = "通过或拒绝-取消报名表的审核", notes = "通过或拒绝-取消报名表的审核）")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "applyId", value = "报名Id", required = true, dataType = "Long", paramType = "path"),
+            @ApiImplicitParam(name = "status", value = "通过（1）或取消（2）", required = true, dataType = "int", paramType = "path")
+    })
     @PostMapping("/adoptCancelExamine")
     public Object adoptCancelExamine() {
 
         return null;
     }
 
-    @ApiOperation(value = "通过修改报名表记录的审核（运营操作）", notes = "通过修改报名表记录的审核（运营操作）")
-    @ApiImplicitParam(name = "applyId", value = "报名Id", required = true, dataType = "Long", paramType = "path")
-    @PostMapping("/adoptUpdateExamine")
-    public ResultVo adoptUpdateExamine () {
+    @ApiOperation(value = "通过或拒绝报名审核", notes = "通过或拒绝报名审核")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "applyId", value = "报名Id", required = true, dataType = "Long", paramType = "path"),
+            @ApiImplicitParam(name = "status", value = "通过（1）或取消（2）", required = true, dataType = "int", paramType = "path")
+    })
+    @PostMapping("/notAdoptExamine")
+    public ResultVo doptExamine() {
 
         return null;
     }
 
 
-    @ApiOperation(value = "不通过报名审核（运营操作）", notes = "不通过报名审核（运营操作）")
-    @ApiImplicitParam(name = "applyId", value = "报名Id", required = true, dataType = "Long", paramType = "path")
-    @GetMapping("/notAdoptExamine")
-    public ResultVo notAdoptExamine () {
+    @ApiOperation(value = "展示修改报名表记录", notes = "展示修改报名表记录")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "current", value = "当前页", required = true, dataType = "int", paramType = "path"),
+            @ApiImplicitParam(name = "size", value = "每页显示条数", required = true, dataType = "int", paramType = "path")
+    })
+    @GetMapping("/listUpdateInfo")
+    public ResultVo listUpdateInfo(@RequestParam("current") Integer current,
+                                   @RequestParam("size") Integer size) {
 
         return null;
     }
 
-    @ApiOperation(value = "通过报名表的审核（运营操作）", notes = "通过报名表的审核（运营操作）")
-    @ApiImplicitParam(name = "applyId", value = "报名Id", required = true, dataType = "Long", paramType = "path")
-    @GetMapping("/doptExamine")
-    public ResultVo doptExamine(@RequestParam("applyId") Long applyId) {
+    @ApiOperation(value = "展示修改记录详情", notes = "展示修改记录详情")
+    @ApiImplicitParam(name = "Id", value = "Id", required = true, dataType = "Long", paramType = "path")
+    @GetMapping("/queryUpdateInfo")
+    public Object queryUpdateInfo () {
 
         return null;
     }

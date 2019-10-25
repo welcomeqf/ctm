@@ -70,7 +70,6 @@ public class LongToJsonConfig extends WebMvcConfigurationSupport implements WebM
                 .addPathPatterns("/**");
     }
 
-
     @Bean
     public AuthenticationInterceptor authenticationInterceptor() {
         return new AuthenticationInterceptor();

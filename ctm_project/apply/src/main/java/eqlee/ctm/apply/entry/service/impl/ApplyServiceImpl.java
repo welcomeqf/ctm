@@ -1,5 +1,6 @@
 package eqlee.ctm.apply.entry.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.yq.constanct.CodeType;
@@ -12,7 +13,9 @@ import eqlee.ctm.apply.entry.entity.Apply;
 import eqlee.ctm.apply.entry.entity.query.*;
 import eqlee.ctm.apply.entry.entity.vo.ApplySeacherVo;
 import eqlee.ctm.apply.entry.entity.vo.ApplyVo;
+import eqlee.ctm.apply.entry.entity.vo.ExamineAddVo;
 import eqlee.ctm.apply.entry.service.IApplyService;
+import eqlee.ctm.apply.entry.service.IExamineService;
 import eqlee.ctm.apply.line.entity.Line;
 import eqlee.ctm.apply.line.service.ILineService;
 import eqlee.ctm.apply.price.entity.Price;
@@ -23,6 +26,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.time.LocalDate;
 
@@ -43,23 +47,41 @@ public class ApplyServiceImpl extends ServiceImpl<ApplyMapper, Apply> implements
     @Autowired
     private IPriceService priceService;
 
+    @Autowired
+    private IExamineService examineService;
+
     private final String MONTH_PAY = "月结";
 
     private final String NOW_PAY = "现结";
 
     private final String AGENT_PAY = "面收";
 
+    private final String APPLY_EXA = "报名审核";
+
     @Override
     public void insertApply(ApplyVo applyVo) {
+        LocalDate now = LocalDate.now();
+        LocalDate outDate = DateUtil.parseDate(applyVo.getOutDate());
+        long until = now.until(outDate, ChronoUnit.DAYS);
+
+        if (until <= 0) {
+            throw new ApplicationException(CodeType.SERVICE_ERROR,"该天已经不能报名");
+        }
+
         Line line = lineService.queryLineByName(applyVo.getLineName());
         IdGenerator idGenerator = new IdGenerator();
         LocalDate localDate = DateUtil.parseDate(applyVo.getOutDate());
         //查询该天的价格情况
-        Price price = priceService.queryPrice(localDate);
+        Price price = priceService.queryPrice(localDate,applyVo.getLineName());
 
         if (price == null) {
             throw new ApplicationException(CodeType.SERVICE_ERROR,"该天还未开放");
         }
+
+        if (!price.getLineId().equals(line.getId())) {
+            throw new ApplicationException(CodeType.SERVICE_ERROR,"该线路该天还未设置价格");
+        }
+
         //算出总价格
         Double AdultPrice = price.getAdultPrice()*applyVo.getAdultNumber();
         Double BabyPrice = price.getBabyPrice()*applyVo.getBabyNumber();
@@ -79,7 +101,8 @@ public class ApplyServiceImpl extends ServiceImpl<ApplyMapper, Apply> implements
 
         //装配实体类
         Apply apply = new Apply();
-        apply.setId(idGenerator.getNumberId());
+        Long id = idGenerator.getNumberId();
+        apply.setId(id);
         apply.setAdultNumber(applyVo.getAdultNumber());
         apply.setBabyNumber(applyVo.getBabyNumber());
         apply.setChildNumber(applyVo.getChildNumber());
@@ -112,6 +135,12 @@ public class ApplyServiceImpl extends ServiceImpl<ApplyMapper, Apply> implements
         }
 
         int insert = baseMapper.insert(apply);
+
+        ExamineAddVo vo = new ExamineAddVo();
+        vo.setExamineType("0");
+        vo.setApplyId(id);
+
+        examineService.insertExamine(vo);
 
         if (insert <= 0) {
             log.error("insert apply fail.");
@@ -175,32 +204,128 @@ public class ApplyServiceImpl extends ServiceImpl<ApplyMapper, Apply> implements
     }
 
     /**
-     * 分页查询已报名的列表,可以根据订单号模糊查询
+     * 分页查询已报名未审核的列表,可以根据出发时间模糊查询
      *（默认出来本公司所有的数据）
      * @param page
-     * @param ApplyNo
+     * @param OutDate
      * @param LineName
      * @return
      */
     @Override
-    public Page<ApplyDoQuery> listPageDoApply(Page<ApplyDoQuery> page, String ApplyNo, String LineName) {
-        if (StringUtils.isBlank(ApplyNo) || StringUtils.isBlank(LineName)) {
-            //当订单号 和线路名 都为空时
-            return baseMapper.listPageDoApply(page);
+    public Page<ApplyDoExaQuery> listPageDoApply(Page<ApplyDoExaQuery> page, String OutDate, String LineName , String ApplyType) {
+
+        if (StringUtils.isBlank(ApplyType) || APPLY_EXA.equals(ApplyType)) {
+            //若审核为空或是报名审核都默认报名审核记录
+
+            if (StringUtils.isBlank(OutDate) && StringUtils.isBlank(LineName)) {
+                //当出发时间 和线路名 都为空时
+                return baseMapper.listPageDoApply(page);
+            }
+
+            if (StringUtils.isBlank(LineName) && StringUtils.isNotBlank(OutDate)) {
+                //当线路名为空
+                LocalDate outDate = DateUtil.parseDate(OutDate);
+                return baseMapper.listPageDoApplyByNo(page,outDate);
+            }
+
+            if (StringUtils.isBlank(OutDate) && StringUtils.isNotBlank(LineName)) {
+                //当出发时间为空
+                return baseMapper.listPageDoApplyByLineName(page,LineName);
+            }
+
+            if (StringUtils.isNotBlank(OutDate) && StringUtils.isNotBlank(LineName)) {
+                //根据订单号和线路名模糊查询分页数据
+                LocalDate outDate = DateUtil.parseDate(OutDate);
+                return baseMapper.listPageDoApplyByNoWithLine(page,LineName,outDate);
+            }
+
         }
 
-        if (StringUtils.isBlank(LineName) || StringUtils.isNotBlank(ApplyNo)) {
+        //取消审核的记录--
+        if (StringUtils.isBlank(LineName) && StringUtils.isNotBlank(OutDate)) {
             //当线路名为空
-            return baseMapper.listPageDoApplyByNo(page,ApplyNo);
+            LocalDate outDate = DateUtil.parseDate(OutDate);
+            return baseMapper.listPageNotCancelByTime(page,outDate);
         }
 
-        if (StringUtils.isBlank(ApplyNo) || StringUtils.isNotBlank(LineName)) {
-            //当订单号为空
-            return baseMapper.listPageDoApplyByLineName(page,LineName);
+        if (StringUtils.isBlank(OutDate) && StringUtils.isBlank(LineName)) {
+            //当出发时间 和线路名 都为空时
+            return baseMapper.listPageNotCancel(page);
+        }
+
+        if (StringUtils.isBlank(OutDate) && StringUtils.isNotBlank(LineName)) {
+            //当出发时间为空
+            return baseMapper.listPageNotCancelByLineName(page,LineName);
+
+        }
+
+        //三者都不为空并且是取消审核的记录
+        LocalDate outDate = DateUtil.parseDate(OutDate);
+        return baseMapper.listPageNotCancelByTimeWithLine(page,LineName,outDate);
+    }
+
+    /**
+     * 分页查询已报名已审核的列表,可以根据出发时间模糊查询
+     *（默认出来本公司所有的数据）
+     * @param page
+     * @param OutDate
+     * @param LineName
+     * @return
+     */
+    @Override
+    public Page<ApplyDoExaQuery> toListPageDoApply(Page<ApplyDoExaQuery> page, String OutDate, String LineName, String ApplyType) {
+
+        if (StringUtils.isBlank(ApplyType)) {
+            //类型为空
+            if (StringUtils.isBlank(OutDate) && StringUtils.isBlank(LineName)) {
+                //当出发时间 和线路名 都为空时
+                return baseMapper.toListPageDoApply(page);
+            }
+
+            if (StringUtils.isBlank(LineName) && StringUtils.isNotBlank(OutDate)) {
+                //当线路名为空
+                LocalDate outDate = DateUtil.parseDate(OutDate);
+                return baseMapper.toListPageDoApplyByNo(page,outDate);
+            }
+
+            if (StringUtils.isBlank(OutDate) && StringUtils.isNotBlank(LineName)) {
+                //当出发时间为空
+                return baseMapper.toListPageDoApplyByLineName(page,LineName);
+            }
+
+            //根据订单号和线路名模糊查询分页数据
+            LocalDate outDate = DateUtil.parseDate(OutDate);
+            return baseMapper.toListPageDoApplyByNoWithLine(page,LineName,outDate);
+        }
+
+        //类型不为空
+        String type = null;
+        if (APPLY_EXA.equals(ApplyType)) {
+            type = "0";
+        } else {
+            type = "1";
+        }
+
+        if (StringUtils.isBlank(OutDate) && StringUtils.isBlank(LineName)) {
+            //当出发时间 和线路名 都为空时
+            return baseMapper.toListPageDoExa(page,type);
+        }
+
+        if (StringUtils.isBlank(LineName) && StringUtils.isNotBlank(OutDate)) {
+            //当线路名为空
+            LocalDate outDate = DateUtil.parseDate(OutDate);
+            return baseMapper.toListPageDoExaByNo(page,outDate,type);
+        }
+
+        if (StringUtils.isBlank(OutDate) && StringUtils.isNotBlank(LineName)) {
+            //当出发时间为空
+            return baseMapper.toListPageDoExaByLineName(page,LineName,type);
         }
 
         //根据订单号和线路名模糊查询分页数据
-        return baseMapper.listPageDoApplyByNoWithLine(page,LineName,ApplyNo);
+        LocalDate outDate = DateUtil.parseDate(OutDate);
+        return baseMapper.toListPageDoExaByNoWithLine(page,LineName,outDate,type);
+
     }
 
     /**
@@ -320,6 +445,74 @@ public class ApplyServiceImpl extends ServiceImpl<ApplyMapper, Apply> implements
         vo.setUpdateDate(DateUtil.formatDateTime(apply.getUpdateDate()));
 
         return vo;
+    }
+
+    /**
+     * 我的报名记录
+     * @param page
+     * @param lineName
+     * @param outDate
+     * @return
+     */
+    @Override
+    public Page<ApplyCompanyQuery> page2MeApply(Page<ApplyCompanyQuery> page, String lineName, String outDate) {
+
+        if (StringUtils.isBlank(lineName) && StringUtils.isBlank(outDate)) {
+            //都为空
+            return baseMapper.listPageDoApply2Me(page);
+        }
+
+        if (StringUtils.isBlank(lineName) && StringUtils.isNotBlank(outDate)) {
+            //根据出行日期查询
+            LocalDate localDate = DateUtil.parseDate(outDate);
+            return baseMapper.listPageDoApply2MeByTime(page,localDate);
+        }
+
+        if (StringUtils.isNotBlank(lineName) && StringUtils.isBlank(outDate)) {
+            //根据线路名模糊查询
+            return baseMapper.listPageDoApply2MeByName(page,lineName);
+        }
+
+        //都不为空
+        LocalDate localDate = DateUtil.parseDate(outDate);
+        return baseMapper.listPageDoApply2MeByNameAndTime(page,lineName,localDate);
+    }
+
+
+    /**
+     * 修改导游选人状态
+     * @param id
+     */
+    @Override
+    public void updateGuestStatus(Long id) {
+
+        Apply apply = new Apply();
+        apply.setId(id);
+        apply.setIsSelect(true);
+        int byId = baseMapper.updateById(apply);
+
+        if (byId <= 0) {
+            throw new ApplicationException(CodeType.SERVICE_ERROR,"提交失败");
+        }
+
+    }
+
+    /**
+     * 查询报名表
+     * @param outDate
+     * @param lineName
+     * @return
+     */
+    @Override
+    public List<Apply> queryApplyByTime(LocalDate outDate, String lineName) {
+        //查询线路id
+        Line line = lineService.queryLineByName(lineName);
+
+        LambdaQueryWrapper<Apply> lambdaQueryWrapper = new LambdaQueryWrapper<Apply>()
+                .eq(Apply::getOutDate,outDate)
+                .eq(Apply::getLineId,line.getId());
+
+        return baseMapper.selectList(lambdaQueryWrapper);
     }
 
 

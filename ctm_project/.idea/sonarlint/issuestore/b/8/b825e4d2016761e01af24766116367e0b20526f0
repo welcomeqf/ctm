@@ -1,5 +1,6 @@
 
-ysquid:UselessImportCheck"ORemove this unused import 'com.alibaba.fastjson.serializer.ToStringSerializer'.( ‰µ+8õ¯·æÖ-
-tsquid:S00116"WRename this field "SystemRoleId" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ß„¯üÿÿÿÿ
-osquid:S00116""WRename this field "SystemMenuId" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ô­ïµ
 vsquid:UselessImportCheck"FRemove this unused import 'com.alibaba.fastjson.annotation.JSONField'.(¾Ñ¯Àúÿÿÿÿ8õ¯·æÖ-
+tsquid:S00116"WRename this field "SystemRoleId" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ß„¯üÿÿÿÿ
+lsquid:S00116"MRename this field "Id" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(´ÕÛ”8ş¹¥™ß-
+osquid:S00116$"WRename this field "SystemMenuId" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ô­ïµ
+ysquid:UselessImportCheck"ORemove this unused import 'com.alibaba.fastjson.serializer.ToStringSerializer'.( ‰µ+8õ¯·æÖ-

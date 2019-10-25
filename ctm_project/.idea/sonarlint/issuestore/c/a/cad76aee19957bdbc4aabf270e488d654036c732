@@ -1,16 +1,16 @@
 
+ysquid:S00116."URename this field "Department" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(”îÿÿÿÿÿ8“€…„×-
+ysquid:S00116`"URename this field "UpdateDate" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(•˜Ğëıÿÿÿÿ8ü¤„×-
 €squid:S00116G"\Rename this field "SubstitutionPrice" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ÌØÊõüÿÿÿÿ8ö½‚×-
 ysquid:S00116="ZRename this field "SettlementPrice" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(²Æˆ 8°”„×-
-usquid:S00116L"QRename this field "Remark" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(é«´‘ùÿÿÿÿ8©ã „×-
-ysquid:S00116."URename this field "Department" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(”îÿÿÿÿÿ8“€…„×-
-rsquid:S001163"SRename this field "NumberId" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(Ä°­8†õè‘×-
-ssquid:S00116"TRename this field "GuideName" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ÓØ8©ì„×-
-vsquid:S00116["WRename this field "UpdateUserId" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(–°ƒ¹8‡¨£„×-
 usquid:S00116B"QRename this field "Status" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(Åßœşÿÿÿÿ8à‚Ÿ„×-
-vsquid:S00116$"RRename this field "OutDate" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(Ç“‹ÿÿÿÿÿ8ÿšƒ„×-
+ysquid:S00116V"URename this field "CreateDate" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(¿©Äıÿÿÿÿ8·¢„×-
+vsquid:S00116Q"WRename this field "CreateUserId" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(—êÙç8ÊÄ¡„×-
+rsquid:S001163"SRename this field "NumberId" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(Ä°­8†õè‘×-
 lsquid:S00116"MRename this field "Id" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(´ÕÛ”8©ì„×-
 |squid:S001168"XRename this field "ReceivingUnit" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(¿¾Ùéÿÿÿÿÿ8ôŒˆ„×-
-ysquid:S00116V"URename this field "CreateDate" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(¿©Äıÿÿÿÿ8·¢„×-
-ysquid:S00116`"URename this field "UpdateDate" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(•˜Ğëıÿÿÿÿ8ü¤„×-
+ssquid:S00116"TRename this field "GuideName" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ÓØ8©ì„×-
 wsquid:S00116)"SRename this field "LineName" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ğ¬ñúÿÿÿÿ8Ì…„„×-
-vsquid:S00116Q"WRename this field "CreateUserId" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(—êÙç8ÊÄ¡„×-
+usquid:S00116L"QRename this field "Remark" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(é«´‘ùÿÿÿÿ8©ã „×-
+vsquid:S00116["WRename this field "UpdateUserId" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(–°ƒ¹8‡¨£„×-
+vsquid:S00116$"RRename this field "OutDate" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(Ç“‹ÿÿÿÿÿ8ÿšƒ„×-

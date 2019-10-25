@@ -1,27 +1,27 @@
 
-vsquid:UselessImportCheck"FRemove this unused import 'com.alibaba.fastjson.annotation.JSONField'.(¾Ñ¯Àúÿÿÿÿ8½™´æÖ-
-ysquid:S00116“"TRename this field "CompanyId" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ö§§åøÿÿÿÿ8¿¼éÖ-
-nsquid:S00116z"QRename this field "Status" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(Åßœşÿÿÿÿ
-gsquid:S00116*"PRename this field "CName" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(›¾a
+esquid:S00116"MRename this field "Id" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(´ÕÛ”
+jsquid:S00116H"RRename this field "IsSuper" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ŸÑÒ§
+msquid:S00116/"PRename this field "EName" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(Ë¨£Õüÿÿÿÿ
+psquid:S00116R"XRename this field "SystemRoleIds" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(½Á ÿ
 rsquid:S00116>"NRename this field "Tel" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(Ü÷è‰øÿÿÿÿ8‘¡ğ»Ô-
-ssquid:S00116‰"URename this field "UpdateDate" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(•˜Ğëıÿÿÿÿ
 ysquid:UselessImportCheck"ORemove this unused import 'com.alibaba.fastjson.serializer.ToStringSerializer'.( ‰µ+8½™´æÖ-
 msquid:S00116p"URename this field "LoginCount" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(çó…‘
-psquid:S00116„"WRename this field "CreateUserId" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(—êÙç
 psquid:S00116%"SRename this field "Password" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(¬›™Âûÿÿÿÿ
-tsquid:S00116M"WRename this field "SystemRoleId" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ß„¯üÿÿÿÿ
-osquid:S00116 "RRename this field "Account" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(³œÃûşÿÿÿÿ
-psquid:S00116R"XRename this field "SystemRoleIds" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(½Á ÿ
-qsquid:S00116C"TRename this field "UserLevel" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(¬ÑĞÒúÿÿÿÿ
-psquid:S00116"WRename this field "UpdateUserId" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(–°ƒ¹
-rsquid:S00116"URename this field "CreateDate" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(¿©Äıÿÿÿÿ
-nsquid:S00116\"QRename this field "Remark" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(é«´‘ùÿÿÿÿ
-msquid:S00116/"PRename this field "EName" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(Ë¨£Õüÿÿÿÿ
-osquid:S00116u"RRename this field "Deleted" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(‡úşüÿÿÿÿ
 usquid:S00116f"XRename this field "LastLoginTime" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(í±À£üÿÿÿÿ
-ssquid:S00116k"VRename this field "LastLoginIp" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(¦İêÁüÿÿÿÿ
+osquid:S00116 "RRename this field "Account" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(³œÃûşÿÿÿÿ
 osquid:S00116W"RRename this field "Stopped" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(Çõ´¸üÿÿÿÿ
+gsquid:S00116*"PRename this field "CName" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(›¾a
+qsquid:S00116C"TRename this field "UserLevel" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(¬ÑĞÒúÿÿÿÿ
+ssquid:S00116k"VRename this field "LastLoginIp" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(¦İêÁüÿÿÿÿ
+psquid:S00116"WRename this field "UpdateUserId" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(–°ƒ¹
+ysquid:S00116“"TRename this field "CompanyId" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ö§§åøÿÿÿÿ8¿¼éÖ-
 usquid:S001169"XRename this field "SelfImagePath" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(·ÿ«‚ÿÿÿÿÿ
-jsquid:S00116H"RRename this field "IsSuper" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ŸÑÒ§
+nsquid:S00116\"QRename this field "Remark" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(é«´‘ùÿÿÿÿ
+rsquid:S00116"URename this field "CreateDate" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(¿©Äıÿÿÿÿ
+nsquid:S00116z"QRename this field "Status" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(Åßœşÿÿÿÿ
+vsquid:UselessImportCheck"FRemove this unused import 'com.alibaba.fastjson.annotation.JSONField'.(¾Ñ¯Àúÿÿÿÿ8½™´æÖ-
+osquid:S00116u"RRename this field "Deleted" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(‡úşüÿÿÿÿ
+tsquid:S00116M"WRename this field "SystemRoleId" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ß„¯üÿÿÿÿ
+psquid:S00116„"WRename this field "CreateUserId" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(—êÙç
 rsquid:S00116a"URename this field "Department" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(”îÿÿÿÿÿ
-esquid:S00116"MRename this field "Id" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(´ÕÛ”
+ssquid:S00116‰"URename this field "UpdateDate" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(•˜Ğëıÿÿÿÿ

@@ -6,11 +6,14 @@ com\yq\jwt\Interceptor\AuthenticationInterceptor.class
 com\yq\utils\IdGenerator$SnowflakeIdWorker.class
 com\yq\utils\DateUtil.class
 com\yq\data\PageUtils.class
+com\yq\vilidata\TimeData.class
+com\yq\vilidata\query\PageQuery.class
 com\yq\jwt\Interceptor\JwtParseUtil.class
 com\yq\utils\ExceptionUtils.class
 com\yq\data\Result.class
 com\yq\constanct\CodeType.class
 com\yq\utils\SignUtils.class
+com\yq\vilidata\query\TimeQuery.class
 com\yq\jwt\contain\LocalUser.class
 com\yq\utils\IdGenerator.class
 com\yq\jwt\entity\PrivilegeMenuQuery.class

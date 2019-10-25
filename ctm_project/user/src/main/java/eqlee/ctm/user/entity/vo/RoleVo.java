@@ -11,4 +11,6 @@ import lombok.Data;
 @Data
 public class RoleVo extends PageUtils {
     private String AppId;
+
+    private Long companyId;
 }

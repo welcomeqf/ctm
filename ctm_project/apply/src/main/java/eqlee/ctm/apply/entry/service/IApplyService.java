@@ -6,6 +6,7 @@ import eqlee.ctm.apply.entry.entity.query.*;
 import eqlee.ctm.apply.entry.entity.vo.ApplySeacherVo;
 import eqlee.ctm.apply.entry.entity.vo.ApplyVo;
 
+import java.time.LocalDate;
 import java.util.List;
 
 
@@ -19,6 +20,7 @@ public interface IApplyService {
     /**
      * 报名
      * @param applyVo
+     * @return
      */
     void insertApply(ApplyVo applyVo);
 
@@ -43,13 +45,25 @@ public interface IApplyService {
     void updateApply(ApplyUpdateInfo updateInfo);
 
     /**
-     * 分页查询已报名的列表,可以根据订单号模糊查询
+     * 分页查询已报名未审核的列表,可以根据出发时间模糊查询
      * @param page
-     * @param ApplyNo
+     * @param OutDate
      * @param LineName
+     * @param ApplyType
      * @return
      */
-    Page<ApplyDoQuery> listPageDoApply(Page<ApplyDoQuery> page, String ApplyNo, String LineName);
+    Page<ApplyDoExaQuery> listPageDoApply(Page<ApplyDoExaQuery> page, String OutDate, String LineName, String ApplyType);
+
+
+    /**
+     * 分页查询已报名已审核的列表,可以根据出发时间模糊查询
+     * @param page
+     * @param OutDate
+     * @param LineName
+     * @param ApplyType
+     * @return
+     */
+    Page<ApplyDoExaQuery> toListPageDoApply(Page<ApplyDoExaQuery> page, String OutDate, String LineName, String ApplyType);
 
 
     /**
@@ -95,4 +109,28 @@ public interface IApplyService {
      */
     ApplySeacherVo queryById(Long Id);
 
+
+    /**
+     * 我的报名记录
+     * @param page
+     * @param lineName
+     * @param outDate
+     * @return
+     */
+    Page<ApplyCompanyQuery> page2MeApply (Page<ApplyCompanyQuery> page, String lineName, String outDate);
+
+
+    /**
+     * 根据报名表id修改导游选人状态
+     * @param id
+     */
+    void updateGuestStatus (Long id);
+
+    /**
+     * 查询报名表
+     * @param outDate
+     * @param lineName
+     * @return
+     */
+    List<Apply> queryApplyByTime (LocalDate outDate, String lineName);
 }

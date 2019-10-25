@@ -6,7 +6,7 @@ mybatis-plus:
   mapper-locations: classpath:eqlee/ctm/user/dao/mapper/*.xml
 spring:
   profiles:
-    active: test
+    active: dev
   application:
     name: service-user
   jmx:

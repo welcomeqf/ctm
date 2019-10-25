@@ -1,5 +1,7 @@
 package eqlee.ctm.api;
 
+import com.yq.handle.ApplicationAdviceHandle;
+import com.yq.handle.GlobalResponseHandler;
 import com.yq.jwt.contain.LocalUser;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
@@ -13,7 +15,6 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 @SpringBootApplication
 @EnableSwagger2
 @EnableTransactionManagement
-@MapperScan("eqlee.ctm.api.*.dao")
 public class ApiApplication extends SpringBootServletInitializer {
 
     public static void main(String[] args) {

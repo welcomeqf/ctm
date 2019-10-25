@@ -10,6 +10,8 @@ import lombok.Data;
 @Data
 public class InComeRemerberVo {
 
+    private Long Id;
+
     /**
      * 成人人数
      */
@@ -54,5 +56,13 @@ public class InComeRemerberVo {
      * 联系电话
      */
     private String ContactTel;
+
+
+    private String CarNumber;
+
+    /**
+     * false--本公司车辆   true--外部车辆
+     */
+    private Boolean CarType;
 
 }

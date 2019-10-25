@@ -1,0 +1,12 @@
+
+qsquid:S00116*"RRename this field "IsSuper" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ŸÑÒ§8ş¾•Åİ-
+vsquid:S00116"RRename this field "Account" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(³œÃûşÿÿÿÿ8ş¾•Åİ-
+usquid:S00116>"QRename this field "Status" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(Åßœşÿÿÿÿ8ş¾•Åİ-
+xsquid:S00116C"TRename this field "CompanyId" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ö§§åøÿÿÿÿ8ş¾•Åİ-
+rsquid:S00116%"NRename this field "Tel" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(Ü÷è‰øÿÿÿÿ8ş¾•Åİ-
+dsquid:UselessImportCheck"4Remove this unused import 'java.time.LocalDateTime'.(æÃ§ƒüÿÿÿÿ8şŠœÅİ-
+lsquid:S00116"MRename this field "Id" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(´ÕÛ”8ş¾•Åİ-
+wsquid:S00116/"SRename this field "RoleName" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ÂàÀûÿÿÿÿ8¦Ó¸Åİ-
+vsquid:S001169"RRename this field "Deleted" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(‡úşüÿÿÿÿ8ş¾•Åİ-
+nsquid:S00116"PRename this field "CName" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(›¾a8ş¾•Åİ-
+vsquid:S001164"RRename this field "Stopped" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(Çõ´¸üÿÿÿÿ8ş¾•Åİ-

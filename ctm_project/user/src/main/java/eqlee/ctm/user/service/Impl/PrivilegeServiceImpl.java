@@ -4,12 +4,11 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.yq.constanct.CodeType;
 import com.yq.exception.ApplicationException;
+import com.yq.utils.IdGenerator;
 import eqlee.ctm.user.dao.PrivilegeMapper;
-import eqlee.ctm.user.entity.Sign;
-import eqlee.ctm.user.entity.UserMenu;
-import eqlee.ctm.user.entity.UserPrivilege;
-import eqlee.ctm.user.entity.UserRole;
+import eqlee.ctm.user.entity.*;
 import eqlee.ctm.user.entity.query.PrivilegeMenuQuery;
+import eqlee.ctm.user.entity.query.PrivilegeWithQuery;
 import eqlee.ctm.user.service.*;
 import eqlee.ctm.user.vilidata.DataUtils;
 import eqlee.ctm.user.vilidata.SignData;
@@ -40,22 +39,7 @@ public class PrivilegeServiceImpl extends ServiceImpl<PrivilegeMapper, UserPrivi
     @Autowired
     private IMenuService menuService;
 
-    @Override
-    public void insertPrivilege(String RoleName, String MenuName) {
-        //查询到具体名称的id
-        UserMenu userMenu = menuService.queryOne(MenuName);
-        UserPrivilege  privilege = new UserPrivilege();
-        privilege.setSystemMenuId(userMenu.getId());
 
-        UserRole role = roleService.queryOne(RoleName);
-        privilege.setSystemRoleId(role.getId());
-        int insert = baseMapper.insert(privilege);
-
-        if (insert <= 0) {
-            log.error("insert privilege db fail.");
-            throw new ApplicationException(CodeType.SERVICE_ERROR, "增加数据库失败");
-        }
-    }
 
     @Override
     public List<UserPrivilege> queryAll() {
@@ -64,11 +48,11 @@ public class PrivilegeServiceImpl extends ServiceImpl<PrivilegeMapper, UserPrivi
 
     /**
      * 增加所有权限
-     * @param roleName
+     * @param roleId
      * @param menuList
      */
     @Override
-    public synchronized void insertAllPrivilege(String roleName, List<String> menuList, String AppId) {
+    public void insertAllPrivilege(Long roleId, List<PrivilegeWithQuery> menuList, String AppId) {
         //验证签名
         Sign sign = signService.queryOne(AppId);
         Boolean result = null;
@@ -82,27 +66,65 @@ public class PrivilegeServiceImpl extends ServiceImpl<PrivilegeMapper, UserPrivi
         }
 
 
-        UserRole role = roleService.queryOne(roleName);
+        UserRole role = roleService.queryRoleById(roleId);
 
-        for (String menu : menuList) {
-            UserMenu userMenu = menuService.queryOne(menu);
-            UserPrivilege userPrivilege = new UserPrivilege();
-            userPrivilege.setSystemRoleId(role.getId());
-            userPrivilege.setSystemMenuId(userMenu.getId());
-            baseMapper.insert(userPrivilege);
+        if (role == null) {
+            throw new ApplicationException(CodeType.SERVICE_ERROR,"请传入正确的角色名");
         }
+
+        //先查询数据库是否有   有就修改
+        LambdaQueryWrapper<UserPrivilege> wrapper = new LambdaQueryWrapper<UserPrivilege>()
+                .eq(UserPrivilege::getSystemRoleId,role.getId());
+        List<UserPrivilege> selectList = baseMapper.selectList(wrapper);
+
+
+        if (selectList.size() != 0) {
+            //修改
+
+            //先删再增
+            LambdaQueryWrapper<UserPrivilege> lambdaQueryWrapper = new LambdaQueryWrapper<UserPrivilege>()
+                    .eq(UserPrivilege::getSystemRoleId,roleId);
+            int delete = baseMapper.delete(lambdaQueryWrapper);
+
+            if (delete <= 0) {
+                throw new ApplicationException(CodeType.SERVICE_ERROR,"删除失败");
+            }
+
+        }
+
+        //添加
+        List<UserPrivilege> list = new ArrayList<>();
+
+        IdGenerator idGenerator = new IdGenerator();
+
+        for (PrivilegeWithQuery menu : menuList) {
+
+            UserPrivilege userPrivilege = new UserPrivilege();
+            userPrivilege.setId(idGenerator.getNumberId());
+            userPrivilege.setSystemRoleId(roleId);
+            userPrivilege.setSystemMenuId(menu.getMenuId());
+
+            list.add(userPrivilege);
+
+
+        }
+        int privilege = baseMapper.insertPrivilege(list);
+
+        if (privilege <= 0) {
+            throw new ApplicationException(CodeType.SERVICE_ERROR,"保存失败");
+        }
+
     }
 
     /**
      * 根据角色名查询所有菜单权限
-     * @param roleName
+     * @param roleId
      * @return
      */
     @Override
-    public List<PrivilegeMenuQuery> queryAllMenu(String roleName) {
-        UserRole userRole = roleService.queryOne(roleName);
+    public List<PrivilegeMenuQuery> queryAllMenu(Long roleId) {
         LambdaQueryWrapper<UserPrivilege> queryWrapper = new LambdaQueryWrapper<UserPrivilege>()
-                .eq(UserPrivilege::getSystemRoleId,userRole.getId());
+                .eq(UserPrivilege::getSystemRoleId,roleId);
         //查询数据库
         List<UserPrivilege> userPrivileges = baseMapper.selectList(queryWrapper);
         //将数据装配到新集合中返回
@@ -112,11 +134,16 @@ public class PrivilegeServiceImpl extends ServiceImpl<PrivilegeMapper, UserPrivi
             PrivilegeMenuQuery query = new PrivilegeMenuQuery();
             //查询数据库将菜单权限返回
             UserMenu userMenu = menuService.queryMenuById(userPrivilege.getSystemMenuId());
+            query.setMenuId(userMenu.getId());
             query.setMenuName(userMenu.getMenuName());
+            query.setAction(userMenu.getAction());
+            query.setIconClass(userMenu.getIconClass());
+            query.setIconColor(userMenu.getIconColor());
             result.add(query);
         }
 
 
         return result;
     }
+
 }

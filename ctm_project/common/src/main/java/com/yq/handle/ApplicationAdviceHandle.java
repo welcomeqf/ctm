@@ -28,7 +28,12 @@ public class ApplicationAdviceHandle extends ResponseEntityExceptionHandler {
     @ExceptionHandler(value = ApplicationException.class)
     public ApplicationException applicationExceptionHandle (final ApplicationException e, HttpServletResponse response) {
         log.error(e.getMsg());
-        response.setStatus(e.getHttpStatus());
+//        response.setStatus(e.getHttpStatus());
+        response.setHeader("Access-Control-Allow-Origin", "*");
+        response.setHeader("Access-Control-Allow-Methods", "*");
+        response.setHeader("Access-Control-Max-Age", "3600");
+        response.setHeader("Access-Control-Allow-Headers",
+                "Origin, X-CSRF-TOKEN, X-Requested-With, Content-Type, Accept");
         return e;
     }
 

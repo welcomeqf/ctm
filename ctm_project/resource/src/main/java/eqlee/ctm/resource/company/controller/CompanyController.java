@@ -3,9 +3,11 @@ package eqlee.ctm.resource.company.controller;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.yq.constanct.CodeType;
 import com.yq.exception.ApplicationException;
+import com.yq.jwt.entity.UserLoginQuery;
 import com.yq.jwt.islogin.CheckToken;
 import com.yq.utils.StringUtils;
 import eqlee.ctm.resource.company.entity.Company;
+import eqlee.ctm.resource.company.entity.query.CompanyQuery;
 import eqlee.ctm.resource.company.entity.query.PageCompanyQuery;
 import eqlee.ctm.resource.company.entity.vo.CompanyIndexVo;
 import eqlee.ctm.resource.company.entity.vo.CompanyQueryVo;
@@ -32,6 +34,7 @@ public class CompanyController {
 
     @Autowired
     private ICompanyService companyService;
+
 
 
 
@@ -158,5 +161,27 @@ public class CompanyController {
         ResultVo resultVo = new ResultVo();
         resultVo.setResult("ok");
         return resultVo;
+    }
+
+
+    @ApiOperation(value = "根据id查询公司", notes = "根据id查询公司")
+    @ApiImplicitParam(name = "id", value = "公司Id", required = true, dataType = "Long", paramType = "path")
+    @GetMapping("/queryCompanyById")
+    @CrossOrigin
+    @CheckToken
+    public Company queryCompanyById (@RequestParam("id") Long id) {
+        if(id == null){
+            throw new ApplicationException(CodeType.PARAMETER_ERROR);
+        }
+        return companyService.queryCompanyById(id);
+    }
+
+    @ApiOperation(value = "返回个人信息", notes = "返回个人信息")
+    @GetMapping("/get")
+    @CrossOrigin
+    @CheckToken
+    public CompanyQuery queryAllMenu(){
+        return companyService.getCompanyName();
+
     }
 }

@@ -1,2 +1,3 @@
 
-osquid:S00116"PRename this field "AppId" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(¨Á’¿8ìÄ¡Ö-
+ysquid:UselessImportCheck"ORemove this unused import 'com.alibaba.fastjson.serializer.ToStringSerializer'.( ‰µ+8‹—ÄîŞ-
+vsquid:UselessImportCheck"FRemove this unused import 'com.alibaba.fastjson.annotation.JSONField'.(¾Ñ¯Àúÿÿÿÿ8‹—ÄîŞ-

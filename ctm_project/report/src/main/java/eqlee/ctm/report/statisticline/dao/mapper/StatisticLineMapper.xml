@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="eqlee.ctm.report.statisticline.dao.StatisticLineMapper">
+
+
+
+    <select id="selectPriceByTime" resultType="eqlee.ctm.report.statisticline.entity.vo.PriceCountVo">
+      select convert(varchar(20),OutDate,23) as 'day', sum(AllPrice) as 'allPrice' from Orders
+      where OutDate between #{startTime} and #{endTime}
+      group by OutDate
+    </select>
+
+
+    <select id="selectCountByTime" resultType="eqlee.ctm.report.statisticline.entity.vo.PersonCountVo">
+      select convert(varchar(20),a.OutDate,23) as 'day', sum(b.AllNumber) as 'allPersonCount' from Orders a join OrderDetailed b on a.Id = b.OrderId
+      where OutDate between #{startTime} and #{endTime} group by a.OutDate
+    </select>
+
+</mapper>

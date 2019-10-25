@@ -12,20 +12,41 @@
     </insert>
 
 
-    <update id="batchupdatePrice" parameterType="eqlee.ctm.apply.price.entity.Price">
+    <update id="batchUpdatePrice" parameterType="eqlee.ctm.apply.price.entity.vo.PriceAllUpdateVo">
         <foreach collection="list" item="item" index="index">
-            update Price set AdultPrice = #{item.AdultPrice},OldPrice = #{item.OldPrice},BabyPrice = #{item.BabyPrice},ChildPrice = #{item.ChildPrice}
-            where Id = #{item.Id}
+            update Price set AdultPrice = #{item.adultPrice},OldPrice = #{item.oldPrice},BabyPrice = #{item.babyPrice},ChildPrice = #{item.childPrice}
+            where OutDate = #{item.outDate} and LineId = #{item.lineId}
         </foreach>
     </update>
 
 
-    <select id="selectPriceByFilter" parameterType="eqlee.ctm.apply.price.entity.query.PriceQuery" resultType="eqlee.ctm.apply.price.entity.vo.PriceSelectVo" >
-        <bind name="_OutDate" value="'%' + priceQuery.OutDate + '%'"/>
-        <bind name="_LineName" value="'%' + priceQuery.LineName + '%'"/>
-        select a.Id as id,b.LineName,convert(varchar(20),a.OutDate,23) as 'outDate',a.AdultPrice,a.OldPrice,a.BabyPrice,a.ChildPrice from Price a,Line b
-        where convert(varchar,a.OutDate,120) like #{_OutDate} and b.LineName like #{_LineName} Order by a.OutDate desc
+    <!-- ~~~~ -->
+    <select id="selectPriceByFilter" resultType="eqlee.ctm.apply.price.entity.vo.PriceSelectVo" >
+        <bind name="_LineName" value="'%' + LineName + '%'"/>
+        select a.Id as id,b.LineName,convert(varchar(20),a.OutDate,23) as 'outDate',a.AdultPrice,a.OldPrice,a.BabyPrice,a.ChildPrice
+        from Price a join Line b on a.LineId = b.Id where b.LineName like #{_LineName} and a.OutDate = #{OutDate}
+        Order by a.OutDate desc
     </select>
+
+    <select id="selectPriceByOutDate" resultType="eqlee.ctm.apply.price.entity.vo.PriceSelectVo" >
+        select a.Id as id,b.LineName,convert(varchar(20),a.OutDate,23) as 'outDate',a.AdultPrice,a.OldPrice,a.BabyPrice,a.ChildPrice
+        from Price a join Line b on a.LineId = b.Id where a.OutDate = #{OutDate}
+        Order by a.OutDate desc
+    </select>
+
+    <select id="selectPriceByLineName" resultType="eqlee.ctm.apply.price.entity.vo.PriceSelectVo" >
+        <bind name="_LineName" value="'%' + LineName + '%'"/>
+        select a.Id as id,b.LineName,convert(varchar(20),a.OutDate,23) as 'outDate',a.AdultPrice,a.OldPrice,a.BabyPrice,a.ChildPrice
+        from Price a join Line b on a.LineId = b.Id where b.LineName like #{_LineName}
+        Order by a.OutDate desc
+    </select>
+
+    <select id="selectPrice" resultType="eqlee.ctm.apply.price.entity.vo.PriceSelectVo" >
+        select a.Id as id,b.LineName,convert(varchar(20),a.OutDate,23) as 'outDate',a.AdultPrice,a.OldPrice,a.BabyPrice,a.ChildPrice
+        from Price a join Line b on a.LineId = b.Id
+        Order by a.OutDate desc
+    </select>
+
 
 
     <select id="queryOne" parameterType="long" resultType="eqlee.ctm.apply.price.entity.vo.PriceSeacherVo" >

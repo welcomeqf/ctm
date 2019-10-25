@@ -12,9 +12,9 @@ import java.util.List;
 @Data
 public class PrivilegeQuery {
 
-    private String roleName;
+    private Long roleId;
 
-    private List<String> menuList;
+    private List<PrivilegeWithQuery> menuList;
 
     private String appId;
 }

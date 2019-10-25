@@ -1,7 +1,7 @@
 <component name="ArtifactManager">
   <artifact type="war" name="apply:war">
     <output-path>$PROJECT_DIR$/apply/target</output-path>
-    <root id="archive" name="apply.war">
+    <root id="archive" name="ctm_apply.war">
       <element id="artifact" artifact-name="apply:war exploded" />
     </root>
   </artifact>

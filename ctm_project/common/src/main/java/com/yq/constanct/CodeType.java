@@ -62,7 +62,7 @@ public enum CodeType {
     /**
      * token过期
      */
-    OVENDU_ERROR(1010,"token过期",401),
+    OVENDU_ERROR(401,"token过期",401),
 
     /**
      * token为空

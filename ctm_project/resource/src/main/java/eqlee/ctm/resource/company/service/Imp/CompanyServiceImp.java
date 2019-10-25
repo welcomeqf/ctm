@@ -12,6 +12,7 @@ import com.yq.utils.DateUtil;
 import com.yq.utils.IdGenerator;
 import eqlee.ctm.resource.company.dao.CompanyMapper;
 import eqlee.ctm.resource.company.entity.Company;
+import eqlee.ctm.resource.company.entity.query.CompanyQuery;
 import eqlee.ctm.resource.company.entity.query.PageCompanyQuery;
 import eqlee.ctm.resource.company.entity.vo.CompanyIndexVo;
 import eqlee.ctm.resource.company.entity.vo.CompanyQueryVo;
@@ -98,8 +99,7 @@ public class CompanyServiceImp extends ServiceImpl<CompanyMapper,Company> implem
      * @param id
      */
     @Override
-    public void deleteCompany(Long id)
-    {
+    public void deleteCompany(Long id) {
         int delete = baseMapper.deleteById(id);
         if (delete <= 0) {
             log.error("delete company fail");
@@ -208,5 +208,38 @@ public class CompanyServiceImp extends ServiceImpl<CompanyMapper,Company> implem
             companyVo.setStopped(false);
         }
         return companyVo;
+    }
+
+    /**
+     * 查询公司
+     * @param id
+     * @return
+     */
+    @Override
+    public Company queryCompanyById(Long id) {
+        return baseMapper.selectById(id);
+    }
+
+    /**
+     * 得到公司名
+     * @return
+     */
+    @Override
+    public CompanyQuery getCompanyName() {
+        UserLoginQuery user = localUser.getUser("用户信息");
+
+        Company company = baseMapper.selectById(user.getCompanyId());
+
+        if (company == null) {
+            throw new ApplicationException(CodeType.SERVICE_ERROR,"该公司尚未签合同");
+        }
+        CompanyQuery query = new CompanyQuery();
+        query.setCompanyName(company.getCompanyName());
+        query.setId(user.getId());
+        query.setAccount(user.getAccount());
+        query.setCName(user.getCName());
+        query.setRoleName(user.getRoleName());
+        query.setTel(user.getTel());
+        return query;
     }
 }
