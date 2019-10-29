@@ -1,5 +1,6 @@
 package eqlee.ctm.api.controller;
 
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.yq.data.Result;
 import com.yq.jwt.contain.LocalUser;
@@ -37,6 +38,8 @@ public class UserApiController {
     @Value("${api.userIp}")
     private String Ip;
 
+    private final String ip = "localhost";
+
     @Value("${api.port}")
     private String port;
 
@@ -48,7 +51,6 @@ public class UserApiController {
     @Autowired
     private HttpClientUtils apiService;
 
-    private final Integer Status = 200;
 
     @ApiOperation(value = "注册-- 9093:api", notes = "注册-- 9093:api")
     @ApiImplicitParams({
@@ -63,7 +65,7 @@ public class UserApiController {
     @CrossOrigin
     @CheckToken
     public Object register(@RequestBody UserVo userVo) throws Exception{
-        String url = "http://" + Ip +":" + port + "/" + path + "/v1/app/user/register";
+        String url = "http://" + ip +":" + port + "/" + path + "/v1/app/user/register";
 
         String s = JSONObject.toJSONString(userVo);
         HttpResult httpResult = apiService.doPost(url, s);
@@ -86,27 +88,15 @@ public class UserApiController {
     @CrossOrigin
     public Object login(@RequestBody UserLoginVo userLoginVo) throws Exception {
         String encode = DataUtils.getEncodeing("RSA");
-        String url = "http://" + Ip + ":" + port + "/" + path + "/v1/app/user/login?userName=" + userLoginVo.getUserName() + "&AppId=" + encode + "&password=" + userLoginVo.getPassword();
+        String url = "http://" + ip + ":" + port + "/" + path +  "/v1/app/user/login?userName=" + userLoginVo.getUserName() + "&AppId=" + encode + "&password=" + userLoginVo.getPassword();
 
         Map<String, Object> map = new HashMap<>();
 
         HttpResult httpResult = apiService.doGet(url, map);
 
-        ResultResposeVo vo = JSONObject.parseObject(httpResult.getBody(),ResultResposeVo.class);
-        if (vo.getCode() != 0) {
-            String msg = DataUtils.getMsg(vo.toString());
-            return DataUtils.getError(msg);
-        }
-
-        //JWT验证
-        JSONObject jsonObject = new JSONObject();
-        ResultVo object = JSONObject.parseObject(httpResult.getBody(), ResultVo.class);
-
-        //2592000000
-        String token = JwtUtil.createJWT(86400000, object.getData());
-        jsonObject.put("token", token);
-        jsonObject.put("user", object.getData());
-        return Result.SUCCESS(jsonObject);
+        String body = httpResult.getBody();
+        Object result = JSON.parse(body);
+        return result;
     }
 
     @ApiOperation(value = "注销", notes = "注销")
@@ -116,7 +106,7 @@ public class UserApiController {
     @CheckToken
     public Object deleteUser(@PathVariable("userName") String userName) throws Exception{
         String encode = DataUtils.getEncodeing("RSA");
-        String url = "http://" + Ip +":" + port + "/" + path + "/v1/app/user/deleteUser/" +userName + "/" +encode;
+        String url = "http://" + ip +":" + port + "/" + path + "/v1/app/user/deleteUser/" +userName + "/" +encode;
 
         Map<String,Object> map = new HashMap<>();
 
@@ -138,7 +128,7 @@ public class UserApiController {
     @CheckToken
     public Object exitUser(@PathVariable("userName") String userName) throws Exception{
         String encode = DataUtils.getEncodeing("RSA");
-        String url = "http://" + Ip +":" + port + "/" + path + "/v1/app/user/exitUser/" +userName + "/" +encode;
+        String url = "http://" + ip +":" + port + "/" + path + "/v1/app/user/exitUser/" +userName + "/" +encode;
 
         Map<String,Object> map = new HashMap<>();
 
@@ -159,7 +149,7 @@ public class UserApiController {
     @CheckToken
     public Object stopUser(@PathVariable("userName") String userName) throws Exception{
         String encode = DataUtils.getEncodeing("RSA");
-        String url = "http://" + Ip +":" + port + "/" + path + "/v1/app/user/stopUser/" +userName + "/" +encode;
+        String url = "http://" + ip +":" + port + "/" + path + "/v1/app/user/stopUser/" +userName + "/" +encode;
 
         Map<String,Object> map = new HashMap<>();
 
@@ -180,7 +170,7 @@ public class UserApiController {
     @CheckToken
     public Object toStopUser(@PathVariable("userName") String userName) throws Exception{
         String encode = DataUtils.getEncodeing("RSA");
-        String url = "http://" + Ip +":" + port + "/" + path + "/v1/app/user/toStopUser/" +userName + "/" +encode;
+        String url = "http://" + ip +":" + port + "/" + path + "/v1/app/user/toStopUser/" +userName + "/" +encode;
 
         Map<String,Object> map = new HashMap<>();
 
@@ -219,7 +209,7 @@ public class UserApiController {
         query.setPhone(userVo.getPhone());
         query.setUserName(userVo.getUserName());
 
-        String url = "http://" + Ip +":" + port + "/" + path + "/v1/app/user/downRegister";
+        String url = "http://" + ip +":" + port + "/" + path + "/v1/app/user/downRegister";
 
         String s = JSONObject.toJSONString(query);
         HttpResult httpResult = apiService.doPost(url, s);
@@ -257,7 +247,7 @@ public class UserApiController {
                                                @RequestParam("userName") String userName,
                                                @RequestParam("roleName") String roleName) throws Exception{
         String encode = DataUtils.getEncodeing("RSA");
-        String url = "http://" + Ip +":" + port + "/" + path + "/v1/app/user/queryPageUserByName?current=" +current + "&AppId=" +encode + "&size=" + size
+        String url = "http://" + ip +":" + port + "/" + path + "/v1/app/user/queryPageUserByName?current=" +current + "&AppId=" +encode + "&size=" + size
                 + "&userName=" + userName + "&roleName=" +roleName;
 
         Map<String,Object> map = new HashMap<>();
@@ -285,7 +275,7 @@ public class UserApiController {
                                            @RequestParam("size") Integer size,
                                            @RequestParam("userNameOrRole") String userNameOrRole) throws Exception{
         String encode = DataUtils.getEncodeing("RSA");
-        String url = "http://" + Ip +":" + port + "/" + path + "/v1/app/user/queryUserByNameOrRole?current=" +current + "&AppId=" +encode + "&size=" + size
+        String url = "http://" + ip +":" + port + "/" + path + "/v1/app/user/queryUserByNameOrRole?current=" +current + "&AppId=" +encode + "&size=" + size
                 + "&userNameOrRole=" + userNameOrRole;
 
         Map<String,Object> map = new HashMap<>();
@@ -313,7 +303,7 @@ public class UserApiController {
     public Object updateUserPassword(@RequestBody UserUpdatePasswordVo vo) throws Exception{
         String encode = DataUtils.getEncodeing("RSA");
         vo.setAppId(encode);
-        String url = "http://" + Ip +":" + port + "/" + path + "/v1/app/user/updateUserPassword";
+        String url = "http://" + ip +":" + port + "/" + path + "/v1/app/user/updateUserPassword";
 
         String s = JSONObject.toJSONString(vo);
         HttpResult httpResult = apiService.doPost(url, s);
@@ -348,7 +338,7 @@ public class UserApiController {
         infoVo.setNewPassword(vo.getNewPassword());
         infoVo.setStopped(vo.getStopped());
         infoVo.setTel(vo.getTel());
-        String url = "http://" + Ip +":" + port + "/" + path + "/v1/app/user/updateUser";
+        String url = "http://" + ip +":" + port + "/" + path + "/v1/app/user/updateUser";
 
         String s = JSONObject.toJSONString(infoVo);
         HttpResult httpResult = apiService.doPost(url, s);
@@ -369,7 +359,7 @@ public class UserApiController {
     @CheckToken
     public Object getUserById (@RequestParam("id") Long id) throws Exception{
         String encode = DataUtils.getEncodeing("RSA");
-        String url = "http://" + Ip +":" + port + "/" + path + "/v1/app/user/getUserById?appId=" +encode + "&id=" +id;
+        String url = "http://" + ip +":" + port + "/" + path + "/v1/app/user/getUserById?appId=" +encode + "&id=" +id;
 
         Map<String,Object> map = new HashMap<>();
 

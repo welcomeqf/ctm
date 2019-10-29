@@ -1,7 +1,7 @@
 package eqlee.ctm.user.service;
 
+import com.yq.jwt.entity.PrivilegeMenuQuery;
 import eqlee.ctm.user.entity.UserPrivilege;
-import eqlee.ctm.user.entity.query.PrivilegeMenuQuery;
 import eqlee.ctm.user.entity.query.PrivilegeQuery;
 import eqlee.ctm.user.entity.query.PrivilegeWithQuery;
 

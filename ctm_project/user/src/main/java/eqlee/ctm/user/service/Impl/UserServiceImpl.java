@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.yq.constanct.CodeType;
 import com.yq.exception.ApplicationException;
+import com.yq.jwt.entity.PrivilegeMenuQuery;
 import com.yq.utils.ShaUtils;
 import com.yq.utils.StringUtils;
 import eqlee.ctm.user.dao.UserMapper;
@@ -99,7 +100,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
      * @return
      */
     @Override
-    public synchronized UserLoginQuery login(String userName, String password, String AppId) {
+    public synchronized LoginQuery login(String userName, String password, String AppId) {
         LambdaQueryWrapper<User> queryWrapper = new LambdaQueryWrapper<User>()
                 .eq(User::getAccount,userName);
         User user = baseMapper.selectOne(queryWrapper);
@@ -147,10 +148,10 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
         }
         List<PrivilegeMenuQuery> list = privilegeService.queryAllMenu(user.getSystemRoleId());
         //装配UserLoginQuery
-        UserLoginQuery query = new UserLoginQuery();
+        LoginQuery query = new LoginQuery();
         query.setId(user.getId());
         query.setAccount(user.getAccount());
-        query.setCName(user.getCName());
+        query.setCname(user.getCName());
         query.setCompanyId(user.getCompanyId());
         query.setPassword(user.getPassword());
         query.setTel(user.getTel());

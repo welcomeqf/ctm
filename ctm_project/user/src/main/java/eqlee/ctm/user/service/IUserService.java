@@ -27,7 +27,7 @@ public interface IUserService {
      * @param AppId
      * @return
      */
-    UserLoginQuery login(String userName, String password, String AppId);
+    LoginQuery login(String userName, String password, String AppId);
 
     /**
      * 注销

@@ -1,9 +1,13 @@
 
-isquid:CommentedOutCodeLine]"<This block of commented-out lines of code should be removed.(‡¥Ğ8¹ÓåñÚ-
-jsquid:CommentedOutCodeLineŠ"<This block of commented-out lines of code should be removed.(‡¥Ğ8¹ÓåñÚ-
-ksquid:S00112°"FDefine and throw a dedicated exception instead of using a generic one.(ÌèÎ¶üÿÿÿÿ8¹ÓåñÚ-
-tsquid:S1192["QDefine a constant instead of duplicating this literal "application/json" 4 times.(ûÓ¦²ûÿÿÿÿ8¹ÓåñÚ-
-dsquid:S1192E"FDefine a constant instead of duplicating this literal "UTF-8" 5 times.(„ÛÎ±8¹ÓåñÚ-
-jsquid:S00112$"FDefine and throw a dedicated exception instead of using a generic one.(öÏö½ûÿÿÿÿ8¹ÓåñÚ-
-jsquid:S00112W"FDefine and throw a dedicated exception instead of using a generic one.(†€¬Åúÿÿÿÿ8¹ÓåñÚ-
-ksquid:S00112„"FDefine and throw a dedicated exception instead of using a generic one.(Œô˜†úÿÿÿÿ8¹ÓåñÚ-
+jsquid:S00112["FDefine and throw a dedicated exception instead of using a generic one.(†€¬Åúÿÿÿÿ8¹ÓåñÚ-
+ksquid:S00112ˆ"FDefine and throw a dedicated exception instead of using a generic one.(Œô˜†úÿÿÿÿ8¹ÓåñÚ-
+isquid:CommentedOutCodeLinea"<This block of commented-out lines of code should be removed.(‡¥Ğ8¹ÓåñÚ-
+dsquid:S1192I"FDefine a constant instead of duplicating this literal "UTF-8" 6 times.(„ÛÎ±8¹ÓåñÚ-
+tsquid:S1192_"QDefine a constant instead of duplicating this literal "application/json" 5 times.(ûÓ¦²ûÿÿÿÿ8¹ÓåñÚ-
+jsquid:S00112("FDefine and throw a dedicated exception instead of using a generic one.(öÏö½ûÿÿÿÿ8¹ÓåñÚ-
+ksquid:S00112´"FDefine and throw a dedicated exception instead of using a generic one.(ÌèÎ¶üÿÿÿÿ8¹ÓåñÚ-
+Gsquid:S1148û"#Use a logger to log this exception.(€ÉÔ…ıÿÿÿÿ8¥Éå‹á-
+jsquid:CommentedOutCodeLine"<This block of commented-out lines of code should be removed.(‡¥Ğ8¹ÓåñÚ-
+psquid:S1192`"MDefine a constant instead of duplicating this literal "Content-Type" 3 times.(°İğÿÿÿÿÿ8øîõ‹á-
+msquid:UselessImportCheck"BRemove this unused import 'javax.servlet.http.HttpServletRequest'.(ø©¹…8ˆé°‹á-
+msquid:HiddenFieldCheckä">Rename "httpClient" which hides the field declared at line 26.(˜ÕìĞøÿÿÿÿ8¥Éå‹á-

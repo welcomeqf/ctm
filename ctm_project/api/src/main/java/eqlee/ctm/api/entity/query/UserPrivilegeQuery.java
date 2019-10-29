@@ -13,6 +13,8 @@ import java.util.List;
 @Data
 public class UserPrivilegeQuery {
 
+    private Long menuId;
+
     private String menuName;
 
     private String action;
@@ -22,4 +24,6 @@ public class UserPrivilegeQuery {
     private String iconColor;
 
     private Boolean start;
+
+    private Long parent;
 }

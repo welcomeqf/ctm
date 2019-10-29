@@ -1,6 +1,8 @@
 package eqlee.ctm.api.entity.vo;
 
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import com.yq.jwt.entity.UserLoginQuery;
 import lombok.Data;
 

@@ -1,6 +1,10 @@
 
-psquid:S00117e"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(¤‡¬¨8Ø¤ÍïÔ-
-usquid:S001170"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(÷ÕÄŒûÿÿÿÿ8Ğ•ïÔ-
-qsquid:S00117•"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(†“ÃË8 Ğ¹ÄÜ-
-psquid:S00117~"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(îğ²8 Ğ¹ÄÜ-
-vsquid:S00117¬"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ÀˆÎ¿ıÿÿÿÿ8 Ğ¹ÄÜ-
+dsquid:UselessImportCheck"4Remove this unused import 'java.time.LocalDateTime'.(æÃ§ƒüÿÿÿÿ8—¡º„à-
+vsquid:S00117è"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ãÀó¯ùÿÿÿÿ8—¡º„à-
+usquid:S001173"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(÷ÕÄŒûÿÿÿÿ8Ğ•ïÔ-
+qsquid:S00117œ"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(†“ÃË8 Ğ¹ÄÜ-
+vsquid:S00117³"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ÀˆÎ¿ıÿÿÿÿ8 Ğ¹ÄÜ-
+qsquid:S00117…"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(îğ²8 Ğ¹ÄÜ-
+zsquid:UselessImportCheck"ORemove this unused import 'eqlee.ctm.apply.entry.entity.query.ExaMqAdminQuery'.(£Åæ´8÷’Â„à-
+ysquid:UselessImportCheck"IRemove this unused import 'com.baomidou.mybatisplus.core.metadata.IPage'.(¯à½ıÿÿÿÿ8—¡º„à-
+psquid:S00117l"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(¤‡¬¨8Ø¤ÍïÔ-

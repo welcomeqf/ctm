@@ -1,9 +1,11 @@
 package eqlee.ctm.user.controller;
 
+
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.yq.constanct.CodeType;
 import com.yq.exception.ApplicationException;
-import eqlee.ctm.user.entity.User;
+import com.yq.jwt.entity.UserLoginQuery;
+import com.yq.utils.JwtUtil;
 import eqlee.ctm.user.entity.query.*;
 import eqlee.ctm.user.entity.vo.ResultVo;
 import eqlee.ctm.user.entity.vo.UserUpdatePasswordVo;
@@ -20,6 +22,9 @@ import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.HashMap;
+import java.util.Map;
 
 
 /**
@@ -69,7 +74,7 @@ public class UserController {
     })
     @GetMapping("/login")
     @CrossOrigin
-    public UserLoginQuery login(@RequestParam("userName") String userName, @RequestParam("password") String password,
+    public Map<String,Object> login(@RequestParam("userName") String userName, @RequestParam("password") String password,
                                 @RequestParam("AppId") String AppId) throws Exception{
         if (StringUtils.isBlank(userName) || StringUtils.isBlank(password) || StringUtils.isBlank(AppId)) {
             throw new ApplicationException(CodeType.PARAM_ERROR);
@@ -80,7 +85,26 @@ public class UserController {
         if (!result) {
             throw new ApplicationException(CodeType.AUTHENTICATION_ERROR);
         }
-        return userService.login(userName, password,AppId);
+        LoginQuery query = userService.login(userName, password, AppId);
+
+        UserLoginQuery loginQuery = new UserLoginQuery();
+        loginQuery.setId(query.getId());
+        loginQuery.setTel(query.getTel());
+        loginQuery.setRoleName(query.getRoleName());
+        loginQuery.setCompanyId(query.getCompanyId());
+        loginQuery.setAccount(query.getAccount());
+        loginQuery.setCname(query.getCname());
+        loginQuery.setMenuList(query.getMenuList());
+
+        //JWT验证
+        Map<String,Object> map = new HashMap<>();
+
+        //2592000000
+        String token = JwtUtil.createJWT(86400000L, loginQuery);
+        map.put("token", token);
+        map.put("user", loginQuery);
+
+        return map;
 
     }
 

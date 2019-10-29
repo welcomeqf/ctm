@@ -22,7 +22,7 @@ public interface IApplyService {
      * @param applyVo
      * @return
      */
-    void insertApply(ApplyVo applyVo);
+    ApplyPayResultQuery insertApply(ApplyVo applyVo);
 
 
     /**

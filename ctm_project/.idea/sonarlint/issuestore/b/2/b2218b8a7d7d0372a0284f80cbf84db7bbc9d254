@@ -1,12 +1,13 @@
 
-usquid:S00117?"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(â­¿Âşÿÿÿÿ8œÒÑòÓ-
-usquid:S00117?"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(â­¿Âşÿÿÿÿ8×î™İ-
-qsquid:S00117Â"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(àºÉ‡8©Ä°ßß-
-qsquid:S00117Â"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(àºÉ‡8©Ä°ßß-
-nsquid:S1192…"JDefine a constant instead of duplicating this literal " 00:00:00" 4 times.(ŞÒˆşÿÿÿÿ8ä¶ãâß-
-usquid:S00117c"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(¬Ì£Ëüÿÿÿÿ8©Ä°ßß-
-vsquid:S00117¥"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ÑÉŒÛùÿÿÿÿ8©Ä°ßß-
-vsquid:S00117Û"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(¬Ì£Ëüÿÿÿÿ8İŒ’âß-
-qsquid:S00117Ô"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(Êİó»8©Ä°ßß-
+qsquid:S00117Ï"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(àºÉ‡8«¡ê†à-
 usquid:UselessImportCheck"JRemove this unused import 'eqlee.ctm.apply.price.entity.query.PriceQuery'.(ÙÌŒ÷8›¸°šİ-
-vsquid:S00117¥"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ÑÉŒÛùÿÿÿÿ8©Ä°ßß-
+qsquid:S00117á"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(Êİó»8«¡ê†à-
+qsquid:S00117Ï"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(àºÉ‡8«¡ê†à-
+usquid:S00117A"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(â­¿Âşÿÿÿÿ8×î™İ-
+usquid:S00117A"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(â­¿Âşÿÿÿÿ8œÒÑòÓ-
+bsquid:UselessImportCheck""2Remove this unused import 'java.util.Collections'.(¢³ïÓşÿÿÿÿ8ıö†à-
+vsquid:S00117²"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ÑÉŒÛùÿÿÿÿ8«¡ê†à-
+nsquid:S1192’"JDefine a constant instead of duplicating this literal " 00:00:00" 4 times.(ŞÒˆşÿÿÿÿ8«¡ê†à-
+vsquid:S00117è"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(¬Ì£Ëüÿÿÿÿ8«¡ê†à-
+vsquid:S00117²"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ÑÉŒÛùÿÿÿÿ8«¡ê†à-
+usquid:S00117p"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(¬Ì£Ëüÿÿÿÿ8©Ä°ßß-

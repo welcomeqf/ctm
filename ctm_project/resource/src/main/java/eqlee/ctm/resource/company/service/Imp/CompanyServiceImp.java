@@ -237,7 +237,7 @@ public class CompanyServiceImp extends ServiceImpl<CompanyMapper,Company> implem
         query.setCompanyName(company.getCompanyName());
         query.setId(user.getId());
         query.setAccount(user.getAccount());
-        query.setCName(user.getCName());
+        query.setCName(user.getCname());
         query.setRoleName(user.getRoleName());
         query.setTel(user.getTel());
         return query;

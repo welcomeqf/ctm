@@ -14,7 +14,7 @@ public class WithQuery {
 
     private String menuName;
 
-    private Long parent;
-
     private Boolean start;
+
+    private Long parent;
 }

@@ -1,25 +1,25 @@
 
-Gsquid:S1148»"#Use a logger to log this exception.(€ΙΤ…ύÿÿÿÿ8ίγΘεί-
-dsquid:S2259"@A "NullPointerException" could be thrown; "vo" is nullable here.(Ξ¬©ψϋÿÿÿÿ8ίγΘεί-
-Gsquid:S1148"#Use a logger to log this exception.(€ΙΤ…ύÿÿÿÿ8ίγΘεί-
-Gsquid:S1148ύ"#Use a logger to log this exception.(€ΙΤ…ύÿÿÿÿ8ίγΘεί-
-usquid:S00117f"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(©Φ™όÿÿÿÿ8ίγΘεί-
-qsquid:S00117"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(Ρ¥οΠ8ίγΘεί-
-vsquid:S00117Χ"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(Ίΰ¶ξώÿÿÿÿ8ίγΘεί-
-Gsquid:S1148Ο"#Use a logger to log this exception.(€ΙΤ…ύÿÿÿÿ8ίγΘεί-
-qsquid:S00117Θ"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(Όω®8ίγΘεί-
-Lsquid:S1125Ί"(Remove the literal "true" boolean value.(Σ°¨Μώÿÿÿÿ8ίγΘεί-
-Gsquid:S1148ή"#Use a logger to log this exception.(€ΙΤ…ύÿÿÿÿ8ίγΘεί-
-Gsquid:S1148¶"#Use a logger to log this exception.(€ΙΤ…ύÿÿÿÿ8ίγΘεί-
-Gsquid:S1148ω"#Use a logger to log this exception.(€ΙΤ…ύÿÿÿÿ8ίγΘεί-
-qsquid:S00117φ"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ώΗ°Σ8ίγΘεί-
-Gsquid:S1148®"#Use a logger to log this exception.(€ΙΤ…ύÿÿÿÿ8ίγΘεί-
-Gsquid:S1148‘"#Use a logger to log this exception.(€ΙΤ…ύÿÿÿÿ8ίγΘεί-
+Gsquid:S1148ϊ"#Use a logger to log this exception.(€ΙΤ…ύÿÿÿÿ8ίγΘεί-
+qsquid:S00117‹"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(Ρ¥οΠ8ίγΘεί-
+qsquid:S00117σ"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(›ƒ°8ίγΘεί-
+Gsquid:S1148ί"#Use a logger to log this exception.(€ΙΤ…ύÿÿÿÿ8ίγΘεί-
+qsquid:S00117¨"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(Δώέ8ίγΘεί-
+psquid:S00117g"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ΧÒ°ά8ίγΘεί-
+Gsquid:S1148‰"#Use a logger to log this exception.(€ΙΤ…ύÿÿÿÿ8ίγΘεί-
+qsquid:S00117χ"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ώΗ°Σ8ίγΘεί-
+qsquid:S00117–"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(υραυ8ίγΘεί-
 wsquid:S00120"ZRename this package name to match the regular expression '^[a-z_]+(\.[a-z_][a-z0-9_]*)*$'.(…ÿΞÿÿÿÿÿ
-qsquid:S00117§"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(Δώέ8ίγΘεί-
-Gsquid:S1148΅"#Use a logger to log this exception.(€ΙΤ…ύÿÿÿÿ8ίγΘεί-
-Gsquid:S1148ω"#Use a logger to log this exception.(€ΙΤ…ύÿÿÿÿ8ίγΘεί-
-qsquid:S00117ς"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(›ƒ°8ίγΘεί-
-qsquid:S00117―"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.( ΨΩΑ8ίγΘεί-
-Gsquid:S1148"#Use a logger to log this exception.(€ΙΤ…ύÿÿÿÿ8ίγΘεί-
-qsquid:S00117•"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(υραυ8ίγΘεί-
+dsquid:S2259‹"@A "NullPointerException" could be thrown; "vo" is nullable here.(Ξ¬©ψϋÿÿÿÿ8ίγΘεί-
+Gsquid:S1148"#Use a logger to log this exception.(€ΙΤ…ύÿÿÿÿ8ίγΘεί-
+Gsquid:S1148·"#Use a logger to log this exception.(€ΙΤ…ύÿÿÿÿ8ίγΘεί-
+vsquid:S00117Ψ"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(Ίΰ¶ξώÿÿÿÿ8ίγΘεί-
+Gsquid:S1148Ό"#Use a logger to log this exception.(€ΙΤ…ύÿÿÿÿ8ίγΘεί-
+Gsquid:S1148ώ"#Use a logger to log this exception.(€ΙΤ…ύÿÿÿÿ8ίγΘεί-
+Gsquid:S1148Ά"#Use a logger to log this exception.(€ΙΤ…ύÿÿÿÿ8ίγΘεί-
+Gsquid:S1148Π"#Use a logger to log this exception.(€ΙΤ…ύÿÿÿÿ8ίγΘεί-
+Gsquid:S1148―"#Use a logger to log this exception.(€ΙΤ…ύÿÿÿÿ8ίγΘεί-
+Gsquid:S1148’"#Use a logger to log this exception.(€ΙΤ…ύÿÿÿÿ8ίγΘεί-
+Gsquid:S1148ϊ"#Use a logger to log this exception.(€ΙΤ…ύÿÿÿÿ8ίγΘεί-
+Lsquid:S1125»"(Remove the literal "true" boolean value.(Σ°¨Μώÿÿÿÿ8ίγΘεί-
+qsquid:S00117Ι"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(Όω®8ίγΘεί-
+qsquid:S00117°"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.( ΨΩΑ8ίγΘεί-

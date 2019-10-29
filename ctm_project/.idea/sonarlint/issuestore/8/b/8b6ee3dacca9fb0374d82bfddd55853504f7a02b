@@ -1,13 +1,7 @@
 
-Msquid:S10687"*Remove this unused "Status" private field.(ûĞüüÿÿÿÿ8»àÍ–ß-
-psquid:UselessImportCheck"ERemove this unused import 'io.swagger.annotations.ApiImplicitParams'.(Ó‘×8ò¡¢Šß-
-Dsquid:S1170/"!Make this final field static too.(ü¶À¦üÿÿÿÿ8¶†ñ¢Û-
-fsquid:UselessImportCheck	";Remove this unused import 'eqlee.ctm.api.entity.vo.MenuVo'.(”ÏÁó8–Ù™Šß-
-Dsquid:S11707"!Make this final field static too.(ûĞüüÿÿÿÿ8È—˜ŠÖ-
-usquid:S001167"QRename this field "Status" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ûĞüüÿÿÿÿ8È—˜ŠÖ-
-psquid:S00117?"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ÁíÕò8ÖºŠÖ-
-qsquid:UselessImportCheck"ARemove this unused import 'eqlee.ctm.api.entity.vo.MenuUpdateVo'.(³«©Üıÿÿÿÿ8îšŠß-
-psquid:UselessImportCheck"ERemove this unused import 'eqlee.ctm.api.entity.vo.MenuUpdateInfoVo'.(¯…û8îšŠß-
-ksquid:S1192A"HDefine a constant instead of duplicating this literal "http://" 3 times.(İ›‰Õùÿÿÿÿ8 œ”Àß-
-qsquid:S00116*"MRename this field "Ip" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ÁãåÚıÿÿÿÿ8•†ş‰Ö-
-[squid:UselessImportCheck"+Remove this unused import 'java.util.List'.(Õë±Äøÿÿÿÿ8´ª‡‹ß-
+ysquid:S1845."[Rename field "ip" to prevent any misunderstanding/clash with field "Ip" defined on line 41.(á¬ÀÏ8µßÓ½à-
+psquid:S00117>"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ÁíÕò8ÖºŠÖ-
+?squid:S11700"!Make this final field static too.(¾–öÉ8¶†ñ¢Û-
+esquid:S1192@"HDefine a constant instead of duplicating this literal "http://" 4 times.(Õë8 œ”Àß-
+qsquid:S00116)"MRename this field "Ip" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ÁãåÚıÿÿÿÿ8•†ş‰Ö-
+?squid:S1170."!Make this final field static too.(á¬ÀÏ8µßÓ½à-

@@ -72,7 +72,7 @@ public class OrderServiceImpl extends ServiceImpl<OrdersMapper, Orders> implemen
         long numberId = idGenerator.getNumberId();
         orders.setId(numberId);
         orders.setOrderNo(idGenerator.getOrderCode());
-        orders.setGuideName(user.getCName());
+        orders.setGuideName(user.getCname());
         orders.setCreateUserId(user.getId());
         Double allPrice = 0.0;
         for (OrdersVo ordersVo:applyVoList) {
@@ -175,7 +175,7 @@ public class OrderServiceImpl extends ServiceImpl<OrdersMapper, Orders> implemen
         Long id = idGenerator.getNumberId();
         substitut.setId(id);
         substitut.setCreateUserId(user.getId());
-        substitut.setGuideName(user.getCName());
+        substitut.setGuideName(user.getCname());
         substitut.setLineName(lineName);
         substitut.setOutDate(DateUtil.parseDate(outDate));
         substitut.setToGuideId(Id);

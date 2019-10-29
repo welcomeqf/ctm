@@ -1,3 +1,5 @@
 
-usquid:S00116"QRename this field "Status" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(Åßœşÿÿÿÿ8ôÍõêß-
-xsquid:S00116"TRename this field "AllNumber" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(àõŞ¤ûÿÿÿÿ8Ï¤öêß-
+ysquid:S00116"URename this field "ContactTel" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(×ÜÜ²ùÿÿÿÿ8“©ô„à-
+usquid:S00116"QRename this field "Status" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(Åßœşÿÿÿÿ8ôÍõêß-
+zsquid:S00116"VRename this field "ContactName" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(àÚº¡üÿÿÿÿ8“©ô„à-
+xsquid:S00116"TRename this field "AllNumber" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(àõŞ¤ûÿÿÿÿ8Ï¤öêß-

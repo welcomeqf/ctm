@@ -57,7 +57,7 @@ public class ApplyController {
     @PostMapping("/insertApply")
     @CrossOrigin
     @CheckToken
-    public ResultVo insertApply(@RequestBody ApplyVo applyVo) {
+    public ApplyPayResultQuery insertApply(@RequestBody ApplyVo applyVo) {
         if (StringUtils.isBlank(applyVo.getOutDate()) || StringUtils.isBlank(applyVo.getContactName()) ||
             StringUtils.isBlank(applyVo.getContactTel()) || StringUtils.isBlank(applyVo.getPlace()) ||
             StringUtils.isBlank(applyVo.getLineName()) || applyVo.getAdultNumber() == null ||
@@ -71,11 +71,7 @@ public class ApplyController {
         applyVo.setCreateUserId(user.getId());
         applyVo.setUpdateUserId(user.getId());
 
-        applyService.insertApply(applyVo);
-
-        ResultVo vo = new ResultVo();
-        vo.setResult("ok");
-        return vo;
+        return applyService.insertApply(applyVo);
     }
 
 

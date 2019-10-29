@@ -1,13 +1,17 @@
 package eqlee.ctm.api.httpclient;
 
+import org.apache.http.HttpResponse;
+import org.apache.http.HttpStatus;
 import org.apache.http.client.methods.*;
 import org.apache.http.client.utils.URIBuilder;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
 import org.springframework.stereotype.Component;
 
+import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.util.Map;
 
@@ -214,6 +218,40 @@ public class HttpClientUtils {
         }
         // 返回
         return httpResult;
+    }
+
+    /**
+     * 带token请求get
+     * @return
+     */
+    public HttpResult get (String url, String tokenString) {
+        CloseableHttpClient httpClient = HttpClientBuilder.create().build();
+        HttpGet get = new HttpGet(url);
+
+        try {
+            if (tokenString != null && !tokenString.equals("")) {
+                //自定义header头，用于token验证使用
+                get.addHeader("Authorization", tokenString);
+                get.addHeader("Content-Type", "application/json");
+                HttpResponse response = httpClient.execute(get);
+                if (response.getStatusLine().getStatusCode() == HttpStatus.SC_OK) {
+                    //返回json格式
+                    HttpResult res = new HttpResult();
+                    if (response.getEntity() != null) {
+                        res.setCode(response.getStatusLine().getStatusCode());
+                        res.setBody(EntityUtils.toString(response.getEntity(),"UTF-8"));
+
+                    } else {
+                        res.setCode(response.getStatusLine().getStatusCode());
+                    }
+                    return res;
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
+
     }
 
 }

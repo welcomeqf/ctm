@@ -81,7 +81,7 @@ public class InFinanceServiceImpl extends ServiceImpl<InFinanceMapper, Income> i
         long numberId = idGenerator.getNumberId();
         income.setId(numberId);
         income.setCreateUserId(user.getId());
-        income.setGuideName(user.getCName());
+        income.setGuideName(user.getCname());
         income.setLineName(vo.getLineName());
         //加入到人数表以及人数明细表
         Number number = new Number();

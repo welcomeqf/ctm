@@ -66,7 +66,7 @@ public class AuthenticationInterceptor implements HandlerInterceptor {
                 try {
                     query.setId(JWT.decode(token).getClaim("id").asLong());
                     query.setAccount(JWT.decode(token).getClaim("userName").asString());
-                    query.setCName(JWT.decode(token).getClaim("cName").asString());
+                    query.setCname(JWT.decode(token).getClaim("cname").asString());
                     query.setCompanyId(JWT.decode(token).getClaim("companyId").asLong());
                     query.setMenuList(JWT.decode(token).getClaim("menuList").asList(PrivilegeMenuQuery.class));
                     query.setRoleName(JWT.decode(token).getClaim("roleName").asString());

@@ -39,6 +39,8 @@ public class UserPrivilegeController {
     @Value("${api.port}")
     private String port;
 
+    private final String ip = "localhost";
+
     private final String path = "ctm_user";
 
     @Autowired
@@ -70,7 +72,7 @@ public class UserPrivilegeController {
 
         query1.setMenuList(list);
 
-        String url = "http://" + Ip +":" + port + "/" + path + "/v1/app/privilege/insertPrivilege";
+        String url = "http://" + ip +":" + port + "/" + path + "/v1/app/privilege/insertPrivilege";
 
         String s = JSONObject.toJSONString(query1);
         HttpResult httpResult = apiService.doPost(url, s);

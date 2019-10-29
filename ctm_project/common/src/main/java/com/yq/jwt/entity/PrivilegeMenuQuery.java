@@ -11,6 +11,8 @@ import lombok.Data;
 @Data
 public class PrivilegeMenuQuery {
 
+    private Long menuId;
+
     private String menuName;
 
     private String action;
@@ -18,4 +20,6 @@ public class PrivilegeMenuQuery {
     private String iconClass;
 
     private String iconColor;
+
+    private Long parent;
 }

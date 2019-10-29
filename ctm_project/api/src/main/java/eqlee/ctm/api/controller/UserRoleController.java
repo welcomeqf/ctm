@@ -41,6 +41,8 @@ public class UserRoleController {
     @Value("${api.port}")
     private String port;
 
+    private final String ip = "localhost";
+
     private final String path = "ctm_user";
 
     @Autowired
@@ -59,7 +61,7 @@ public class UserRoleController {
     public Object addRole(@RequestBody UserRoleVo roleVo) throws Exception{
         String encode = DataUtils.getEncodeing("RSA");
         roleVo.setAppId(encode);
-        String url = "http://" + Ip +":" + port + "/" + path +  "/v1/app/role/addRole";
+        String url = "http://" + ip +":" + port + "/" + path +  "/v1/app/role/addRole";
 
         UserLoginQuery user = localUser.getUser("用户信息");
         UserRoleZiQuery query = new UserRoleZiQuery();
@@ -88,7 +90,7 @@ public class UserRoleController {
     public Object addZiRole(@RequestBody UserRoleVo roleVo) throws Exception{
         String encode = DataUtils.getEncodeing("RSA");
         roleVo.setAppId(encode);
-        String url = "http://" + Ip +":" + port + "/" + path +  "/v1/app/role/addZiRole";
+        String url = "http://" + ip +":" + port + "/" + path +  "/v1/app/role/addZiRole";
 
         UserLoginQuery user = localUser.getUser("用户信息");
         UserRoleZiQuery query = new UserRoleZiQuery();
@@ -116,7 +118,7 @@ public class UserRoleController {
     @CheckToken
     public Object deleteRole(@PathVariable("Id") Long Id) throws Exception{
         String encode = DataUtils.getEncodeing("RSA");
-        String url = "http://" + Ip +":" + port + "/" + path + "/v1/app/role/" +Id + "/" +encode;
+        String url = "http://" + ip +":" + port + "/" + path + "/v1/app/role/" +Id + "/" +encode;
 
         Map<String,Object> map = new HashMap<>();
 
@@ -137,7 +139,7 @@ public class UserRoleController {
     @CheckToken
     public Object getRole() throws Exception{
         String encode = DataUtils.getEncodeing("RSA");
-        String url = "http://" + Ip +":" + port + "/" + path + "/v1/app/role/RoleInfo?AppId=" +encode;
+        String url = "http://" + ip +":" + port + "/" + path + "/v1/app/role/RoleInfo?AppId=" +encode;
 
         Map<String,Object> map = new HashMap<>();
 
@@ -161,7 +163,7 @@ public class UserRoleController {
     @CrossOrigin
     public Object queryPageRole(@RequestParam("current") Integer current, @RequestParam("size") Integer size) throws Exception{
         String encode = DataUtils.getEncodeing("RSA");
-        String url = "http://" + Ip +":" + port + "/" + path + "/v1/app/role/queryPageRole?AppId=" +encode + "&current=" +current + "&size=" +size;
+        String url = "http://" + ip +":" + port + "/" + path + "/v1/app/role/queryPageRole?AppId=" +encode + "&current=" +current + "&size=" +size;
 
         Map<String,Object> map = new HashMap<>();
 
@@ -188,7 +190,7 @@ public class UserRoleController {
     public Object updateRole (@RequestBody RoleUpdateVo vo) throws Exception{
         String encode = DataUtils.getEncodeing("RSA");
         vo.setAppId(encode);
-        String url = "http://" + Ip +":" + port + "/" + path + "/v1/app/role/updateRole";
+        String url = "http://" + ip +":" + port + "/" + path + "/v1/app/role/updateRole";
 
         String s = JSONObject.toJSONString(vo);
         HttpResult httpResult = apiService.doPost(url, s);
@@ -219,7 +221,7 @@ public class UserRoleController {
         Long companyId = user.getCompanyId();
 
         String encode = DataUtils.getEncodeing("RSA");
-        String url = "http://" + Ip +":" + port + "/" + path + "/v1/app/role/queryZiPageRole?AppId="
+        String url = "http://" + ip +":" + port + "/" + path + "/v1/app/role/queryZiPageRole?AppId="
                 +encode + "&current=" +current + "&size=" +size + "&companyId=" +companyId;
 
         Map<String,Object> map = new HashMap<>();

@@ -10,7 +10,11 @@ import lombok.Data;
 @Data
 public class UserPrivilegeQuery {
 
+    private Long menuId;
+
     private String menuName;
+
+    private Long parent;
 
     private String action;
 

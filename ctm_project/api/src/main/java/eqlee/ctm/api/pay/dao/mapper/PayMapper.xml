@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="eqlee.ctm.api.pay.dao.PayMapper">
+
+    <select id="getApplyId" resultType="eqlee.ctm.api.pay.entity.vo.GetApplyIdVo" parameterType="String">
+       select Id as 'applyId' from Apply where ApplyNo = #{applyNo}
+    </select>
+
+    <delete id="deleteApplyInfo" parameterType="Long">
+        delete from Apply where Id = #{id}
+    </delete>
+
+    <delete id="deleteExaInfo" parameterType="Long">
+        delete from Examine where ApplyId = #{applyId}
+    </delete>
+
+
+    <update id="updateApplyPayStatus" parameterType="String">
+        update Apply set IsPayment=1 where ApplyNo = #{applyNo}
+    </update>
+
+    <select id="queryPayResult" parameterType="String" resultType="eqlee.ctm.api.pay.entity.query.PayResultQuery">
+      select Id as 'id',ApplyNo as 'applyNo',ThirdPartyNumber as 'thirdPartyNumber',convert(varchar(100),PayDate,20)payDate,
+      PayStatu as 'payStatus' from Pay where ApplyNo = #{applyNo}
+    </select>
+
+    <select id="queryApplyResult" parameterType="String" resultType="eqlee.ctm.api.pay.entity.query.ApplyPayResultQuery">
+        select AllPrice as 'money',IsPayment as 'applyStatus' from Apply where ApplyNo = #{applyNo}
+    </select>
+</mapper>

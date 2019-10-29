@@ -4,10 +4,13 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.yq.constanct.CodeType;
 import com.yq.exception.ApplicationException;
+import com.yq.jwt.entity.PrivilegeMenuQuery;
 import eqlee.ctm.user.dao.MenuMapper;
 import eqlee.ctm.user.entity.Sign;
 import eqlee.ctm.user.entity.UserMenu;
-import eqlee.ctm.user.entity.query.*;
+import eqlee.ctm.user.entity.query.UserMenuQuery;
+import eqlee.ctm.user.entity.query.UserPrivilegeQuery;
+import eqlee.ctm.user.entity.query.WithQuery;
 import eqlee.ctm.user.entity.vo.MenuUpdateVo;
 import eqlee.ctm.user.entity.vo.MenuVo;
 import eqlee.ctm.user.service.IMenuService;
@@ -217,6 +220,14 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, UserMenu> implement
         //权限表
         List<PrivilegeMenuQuery> list1 = privilegeService.queryAllMenu(roleId);
 
+        if (list1.size() == 0) {
+            //没有设置权限
+            for (WithQuery query : withQueries) {
+                query.setStart(false);
+                queries.add(query);
+            }
+            return queries;
+        }
 
         //对所有菜单摔选
         for (WithQuery query : withQueries) {
@@ -267,22 +278,35 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, UserMenu> implement
         //权限表
         List<PrivilegeMenuQuery> list1 = privilegeService.queryAllMenu(roleId);
 
+        if (list1.size() == 0) {
+            //没有设置权限
+            for (UserPrivilegeQuery query : list) {
+                WithQuery withQuery = new WithQuery();
+                withQuery.setId(query.getMenuId());
+                withQuery.setMenuName(query.getMenuName());
+                withQuery.setParent(query.getParent());
+                withQuery.setStart(false);
+                queries.add(withQuery);
+            }
+            return queries;
+        }
 
         //对所有菜单摔选
         for (UserPrivilegeQuery query : list) {
 
             WithQuery withQuery = new WithQuery();
             withQuery.setMenuName(query.getMenuName());
+            withQuery.setId(query.getMenuId());
+            withQuery.setParent(query.getParent());
             for (PrivilegeMenuQuery menuQuery : list1) {
 
-                if (menuQuery.getMenuName().equals(query.getMenuName())) {
-                    query.setStart(true);
-                    withQuery.setId(menuQuery.getMenuId());
+                if (menuQuery.getMenuId().equals(query.getMenuId())) {
+                    withQuery.setStart(true);
                     break;
                 } else {
-                    query.setStart(false);
-                    withQuery.setId(menuQuery.getMenuId());
+                    withQuery.setStart(false);
                 }
+
 
             }
             queries.add(withQuery);

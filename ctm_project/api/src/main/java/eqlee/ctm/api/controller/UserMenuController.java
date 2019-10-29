@@ -12,7 +12,6 @@ import eqlee.ctm.api.httpclient.HttpResult;
 import eqlee.ctm.api.vilidate.DataUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
-import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,6 +43,8 @@ public class UserMenuController {
     @Value("${api.port}")
     private String port;
 
+    private final String ip = "localhost";
+
     private final String path = "ctm_user";
 
     @Autowired
@@ -51,8 +52,6 @@ public class UserMenuController {
 
     @Autowired
     private LocalUser localUser;
-
-    private final Integer Status = 200;
 
 
     @ApiOperation(value = "查询所有权限", notes = "查询所有权限")
@@ -62,7 +61,7 @@ public class UserMenuController {
     @CheckToken
     public Object queryMenu(@RequestParam("Id") Long Id) throws Exception{
         String encode = DataUtils.getEncodeing("RSA");
-        String url = "http://" + Ip +":" + port + "/" + path + "/v1/app/menu/queryMenu?Id=" +Id + "&AppId=" +encode;
+        String url = "http://" + ip +":" + port + "/" + path + "/v1/app/menu/queryMenu?Id=" +Id + "&AppId=" +encode;
 
         Map<String,Object> map = new HashMap<>();
 
@@ -84,7 +83,7 @@ public class UserMenuController {
     @CrossOrigin
     public Object queryAllParentMenu(@RequestParam("roleId") Long roleId) throws Exception{
         String encode = DataUtils.getEncodeing("RSA");
-        String url = "http://" + Ip +":" + port + "/" + path + "/v1/app/menu/queryAll?&AppId=" +encode + "&roleId=" +roleId;
+        String url = "http://" + ip +":" + port + "/" + path + "/v1/app/menu/queryAll?&AppId=" +encode + "&roleId=" +roleId;
 
         Map<String,Object> map = new HashMap<>();
 
@@ -117,7 +116,7 @@ public class UserMenuController {
     @CrossOrigin
     public Object queryAllParent() throws Exception{
         String encode = DataUtils.getEncodeing("RSA");
-        String url = "http://" + Ip +":" + port + "/" + path + "/v1/app/menu/queryAllParent?&AppId=" +encode;
+        String url = "http://" + ip +":" + port + "/" + path + "/v1/app/menu/queryAllParent?&AppId=" +encode;
 
         Map<String,Object> map = new HashMap<>();
 
@@ -137,7 +136,7 @@ public class UserMenuController {
     @GetMapping("/queryZiAll")
     @CrossOrigin
     @CheckToken
-    public Object queryPrivilege(Long roleId) throws Exception{
+    public Object queryPrivilege(@RequestParam("roleId") Long roleId) throws Exception{
         UserLoginQuery users = localUser.getUser("用户信息");
         List<UserPrivilegeQuery> list = new ArrayList<>();
         for (PrivilegeMenuQuery menuQuery : users.getMenuList()) {
@@ -145,13 +144,15 @@ public class UserMenuController {
             query.setAction(menuQuery.getAction());
             query.setIconClass(menuQuery.getIconClass());
             query.setIconColor(menuQuery.getIconColor());
+            query.setParent(menuQuery.getParent());
             query.setMenuName(menuQuery.getMenuName());
+            query.setMenuId(menuQuery.getMenuId());
             query.setStart(true);
             list.add(query);
         }
 
         String encode = DataUtils.getEncodeing("RSA");
-        String url = "http://" + Ip +":" + port + "/" + path + "/v1/app/menu/queryZiAll";
+        String url = "http://" + ip +":" + port + "/" + path + "/v1/app/menu/queryZiAll";
 
         MenuZiVo vo = new MenuZiVo();
         vo.setAppId(encode);

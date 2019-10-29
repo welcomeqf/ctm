@@ -1,17 +1,17 @@
 
-hsquid:S001177"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(Õ±m
-ksquid:S00100$"NRename this method name to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(½ÿ‡Êşÿÿÿÿ
 dsquid:UselessImportCheck	"@Remove this unused import 'org.apache.ibatis.annotations.Param'.(á¬Ó²
-psquid:S00117p"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(„Û¸8»ßàŞ-
+nsquid:S00117$"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(½ÿ‡Êşÿÿÿÿ
 isquid:S00117A"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(’àŠ»
-psquid:S00117p"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(„Û¸8»ßàŞ-
-isquid:S00117-"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ƒó¨
-msquid:S00100p"NRename this method name to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(„Û¸8»ßàŞ-
-isquid:S00117A"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(’àŠ»
-isquid:S00117A"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(’àŠ»
-esquid:UselessImportCheck"ARemove this unused import 'eqlee.ctm.apply.orders.entity.Orders'.(¨‡
-Zsquid:UselessImportCheck"*Remove this unused import 'java.util.Map'.(¼è½Òşÿÿÿÿ8²ÿâŞ-
-isquid:S00117-"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ƒó¨
+hsquid:S001177"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(Õ±m
 nsquid:S00117$"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(½ÿ‡Êşÿÿÿÿ
 nsquid:UselessImportCheck"ERemove this unused import 'eqlee.ctm.apply.guider.entity.vo.ApplyVo'.(ƒ„•èúÿÿÿÿ
-nsquid:S00117$"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(½ÿ‡Êşÿÿÿÿ
+isquid:S00117-"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ƒó¨
+psquid:S00117p"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(„Û¸8»ßàŞ-
+psquid:S00117p"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(„Û¸8»ßàŞ-
+msquid:S00100p"NRename this method name to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(„Û¸8»ßàŞ-
+isquid:S00117-"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ƒó¨
+Zsquid:UselessImportCheck"*Remove this unused import 'java.util.Map'.(¼è½Òşÿÿÿÿ8²ÿâŞ-
+isquid:S00117A"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(’àŠ»
+esquid:UselessImportCheck"ARemove this unused import 'eqlee.ctm.apply.orders.entity.Orders'.(¨‡
+isquid:S00117A"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(’àŠ»
+ksquid:S00100$"NRename this method name to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(½ÿ‡Êşÿÿÿÿ

@@ -22,7 +22,7 @@ public class UserLoginQuery {
     /**
      * 中文名
      */
-    private String cName;
+    private String cname;
 
     /**
      * 电话

@@ -1,5 +1,5 @@
 
-Fsquid:S1148>"#Use a logger to log this exception.(€ÉÔ…ýÿÿÿÿ8ƒ¶íŠÖ-
-psquid:S001177"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(âøë¢8ƒ¶íŠÖ-
 wsquid:S00120"ZRename this package name to match the regular expression '^[a-z_]+(\.[a-z_][a-z0-9_]*)*$'.(…ÿÎÿÿÿÿÿ
+psquid:S001177"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(âøë¢8ƒ¶íŠÖ-
+Fsquid:S1148>"#Use a logger to log this exception.(€ÉÔ…ýÿÿÿÿ8ƒ¶íŠÖ-
 [squid:S1155Q">Use isEmpty() to check whether the collection is empty or not.(¸Ìõ(8©èœ½ß-

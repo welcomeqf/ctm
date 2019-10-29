@@ -1,13 +1,17 @@
 
-Fsquid:S1148c"#Use a logger to log this exception.(€ÉÔ…ıÿÿÿÿ8ÀïŠÖ-
-vsquid:S00117ƒ"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ÜÃêºûÿÿÿÿ8ÀïŠÖ-
-jsquid:S00117"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ÿÓÔÕ
+Fsquid:S1148Q"#Use a logger to log this exception.(€ÉÔ…ıÿÿÿÿ8óúú‘à-
+vsquid:S00117é"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(şàĞñÿÿÿÿÿ8ôİ‚ÄÔ-
+tsquid:S1488Â"\Immediately return this expression instead of assigning it to the temporary variable "role".(ñõ‡²
+xsquid:S1192?"UDefine a constant instead of duplicating this literal "insert role db fail." 3 times.(şÒÑñıÿÿÿÿ8óúú‘à-
+vsquid:S00117£"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ÜÃêºûÿÿÿÿ8ÀïŠÖ-
 psquid:UselessImportCheck"@Remove this unused import 'eqlee.ctm.user.entity.vo.UserRoleVo'.(Şö³Çÿÿÿÿÿ8Ê²‚Ÿİ-
-tsquid:S1488¢"\Immediately return this expression instead of assigning it to the temporary variable "role".(ñõ‡²
+Gsquid:S1148ƒ"#Use a logger to log this exception.(€ÉÔ…ıÿÿÿÿ8ÀïŠÖ-
 wsquid:S00120"ZRename this package name to match the regular expression '^[a-z_]+(\.[a-z_][a-z0-9_]*)*$'.(…ÿÎÿÿÿÿÿ
-Gsquid:S1148Š"#Use a logger to log this exception.(€ÉÔ…ıÿÿÿÿ8ÀïŠÖ-
 isquid:UselessImportCheck"9Remove this unused import 'com.yq.jwt.contain.LocalUser'.(Í×„Ãúÿÿÿÿ8ê™Æºİ-
 Fsquid:S11483"#Use a logger to log this exception.(€ÉÔ…ıÿÿÿÿ8íãìİ-
-usquid:S00117\"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(§‰–æşÿÿÿÿ8ÀïŠÖ-
-vsquid:S00117É"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(şàĞñÿÿÿÿÿ8ôİ‚ÄÔ-
-Gsquid:S1148³"#Use a logger to log this exception.(€ÉÔ…ıÿÿÿÿ8ÀïŠÖ-
+usquid:S00117|"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(§‰–æşÿÿÿÿ8ÀïŠÖ-
+€squid:S1192@"]Define a constant instead of duplicating this literal "å¢åŠ è§’è‰²æ•°æ®åº“å¤±è´¥~" 3 times.(¬ëï¬ÿÿÿÿÿ8óúú‘à-
+jsquid:S00117¾"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ÿÓÔÕ
+Gsquid:S1148ª"#Use a logger to log this exception.(€ÉÔ…ıÿÿÿÿ8ÀïŠÖ-
+Gsquid:S1148û"#Use a logger to log this exception.(€ÉÔ…ıÿÿÿÿ8Çñ´‘à-
+Gsquid:S1148Ó"#Use a logger to log this exception.(€ÉÔ…ıÿÿÿÿ8ÀïŠÖ-

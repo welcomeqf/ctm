@@ -1,9 +1,9 @@
 
-ssquid:S00116"URename this field "BabyNumber" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(˜Ú‡C8 ÒÒòİ-
-zsquid:S00116"VRename this field "AdultNumber" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(í÷ÖÎúÿÿÿÿ8 ÒÒòİ-
-zsquid:S00116!"VRename this field "ChildNumber" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(¹¤áñûÿÿÿÿ8 ÒÒòİ-
-ysquid:S001160"URename this field "ContactTel" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(×ÜÜ²ùÿÿÿÿ8 ÒÒòİ-
 lsquid:S00116"MRename this field "Id" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(´ÕÛ”8 ÒÒòİ-
-xsquid:S00116+"TRename this field "AllNumber" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(àõŞ¤ûÿÿÿÿ8 ÒÒòİ-
+zsquid:S00116"VRename this field "AdultNumber" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(í÷ÖÎúÿÿÿÿ8 ÒÒòİ-
 zsquid:S00116&"VRename this field "ContactName" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(àÚº¡üÿÿÿÿ8 ÒÒòİ-
+xsquid:S00116+"TRename this field "AllNumber" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(àõŞ¤ûÿÿÿÿ8 ÒÒòİ-
+zsquid:S00116!"VRename this field "ChildNumber" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(¹¤áñûÿÿÿÿ8 ÒÒòİ-
 ssquid:S00116"TRename this field "OldNumber" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ÃÁ«è8 ÒÒòİ-
+ssquid:S00116"URename this field "BabyNumber" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(˜Ú‡C8 ÒÒòİ-
+ysquid:S001160"URename this field "ContactTel" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(×ÜÜ²ùÿÿÿÿ8 ÒÒòİ-

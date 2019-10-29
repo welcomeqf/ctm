@@ -59,7 +59,7 @@ public class ApplyServiceImpl extends ServiceImpl<ApplyMapper, Apply> implements
     private final String APPLY_EXA = "报名审核";
 
     @Override
-    public void insertApply(ApplyVo applyVo) {
+    public ApplyPayResultQuery insertApply(ApplyVo applyVo) {
         LocalDate now = LocalDate.now();
         LocalDate outDate = DateUtil.parseDate(applyVo.getOutDate());
         long until = now.until(outDate, ChronoUnit.DAYS);
@@ -71,6 +71,21 @@ public class ApplyServiceImpl extends ServiceImpl<ApplyMapper, Apply> implements
         Line line = lineService.queryLineByName(applyVo.getLineName());
         IdGenerator idGenerator = new IdGenerator();
         LocalDate localDate = DateUtil.parseDate(applyVo.getOutDate());
+
+        //查询报名表人数是否达到最大
+        LambdaQueryWrapper<Apply> wrapper = new LambdaQueryWrapper<Apply>()
+                .eq(Apply::getOutDate,localDate)
+                .eq(Apply::getLineId,line.getId());
+        List<Apply> list = baseMapper.selectList(wrapper);
+        Integer number = 0;
+        for (Apply apply : list) {
+            number = number + apply.getAllNumber();
+        }
+        Integer allNumber = number + applyVo.getChildNumber() + applyVo.getOldNumber() + applyVo.getBabyNumber() + applyVo.getAdultNumber();
+        if (allNumber > line.getMaxNumber()) {
+            throw new ApplicationException(CodeType.SERVICE_ERROR,"该天该线路人数名额不够");
+        }
+
         //查询该天的价格情况
         Price price = priceService.queryPrice(localDate,applyVo.getLineName());
 
@@ -146,6 +161,13 @@ public class ApplyServiceImpl extends ServiceImpl<ApplyMapper, Apply> implements
             log.error("insert apply fail.");
             throw new ApplicationException(CodeType.SERVICE_ERROR,"报名失败");
         }
+
+        //组装ApplyPayResultQuery 返回数据
+        ApplyPayResultQuery query = new ApplyPayResultQuery();
+        query.setApplyNo(orderCode);
+        String product = applyVo.getOutDate() + "在"+applyVo.getLineName() +"报名消费";
+        query.setProductName(product);
+        return query;
     }
 
     /**
