@@ -1,7 +1,7 @@
 
-ysquid:S1845."[Rename field "ip" to prevent any misunderstanding/clash with field "Ip" defined on line 41.(·¨¿œ8µﬂ”Ω‡-
-psquid:S00117>"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(¡Ì’Ú8÷∫ùä÷-
-?squid:S11700"!Make this final field static too.(æñˆ…8∂ÜÒ¢€-
-esquid:S1192@"HDefine a constant instead of duplicating this literal "http://" 4 times.(’Îè8†úî¿ﬂ-
-qsquid:S00116)"MRename this field "Ip" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(¡„Â⁄˝ˇˇˇˇ8ïÜ˛â÷-
 ?squid:S1170."!Make this final field static too.(·¨¿œ8µﬂ”Ω‡-
+?squid:S11700"!Make this final field static too.(æñˆ…8∂ÜÒ¢€-
+ysquid:S1845."[Rename field "ip" to prevent any misunderstanding/clash with field "Ip" defined on line 41.(·¨¿œ8µﬂ”Ω‡-
+qsquid:S00116)"MRename this field "Ip" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(¡„Â⁄˝ˇˇˇˇ8ïÜ˛â÷-
+esquid:S1192@"HDefine a constant instead of duplicating this literal "http://" 4 times.(’Îè8†úî¿ﬂ-
+psquid:S00117>"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(¡Ì’Ú8÷∫ùä÷-

@@ -1,9 +1,9 @@
 
-vsquid:S00117ƒ"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(š¢çÙşÿÿÿÿ8İá‘Œá-
-„squid:S1488t"aImmediately return this expression instead of assigning it to the temporary variable "applyInfo".(ï«ŒÔşÿÿÿÿ8Ç£Öá-
-usquid:S00117N"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(š¢çÙşÿÿÿÿ8¡ø‡á-
-msquid:S00116)"NRename this field "URL" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(Ÿ¾8æ‡í‡á-
-squid:S1488l"^Immediately return this expression instead of assigning it to the temporary variable "result".(ëó¿ûşÿÿÿÿ8©×°Šá-
-psquid:S001172"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(êÿŸ8†á½‡á-
-?squid:S1170)"!Make this final field static too.(Ÿ¾8æ‡í‡á-
-usquid:S001171"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ÖœÒŞıÿÿÿÿ8Êå¼‡á-
+Dsquid:S1170/"!Make this final field static too.(éĞ¥Ëÿÿÿÿÿ8÷ïÀá-
+nsquid:CommentedOutCodeLine0"<This block of commented-out lines of code should be removed.(ĞÏûÃşÿÿÿÿ8÷ïÀá-
+psquid:S001179"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(¨É8†á½‡á-
+vsquid:S00117"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(š¢çÙşÿÿÿÿ8İá‘Œá-
+psquid:S001178"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(½¥ÙÅ8Êå¼‡á-
+rsquid:S00116/"NRename this field "URL" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(éĞ¥Ëÿÿÿÿÿ8÷ïÀá-
+usquid:S00117U"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(š¢çÙşÿÿÿÿ8¡ø‡á-
+esquid:UselessImportCheck":Remove this unused import 'com.yq.jwt.islogin.CheckToken'.(¦öş8°Â¦¬á-

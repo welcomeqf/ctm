@@ -65,6 +65,10 @@ public class ApplyController {
             applyVo.getChildNumber() == null || StringUtils.isBlank(applyVo.getPayType())) {
             throw new ApplicationException(CodeType.PARAM_ERROR,"申请报名表参数不能为空");
         }
+        if (applyVo.getAdultNumber() < 0 || applyVo.getBabyNumber() < 0 || applyVo.getOldNumber() < 0
+        || applyVo.getChildNumber() < 0) {
+            throw new ApplicationException(CodeType.PARAM_ERROR,"人数个数不能为负数");
+        }
         UserLoginQuery user = localUser.getUser("用户信息");
         applyVo.setCompanyUser(user.getAccount());
         applyVo.setCompanyNameId(user.getCompanyId());

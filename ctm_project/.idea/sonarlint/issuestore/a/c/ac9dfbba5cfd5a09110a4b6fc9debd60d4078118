@@ -1,10 +1,10 @@
 
+asquid:UselessImportCheck	"1Remove this unused import 'com.yq.utils.JwtUtil'.(îÁŠ üÿÿÿÿ8­¿ì»à-
 fsquid:S1192["HDefine a constant instead of duplicating this literal "&AppId=" 3 times.(×À8°¹ëÖ-
+?squid:S1170."!Make this final field static too.(¾–öÉ8 —¦¢Û-
 ?squid:S1170)"!Make this final field static too.(á¬ÀÏ8çú‘½à-
-ysquid:S1845)"[Rename field "ip" to prevent any misunderstanding/clash with field "Ip" defined on line 39.(á¬ÀÏ8ˆÆ‘½à-
 qsquid:S00116'"MRename this field "Ip" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ÁãåÚıÿÿÿÿ8¬¶»Ö-
 Zsquid:UselessImportCheck"/Remove this unused import 'com.yq.data.Result'.(­Àïš8®ğî»à-
 gsquid:S1192D"IDefine a constant instead of duplicating this literal "http://" 12 times.(²¨õı8ÌêåÖ-
 squid:S1488b"^Immediately return this expression instead of assigning it to the temporary variable "result".(î¤œøÿÿÿÿ8àš¼à-
-?squid:S1170."!Make this final field static too.(¾–öÉ8 —¦¢Û-
-asquid:UselessImportCheck	"1Remove this unused import 'com.yq.utils.JwtUtil'.(îÁŠ üÿÿÿÿ8­¿ì»à-
+ysquid:S1845)"[Rename field "ip" to prevent any misunderstanding/clash with field "Ip" defined on line 39.(á¬ÀÏ8ˆÆ‘½à-

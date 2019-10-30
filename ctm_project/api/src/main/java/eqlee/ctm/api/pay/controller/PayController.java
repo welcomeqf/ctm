@@ -4,6 +4,7 @@ package eqlee.ctm.api.pay.controller;
 import com.alibaba.fastjson.JSONObject;
 import com.yq.data.Result;
 import com.yq.jwt.islogin.CheckToken;
+import eqlee.ctm.api.entity.vo.ResultVo;
 import eqlee.ctm.api.httpclient.HttpClientUtils;
 import eqlee.ctm.api.httpclient.HttpResult;
 import eqlee.ctm.api.pay.entity.Pay;
@@ -43,7 +44,11 @@ public class PayController {
     @Autowired
     private IPayService payService;
 
-    private final String URL = "http://192.168.0.86:8122";
+    private final String URL = "http://pay.wapi.eqlee.com";
+
+    private final String AccessKey = "157222853200009";
+
+    private final String AccessKeySecret = "74c172912d9b4631bc72e567c27b2ece";
 
     /**
      * 获取token
@@ -51,8 +56,6 @@ public class PayController {
      * @throws Exception
      */
     public Object getPayToken () throws Exception{
-        String AccessKey = "157231318100010";
-        String AccessKeySecret = "6c3222a87a3f46afad471622f9fc5228";
 
         String url = URL +"/v1/Token/Token";
 
@@ -87,10 +90,15 @@ public class PayController {
                 + "&productName=" + productName + "&callbackUrl=" +callbackUrl;
 
         Object token = getPayToken();
-
         String tokenString = "Bearer " +token;
 
         HttpResult httpResult = apiService.get(url, tokenString);
+        ResultVo vo = new ResultVo();
+        if (httpResult == null) {
+            vo.setMsg("无返回数据");
+            vo.setCode("300");
+            return vo;
+        }
 
         return JSONObject.parse(httpResult.getBody());
     }
@@ -141,9 +149,15 @@ public class PayController {
                       @RequestParam("productName") String productName,
                       @RequestParam("code") String code) throws Exception{
         String callbackUrl = "http://ctm.wapi.eqlee.com/ctm_api/v1/pay/sucFail";
-
+        ResultVo vo = new ResultVo();
         //获取openId
         String openId = PayData.getOpenId(code);
+        if (openId == null) {
+            vo.setCode("300");
+            vo.setMsg("code有误~");
+            return vo;
+        }
+
         String url = URL + "/v1/WeChatPay/GetJsApiPayInfo?payOrderSerialNumber=" + payOrderSerialNumber +"&Money=" +Money
                 + "&productName=" + productName + "&callbackUrl=" +callbackUrl + "&openId=" +openId;
 
@@ -152,7 +166,11 @@ public class PayController {
         String tokenString = "Bearer " +token;
 
         HttpResult httpResult = apiService.get(url, tokenString);
-
+        if (httpResult == null) {
+            vo.setCode("300");
+            vo.setMsg("无返回数据");
+            return vo;
+        }
         return JSONObject.parse(httpResult.getBody());
     }
 

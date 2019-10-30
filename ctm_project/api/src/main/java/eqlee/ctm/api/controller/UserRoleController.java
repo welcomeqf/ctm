@@ -51,8 +51,6 @@ public class UserRoleController {
     @Autowired
     private LocalUser localUser;
 
-    private final Integer Status = 200;
-
     @ApiOperation(value = "增加角色-- 9093:api", notes = "增加角色-- 9093:api")
     @ApiImplicitParam(name = "roleName", value = "角色名称", required = true, dataType = "String", paramType = "path")
     @PostMapping("/insertRole")
