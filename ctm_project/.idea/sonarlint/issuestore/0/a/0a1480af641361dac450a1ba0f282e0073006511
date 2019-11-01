@@ -1,8 +1,8 @@
 
-Msquid:S10681"*Remove this unused "Status" private field.(ûĞüüÿÿÿÿ8Ê¹Î–ß-
 usquid:S001161"QRename this field "Status" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ûĞüüÿÿÿÿ8íöŒÖ-
-Dsquid:S11701"!Make this final field static too.(ûĞüüÿÿÿÿ8íöŒÖ-
 ?squid:S1170,"!Make this final field static too.(¾–öÉ8µÜñ¢Û-
 ?squid:S1170*"!Make this final field static too.(á¬ÀÏ8îÊÖ½à-
-qsquid:S00116%"MRename this field "Ip" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ÁãåÚıÿÿÿÿ8íöŒÖ-
+Msquid:S10681"*Remove this unused "Status" private field.(ûĞüüÿÿÿÿ8Ê¹Î–ß-
+Dsquid:S11701"!Make this final field static too.(ûĞüüÿÿÿÿ8íöŒÖ-
 ysquid:S1845*"[Rename field "ip" to prevent any misunderstanding/clash with field "Ip" defined on line 37.(á¬ÀÏ8îÊÖ½à-
+qsquid:S00116%"MRename this field "Ip" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ÁãåÚıÿÿÿÿ8íöŒÖ-

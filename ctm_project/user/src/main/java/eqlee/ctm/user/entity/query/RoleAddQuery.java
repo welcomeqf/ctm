@@ -19,4 +19,6 @@ public class RoleAddQuery {
     private Integer statu;
 
     private Long companyId;
+
+    private Long createUserId;
 }

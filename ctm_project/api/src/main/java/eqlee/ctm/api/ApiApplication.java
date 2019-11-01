@@ -1,6 +1,8 @@
 package eqlee.ctm.api;
 
 
+import com.yq.handle.ApplicationAdviceHandle;
+import com.yq.handle.GlobalResponseHandler;
 import com.yq.jwt.contain.LocalUser;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
@@ -25,6 +27,16 @@ public class ApiApplication extends SpringBootServletInitializer {
     @Bean
     public LocalUser getLocalUser() {
         return new LocalUser();
+    }
+
+    @Bean
+    public GlobalResponseHandler getGlobalResponseHandler() {
+        return new GlobalResponseHandler();
+    }
+
+    @Bean
+    public ApplicationAdviceHandle getApplicationAdviceHandle() {
+        return new ApplicationAdviceHandle();
     }
 
     /**

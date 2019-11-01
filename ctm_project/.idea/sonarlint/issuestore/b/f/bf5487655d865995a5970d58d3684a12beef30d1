@@ -1,9 +1,9 @@
 
-psquid:S00117\"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(‰ÔØ©8È †Ö-
 qsquid:S00117"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ôÿÎ×8È †Ö-
-isquid:UselessImportCheck"9Remove this unused import 'com.yq.jwt.contain.LocalUser'.(Í×„Ãúÿÿÿÿ8²ö¨™ß-
-qsquid:S00117¶"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(¦°´´8ëŞ»‘à-
-Fsquid:S1148{"#Use a logger to log this exception.(€ÉÔ…ıÿÿÿÿ8î€¿Ÿİ-
-hsquid:UselessImportCheck"=Remove this unused import 'com.yq.jwt.entity.UserLoginQuery'.(ú¼İÀ8‚©ˆ–ß-
-psquid:UselessImportCheck"@Remove this unused import 'eqlee.ctm.user.entity.vo.UserRoleVo'.(Şö³Çÿÿÿÿÿ8¹ò€Ÿİ-
 qsquid:S00117"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(€À…—8È †Ö-
+hsquid:UselessImportCheck"=Remove this unused import 'com.yq.jwt.entity.UserLoginQuery'.(ú¼İÀ8‚©ˆ–ß-
+qsquid:S00117¶"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(¦°´´8ëŞ»‘à-
+psquid:UselessImportCheck"@Remove this unused import 'eqlee.ctm.user.entity.vo.UserRoleVo'.(Şö³Çÿÿÿÿÿ8¹ò€Ÿİ-
+isquid:UselessImportCheck"9Remove this unused import 'com.yq.jwt.contain.LocalUser'.(Í×„Ãúÿÿÿÿ8²ö¨™ß-
+Fsquid:S1148{"#Use a logger to log this exception.(€ÉÔ…ıÿÿÿÿ8î€¿Ÿİ-
+psquid:S00117\"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(‰ÔØ©8È †Ö-

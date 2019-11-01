@@ -192,10 +192,55 @@ public class ApplyController {
     @CrossOrigin
     @CheckToken
     public Page<ApplyCompanyQuery> page2MeApply(@RequestParam("current") Integer current, @RequestParam("size") Integer size,
-                                             @RequestParam("OutTime") String OutTime, @RequestParam("LineName") String LineName) {
+                                                @RequestParam("OutTime") String OutTime, @RequestParam("LineName") String LineName) {
+
+        if (current == null || size == null) {
+            throw new ApplicationException(CodeType.PARAM_ERROR,"参数不能为空");
+        }
 
         Page<ApplyCompanyQuery> page = new Page<>(current,size);
-        return applyService.page2MeApply(page,OutTime,LineName);
+        return applyService.page2MeApply(page,LineName,OutTime);
 
     }
+
+
+    @ApiOperation(value = "分页查询月结的信息", notes = "分页查询月结的信息")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "current", value = "当前页", required = true, dataType = "int", paramType = "path"),
+            @ApiImplicitParam(name = "size", value = "每页显示的条数", required = true, dataType = "int", paramType = "path"),
+            @ApiImplicitParam(name = "outDate", value = "出行时间", required = false, dataType = "String", paramType = "path"),
+            @ApiImplicitParam(name = "type", value = "类型(0-查询全部 1-未付款 2-已付款)", required = false, dataType = "int", paramType = "path")
+    })
+    @GetMapping("/queryMonthApply")
+    @CrossOrigin
+    @CheckToken
+    public Page<ApplyMonthQuery> queryMonthApply(@RequestParam("current") Integer current, @RequestParam("size") Integer size,
+                                                @RequestParam("outDate") String outDate, @RequestParam("type") Integer type) {
+
+        if (current == null || size == null) {
+            throw new ApplicationException(CodeType.PARAM_ERROR,"参数不能为空");
+        }
+        Page<ApplyMonthQuery> page = new Page<>(current,size);
+        return applyService.queryMonthApply(page,type,outDate);
+
+    }
+
+
+    @ApiOperation(value = "修改月结付款状态", notes = "修改月结付款状态")
+    @ApiImplicitParam(name = "id", value = "id", required = true, dataType = "Long", paramType = "path")
+    @GetMapping("/updateMonthType")
+    @CrossOrigin
+    @CheckToken
+    public ResultVo updateMonthType(@RequestParam("id") Long id) {
+
+        if (id == null) {
+            throw new ApplicationException(CodeType.PARAM_ERROR,"参数不能为空");
+        }
+        applyService.updateMonthType(id);
+
+        ResultVo vo = new ResultVo();
+        vo.setResult("OK");
+        return vo;
+    }
+
 }

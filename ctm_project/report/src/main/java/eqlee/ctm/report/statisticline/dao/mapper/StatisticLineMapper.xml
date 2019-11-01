@@ -13,7 +13,8 @@
 
 
     <select id="selectCountByTime" resultType="eqlee.ctm.report.statisticline.entity.vo.PersonCountVo">
-      select convert(varchar(20),a.OutDate,23) as 'day', sum(b.AllNumber) as 'allPersonCount' from Orders a join OrderDetailed b on a.Id = b.OrderId
+      select convert(varchar(20),a.OutDate,23) as 'day', sum(b.AllNumber) as 'allPersonCount' from Orders a
+      join OrderDetailed b on a.Id = b.OrderId
       where OutDate between #{startTime} and #{endTime} group by a.OutDate
     </select>
 

@@ -157,4 +157,10 @@ public interface InFinanceMapper extends IBaseMapper<Income> {
                                        @Param("lineName") String lineName,
                                        @Param("guideId") Long guideId);
 
+    /**
+     * 修改车辆状态
+     * @param carNo
+     * @return
+     */
+    Integer updateCarStatus (String carNo);
 }

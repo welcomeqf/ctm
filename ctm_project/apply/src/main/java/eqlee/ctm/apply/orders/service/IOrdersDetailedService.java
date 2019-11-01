@@ -2,6 +2,7 @@ package eqlee.ctm.apply.orders.service;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import eqlee.ctm.apply.orders.entity.OrderDetailed;
+import eqlee.ctm.apply.orders.entity.bo.OrderDetailedBo;
 import eqlee.ctm.apply.orders.entity.query.OrderDetailedQuery;
 
 import java.util.List;
@@ -15,9 +16,9 @@ public interface IOrdersDetailedService {
 
     /**
      * 导游选人后生成订单
-     * @param orderDetailedList
+     * @param list
      */
-    void batchInsertorderDetailed(List<OrderDetailed> orderDetailedList);
+    void batchInsertorderDetailed(List<OrderDetailedBo> list);
 
 
     /**

@@ -1,6 +1,9 @@
 package eqlee.ctm.api.controller;
 
 import com.alibaba.fastjson.JSONObject;
+import com.yq.anntation.IgnoreResponseAdvice;
+import com.yq.constanct.CodeType;
+import com.yq.exception.ApplicationException;
 import com.yq.jwt.islogin.CheckToken;
 import eqlee.ctm.api.entity.UserMenu;
 import eqlee.ctm.api.entity.query.PrivilegeDetailedQuery;
@@ -46,8 +49,6 @@ public class UserPrivilegeController {
     @Autowired
     private HttpClientUtils apiService;
 
-    private final Integer Status = 200;
-
     @ApiOperation(value = "增加权限-- 9093:api", notes = "增加权限-- 9093:api")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "roleId", value = "角色Id", required = true, dataType = "String", paramType = "path"),
@@ -56,6 +57,7 @@ public class UserPrivilegeController {
     @PostMapping("/insertPrivilege")
     @CrossOrigin
     @CheckToken
+    @IgnoreResponseAdvice
     public Object insertPrivilege(@RequestBody PrivilegeQuery query) throws Exception{
         String encode = DataUtils.getEncodeing("RSA");
 
@@ -79,8 +81,7 @@ public class UserPrivilegeController {
 
         ResultResposeVo vo = JSONObject.parseObject(httpResult.getBody(),ResultResposeVo.class);
         if (vo.getCode() != 0) {
-            String msg = DataUtils.getMsg(vo.getMsg());
-            return DataUtils.getError(msg);
+            throw new ApplicationException(CodeType.RESOURCES_NOT_FIND,vo.getMsg());
         }
 
         return JSONObject.parse(httpResult.getBody());

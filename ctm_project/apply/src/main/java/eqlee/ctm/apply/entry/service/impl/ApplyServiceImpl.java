@@ -11,6 +11,7 @@ import com.yq.utils.StringUtils;
 import eqlee.ctm.apply.entry.dao.ApplyMapper;
 import eqlee.ctm.apply.entry.entity.Apply;
 import eqlee.ctm.apply.entry.entity.query.*;
+import eqlee.ctm.apply.entry.entity.vo.ApplyOpenIdVo;
 import eqlee.ctm.apply.entry.entity.vo.ApplySeacherVo;
 import eqlee.ctm.apply.entry.entity.vo.ApplyVo;
 import eqlee.ctm.apply.entry.entity.vo.ExamineAddVo;
@@ -65,7 +66,7 @@ public class ApplyServiceImpl extends ServiceImpl<ApplyMapper, Apply> implements
         long until = now.until(outDate, ChronoUnit.DAYS);
 
         if (until <= 0) {
-            throw new ApplicationException(CodeType.SERVICE_ERROR,"该天已经不能报名");
+            throw new ApplicationException(CodeType.SERVICE_ERROR,"亲~请报名今天之后的旅行！");
         }
 
         Line line = lineService.queryLineByName(applyVo.getLineName());
@@ -164,6 +165,13 @@ public class ApplyServiceImpl extends ServiceImpl<ApplyMapper, Apply> implements
 
         //组装ApplyPayResultQuery 返回数据
         ApplyPayResultQuery query = new ApplyPayResultQuery();
+        //去数据库查询是否有该用户的openId
+        ApplyOpenIdVo idVo = baseMapper.queryPayInfo(applyVo.getCreateUserId());
+        if (idVo == null) {
+            query.setAuto(false);
+        } else {
+            query.setAuto(true);
+        }
         query.setApplyNo(orderCode);
         String product = applyVo.getOutDate() + "在"+applyVo.getLineName() +"报名消费";
         query.setProductName(product);
@@ -535,6 +543,68 @@ public class ApplyServiceImpl extends ServiceImpl<ApplyMapper, Apply> implements
                 .eq(Apply::getLineId,line.getId());
 
         return baseMapper.selectList(lambdaQueryWrapper);
+    }
+
+    /**
+     * 分页查询月结的信息
+     * type==0 默认
+     * type==1 未付款
+     * type==2 已付款
+     * @param page
+     * @param type
+     * @param outDate
+     * @return
+     */
+    @Override
+    public Page<ApplyMonthQuery> queryMonthApply(Page<ApplyMonthQuery> page, Integer type,String outDate) {
+
+        if (type == 1 && StringUtils.isBlank(outDate)) {
+            //未付款信息
+               return baseMapper.queryMonthWeiApply(page);
+        }
+
+        if (type == 1 && StringUtils.isNotBlank(outDate)) {
+            //根据出行日期查询未付款信息
+            LocalDate localDate = DateUtil.parseDate(outDate);
+            return baseMapper.queryMonthWeiApplyByTime(page,localDate);
+        }
+
+        if (type == 2 && StringUtils.isBlank(outDate)) {
+            //已付款信息
+            return baseMapper.queryMonthYiApply(page);
+        }
+
+        if (type == 2 && StringUtils.isNotBlank(outDate)) {
+            //根据出行日期查询已付款信息
+            LocalDate localDate = DateUtil.parseDate(outDate);
+            return baseMapper.queryMonthYiApplyByTime(page,localDate);
+        }
+
+        if (StringUtils.isNotBlank(outDate)) {
+            //根据出行日期查询全部
+            LocalDate localDate = DateUtil.parseDate(outDate);
+            return baseMapper.queryMonthApplyByTime(page,localDate);
+        }
+
+        //查询全部
+        return baseMapper.queryMonthApply(page);
+    }
+
+    /**
+     * 修改付款状态
+     * @param id
+     */
+    @Override
+    public void updateMonthType(Long id) {
+        Apply apply = new Apply();
+        apply.setId(id);
+        apply.setIsPayment(true);
+
+        int byId = baseMapper.updateById(apply);
+
+        if (byId <= 0) {
+            throw new ApplicationException(CodeType.SERVICE_ERROR, "修改失败");
+        }
     }
 
 

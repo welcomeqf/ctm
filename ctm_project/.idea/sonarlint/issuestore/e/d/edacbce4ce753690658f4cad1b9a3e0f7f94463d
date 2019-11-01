@@ -1,8 +1,8 @@
 
-hsquid:UselessImportCheck"=Remove this unused import 'com.yq.jwt.entity.UserLoginQuery'.(ú¼İÀ8°»Åêß-
-[squid:UselessImportCheck"+Remove this unused import 'java.util.List'.(Õë±Äøÿÿÿÿ8øï´ÿÚ-
-qsquid:S00117›"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(â¹¬Â8À‰“Ö-
-msquid:S00100/"NRename this method name to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(…Û–Ú8øï´ÿÚ-
 psquid:S00117Z"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(š€ñĞ8øï´ÿÚ-
+qsquid:S00117›"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(â¹¬Â8À‰“Ö-
 psquid:S00117/"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(…Û–Ú8øï´ÿÚ-
+hsquid:UselessImportCheck"=Remove this unused import 'com.yq.jwt.entity.UserLoginQuery'.(ú¼İÀ8°»Åêß-
 nsquid:S00100›"NRename this method name to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(â¹¬Â8·”œåÔ-
+[squid:UselessImportCheck"+Remove this unused import 'java.util.List'.(Õë±Äøÿÿÿÿ8øï´ÿÚ-
+msquid:S00100/"NRename this method name to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(…Û–Ú8øï´ÿÚ-

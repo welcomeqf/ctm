@@ -1,10 +1,8 @@
 package eqlee.ctm.api.vilidate;
 
 
-import com.alibaba.fastjson.JSONObject;
 import com.yq.utils.Base64Util;
 import com.yq.utils.CryptoUtils;
-import eqlee.ctm.api.entity.vo.ResoultJosnVo;
 import eqlee.ctm.api.httpclient.ErrorResult;
 
 /**

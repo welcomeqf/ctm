@@ -133,4 +133,22 @@ public interface IApplyService {
      * @return
      */
     List<Apply> queryApplyByTime (LocalDate outDate, String lineName);
+
+    /**
+     * 分页查询月结的信息
+     * type==0 默认
+     * type==1 未付款
+     * type==2 已付款
+     * @param page
+     * @param type
+     * @param outDate
+     * @return
+     */
+    Page<ApplyMonthQuery> queryMonthApply (Page<ApplyMonthQuery> page,Integer type,String outDate);
+
+    /**
+     * 修改付款状态
+     * @param id
+     */
+    void updateMonthType (Long id);
 }

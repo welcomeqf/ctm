@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.yq.IBaseMapper.IBaseMapper;
 import eqlee.ctm.apply.orders.entity.OrderDetailed;
 import eqlee.ctm.apply.orders.entity.Vo.OrderIndexVo;
+import eqlee.ctm.apply.orders.entity.bo.OrderDetailedBo;
 import eqlee.ctm.apply.orders.entity.query.OrderDetailedQuery;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Component;
@@ -20,9 +21,9 @@ import java.util.List;
 public interface OrderDetailedMapper extends IBaseMapper<OrderDetailed> {
     /**
      * 批量插入订单详情
-     * @param orderDetailedList
+     * @param list
      */
-    void batchInsertorderDetailed(List<OrderDetailed> orderDetailedList);
+    void batchInsertorderDetailed(List<OrderDetailedBo> list);
 
     /**
      * 查询所有导游人员

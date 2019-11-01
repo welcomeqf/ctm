@@ -50,17 +50,6 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, UserMenu> implement
      */
     @Override
     public void addMenu(MenuVo vo) {
-        //验证签名
-        Sign sign = signService.queryOne(vo.getAppId());
-        Boolean result = null;
-        try {
-            result = SignData.getResult(DataUtils.getDcodeing(vo.getAppId()), DataUtils.getDcodeing(sign.getInformation()));
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        if (!result) {
-            throw new ApplicationException(CodeType.AUTHENTICATION_ERROR);
-        }
 
         IdGenerator idGenerator = new IdGenerator();
         Long id = idGenerator.getNumberId();

@@ -20,7 +20,11 @@ import java.time.LocalDateTime;
 @Accessors(chain = true)
 @TableName("OrderDetailed")
 public class OrderDetailed extends Model<OrderDetailed> {
+
+
     private static final long serialVersionUID = 1L;
+
+
     private Long Id;
 
     /**

@@ -14,8 +14,6 @@ public class MenuVo {
 
     private String menuName;
 
-    private String appId;
-
     private Long parent;
 
     private String action;

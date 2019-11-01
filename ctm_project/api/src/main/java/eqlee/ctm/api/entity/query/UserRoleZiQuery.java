@@ -18,4 +18,6 @@ public class UserRoleZiQuery {
     private String roleName;
 
     private Long companyId;
+
+    private Long createUserId;
 }

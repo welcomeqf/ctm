@@ -47,4 +47,6 @@ public class ApplyQuery {
     private Integer MaxNumber;
 
     private String Region;
+
+    private Integer TravelSituation;
 }

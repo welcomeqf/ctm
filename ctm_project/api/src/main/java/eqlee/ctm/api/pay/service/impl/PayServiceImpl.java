@@ -1,6 +1,8 @@
 package eqlee.ctm.api.pay.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.yq.constanct.CodeType;
+import com.yq.exception.ApplicationException;
 import eqlee.ctm.api.pay.dao.PayMapper;
 import eqlee.ctm.api.pay.entity.Pay;
 import eqlee.ctm.api.pay.entity.PayResult;
@@ -88,6 +90,11 @@ public class PayServiceImpl extends ServiceImpl<PayMapper, Pay> implements IPayS
     @Override
     public ResultQuery queryPayResult(String applyNo) {
         PayResultQuery payResult = baseMapper.queryPayResult(applyNo);
+
+        if (payResult == null) {
+            throw new ApplicationException(CodeType.SERVICE_ERROR,"请重新支付");
+        }
+
         ResultQuery result = new ResultQuery();
         result.setId(payResult.getId());
         result.setApplyNo(payResult.getApplyNo());
@@ -102,6 +109,11 @@ public class PayServiceImpl extends ServiceImpl<PayMapper, Pay> implements IPayS
 
         //查询报名表字段
         ApplyPayResultQuery query = baseMapper.queryApplyResult(applyNo);
+
+        if (query == null) {
+            throw new ApplicationException(CodeType.SERVICE_ERROR, "订单号传入有误");
+        }
+
         result.setMoney(query.getMoney());
 
         if (query.getApplyStatus()) {

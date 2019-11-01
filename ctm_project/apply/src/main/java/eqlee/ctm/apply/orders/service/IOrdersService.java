@@ -65,6 +65,11 @@ public interface IOrdersService {
     void save(String LineName, String OutDate, String CarNumber);
 
 
+    /**
+     * 修改公司状态
+     * @param carNo
+     */
+    void updateCarStatus (String carNo);
 
 
     /**

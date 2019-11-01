@@ -15,6 +15,25 @@ import org.springframework.stereotype.Component;
  */
 @Component
 public interface CompanyMapper extends IBaseMapper<Company> {
+
+
+
+
     Page<CompanyIndexVo> getCompanyPageByName(Page<CompanyIndexVo>page,
                                                @Param("companyName") String companyName);
+
+
+    /**
+     * 删除该公司旗下的所有子角色
+     * @param id
+     * @return
+     */
+    int deleteCompanyRole (Long id);
+
+    /**
+     * 删除该公司下的所有用户
+     * @param id
+     * @return
+     */
+    int deleteUser (Long id);
 }

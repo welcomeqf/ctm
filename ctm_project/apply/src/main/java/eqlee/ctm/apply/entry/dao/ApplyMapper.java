@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.yq.IBaseMapper.IBaseMapper;
 import eqlee.ctm.apply.entry.entity.Apply;
 import eqlee.ctm.apply.entry.entity.query.*;
+import eqlee.ctm.apply.entry.entity.vo.ApplyOpenIdVo;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Component;
 
@@ -251,11 +252,11 @@ public interface ApplyMapper extends IBaseMapper<Apply> {
      * 分页查询我的报名记录
      * 通过出行时间进行条件选择
      * @param page
-     * @param OutTime
+     * @param OutDate
      * @return
      */
     Page<ApplyCompanyQuery> listPageDoApply2MeByTime(Page<ApplyCompanyQuery> page,
-                                                          @Param("OutTime") LocalDate OutTime);
+                                                          @Param("OutDate") LocalDate OutDate);
 
     /**
      * 分页查询我的报名记录
@@ -278,4 +279,61 @@ public interface ApplyMapper extends IBaseMapper<Apply> {
     Page<ApplyCompanyQuery> listPageDoApply2MeByNameAndTime(Page<ApplyCompanyQuery> page,
                                                         @Param("lineName") String lineName,
                                                          @Param("OutTime") LocalDate OutTime);
+
+    /**
+     * 查询支付信息
+     * @param userId
+     * @return
+     */
+    ApplyOpenIdVo queryPayInfo (Long userId);
+
+    /**
+     * 查询全部
+     * @param page
+     * @return
+     */
+    Page<ApplyMonthQuery> queryMonthApply(Page<ApplyMonthQuery> page);
+
+
+    /**
+     * 根据出行日期查询全部
+     * @param page
+     * @param outDate
+     * @return
+     */
+    Page<ApplyMonthQuery> queryMonthApplyByTime(Page<ApplyMonthQuery> page,
+                                                @Param("outDate") LocalDate outDate);
+
+    /**
+     * 查询未付款信息
+     * @param page
+     * @return
+     */
+    Page<ApplyMonthQuery> queryMonthWeiApply(Page<ApplyMonthQuery> page);
+
+    /**
+     * 根据出行日期查询未付款信息
+     * @param page
+     * @param outDate
+     * @return
+     */
+    Page<ApplyMonthQuery> queryMonthWeiApplyByTime(Page<ApplyMonthQuery> page,
+                                                   @Param("outDate") LocalDate outDate);
+
+
+    /**
+     * 查询已付款信息
+     * @param page
+     * @return
+     */
+    Page<ApplyMonthQuery> queryMonthYiApply(Page<ApplyMonthQuery> page);
+
+    /**
+     * 根据出行日期查询已付款信息
+     * @param page
+     * @param outDate
+     * @return
+     */
+    Page<ApplyMonthQuery> queryMonthYiApplyByTime(Page<ApplyMonthQuery> page,
+                                                  @Param("outDate") LocalDate outDate);
 }

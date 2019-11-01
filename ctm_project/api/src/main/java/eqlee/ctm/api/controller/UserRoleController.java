@@ -1,6 +1,9 @@
 package eqlee.ctm.api.controller;
 
 import com.alibaba.fastjson.JSONObject;
+import com.yq.anntation.IgnoreResponseAdvice;
+import com.yq.constanct.CodeType;
+import com.yq.exception.ApplicationException;
 import com.yq.jwt.contain.LocalUser;
 import com.yq.jwt.entity.UserLoginQuery;
 import com.yq.jwt.islogin.CheckToken;
@@ -56,6 +59,7 @@ public class UserRoleController {
     @PostMapping("/insertRole")
     @CrossOrigin
     @CheckToken
+    @IgnoreResponseAdvice
     public Object addRole(@RequestBody UserRoleVo roleVo) throws Exception{
         String encode = DataUtils.getEncodeing("RSA");
         roleVo.setAppId(encode);
@@ -72,8 +76,7 @@ public class UserRoleController {
 
         ResultResposeVo vo = JSONObject.parseObject(httpResult.getBody(),ResultResposeVo.class);
         if (vo.getCode() != 0) {
-            String msg = DataUtils.getMsg(vo.getMsg());
-            return DataUtils.getError(msg);
+            throw new ApplicationException(CodeType.RESOURCES_NOT_FIND,vo.getMsg());
         }
 
         return JSONObject.parse(httpResult.getBody());
@@ -85,6 +88,7 @@ public class UserRoleController {
     @PostMapping("/addZiRole")
     @CrossOrigin
     @CheckToken
+    @IgnoreResponseAdvice
     public Object addZiRole(@RequestBody UserRoleVo roleVo) throws Exception{
         String encode = DataUtils.getEncodeing("RSA");
         roleVo.setAppId(encode);
@@ -93,6 +97,7 @@ public class UserRoleController {
         UserLoginQuery user = localUser.getUser("用户信息");
         UserRoleZiQuery query = new UserRoleZiQuery();
         query.setAppId(roleVo.getAppId());
+        query.setCreateUserId(user.getId());
         query.setCompanyId(user.getCompanyId());
         query.setRoleName(roleVo.getRoleName());
 
@@ -101,8 +106,7 @@ public class UserRoleController {
 
         ResultResposeVo vo = JSONObject.parseObject(httpResult.getBody(),ResultResposeVo.class);
         if (vo.getCode() != 0) {
-            String msg = DataUtils.getMsg(vo.getMsg());
-            return DataUtils.getError(msg);
+            throw new ApplicationException(CodeType.RESOURCES_NOT_FIND,vo.getMsg());
         }
 
         return JSONObject.parse(httpResult.getBody());
@@ -114,6 +118,7 @@ public class UserRoleController {
     @DeleteMapping("/{Id}")
     @CrossOrigin
     @CheckToken
+    @IgnoreResponseAdvice
     public Object deleteRole(@PathVariable("Id") Long Id) throws Exception{
         String encode = DataUtils.getEncodeing("RSA");
         String url = "http://" + ip +":" + port + "/" + path + "/v1/app/role/" +Id + "/" +encode;
@@ -124,8 +129,7 @@ public class UserRoleController {
 
         ResultResposeVo vo = JSONObject.parseObject(httpResult.getBody(),ResultResposeVo.class);
         if (vo.getCode() != 0) {
-            String msg = DataUtils.getMsg(vo.getMsg());
-            return DataUtils.getError(msg);
+            throw new ApplicationException(CodeType.RESOURCES_NOT_FIND,vo.getMsg());
         }
         return JSONObject.parse(httpResult.getBody());
     }
@@ -135,6 +139,7 @@ public class UserRoleController {
     @GetMapping("/RoleInfo")
     @CrossOrigin
     @CheckToken
+    @IgnoreResponseAdvice
     public Object getRole() throws Exception{
         String encode = DataUtils.getEncodeing("RSA");
         String url = "http://" + ip +":" + port + "/" + path + "/v1/app/role/RoleInfo?AppId=" +encode;
@@ -145,9 +150,9 @@ public class UserRoleController {
 
         ResultResposeVo vo = JSONObject.parseObject(httpResult.getBody(),ResultResposeVo.class);
         if (vo.getCode() != 0) {
-            String msg = DataUtils.getMsg(vo.getMsg());
-            return DataUtils.getError(msg);
+            throw new ApplicationException(CodeType.RESOURCES_NOT_FIND,vo.getMsg());
         }
+
         return JSONObject.parse(httpResult.getBody());
     }
 
@@ -159,6 +164,8 @@ public class UserRoleController {
     })
     @GetMapping("/queryPageRole")
     @CrossOrigin
+    @CheckToken
+    @IgnoreResponseAdvice
     public Object queryPageRole(@RequestParam("current") Integer current, @RequestParam("size") Integer size) throws Exception{
         String encode = DataUtils.getEncodeing("RSA");
         String url = "http://" + ip +":" + port + "/" + path + "/v1/app/role/queryPageRole?AppId=" +encode + "&current=" +current + "&size=" +size;
@@ -169,8 +176,7 @@ public class UserRoleController {
 
         ResultResposeVo vo = JSONObject.parseObject(httpResult.getBody(),ResultResposeVo.class);
         if (vo.getCode() != 0) {
-            String msg = DataUtils.getMsg(vo.getMsg());
-            return DataUtils.getError(msg);
+            throw new ApplicationException(CodeType.RESOURCES_NOT_FIND,vo.getMsg());
         }
         return JSONObject.parse(httpResult.getBody());
     }
@@ -185,6 +191,7 @@ public class UserRoleController {
     @PostMapping("/updateRole")
     @CrossOrigin
     @CheckToken
+    @IgnoreResponseAdvice
     public Object updateRole (@RequestBody RoleUpdateVo vo) throws Exception{
         String encode = DataUtils.getEncodeing("RSA");
         vo.setAppId(encode);
@@ -195,8 +202,7 @@ public class UserRoleController {
 
         ResultResposeVo vo1 = JSONObject.parseObject(httpResult.getBody(),ResultResposeVo.class);
         if (vo1.getCode() != 0) {
-            String msg = DataUtils.getMsg(vo1.getMsg());
-            return DataUtils.getError(msg);
+            throw new ApplicationException(CodeType.RESOURCES_NOT_FIND,vo1.getMsg());
         }
 
         return JSONObject.parse(httpResult.getBody());
@@ -212,6 +218,7 @@ public class UserRoleController {
     @GetMapping("/queryZiPageRole")
     @CrossOrigin
     @CheckToken
+    @IgnoreResponseAdvice
     public Object queryZiPageRole(@RequestParam("current") Integer current,
                                   @RequestParam("size") Integer size) throws Exception{
 
@@ -228,8 +235,7 @@ public class UserRoleController {
 
         ResultResposeVo vo = JSONObject.parseObject(httpResult.getBody(),ResultResposeVo.class);
         if (vo.getCode() != 0) {
-            String msg = DataUtils.getMsg(vo.getMsg());
-            return DataUtils.getError(msg);
+            throw new ApplicationException(CodeType.RESOURCES_NOT_FIND,vo.getMsg());
         }
         return JSONObject.parse(httpResult.getBody());
     }

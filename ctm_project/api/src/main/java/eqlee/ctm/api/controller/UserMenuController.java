@@ -1,6 +1,9 @@
 package eqlee.ctm.api.controller;
 
 import com.alibaba.fastjson.JSONObject;
+import com.yq.anntation.IgnoreResponseAdvice;
+import com.yq.constanct.CodeType;
+import com.yq.exception.ApplicationException;
 import com.yq.jwt.contain.LocalUser;
 import com.yq.jwt.entity.PrivilegeMenuQuery;
 import com.yq.jwt.entity.UserLoginQuery;
@@ -59,6 +62,7 @@ public class UserMenuController {
     @GetMapping("/queryAllMenu")
     @CrossOrigin
     @CheckToken
+    @IgnoreResponseAdvice
     public Object queryMenu(@RequestParam("Id") Long Id) throws Exception{
         String encode = DataUtils.getEncodeing("RSA");
         String url = "http://" + ip +":" + port + "/" + path + "/v1/app/menu/queryMenu?Id=" +Id + "&AppId=" +encode;
@@ -69,8 +73,7 @@ public class UserMenuController {
 
         ResultResposeVo vo = JSONObject.parseObject(httpResult.getBody(),ResultResposeVo.class);
         if (vo.getCode() != 0) {
-            String msg = DataUtils.getMsg(vo.getMsg());
-            return DataUtils.getError(msg);
+            throw new ApplicationException(CodeType.RESOURCES_NOT_FIND,vo.getMsg());
         }
         return JSONObject.parse(httpResult.getBody());
 
@@ -81,6 +84,7 @@ public class UserMenuController {
     @GetMapping("/queryAll")
     @CheckToken
     @CrossOrigin
+    @IgnoreResponseAdvice
     public Object queryAllParentMenu(@RequestParam("roleId") Long roleId) throws Exception{
         String encode = DataUtils.getEncodeing("RSA");
         String url = "http://" + ip +":" + port + "/" + path + "/v1/app/menu/queryAll?&AppId=" +encode + "&roleId=" +roleId;
@@ -91,8 +95,7 @@ public class UserMenuController {
 
         ResultResposeVo vo = JSONObject.parseObject(httpResult.getBody(),ResultResposeVo.class);
         if (vo.getCode() != 0) {
-            String msg = DataUtils.getMsg(vo.getMsg());
-            return DataUtils.getError(msg);
+            throw new ApplicationException(CodeType.RESOURCES_NOT_FIND,vo.getMsg());
         }
         return JSONObject.parse(httpResult.getBody());
     }
@@ -102,6 +105,7 @@ public class UserMenuController {
     @GetMapping("/query")
     @CrossOrigin
     @CheckToken
+    @IgnoreResponseAdvice
     public Object queryAllMenu(){
 
         UserLoginQuery users = localUser.getUser("用户信息");
@@ -114,6 +118,7 @@ public class UserMenuController {
     @GetMapping("/queryAllParent")
     @CheckToken
     @CrossOrigin
+    @IgnoreResponseAdvice
     public Object queryAllParent() throws Exception{
         String encode = DataUtils.getEncodeing("RSA");
         String url = "http://" + ip +":" + port + "/" + path + "/v1/app/menu/queryAllParent?&AppId=" +encode;
@@ -124,8 +129,7 @@ public class UserMenuController {
 
         ResultResposeVo vo = JSONObject.parseObject(httpResult.getBody(),ResultResposeVo.class);
         if (vo.getCode() != 0) {
-            String msg = DataUtils.getMsg(vo.getMsg());
-            return DataUtils.getError(msg);
+            throw new ApplicationException(CodeType.RESOURCES_NOT_FIND,vo.getMsg());
         }
         return JSONObject.parse(httpResult.getBody());
     }
@@ -136,6 +140,7 @@ public class UserMenuController {
     @GetMapping("/queryZiAll")
     @CrossOrigin
     @CheckToken
+    @IgnoreResponseAdvice
     public Object queryPrivilege(@RequestParam("roleId") Long roleId) throws Exception{
         UserLoginQuery users = localUser.getUser("用户信息");
         List<UserPrivilegeQuery> list = new ArrayList<>();
@@ -164,8 +169,7 @@ public class UserMenuController {
 
         ResultResposeVo vo1 = JSONObject.parseObject(httpResult.getBody(),ResultResposeVo.class);
         if (vo1.getCode() != 0) {
-            String msg = DataUtils.getMsg(vo1.getMsg());
-            return DataUtils.getError(msg);
+            throw new ApplicationException(CodeType.RESOURCES_NOT_FIND,vo1.getMsg());
         }
         return JSONObject.parse(httpResult.getBody());
 

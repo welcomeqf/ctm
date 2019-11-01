@@ -78,7 +78,7 @@ public class FinanceController {
         || vo.getTrueMoney() == null || StringUtils.isBlank(vo.getTicketName()) || vo.getTicketPrice() == null || vo.getLunchPrice() == null
         || vo.getParkingRatePrice() == null || vo.getRentCarPrice() == null || vo.getGuideSubsidy() == null || vo.getDriverSubsidy() == null
         || vo.getAllOutPrice() == null) {
-            throw new ApplicationException(CodeType.PARAMETER_ERROR);
+            throw new ApplicationException(CodeType.PARAMETER_ERROR,"参数不能为空");
         }
 
         inFinanceService.insertFinance(vo);

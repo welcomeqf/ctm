@@ -2,7 +2,10 @@ package eqlee.ctm.api.controller;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.yq.anntation.IgnoreResponseAdvice;
+import com.yq.constanct.CodeType;
 import com.yq.data.Result;
+import com.yq.exception.ApplicationException;
 import com.yq.jwt.contain.LocalUser;
 import com.yq.jwt.entity.UserLoginQuery;
 import com.yq.jwt.islogin.CheckToken;
@@ -64,6 +67,7 @@ public class UserApiController {
     @PostMapping("/register")
     @CrossOrigin
     @CheckToken
+    @IgnoreResponseAdvice
     public Object register(@RequestBody UserVo userVo) throws Exception{
         String url = "http://" + ip +":" + port + "/" + path + "/v1/app/user/register";
 
@@ -72,8 +76,7 @@ public class UserApiController {
 
         ResultResposeVo vo = JSONObject.parseObject(httpResult.getBody(),ResultResposeVo.class);
         if (vo.getCode() != 0) {
-            String msg = DataUtils.getMsg(vo.getMsg());
-            return DataUtils.getError(msg);
+            throw new ApplicationException(CodeType.RESOURCES_NOT_FIND,vo.getMsg());
         }
 
         return JSONObject.parse(httpResult.getBody());
@@ -86,6 +89,7 @@ public class UserApiController {
     })
     @PostMapping("/login")
     @CrossOrigin
+    @IgnoreResponseAdvice
     public Object login(@RequestBody UserLoginVo userLoginVo) throws Exception {
         String encode = DataUtils.getEncodeing("RSA");
         String url = "http://" + ip + ":" + port + "/" + path +  "/v1/app/user/login?userName=" + userLoginVo.getUserName() + "&AppId=" + encode + "&password=" + userLoginVo.getPassword();
@@ -93,6 +97,11 @@ public class UserApiController {
         Map<String, Object> map = new HashMap<>();
 
         HttpResult httpResult = apiService.doGet(url, map);
+
+        ResultResposeVo vo = JSONObject.parseObject(httpResult.getBody(),ResultResposeVo.class);
+        if (vo.getCode() != 0) {
+            throw new ApplicationException(CodeType.RESOURCES_NOT_FIND,vo.getMsg());
+        }
 
         String body = httpResult.getBody();
         Object result = JSON.parse(body);
@@ -104,6 +113,7 @@ public class UserApiController {
     @DeleteMapping("/deleteUser/{userName}")
     @CrossOrigin
     @CheckToken
+    @IgnoreResponseAdvice
     public Object deleteUser(@PathVariable("userName") String userName) throws Exception{
         String encode = DataUtils.getEncodeing("RSA");
         String url = "http://" + ip +":" + port + "/" + path + "/v1/app/user/deleteUser/" +userName + "/" +encode;
@@ -114,8 +124,7 @@ public class UserApiController {
 
         ResultResposeVo vo = JSONObject.parseObject(httpResult.getBody(),ResultResposeVo.class);
         if (vo.getCode() != 0) {
-            String msg = DataUtils.getMsg(vo.getMsg());
-            return DataUtils.getError(msg);
+            throw new ApplicationException(CodeType.RESOURCES_NOT_FIND,vo.getMsg());
         }
 
         return JSONObject.parse(httpResult.getBody());
@@ -126,6 +135,7 @@ public class UserApiController {
     @DeleteMapping("/exitUser/{userName}")
     @CrossOrigin
     @CheckToken
+    @IgnoreResponseAdvice
     public Object exitUser(@PathVariable("userName") String userName) throws Exception{
         String encode = DataUtils.getEncodeing("RSA");
         String url = "http://" + ip +":" + port + "/" + path + "/v1/app/user/exitUser/" +userName + "/" +encode;
@@ -136,8 +146,7 @@ public class UserApiController {
 
         ResultResposeVo vo = JSONObject.parseObject(httpResult.getBody(),ResultResposeVo.class);
         if (vo.getCode() != 0) {
-            String msg = DataUtils.getMsg(vo.getMsg());
-            return DataUtils.getError(msg);
+            throw new ApplicationException(CodeType.RESOURCES_NOT_FIND,vo.getMsg());
         }
         return JSONObject.parse(httpResult.getBody());
     }
@@ -147,6 +156,7 @@ public class UserApiController {
     @GetMapping("/stopUser/{userName}")
     @CrossOrigin
     @CheckToken
+    @IgnoreResponseAdvice
     public Object stopUser(@PathVariable("userName") String userName) throws Exception{
         String encode = DataUtils.getEncodeing("RSA");
         String url = "http://" + ip +":" + port + "/" + path + "/v1/app/user/stopUser/" +userName + "/" +encode;
@@ -157,8 +167,7 @@ public class UserApiController {
 
         ResultResposeVo vo = JSONObject.parseObject(httpResult.getBody(),ResultResposeVo.class);
         if (vo.getCode() != 0) {
-            String msg = DataUtils.getMsg(vo.getMsg());
-            return DataUtils.getError(msg);
+            throw new ApplicationException(CodeType.RESOURCES_NOT_FIND,vo.getMsg());
         }
         return JSONObject.parse(httpResult.getBody());
     }
@@ -168,6 +177,7 @@ public class UserApiController {
     @GetMapping("/toStopUser/{userName}")
     @CrossOrigin
     @CheckToken
+    @IgnoreResponseAdvice
     public Object toStopUser(@PathVariable("userName") String userName) throws Exception{
         String encode = DataUtils.getEncodeing("RSA");
         String url = "http://" + ip +":" + port + "/" + path + "/v1/app/user/toStopUser/" +userName + "/" +encode;
@@ -178,8 +188,7 @@ public class UserApiController {
 
         ResultResposeVo vo = JSONObject.parseObject(httpResult.getBody(),ResultResposeVo.class);
         if (vo.getCode() != 0) {
-            String msg = DataUtils.getMsg(vo.getMsg());
-            return DataUtils.getError(msg);
+            throw new ApplicationException(CodeType.RESOURCES_NOT_FIND,vo.getMsg());
         }
         return JSONObject.parse(httpResult.getBody());
     }
@@ -195,6 +204,7 @@ public class UserApiController {
     @PostMapping("/downRegister")
     @CrossOrigin
     @CheckToken
+    @IgnoreResponseAdvice
     public Object downRegister(@RequestBody UserVo userVo) throws Exception{
         UserLoginQuery user = localUser.getUser("用户信息");
         String encode = DataUtils.getEncodeing("RSA");
@@ -203,7 +213,7 @@ public class UserApiController {
         //装配query
         query.setAppId(encode);
         query.setCompanyId(user.getCompanyId());
-        query.setRoleName(user.getRoleName());
+        query.setRoleName(userVo.getRoleName());
         query.setName(userVo.getName());
         query.setPassword(userVo.getPassword());
         query.setPhone(userVo.getPhone());
@@ -216,8 +226,7 @@ public class UserApiController {
 
         ResultResposeVo vo = JSONObject.parseObject(httpResult.getBody(),ResultResposeVo.class);
         if (vo.getCode() != 0) {
-            String msg = DataUtils.getMsg(vo.getMsg());
-            return DataUtils.getError(msg);
+            throw new ApplicationException(CodeType.RESOURCES_NOT_FIND,vo.getMsg());
         }
 
         return JSONObject.parse(httpResult.getBody());
@@ -242,6 +251,7 @@ public class UserApiController {
     @GetMapping("/queryPageUserByName")
     @CrossOrigin
     @CheckToken
+    @IgnoreResponseAdvice
     public Object queryPageUserByName(@RequestParam("current") Integer current,
                                                @RequestParam("size") Integer size,
                                                @RequestParam("userName") String userName,
@@ -256,8 +266,7 @@ public class UserApiController {
 
         ResultResposeVo vo = JSONObject.parseObject(httpResult.getBody(),ResultResposeVo.class);
         if (vo.getCode() != 0) {
-            String msg = DataUtils.getMsg(vo.getMsg());
-            return DataUtils.getError(msg);
+            throw new ApplicationException(CodeType.RESOURCES_NOT_FIND,vo.getMsg());
         }
         return JSONObject.parse(httpResult.getBody());
     }
@@ -271,6 +280,7 @@ public class UserApiController {
     @GetMapping("/queryUserByNameOrRole")
     @CrossOrigin
     @CheckToken
+    @IgnoreResponseAdvice
     public Object queryUserByName(@RequestParam("current") Integer current,
                                            @RequestParam("size") Integer size,
                                            @RequestParam("userNameOrRole") String userNameOrRole) throws Exception{
@@ -284,8 +294,7 @@ public class UserApiController {
 
         ResultResposeVo vo = JSONObject.parseObject(httpResult.getBody(),ResultResposeVo.class);
         if (vo.getCode() != 0) {
-            String msg = DataUtils.getMsg(vo.getMsg());
-            return DataUtils.getError(msg);
+            throw new ApplicationException(CodeType.RESOURCES_NOT_FIND,vo.getMsg());
         }
         return JSONObject.parse(httpResult.getBody());
     }
@@ -300,6 +309,7 @@ public class UserApiController {
     @PostMapping("/updateUserPassword")
     @CrossOrigin
     @CheckToken
+    @IgnoreResponseAdvice
     public Object updateUserPassword(@RequestBody UserUpdatePasswordVo vo) throws Exception{
         String encode = DataUtils.getEncodeing("RSA");
         vo.setAppId(encode);
@@ -310,8 +320,7 @@ public class UserApiController {
 
         ResultResposeVo vo1 = JSONObject.parseObject(httpResult.getBody(),ResultResposeVo.class);
         if (vo1.getCode() != 0) {
-            String msg = DataUtils.getMsg(vo1.getMsg());
-            return DataUtils.getError(msg);
+            throw new ApplicationException(CodeType.RESOURCES_NOT_FIND,vo1.getMsg());
         }
 
         return JSONObject.parse(httpResult.getBody());
@@ -329,6 +338,7 @@ public class UserApiController {
     @PostMapping("/updateUser")
     @CrossOrigin
     @CheckToken
+    @IgnoreResponseAdvice
     public Object updateUser(@RequestBody UserUpdateVo vo) throws Exception{
         UserUpdateInfoVo infoVo = new UserUpdateInfoVo();
         String encode = DataUtils.getEncodeing("RSA");
@@ -345,8 +355,7 @@ public class UserApiController {
 
         ResultResposeVo vo1 = JSONObject.parseObject(httpResult.getBody(),ResultResposeVo.class);
         if (vo1.getCode() != 0) {
-            String msg = DataUtils.getMsg(vo1.getMsg());
-            return DataUtils.getError(msg);
+            throw new ApplicationException(CodeType.RESOURCES_NOT_FIND,vo1.getMsg());
         }
 
         return JSONObject.parse(httpResult.getBody());
@@ -357,6 +366,7 @@ public class UserApiController {
     @GetMapping("/getUserById")
     @CrossOrigin
     @CheckToken
+    @IgnoreResponseAdvice
     public Object getUserById (@RequestParam("id") Long id) throws Exception{
         String encode = DataUtils.getEncodeing("RSA");
         String url = "http://" + ip +":" + port + "/" + path + "/v1/app/user/getUserById?appId=" +encode + "&id=" +id;
@@ -367,8 +377,7 @@ public class UserApiController {
 
         ResultResposeVo vo = JSONObject.parseObject(httpResult.getBody(),ResultResposeVo.class);
         if (vo.getCode() != 0) {
-            String msg = DataUtils.getMsg(vo.getMsg());
-            return DataUtils.getError(msg);
+            throw new ApplicationException(CodeType.RESOURCES_NOT_FIND,vo.getMsg());
         }
         return JSONObject.parse(httpResult.getBody());
     }

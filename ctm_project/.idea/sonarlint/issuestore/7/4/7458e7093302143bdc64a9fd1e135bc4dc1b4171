@@ -1,6 +1,6 @@
 
-squid:S1488"^Immediately return this expression instead of assigning it to the temporary variable "openid".(Εÿ½ϋÿÿÿÿ8σλόªα-
-]squid:S1118":Add a private constructor to hide the implicit public one.(ϋκ΄ωψÿÿÿÿ8»Κα-
-Fsquid:S1148"#Use a logger to log this exception.(€ΙΤ…ύÿÿÿÿ8σλόªα-
-Fsquid:S11484"#Use a logger to log this exception.(€ΙΤ…ύÿÿÿÿ8σλόªα-
-?squid:S16430"Use a StringBuilder instead.(¨ές±όÿÿÿÿ8σλόªα-
+]squid:S1118":Add a private constructor to hide the implicit public one.(ϋκ΄ωψÿÿÿÿ8²πΒΪα-
+?squid:S16435"Use a StringBuilder instead.(¨ές±όÿÿÿÿ8σλόªα-
+Fsquid:S11489"#Use a logger to log this exception.(€ΙΤ…ύÿÿÿÿ8σλόªα-
+Fsquid:S1148""#Use a logger to log this exception.(€ΙΤ…ύÿÿÿÿ8σλόªα-
+squid:S1488"^Immediately return this expression instead of assigning it to the temporary variable "openid".(Εÿ½ϋÿÿÿÿ8σλόªα-

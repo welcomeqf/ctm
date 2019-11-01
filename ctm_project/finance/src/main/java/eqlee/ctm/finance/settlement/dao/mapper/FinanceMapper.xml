@@ -101,4 +101,9 @@
         order by a.UpdateDate desc
     </select>
 
+
+    <update id="updateCarStatus" parameterType="String">
+        update Car set Statu = 0 where CarNo= #{CarNo}
+    </update>
+
 </mapper>

@@ -113,4 +113,25 @@ public class ApplyApiController {
 
         return null;
     }
+
+
+    @ApiOperation(value = "分页查询月结的信息", notes = "分页查询月结的信息")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "current", value = "当前页", required = true, dataType = "int", paramType = "path"),
+            @ApiImplicitParam(name = "size", value = "每页显示的条数", required = true, dataType = "int", paramType = "path"),
+            @ApiImplicitParam(name = "outDate", value = "出行时间", required = false, dataType = "String", paramType = "path"),
+            @ApiImplicitParam(name = "type", value = "类型(0-查询全部 1-未付款 2-已付款)", required = false, dataType = "int", paramType = "path")
+    })
+    @GetMapping("/queryMonthApply")
+    public Object queryMonthApply () {
+        return null;
+    }
+
+    @ApiOperation(value = "修改月结付款状态", notes = "修改月结付款状态")
+    @ApiImplicitParam(name = "id", value = "id", required = true, dataType = "Long", paramType = "path")
+    @GetMapping("/updateMonthType")
+    public ResultVo updateMonthType () {
+
+        return null;
+    }
 }

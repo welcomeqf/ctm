@@ -54,6 +54,15 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, UserRole> implement
             throw new ApplicationException(CodeType.AUTHENTICATION_ERROR);
         }
 
+        LambdaQueryWrapper<UserRole> lambdaQueryWrapper = new LambdaQueryWrapper<UserRole>()
+                .eq(UserRole::getRoleName,roleVo.getRoleName())
+                .eq(UserRole::getStatu,0);
+        UserRole userRole = baseMapper.selectOne(lambdaQueryWrapper);
+
+        if (userRole != null) {
+            throw new ApplicationException(CodeType.SERVICE_ERROR,"设置的角色名不能重复");
+        }
+
         UserRole role = new UserRole();
         role.setId(idGenerator.getNumberId());
         role.setRoleName(roleVo.getRoleName());
@@ -84,9 +93,20 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, UserRole> implement
             throw new ApplicationException(CodeType.AUTHENTICATION_ERROR);
         }
 
+        LambdaQueryWrapper<UserRole> lambdaQueryWrapper = new LambdaQueryWrapper<UserRole>()
+                .eq(UserRole::getRoleName,roleVo.getRoleName())
+                .eq(UserRole::getCompanyId,roleVo.getCompanyId())
+                .eq(UserRole::getStatu,1);
+        UserRole userRole = baseMapper.selectOne(lambdaQueryWrapper);
+
+        if (userRole != null) {
+            throw new ApplicationException(CodeType.SERVICE_ERROR,"设置的角色名不能重复");
+        }
+
         UserRole role = new UserRole();
         role.setId(idGenerator.getNumberId());
         role.setCompanyId(roleVo.getCompanyId());
+        role.setCreateUserId(roleVo.getCreateUserId());
         role.setRoleName(roleVo.getRoleName());
         role.setStatu(1);
 

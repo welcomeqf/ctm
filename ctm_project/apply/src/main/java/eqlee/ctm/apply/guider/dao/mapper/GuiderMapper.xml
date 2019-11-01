@@ -56,7 +56,7 @@
         select a.Id,a.AllNumber,a.ContactName,a.ContactTel,a.Region,a.Place,
         convert(varchar(20),a.OutDate,23)OutDate,b.LineName from Apply a
         join Line b on a.LineId = b.Id where a.OutDate = #{outDate} and b.Id = #{lineId}
-        and isnull(a.IsSelect,0) = 0
+        and isnull(a.IsSelect,0) = 0 and a.IsSelect = 0 and a.IsCancel = 0
     </select>
 </mapper>
 

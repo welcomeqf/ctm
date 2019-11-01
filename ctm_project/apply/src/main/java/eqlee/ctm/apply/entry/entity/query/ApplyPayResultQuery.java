@@ -19,4 +19,10 @@ public class ApplyPayResultQuery {
      * 商品描述
      */
     private String productName;
+
+    /**
+     * true说明有openId,只需要传一个code=null
+     * false说明没有openId,需要重新授权
+     */
+    private Boolean auto;
 }

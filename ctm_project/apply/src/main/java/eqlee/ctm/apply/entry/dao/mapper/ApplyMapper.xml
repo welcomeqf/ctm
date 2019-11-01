@@ -6,7 +6,7 @@
     <select id="listPageApply" resultType="eqlee.ctm.apply.entry.entity.query.ApplyQuery">
       select * from (
       select max(LineName)LineName,max(Region)Region,max(convert(varchar(20),OutDate,23))OutDate,max(AdultPrice)AdultPrice,max(OldPrice)OldPrice,max(BabyPrice)BabyPrice,
-        max(ChildPrice)ChildPrice,max(MaxNumber)MaxNumber,isnull(sum(DoAllNumber),0)DoAllNumber
+        max(ChildPrice)ChildPrice,max(MaxNumber)MaxNumber,isnull(sum(DoAllNumber),0)DoAllNumber,max(TravelSituation)TravelSituation
         from VLinePrice
         group by LineId,OutDate
       )tab order by OutDate desc
@@ -16,7 +16,7 @@
     <select id="listPageApplyByDate" resultType="eqlee.ctm.apply.entry.entity.query.ApplyQuery">
       select * from (
       select max(LineName)LineName,max(Region)Region,max(convert(varchar(20),OutDate,23))OutDate,max(AdultPrice)AdultPrice,max(OldPrice)OldPrice,max(BabyPrice)BabyPrice,
-        max(ChildPrice)ChildPrice,max(MaxNumber)MaxNumber,isnull(sum(DoAllNumber),0)DoAllNumber
+        max(ChildPrice)ChildPrice,max(MaxNumber)MaxNumber,isnull(sum(DoAllNumber),0)DoAllNumber,max(TravelSituation)TravelSituation
         from VLinePrice
         group by LineId,OutDate
       )tab where OutDate = #{OutDate} order by OutDate desc
@@ -26,7 +26,7 @@
         <bind name="line_region_name" value="'%' + LineNameOrRegion + '%'"/>
         select * from (
         select max(LineName)LineName,max(Region)Region,max(convert(varchar(20),OutDate,23))OutDate,max(AdultPrice)AdultPrice,max(OldPrice)OldPrice,max(BabyPrice)BabyPrice,
-        max(ChildPrice)ChildPrice,max(MaxNumber)MaxNumber,isnull(sum(DoAllNumber),0)DoAllNumber
+        max(ChildPrice)ChildPrice,max(MaxNumber)MaxNumber,isnull(sum(DoAllNumber),0)DoAllNumber,max(TravelSituation)TravelSituation
         from VLinePrice
         group by LineId,OutDate
         )tab where LineName like #{line_region_name} or Region like #{line_region_name} order by OutDate desc
@@ -36,7 +36,7 @@
         <bind name="line_region_name" value="'%' + LineNameOrRegion + '%'"/>
         select * from (
         select max(LineName)LineName,max(Region)Region,max(convert(varchar(20),OutDate,23))OutDate,max(AdultPrice)AdultPrice,max(OldPrice)OldPrice,max(BabyPrice)BabyPrice,
-        max(ChildPrice)ChildPrice,max(MaxNumber)MaxNumber,isnull(sum(DoAllNumber),0)DoAllNumber
+        max(ChildPrice)ChildPrice,max(MaxNumber)MaxNumber,isnull(sum(DoAllNumber),0)DoAllNumber,max(TravelSituation)TravelSituation
         from VLinePrice
         group by LineId,OutDate
         )tab where (LineName like #{line_region_name} or Region like #{line_region_name}) and OutDate = #{OutDate}
@@ -213,7 +213,7 @@
     <select id="listPageDoApply2MeByTime" resultType="eqlee.ctm.apply.entry.entity.query.ApplyCompanyQuery">
        select a.Id,a.ApplyNo,convert(varchar(20),a.OutDate,23) as 'OutDate',b.LineName,a.AllNumber,
         a.ContactName,a.ContactTel,a.Statu
-        from Apply a join Line b on a.LineId = b.Id where a.OutDate = #{OutTime}
+        from Apply a join Line b on a.LineId = b.Id where a.OutDate = #{OutDate}
         ORDER by a.OutDate desc
     </select>
 
@@ -230,6 +230,51 @@
         select a.Id,a.ApplyNo,convert(varchar(20),a.OutDate,23) as 'OutDate',b.LineName,a.AllNumber,
         a.ContactName,a.ContactTel,a.Statu
         from Apply a join Line b on a.LineId = b.Id where b.LineName like #{lineName_name} and a.OutDate = #{OutTime}
+        ORDER by a.OutDate desc
+    </select>
+
+    <select id="queryPayInfo" parameterType="Long" resultType="eqlee.ctm.apply.entry.entity.vo.ApplyOpenIdVo">
+        select OpenId as 'openId' from PayInfo where UserId = #{userId}
+    </select>
+
+    <!-- 月结统计 -->
+    <select id="queryMonthApply" resultType="eqlee.ctm.apply.entry.entity.query.ApplyMonthQuery">
+        select a.Id,convert(varchar(20),a.OutDate,23) as 'OutDate',a.AllPrice,b.LineName,a.AllNumber,a.IsPayment,
+        a.CompanyUser,a.ContactName from Apply a join Line b on a.LineId = b.Id
+        where a.PayType = 1 ORDER by a.OutDate desc
+    </select>
+
+    <select id="queryMonthApplyByTime" resultType="eqlee.ctm.apply.entry.entity.query.ApplyMonthQuery">
+        select a.Id,convert(varchar(20),a.OutDate,23) as 'OutDate',a.AllPrice,b.LineName,a.AllNumber,a.IsPayment,
+        a.CompanyUser,a.ContactName from Apply a join Line b on a.LineId = b.Id
+        where a.PayType = 1 and a.OutDate = #{outDate}
+        ORDER by a.OutDate desc
+    </select>
+
+    <select id="queryMonthWeiApply" resultType="eqlee.ctm.apply.entry.entity.query.ApplyMonthQuery">
+        select a.Id,convert(varchar(20),a.OutDate,23) as 'OutDate',a.AllPrice,b.LineName,a.AllNumber,a.IsPayment,
+        a.CompanyUser,a.ContactName from Apply a join Line b on a.LineId = b.Id
+        where a.PayType = 1 and a.IsPayment = 0
+        ORDER by a.OutDate desc
+    </select>
+
+    <select id="queryMonthWeiApplyByTime" resultType="eqlee.ctm.apply.entry.entity.query.ApplyMonthQuery">
+        select a.Id,convert(varchar(20),a.OutDate,23) as 'OutDate',a.AllPrice,b.LineName,a.AllNumber,a.IsPayment,
+        a.CompanyUser,a.ContactName from Apply a join Line b on a.LineId = b.Id
+        where a.PayType = 1 and a.IsPayment = 0 and a.OutDate = #{outDate}
+        ORDER by a.OutDate desc
+    </select>
+
+    <select id="queryMonthYiApply" resultType="eqlee.ctm.apply.entry.entity.query.ApplyMonthQuery">
+        select a.Id,convert(varchar(20),a.OutDate,23) as 'OutDate',a.AllPrice,b.LineName,a.AllNumber,a.IsPayment,
+        a.CompanyUser,a.ContactName from Apply a join Line b on a.LineId = b.Id
+        where a.PayType = 1 and a.IsPayment = 1 ORDER by a.OutDate desc
+    </select>
+
+    <select id="queryMonthYiApplyByTime" resultType="eqlee.ctm.apply.entry.entity.query.ApplyMonthQuery">
+        select a.Id,convert(varchar(20),a.OutDate,23) as 'OutDate',a.AllPrice,b.LineName,a.AllNumber,a.IsPayment,
+        a.CompanyUser,a.ContactName from Apply a join Line b on a.LineId = b.Id
+        where a.PayType = 1 and a.IsPayment = 1 and a.OutDate = #{outDate}
         ORDER by a.OutDate desc
     </select>
 

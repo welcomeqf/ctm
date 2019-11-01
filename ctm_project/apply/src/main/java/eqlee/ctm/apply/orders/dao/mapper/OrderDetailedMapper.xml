@@ -2,25 +2,28 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="eqlee.ctm.apply.orders.dao.OrderDetailedMapper">
-    <insert id="batchInsertorderDetailed" parameterType="eqlee.ctm.apply.orders.entity.OrderDetailed">
-        <foreach collection="list" item="item" index="index">
-            insert into OrderDetailed(Id,OrderId,ContactName,ContactTel,Place,AdultNumber,BabyNumber,
-            OldNumber,ChildNumber,AllNumber,Price,CreateUserId) values(#{item.Id},#{item.OrderId},#{item.ContactName},
-            #{item.ContactTel},#{item.Place},#{item.AdultNumber},#{item.BabyNumber},#{item.OldNumber},#{item.ChildNumber},
-            #{item.AllNumber},#{item.Price},#{item.CreateUserId})
+
+
+    <insert id="batchInsertorderDetailed" parameterType="eqlee.ctm.apply.orders.entity.bo.OrderDetailedBo">
+        insert into OrderDetailed(Id,OrderId,ContactName,ContactTel,Place,AdultNumber,BabyNumber,
+        OldNumber,ChildNumber,AllNumber,Price,CreateUserId,PayType,AccountName,CompanyName)
+        <foreach collection="list" item="item" index="index" separator="union all">
+            select #{item.Id},#{item.OrderId},#{item.ContactName},#{item.ContactTel},#{item.Place},
+            #{item.AdultNumber},#{item.BabyNumber},#{item.OldNumber},#{item.ChildNumber},
+            #{item.AllNumber},#{item.Price},#{item.CreateUserId},#{item.PayType},#{item.AccountName},#{item.CompanyName}
         </foreach>
     </insert>
 
 
     <select id="pageOrderDetailed" resultType="eqlee.ctm.apply.orders.entity.query.OrderDetailedQuery">
         select a.Id as 'OrderId',a.ContactName,a.ContactTel,a.Place,a.AllNumber,a.PayType,b.OrderNo
-        from OrderDetailed a join Orders b on a.OrderId = b.Id
+        from OrderDetailed a left join Orders b on a.OrderId = b.Id
         where b.OutDate = #{outDate} and b.LineName = #{lineName} and b.CreateUserId = #{id}
     </select>
 
     <select id="pageOrderDetailedByType" resultType="eqlee.ctm.apply.orders.entity.query.OrderDetailedQuery">
         select a.Id as 'OrderId',a.ContactName,a.ContactTel,a.Place,a.AllNumber,a.PayType,b.OrderNo
-        from OrderDetailed a join Orders b on a.OrderId = b.Id
+        from OrderDetailed a left join Orders b on a.OrderId = b.Id
         where b.OutDate = #{outDate} and b.LineName = #{lineName} and b.CreateUserId = #{id} and a.PayType = #{type}
     </select>
 

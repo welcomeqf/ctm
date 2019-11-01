@@ -12,10 +12,15 @@ import java.net.URL;
 public class PayData {
 
     public static String getOpenId (String code) {
+
+        String appId = "wxee961914859e2eab";
+
+        String secret = "106342221c129aee134951ea037cd571";
+
         if(code != null){
             String url = "https://api.weixin.qq.com/sns/oauth2/access_token?"
-                    + "appid=wxee961914859e2eab"
-                    + "&secret=106342221c129aee134951ea037cd571"
+                    + "appid=" + appId
+                    + "&secret=" + secret
                     + "&code=" + code + "&grant_type=authorization_code";
 
             String returnData = getReturnData(url);

@@ -1,10 +1,11 @@
 
-ysquid:UselessImportCheck"ORemove this unused import 'com.alibaba.fastjson.serializer.ToStringSerializer'.( ‰µ+8›úÕäÖ-
+vsquid:S00116="WRename this field "CreateUserId" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(—êÙç8•êÂüá-
 hsquid:S00116."PRename this field "Statu" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(Î§š
-nsquid:S001163"QRename this field "Remark" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(é«´‘ùÿÿÿÿ
+osquid:S001168"RRename this field "Deleted" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(‡úşüÿÿÿÿ
+ysquid:UselessImportCheck"ORemove this unused import 'com.alibaba.fastjson.serializer.ToStringSerializer'.( ‰µ+8›úÕäÖ-
+qsquid:S00116$"TRename this field "CompanyId" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ö§§åøÿÿÿÿ
 esquid:S00116"MRename this field "Id" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(´ÕÛ”
 osquid:S00116)"RRename this field "Stopped" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(Çõ´¸üÿÿÿÿ
-qsquid:S00116$"TRename this field "CompanyId" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ö§§åøÿÿÿÿ
+nsquid:S001163"QRename this field "Remark" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(é«´‘ùÿÿÿÿ
 psquid:S00116"SRename this field "RoleName" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ôÏÁŒùÿÿÿÿ
-osquid:S001168"RRename this field "Deleted" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(‡úşüÿÿÿÿ
 vsquid:UselessImportCheck"FRemove this unused import 'com.alibaba.fastjson.annotation.JSONField'.(¾Ñ¯Àúÿÿÿÿ8›úÕäÖ-

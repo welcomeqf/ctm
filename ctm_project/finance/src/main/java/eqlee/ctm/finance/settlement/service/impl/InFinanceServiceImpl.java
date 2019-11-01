@@ -171,6 +171,13 @@ public class InFinanceServiceImpl extends ServiceImpl<InFinanceMapper, Income> i
             throw new ApplicationException(CodeType.SERVICE_ERROR,"该线路不存在");
         }
 
+
+        //修改车辆状态
+        Integer status = baseMapper.updateCarStatus(vo.getCarNo());
+
+        if (status <= 0) {
+            throw new ApplicationException(CodeType.SERVICE_ERROR, "还车失败");
+        }
     }
 
     /**

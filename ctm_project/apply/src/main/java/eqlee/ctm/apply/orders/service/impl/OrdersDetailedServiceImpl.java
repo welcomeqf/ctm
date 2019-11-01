@@ -10,6 +10,7 @@ import com.yq.utils.DateUtil;
 import com.yq.utils.StringUtils;
 import eqlee.ctm.apply.orders.dao.OrderDetailedMapper;
 import eqlee.ctm.apply.orders.entity.OrderDetailed;
+import eqlee.ctm.apply.orders.entity.bo.OrderDetailedBo;
 import eqlee.ctm.apply.orders.entity.query.OrderDetailedQuery;
 import eqlee.ctm.apply.orders.service.IOrdersDetailedService;
 import eqlee.ctm.apply.orders.service.IOrdersService;
@@ -43,7 +44,7 @@ public class OrdersDetailedServiceImpl extends ServiceImpl<OrderDetailedMapper, 
 
 
     @Override
-    public void batchInsertorderDetailed(List<OrderDetailed> orderDetailedList) {
+    public void batchInsertorderDetailed(List<OrderDetailedBo> orderDetailedList) {
         baseMapper.batchInsertorderDetailed(orderDetailedList);
     }
 

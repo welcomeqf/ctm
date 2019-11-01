@@ -7,6 +7,7 @@ import eqlee.ctm.apply.guider.entity.vo.ApplyVo;
 import eqlee.ctm.apply.orders.entity.OrderDetailed;
 import eqlee.ctm.apply.orders.entity.Orders;
 import eqlee.ctm.apply.orders.entity.Vo.*;
+import eqlee.ctm.apply.orders.entity.bo.CarQueryBo;
 import eqlee.ctm.apply.orders.entity.query.ChangedQuery;
 import eqlee.ctm.apply.orders.entity.query.OrderContectQuery;
 import eqlee.ctm.apply.price.entity.vo.PriceVo;
@@ -80,6 +81,21 @@ public interface OrdersMapper extends IBaseMapper<Orders> {
                                  @Param("OutDate") LocalDate OutDate,
                                  @Param("CarNumber") String CarNumber,
                                  @Param("Id") Long Id);
+
+
+    /**
+     * 查询公司的出行状态
+     * @param CarNo
+     * @return
+     */
+    CarQueryBo queryCar (String CarNo);
+
+    /**
+     * 修改车辆出行状态
+     * @param CarNo
+     * @return
+     */
+    int updateCarStatus (@Param("CarNo") String CarNo);
 
 
     /**
@@ -189,10 +205,10 @@ public interface OrdersMapper extends IBaseMapper<Orders> {
 
     /**
      * 根据报名表的Id查出ApplyVo列表
-     * @param IndexVoList
+     * @param id
      * @return
      */
-    List<OrdersVo> selectApplyVoList(List<LongVo> IndexVoList);
+    OrdersVo selectApplyVoList(Long id);
 
 
     /**

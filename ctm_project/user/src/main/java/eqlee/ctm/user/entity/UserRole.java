@@ -55,6 +55,11 @@ public class UserRole extends Model<UserRole> {
      */
     private Boolean Deleted;
 
+    /**
+     * 操作人
+     */
+    private Long CreateUserId;
+
     @Override
     protected Serializable pkVal() {
         return this.Id;

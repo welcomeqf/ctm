@@ -117,9 +117,12 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
             throw new ApplicationException(CodeType.SERVICE_ERROR,"该账户已被冻结,请解冻后再登录");
         }
 
+        if (user.getStopped()) {
+            throw new ApplicationException(CodeType.SERVICE_ERROR,"该账号还未启用");
+        }
+
         LocalDateTime now = LocalDateTime.now();
         user.setLastLoginTime(now);
-        user.setStopped(true);
         baseMapper.updateById(user);
 
         //到此处表示已经登录成功签名认证已经通过，将签名信息保存进数据库
@@ -341,17 +344,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
             throw new ApplicationException(CodeType.SERVICE_ERROR,"该角色不存在");
         }
 
-        //装配用户角色
-        RoleAddQuery userRole = new RoleAddQuery();
-        long numberId = idGenerator.getNumberId();
-        userRole.setId(numberId);
-        userRole.setRoleName(role.getRoleName());
-        userRole.setStatu(1);
-        userRole.setCompanyId(userVo.getCompanyId());
-
-        roleService.insertRole(userRole);
-
-        user.setSystemRoleId(numberId);
+        user.setSystemRoleId(role.getId());
 
         user.setIsSuper(true);
         int insert = baseMapper.insert(user);

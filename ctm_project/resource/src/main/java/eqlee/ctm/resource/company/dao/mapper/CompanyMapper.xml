@@ -8,4 +8,13 @@
         convert(varchar,endDate,120) as endDate,PayMethod as payMethod,Stopped from Company
         where CompanyName like #{_companyName}
     </select>
+
+
+    <delete id="deleteCompanyRole" parameterType="Long">
+        delete from SystemRole where CompanyId = #{id}
+    </delete>
+
+    <delete id="deleteUser" parameterType="Long">
+        delete from SystemUser where CompanyId = #{id}
+    </delete>
 </mapper>

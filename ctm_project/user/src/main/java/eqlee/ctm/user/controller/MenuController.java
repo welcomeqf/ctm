@@ -34,6 +34,15 @@ public class MenuController {
     private IMenuService menuService;
 
 
+    @PostMapping("/insert")
+    public ResultVo insertMenu (@RequestBody MenuVo vo) {
+        menuService.addMenu (vo);
+        ResultVo vo1 = new ResultVo();
+        vo1.setResult("OK");
+        return vo1;
+    }
+
+
 
     @ApiOperation(value = "查询所有权限", notes = "查询所有权限")
     @ApiImplicitParams({

@@ -100,10 +100,24 @@ public class CompanyServiceImp extends ServiceImpl<CompanyMapper,Company> implem
      */
     @Override
     public void deleteCompany(Long id) {
+        //先删除该公司对应的子角色
+        int i = baseMapper.deleteCompanyRole(id);
+
+        if (i <= 0) {
+            throw new ApplicationException(CodeType.SERVICE_ERROR,"删除该公司下的所有子角色失败");
+        }
+
+        //删除该公司下的所有用户
+        int deleteUser = baseMapper.deleteUser(id);
+
+        if (deleteUser <= 0) {
+            throw new ApplicationException(CodeType.SERVICE_ERROR,"删除该公司旗下的所有用户失败");
+        }
+
         int delete = baseMapper.deleteById(id);
         if (delete <= 0) {
             log.error("delete company fail");
-            throw new ApplicationException(CodeType.SERVICE_ERROR,"删除同行公司失败");
+            throw new ApplicationException(CodeType.SERVICE_ERROR,"删除公司失败");
         }
     }
 

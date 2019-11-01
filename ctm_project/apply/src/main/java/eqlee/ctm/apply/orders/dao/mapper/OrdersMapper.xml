@@ -94,13 +94,11 @@
         select ContactName,ContactTel,Price from OrderDetailed where PayType = 2
     </select>
 
-    <select id="selectApplyVoList" resultType="eqlee.ctm.apply.orders.entity.Vo.OrdersVo">
-        <foreach collection="list" item="item" index="index">
-            select a.Id as id,a.LineId as lineId,a.AllNumber as 'allNumber',a.ContactName as 'contactName',
-            a.ContactTel as 'contactTel',a.Region as 'region',a.Place as 'place',
-            b.LineName as 'lineName',convert(varchar(20),a.OutDate,23) as 'outDate' from Apply a
-            join Line b on a.LineId = b.Id where a.Id = #{item.id}
-        </foreach>
+    <select id="selectApplyVoList" resultType="eqlee.ctm.apply.orders.entity.Vo.OrdersVo" parameterType="Long">
+        select a.Id as id,a.LineId as lineId,a.AllNumber as 'allNumber',a.ContactName as 'contactName',
+        a.ContactTel as 'contactTel',a.Region as 'region',a.Place as 'place',
+        b.LineName as 'lineName',convert(varchar(20),a.OutDate,23) as 'outDate' from Apply a
+        left join Line b on a.LineId = b.Id where a.Id = #{id}
     </select>
 
 
@@ -108,5 +106,13 @@
         select a.Id,a.AdultNumber,a.BabyNumber,a.OldNumber,a.ChildNumber,a.ContactName,a.AllNumber,a.ContactTel from OrderDetailed a join Orders b on
         a.OrderId = b.Id where b.OutDate=#{OutDate} and b.LineName=#{LineName} and b.CreateUserId=#{Id} and a.PayType = 2
     </select>
+
+    <select id="queryCar" parameterType="String" resultType="eqlee.ctm.apply.orders.entity.bo.CarQueryBo">
+        select Id as 'id',Statu as 'status' from Car where CarNo=#{CarNo}
+    </select>
+
+    <update id="updateCarStatus" parameterType="String">
+        update Car set Statu = 1 where CarNo= #{CarNo}
+    </update>
 </mapper>
 
