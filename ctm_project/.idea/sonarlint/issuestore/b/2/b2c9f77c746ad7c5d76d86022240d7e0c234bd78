@@ -1,8 +1,8 @@
 
-ssquid:S00116#"TRename this field "MONTH_PAY" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ûé›¦8¹ãå½İ-
-?squid:S1170'"!Make this final field static too.(çğÓ½8¹ãå½İ-
-vsquid:S00116%"RRename this field "NOW_PAY" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(Šïşÿÿÿÿ8¹ãå½İ-
-?squid:S1170#"!Make this final field static too.(ûé›¦8¹ãå½İ-
-ssquid:S00116'"TRename this field "AGENT_PAY" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(çğÓ½8¹ãå½İ-
-Dsquid:S1170%"!Make this final field static too.(Šïşÿÿÿÿ8¹ãå½İ-
-usquid:UselessImportCheck"JRemove this unused import 'eqlee.ctm.apply.orders.service.IOrdersService'.(¸Éá¶8®øÓÁİ-
+ssquid:S00116$"TRename this field "MONTH_PAY" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ûé›¦8¹ãå½İ-
+?squid:S1170("!Make this final field static too.(çğÓ½8¹ãå½İ-
+Dsquid:S1170&"!Make this final field static too.(Šïşÿÿÿÿ8¹ãå½İ-
+?squid:S1170$"!Make this final field static too.(ûé›¦8¹ãå½İ-
+vsquid:S00116&"RRename this field "NOW_PAY" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(Šïşÿÿÿÿ8¹ãå½İ-
+ssquid:S00116("TRename this field "AGENT_PAY" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(çğÓ½8¹ãå½İ-
+usquid:UselessImportCheck"JRemove this unused import 'eqlee.ctm.apply.orders.service.IOrdersService'.(¸Éá¶8®øÓÁİ-

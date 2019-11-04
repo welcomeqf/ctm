@@ -1,0 +1,12 @@
+
+msquid:S1192^"QDefine a constant instead of duplicating this literal "application/json" 5 times.(ûÓ¦²ûÿÿÿÿ
+csquid:CommentedOutCodeLine"<This block of commented-out lines of code should be removed.(‡¥Ğ
+bsquid:CommentedOutCodeLine`"<This block of commented-out lines of code should be removed.(‡¥Ğ
+fsquid:HiddenFieldCheckã">Rename "httpClient" which hides the field declared at line 25.(˜ÕìĞøÿÿÿÿ
+csquid:S00112Z"FDefine and throw a dedicated exception instead of using a generic one.(†€¬Åúÿÿÿÿ
+dsquid:S00112‡"FDefine and throw a dedicated exception instead of using a generic one.(Œô˜†úÿÿÿÿ
+dsquid:S00112³"FDefine and throw a dedicated exception instead of using a generic one.(ÌèÎ¶üÿÿÿÿ
+@squid:S1148ú"#Use a logger to log this exception.(€ÉÔ…ıÿÿÿÿ
+csquid:S00112'"FDefine and throw a dedicated exception instead of using a generic one.(öÏö½ûÿÿÿÿ
+]squid:S1192H"FDefine a constant instead of duplicating this literal "UTF-8" 6 times.(„ÛÎ±
+isquid:S1192_"MDefine a constant instead of duplicating this literal "Content-Type" 3 times.(°İğÿÿÿÿÿ

@@ -1,10 +1,20 @@
 
-ysquid:S1845)"[Rename field "ip" to prevent any misunderstanding/clash with field "Ip" defined on line 39.(á¬ÀÏ8ˆÆ‘½à-
-fsquid:S1192["HDefine a constant instead of duplicating this literal "&AppId=" 3 times.(×À8°¹ëÖ-
-squid:S1488b"^Immediately return this expression instead of assigning it to the temporary variable "result".(î¤œøÿÿÿÿ8àš¼à-
-?squid:S1170)"!Make this final field static too.(á¬ÀÏ8çú‘½à-
-gsquid:S1192D"IDefine a constant instead of duplicating this literal "http://" 12 times.(²¨õı8ÌêåÖ-
-asquid:UselessImportCheck	"1Remove this unused import 'com.yq.utils.JwtUtil'.(îÁŠ üÿÿÿÿ8­¿ì»à-
-Zsquid:UselessImportCheck"/Remove this unused import 'com.yq.data.Result'.(­Àïš8®ğî»à-
-?squid:S1170."!Make this final field static too.(¾–öÉ8 —¦¢Û-
-qsquid:S00116'"MRename this field "Ip" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ÁãåÚıÿÿÿÿ8¬¶»Ö-
+qsquid:S00116("MRename this field "Ip" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ÁãåÚıÿÿÿÿ8¼ßõ¬ã-
+squid:S1488i"^Immediately return this expression instead of assigning it to the temporary variable "result".(î¤œøÿÿÿÿ8¼ßõ¬ã-
+?squid:S1170*"!Make this final field static too.(á¬ÀÏ8¼ßõ¬ã-
+?squid:S1170/"!Make this final field static too.(¾–öÉ8¼ßõ¬ã-
+ysquid:S1845*"[Rename field "ip" to prevent any misunderstanding/clash with field "Ip" defined on line 40.(á¬ÀÏ8¼ßõ¬ã-
+fsquid:S1192]"HDefine a constant instead of duplicating this literal "&AppId=" 3 times.(×À8¼ßõ¬ã-
+gsquid:S1192F"IDefine a constant instead of duplicating this literal "http://" 12 times.(²¨õı8¼ßõ¬ã-
+esquid:S00112E"FDefine and throw a dedicated exception instead of using a generic one.(û¡ˆ8…å®ã-
+dsquid:S00112["FDefine and throw a dedicated exception instead of using a generic one.(…ó¾k8…å®ã-
+dsquid:S00112s"FDefine and throw a dedicated exception instead of using a generic one.(Š´ğn8…å®ã-
+ksquid:S00112‰"FDefine and throw a dedicated exception instead of using a generic one.(ÈóäÏÿÿÿÿÿ8…å®ã-
+ksquid:S00112"FDefine and throw a dedicated exception instead of using a generic one.(ï¶šÇÿÿÿÿÿ8…å®ã-
+ksquid:S00112³"FDefine and throw a dedicated exception instead of using a generic one.(Èßä‡ùÿÿÿÿ8…å®ã-
+fsquid:S00112Î"FDefine and throw a dedicated exception instead of using a generic one.(‹Òû¶8…å®ã-
+fsquid:S00112€"FDefine and throw a dedicated exception instead of using a generic one.(Ÿ´‘Ö8…å®ã-
+fsquid:S00112œ"FDefine and throw a dedicated exception instead of using a generic one.(¼Í§Ş8…å®ã-
+esquid:S00112·"FDefine and throw a dedicated exception instead of using a generic one.(å™ªW8…å®ã-
+fsquid:S00112Ô"FDefine and throw a dedicated exception instead of using a generic one.(…Ô´ş8…å®ã-
+fsquid:S00112ğ"FDefine and throw a dedicated exception instead of using a generic one.(Õë¡Œ8…å®ã-

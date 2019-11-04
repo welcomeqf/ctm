@@ -1,9 +1,9 @@
 package eqlee.ctm.api.vilidate;
 
 
+import com.yq.httpclient.ErrorResult;
 import com.yq.utils.Base64Util;
 import com.yq.utils.CryptoUtils;
-import eqlee.ctm.api.httpclient.ErrorResult;
 
 /**
  * @Author qf

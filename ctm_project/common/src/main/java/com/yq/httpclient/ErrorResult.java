@@ -1,4 +1,4 @@
-package eqlee.ctm.api.httpclient;
+package com.yq.httpclient;
 
 import lombok.Data;
 

@@ -1,11 +1,12 @@
 
-`squid:UselessImportCheck"0Remove this unused import 'java.time.LocalDate'.(›‘¬èıÿÿÿÿ8ĞŒäÖ×-
-ysquid:S00116%"URename this field "ChildPrice" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(¼š…ıÿÿÿÿ8Ù¡µÈÔ-
-wsquid:S00116"SRename this field "LineName" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ğ¬ñúÿÿÿÿ8ó¯ÈÔ-
-usquid:S001161"QRename this field "Region" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(Óûìÿÿÿÿÿ8Ôù„ÊÔ-
-ssquid:S00116/"TRename this field "MaxNumber" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ïÕé´8£õºÈÔ-
-tsquid:S00116"URename this field "AdultPrice" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(£³ËÛ8Ù¡µÈÔ-
-qsquid:S00116"RRename this field "OutDate" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ƒ©¯î8ñ±ÈÔ-
 rsquid:S00116"SRename this field "OldPrice" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(éşè¿8Ù¡µÈÔ-
+ysquid:S00116%"URename this field "ChildPrice" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(¼š…ıÿÿÿÿ8Ù¡µÈÔ-
 zsquid:S00116*"VRename this field "DoAllNumber" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ù©¯‰üÿÿÿÿ8øÁØİÖ-
+tsquid:S00116"URename this field "AdultPrice" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(£³ËÛ8Ù¡µÈÔ-
 ssquid:S00116 "TRename this field "BabyPrice" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(Ş¯Ş÷8Ù¡µÈÔ-
+usquid:S001161"QRename this field "Region" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(Óûìÿÿÿÿÿ8Ôù„ÊÔ-
+wsquid:S00116"SRename this field "LineName" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ğ¬ñúÿÿÿÿ8ó¯ÈÔ-
+`squid:UselessImportCheck"0Remove this unused import 'java.time.LocalDate'.(›‘¬èıÿÿÿÿ8ĞŒäÖ×-
+ssquid:S00116/"TRename this field "MaxNumber" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ïÕé´8£õºÈÔ-
+qsquid:S00116"RRename this field "OutDate" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ƒ©¯î8ñ±ÈÔ-
+ysquid:S001163"ZRename this field "TravelSituation" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ç¾Îú8²Îà¦â-

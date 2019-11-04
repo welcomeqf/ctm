@@ -11,8 +11,10 @@ com\yq\vilidata\query\PageQuery.class
 com\yq\jwt\Interceptor\JwtParseUtil.class
 com\yq\utils\ExceptionUtils.class
 com\yq\data\Result.class
+com\yq\httpclient\HttpClientUtils.class
 com\yq\constanct\CodeType.class
 com\yq\utils\SignUtils.class
+com\yq\httpclient\HttpResult.class
 com\yq\vilidata\query\TimeQuery.class
 com\yq\jwt\contain\LocalUser.class
 com\yq\utils\IdGenerator.class
@@ -25,6 +27,7 @@ com\yq\utils\CryptoUtils.class
 com\yq\handle\GlobalResponseHandler.class
 com\yq\utils\ExcelUtils.class
 com\yq\utils\JwtUtil.class
+com\yq\httpclient\ErrorResult.class
 com\yq\IBaseMapper\IBaseMapper.class
 com\yq\exception\ApplicationException.class
 com\yq\jwt\JwtVerfy.class

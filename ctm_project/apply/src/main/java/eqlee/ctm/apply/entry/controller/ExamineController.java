@@ -6,10 +6,8 @@ import com.yq.exception.ApplicationException;
 import com.yq.jwt.islogin.CheckToken;
 import com.yq.utils.StringUtils;
 import eqlee.ctm.apply.entry.entity.Examine;
-import eqlee.ctm.apply.entry.entity.vo.ExamineAddInfoVo;
-import eqlee.ctm.apply.entry.entity.vo.ExamineInfoVo;
-import eqlee.ctm.apply.entry.entity.vo.ExamineUpdateInfoVo;
-import eqlee.ctm.apply.entry.entity.vo.ExamineVo;
+import eqlee.ctm.apply.entry.entity.query.ExaApplyResultQuery;
+import eqlee.ctm.apply.entry.entity.vo.*;
 import eqlee.ctm.apply.entry.service.IExamineService;
 import eqlee.ctm.apply.line.entity.vo.ResultVo;
 import io.swagger.annotations.Api;
@@ -39,7 +37,7 @@ public class ExamineController {
     @PostMapping("/insertCancelExamine")
     @CrossOrigin
     @CheckToken
-    public ResultVo cancelExamine(@RequestBody ExamineAddInfoVo infoVo) {
+    public ResultVo cancelExamine(@RequestBody ExaCancelVo infoVo) {
         if (infoVo.getApplyId() == null) {
             throw new ApplicationException(CodeType.PARAM_ERROR);
         }
@@ -80,7 +78,7 @@ public class ExamineController {
     @PostMapping("/adoptCancelExamine")
     @CrossOrigin
     @CheckToken
-    public ResultVo adoptCancelExamine(@RequestBody ExamineAddInfoVo infoVo) {
+    public ExaApplyResultQuery adoptCancelExamine(@RequestBody ExamineAddInfoVo infoVo) {
         if (infoVo.getApplyId() == null || infoVo.getStatus() == null) {
             throw new ApplicationException(CodeType.PARAM_ERROR);
         }
@@ -89,15 +87,15 @@ public class ExamineController {
         }
 
         if (infoVo.getStatus() == 1) {
-            examineService.AdoptCancelExamine(infoVo.getApplyId());
+            ExaApplyResultQuery query = examineService.AdoptCancelExamine(infoVo.getApplyId());
+            return query;
         }
         if (infoVo.getStatus() == 2) {
-            examineService.NotAdoptCancelExamine(infoVo.getApplyId());
+            ExaApplyResultQuery query = examineService.NotAdoptCancelExamine(infoVo.getApplyId());
+            return query;
         }
 
-        ResultVo resultVo = new ResultVo();
-        resultVo.setResult("ok");
-        return resultVo;
+        return null;
     }
 
 

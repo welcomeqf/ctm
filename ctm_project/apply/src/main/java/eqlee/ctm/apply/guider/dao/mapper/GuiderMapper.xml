@@ -9,8 +9,8 @@
         select max(Id)id,max(LineName)lineName,max(convert(varchar(20),OutDate,23))outDate,sum(AllNumber)allNumber,
         sum(case when isnull(IsSelect,0)=1 then isnull(AllNumber,0) else 0 end)slcCnt
         from(
-        select a.Id,a.LineId,b.LineName,a.OutDate,a.AllNumber,a.IsSelect from Apply a
-        left join Line b  on a.LineId = b.Id)tab
+        select a.Id,a.LineId,b.LineName,a.OutDate,a.AllNumber,a.IsSelect,a.IsCancel from Apply a
+        left join Line b  on a.LineId = b.Id where a.IsCancel = 0)tab
         group by OutDate,LineId)tab
         order by OutDate desc
     </select>
@@ -21,8 +21,8 @@
         select max(Id)id,max(LineName)lineName,max(convert(varchar(20),OutDate,23))outDate,sum(AllNumber)allNumber,
         sum(case when isnull(IsSelect,0)=1 then isnull(AllNumber,0) else 0 end)slcCnt
         from(
-        select a.Id,a.LineId,b.LineName,a.OutDate,a.AllNumber,a.IsSelect from Apply a
-        left join Line b  on a.LineId = b.Id)tab
+        select a.Id,a.LineId,b.LineName,a.OutDate,a.AllNumber,a.IsSelect,a.IsCancel from Apply a
+        left join Line b  on a.LineId = b.Id where a.IsCancel = 0)tab
         group by OutDate,LineId)tab where LineName like #{LineName}
         order by OutDate desc
     </select>
@@ -32,8 +32,8 @@
         select max(Id)id,max(LineName)lineName,max(convert(varchar(20),OutDate,23))outDate,sum(AllNumber)allNumber,
         sum(case when isnull(IsSelect,0)=1 then isnull(AllNumber,0) else 0 end)slcCnt
         from(
-        select a.Id,a.LineId,b.LineName,a.OutDate,a.AllNumber,a.IsSelect from Apply a
-        left join Line b  on a.LineId = b.Id)tab
+        select a.Id,a.LineId,b.LineName,a.OutDate,a.AllNumber,a.IsSelect,a.IsCancel from Apply a
+        left join Line b  on a.LineId = b.Id where a.IsCancel = 0)tab
         group by OutDate,LineId)tab where OutDate = #{outDate}
         order by OutDate desc
     </select>
@@ -44,8 +44,8 @@
         select max(Id)id,max(LineName)lineName,max(convert(varchar(20),OutDate,23))outDate,sum(AllNumber)allNumber,
         sum(case when isnull(IsSelect,0)=1 then isnull(AllNumber,0) else 0 end)slcCnt
         from(
-        select a.Id,a.LineId,b.LineName,a.OutDate,a.AllNumber,a.IsSelect from Apply a
-        left join Line b  on a.LineId = b.Id)tab
+        select a.Id,a.LineId,b.LineName,a.OutDate,a.AllNumber,a.IsSelect,a.IsCancel from Apply a
+        left join Line b  on a.LineId = b.Id where a.IsCancel = 0)tab
         group by OutDate,LineId)tab where OutDate = #{outDate} and LineName like #{LineName}
         order by OutDate desc
     </select>

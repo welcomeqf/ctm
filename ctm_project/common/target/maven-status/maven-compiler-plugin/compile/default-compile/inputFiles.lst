@@ -1,6 +1,7 @@
 E:\MyWork\CTM_Source\ctm_project\common\src\main\java\com\yq\jwt\contain\LocalUser.java
 E:\MyWork\CTM_Source\ctm_project\common\src\main\java\com\yq\jwt\entity\PrivilegeMenuQuery.java
 E:\MyWork\CTM_Source\ctm_project\common\src\main\java\com\yq\utils\IdGenerator.java
+E:\MyWork\CTM_Source\ctm_project\common\src\main\java\com\yq\httpclient\HttpClientUtils.java
 E:\MyWork\CTM_Source\ctm_project\common\src\main\java\com\yq\jwt\JwtVerfy.java
 E:\MyWork\CTM_Source\ctm_project\common\src\main\java\com\yq\data\PageUtils.java
 E:\MyWork\CTM_Source\ctm_project\common\src\main\java\com\yq\utils\DateUtil.java
@@ -12,6 +13,7 @@ E:\MyWork\CTM_Source\ctm_project\common\src\main\java\com\yq\jwt\Interceptor\Aut
 E:\MyWork\CTM_Source\ctm_project\common\src\main\java\com\yq\vilidata\TimeData.java
 E:\MyWork\CTM_Source\ctm_project\common\src\main\java\com\yq\utils\ExceptionUtils.java
 E:\MyWork\CTM_Source\ctm_project\common\src\main\java\com\yq\handle\ApplicationAdviceHandle.java
+E:\MyWork\CTM_Source\ctm_project\common\src\main\java\com\yq\httpclient\HttpResult.java
 E:\MyWork\CTM_Source\ctm_project\common\src\main\java\com\yq\utils\JwtUtil.java
 E:\MyWork\CTM_Source\ctm_project\common\src\main\java\com\yq\vilidata\query\PageQuery.java
 E:\MyWork\CTM_Source\ctm_project\common\src\main\java\com\yq\utils\ShaUtils.java
@@ -27,4 +29,5 @@ E:\MyWork\CTM_Source\ctm_project\common\src\main\java\com\yq\anntation\IgnoreRes
 E:\MyWork\CTM_Source\ctm_project\common\src\main\java\com\yq\utils\SignUtils.java
 E:\MyWork\CTM_Source\ctm_project\common\src\main\java\com\yq\jwt\entity\UserLoginQuery.java
 E:\MyWork\CTM_Source\ctm_project\common\src\main\java\com\yq\utils\Base64Util.java
+E:\MyWork\CTM_Source\ctm_project\common\src\main\java\com\yq\httpclient\ErrorResult.java
 E:\MyWork\CTM_Source\ctm_project\common\src\main\java\com\yq\utils\ExcelUtils.java

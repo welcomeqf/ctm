@@ -2,6 +2,7 @@ package eqlee.ctm.apply.entry.service;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import eqlee.ctm.apply.entry.entity.Examine;
+import eqlee.ctm.apply.entry.entity.query.ExaApplyResultQuery;
 import eqlee.ctm.apply.entry.entity.query.ExaMqAdminQuery;
 import eqlee.ctm.apply.entry.entity.vo.ExamineAddVo;
 import eqlee.ctm.apply.entry.entity.vo.ExamineInfoVo;
@@ -31,14 +32,16 @@ public interface IExamineService {
     /**
      * 通过取消报名表的审核
      * @param ApplyId
+     * @return
      */
-    void AdoptCancelExamine(Long ApplyId);
+    ExaApplyResultQuery AdoptCancelExamine(Long ApplyId);
 
     /**
      * 拒绝取消报名表的审核
      * @param ApplyId
+     * @return
      */
-    void NotAdoptCancelExamine (Long ApplyId);
+    ExaApplyResultQuery NotAdoptCancelExamine (Long ApplyId);
 
 
     /**

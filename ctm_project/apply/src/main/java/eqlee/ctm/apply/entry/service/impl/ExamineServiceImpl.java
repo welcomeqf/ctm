@@ -7,16 +7,20 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.yq.constanct.CodeType;
 import com.yq.exception.ApplicationException;
+import com.yq.httpclient.HttpClientUtils;
 import com.yq.jwt.contain.LocalUser;
 import com.yq.jwt.entity.UserLoginQuery;
 import com.yq.utils.IdGenerator;
 import eqlee.ctm.apply.entry.dao.ExamineMapper;
 import eqlee.ctm.apply.entry.entity.Examine;
 import eqlee.ctm.apply.entry.entity.query.ApplyUpdateInfo;
+import eqlee.ctm.apply.entry.entity.query.ExaApplyResultQuery;
 import eqlee.ctm.apply.entry.entity.query.ExaMqAdminQuery;
+import eqlee.ctm.apply.entry.entity.query.ResultRefundQuery;
 import eqlee.ctm.apply.entry.entity.vo.*;
 import eqlee.ctm.apply.entry.service.IApplyService;
 import eqlee.ctm.apply.entry.service.IExamineService;
+import eqlee.ctm.apply.entry.vilidata.HttpUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -40,6 +44,12 @@ public class ExamineServiceImpl extends ServiceImpl<ExamineMapper, Examine> impl
     @Autowired
     private LocalUser localUser;
 
+    @Autowired
+    private HttpClientUtils apiService;
+
+    @Autowired
+    private HttpUtils httpUtils;
+
     IdGenerator idGenerator = new IdGenerator();
 
 
@@ -49,12 +59,23 @@ public class ExamineServiceImpl extends ServiceImpl<ExamineMapper, Examine> impl
      */
     @Override
     public void CancelExamine(Long ApplyId) {
+        UserLoginQuery user = localUser.getUser("用户信息");
+
+        LambdaQueryWrapper<Examine> wrapper = new LambdaQueryWrapper<Examine>()
+                .eq(Examine::getApplyId,ApplyId)
+                .eq(Examine::getCreateUserId,user.getId())
+                .eq(Examine::getExamineType,"1");
+        Examine one = baseMapper.selectOne(wrapper);
+
+        if (one != null) {
+            throw new ApplicationException(CodeType.SERVICE_ERROR,"不能重复取消,请等候管理人的审核结果");
+        }
+
         Examine examine = new Examine();
         examine.setId(idGenerator.getNumberId());
         examine.setApplyId(ApplyId);
         examine.setExamineType("1");
 
-        UserLoginQuery user = localUser.getUser("用户信息");
         examine.setCreateUserId(user.getId());
         examine.setUpdateUserId(user.getId());
 
@@ -77,6 +98,7 @@ public class ExamineServiceImpl extends ServiceImpl<ExamineMapper, Examine> impl
         examine.setId(idGenerator.getNumberId());
         examine.setApplyId(examineVo.getApplyId());
         examine.setExamineType("2");
+        examine.setExamineResult(1);
         //将修改的信息以json的形式装进备注字段
         UpdateInfoVo infoVo = new UpdateInfoVo();
         infoVo.setConnectName(examineVo.getConnectName());
@@ -105,7 +127,10 @@ public class ExamineServiceImpl extends ServiceImpl<ExamineMapper, Examine> impl
      * @param ApplyId
      */
     @Override
-    public void AdoptCancelExamine(Long ApplyId) {
+    public ExaApplyResultQuery AdoptCancelExamine(Long ApplyId) {
+
+        //判断该账号是什么支付
+        ApplySeacherVo vo = applyService.queryById(ApplyId);
 
         LambdaQueryWrapper<Examine> queryWrapper = new LambdaQueryWrapper<Examine>()
                 .eq(Examine::getApplyId,ApplyId)
@@ -121,8 +146,36 @@ public class ExamineServiceImpl extends ServiceImpl<ExamineMapper, Examine> impl
             throw new ApplicationException(CodeType.SERVICE_ERROR, "通过取消报名审核失败");
         }
 
+        //是否退款
+        ExaApplyResultQuery query = new ExaApplyResultQuery();
+        if (vo.getPayType() == 0) {
+            //现结退款
+            //获得token
+            String payToken = null;
+            try {
+                payToken = httpUtils.getPayToken();
+            } catch (Exception e) {
+                throw new ApplicationException(CodeType.SERVICE_ERROR,"获取token失败");
+            }
+            String tokenString = "Bearer " +payToken;
+            //申请退款
+            ResultRefundQuery refund = httpUtils.refund(vo.getApplyNo(), vo.getAllPrice(), vo.getAllPrice(), tokenString);
+            if (refund.getError()) {
+                //退款失败
+                throw new ApplicationException(CodeType.SERVICE_ERROR,"退款失败");
+            }
+            //退款成功
+            query.setType("退款成功");
+        }
+        if (vo.getPayType() == 1) {
+            query.setType("月结");
+        }
+        if (vo.getPayType() == 2) {
+            query.setType("面收");
+        }
         //改变报名表
         applyService.cancelApply(ApplyId);
+        return query;
     }
 
     /**
@@ -130,7 +183,7 @@ public class ExamineServiceImpl extends ServiceImpl<ExamineMapper, Examine> impl
      * @param ApplyId
      */
     @Override
-    public void NotAdoptCancelExamine(Long ApplyId) {
+    public ExaApplyResultQuery NotAdoptCancelExamine(Long ApplyId) {
         LambdaQueryWrapper<Examine> queryWrapper = new LambdaQueryWrapper<Examine>()
                 .eq(Examine::getApplyId,ApplyId)
                 .eq(Examine::getExamineType,"1");
@@ -145,6 +198,9 @@ public class ExamineServiceImpl extends ServiceImpl<ExamineMapper, Examine> impl
             throw new ApplicationException(CodeType.SERVICE_ERROR, "不通过取消报名的审核记录-失败");
         }
 
+        ExaApplyResultQuery query = new ExaApplyResultQuery();
+        query.setType("ok");
+        return query;
     }
 
 

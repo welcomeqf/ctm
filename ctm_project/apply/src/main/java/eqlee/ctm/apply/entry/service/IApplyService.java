@@ -151,4 +151,6 @@ public interface IApplyService {
      * @param id
      */
     void updateMonthType (Long id);
+
+
 }

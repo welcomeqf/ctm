@@ -138,12 +138,14 @@ public class ApplyServiceImpl extends ServiceImpl<ApplyMapper, Apply> implements
         apply.setUpdateUserId(applyVo.getUpdateUserId());
         if (MONTH_PAY.equals(applyVo.getPayType())) {
             apply.setPayType(1);
+            apply.setIsPayment(true);
         }
         if (NOW_PAY.equals(applyVo.getPayType())) {
             apply.setPayType(0);
         }
         if (AGENT_PAY.equals(applyVo.getPayType())) {
             apply.setPayType(2);
+            apply.setIsPayment(true);
         }
 
         if (!MONTH_PAY.equals(applyVo.getPayType()) && !NOW_PAY.equals(applyVo.getPayType()) && !AGENT_PAY.equals(applyVo.getPayType())) {

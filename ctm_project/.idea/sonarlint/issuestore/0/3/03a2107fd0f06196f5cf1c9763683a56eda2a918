@@ -1,0 +1,6 @@
+
+esquid:S00116"MRename this field "Id" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(´ÕÛ”
+vsquid:S00116"YRename this field "UpdateUserName" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(Ÿ©ˆöþÿÿÿÿ
+rsquid:S00116"URename this field "UpdateDate" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(¦šñ˜ýÿÿÿÿ
+nsquid:S00116"QRename this field "Remark" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(é«´‘ùÿÿÿÿ
+[squid:UselessImportCheck"2Remove this unused import 'com.yq.data.PageUtils'.(°å°¡üÿÿÿÿ

@@ -47,7 +47,7 @@
       select a.Id,a.ApplyNo,convert(varchar(20),a.OutDate,23) as 'OutDate',b.LineName,a.AdultNumber,a.BabyNumber,a.OldNumber,a.ChildNumber,
       a.statu,a.CompanyName,a.CompanyUser,a.IsPayment,a.IsCancel,d.ExamineType
       from Apply a join Line b on a.LineId = b.Id join Examine d on a.Id = d.ApplyId
-      where a.Statu = 0 ORDER by a.OutDate desc
+      where a.Statu = 0 and a.IsCancel = 0 and a.IsPayment = 1 ORDER by a.OutDate desc
     </select>
 
     <select id="listPageDoApplyByNoWithLine" resultType="eqlee.ctm.apply.entry.entity.query.ApplyDoExaQuery">
@@ -55,7 +55,7 @@
       select a.Id,a.ApplyNo,convert(varchar(20),a.OutDate,23) as 'OutDate',b.LineName,a.AdultNumber,a.BabyNumber,a.OldNumber,a.ChildNumber,
       a.statu,a.CompanyName,a.CompanyUser,a.IsPayment,a.IsCancel,d.ExamineType
       from Apply a join Line b on a.LineId = b.Id join Examine d on a.Id = d.ApplyId
-      where a.OutDate = #{outDate} and b.LineName like #{lineName_name} and a.Statu = 0
+      where a.OutDate = #{outDate} and b.LineName like #{lineName_name} and a.Statu = 0 and a.IsCancel = 0 and a.IsPayment = 1
       ORDER by a.OutDate desc
     </select>
 
@@ -64,7 +64,7 @@
       select a.Id,a.ApplyNo,convert(varchar(20),a.OutDate,23) as 'OutDate',b.LineName,a.AdultNumber,a.BabyNumber,a.OldNumber,a.ChildNumber,
       a.statu,a.CompanyName,a.CompanyUser,a.IsPayment,a.IsCancel,d.ExamineType
       from Apply a join Line b on a.LineId = b.Id join Examine d on a.Id = d.ApplyId
-      where b.LineName like #{lineName_name} and a.Statu = 0
+      where b.LineName like #{lineName_name} and a.Statu = 0 and a.IsCancel = 0 and a.IsPayment = 1
       ORDER by a.OutDate desc
     </select>
 
@@ -72,7 +72,7 @@
         select a.Id,a.ApplyNo,convert(varchar(20),a.OutDate,23) as 'OutDate',b.LineName,a.AdultNumber,a.BabyNumber,a.OldNumber,a.ChildNumber,
         a.statu,a.CompanyName,a.CompanyUser,a.IsPayment,a.IsCancel,d.ExamineType
         from Apply a join Line b on a.LineId = b.Id join Examine d on a.Id = d.ApplyId
-        where a.OutDate = #{outDate} and a.Statu = 0
+        where a.OutDate = #{outDate} and a.Statu = 0 and a.IsCancel = 0 and a.IsPayment = 1
         ORDER by a.OutDate desc
     </select>
 
@@ -171,7 +171,7 @@
     <select id="listPageNotCancel" resultType="eqlee.ctm.apply.entry.entity.query.ApplyDoExaQuery">
       select a.Id,a.ApplyNo,convert(varchar(20),a.OutDate,23) as 'OutDate',b.LineName,a.AdultNumber,a.BabyNumber,a.OldNumber,a.ChildNumber,
       a.statu,a.CompanyName,a.CompanyUser,a.IsPayment,a.IsCancel,d.ExamineType
-      from Apply a join Line b on a.LineId = b.Id join Examine d on a.Id = d.ApplyId where d.ExamineType = '1' and d.ExamineResult = 0
+      from Apply a join Line b on a.LineId = b.Id join Examine d on a.Id = d.ApplyId where d.ExamineType = '1' and d.ExamineResult = 0 and a.IsPayment = 1
       ORDER by a.OutDate desc
     </select>
 
@@ -180,7 +180,7 @@
         select a.Id,a.ApplyNo,convert(varchar(20),a.OutDate,23) as 'OutDate',b.LineName,a.AdultNumber,a.BabyNumber,a.OldNumber,a.ChildNumber,
         a.statu,a.CompanyName,a.CompanyUser,a.IsPayment,a.IsCancel,d.ExamineType
         from Apply a join Line b on a.LineId = b.Id join Examine d on a.Id = d.ApplyId
-        where a.OutDate = #{outDate} and b.LineName like #{lineName_name} and d.ExamineType = '1' and d.ExamineResult = 0
+        where a.OutDate = #{outDate} and b.LineName like #{lineName_name} and d.ExamineType = '1' and d.ExamineResult = 0 and a.IsPayment = 1
         ORDER by a.OutDate desc
     </select>
 
@@ -189,7 +189,7 @@
         select a.Id,a.ApplyNo,convert(varchar(20),a.OutDate,23) as 'OutDate',b.LineName,a.AdultNumber,a.BabyNumber,a.OldNumber,a.ChildNumber,
         a.statu,a.CompanyName,a.CompanyUser,a.IsPayment,a.IsCancel,d.ExamineType
         from Apply a join Line b on a.LineId = b.Id join Examine d on a.Id = d.ApplyId
-        where b.LineName like #{lineName_name} and d.ExamineType = '1' and d.ExamineResult = 0
+        where b.LineName like #{lineName_name} and d.ExamineType = '1' and d.ExamineResult = 0 and a.IsPayment = 1
         ORDER by a.OutDate desc
     </select>
 
@@ -197,7 +197,7 @@
         select a.Id,a.ApplyNo,convert(varchar(20),a.OutDate,23) as 'OutDate',b.LineName,a.AdultNumber,a.BabyNumber,a.OldNumber,a.ChildNumber,
         a.statu,a.CompanyName,a.CompanyUser,a.IsPayment,a.IsCancel,d.ExamineType
         from Apply a join Line b on a.LineId = b.Id join Examine d on a.Id = d.ApplyId
-        where a.OutDate = #{outDate} and d.ExamineType = '1' and d.ExamineResult = 0
+        where a.OutDate = #{outDate} and d.ExamineType = '1' and d.ExamineResult = 0 and a.IsPayment = 1
         ORDER by a.OutDate desc
     </select>
 
@@ -206,14 +206,14 @@
     <select id="listPageDoApply2Me" resultType="eqlee.ctm.apply.entry.entity.query.ApplyCompanyQuery">
         select a.Id,a.ApplyNo,convert(varchar(20),a.OutDate,23) as 'OutDate',b.LineName,a.AllNumber,
         a.ContactName,a.ContactTel,a.Statu
-        from Apply a join Line b on a.LineId = b.Id
+        from Apply a join Line b on a.LineId = b.Id where a.IsCancel = 0
         ORDER by a.OutDate desc
     </select>
 
     <select id="listPageDoApply2MeByTime" resultType="eqlee.ctm.apply.entry.entity.query.ApplyCompanyQuery">
        select a.Id,a.ApplyNo,convert(varchar(20),a.OutDate,23) as 'OutDate',b.LineName,a.AllNumber,
         a.ContactName,a.ContactTel,a.Statu
-        from Apply a join Line b on a.LineId = b.Id where a.OutDate = #{OutDate}
+        from Apply a join Line b on a.LineId = b.Id where a.OutDate = #{OutDate} and a.IsCancel = 0
         ORDER by a.OutDate desc
     </select>
 
@@ -221,7 +221,7 @@
         <bind name="lineName_name" value="'%' + lineName + '%'"/>
         select a.Id,a.ApplyNo,convert(varchar(20),a.OutDate,23) as 'OutDate',b.LineName,a.AllNumber,
         a.ContactName,a.ContactTel,a.Statu
-        from Apply a join Line b on a.LineId = b.Id where b.LineName like #{lineName_name}
+        from Apply a join Line b on a.LineId = b.Id where b.LineName like #{lineName_name} and a.IsCancel = 0
         ORDER by a.OutDate desc
     </select>
 
@@ -229,7 +229,7 @@
         <bind name="lineName_name" value="'%' + lineName + '%'"/>
         select a.Id,a.ApplyNo,convert(varchar(20),a.OutDate,23) as 'OutDate',b.LineName,a.AllNumber,
         a.ContactName,a.ContactTel,a.Statu
-        from Apply a join Line b on a.LineId = b.Id where b.LineName like #{lineName_name} and a.OutDate = #{OutTime}
+        from Apply a join Line b on a.LineId = b.Id where b.LineName like #{lineName_name} and a.OutDate = #{OutTime} and a.IsCancel = 0
         ORDER by a.OutDate desc
     </select>
 
@@ -241,40 +241,40 @@
     <select id="queryMonthApply" resultType="eqlee.ctm.apply.entry.entity.query.ApplyMonthQuery">
         select a.Id,convert(varchar(20),a.OutDate,23) as 'OutDate',a.AllPrice,b.LineName,a.AllNumber,a.IsPayment,
         a.CompanyUser,a.ContactName from Apply a join Line b on a.LineId = b.Id
-        where a.PayType = 1 ORDER by a.OutDate desc
+        where a.PayType = 1 and a.IsCancel = 0 ORDER by a.OutDate desc
     </select>
 
     <select id="queryMonthApplyByTime" resultType="eqlee.ctm.apply.entry.entity.query.ApplyMonthQuery">
         select a.Id,convert(varchar(20),a.OutDate,23) as 'OutDate',a.AllPrice,b.LineName,a.AllNumber,a.IsPayment,
         a.CompanyUser,a.ContactName from Apply a join Line b on a.LineId = b.Id
-        where a.PayType = 1 and a.OutDate = #{outDate}
+        where a.PayType = 1 and a.OutDate = #{outDate} and a.IsCancel = 0
         ORDER by a.OutDate desc
     </select>
 
     <select id="queryMonthWeiApply" resultType="eqlee.ctm.apply.entry.entity.query.ApplyMonthQuery">
         select a.Id,convert(varchar(20),a.OutDate,23) as 'OutDate',a.AllPrice,b.LineName,a.AllNumber,a.IsPayment,
         a.CompanyUser,a.ContactName from Apply a join Line b on a.LineId = b.Id
-        where a.PayType = 1 and a.IsPayment = 0
+        where a.PayType = 1 and a.IsPayment = 0 and a.IsCancel = 0
         ORDER by a.OutDate desc
     </select>
 
     <select id="queryMonthWeiApplyByTime" resultType="eqlee.ctm.apply.entry.entity.query.ApplyMonthQuery">
         select a.Id,convert(varchar(20),a.OutDate,23) as 'OutDate',a.AllPrice,b.LineName,a.AllNumber,a.IsPayment,
         a.CompanyUser,a.ContactName from Apply a join Line b on a.LineId = b.Id
-        where a.PayType = 1 and a.IsPayment = 0 and a.OutDate = #{outDate}
+        where a.PayType = 1 and a.IsPayment = 0 and a.OutDate = #{outDate} and a.IsCancel = 0
         ORDER by a.OutDate desc
     </select>
 
     <select id="queryMonthYiApply" resultType="eqlee.ctm.apply.entry.entity.query.ApplyMonthQuery">
         select a.Id,convert(varchar(20),a.OutDate,23) as 'OutDate',a.AllPrice,b.LineName,a.AllNumber,a.IsPayment,
         a.CompanyUser,a.ContactName from Apply a join Line b on a.LineId = b.Id
-        where a.PayType = 1 and a.IsPayment = 1 ORDER by a.OutDate desc
+        where a.PayType = 1 and a.IsPayment = 1 and a.IsCancel = 0 ORDER by a.OutDate desc
     </select>
 
     <select id="queryMonthYiApplyByTime" resultType="eqlee.ctm.apply.entry.entity.query.ApplyMonthQuery">
         select a.Id,convert(varchar(20),a.OutDate,23) as 'OutDate',a.AllPrice,b.LineName,a.AllNumber,a.IsPayment,
         a.CompanyUser,a.ContactName from Apply a join Line b on a.LineId = b.Id
-        where a.PayType = 1 and a.IsPayment = 1 and a.OutDate = #{outDate}
+        where a.PayType = 1 and a.IsPayment = 1 and a.OutDate = #{outDate} and a.IsCancel = 0
         ORDER by a.OutDate desc
     </select>
 

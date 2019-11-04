@@ -1,14 +1,14 @@
 
-psquid:S00117)"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(£™Ëø8Í¸ÄÜ-
-rsquid:S00100"NRename this method name to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(—ıÌÖùÿÿÿÿ8Ó‘ˆïÔ-
-psquid:S001170"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(©í†¢8Ò­ÉïÔ-
-msquid:S00100"NRename this method name to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(Ğ–ÉÜ8”Š‚ïÔ-
-usquid:S00117#"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ÑéÓ™ùÿÿÿÿ8¨ÂïÔ-
-psquid:S001176"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(‚ßš8±ä¶á×-
-rsquid:S00100#"NRename this method name to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ÑéÓ™ùÿÿÿÿ8Ô€½ïÔ-
-msquid:S001000"NRename this method name to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(©í†¢8Ò­ÉïÔ-
-psquid:S00117"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(Ğ–ÉÜ8¦Ş…ïÔ-
-msquid:S00100)"NRename this method name to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(£™Ëø8¥Ô·ÄÜ-
-usquid:S00117M"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(Ú•Üˆşÿÿÿÿ8¼†èƒà-
+msquid:S00100,"NRename this method name to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(äí•»8¥Ô·ÄÜ-
+rsquid:S00100"NRename this method name to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(—ıÌÖùÿÿÿÿ8Ó‘ˆïÔ-
+psquid:S00117,"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(äí•»8Í¸ÄÜ-
+psquid:S001173"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(©í†¢8Ò­ÉïÔ-
+msquid:S00100"NRename this method name to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(Ğ–ÉÜ8”Š‚ïÔ-
+msquid:S001003"NRename this method name to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(©í†¢8Ò­ÉïÔ-
+psquid:S00117"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(Ğ–ÉÜ8¦Ş…ïÔ-
+zsquid:UselessImportCheck"ORemove this unused import 'eqlee.ctm.apply.entry.entity.query.ExaMqAdminQuery'.(£Åæ´8‡™Ä„à-
 lsquid:UselessImportCheck"ARemove this unused import 'eqlee.ctm.apply.entry.entity.Examine'.(¶¢ç¬8¼†èƒà-
-zsquid:UselessImportCheck"ORemove this unused import 'eqlee.ctm.apply.entry.entity.query.ExaMqAdminQuery'.(£Åæ´8‡™Ä„à-
+rsquid:S00100%"NRename this method name to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(­ˆ‘æøÿÿÿÿ8Ô€½ïÔ-
+psquid:S001179"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(‚ßš8±ä¶á×-
+usquid:S00117%"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(­ˆ‘æøÿÿÿÿ8¨ÂïÔ-
+usquid:S00117P"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(Ú•Üˆşÿÿÿÿ8¼†èƒà-

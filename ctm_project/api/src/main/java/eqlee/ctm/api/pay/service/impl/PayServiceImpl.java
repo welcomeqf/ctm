@@ -15,6 +15,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 /**
  * @Author qf
  * @Date 2019/10/28
@@ -89,23 +91,26 @@ public class PayServiceImpl extends ServiceImpl<PayMapper, Pay> implements IPayS
      */
     @Override
     public ResultQuery queryPayResult(String applyNo) {
-        PayResultQuery payResult = baseMapper.queryPayResult(applyNo);
+        List<PayResultQuery> list = baseMapper.queryPayResult(applyNo);
 
-        if (payResult == null) {
+        if (list.size() == 0) {
             throw new ApplicationException(CodeType.SERVICE_ERROR,"请重新支付");
         }
 
         ResultQuery result = new ResultQuery();
-        result.setId(payResult.getId());
-        result.setApplyNo(payResult.getApplyNo());
-        result.setPayDate(payResult.getPayDate());
-        result.setThirdPartyNumber(payResult.getThirdPartyNumber());
+        for (PayResultQuery payResult : list) {
+            result.setId(payResult.getId());
+            result.setApplyNo(payResult.getApplyNo());
+            result.setPayDate(payResult.getPayDate());
+            result.setThirdPartyNumber(payResult.getThirdPartyNumber());
 
-        if (payResult.getPayStatus() == 0 || payResult.getPayStatus() == 2) {
-            result.setPayStatus("支付失败");
-        } else {
-            result.setPayStatus("支付成功");
+            if (payResult.getPayStatus() == 0 || payResult.getPayStatus() == 2) {
+                result.setPayStatus("支付失败");
+            } else {
+                result.setPayStatus("支付成功");
+            }
         }
+
 
         //查询报名表字段
         ApplyPayResultQuery query = baseMapper.queryApplyResult(applyNo);

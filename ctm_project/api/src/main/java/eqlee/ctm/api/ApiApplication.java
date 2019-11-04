@@ -3,6 +3,7 @@ package eqlee.ctm.api;
 
 import com.yq.handle.ApplicationAdviceHandle;
 import com.yq.handle.GlobalResponseHandler;
+import com.yq.httpclient.HttpClientUtils;
 import com.yq.jwt.contain.LocalUser;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
@@ -37,6 +38,11 @@ public class ApiApplication extends SpringBootServletInitializer {
     @Bean
     public ApplicationAdviceHandle getApplicationAdviceHandle() {
         return new ApplicationAdviceHandle();
+    }
+
+    @Bean
+    public HttpClientUtils getHttpClientUtils () {
+        return new HttpClientUtils ();
     }
 
     /**

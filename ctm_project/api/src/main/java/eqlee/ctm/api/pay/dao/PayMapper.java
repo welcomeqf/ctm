@@ -7,6 +7,8 @@ import eqlee.ctm.api.pay.entity.query.PayResultQuery;
 import eqlee.ctm.api.pay.entity.vo.GetApplyIdVo;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+
 /**
  * @Author qf
  * @Date 2019/10/28
@@ -49,7 +51,7 @@ public interface PayMapper extends IBaseMapper<Pay> {
      * @param applyNo
      * @return
      */
-    PayResultQuery queryPayResult(String applyNo);
+    List<PayResultQuery> queryPayResult(String applyNo);
 
     /**
      * 查询报名支付结果

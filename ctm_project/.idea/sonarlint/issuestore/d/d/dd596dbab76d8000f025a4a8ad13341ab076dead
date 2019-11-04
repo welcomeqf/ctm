@@ -1,0 +1,8 @@
+
+Бsquid:UselessImportCheck"QRemove this unused import 'org.springframework.web.bind.annotation.RequestParam'.(┬м└╖∙    8─╫═ну-
+Dsquid:S1170"!Make this final field static too.(щ╨е╦     8╧╖жну-
+ysquid:S00116"ZRename this field "AccessKeySecret" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(Бєжр8╧╖жну-
+?squid:S1170"!Make this final field static too.(Бєжр8╧╖жну-
+rsquid:S00116"NRename this field "URL" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(щ╨е╦     8╧╖жну-
+xsquid:S00116"TRename this field "AccessKey" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(Н╖б█∙    8╧╖жну-
+Dsquid:S1170"!Make this final field static too.(Н╖б█∙    8╧╖жну-

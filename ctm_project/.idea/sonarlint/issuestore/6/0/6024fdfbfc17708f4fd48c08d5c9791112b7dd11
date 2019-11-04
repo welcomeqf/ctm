@@ -1,9 +1,11 @@
 
-vsquid:S00117¦"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(š¢çÙşÿÿÿÿ8İá‘Œá-
-?squid:S1170B"!Make this final field static too.(ó¦à8Ş§ÏÓá-
-ysquid:S00116B"ZRename this field "AccessKeySecret" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ó¦à8®ÔÎÓá-
-usquid:S00117e"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(š¢çÙşÿÿÿÿ8¡ø‡á-
-Dsquid:S1170>"!Make this final field static too.(éĞ¥Ëÿÿÿÿÿ8¡¶ÃÓá-
-rsquid:S00116>"NRename this field "URL" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(éĞ¥Ëÿÿÿÿÿ8¡¶ÃÓá-
-xsquid:S00116@"TRename this field "AccessKey" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(·¡Ûùÿÿÿÿ8®ÔÎÓá-
-Dsquid:S1170@"!Make this final field static too.(·¡Ûùÿÿÿÿ8ƒüÎÓá-
+xsquid:S00116B"TRename this field "AccessKey" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(·¡Ûùÿÿÿÿ8Ôù¥­ã-
+rsquid:S00116@"NRename this field "URL" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(éĞ¥Ëÿÿÿÿÿ8Ôù¥­ã-
+?squid:S1170D"!Make this final field static too.(ó¦à8Ôù¥­ã-
+vsquid:S00117¨"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(š¢çÙşÿÿÿÿ8İá‘Œá-
+usquid:S00117h"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(š¢çÙşÿÿÿÿ8¡ø‡á-
+fsquid:S1192o"HDefine a constant instead of duplicating this literal "Bearer " 4 times.(°Íñ‰8Û˜“¨â-
+ysquid:S00116D"ZRename this field "AccessKeySecret" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ó¦à8Ôù¥­ã-
+Dsquid:S1170@"!Make this final field static too.(éĞ¥Ëÿÿÿÿÿ8Ôù¥­ã-
+tsquid:S1192×"PDefine a constant instead of duplicating this literal "æ— è¿”å›æ•°æ®" 3 times.(Ì¹€üÿÿÿÿ8à•ï¨â-
+Dsquid:S1170B"!Make this final field static too.(·¡Ûùÿÿÿÿ8Ôù¥­ã-
