@@ -25,7 +25,7 @@
 
     <select id="listExamine2Do" resultType="eqlee.ctm.finance.settlement.entity.query.ExamineResultQuery">
         select a.Id, a.GuideName,convert(varchar(20),a.OutDate,23) as 'OutDate',a.LineName,c.Tel,(a.SettlementPrice - b.AllOutPrice) as 'InPrice',
-        (a.SubstitutionPrice - b.AllOutPrice) as 'FinallyPrice',b.AllOutPrice from Income a join Outcome b
+        (a.SubstitutionPrice - b.AllOutPrice) as 'FinallyPrice',b.AllOutPrice,a.Status from Income a join Outcome b
         on a.Id = b.IncomeId join SystemUser c on a.CreateUserId = c.Id where a.Status != 0
         order by a.OutDate desc
     </select>
@@ -41,7 +41,7 @@
     <select id="listExamine2DoByGuestName" resultType="eqlee.ctm.finance.settlement.entity.query.ExamineResultQuery">
         <bind name="guestName_name" value="'%' + guestName + '%'"/>
         select a.Id, a.GuideName,convert(varchar(20),a.OutDate,23) as 'OutDate',a.LineName,c.Tel,(a.SettlementPrice - b.AllOutPrice) as 'InPrice',
-        (a.SubstitutionPrice - b.AllOutPrice) as 'FinallyPrice',b.AllOutPrice from Income a join Outcome b
+        (a.SubstitutionPrice - b.AllOutPrice) as 'FinallyPrice',b.AllOutPrice,a.Status from Income a join Outcome b
         on a.Id = b.IncomeId join SystemUser c on a.CreateUserId = c.Id where c.CName like #{guestName_name} and a.Status != 0
         order by a.OutDate desc
     </select>

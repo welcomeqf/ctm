@@ -1,6 +1,11 @@
 
+Šsquid:UselessImportCheck"ZRemove this unused import 'org.springframework.boot.autoconfigure.web.ResourceProperties'.(ò¹É¤ûÿÿÿÿ8áå™ä-
+Xsquid:S1191"5Use classes from the Java API instead of Sun classes.(Ï´Åùÿÿÿÿ8áå™ä-
+\squid:S3516)"9Refactor this method to not always return the same value.(É—ˆ¤üÿÿÿÿ8˜ç¥ÁÜ-
+isquid:UselessImportCheck"9Remove this unused import 'com.sun.tools.javac.jvm.Code'.(Ï´Åùÿÿÿÿ8áå™ä-
+‚squid:UselessImportCheck"RRemove this unused import 'org.springframework.web.bind.annotation.RequestMethod'.(Ê™Ğÿûÿÿÿÿ8ŞÁ›ä-
 wsquid:S00120"ZRename this package name to match the regular expression '^[a-z_]+(\.[a-z_][a-z0-9_]*)*$'.(ø®Çæøÿÿÿÿ
-\squid:S3516%"9Refactor this method to not always return the same value.(É—ˆ¤üÿÿÿÿ8˜ç¥ÁÜ-
-usquid:S3776%"RRefactor this method to reduce its Cognitive Complexity from 19 to the 15 allowed.(É—ˆ¤üÿÿÿÿ8ĞõÌúÛ-
-˜squid:S1186m"€Add a nested comment explaining why this method is empty, throw an UnsupportedOperationException or complete the implementation.(ÆŒ‰Ò
-squid:S1186h"€Add a nested comment explaining why this method is empty, throw an UnsupportedOperationException or complete the implementation.(ÌÒ³•øÿÿÿÿ
+¤squid:S1186l"€Add a nested comment explaining why this method is empty, throw an UnsupportedOperationException or complete the implementation.(ÌÒ³•øÿÿÿÿ8ª¯¨ä-
+usquid:S3776)"RRefactor this method to reduce its Cognitive Complexity from 19 to the 15 allowed.(É—ˆ¤üÿÿÿÿ8ĞõÌúÛ-
+Ÿsquid:S1186q"€Add a nested comment explaining why this method is empty, throw an UnsupportedOperationException or complete the implementation.(ÆŒ‰Ò8ª¯¨ä-
+psquid:UselessImportCheck"@Remove this unused import 'org.springframework.http.HttpStatus'.(íŸ¤Šúÿÿÿÿ8Çµÿä-

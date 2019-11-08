@@ -4,17 +4,21 @@
 <mapper namespace="eqlee.ctm.apply.price.dao.PriceMapper">
 
     <insert id="allInsertPrice" parameterType="eqlee.ctm.apply.price.entity.Price">
-        insert into Price (Id,OutDate,LineId,ChannelId,AdultPrice,OldPrice,BabyPrice,ChildPrice,Remark,CreateUserId,UpdateUserId)
+        insert into Price (Id,OutDate,LineId,ChannelId,AdultPrice,OldPrice,BabyPrice,ChildPrice,Remark,CreateUserId,UpdateUserId,
+        MarketAdultPrice,MarketOldPrice,MarketBabyPrice,MarketChildPrice)
         <foreach collection="list" item="item" index="index" separator="union all">
             select #{item.Id},#{item.OutDate},#{item.LineId},#{item.ChannelId},
-            #{item.AdultPrice},#{item.OldPrice},#{item.BabyPrice},#{item.ChildPrice},#{item.Remark},#{item.CreateUserId},#{item.UpdateUserId}
+            #{item.AdultPrice},#{item.OldPrice},#{item.BabyPrice},#{item.ChildPrice},#{item.Remark},#{item.CreateUserId},#{item.UpdateUserId},
+            #{item.MarketAdultPrice},#{item.MarketOldPrice},#{item.MarketBabyPrice},#{item.MarketChildPrice}
         </foreach>
     </insert>
 
 
     <update id="batchUpdatePrice" parameterType="eqlee.ctm.apply.price.entity.vo.PriceAllUpdateVo">
         <foreach collection="list" item="item" index="index">
-            update Price set AdultPrice = #{item.adultPrice},OldPrice = #{item.oldPrice},BabyPrice = #{item.babyPrice},ChildPrice = #{item.childPrice}
+            update Price set AdultPrice = #{item.adultPrice},OldPrice = #{item.oldPrice},BabyPrice = #{item.babyPrice},ChildPrice = #{item.childPrice},
+            MarketAdultPrice = #{item.MarketAdultPrice},MarketOldPrice = #{item.MarketOldPrice}, MarketBabyPrice = #{item.MarketBabyPrice},
+            MarketChildPrice = #{item.MarketChildPrice}
             where OutDate = #{item.outDate} and LineId = #{item.lineId}
         </foreach>
     </update>

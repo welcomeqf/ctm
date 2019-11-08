@@ -1,5 +1,6 @@
 package eqlee.ctm.apply.orders.entity.Vo;
 
+import eqlee.ctm.apply.orders.entity.bo.OrderTypeBo;
 import lombok.Data;
 
 import java.util.List;
@@ -45,7 +46,7 @@ public class IncomeVo {
     /**
      * 联系人列表
      */
-    private List<Map<String,Object>> ContactNames;
+    private List<OrderTypeBo> ContactNames;
 
     /**
      * 未付人数

@@ -52,6 +52,7 @@ public class ApplyController {
             @ApiImplicitParam(name = "babyNumber", value = "幼儿人数", required = true, dataType = "int", paramType = "path"),
             @ApiImplicitParam(name = "oldNumber", value = "老人人数", required = true, dataType = "int", paramType = "path"),
             @ApiImplicitParam(name = "childNumber", value = "小孩人数", required = true, dataType = "int", paramType = "path"),
+            @ApiImplicitParam(name = "companyUserId", value = "同行id", required = true, dataType = "Long", paramType = "path"),
             @ApiImplicitParam(name = "payType", value = "支付类型(月结,现结,面收)", required = true, dataType = "String", paramType = "path")
     })
     @PostMapping("/insertApply")
@@ -69,11 +70,6 @@ public class ApplyController {
         || applyVo.getChildNumber() < 0) {
             throw new ApplicationException(CodeType.PARAM_ERROR,"人数个数不能为负数");
         }
-        UserLoginQuery user = localUser.getUser("用户信息");
-        applyVo.setCompanyUser(user.getAccount());
-        applyVo.setCompanyNameId(user.getCompanyId());
-        applyVo.setCreateUserId(user.getId());
-        applyVo.setUpdateUserId(user.getId());
 
         return applyService.insertApply(applyVo);
     }
@@ -242,5 +238,24 @@ public class ApplyController {
         vo.setResult("OK");
         return vo;
     }
+
+
+    @ApiOperation(value = "根据订单号回收报名表", notes = "根据订单号回收报名表")
+    @ApiImplicitParam(name = "applyNo", value = "报名单号", required = true, dataType = "String", paramType = "path")
+    @GetMapping("/dopApply")
+    @CrossOrigin
+    @CheckToken
+    public ResultVo dopApply(@RequestParam("applyNo") String applyNo) {
+
+        if (StringUtils.isBlank(applyNo)) {
+            throw new ApplicationException(CodeType.PARAM_ERROR,"参数不能为空");
+        }
+        applyService.dopApply(applyNo);
+
+        ResultVo vo = new ResultVo();
+        vo.setResult("OK");
+        return vo;
+    }
+
 
 }

@@ -1,5 +1,5 @@
 
 osquid:S00117i"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(Žª¿:8Ü×ñ“Ý-
-psquid:S00117 "QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(€ÚÞ†8ƒ¿„”×-
 usquid:S00117Y"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(äáþ¹úÿÿÿÿ8Û‘¡Ü×-
 ‡squid:UselessImportCheck	"WRemove this unused import 'eqlee.ctm.finance.settlement.entity.vo.ContectUserNumberVo'.(î‘ÓŠûÿÿÿÿ8Ó§Ì¹×-
+psquid:S00117 "QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(€ÚÞ†8ƒ¿„”×-

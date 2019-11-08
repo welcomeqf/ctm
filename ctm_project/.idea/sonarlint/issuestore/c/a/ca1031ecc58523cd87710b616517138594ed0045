@@ -1,12 +1,13 @@
 
-qsquid:S00116"SRename this field "DoNumber" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(Ÿ®]8ñ‚òİ-
-ssquid:S00116+"VRename this field "ChildNumber" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(¹¤áñûÿÿÿÿ
-lsquid:S00116!"URename this field "BabyNumber" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(˜Ú‡C
-vsquid:S00116A"RRename this field "CarType" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(Œñå¾øÿÿÿÿ8¿»ÕŞ-
-nsquid:S001165"QRename this field "Unpaid" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ĞïÈœÿÿÿÿÿ
-xsquid:S00116<"TRename this field "CarNumber" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(–¯÷úûÿÿÿÿ8¿»ÕŞ-
+xsquid:S00116="TRename this field "CarNumber" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(–¯÷úûÿÿÿÿ8¿»ÕŞ-
+vsquid:S00116B"RRename this field "CarType" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(Œñå¾øÿÿÿÿ8¿»ÕŞ-
+tsquid:S001161"WRename this field "ContactNames" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ŒîÃøÿÿÿÿ
+lsquid:S00116""URename this field "BabyNumber" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(˜Ú‡C
+ssquid:S00116,"VRename this field "ChildNumber" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(¹¤áñûÿÿÿÿ
+qsquid:S00116"SRename this field "DoNumber" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(Ÿ®]8ñ‚òİ-
+lsquid:S00116'"TRename this field "OldNumber" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ÃÁ«è
+qsquid:S00116;"TRename this field "SumInCome" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(öØ©Øùÿÿÿÿ
+Zsquid:UselessImportCheck"*Remove this unused import 'java.util.Map'.(¼è½Òşÿÿÿÿ8€›ÁÍã-
+ssquid:S00116"VRename this field "AdultNumber" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(í÷ÖÎúÿÿÿÿ
+nsquid:S001166"QRename this field "Unpaid" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ĞïÈœÿÿÿÿÿ
 rsquid:S00120"ZRename this package name to match the regular expression '^[a-z_]+(\.[a-z_][a-z0-9_]*)*$'.(Œ÷‰ß
-ssquid:S00116"VRename this field "AdultNumber" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(í÷ÖÎúÿÿÿÿ
-lsquid:S00116&"TRename this field "OldNumber" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ÃÁ«è
-tsquid:S001160"WRename this field "ContactNames" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ÍÕúûÿÿÿÿ
-qsquid:S00116:"TRename this field "SumInCome" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(öØ©Øùÿÿÿÿ

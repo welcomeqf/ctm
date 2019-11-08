@@ -5,6 +5,8 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.yq.constanct.CodeType;
 import com.yq.exception.ApplicationException;
+import com.yq.jwt.contain.LocalUser;
+import com.yq.jwt.entity.UserLoginQuery;
 import com.yq.utils.DateUtil;
 import com.yq.utils.IdGenerator;
 import com.yq.utils.StringUtils;
@@ -59,6 +61,9 @@ public class ApplyServiceImpl extends ServiceImpl<ApplyMapper, Apply> implements
 
     private final String APPLY_EXA = "报名审核";
 
+    @Autowired
+    private LocalUser localUser;
+
     @Override
     public ApplyPayResultQuery insertApply(ApplyVo applyVo) {
         LocalDate now = LocalDate.now();
@@ -68,6 +73,11 @@ public class ApplyServiceImpl extends ServiceImpl<ApplyMapper, Apply> implements
         if (until <= 0) {
             throw new ApplicationException(CodeType.SERVICE_ERROR,"亲~请报名今天之后的旅行！");
         }
+
+        if (applyVo.getChildNumber() + applyVo.getOldNumber() + applyVo.getBabyNumber() + applyVo.getAdultNumber() <= 0) {
+            throw new ApplicationException(CodeType.SERVICE_ERROR, "报名人数不能为0");
+        }
+
 
         Line line = lineService.queryLineByName(applyVo.getLineName());
         IdGenerator idGenerator = new IdGenerator();
@@ -109,6 +119,24 @@ public class ApplyServiceImpl extends ServiceImpl<ApplyMapper, Apply> implements
         //生成报名单号
         String orderCode = idGenerator.getOrderCode();
 
+        UserLoginQuery user = localUser.getUser("用户信息");
+
+        if ("同行".equals(user.getRoleName())) {
+            applyVo.setCompanyNameId(user.getCompanyId());
+        } else {
+            //运营代录
+            if (applyVo.getCompanyUserId() == null) {
+                throw new ApplicationException(CodeType.SERVICE_ERROR, "代录请选择替录人员.");
+            }
+            //装配同行id
+            //先查询该同行信息
+            User userById = baseMapper.queryUserById(applyVo.getCompanyUserId());
+            applyVo.setCompanyNameId(userById.getCompanyId());
+            applyVo.setCompanyUser(userById.getAccount());
+            applyVo.setCreateUserId(userById.getId());
+            applyVo.setUpdateUserId(userById.getId());
+        }
+
         Company company = baseMapper.queryCompanyById(applyVo.getCompanyNameId());
 
         if (company == null) {
@@ -117,25 +145,55 @@ public class ApplyServiceImpl extends ServiceImpl<ApplyMapper, Apply> implements
 
         //装配实体类
         Apply apply = new Apply();
+
         Long id = idGenerator.getNumberId();
-        apply.setId(id);
-        apply.setAdultNumber(applyVo.getAdultNumber());
-        apply.setBabyNumber(applyVo.getBabyNumber());
-        apply.setChildNumber(applyVo.getChildNumber());
-        apply.setOldNumber(applyVo.getOldNumber());
-        apply.setAllNumber(AllNumber);
-        apply.setAllPrice(AllPrice);
-        apply.setApplyNo(orderCode);
-        apply.setCompanyName(company.getCompanyName());
-        apply.setCompanyUser(applyVo.getCompanyUser());
-        apply.setContactName(applyVo.getContactName());
-        apply.setContactTel(applyVo.getContactTel());
-        apply.setPlace(applyVo.getPlace());
-        apply.setRegion(line.getRegion());
-        apply.setLineId(line.getId());
-        apply.setOutDate(localDate);
-        apply.setCreateUserId(applyVo.getCreateUserId());
-        apply.setUpdateUserId(applyVo.getUpdateUserId());
+        if ("同行".equals(user.getRoleName())) {
+            apply.setId(id);
+            apply.setAdultNumber(applyVo.getAdultNumber());
+            apply.setBabyNumber(applyVo.getBabyNumber());
+            apply.setChildNumber(applyVo.getChildNumber());
+            apply.setOldNumber(applyVo.getOldNumber());
+            apply.setAllNumber(AllNumber);
+            apply.setAllPrice(AllPrice);
+            apply.setApplyNo(orderCode);
+            apply.setCompanyName(company.getCompanyName());
+            apply.setCompanyUser(user.getAccount());
+            apply.setContactName(applyVo.getContactName());
+            apply.setContactTel(applyVo.getContactTel());
+            apply.setPlace(applyVo.getPlace());
+            apply.setRegion(line.getRegion());
+            apply.setLineId(line.getId());
+            apply.setOutDate(localDate);
+            apply.setCreateUserId(user.getId());
+            apply.setUpdateUserId(user.getId());
+
+        } else {
+            //运营人员代录
+            apply.setId(id);
+            apply.setAdultNumber(applyVo.getAdultNumber());
+            apply.setBabyNumber(applyVo.getBabyNumber());
+            apply.setChildNumber(applyVo.getChildNumber());
+            apply.setOldNumber(applyVo.getOldNumber());
+            apply.setAllNumber(AllNumber);
+            apply.setAllPrice(AllPrice);
+            apply.setApplyNo(orderCode);
+            apply.setCompanyName(company.getCompanyName());
+            apply.setCompanyUser(applyVo.getCompanyUser());
+            apply.setContactName(applyVo.getContactName());
+            apply.setContactTel(applyVo.getContactTel());
+            apply.setPlace(applyVo.getPlace());
+            apply.setRegion(line.getRegion());
+            apply.setLineId(line.getId());
+            apply.setOutDate(localDate);
+            apply.setCreateUserId(applyVo.getCreateUserId());
+            apply.setUpdateUserId(applyVo.getUpdateUserId());
+
+        }
+
+
+        //设置过期时间
+        apply.setExpreDate(30);
+
         if (MONTH_PAY.equals(applyVo.getPayType())) {
             apply.setPayType(1);
             apply.setIsPayment(true);
@@ -174,7 +232,10 @@ public class ApplyServiceImpl extends ServiceImpl<ApplyMapper, Apply> implements
         } else {
             query.setAuto(true);
         }
+        LocalDateTime nowTime = LocalDateTime.now();
         query.setApplyNo(orderCode);
+        query.setExpreDate(apply.getExpreDate());
+        query.setApplyDate(DateUtil.formatDateTime(nowTime));
         String product = applyVo.getOutDate() + "在"+applyVo.getLineName() +"报名消费";
         query.setProductName(product);
         return query;
@@ -425,6 +486,16 @@ public class ApplyServiceImpl extends ServiceImpl<ApplyMapper, Apply> implements
     }
 
     /**
+     * 查询报名表
+     * @param list
+     * @return
+     */
+    @Override
+    public List<Apply> listApply(List<Long> list) {
+        return baseMapper.selectBatchIds(list);
+    }
+
+    /**
      * 查询公司信息
      * @param Id
      * @return
@@ -489,25 +560,27 @@ public class ApplyServiceImpl extends ServiceImpl<ApplyMapper, Apply> implements
     @Override
     public Page<ApplyCompanyQuery> page2MeApply(Page<ApplyCompanyQuery> page, String lineName, String outDate) {
 
+        UserLoginQuery user = localUser.getUser("用户信息");
+
         if (StringUtils.isBlank(lineName) && StringUtils.isBlank(outDate)) {
             //都为空
-            return baseMapper.listPageDoApply2Me(page);
+            return baseMapper.listPageDoApply2Me(page,user.getId());
         }
 
         if (StringUtils.isBlank(lineName) && StringUtils.isNotBlank(outDate)) {
             //根据出行日期查询
             LocalDate localDate = DateUtil.parseDate(outDate);
-            return baseMapper.listPageDoApply2MeByTime(page,localDate);
+            return baseMapper.listPageDoApply2MeByTime(page,localDate,user.getId());
         }
 
         if (StringUtils.isNotBlank(lineName) && StringUtils.isBlank(outDate)) {
             //根据线路名模糊查询
-            return baseMapper.listPageDoApply2MeByName(page,lineName);
+            return baseMapper.listPageDoApply2MeByName(page,lineName,user.getId());
         }
 
         //都不为空
         LocalDate localDate = DateUtil.parseDate(outDate);
-        return baseMapper.listPageDoApply2MeByNameAndTime(page,lineName,localDate);
+        return baseMapper.listPageDoApply2MeByNameAndTime(page,lineName,localDate,user.getId());
     }
 
 
@@ -607,6 +680,27 @@ public class ApplyServiceImpl extends ServiceImpl<ApplyMapper, Apply> implements
         if (byId <= 0) {
             throw new ApplicationException(CodeType.SERVICE_ERROR, "修改失败");
         }
+    }
+
+    /**
+     * 根据订单号回收报名表
+     * @param applyNo
+     */
+    @Override
+    public void dopApply(String applyNo) {
+        LambdaQueryWrapper<Apply> wrapper = new LambdaQueryWrapper<Apply>()
+                .eq(Apply::getApplyNo,applyNo);
+
+        Apply apply = new Apply();
+        apply.setIsCancel(true);
+
+        int update = baseMapper.update(apply, wrapper);
+
+        if (update <= 0) {
+            throw new ApplicationException(CodeType.SERVICE_ERROR, "回收订单失败");
+        }
+
+
     }
 
 

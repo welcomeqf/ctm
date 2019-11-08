@@ -48,6 +48,10 @@ public class PriceController {
             @ApiImplicitParam(name = "oldPrice", value = "老人价格", required = true, dataType = "double", paramType = "path"),
             @ApiImplicitParam(name = "babyPrice", value = "幼儿价格", required = true, dataType = "double", paramType = "path"),
             @ApiImplicitParam(name = "childPrice", value = "小孩价格", required = true, dataType = "double", paramType = "path"),
+            @ApiImplicitParam(name = "MarketAdultPrice", value = "门市成年价格", required = true, dataType = "double", paramType = "path"),
+            @ApiImplicitParam(name = "MarketOldPrice", value = "门市老人价格", required = true, dataType = "double", paramType = "path"),
+            @ApiImplicitParam(name = "MarketBabyPrice", value = "门市幼儿价格", required = true, dataType = "double", paramType = "path"),
+            @ApiImplicitParam(name = "MarketChildPrice", value = "门市小孩价格", required = true, dataType = "double", paramType = "path"),
             @ApiImplicitParam(name = "remark", value = "备注", required = false, dataType = "String", paramType = "path")
     })
     @PostMapping("/insertPrice")
@@ -55,8 +59,9 @@ public class PriceController {
     @CheckToken
     public ResultVo insertPrice(@RequestBody PriceVo priceVo) {
         if (StringUtils.isBlank(priceVo.getStartTime()) || StringUtils.isBlank(priceVo.getEndTime())
-        || StringUtils.isBlank(priceVo.getLineName()) || priceVo.getAdultPrice() == null
-        || priceVo.getOldPrice() == null || priceVo.getBabyPrice() == null || priceVo.getChildPrice() ==null) {
+        || StringUtils.isBlank(priceVo.getLineName()) || priceVo.getAdultPrice() == null || priceVo.getMarketOldPrice() == null
+        || priceVo.getOldPrice() == null || priceVo.getBabyPrice() == null || priceVo.getChildPrice() ==null
+        || priceVo.getMarketAdultPrice() == null || priceVo.getMarketBabyPrice() == null || priceVo.getMarketChildPrice() == null) {
             log.error("price param is not null.");
             throw new ApplicationException(CodeType.PARAM_ERROR,"价格设定参数不能为空");
         }
@@ -79,14 +84,19 @@ public class PriceController {
             @ApiImplicitParam(name = "oldPrice", value = "老人价格", required = true, dataType = "double", paramType = "path"),
             @ApiImplicitParam(name = "babyPrice", value = "幼儿价格", required = true, dataType = "double", paramType = "path"),
             @ApiImplicitParam(name = "childPrice", value = "小孩价格", required = true, dataType = "double", paramType = "path"),
+            @ApiImplicitParam(name = "MarketAdultPrice", value = "门市成年价格", required = true, dataType = "double", paramType = "path"),
+            @ApiImplicitParam(name = "MarketOldPrice", value = "门市老人价格", required = true, dataType = "double", paramType = "path"),
+            @ApiImplicitParam(name = "MarketBabyPrice", value = "门市幼儿价格", required = true, dataType = "double", paramType = "path"),
+            @ApiImplicitParam(name = "MarketChildPrice", value = "门市小孩价格", required = true, dataType = "double", paramType = "path")
     })
     @PostMapping("/batchUpdatePrice")
     @CrossOrigin
     @CheckToken
     public ResultVo batchUpdatePrice(@RequestBody PriceVo priceVo) {
         if (StringUtils.isBlank(priceVo.getStartTime()) || StringUtils.isBlank(priceVo.getEndTime())
-                || StringUtils.isBlank(priceVo.getLineName()) || priceVo.getAdultPrice() == null
-                || priceVo.getOldPrice() == null || priceVo.getBabyPrice() == null || priceVo.getChildPrice() ==null) {
+                || StringUtils.isBlank(priceVo.getLineName()) || priceVo.getAdultPrice() == null || priceVo.getMarketOldPrice() == null
+                || priceVo.getOldPrice() == null || priceVo.getBabyPrice() == null || priceVo.getChildPrice() ==null
+                || priceVo.getMarketAdultPrice() == null || priceVo.getMarketBabyPrice() == null || priceVo.getMarketChildPrice() == null) {
             throw new ApplicationException(CodeType.PARAM_ERROR,"价格修改参数不能为空");
         }
         priceService.batchUpdatePrice(priceVo);

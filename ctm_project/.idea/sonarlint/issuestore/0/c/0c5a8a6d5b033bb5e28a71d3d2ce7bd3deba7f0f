@@ -1,18 +1,17 @@
 
-_squid:S2259à"@A "NullPointerException" could be thrown; "bo" is nullable here.(ñ‡ş£8¸§´â-
-Tsquid:S1751¥"5Remove this "break" statement or make it conditional.(›ûä·8ãõ¯®â-
-{squid:UselessImportCheck"KRemove this unused import 'eqlee.ctm.apply.orders.entity.query.PriceQuery'.(Óé­şÿÿÿÿ8¼íáŞ-
-qsquid:S00117›"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(¾óÏ›8ãõ¯®â-
-vsquid:S00117È"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(‡òüÿÿÿÿ8ãõ¯®â-
-qsquid:S00117²"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ãôç8ãõ¯®â-
-vsquid:S00117ÿ"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ì˜õ¸üÿÿÿÿ8¸§´â-
-qsquid:S00117Ó"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(¨â” 8¸§´â-
-ssquid:UselessImportCheck#"CRemove this unused import 'org.springframework.util.unit.DataUnit'.(‚İ×¢ûÿÿÿÿ8ÌĞç›Ş-
-]squid:S1155×">Use isEmpty() to check whether the collection is empty or not.(ôö®8¸§´â-
-qsquid:S00117"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(¹ÚÃ‰8ãõ¯®â-
-qsquid:S00117"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(¹ÚÃ‰8ãõ¯®â-
-vsquid:S00117È"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(‡òüÿÿÿÿ8ãõ¯®â-
-qsquid:S00117Ó"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(¨â” 8¸§´â-
-ssquid:UselessImportCheck"HRemove this unused import 'eqlee.ctm.apply.orders.entity.OrderDetailed'.(×Üö‚8íæá¯â-
-vsquid:S00117È"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(‡òüÿÿÿÿ8ãõ¯®â-
-qsquid:S00117›"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(¾óÏ›8ãõ¯®â-
+qsquid:S00117Ÿ"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(¨â” 8™ ÂÒã-
+qsquid:S00117¼"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(¾óÏ›8™ ÂÒã-
+ssquid:UselessImportCheck"HRemove this unused import 'eqlee.ctm.apply.orders.entity.OrderDetailed'.(×Üö‚8íæá¯â-
+vsquid:S00117Ë"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ì˜õ¸üÿÿÿÿ8™ ÂÒã-
+qsquid:S00117Ó"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ãôç8™ ÂÒã-
+vsquid:S00117õ"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(‡òüÿÿÿÿ8™ ÂÒã-
+ssquid:UselessImportCheck&"CRemove this unused import 'org.springframework.util.unit.DataUnit'.(‚İ×¢ûÿÿÿÿ8ÌĞç›Ş-
+vsquid:S00117õ"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(‡òüÿÿÿÿ8™ ÂÒã-
+{squid:UselessImportCheck"KRemove this unused import 'eqlee.ctm.apply.orders.entity.query.PriceQuery'.(Óé­şÿÿÿÿ8¼íáŞ-
+Tsquid:S1751Æ"5Remove this "break" statement or make it conditional.(›ûä·8™ ÂÒã-
+qsquid:S00117°"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(¹ÚÃ‰8™ ÂÒã-
+qsquid:S00117¼"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(¾óÏ›8™ ÂÒã-
+]squid:S1155£">Use isEmpty() to check whether the collection is empty or not.(ôö®8™ ÂÒã-
+vsquid:S00117õ"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(‡òüÿÿÿÿ8™ ÂÒã-
+qsquid:S00117Ÿ"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(¨â” 8™ ÂÒã-
+qsquid:S00117°"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(¹ÚÃ‰8™ ÂÒã-

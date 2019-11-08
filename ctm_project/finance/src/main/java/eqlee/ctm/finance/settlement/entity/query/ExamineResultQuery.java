@@ -48,4 +48,6 @@ public class ExamineResultQuery {
      * 实际收入（实收金额-总支出费用）
      */
     private Double FinallyPrice;
+
+    private Integer Status;
 }

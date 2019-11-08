@@ -1,8 +1,10 @@
 
 wsquid:S00116"SRename this field "LineName" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ğ¬ñúÿÿÿÿ8ºòÔÚ-
-usquid:S00116"VRename this field "Information" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(‹„ÒÒ8ºòÔÚ-
 lsquid:S00116"MRename this field "Id" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(´ÕÛ”8ºòÔÚ-
-xsquid:S00116+"TRename this field "MinNumber" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(®ÒÆÕüÿÿÿÿ8ºòÔÚ-
-ysquid:S00116!"ZRename this field "TravelSituation" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ç¾Îú8ºòÔÚ-
-ssquid:S00116&"TRename this field "MaxNumber" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ïÕé´8ºòÔÚ-
+zsquid:S00116&"VRename this field "PicturePath" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ËÉäùıÿÿÿÿ8ĞÈ³ªä-
+ysquid:S00116+"ZRename this field "TravelSituation" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ç¾Îú8ºòÔÚ-
+usquid:S00116"VRename this field "Information" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(‹„ÒÒ8ºòÔÚ-
+ssquid:S001160"TRename this field "MaxNumber" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ïÕé´8ºòÔÚ-
 usquid:S00116"QRename this field "Region" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(Óûìÿÿÿÿÿ8ºòÔÚ-
+nsquid:S00116!"ORename this field "City" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ÑùÛ8ĞÈ³ªä-
+xsquid:S001165"TRename this field "MinNumber" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(®ÒÆÕüÿÿÿÿ8ºòÔÚ-

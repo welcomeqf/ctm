@@ -25,5 +25,13 @@ public class PriceVo {
 
     private Double childPrice;
 
+    private Double marketAdultPrice;
+
+    private Double marketOldPrice;
+
+    private Double marketBabyPrice;
+
+    private Double marketChildPrice;
+
     private String remark;
 }

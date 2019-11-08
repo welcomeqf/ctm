@@ -4,9 +4,10 @@
 <mapper namespace="eqlee.ctm.apply.entry.dao.ApplyMapper">
 
     <select id="listPageApply" resultType="eqlee.ctm.apply.entry.entity.query.ApplyQuery">
-      select * from (
+     select * from (
       select max(LineName)LineName,max(Region)Region,max(convert(varchar(20),OutDate,23))OutDate,max(AdultPrice)AdultPrice,max(OldPrice)OldPrice,max(BabyPrice)BabyPrice,
-        max(ChildPrice)ChildPrice,max(MaxNumber)MaxNumber,isnull(sum(DoAllNumber),0)DoAllNumber,max(TravelSituation)TravelSituation
+        max(ChildPrice)ChildPrice,max(MaxNumber)MaxNumber,isnull(sum(DoAllNumber),0)DoAllNumber,max(TravelSituation)TravelSituation,max(MarketAdultPrice)MarketAdultPrice,
+        max(MarketOldPrice)MarketOldPrice,max(MarketBabyPrice)MarketBabyPrice,max(MarketChildPrice)MarketChildPrice
         from VLinePrice
         group by LineId,OutDate
       )tab order by OutDate desc
@@ -16,7 +17,8 @@
     <select id="listPageApplyByDate" resultType="eqlee.ctm.apply.entry.entity.query.ApplyQuery">
       select * from (
       select max(LineName)LineName,max(Region)Region,max(convert(varchar(20),OutDate,23))OutDate,max(AdultPrice)AdultPrice,max(OldPrice)OldPrice,max(BabyPrice)BabyPrice,
-        max(ChildPrice)ChildPrice,max(MaxNumber)MaxNumber,isnull(sum(DoAllNumber),0)DoAllNumber,max(TravelSituation)TravelSituation
+        max(ChildPrice)ChildPrice,max(MaxNumber)MaxNumber,isnull(sum(DoAllNumber),0)DoAllNumber,max(TravelSituation)TravelSituation,max(MarketAdultPrice)MarketAdultPrice,
+        max(MarketOldPrice)MarketOldPrice,max(MarketBabyPrice)MarketBabyPrice,max(MarketChildPrice)MarketChildPrice
         from VLinePrice
         group by LineId,OutDate
       )tab where OutDate = #{OutDate} order by OutDate desc
@@ -26,7 +28,8 @@
         <bind name="line_region_name" value="'%' + LineNameOrRegion + '%'"/>
         select * from (
         select max(LineName)LineName,max(Region)Region,max(convert(varchar(20),OutDate,23))OutDate,max(AdultPrice)AdultPrice,max(OldPrice)OldPrice,max(BabyPrice)BabyPrice,
-        max(ChildPrice)ChildPrice,max(MaxNumber)MaxNumber,isnull(sum(DoAllNumber),0)DoAllNumber,max(TravelSituation)TravelSituation
+        max(ChildPrice)ChildPrice,max(MaxNumber)MaxNumber,isnull(sum(DoAllNumber),0)DoAllNumber,max(TravelSituation)TravelSituation,max(MarketAdultPrice)MarketAdultPrice,
+        max(MarketOldPrice)MarketOldPrice,max(MarketBabyPrice)MarketBabyPrice,max(MarketChildPrice)MarketChildPrice
         from VLinePrice
         group by LineId,OutDate
         )tab where LineName like #{line_region_name} or Region like #{line_region_name} order by OutDate desc
@@ -36,7 +39,8 @@
         <bind name="line_region_name" value="'%' + LineNameOrRegion + '%'"/>
         select * from (
         select max(LineName)LineName,max(Region)Region,max(convert(varchar(20),OutDate,23))OutDate,max(AdultPrice)AdultPrice,max(OldPrice)OldPrice,max(BabyPrice)BabyPrice,
-        max(ChildPrice)ChildPrice,max(MaxNumber)MaxNumber,isnull(sum(DoAllNumber),0)DoAllNumber,max(TravelSituation)TravelSituation
+        max(ChildPrice)ChildPrice,max(MaxNumber)MaxNumber,isnull(sum(DoAllNumber),0)DoAllNumber,max(TravelSituation)TravelSituation,max(MarketAdultPrice)MarketAdultPrice,
+        max(MarketOldPrice)MarketOldPrice,max(MarketBabyPrice)MarketBabyPrice,max(MarketChildPrice)MarketChildPrice
         from VLinePrice
         group by LineId,OutDate
         )tab where (LineName like #{line_region_name} or Region like #{line_region_name}) and OutDate = #{OutDate}
@@ -205,31 +209,31 @@
     <!-- 我的报名记录 -->
     <select id="listPageDoApply2Me" resultType="eqlee.ctm.apply.entry.entity.query.ApplyCompanyQuery">
         select a.Id,a.ApplyNo,convert(varchar(20),a.OutDate,23) as 'OutDate',b.LineName,a.AllNumber,
-        a.ContactName,a.ContactTel,a.Statu
-        from Apply a join Line b on a.LineId = b.Id where a.IsCancel = 0
+        a.ContactName,a.ContactTel,a.Statu,a.IsCancel,a.IsPayment
+        from Apply a join Line b on a.LineId = b.Id where a.CreateUserId =#{id}
         ORDER by a.OutDate desc
     </select>
 
     <select id="listPageDoApply2MeByTime" resultType="eqlee.ctm.apply.entry.entity.query.ApplyCompanyQuery">
        select a.Id,a.ApplyNo,convert(varchar(20),a.OutDate,23) as 'OutDate',b.LineName,a.AllNumber,
-        a.ContactName,a.ContactTel,a.Statu
-        from Apply a join Line b on a.LineId = b.Id where a.OutDate = #{OutDate} and a.IsCancel = 0
+        a.ContactName,a.ContactTel,a.Statu,a.IsCancel,a.IsPayment
+        from Apply a join Line b on a.LineId = b.Id where a.OutDate = #{OutDate} and a.CreateUserId =#{id}
         ORDER by a.OutDate desc
     </select>
 
     <select id="listPageDoApply2MeByName" resultType="eqlee.ctm.apply.entry.entity.query.ApplyCompanyQuery">
         <bind name="lineName_name" value="'%' + lineName + '%'"/>
         select a.Id,a.ApplyNo,convert(varchar(20),a.OutDate,23) as 'OutDate',b.LineName,a.AllNumber,
-        a.ContactName,a.ContactTel,a.Statu
-        from Apply a join Line b on a.LineId = b.Id where b.LineName like #{lineName_name} and a.IsCancel = 0
+        a.ContactName,a.ContactTel,a.Statu,a.IsCancel,a.IsPayment
+        from Apply a join Line b on a.LineId = b.Id where b.LineName like #{lineName_name} and a.CreateUserId =#{id}
         ORDER by a.OutDate desc
     </select>
 
     <select id="listPageDoApply2MeByNameAndTime" resultType="eqlee.ctm.apply.entry.entity.query.ApplyCompanyQuery">
         <bind name="lineName_name" value="'%' + lineName + '%'"/>
         select a.Id,a.ApplyNo,convert(varchar(20),a.OutDate,23) as 'OutDate',b.LineName,a.AllNumber,
-        a.ContactName,a.ContactTel,a.Statu
-        from Apply a join Line b on a.LineId = b.Id where b.LineName like #{lineName_name} and a.OutDate = #{OutTime} and a.IsCancel = 0
+        a.ContactName,a.ContactTel,a.Statu,a.IsCancel,a.IsPayment
+        from Apply a join Line b on a.LineId = b.Id where b.LineName like #{lineName_name} and a.OutDate = #{OutTime} and a.CreateUserId =#{id}
         ORDER by a.OutDate desc
     </select>
 
@@ -276,6 +280,11 @@
         a.CompanyUser,a.ContactName from Apply a join Line b on a.LineId = b.Id
         where a.PayType = 1 and a.IsPayment = 1 and a.OutDate = #{outDate} and a.IsCancel = 0
         ORDER by a.OutDate desc
+    </select>
+
+
+    <select id="queryUserById" parameterType="Long" resultType="eqlee.ctm.apply.entry.entity.query.User">
+        select * from SystemUser where Id = #{id}
     </select>
 
 </mapper>

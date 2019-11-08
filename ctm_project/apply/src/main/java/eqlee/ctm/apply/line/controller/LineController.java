@@ -43,16 +43,26 @@ public class LineController {
             @ApiImplicitParam(name = "region", value = "区域", required = true, dataType = "String", paramType = "path"),
             @ApiImplicitParam(name = "travelSituation", value = "出游情况（几日游）", required = true, dataType = "int", paramType = "path"),
             @ApiImplicitParam(name = "maxNumber", value = "最大人数", required = true, dataType = "int", paramType = "path"),
-            @ApiImplicitParam(name = "minNumber", value = "最小人数", required = true, dataType = "int", paramType = "path")
+            @ApiImplicitParam(name = "minNumber", value = "最小人数", required = true, dataType = "int", paramType = "path"),
+            @ApiImplicitParam(name = "city", value = "城市", required = true, dataType = "String", paramType = "path"),
+            @ApiImplicitParam(name = "picturePath", value = "图片路径", required = true, dataType = "String", paramType = "path")
     })
     @PostMapping("/insertLine")
     @CrossOrigin
     @CheckToken
     public ResultVo insertLine(@RequestBody LineVo lineVo) {
-        if (StringUtils.isBlank(lineVo.getLineName()) || lineVo.getMaxNumber() == null || lineVo.getMinNumber() == null
+        if (StringUtils.isBlank(lineVo.getLineName()) || lineVo.getMinNumber() == null
         || StringUtils.isBlank(lineVo.getRegion()) || lineVo.getTravelSituation() == null) {
             log.error("param is not null.");
             throw new ApplicationException(CodeType.PARAM_ERROR,"参数不能为空");
+        }
+
+        if (lineVo.getMaxNumber() <= 0) {
+            throw new ApplicationException(CodeType.PARAM_ERROR, "最大人数要大于零");
+        }
+
+        if (lineVo.getMinNumber() < 0) {
+            throw new ApplicationException(CodeType.PARAM_ERROR, "最小人数不能为负数");
         }
 
         lineService.insertLine(lineVo);

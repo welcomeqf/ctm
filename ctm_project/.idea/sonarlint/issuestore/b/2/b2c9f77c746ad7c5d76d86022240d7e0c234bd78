@@ -1,8 +1,8 @@
 
-ssquid:S00116$"TRename this field "MONTH_PAY" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ϋι›¦8Ήγε½έ-
+vsquid:S00116&"RRename this field "NOW_PAY" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(οώÿÿÿÿ8Ήγε½έ-
+?squid:S1170$"!Make this final field static too.(ϋι›¦8Ήγε½έ-
 ?squid:S1170("!Make this final field static too.(ηπΣ½8Ήγε½έ-
 Dsquid:S1170&"!Make this final field static too.(οώÿÿÿÿ8Ήγε½έ-
-?squid:S1170$"!Make this final field static too.(ϋι›¦8Ήγε½έ-
-vsquid:S00116&"RRename this field "NOW_PAY" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(οώÿÿÿÿ8Ήγε½έ-
+ssquid:S00116$"TRename this field "MONTH_PAY" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ϋι›¦8Ήγε½έ-
 ssquid:S00116("TRename this field "AGENT_PAY" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ηπΣ½8Ήγε½έ-
 usquid:UselessImportCheck"JRemove this unused import 'eqlee.ctm.apply.orders.service.IOrdersService'.(ΈΙα¶8®ψΣΑέ-

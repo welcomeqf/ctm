@@ -48,4 +48,14 @@ public class ApplyCompanyQuery {
      * (0-待审核  1-通过  2--不通过)
      */
     private Integer Statu;
+
+    /**
+     * true 已经取消   false--正常
+     */
+    private Boolean IsCancel;
+
+    /**
+     * 是否付款(true-已付款  false-未付款)
+     */
+    private Boolean IsPayment;
 }

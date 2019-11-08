@@ -246,7 +246,8 @@ public interface ApplyMapper extends IBaseMapper<Apply> {
      * @param page
      * @return
      */
-    Page<ApplyCompanyQuery> listPageDoApply2Me(Page<ApplyCompanyQuery> page);
+    Page<ApplyCompanyQuery> listPageDoApply2Me(Page<ApplyCompanyQuery> page,
+                                               @Param("id") Long id);
 
     /**
      * 分页查询我的报名记录
@@ -256,7 +257,8 @@ public interface ApplyMapper extends IBaseMapper<Apply> {
      * @return
      */
     Page<ApplyCompanyQuery> listPageDoApply2MeByTime(Page<ApplyCompanyQuery> page,
-                                                          @Param("OutDate") LocalDate OutDate);
+                                                          @Param("OutDate") LocalDate OutDate,
+                                                     @Param("id") Long id);
 
     /**
      * 分页查询我的报名记录
@@ -266,7 +268,8 @@ public interface ApplyMapper extends IBaseMapper<Apply> {
      * @return
      */
     Page<ApplyCompanyQuery> listPageDoApply2MeByName(Page<ApplyCompanyQuery> page,
-                                                  @Param("lineName") String lineName);
+                                                  @Param("lineName") String lineName,
+                                                     @Param("id") Long id);
 
     /**
      * 分页查询我的报名记录
@@ -278,7 +281,8 @@ public interface ApplyMapper extends IBaseMapper<Apply> {
      */
     Page<ApplyCompanyQuery> listPageDoApply2MeByNameAndTime(Page<ApplyCompanyQuery> page,
                                                         @Param("lineName") String lineName,
-                                                         @Param("OutTime") LocalDate OutTime);
+                                                         @Param("OutTime") LocalDate OutTime,
+                                                            @Param("id") Long id);
 
     /**
      * 查询支付信息
@@ -336,4 +340,12 @@ public interface ApplyMapper extends IBaseMapper<Apply> {
      */
     Page<ApplyMonthQuery> queryMonthYiApplyByTime(Page<ApplyMonthQuery> page,
                                                   @Param("outDate") LocalDate outDate);
+
+
+    /**
+     * 查询用户信息
+     * @param id
+     * @return
+     */
+    User queryUserById (Long id);
 }

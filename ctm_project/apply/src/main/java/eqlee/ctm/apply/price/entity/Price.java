@@ -64,6 +64,26 @@ public class Price extends Model<Price> {
     private Double ChildPrice;
 
     /**
+     * 门市成年价格
+     */
+    private Double MarketAdultPrice;
+
+    /**
+     * 门市老人价格
+     */
+    private Double MarketOldPrice;
+
+    /**
+     * 门市幼儿价格
+     */
+    private Double MarketBabyPrice;
+
+    /**
+     * 门市小孩价格
+     */
+    private Double MarketChildPrice;
+
+    /**
      * 是否停用(0默认表示false--使用1--不使用)
      */
     private Boolean Stopped;

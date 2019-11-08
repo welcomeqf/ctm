@@ -74,4 +74,6 @@ public class ApplyVo {
     private Long createUserId;
 
     private Long updateUserId;
+
+    private Long companyUserId;
 }

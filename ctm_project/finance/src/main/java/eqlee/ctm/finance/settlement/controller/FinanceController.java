@@ -6,6 +6,7 @@ import com.yq.exception.ApplicationException;
 import com.yq.jwt.islogin.CheckToken;
 import com.yq.utils.StringUtils;
 import eqlee.ctm.finance.settlement.entity.query.*;
+import eqlee.ctm.finance.settlement.entity.vo.ContectUserVo;
 import eqlee.ctm.finance.settlement.entity.vo.ExaVo;
 import eqlee.ctm.finance.settlement.entity.vo.FinanceVo;
 import eqlee.ctm.finance.settlement.entity.vo.ResultVo;
@@ -72,13 +73,17 @@ public class FinanceController {
     @CrossOrigin
     @CheckToken
     public ResultVo insertFinance(@RequestBody FinanceVo vo) {
-        if (StringUtils.isBlank(vo.getOutDate()) || StringUtils.isBlank(vo.getLineName()) || StringUtils.isBlank(vo.getCarNo())
+        if (StringUtils.isBlank(vo.getOutDate()) || StringUtils.isBlank(vo.getLineName())
         || vo.getTrueAllNumber() == null || vo.getTreeAdultNumber() == null || vo.getTreeBabyNumber() == null || vo.getTreeOldNumber() == null
         || vo.getTreeChildNumber() == null || vo.getUnpaidNumber() == null || vo.getGaiMoney() == null
         || vo.getTrueMoney() == null || StringUtils.isBlank(vo.getTicketName()) || vo.getTicketPrice() == null || vo.getLunchPrice() == null
         || vo.getParkingRatePrice() == null || vo.getRentCarPrice() == null || vo.getGuideSubsidy() == null || vo.getDriverSubsidy() == null
         || vo.getAllOutPrice() == null) {
             throw new ApplicationException(CodeType.PARAMETER_ERROR,"参数不能为空");
+        }
+
+        if (StringUtils.isBlank(vo.getCarNo())) {
+            throw new ApplicationException(CodeType.PARAM_ERROR, "您还未选车辆");
         }
 
         inFinanceService.insertFinance(vo);

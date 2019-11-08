@@ -1,12 +1,0 @@
-
-psquid:S00117œ"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(êøœg8ù€ãÖ-
-usquid:S001160"QRename this field "Status" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ûĞüüÿÿÿÿ8Å±À“Ö-
-‡squid:UselessImportCheck"WRemove this unused import 'com.baomidou.mybatisplus.extension.plugins.pagination.Page'.(±Ù¥Éúÿÿÿÿ8¯ ìÕÚ-
-Jsquid:S1168µ"+Return an empty collection instead of null.(¥¹ï8Ë«ËûÚ-
-qsquid:S00117"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ÿÁÖÉ8“Ü¶“Ö-
-qsquid:S00117¬"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ŸÛ¦8ÓŞôÕÚ-
-qsquid:S00116%"MRename this field "Ip" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ÁãåÚıÿÿÿÿ8Å±À“Ö-
-esquid:UselessImportCheck":Remove this unused import 'com.yq.jwt.islogin.CheckToken'.(¦öş8¬ÏËûÚ-
-ksquid:S1192>"HDefine a constant instead of duplicating this literal "http://" 6 times.(‰Ñ˜Ÿüÿÿÿÿ8ç²­“Ö-
-Dsquid:S11700"!Make this final field static too.(ûĞüüÿÿÿÿ8Å±À“Ö-
-psquid:S00117~"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(œ¼ƒà8Ù¼²“Ö-

@@ -1,9 +1,8 @@
 package eqlee.ctm.apply.orders.entity.bo;
 
-import eqlee.ctm.apply.orders.entity.Vo.ChoisedVo;
+
 import lombok.Data;
 
-import java.util.List;
 
 /**
  * @Author qf
@@ -13,7 +12,10 @@ import java.util.List;
 @Data
 public class ChoisedBo {
 
-    private List<ChoisedVo> choisedList;
+    /**
+     *订单详情id
+     */
+    private Long orderId;
 
     private String outDate;
 

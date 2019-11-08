@@ -123,12 +123,16 @@ public class PriceServiceImpl extends ServiceImpl<PriceMapper, Price> implements
         //获取用户信息
         UserLoginQuery user = localUser.getUser("用户信息");
         IdGenerator idGenerator = new IdGenerator();
-        //如果输入的开始时间和结束时间是同一天的话 或者其中一个时间为空  就只设定该天一天的价格
+        //如果输入的开始时间和结束时间是同一天的话   就只设定该天一天的价格
         if (priceVo.getStartTime().equals(priceVo.getEndTime())) {
             LocalDate outDate = DateUtil.parseDate(priceVo.getStartTime());
             Price price = new Price();
             price.setId(idGenerator.getNumberId());
             price.setAdultPrice(priceVo.getAdultPrice());
+            price.setMarketAdultPrice(priceVo.getMarketAdultPrice());
+            price.setMarketBabyPrice(priceVo.getMarketBabyPrice());
+            price.setMarketChildPrice(priceVo.getMarketChildPrice());
+            price.setMarketOldPrice(priceVo.getMarketOldPrice());
             price.setBabyPrice(priceVo.getBabyPrice());
             price.setChildPrice(priceVo.getChildPrice());
             price.setRemark(priceVo.getRemark());
@@ -160,6 +164,10 @@ public class PriceServiceImpl extends ServiceImpl<PriceMapper, Price> implements
             price.setBabyPrice(priceVo.getBabyPrice());
             price.setChildPrice(priceVo.getChildPrice());
             price.setOldPrice(priceVo.getOldPrice());
+            price.setMarketOldPrice(priceVo.getMarketOldPrice());
+            price.setMarketChildPrice(priceVo.getMarketChildPrice());
+            price.setMarketBabyPrice(priceVo.getMarketBabyPrice());
+            price.setMarketAdultPrice(priceVo.getMarketAdultPrice());
             price.setRemark(priceVo.getRemark());
             price.setLineId(line.getId());
 
@@ -247,6 +255,10 @@ public class PriceServiceImpl extends ServiceImpl<PriceMapper, Price> implements
             price.setBabyPrice(priceVo.getBabyPrice());
             price.setChildPrice(priceVo.getChildPrice());
             price.setOldPrice(priceVo.getOldPrice());
+            price.setMarketAdultPrice(priceVo.getMarketAdultPrice());
+            price.setMarketOldPrice(priceVo.getMarketOldPrice());
+            price.setMarketChildPrice(priceVo.getMarketChildPrice());
+            price.setMarketBabyPrice(priceVo.getMarketBabyPrice());
            LambdaQueryWrapper<Price> queryWrapper = new LambdaQueryWrapper<Price>()
                    .eq(Price::getLineId,line.getId())
                    .eq(Price::getOutDate,outDate);
@@ -275,6 +287,10 @@ public class PriceServiceImpl extends ServiceImpl<PriceMapper, Price> implements
             price.setBabyPrice(priceVo.getBabyPrice());
             price.setChildPrice(priceVo.getChildPrice());
             price.setOldPrice(priceVo.getOldPrice());
+            price.setMarketAdultPrice(priceVo.getMarketAdultPrice());
+            price.setMarketOldPrice(priceVo.getMarketOldPrice());
+            price.setMarketChildPrice(priceVo.getMarketChildPrice());
+            price.setMarketBabyPrice(priceVo.getMarketBabyPrice());
             price.setLineId(line.getId());
 
             //设置每一天的日期

@@ -58,6 +58,21 @@ public class Line extends Model<Line> {
     private Integer MinNumber;
 
     /**
+     * 城市Id
+     */
+    private Long CityId;
+
+    /**
+     * 城市
+     */
+    private String City;
+
+    /**
+     * 图片
+     */
+    private String PicturePath;
+
+    /**
      * 是否停用0默认false-正常 1-禁用true
      */
     private Boolean Stopped;

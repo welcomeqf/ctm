@@ -21,6 +21,16 @@ public class LineVo {
     private String information;
 
     /**
+     * 城市
+     */
+    private String city;
+
+    /**
+     * 图片路径
+     */
+    private String picturePath;
+
+    /**
      * 区域
      */
     private String region;

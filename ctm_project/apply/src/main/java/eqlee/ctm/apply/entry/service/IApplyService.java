@@ -94,6 +94,13 @@ public interface IApplyService {
      */
     List<Apply> selectAllApply();
 
+    /**
+     * 根据id列表查询报名表
+     * @param list
+     * @return
+     */
+    List<Apply> listApply (List<Long> list);
+
 
     /**
      * 查询公司信息
@@ -151,6 +158,15 @@ public interface IApplyService {
      * @param id
      */
     void updateMonthType (Long id);
+
+    /**
+     * 根据订单号回收报名表
+     * @param applyNo
+     */
+    void dopApply (String applyNo);
+
+
+
 
 
 }

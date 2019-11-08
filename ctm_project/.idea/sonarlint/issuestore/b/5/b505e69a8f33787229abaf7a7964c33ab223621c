@@ -1,12 +1,0 @@
-
-ssquid:UselessImportCheck"HRemove this unused import 'org.omg.CORBA.portable.ApplicationException'.(ÓŸë¹8ŞÜŠãÖ-
-fsquid:UselessImportCheck"6Remove this unused import 'com.yq.constanct.CodeType'.(›Å·¢úÿÿÿÿ8ŞÜŠãÖ-
-psquid:S00117o"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(èä…ş8ÀŒâ“Ö-
-ksquid:S1192@"HDefine a constant instead of duplicating this literal "http://" 3 times.(»™Ñøÿÿÿÿ8«©ç“Ö-
-usquid:S001160"QRename this field "Status" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ûĞüüÿÿÿÿ8¬ãÀ“Ö-
-‡squid:UselessImportCheck"WRemove this unused import 'com.baomidou.mybatisplus.extension.plugins.pagination.Page'.(±Ù¥Éúÿÿÿÿ8Ëâ“Ö-
-Dsquid:S11700"!Make this final field static too.(ûĞüüÿÿÿÿ8¬ãÀ“Ö-
-qsquid:S00116%"MRename this field "Ip" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ÁãåÚıÿÿÿÿ8¬ãÀ“Ö-
-vsquid:S00117‚"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(—Éà¥úÿÿÿÿ8ÇÖ§ÿÚ-
-psquid:S00117n"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ßÜÿ±8ÀŒâ“Ö-
-esquid:UselessImportCheck":Remove this unused import 'com.yq.jwt.islogin.CheckToken'.(¦öş8†—áß-

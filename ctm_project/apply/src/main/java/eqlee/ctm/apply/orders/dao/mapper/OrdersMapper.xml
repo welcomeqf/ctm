@@ -50,13 +50,12 @@
     <select id="waiteChangeIndex" resultType="eqlee.ctm.apply.orders.entity.Vo.ChangedVo">
         select b.Id as 'OrderId',b.Place,d.Tel,a.LineName,convert(varchar(20),a.OutDate,23)OutDate,b.AllNumber,
        a.GuideName from OrderSubstitut a join OrderDetailed b on a.Id = b.OrderSubstitutId join SystemUser d on d.Id = a.CreateUserId
-       where a.ToGuideId = #{Id} and a.Status = 0 and b.Statu = 1
+       where a.ToGuideId = #{Id} and  b.Statu = 1
+       order by a.OutDate desc
     </select>
 
-    <update id="sureChoised" >
-        <foreach collection="list" item="item" index="index">
-            update OrderDetailed set Statu=2 where Statu=1 and Id = #{item.orderId}
-        </foreach>
+    <update id="sureChoised" parameterType="Long">
+        update OrderDetailed set Statu=2,OrderId = #{orderId} where Statu=1 and Id = #{id}
     </update>
 
     <update id="sureOrders">
@@ -65,24 +64,23 @@
     </update>
 
 
-    <update id="denyChoised" parameterType="eqlee.ctm.apply.orders.entity.Vo.ChoisedVo">
-        <foreach collection="list" item="item" index="index">
-            update OrderDetailed set Statu=2 where Statu=1 and Id = #{item.orderId}
-        </foreach>
+    <update id="denyChoised" parameterType="Long">
+        update OrderDetailed set Statu=3 where Statu=1 and Id = #{id}
     </update>
 
     <select id="denyChoisedindex" resultType="eqlee.ctm.apply.orders.entity.query.ChangedQuery">
-         select u.Tel as 'guideTel',a.LineName as 'lineName',a.ToGuideId as 'guestId',a.Status,
+         select u.Tel as 'guideTel',a.LineName as 'lineName',a.ToGuideId as 'guestId',b.Statu as 'Status',
         convert(varchar(20),a.OutDate,23)outDate,b.AllNumber,b.ContactName,b.ContactTel,u.CName as 'guestName'
         from OrderSubstitut a left join OrderDetailed b on a.Id = b.OrderSubstitutId join SystemUser u on a.ToGuideId = u.Id
        where a.CreateUserId=#{Id}
+       order by a.OutDate desc
     </select>
 
     <select id="withChoiseIndex" resultType="eqlee.ctm.apply.orders.entity.query.ChangedQuery">
-       select u.Tel as 'guideTel',a.LineName as 'lineName',a.ToGuideId as 'guestId',a.Status,convert(varchar(20),a.OutDate,23)outDate,
+       select u.Tel as 'guideTel',a.LineName as 'lineName',a.ToGuideId as 'guestId',b.Statu as 'Status',convert(varchar(20),a.OutDate,23)outDate,
        b.AllNumber,b.ContactName,b.ContactTel,a.GuideName as 'guestName'
         from OrderSubstitut a left join OrderDetailed b on a.Id = b.OrderSubstitutId join SystemUser u on a.ToGuideId = u.Id
-       where a.ToGuideId = #{Id}
+       where a.ToGuideId = #{Id} order by a.OutDate desc
     </select>
 
     <select id="selectIncomeCount" resultType="eqlee.ctm.apply.orders.entity.Vo.InComeRemerberVo">

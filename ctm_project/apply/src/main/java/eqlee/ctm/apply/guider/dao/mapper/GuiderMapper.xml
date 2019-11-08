@@ -10,7 +10,7 @@
         sum(case when isnull(IsSelect,0)=1 then isnull(AllNumber,0) else 0 end)slcCnt
         from(
         select a.Id,a.LineId,b.LineName,a.OutDate,a.AllNumber,a.IsSelect,a.IsCancel from Apply a
-        left join Line b  on a.LineId = b.Id where a.IsCancel = 0)tab
+        left join Line b  on a.LineId = b.Id where a.IsCancel = 0 and a.Statu != 0 and a.IsPayment = 1)tab
         group by OutDate,LineId)tab
         order by OutDate desc
     </select>
@@ -22,7 +22,7 @@
         sum(case when isnull(IsSelect,0)=1 then isnull(AllNumber,0) else 0 end)slcCnt
         from(
         select a.Id,a.LineId,b.LineName,a.OutDate,a.AllNumber,a.IsSelect,a.IsCancel from Apply a
-        left join Line b  on a.LineId = b.Id where a.IsCancel = 0)tab
+        left join Line b  on a.LineId = b.Id where a.IsCancel = 0 and a.Statu != 0 and a.IsPayment = 1)tab
         group by OutDate,LineId)tab where LineName like #{LineName}
         order by OutDate desc
     </select>
@@ -33,7 +33,7 @@
         sum(case when isnull(IsSelect,0)=1 then isnull(AllNumber,0) else 0 end)slcCnt
         from(
         select a.Id,a.LineId,b.LineName,a.OutDate,a.AllNumber,a.IsSelect,a.IsCancel from Apply a
-        left join Line b  on a.LineId = b.Id where a.IsCancel = 0)tab
+        left join Line b  on a.LineId = b.Id where a.IsCancel = 0 and a.Statu != 0 and a.IsPayment = 1)tab
         group by OutDate,LineId)tab where OutDate = #{outDate}
         order by OutDate desc
     </select>
@@ -45,7 +45,7 @@
         sum(case when isnull(IsSelect,0)=1 then isnull(AllNumber,0) else 0 end)slcCnt
         from(
         select a.Id,a.LineId,b.LineName,a.OutDate,a.AllNumber,a.IsSelect,a.IsCancel from Apply a
-        left join Line b  on a.LineId = b.Id where a.IsCancel = 0)tab
+        left join Line b  on a.LineId = b.Id where a.IsCancel = 0 and a.Statu != 0 and a.IsPayment = 1)tab
         group by OutDate,LineId)tab where OutDate = #{outDate} and LineName like #{LineName}
         order by OutDate desc
     </select>
@@ -56,7 +56,7 @@
         select a.Id,a.AllNumber,a.ContactName,a.ContactTel,a.Region,a.Place,
         convert(varchar(20),a.OutDate,23)OutDate,b.LineName from Apply a
         join Line b on a.LineId = b.Id where a.OutDate = #{outDate} and b.Id = #{lineId}
-        and isnull(a.IsSelect,0) = 0 and a.IsSelect = 0 and a.IsCancel = 0
+        and isnull(a.IsSelect,0) = 0 and a.IsSelect = 0 and a.IsCancel = 0 and a.Statu != 0 and a.IsPayment = 1
     </select>
 </mapper>
 

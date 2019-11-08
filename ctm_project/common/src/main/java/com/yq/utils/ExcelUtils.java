@@ -88,7 +88,6 @@ public class ExcelUtils {
             os.flush();
             os.close();
             System.gc();
-            System.out.println(file.delete());
         } catch (IOException e) {
             e.printStackTrace();
         }

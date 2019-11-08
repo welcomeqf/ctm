@@ -16,6 +16,8 @@ import eqlee.ctm.apply.line.entity.query.LineSeacherQuery;
 import eqlee.ctm.apply.line.entity.vo.LineUpdateVo;
 import eqlee.ctm.apply.line.entity.vo.LineVo;
 import eqlee.ctm.apply.line.service.ILineService;
+import eqlee.ctm.apply.option.entity.Option;
+import eqlee.ctm.apply.option.service.ICityService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -35,6 +37,9 @@ public class LineServiceImpl extends ServiceImpl<LineMapper, Line> implements IL
 
     @Autowired
     private LocalUser localUser;
+
+    @Autowired
+    private ICityService cityService;
 
     /**
      * 根据线路名查询线路
@@ -60,18 +65,42 @@ public class LineServiceImpl extends ServiceImpl<LineMapper, Line> implements IL
         if (line1 != null) {
             throw new ApplicationException(CodeType.SUCC_ERROR,"该线路名已被使用");
         }
+
         IdGenerator idGenerator = new IdGenerator();
+        //获取用户信息
+        UserLoginQuery user = localUser.getUser("用户信息");
+
         Line line = new Line();
+        //查询城市信息
+        Option city = cityService.queryCity(lineVo.getCity());
+
+        //如果该城市不存在就添加
+        if (city == null) {
+            //添加城市信息
+            Option option = new Option();
+            Long cityId = idGenerator.getNumberId();
+            option.setId(cityId);
+            option.setName(lineVo.getCity());
+            option.setCreateUserId(user.getId());
+            cityService.insertCity(option);
+            line.setCityId(cityId);
+        }
+
+        //如果该城市存在就取出城市id
+        if (city != null) {
+            line.setCityId(city.getId());
+        }
+
         line.setId(idGenerator.getNumberId());
         line.setLineName(lineVo.getLineName());
+        line.setCity(lineVo.getCity());
+        line.setPicturePath(lineVo.getPicturePath());
         line.setInformation(lineVo.getInformation());
         line.setRegion(lineVo.getRegion());
         line.setMaxNumber(lineVo.getMaxNumber());
         line.setMinNumber(lineVo.getMinNumber());
         line.setTravelSituation(lineVo.getTravelSituation());
 
-        //获取用户信息
-        UserLoginQuery user = localUser.getUser("用户信息");
         line.setCreateUserId(user.getId());
         line.setUpdateUserId(user.getId());
         int insert = baseMapper.insert(line);
@@ -80,6 +109,7 @@ public class LineServiceImpl extends ServiceImpl<LineMapper, Line> implements IL
             log.error("insert line fail.");
             throw new ApplicationException(CodeType.SERVICE_ERROR,"增加线路失败");
         }
+
     }
 
     /**

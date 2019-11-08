@@ -1,10 +1,12 @@
 
-`squid:UselessImportCheck"0Remove this unused import 'java.time.LocalDate'.(›‘¬èıÿÿÿÿ8¬îİ‘İ-
 wsquid:S00116"SRename this field "LineName" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ğ¬ñúÿÿÿÿ8Ä²ÁíÔ-
 zsquid:S00116("VRename this field "ContactName" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(àÚº¡üÿÿÿÿ8“âÆíÔ-
-qsquid:S00116"RRename this field "OutDate" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ƒ©¯î8ó“¸íÔ-
-vsquid:S00116"RRename this field "ApplyNo" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(Òéò¬úÿÿÿÿ8ó“¸íÔ-
-xsquid:S00116#"TRename this field "AllNumber" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(àõŞ¤ûÿÿÿÿ8ÜÃíÔ-
-ysquid:S00116-"URename this field "ContactTel" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(×ÜÜ²ùÿÿÿÿ8“âÆíÔ-
-lsquid:S00116"MRename this field "Id" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(´ÕÛ”8†ïµíÔ-
 osquid:S001162"PRename this field "Statu" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(Î§š8ˆÓîÔ-
+lsquid:S00116"MRename this field "Id" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(´ÕÛ”8†ïµíÔ-
+`squid:UselessImportCheck"0Remove this unused import 'java.time.LocalDate'.(›‘¬èıÿÿÿÿ8¬îİ‘İ-
+ysquid:S00116-"URename this field "ContactTel" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(×ÜÜ²ùÿÿÿÿ8“âÆíÔ-
+vsquid:S00116"RRename this field "ApplyNo" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(Òéò¬úÿÿÿÿ8ó“¸íÔ-
+xsquid:S00116<"TRename this field "IsPayment" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(×šÈÑıÿÿÿÿ8ÌòÁòã-
+xsquid:S00116#"TRename this field "AllNumber" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(àõŞ¤ûÿÿÿÿ8ÜÃíÔ-
+wsquid:S001167"SRename this field "IsCancel" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(¦±À©úÿÿÿÿ8¯ÙßÌã-
+qsquid:S00116"RRename this field "OutDate" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ƒ©¯î8ó“¸íÔ-

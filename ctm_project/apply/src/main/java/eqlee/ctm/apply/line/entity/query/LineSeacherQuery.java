@@ -28,6 +28,16 @@ public class LineSeacherQuery {
     private String Region;
 
     /**
+     * 城市
+     */
+    private String City;
+
+    /**
+     * 图片
+     */
+    private String PicturePath;
+
+    /**
      * 出游天数（几日游）
      */
     private Integer TravelSituation;

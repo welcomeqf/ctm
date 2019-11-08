@@ -75,6 +75,7 @@ public interface OrdersMapper extends IBaseMapper<Orders> {
      * @param LineName
      * @param OutDate
      * @param CarNumber
+     * @param Id
      * @return
      */
     int updateOrdersOutsideCarNo(@Param("LineName") String LineName,
@@ -142,13 +143,15 @@ public interface OrdersMapper extends IBaseMapper<Orders> {
 
     /**
      * 接受换人
-     * @param list
+     * @param id
+     * @param orderId
      * @return
      */
-    int sureChoised(List<ChoisedVo> list);
+    int sureChoised(@Param("id") Long id,
+                    @Param("orderId") Long orderId);
 
     /**
-     *  接收换人
+     *  ..
      * @param Id
      * @param lineName
      * @param outDate
@@ -162,10 +165,10 @@ public interface OrdersMapper extends IBaseMapper<Orders> {
 
     /**
      * 拒绝换人
-     * @param choisedList
+     * @param id
      * @return
      */
-    int denyChoised(List<ChoisedVo> choisedList);
+    int denyChoised(Long id);
 
 
     /**

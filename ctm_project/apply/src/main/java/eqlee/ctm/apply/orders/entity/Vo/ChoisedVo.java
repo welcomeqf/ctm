@@ -13,7 +13,7 @@ import java.time.LocalDate;
 public class ChoisedVo {
 
     /**
-     *订单Id
+     *订单详情id
      */
     private Long orderId;
 

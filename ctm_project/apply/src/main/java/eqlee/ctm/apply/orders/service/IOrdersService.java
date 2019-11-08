@@ -82,20 +82,20 @@ public interface IOrdersService {
 
     /**
      * 接受换人
-     * @param choisedList
+     * @param id
      * @param outDate
      * @param lineName
      */
-    void sureChoised(List<ChoisedVo> choisedList, String outDate, String lineName);
+    void sureChoised(Long id, String outDate, String lineName);
 
 
     /**
      * 拒绝换人
-     * @param choisedList
+     * @param id
      * @param outDate
      * @param lineName
      */
-    void denyChoised(List<ChoisedVo> choisedList, String outDate, String lineName);
+    void denyChoised(Long id, String outDate, String lineName);
 
 
     /**

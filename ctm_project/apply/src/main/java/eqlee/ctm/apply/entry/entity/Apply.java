@@ -163,6 +163,11 @@ public class Apply extends Model<Apply> {
      */
     private Integer Statu;
 
+    /**
+     * 过期时间
+     */
+    private Integer ExpreDate;
+
     @Override
     protected Serializable pkVal() {
         return this.Id;

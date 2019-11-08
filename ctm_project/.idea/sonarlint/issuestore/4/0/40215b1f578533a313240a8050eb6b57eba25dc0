@@ -1,6 +1,6 @@
 
-wsquid:UselessImportCheck"LRemove this unused import 'eqlee.ctm.apply.line.entity.query.LinePageQuery'.(­€ûÎ8¬‡ÙÕÚ-
-psquid:S00117A"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ŒÙðý8ÙžßÝÖ-
-usquid:S00117%"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(õ£Û£ÿÿÿÿÿ8…ÿð­×-
 psquid:S00117H"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(²§§Ä8÷ú½ÔÚ-
+usquid:S00117%"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(õ£Û£ÿÿÿÿÿ8…ÿð­×-
+psquid:S00117A"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ŒÙðý8ÙžßÝÖ-
+wsquid:UselessImportCheck"LRemove this unused import 'eqlee.ctm.apply.line.entity.query.LinePageQuery'.(­€ûÎ8¬‡ÙÕÚ-
 nsquid:S00117"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ÃˆÒÂùÿÿÿÿ

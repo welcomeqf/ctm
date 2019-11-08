@@ -122,7 +122,6 @@ public class OrdersController {
 
     @ApiOperation(value = "换人",notes = "换人")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "choisedList", value = "游客信息列表（以下都是列表里的数据）", required = true, dataType = "List<Choised>", paramType = "path"),
             @ApiImplicitParam(name = "orderId", value = "订单Id数组", required = true, dataType = "Long", paramType = "path"),
             @ApiImplicitParam(name = "outDate", value = "出发日期", required = true, dataType = "String", paramType = "path"),
             @ApiImplicitParam(name = "lineName", value = "线路名", required = true, dataType = "String", paramType = "path"),
@@ -132,7 +131,7 @@ public class OrdersController {
     @CrossOrigin
     @CheckToken
     public ResultVo sureChoised(@RequestBody ChoisedBo bo){
-        if(bo.getChoisedList().size() == 0){
+        if(bo.getType() == null || bo.getOrderId() == null || StringUtils.isBlank(bo.getLineName()) || StringUtils.isBlank(bo.getOutDate())){
             throw new ApplicationException(CodeType.PARAM_ERROR,"参数不能为空");
         }
 
@@ -141,11 +140,11 @@ public class OrdersController {
         }
 
         if (bo.getType() == 1) {
-            ordersService.sureChoised(bo.getChoisedList(), bo.getOutDate(), bo.getLineName());
+            ordersService.sureChoised(bo.getOrderId(), bo.getOutDate(), bo.getLineName());
         }
 
         if (bo.getType() == 2) {
-            ordersService.denyChoised(bo.getChoisedList(), bo.getOutDate(), bo.getLineName());
+            ordersService.denyChoised(bo.getOrderId(), bo.getOutDate(), bo.getLineName());
         }
         ResultVo resultVo = new ResultVo();
         resultVo.setResult("ok");

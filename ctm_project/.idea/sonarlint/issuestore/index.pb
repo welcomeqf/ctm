@@ -201,12 +201,6 @@ c
 3api/src/main/java/eqlee/ctm/api/ApiApplication.java,9\6\969b1cc3b68ac910cd63149f7f95e6bd63a8c3a3
 ;
 api/pom.xml,f\e\fe5c43214168bd8de1d8afa275215a8e9b9de634
-j
-:api/src/main/java/eqlee/ctm/api/httpclient/HttpResult.java,2\5\2566b2013782192d29405d3fc5ac9f508cbf6776
-o
-?api/src/main/java/eqlee/ctm/api/httpclient/HttpClientUtils.java,4\c\4c5107ef556165f3e1e8e17250898c6b0d21dd7c
-k
-;api/src/main/java/eqlee/ctm/api/httpclient/ErrorResult.java,4\0\40cc8d18a4d8059c9425d720aa84edee5062662b
 `
 0common/src/main/java/com/yq/utils/SignUtils.java,5\4\54b15275ab2889f436a671e72c32b0c93a8550a0
 b
@@ -257,14 +251,6 @@ r
 Bapi/src/main/java/eqlee/ctm/api/controller/UserRoleController.java,5\0\509ba94af4ef586baea495f8cd09c61d287e0da2
 w
 Gapi/src/main/java/eqlee/ctm/api/controller/UserPrivilegeController.java,0\a\0a1480af641361dac450a1ba0f282e0073006511
-r
-Bapi/src/main/java/eqlee/ctm/api/resource/CompanyApiController.java,e\2\e218fe8f56581302b5f74692f4e030d12acd1df9
-n
->api/src/main/java/eqlee/ctm/api/resource/CarApiController.java,3\8\381a657f262c03ee13fe22482f08f66c96e6ff2e
-l
-<api/src/main/java/eqlee/ctm/api/apply/LineApiController.java,c\0\c0c35dd2163200e81c25bfb609efb70cca58bc91
-m
-=api/src/main/java/eqlee/ctm/api/apply/PriceApiController.java,b\5\b505e69a8f33787229abaf7a7964c33ab223621c
 `
 0api/src/main/java/eqlee/ctm/api/entity/User.java,0\2\026f10b6ff2adbf6e07d54bde6b728d4112ab844
 {
@@ -507,8 +493,6 @@ z
 Jfinance/src/main/java/eqlee/ctm/finance/financeexpress/entity/CountVo.java,5\b\5bcd95e79b3099ef3ebbfa3be9cf40f29795acc1
 }
 Mfinance/src/main/java/eqlee/ctm/finance/financeexpress/entity/AllCountVo.java,d\4\d4bb872f7ce65b4a097e3c87b39158a48c68c36a
-x
-Hapi/src/main/java/eqlee/ctm/api/resource/StatisticLineApiController.java,a\9\a94b456eecfe399353189196e0364932c0ca1361
 p
 @apply/src/main/java/eqlee/ctm/apply/orders/entity/Vo/LongVo.java,2\5\252bcfc6c225db37ae9eef3d3bee7281a00dafde
 n
@@ -769,3 +753,13 @@ Japply/src/main/java/eqlee/ctm/apply/entry/entity/query/ExaRefundQuery.java,2\f
 Oapply/src/main/java/eqlee/ctm/apply/entry/entity/query/ExaApplyResultQuery.java,3\1\31810e5d4812efb6ebb18103615e870735d57644
 q
 Aapply/src/main/java/eqlee/ctm/apply/entry/vilidata/HttpUtils.java,d\d\dd596dbab76d8000f025a4a8ad13341ab076dead
+u
+Eapply/src/main/java/eqlee/ctm/apply/orders/entity/bo/OrderTypeBo.java,3\9\39cbc35f58e42aac9db0a2c25f5b7f1506e62571
+n
+>apply/src/main/java/eqlee/ctm/apply/option/dao/CityMapper.java,0\8\083095b188ecbb2df4915aa99f70e11517310265
+m
+=apply/src/main/java/eqlee/ctm/apply/option/entity/Option.java,8\9\8980ae9c0be3f5a24623ba3d31ffbe8bc8fb1d62
+|
+Lapply/src/main/java/eqlee/ctm/apply/option/service/impl/CityServiceImpl.java,0\4\042c2d4b7180e572b8805047914a7fac818e9fd7
+t
+Dapply/src/main/java/eqlee/ctm/apply/option/service/ICityService.java,7\7\7724167cd47673e89f32c6a40a37da3b25edcaf9

@@ -23,4 +23,12 @@ public class PriceAllUpdateVo {
     private Double babyPrice;
 
     private Double childPrice;
+
+    private Double marketAdultPrice;
+
+    private Double marketOldPrice;
+
+    private Double marketBabyPrice;
+
+    private Double marketChildPrice;
 }

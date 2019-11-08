@@ -25,4 +25,14 @@ public class ApplyPayResultQuery {
      * false说明没有openId,需要重新授权
      */
     private Boolean auto;
+
+    /**
+     * 过期时间
+     */
+    private Integer expreDate;
+
+    /**
+     * 下单时间
+     */
+    private String applyDate;
 }
