@@ -2,12 +2,14 @@ package eqlee.ctm.apply.entry.service;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import eqlee.ctm.apply.entry.entity.Examine;
+import eqlee.ctm.apply.entry.entity.query.ApplyNoReadCountQuery;
 import eqlee.ctm.apply.entry.entity.query.ExaApplyResultQuery;
 import eqlee.ctm.apply.entry.entity.query.ExaMqAdminQuery;
 import eqlee.ctm.apply.entry.entity.vo.ExamineAddVo;
 import eqlee.ctm.apply.entry.entity.vo.ExamineInfoVo;
 import eqlee.ctm.apply.entry.entity.vo.ExamineUpdateInfoVo;
 import eqlee.ctm.apply.entry.entity.vo.ExamineVo;
+import eqlee.ctm.apply.line.entity.vo.ResultVo;
 
 /**
  * 审核接口
@@ -48,7 +50,7 @@ public interface IExamineService {
      * 不通过报名审核
      * @param ApplyId
      */
-    void NotAdoptExamine(Long ApplyId);
+    ExaApplyResultQuery NotAdoptExamine(Long ApplyId);
 
     /**
      *  通过报名表的审核
@@ -78,5 +80,20 @@ public interface IExamineService {
      * @return
      */
     ExamineInfoVo queryUpdateInfo (Long Id);
+
+    /**
+     * 查询未读的条数
+     * @param toId
+     * @param msgType
+     * @param msg
+     * @return
+     */
+    ApplyNoReadCountQuery queryNoReadCount (Long toId, Integer msgType,String msg);
+
+    /**
+     * 修改当前用户的所有未读消息状态
+     * @return
+     */
+    ResultVo updateLocalMsgStatus ();
 
 }

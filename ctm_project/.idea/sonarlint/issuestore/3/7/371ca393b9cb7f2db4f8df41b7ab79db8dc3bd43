@@ -1,15 +1,12 @@
 
-Qsquid:S1118":Add a private constructor to hide the implicit public one.(µŠÂÜ
-`squid:S3027G"JPut single-quotes around '.' to use the faster "lastIndexOf(char)" method.(Ğ¤Æ
-N
-squid:S106["9Replace this use of System.out or System.err by a logger.(Š“
-?squid:S1148S"#Use a logger to log this exception.(Âşÿâûÿÿÿÿ
-_squid:S4042["IUse "java.nio.Files#delete" here for better messages on error conditions.(Š“
+ksquid:S1215Z"TDon't try to be smarter than the JVM, remove this call to run the garbage collector.(Ì°¬“
 `squid:S3027G"JPut single-quotes around '.' to use the faster "lastIndexOf(char)" method.(Ğ¤Æ
 fsquid:S2095"JUse try-with-resources or close this "HSSFWorkbook" in a "finally" clause.(ĞÅ±Ìøÿÿÿÿ
-?squid:S1148]"#Use a logger to log this exception.(€ÉÔ…ıÿÿÿÿ
-\squid:S2259X"@A "NullPointerException" could be thrown; "os" is nullable here.(„¨‡Òûÿÿÿÿ
-rsquid:S00115"ZRename this constant name to match the regular expression '^[A-Z][A-Z0-9]*(_[A-Z0-9]+)*$'.(å±é¶
-esquid:S2095M"NUse try-with-resources or close this "FileOutputStream" in a "finally" clause.(†ïŒÌ
 ?squid:S1148U"#Use a logger to log this exception.(€ÉÔ…ıÿÿÿÿ
-ksquid:S1215Z"TDon't try to be smarter than the JVM, remove this call to run the garbage collector.(Ì°¬“
+esquid:S2095M"NUse try-with-resources or close this "FileOutputStream" in a "finally" clause.(†ïŒÌ
+`squid:S3027G"JPut single-quotes around '.' to use the faster "lastIndexOf(char)" method.(Ğ¤Æ
+\squid:S2259X"@A "NullPointerException" could be thrown; "os" is nullable here.(„¨‡Òûÿÿÿÿ
+?squid:S1148\"#Use a logger to log this exception.(€ÉÔ…ıÿÿÿÿ
+Qsquid:S1118":Add a private constructor to hide the implicit public one.(µŠÂÜ
+rsquid:S00115"ZRename this constant name to match the regular expression '^[A-Z][A-Z0-9]*(_[A-Z0-9]+)*$'.(å±é¶
+?squid:S1148S"#Use a logger to log this exception.(Âşÿâûÿÿÿÿ

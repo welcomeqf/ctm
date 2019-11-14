@@ -34,7 +34,7 @@ public class CodeController {
     @Autowired
     private IPayInfoService payInfoService;
 
-    @ApiOperation(value = "支付完成查询接口", notes = "支付完成查询接口")
+    @ApiOperation(value = "删除该用户的支付授权信息", notes = "删除该用户的支付授权信息")
     @GetMapping("/deletePayInfo")
     @CrossOrigin
     @CheckToken

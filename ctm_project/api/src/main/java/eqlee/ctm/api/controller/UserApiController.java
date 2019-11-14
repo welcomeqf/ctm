@@ -238,6 +238,7 @@ public class UserApiController {
      * @param userName
      * @param roleName
      * @return
+     * @throws Exception
      */
     @ApiOperation(value = "对用户名模糊以及角色帅选查询分页用户信息", notes = "对用户名模糊以及角色帅选查询分页用户信息")
     @ApiImplicitParams({
@@ -297,23 +298,28 @@ public class UserApiController {
         return JSONObject.parse(httpResult.getBody());
     }
 
-    @ApiOperation(value = "根据用户名和手机号重置密码", notes = "根据用户名和手机号重置密码")
+    @ApiOperation(value = "根据用户名和原密码重置密码", notes = "根据用户名和原密码重置密码")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "Id", value = "Id", required = true, dataType = "Long", paramType = "path"),
             @ApiImplicitParam(name = "userName", value = "用户名", required = true, dataType = "String", paramType = "path"),
             @ApiImplicitParam(name = "password", value = "新密码", required = true, dataType = "String", paramType = "path"),
-            @ApiImplicitParam(name = "tel", value = "手机号", required = true, dataType = "String", paramType = "path")
+            @ApiImplicitParam(name = "oldPassword", value = "原密码", required = true, dataType = "String", paramType = "path")
     })
     @PostMapping("/updateUserPassword")
     @CrossOrigin
     @CheckToken
     @IgnoreResponseAdvice
-    public Object updateUserPassword(@RequestBody UserUpdatePasswordVo vo) throws Exception{
+    public Object updateUserPassword(@RequestBody UserPasswordUpVo vo) throws Exception{
         String encode = DataUtils.getEncodeing("RSA");
-        vo.setAppId(encode);
+        UserUpdatePasswordVo result = new UserUpdatePasswordVo();
+        result.setAppId(encode);
+        result.setId(vo.getId());
+        result.setOldPassword(vo.getOldPassword());
+        result.setPassword(vo.getPassword());
+        result.setUserName(vo.getUserName());
         String url = "http://" + ip +":" + port + "/" + path + "/v1/app/user/updateUserPassword";
 
-        String s = JSONObject.toJSONString(vo);
+        String s = JSONObject.toJSONString(result);
         HttpResult httpResult = apiService.doPost(url, s);
 
         ResultResposeVo vo1 = JSONObject.parseObject(httpResult.getBody(),ResultResposeVo.class);

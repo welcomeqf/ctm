@@ -1,0 +1,16 @@
+server:
+  port: 8006
+mybatis-plus:
+  configuration:
+    map-underscore-to-camel-case: false
+  mapper-locations: classpath:eqlee/ctm/msg/*/dao/mapper/*.xml
+spring:
+  profiles:
+    active: dev
+  application:
+    name: service-msg
+  jmx:
+    enabled: false
+app:
+  workerId: 9
+  dataCenterId: 1

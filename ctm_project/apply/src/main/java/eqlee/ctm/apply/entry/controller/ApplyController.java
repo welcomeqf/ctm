@@ -18,6 +18,7 @@ import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -257,5 +258,55 @@ public class ApplyController {
         return vo;
     }
 
+
+    @ApiOperation(value = "同行月结现结统计", notes = "同行月结现结统计")
+    @ApiImplicitParams({
+          @ApiImplicitParam(name = "current", value = "当前页", required = true, dataType = "int", paramType = "path"),
+          @ApiImplicitParam(name = "size", value = "每页显示的条数", required = true, dataType = "int", paramType = "path"),
+          @ApiImplicitParam(name = "outDate", value = "出发日期", required = false, dataType = "String", paramType = "path"),
+          @ApiImplicitParam(name = "lineName", value = "线路名称", required = false, dataType = "String", paramType = "path"),
+          @ApiImplicitParam(name = "payType", value = "(0--现结  1--月结)", required = true, dataType = "int", paramType = "path")
+    })
+    @GetMapping("/pageResultCountList")
+    @CrossOrigin
+    @CheckToken
+    public Page<ApplyResultCountQuery> pageResultCountList(@RequestParam("current") Integer current, @RequestParam("size") Integer size,
+                                          @RequestParam("OutDate") String outDate, @RequestParam("lineName") String lineName,
+                                                           @Param("payType") Integer payType) {
+        if (current == null || size == null || payType == null) {
+            throw new ApplicationException(CodeType.PARAM_ERROR);
+        }
+
+        if (payType != 0 && payType != 1 && payType != 2) {
+            throw new ApplicationException(CodeType.PARAM_ERROR, "传入的payType有误");
+        }
+
+        Page<ApplyResultCountQuery> page = new Page<>(current,size);
+
+        return applyService.pageResultCountList(page,payType,outDate,lineName);
+    }
+
+
+    @ApiOperation(value = "返回待付款的支付信息", notes = "返回待付款的支付信息")
+    @ApiImplicitParam(name = "applyNo", value = "报名单号", required = true, dataType = "String", paramType = "path")
+    @GetMapping("/queryPayInfo")
+    @CrossOrigin
+    @CheckToken
+    public ApplyPayResultQuery queryPayInfo(@RequestParam("applyNo") String applyNo) {
+
+        if (StringUtils.isBlank(applyNo)) {
+            throw new ApplicationException(CodeType.PARAM_ERROR,"参数不能为空");
+        }
+        return applyService.queryPayInfo(applyNo);
+    }
+
+
+    @ApiOperation(value = "查询同行报名审核以及取消审核条数", notes = "查询同行报名审核以及取消审核条数")
+    @GetMapping("/queryReadCount")
+    @CrossOrigin
+    @CheckToken
+    public ApplyReadCountQuery queryReadCount() {
+        return applyService.queryReadCount();
+    }
 
 }

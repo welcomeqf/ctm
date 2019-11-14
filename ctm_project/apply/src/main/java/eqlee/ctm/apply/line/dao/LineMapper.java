@@ -34,4 +34,21 @@ public interface LineMapper extends IBaseMapper<Line> {
     Page<LineSeacherQuery> queryLine2PageAndName(Page<LineSeacherQuery> page,
                                                  @Param("lineName") String lineName);
 
+
+    /**
+     * 默认分页查询可报名线路
+     * @param page
+     * @return
+     */
+    Page<LineSeacherQuery> queryLine(Page<LineSeacherQuery> page);
+
+    /**
+     * 根据线路名模糊查询可报名线路
+     * @param page
+     * @param lineName
+     * @return
+     */
+    Page<LineSeacherQuery> queryLineAndName(Page<LineSeacherQuery> page,
+                                                 @Param("lineName") String lineName);
+
 }

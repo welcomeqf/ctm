@@ -9,6 +9,7 @@ import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
+import java.util.List;
 
 /**
  * @Author qf
@@ -348,4 +349,68 @@ public interface ApplyMapper extends IBaseMapper<Apply> {
      * @return
      */
     User queryUserById (Long id);
+
+
+
+    //以下是同行月结现结账单
+
+    /**
+     * 查询所有月结(现结)账单
+     * @param page
+     * @param payType
+     * @return
+     */
+    Page<ApplyResultCountQuery> pageResult (Page<ApplyResultCountQuery> page,
+                                            @Param("payType") Integer payType);
+
+    /**
+     * 根据线路名模糊查询现结(月结)账单
+     * @param page
+     * @param payType
+     * @param lineName
+     * @return
+     */
+    Page<ApplyResultCountQuery> pageResultByLineName (Page<ApplyResultCountQuery> page,
+                                                      @Param("payType") Integer payType,
+                                                      @Param("lineName") String lineName);
+
+    /**
+     * 根据出发时间查询现结(月结)账单
+     * @param page
+     * @param payType
+     * @param outDate
+     * @return
+     */
+    Page<ApplyResultCountQuery> pageResultByOutDate (Page<ApplyResultCountQuery> page,
+                                                     @Param("payType") Integer payType,
+                                                     @Param("outDate") LocalDate outDate);
+
+
+    /**
+     * 根据出发时间和线路名模糊查询现结(月结)账单
+     * @param page
+     * @param payType
+     * @param outDate
+     * @param lineName
+     * @return
+     */
+    Page<ApplyResultCountQuery> pageResultByTimeAndName (Page<ApplyResultCountQuery> page,
+                                                         @Param("payType") Integer payType,
+                                                         @Param("outDate") LocalDate outDate,
+                                                         @Param("lineName") String lineName);
+
+
+    /**
+     * 批量回收订单
+     * @param list
+     * @return
+     */
+    Integer updateAllApplyStatus (List<ApplyScheQuery> list);
+
+    /**
+     * 查询所有管理人的id
+     * @param roleName
+     * @return
+     */
+    List<Long> queryAllAdmin (String roleName);
 }

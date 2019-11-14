@@ -24,13 +24,14 @@ public interface IGuiderService {
 
 
     /**
-     *导游看到的报名表
+     * 导游看到的报名表
      * @param current
      * @param size
      * @param lineName
      * @param outDate
+     * @param region
      * @return
      */
-    Page<ApplyVo>  applyIndex(Integer current,Integer size,String lineName, String outDate);
+    Page<ApplyVo>  applyIndex(Integer current,Integer size,String lineName, String outDate, String region);
 
 }

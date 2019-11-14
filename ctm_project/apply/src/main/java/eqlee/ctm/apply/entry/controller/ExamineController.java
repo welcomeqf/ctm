@@ -6,6 +6,7 @@ import com.yq.exception.ApplicationException;
 import com.yq.jwt.islogin.CheckToken;
 import com.yq.utils.StringUtils;
 import eqlee.ctm.apply.entry.entity.Examine;
+import eqlee.ctm.apply.entry.entity.query.ApplyNoReadCountQuery;
 import eqlee.ctm.apply.entry.entity.query.ExaApplyResultQuery;
 import eqlee.ctm.apply.entry.entity.vo.*;
 import eqlee.ctm.apply.entry.service.IExamineService;
@@ -107,7 +108,7 @@ public class ExamineController {
     @PostMapping("/notAdoptExamine")
     @CrossOrigin
     @CheckToken
-    public ResultVo notAdoptExamine(@RequestBody ExamineAddInfoVo infoVo) {
+    public ExaApplyResultQuery notAdoptExamine(@RequestBody ExamineAddInfoVo infoVo) {
         if (infoVo.getApplyId() == null || infoVo.getStatus() == null) {
             throw new ApplicationException(CodeType.PARAM_ERROR);
         }
@@ -116,15 +117,17 @@ public class ExamineController {
         }
 
         if (infoVo.getStatus() == 1) {
+            //同意报名审核
             examineService.doptExamine(infoVo.getApplyId());
         }
 
         if (infoVo.getStatus() == 2) {
-            examineService.NotAdoptExamine(infoVo.getApplyId());
+            //拒绝报名审核
+            return examineService.NotAdoptExamine(infoVo.getApplyId());
         }
 
-        ResultVo resultVo = new ResultVo();
-        resultVo.setResult("ok");
+        ExaApplyResultQuery resultVo = new ExaApplyResultQuery();
+        resultVo.setType("ok");
         return resultVo;
     }
 
@@ -151,4 +154,31 @@ public class ExamineController {
     public ExamineInfoVo queryUpdateInfo(@RequestParam("Id") Long Id) {
         return examineService.queryUpdateInfo(Id);
     }
+
+
+    @ApiOperation(value = "查询未读的条数", notes = "查询未读的条数")
+    @ApiImplicitParams({
+          @ApiImplicitParam(name = "toId", value = "接收人id", required = true, dataType = "Long", paramType = "path"),
+          @ApiImplicitParam(name = "msgType", value = "消息类型", required = true, dataType = "int", paramType = "path"),
+          @ApiImplicitParam(name = "msg", value = "消息名称", required = true, dataType = "String", paramType = "path")
+    })
+    @GetMapping("/queryNoReadCount")
+    @CrossOrigin
+    @CheckToken
+    public ApplyNoReadCountQuery queryNoReadCount(@RequestParam("toId") Long toId,
+                                                  @RequestParam("msgType") Integer msgType,
+                                                  @RequestParam("msg") String msg) {
+        return examineService.queryNoReadCount(toId,msgType,msg);
+    }
+
+
+    @ApiOperation(value = "修改当前用户的所有未读消息状态", notes = "修改当前用户的所有未读消息状态")
+    @GetMapping("/updateLocalMsgStatus")
+    @CrossOrigin
+    @CheckToken
+    public ResultVo updateLocalMsgStatus() {
+        return examineService.updateLocalMsgStatus();
+    }
+
+
 }

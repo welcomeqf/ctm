@@ -168,6 +168,11 @@ public class Apply extends Model<Apply> {
      */
     private Integer ExpreDate;
 
+    /**
+     * 是否读过此数据
+     */
+    private Boolean IsRead;
+
     @Override
     protected Serializable pkVal() {
         return this.Id;

@@ -16,7 +16,7 @@ public class UserUpdatePasswordVo {
 
     private String password;
 
-    private String tel;
+    private String oldPassword;
 
     private String appId;
 }

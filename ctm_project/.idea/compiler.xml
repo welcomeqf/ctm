@@ -6,13 +6,14 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="api" />
-        <module name="apply" />
-        <module name="common" />
-        <module name="finance" />
-        <module name="report" />
-        <module name="resource" />
         <module name="user" />
+        <module name="api" />
+        <module name="common" />
+        <module name="apply" />
+        <module name="report" />
+        <module name="msg" />
+        <module name="resource" />
+        <module name="finance" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
@@ -21,6 +22,7 @@
       <module name="common" target="1.8" />
       <module name="ctm_project" target="1.8" />
       <module name="finance" target="1.8" />
+      <module name="msg" target="1.8" />
       <module name="report" target="1.8" />
       <module name="resource" target="1.8" />
       <module name="user" target="1.8" />
@@ -29,9 +31,10 @@
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="api" options="-parameters" />
-      <module name="apply" options="" />
+      <module name="apply" options="-parameters" />
       <module name="common" options="-parameters" />
-      <module name="finance" options="" />
+      <module name="finance" options="-parameters" />
+      <module name="msg" options="-parameters" />
       <module name="report" options="-parameters" />
       <module name="resource" options="-parameters" />
       <module name="user" options="-parameters" />

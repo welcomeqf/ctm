@@ -188,6 +188,12 @@ public class PayController {
 
             //获取openId
             openId = PayData.getOpenId(code);
+
+            log.error("openId:" +openId);
+            if (StringUtils.isBlank(openId)) {
+                throw new ApplicationException(CodeType.SERVICE_ERROR, "请重新授权");
+            }
+
             PayInfo payInfo = new PayInfo();
             payInfo.setId(idGenerator.getNumberId());
             payInfo.setType(0);

@@ -1,13 +1,13 @@
 
-asquid:S1155h">Use isEmpty() to check whether the collection is empty or not.(ôÌ¬øÿÿÿÿ8›Şßà-
-?squid:S1170B"!Make this final field static too.(ƒ£†Š8ŒÉ•áŞ-
 Dsquid:S1170@"!Make this final field static too.(ÉÊËäúÿÿÿÿ8ˆ²”İ-
-psquid:S00116>"QRename this field "EXA_YI" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ÄÜÛ8¯ÀŒ”İ-
-psquid:S00116B"QRename this field "EXA_NO" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ƒ£†Š8ŒÉ•áŞ-
 usquid:S00116D"QRename this field "EXA_DO" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(Óë¼şÿÿÿÿ8ŒÉ•áŞ-
-qsquid:S00116<"RRename this field "EXA_DAI" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(‚¬ƒ8³¼Š”İ-
+?squid:S1170<"!Make this final field static too.(‚¬ƒ8³¼Š”İ-
 ?squid:S1170>"!Make this final field static too.(ÄÜÛ8¯ÀŒ”İ-
 psquid:S00117í"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(Ãüµ_8“œáŞ-
-?squid:S1170<"!Make this final field static too.(‚¬ƒ8³¼Š”İ-
+qsquid:S00116<"RRename this field "EXA_DAI" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(‚¬ƒ8³¼Š”İ-
+psquid:S00116B"QRename this field "EXA_NO" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ƒ£†Š8ŒÉ•áŞ-
 Dsquid:S1170D"!Make this final field static too.(Óë¼şÿÿÿÿ8ŒÉ•áŞ-
+psquid:S00116>"QRename this field "EXA_YI" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ÄÜÛ8¯ÀŒ”İ-
+asquid:S1155h">Use isEmpty() to check whether the collection is empty or not.(ôÌ¬øÿÿÿÿ8›Şßà-
+?squid:S1170B"!Make this final field static too.(ƒ£†Š8ŒÉ•áŞ-
 vsquid:S00116@"RRename this field "EXA_WEI" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ÉÊËäúÿÿÿÿ8ˆ²”İ-

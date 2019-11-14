@@ -11,6 +11,7 @@
         <module>api</module>
         <module>finance</module>
         <module>report</module>
+        <module>msg</module>
     </modules>
     <parent>
         <groupId>org.springframework.boot</groupId>

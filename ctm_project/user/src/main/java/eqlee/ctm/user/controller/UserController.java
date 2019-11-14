@@ -264,22 +264,22 @@ public class UserController {
 
     }
 
-    @ApiOperation(value = "根据用户名和手机号重置密码", notes = "根据用户名和手机号重置密码")
+    @ApiOperation(value = "根据用户名和原密码重置密码", notes = "根据用户名和原密码重置密码")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "id", value = "id", required = true, dataType = "Long", paramType = "path"),
             @ApiImplicitParam(name = "userName", value = "用户名", required = true, dataType = "String", paramType = "path"),
             @ApiImplicitParam(name = "password", value = "新密码", required = true, dataType = "String", paramType = "path"),
             @ApiImplicitParam(name = "appId", value = "签名Id", required = true, dataType = "String", paramType = "path"),
-            @ApiImplicitParam(name = "tel", value = "手机号", required = true, dataType = "String", paramType = "path")
+            @ApiImplicitParam(name = "oldPassword", value = "原密码", required = true, dataType = "String", paramType = "path")
     })
     @PostMapping("/updateUserPassword")
     @CrossOrigin
     public ResultVo updateUserPassword(@RequestBody UserUpdatePasswordVo vo) {
-        if (vo.getId() == null || StringUtils.isBlank(vo.getUserName()) || StringUtils.isBlank(vo.getTel()) ||
+        if (vo.getId() == null || StringUtils.isBlank(vo.getUserName()) || StringUtils.isBlank(vo.getOldPassword()) ||
             StringUtils.isBlank(vo.getPassword()) || StringUtils.isBlank(vo.getAppId())) {
             throw new ApplicationException(CodeType.PARAM_ERROR, "参数不能为空");
         }
-        userService.updateUserPassword(vo.getId(),vo);
+        userService.updateUserPassword(vo);
         ResultVo resultVo = new ResultVo();
         resultVo.setResult("ok");
         return resultVo;

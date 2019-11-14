@@ -2,6 +2,9 @@ package eqlee.ctm.api.code.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.yq.constanct.CodeType;
+import com.yq.exception.ApplicationException;
+import com.yq.utils.StringUtils;
 import eqlee.ctm.api.code.dao.PayInfoMapper;
 import eqlee.ctm.api.code.entity.PayInfo;
 import eqlee.ctm.api.code.entity.query.PayInfoQuery;
@@ -41,7 +44,15 @@ public class PayInfoServiceImpl extends ServiceImpl<PayInfoMapper, PayInfo> impl
         LambdaQueryWrapper<PayInfo> wrapper = new LambdaQueryWrapper<PayInfo>()
                 .eq(PayInfo::getUserId,userId);
         PayInfo payInfo = baseMapper.selectOne(wrapper);
+
+        if (payInfo == null) {
+            throw new ApplicationException(CodeType.SERVICE_ERROR, "业务繁忙");
+        }
         PayInfoQuery query = new PayInfoQuery();
+
+        if (StringUtils.isBlank(payInfo.getOpenId())) {
+            throw new ApplicationException(CodeType.SERVICE_ERROR, "查询有误");
+        }
         query.setOpenId(payInfo.getOpenId());
         return query;
     }

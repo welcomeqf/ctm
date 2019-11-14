@@ -45,6 +45,14 @@ public interface ILineService {
     Page<LineSeacherQuery> listPageLine(Page<LineSeacherQuery> query, String lineName);
 
     /**
+     * 查询所有可报名线路
+     * @param query
+     * @param lineName
+     * @return
+     */
+    Page<LineSeacherQuery> pageLine(Page<LineSeacherQuery> query, String lineName);
+
+    /**
      * 停用线路
      * @param id
      */

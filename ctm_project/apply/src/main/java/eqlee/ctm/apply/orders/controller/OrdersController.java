@@ -140,10 +140,12 @@ public class OrdersController {
         }
 
         if (bo.getType() == 1) {
+            //同意换人
             ordersService.sureChoised(bo.getOrderId(), bo.getOutDate(), bo.getLineName());
         }
 
         if (bo.getType() == 2) {
+            //拒绝换人
             ordersService.denyChoised(bo.getOrderId(), bo.getOutDate(), bo.getLineName());
         }
         ResultVo resultVo = new ResultVo();

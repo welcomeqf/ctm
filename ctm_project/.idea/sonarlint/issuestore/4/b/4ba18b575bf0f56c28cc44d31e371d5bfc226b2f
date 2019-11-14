@@ -1,17 +1,17 @@
 
-vsquid:S00117‹"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(˜âñùÿÿÿÿ8Ì¬ç²á-
-usquid:S00117r"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(˜âñùÿÿÿÿ8Ì¬ç²á-
-usquid:S00117r"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(˜âñùÿÿÿÿ8Ì¬ç²á-
-vsquid:S00117‹"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(˜âñùÿÿÿÿ8Ì¬ç²á-
-[squid:UselessImportCheck"+Remove this unused import 'java.util.List'.(Õë±Äøÿÿÿÿ8ÇÓÛÛÖ-
-vsquid:S00117Ä"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(å—Áúÿÿÿÿ8‚‡âŞá-
-usquid:S00117^"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ûÇÉ»ıÿÿÿÿ8Ì¬ç²á-
-wsquid:S1192Ç"SDefine a constant instead of duplicating this literal "å‚æ•°ä¸èƒ½ä¸ºç©º" 4 times.(ˆ¯ãõÿÿÿÿÿ8åŒ†ßá-
-vsquid:S00117Ä"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(å—Áúÿÿÿÿ8‚‡âŞá-
-vsquid:S00117´"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(½Ù˜Æüÿÿÿÿ8Ì¬ç²á-
-usquid:S00117^"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ûÇÉ»ıÿÿÿÿ8Ì¬ç²á-
-psquid:S00117s"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(û×øœ8ÊÙàöÛ-
+psquid:S00117n"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(û×øœ8ÊÙàöÛ-
+vsquid:S00117¿"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(å—Áúÿÿÿÿ8‚‡âŞá-
+vsquid:S00117¿"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(å—Áúÿÿÿÿ8‚‡âŞá-
+usquid:S00117Y"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ûÇÉ»ıÿÿÿÿ8Ì¬ç²á-
+vsquid:S00117†"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(˜âñùÿÿÿÿ8Ì¬ç²á-
+vsquid:S00117†"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(˜âñùÿÿÿÿ8Ì¬ç²á-
 osquid:UselessImportCheck
 "?Remove this unused import 'eqlee.ctm.apply.entry.entity.Apply'.(”Åæ™ıÿÿÿÿ8‘µ»§Û-
-vsquid:S00117¡"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(òÇŒ™şÿÿÿÿ8Ì¬ç²á-
-qsquid:S00117Œ"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(û×øœ8ÖÍâÌÜ-
+vsquid:S00117¯"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(½Ù˜Æüÿÿÿÿ8Ì¬ç²á-
+[squid:UselessImportCheck"+Remove this unused import 'java.util.List'.(Õë±Äøÿÿÿÿ8ÇÓÛÛÖ-
+usquid:S00117Y"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ûÇÉ»ıÿÿÿÿ8Ì¬ç²á-
+usquid:S00117m"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(˜âñùÿÿÿÿ8Ì¬ç²á-
+usquid:S00117m"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(˜âñùÿÿÿÿ8Ì¬ç²á-
+wsquid:S1192Â"SDefine a constant instead of duplicating this literal "å‚æ•°ä¸èƒ½ä¸ºç©º" 4 times.(ˆ¯ãõÿÿÿÿÿ8åŒ†ßá-
+vsquid:S00117œ"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(òÇŒ™şÿÿÿÿ8Ì¬ç²á-
+qsquid:S00117‡"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(û×øœ8ÖÍâÌÜ-

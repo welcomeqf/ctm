@@ -6,12 +6,28 @@
     <select id="queryLine2PageAndName" resultType="eqlee.ctm.apply.line.entity.query.LineSeacherQuery">
         <bind name="line_Name" value="'%' + lineName + '%'"/>
       select Id,LineName,Information,Region,TravelSituation,MaxNumber,MinNumber,City,PicturePath from Line
-      where LineName = #{line_Name}
+      where LineName like #{line_Name}
     </select>
 
 
     <select id="queryLine2Page" resultType="eqlee.ctm.apply.line.entity.query.LineSeacherQuery">
         select Id,LineName,Information,Region,TravelSituation,MaxNumber,MinNumber,City,PicturePath from Line
+    </select>
+
+
+    <select id="queryLineAndName" resultType="eqlee.ctm.apply.line.entity.query.LineSeacherQuery">
+        <bind name="line_Name" value="'%' + lineName + '%'"/>
+        select max(a.Id)Id,max(a.LineName)LineName,max(a.Information)Information,max(a.Region)Region,
+        max(a.TravelSituation)TravelSituation,max(a.MaxNumber)MaxNumber,max(a.MinNumber)MinNumber,max(a.City)City,
+        max(a.PicturePath)PicturePath from Line a join Price b on a.Id = b.LineId where a.LineName like #{line_Name}
+        group by b.LineId
+    </select>
+
+
+    <select id="queryLine" resultType="eqlee.ctm.apply.line.entity.query.LineSeacherQuery">
+         select max(a.Id)Id,max(a.LineName)LineName,max(a.Information)Information,max(a.Region)Region,
+      max(a.TravelSituation)TravelSituation,max(a.MaxNumber)MaxNumber,max(a.MinNumber)MinNumber,max(a.City)City,
+      max(a.PicturePath)PicturePath from Line a join Price b on a.Id = b.LineId group by b.LineId
     </select>
 
 

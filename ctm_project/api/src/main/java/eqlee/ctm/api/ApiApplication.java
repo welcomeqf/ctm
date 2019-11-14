@@ -5,6 +5,7 @@ import com.yq.handle.ApplicationAdviceHandle;
 import com.yq.handle.GlobalResponseHandler;
 import com.yq.httpclient.HttpClientUtils;
 import com.yq.jwt.contain.LocalUser;
+import com.yq.utils.IdGenerator;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

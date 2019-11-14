@@ -165,7 +165,40 @@ public interface IApplyService {
      */
     void dopApply (String applyNo);
 
+    /**
+     * 回收所有订单
+     */
+    void dopAllApply ();
 
+    /**
+     * 同行月结现结统计
+     * @param page
+     * @param payType
+     * @param outDate
+     * @param lineName
+     * @return
+     */
+    Page<ApplyResultCountQuery> pageResultCountList (Page<ApplyResultCountQuery> page, Integer payType,String outDate, String lineName);
+
+
+    /**
+     * 返回待付款的支付信息
+     * @param applyNo
+     * @return
+     */
+    ApplyPayResultQuery queryPayInfo (String applyNo);
+
+    /**
+     * 查询同行报名审核以及取消审核条数
+     * @return
+     */
+    ApplyReadCountQuery queryReadCount ();
+
+    /**
+     * 查询所有管理员Id
+     * @return
+     */
+    List<Long> queryAdminIds ();
 
 
 

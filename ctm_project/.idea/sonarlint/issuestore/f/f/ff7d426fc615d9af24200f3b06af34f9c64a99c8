@@ -1,7 +1,8 @@
 
-vsquid:S1192Q"SDefine a constant instead of duplicating this literal "å‚æ•°ä¸èƒ½ä¸ºç©º" 3 times.(¦úæşÿÿÿÿ8¢Äš‡â-
-zsquid:UselessImportCheck"ORemove this unused import 'org.springframework.beans.factory.annotation.Value'.(ìø›8‚˜í¼Ş-
-[squid:UselessImportCheck"+Remove this unused import 'java.util.List'.(Õë±Äøÿÿÿÿ8ƒ¢ë·×-
-[squid:UselessImportCheck"0Remove this unused import 'java.util.ArrayList'.(÷‰îƒ8ƒ¢ë·×-
-|squid:S1488¥"]Immediately return this expression instead of assigning it to the temporary variable "query".(ş¹Ï§8…¦äÍã-
-psquid:S00117{"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(«™æ8…¦äÍã-
+[squid:UselessImportCheck"0Remove this unused import 'java.util.ArrayList'.(÷‰îƒ8ß•ùÒä-
+zsquid:UselessImportCheck"ORemove this unused import 'org.springframework.beans.factory.annotation.Value'.(ìø›8‚˜í¼Ş-
+vsquid:S1192R"SDefine a constant instead of duplicating this literal "å‚æ•°ä¸èƒ½ä¸ºç©º" 3 times.(¦úæşÿÿÿÿ8²­ùÒä-
+psquid:S00117|"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(«™æ8…¦äÍã-
+|squid:S1488¦"]Immediately return this expression instead of assigning it to the temporary variable "query".(ş¹Ï§8…¦äÍã-
+[squid:UselessImportCheck"+Remove this unused import 'java.util.List'.(Õë±Äøÿÿÿÿ8ß•ùÒä-
+squid:UselessImportCheck	"QRemove this unused import 'eqlee.ctm.finance.settlement.entity.vo.ContectUserVo'.(Ó—ùúÿÿÿÿ8ß•ùÒä-

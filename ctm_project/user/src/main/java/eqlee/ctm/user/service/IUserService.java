@@ -103,9 +103,8 @@ public interface IUserService {
     /**
      * 根据用户名和手机号重置密码
      * @param vo
-     * @param Id
      */
-    void updateUserPassword (Long Id,UserUpdatePasswordVo vo);
+    void updateUserPassword (UserUpdatePasswordVo vo);
 
     /**
      * 修改用户信息

@@ -447,7 +447,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
      * @param vo
      */
     @Override
-    public synchronized void updateUserPassword(Long Id,UserUpdatePasswordVo vo) {
+    public synchronized void updateUserPassword(UserUpdatePasswordVo vo) {
         //验证签名
         Sign sign = signService.queryOne(vo.getAppId());
         Boolean result = null;
@@ -469,12 +469,13 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
             throw new ApplicationException(CodeType.SERVICE_ERROR,"该用户不存在");
         }
 
-        if (!user.getTel().equals(vo.getTel())) {
-            throw new ApplicationException(CodeType.SERVICE_ERROR, "手机号填写有误");
+        String s = ShaUtils.getSha1(vo.getOldPassword());
+        if (!user.getPassword().equals(s)) {
+            throw new ApplicationException(CodeType.SERVICE_ERROR, "原密码错误");
         }
 
         User u = new User();
-        u.setId(Id);
+        u.setId(vo.getId());
         u.setPassword(ShaUtils.getSha1(vo.getPassword()));
         int updateById = baseMapper.updateById(u);
 

@@ -13,6 +13,9 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
+/**
+ * @author qf
+ */
 @SpringBootApplication
 @EnableSwagger2
 @EnableTransactionManagement

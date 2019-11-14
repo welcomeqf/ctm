@@ -13,12 +13,10 @@ import com.yq.utils.StringUtils;
 import eqlee.ctm.apply.entry.dao.ApplyMapper;
 import eqlee.ctm.apply.entry.entity.Apply;
 import eqlee.ctm.apply.entry.entity.query.*;
-import eqlee.ctm.apply.entry.entity.vo.ApplyOpenIdVo;
-import eqlee.ctm.apply.entry.entity.vo.ApplySeacherVo;
-import eqlee.ctm.apply.entry.entity.vo.ApplyVo;
-import eqlee.ctm.apply.entry.entity.vo.ExamineAddVo;
+import eqlee.ctm.apply.entry.entity.vo.*;
 import eqlee.ctm.apply.entry.service.IApplyService;
 import eqlee.ctm.apply.entry.service.IExamineService;
+import eqlee.ctm.apply.entry.vilidata.HttpUtils;
 import eqlee.ctm.apply.line.entity.Line;
 import eqlee.ctm.apply.line.service.ILineService;
 import eqlee.ctm.apply.price.entity.Price;
@@ -28,8 +26,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
 import java.util.List;
 import java.time.LocalDate;
 
@@ -53,6 +53,9 @@ public class ApplyServiceImpl extends ServiceImpl<ApplyMapper, Apply> implements
     @Autowired
     private IExamineService examineService;
 
+    @Autowired
+    private HttpUtils httpUtils;
+
     private final String MONTH_PAY = "月结";
 
     private final String NOW_PAY = "现结";
@@ -60,6 +63,11 @@ public class ApplyServiceImpl extends ServiceImpl<ApplyMapper, Apply> implements
     private final String AGENT_PAY = "面收";
 
     private final String APPLY_EXA = "报名审核";
+
+    /**
+     * 消息中的msg
+     */
+    private final String APPLY_DO = "报名申请审核";
 
     @Autowired
     private LocalUser localUser;
@@ -223,21 +231,36 @@ public class ApplyServiceImpl extends ServiceImpl<ApplyMapper, Apply> implements
             throw new ApplicationException(CodeType.SERVICE_ERROR,"报名失败");
         }
 
+        //查询所有管理员的id集合
+        List<Long> longList = baseMapper.queryAllAdmin("运营人员");
+
+        if (longList.size() == 0) {
+            throw new ApplicationException(CodeType.SERVICE_ERROR, "请将管理员的角色名设置为运营人员");
+        }
+
+        //批量增加所有运营审核的报名消息提醒
+        MsgAddVo msgVo = new MsgAddVo();
+        msgVo.setCreateId(user.getId());
+        msgVo.setMsgType(3);
+        msgVo.setMsg(APPLY_DO);
+        msgVo.setToId(longList);
+
+        httpUtils.addAllMsg(msgVo);
+
         //组装ApplyPayResultQuery 返回数据
         ApplyPayResultQuery query = new ApplyPayResultQuery();
+
+        //返回报名单号
+        query.setApplyNo(orderCode);
+
+        //装配auto
         //去数据库查询是否有该用户的openId
-        ApplyOpenIdVo idVo = baseMapper.queryPayInfo(applyVo.getCreateUserId());
+        ApplyOpenIdVo idVo = baseMapper.queryPayInfo(user.getId());
         if (idVo == null) {
             query.setAuto(false);
         } else {
             query.setAuto(true);
         }
-        LocalDateTime nowTime = LocalDateTime.now();
-        query.setApplyNo(orderCode);
-        query.setExpreDate(apply.getExpreDate());
-        query.setApplyDate(DateUtil.formatDateTime(nowTime));
-        String product = applyVo.getOutDate() + "在"+applyVo.getLineName() +"报名消费";
-        query.setProductName(product);
         return query;
     }
 
@@ -701,6 +724,166 @@ public class ApplyServiceImpl extends ServiceImpl<ApplyMapper, Apply> implements
         }
 
 
+    }
+
+    /**
+     * 回收所有订单
+     */
+    @Override
+    public void dopAllApply() {
+        //获取当前时间
+        LocalDateTime now = LocalDateTime.now();
+        //获取15分钟之前的时间
+        LocalDateTime time = now.minusMinutes(15);
+
+        //查询需要回收的报名记录(未付款的最近半小时的订单)
+        LambdaQueryWrapper<Apply> wrapper = new LambdaQueryWrapper<Apply>()
+              .eq(Apply::getIsPayment,0)
+              .le(Apply::getCreateDate,now)
+              .ge(Apply::getCreateDate,time);
+
+        List<Apply> applies = baseMapper.selectList(wrapper);
+
+        if (applies.size() == 0) {
+            return;
+        }
+
+        //创建一个集合装需要回收的订单号
+        List<ApplyScheQuery> list = new ArrayList<>();
+        for (Apply apply : applies) {
+            //获取过期时间和下单时间
+            LocalDateTime createDate = apply.getCreateDate();
+            Duration duration = Duration.between(createDate,now);
+            //获取分钟数
+            long minutes = duration.toMinutes();
+
+            //如果获取的分钟数大于或等于过期时间，则回收
+            if (minutes >= apply.getExpreDate()) {
+                ApplyScheQuery query = new ApplyScheQuery();
+                query.setApplyNo(apply.getApplyNo());
+                list.add(query);
+            }
+        }
+
+        //批量回收订单
+        Integer integer = baseMapper.updateAllApplyStatus(list);
+
+        if (integer <= 0) {
+            log.error("定时任务回收订单失败");
+            throw new ApplicationException(CodeType.SERVICE_ERROR, "修改失败");
+        }
+    }
+
+    /**
+     * 同行月结现结统计
+     * @param page
+     * @param payType
+     * @param outDate
+     * @param lineName
+     * @return
+     */
+    @Override
+    public Page<ApplyResultCountQuery> pageResultCountList(Page<ApplyResultCountQuery> page, Integer payType, String outDate, String lineName) {
+        if (StringUtils.isBlank(outDate) && StringUtils.isBlank(lineName)) {
+            //线路名和出发时间为空时
+            return baseMapper.pageResult(page,payType);
+        }
+
+        if (StringUtils.isBlank(outDate) && StringUtils.isNotBlank(lineName)) {
+            //线路名不为空
+            return baseMapper.pageResultByLineName(page,payType,lineName);
+        }
+
+        if (StringUtils.isNotBlank(outDate) && StringUtils.isBlank(lineName)) {
+            //出发时间不为空
+            LocalDate date = DateUtil.parseDate(outDate);
+            return baseMapper.pageResultByOutDate(page,payType,date);
+        }
+
+        //都不为空
+        LocalDate date = DateUtil.parseDate(outDate);
+        return baseMapper.pageResultByTimeAndName(page,payType,date,lineName);
+    }
+
+    /**
+     * 查询待付款支付信息
+     * @param applyNo
+     * @return
+     */
+    @Override
+    public ApplyPayResultQuery queryPayInfo(String applyNo) {
+        //获取当前用户信息
+        UserLoginQuery user = localUser.getUser("用户信息");
+
+        LambdaQueryWrapper<Apply> wrapper = new LambdaQueryWrapper<Apply>()
+              .eq(Apply::getApplyNo,applyNo);
+        Apply apply = baseMapper.selectOne(wrapper);
+
+        ApplyPayResultQuery query = new ApplyPayResultQuery();
+
+        query.setApplyNo(applyNo);
+        query.setExpreDate(apply.getExpreDate());
+
+        //查询线路
+        Line line = lineService.queryOneLine(apply.getLineId());
+
+        String product = apply.getOutDate() + "在"+line.getLineName() +"报名消费";
+
+        query.setProductName(product);
+        String applyDate = DateUtil.formatDateTime(apply.getCreateDate());
+        query.setApplyDate(applyDate);
+
+        //装配auto
+        //去数据库查询是否有该用户的openId
+        ApplyOpenIdVo idVo = baseMapper.queryPayInfo(user.getId());
+        if (idVo == null) {
+            query.setAuto(false);
+        } else {
+            query.setAuto(true);
+        }
+
+        query.setAllPrice(apply.getAllPrice());
+        return query;
+    }
+
+    /**
+     * 查询同行报名审核以及取消审核条数
+     * @return
+     */
+    @Override
+    public ApplyReadCountQuery queryReadCount() {
+        //获取当前用户信息
+        UserLoginQuery user = localUser.getUser("用户信息");
+
+        LambdaQueryWrapper<Apply> wrapper = new LambdaQueryWrapper<Apply>()
+              .eq(Apply::getCreateUserId,user.getId())
+              .eq(Apply::getIsRead,0)
+              .ne(Apply::getStatu,0);
+
+        //查询报名审核结果的条数
+        Integer exaCount = baseMapper.selectCount(wrapper);
+
+        //查询取消审核的条数
+        LambdaQueryWrapper<Apply> lambdaQueryWrapper = new LambdaQueryWrapper<Apply>()
+              .eq(Apply::getCreateUserId,user.getId())
+              .eq(Apply::getIsRead,0)
+              .eq(Apply::getIsCancel,1);
+        Integer cancelCount = baseMapper.selectCount(lambdaQueryWrapper);
+
+        ApplyReadCountQuery query = new ApplyReadCountQuery();
+        query.setExaCount(exaCount);
+        query.setCancelCount(cancelCount);
+
+        return query;
+    }
+
+    /**
+     * 查询所有管理员id
+     * @return
+     */
+    @Override
+    public List<Long> queryAdminIds() {
+        return baseMapper.queryAllAdmin("运营人员");
     }
 
 

@@ -58,7 +58,8 @@ public class GuiderController {
             @ApiImplicitParam(name = "current", value = "当前页", required = true, dataType = "int", paramType = "path"),
             @ApiImplicitParam(name = "size", value = "每页条数", required = true, dataType = "int", paramType = "path"),
             @ApiImplicitParam(name = "lineName", value = "线路名", required = true, dataType = "String", paramType = "path"),
-            @ApiImplicitParam(name = "outDate", value = "日期", required = true, dataType = "String", paramType = "path")
+            @ApiImplicitParam(name = "outDate", value = "日期", required = true, dataType = "String", paramType = "path"),
+            @ApiImplicitParam(name = "region", value = "区域", required = false, dataType = "String", paramType = "path")
     })
     @GetMapping("/applyIndex")
     @CrossOrigin
@@ -66,11 +67,12 @@ public class GuiderController {
     public Page<ApplyVo> applyIndex(@RequestParam("lineName") String lineName,
                                     @RequestParam("outDate") String outDate,
                                     @RequestParam("current") Integer current,
-                                    @RequestParam("size") Integer size){
+                                    @RequestParam("size") Integer size,
+                                    @RequestParam("region") String region){
         if(StringUtils.isBlank(lineName) || current == null || size == null || StringUtils.isBlank(outDate)){
             throw new ApplicationException(CodeType.PARAM_ERROR,"参数不能为空");
         }
-        return guiderService.applyIndex(current,size,lineName,outDate);
+        return guiderService.applyIndex(current,size,lineName,outDate,region);
     }
 
 }

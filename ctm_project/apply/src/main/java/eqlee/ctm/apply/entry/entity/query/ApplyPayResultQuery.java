@@ -35,4 +35,9 @@ public class ApplyPayResultQuery {
      * 下单时间
      */
     private String applyDate;
+
+    /**
+     * 总价
+     */
+    private Double allPrice;
 }

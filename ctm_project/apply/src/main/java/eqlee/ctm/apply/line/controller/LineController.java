@@ -188,4 +188,25 @@ public class LineController {
         return lineService.listAllLine();
     }
 
+
+
+    @ApiOperation(value = "模糊查询分页查询所有可报名线路", notes = "模糊查询分页查询所有可报名线路")
+    @ApiImplicitParams({
+          @ApiImplicitParam(name = "current", value = "当前页", required = true, dataType = "int", paramType = "path"),
+          @ApiImplicitParam(name = "size", value = "每页显示条数", required = true, dataType = "int", paramType = "path"),
+          @ApiImplicitParam(name = "lineName", value = "线路名", required = false, dataType = "String", paramType = "path")
+    })
+    @GetMapping("/pageLine")
+    @CrossOrigin
+    @CheckToken
+    public Page<LineSeacherQuery> pageLine(@RequestParam("current") Integer current,
+                                           @RequestParam("size") Integer size,
+                                           @RequestParam("lineName") String lineName) {
+        if (current == null || size == null) {
+            throw new ApplicationException(CodeType.PARAM_ERROR,"线路分页查询线路失败");
+        }
+        Page<LineSeacherQuery> pageQuery = new Page<>(current,size);
+        return lineService.pageLine(pageQuery,lineName);
+    }
+
 }

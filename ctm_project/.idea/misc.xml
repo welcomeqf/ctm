@@ -4,6 +4,7 @@
     <file type="web" url="file://$PROJECT_DIR$/api" />
     <file type="web" url="file://$PROJECT_DIR$/apply" />
     <file type="web" url="file://$PROJECT_DIR$/finance" />
+    <file type="web" url="file://$PROJECT_DIR$/msg" />
     <file type="web" url="file://$PROJECT_DIR$/report" />
     <file type="web" url="file://$PROJECT_DIR$/resource" />
     <file type="web" url="file://$PROJECT_DIR$/user" />
@@ -18,10 +19,11 @@
         <option value="$PROJECT_DIR$/api/pom.xml" />
         <option value="$PROJECT_DIR$/finance/pom.xml" />
         <option value="$PROJECT_DIR$/report/pom.xml" />
+        <option value="$PROJECT_DIR$/msg/pom.xml" />
       </list>
     </option>
   </component>
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_1_8" default="false" project-jdk-name="1.8" project-jdk-type="JavaSDK">
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_1_8" default="false" project-jdk-name="1.8 (2)" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/out" />
   </component>
 </project>

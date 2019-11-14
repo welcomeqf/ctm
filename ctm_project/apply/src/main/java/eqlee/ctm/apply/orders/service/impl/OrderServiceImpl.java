@@ -11,7 +11,9 @@ import com.yq.utils.DateUtil;
 import com.yq.utils.IdGenerator;
 import com.yq.utils.StringUtils;
 import eqlee.ctm.apply.entry.entity.Apply;
+import eqlee.ctm.apply.entry.entity.vo.MsgVo;
 import eqlee.ctm.apply.entry.service.IApplyService;
+import eqlee.ctm.apply.entry.vilidata.HttpUtils;
 import eqlee.ctm.apply.line.entity.Line;
 import eqlee.ctm.apply.line.service.ILineService;
 import eqlee.ctm.apply.orders.dao.OrdersMapper;
@@ -65,10 +67,19 @@ public class OrderServiceImpl extends ServiceImpl<OrdersMapper, Orders> implemen
    private ILineService lineService;
 
    @Autowired
+   private HttpUtils httpUtils;
+
+   @Autowired
    private IOrderSubstitutService orderSubstitutService;
 
    IdGenerator idGenerator = new IdGenerator();
 
+   /**
+    * 以下是消息提醒中的msg
+    */
+   private final String GUEIST_PERSON = "换人提醒";
+
+   private final String GUEIST_DO = "换人";
 
     /**
      * 导游选人
@@ -239,8 +250,22 @@ public class OrderServiceImpl extends ServiceImpl<OrdersMapper, Orders> implemen
        if (i<= 0){
            throw new ApplicationException(CodeType.SERVICE_ERROR,"更新失败");
        }
+
+       //增加消息提醒的记录
+        MsgVo vo = new MsgVo();
+       vo.setCreateId(user.getId());
+       vo.setMsg(GUEIST_PERSON);
+       vo.setMsgType(3);
+       vo.setToId(Id);
+       httpUtils.addMsg(vo);
     }
 
+    /**
+     * 排车
+     * @param LineName
+     * @param OutDate
+     * @param CarNumber
+     */
     @Override
     public void save(String LineName, String OutDate, String CarNumber) {
 
@@ -338,6 +363,14 @@ public class OrderServiceImpl extends ServiceImpl<OrdersMapper, Orders> implemen
             throw new ApplicationException(CodeType.SERVICE_ERROR, "线路或日期不一致不能换人");
         }
 
+        //增加一条同意换人的记录
+        MsgVo vo = new MsgVo();
+        vo.setCreateId(user.getId());
+        vo.setMsg(GUEIST_DO);
+        vo.setMsgType(1);
+        vo.setToId(orders.getCreateUserId());
+        httpUtils.addMsg(vo);
+
         //修改换人表数据
         orderSubstitutService.apotSubstitution(DateUtil.parseDate(outDate),lineName,user.getId(),1);
 
@@ -374,6 +407,15 @@ public class OrderServiceImpl extends ServiceImpl<OrdersMapper, Orders> implemen
         if (orders == null) {
             throw new ApplicationException(CodeType.SERVICE_ERROR, "线路或日期不一致不能换人");
         }
+
+
+        //增加一条拒绝换人的记录
+        MsgVo vo = new MsgVo();
+        vo.setCreateId(user.getId());
+        vo.setMsg(GUEIST_DO);
+        vo.setMsgType(2);
+        vo.setToId(orders.getCreateUserId());
+        httpUtils.addMsg(vo);
 
         //修改换人表数据
         orderSubstitutService.apotSubstitution(DateUtil.parseDate(outDate),lineName,user.getId(),2);

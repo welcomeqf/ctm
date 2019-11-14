@@ -287,4 +287,46 @@
         select * from SystemUser where Id = #{id}
     </select>
 
+    <!-- 同行现结月结账单统计 -->
+    <select id="pageResult" resultType="eqlee.ctm.apply.entry.entity.query.ApplyResultCountQuery">
+        select a.Id as 'id',a.ApplyNo as 'applyNo',convert(varchar(20),a.OutDate,23)outDate,a.AllPrice as 'allPrice',
+      b.LineName as 'lineName',a.ContactName as 'contactName',a.ContactTel as 'contactTel',a.AllNumber as 'allNumber'
+      from Apply a join Line b on a.LineId = b.Id
+      where a.PayType = #{payType} and a.IsSelect = 1
+    </select>
+
+    <select id="pageResultByLineName" resultType="eqlee.ctm.apply.entry.entity.query.ApplyResultCountQuery">
+        <bind name="line_Name" value="'%' + lineName + '%'"/>
+        select a.Id as 'id',a.ApplyNo as 'applyNo',convert(varchar(20),a.OutDate,23)outDate,a.AllPrice as 'allPrice',
+      b.LineName as 'lineName',a.ContactName as 'contactName',a.ContactTel as 'contactTel',a.AllNumber as 'allNumber'
+      from Apply a join Line b on a.LineId = b.Id
+      where a.PayType = #{payType} and a.IsSelect = 1 and b.LineName like #{line_Name}
+    </select>
+
+    <select id="pageResultByOutDate" resultType="eqlee.ctm.apply.entry.entity.query.ApplyResultCountQuery">
+        select a.Id as 'id',a.ApplyNo as 'applyNo',convert(varchar(20),a.OutDate,23)outDate,a.AllPrice as 'allPrice',
+      b.LineName as 'lineName',a.ContactName as 'contactName',a.ContactTel as 'contactTel',a.AllNumber as 'allNumber'
+      from Apply a join Line b on a.LineId = b.Id
+      where a.PayType = #{payType} and a.IsSelect = 1 and a.OutDate = #{outDate}
+    </select>
+
+    <select id="pageResultByTimeAndName" resultType="eqlee.ctm.apply.entry.entity.query.ApplyResultCountQuery">
+        <bind name="line_Name" value="'%' + lineName + '%'"/>
+        select a.Id as 'id',a.ApplyNo as 'applyNo',convert(varchar(20),a.OutDate,23)outDate,a.AllPrice as 'allPrice',
+      b.LineName as 'lineName',a.ContactName as 'contactName',a.ContactTel as 'contactTel',a.AllNumber as 'allNumber'
+      from Apply a join Line b on a.LineId = b.Id
+      where a.PayType = #{payType} and a.IsSelect = 1 and a.OutDate = #{outDate} and b.LineName like #{line_Name}
+    </select>
+
+    <!-- 批量回收未付款过期的订单 -->
+    <update id="updateAllApplyStatus" parameterType="eqlee.ctm.apply.entry.entity.query.ApplyScheQuery">
+        <foreach collection="list" item="item" index="index">
+            update Apply set IsCancel = 1 where ApplyNo = #{item.applyNo}
+        </foreach>
+    </update>
+
+    <select id="queryAllAdmin" parameterType="String" resultType="Long">
+        select b.Id from SystemRole a join SystemUser b on a.Id = b.SystemRoleId
+        where a.RoleName = #{roleName}
+    </select>
 </mapper>

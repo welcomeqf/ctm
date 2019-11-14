@@ -64,4 +64,17 @@ public interface GuiderMapper {
      Page<ApplyVo> applyIndex(Page<ApplyVo> page,
                               @Param("lineId") Long lineId,
                               @Param("outDate") LocalDate outDate);
+
+     /**
+      * 根据区域模糊查询要选人信息
+      * @param page
+      * @param lineId
+      * @param outDate
+      * @param region
+      * @return
+      */
+     Page<ApplyVo> queryApplyPerson(Page<ApplyVo> page,
+                                   @Param("lineId") Long lineId,
+                                   @Param("outDate") LocalDate outDate,
+                                   @Param("region") String region);
 }

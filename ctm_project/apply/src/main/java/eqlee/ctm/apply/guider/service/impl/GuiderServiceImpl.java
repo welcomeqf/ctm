@@ -68,7 +68,7 @@ public class GuiderServiceImpl implements IGuiderService {
 
 
     /**
-     *
+     *  导游选人
      * @param current
      * @param size
      * @param outDate
@@ -76,7 +76,7 @@ public class GuiderServiceImpl implements IGuiderService {
      * @return
      */
     @Override
-    public Page<ApplyVo> applyIndex(Integer current, Integer size, String lineName, String outDate) {
+    public Page<ApplyVo> applyIndex(Integer current, Integer size, String lineName, String outDate, String region) {
         Page<ApplyVo> page = new Page<>();
         page.setCurrent(current);
         page.setSize(size);
@@ -88,7 +88,12 @@ public class GuiderServiceImpl implements IGuiderService {
             throw new ApplicationException(CodeType.SERVICE_ERROR,"该线路有可能已被删除");
         }
 
-        return guiderMapper.applyIndex(page, line.getId(),localDate);
+        if (StringUtils.isBlank(region)) {
+            return guiderMapper.applyIndex(page, line.getId(),localDate);
+        }
+
+        //通过区域进行摔选
+        return guiderMapper.queryApplyPerson(page,line.getId(),localDate,region);
     }
 
 }

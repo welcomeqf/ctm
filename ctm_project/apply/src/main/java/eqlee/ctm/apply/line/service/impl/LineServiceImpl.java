@@ -156,6 +156,22 @@ public class LineServiceImpl extends ServiceImpl<LineMapper, Line> implements IL
         return baseMapper.queryLine2Page(query);
     }
 
+    /**
+     * 分页查询所有可报名线路
+     * @param query
+     * @param lineName
+     * @return
+     */
+    @Override
+    public Page<LineSeacherQuery> pageLine(Page<LineSeacherQuery> query, String lineName) {
+        if (StringUtils.isBlank(lineName)) {
+            //线路名为空
+            return baseMapper.queryLine(query);
+        }
+        //根据线路名查询可报名线路
+        return baseMapper.queryLineAndName(query,lineName);
+    }
+
 
     /**
      * 停用线路
