@@ -5,6 +5,7 @@ import eqlee.ctm.apply.entry.entity.Apply;
 import eqlee.ctm.apply.entry.entity.query.*;
 import eqlee.ctm.apply.entry.entity.vo.ApplySeacherVo;
 import eqlee.ctm.apply.entry.entity.vo.ApplyVo;
+import eqlee.ctm.apply.orders.entity.Vo.LongVo;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -118,20 +119,39 @@ public interface IApplyService {
 
 
     /**
-     * 我的报名记录
+     * 我的报名记录(同行)
      * @param page
      * @param lineName
      * @param outDate
+     * @param applyTime
+     * @param type
      * @return
      */
-    Page<ApplyCompanyQuery> page2MeApply (Page<ApplyCompanyQuery> page, String lineName, String outDate);
+    Page<ApplyCompanyQuery> page2MeApply (Page<ApplyCompanyQuery> page, String lineName, String outDate, String applyTime, Integer type);
 
+    /**
+     * 我的报名记录(运营人员)
+     * @param page
+     * @param lineName
+     * @param outDate
+     * @param applyTime
+     * @param type
+     * @param companyUserId
+     * @return
+     */
+    Page<ApplyCompanyQuery> pageAdminApply (Page<ApplyCompanyQuery> page, String lineName, String outDate, String applyTime, Integer type, Long companyUserId);
 
     /**
      * 根据报名表id修改导游选人状态
      * @param id
      */
     void updateGuestStatus (Long id);
+
+    /**
+     * 批量修改导游选人的状态
+     * @param list
+     */
+    void updateAllGuestStatus (List<LongVo> list);
 
     /**
      * 查询报名表
@@ -188,11 +208,6 @@ public interface IApplyService {
      */
     ApplyPayResultQuery queryPayInfo (String applyNo);
 
-    /**
-     * 查询同行报名审核以及取消审核条数
-     * @return
-     */
-    ApplyReadCountQuery queryReadCount ();
 
     /**
      * 查询所有管理员Id

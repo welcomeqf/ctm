@@ -14,8 +14,6 @@ import java.util.List;
 @Data
 public class MenuZiVo {
 
-    private String appId;
-
     private Long roleId;
 
     private List<UserPrivilegeQuery> list;

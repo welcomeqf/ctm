@@ -144,4 +144,6 @@ public class ApplySeacherVo {
      * (0-待审核  1-通过  2--不通过)
      */
     private Integer statu;
+
+    private Boolean isSelect;
 }

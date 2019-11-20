@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.yq.constanct.CodeType;
 import com.yq.exception.ApplicationException;
+import eqlee.ctm.apply.entry.entity.query.ApplyNoReadCountQuery;
 import eqlee.ctm.apply.orders.dao.OrderSubstitutMapper;
 import eqlee.ctm.apply.orders.entity.OrderSubstitut;
 import eqlee.ctm.apply.orders.service.IOrderSubstitutService;
@@ -64,5 +65,23 @@ public class OrderSubstitutServiceImpl extends ServiceImpl<OrderSubstitutMapper,
             throw new ApplicationException(CodeType.SERVICE_ERROR,"操作失败");
         }
 
+    }
+
+    /**
+     * 查询导游未审核的换人记录条数
+     * @return
+     */
+    @Override
+    public ApplyNoReadCountQuery queryGuideNoExaCount() {
+
+        LambdaQueryWrapper<OrderSubstitut> wrapper = new LambdaQueryWrapper<OrderSubstitut>()
+              .eq(OrderSubstitut::getStatus,0);
+
+        Integer integer = baseMapper.selectCount(wrapper);
+
+        ApplyNoReadCountQuery query = new ApplyNoReadCountQuery();
+        query.setCount(integer);
+
+        return query;
     }
 }

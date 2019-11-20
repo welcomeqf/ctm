@@ -14,6 +14,7 @@ import eqlee.ctm.api.entity.vo.ResultResposeVo;
 import eqlee.ctm.api.entity.vo.RoleUpdateVo;
 import eqlee.ctm.api.entity.vo.UserRoleVo;
 import eqlee.ctm.api.vilidate.DataUtils;
+import eqlee.ctm.api.vilidate.TokenData;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -54,6 +55,9 @@ public class UserRoleController {
     @Autowired
     private LocalUser localUser;
 
+    @Autowired
+    private TokenData tokenData;
+
     @ApiOperation(value = "增加角色-- 9093:api", notes = "增加角色-- 9093:api")
     @ApiImplicitParam(name = "roleName", value = "角色名称", required = true, dataType = "String", paramType = "path")
     @PostMapping("/insertRole")
@@ -61,18 +65,19 @@ public class UserRoleController {
     @CheckToken
     @IgnoreResponseAdvice
     public Object addRole(@RequestBody UserRoleVo roleVo) throws Exception{
-        String encode = DataUtils.getEncodeing("RSA");
-        roleVo.setAppId(encode);
         String url = "http://" + ip +":" + port + "/" + path +  "/v1/app/role/addRole";
 
         UserLoginQuery user = localUser.getUser("用户信息");
         UserRoleZiQuery query = new UserRoleZiQuery();
-        query.setAppId(roleVo.getAppId());
         query.setCompanyId(user.getCompanyId());
         query.setRoleName(roleVo.getRoleName());
 
         String s = JSONObject.toJSONString(query);
-        HttpResult httpResult = apiService.doPost(url, s);
+        //获得token
+        String userToken = tokenData.getUserToken();
+        String token = "Bearer " + userToken;
+
+        HttpResult httpResult = apiService.post(url,s,token);
 
         ResultResposeVo vo = JSONObject.parseObject(httpResult.getBody(),ResultResposeVo.class);
         if (vo.getCode() != 0) {
@@ -90,19 +95,20 @@ public class UserRoleController {
     @CheckToken
     @IgnoreResponseAdvice
     public Object addZiRole(@RequestBody UserRoleVo roleVo) throws Exception{
-        String encode = DataUtils.getEncodeing("RSA");
-        roleVo.setAppId(encode);
         String url = "http://" + ip +":" + port + "/" + path +  "/v1/app/role/addZiRole";
 
         UserLoginQuery user = localUser.getUser("用户信息");
         UserRoleZiQuery query = new UserRoleZiQuery();
-        query.setAppId(roleVo.getAppId());
         query.setCreateUserId(user.getId());
         query.setCompanyId(user.getCompanyId());
         query.setRoleName(roleVo.getRoleName());
 
         String s = JSONObject.toJSONString(query);
-        HttpResult httpResult = apiService.doPost(url, s);
+        //获得token
+        String userToken = tokenData.getUserToken();
+        String token = "Bearer " + userToken;
+
+        HttpResult httpResult = apiService.post(url,s,token);
 
         ResultResposeVo vo = JSONObject.parseObject(httpResult.getBody(),ResultResposeVo.class);
         if (vo.getCode() != 0) {
@@ -120,12 +126,13 @@ public class UserRoleController {
     @CheckToken
     @IgnoreResponseAdvice
     public Object deleteRole(@PathVariable("Id") Long Id) throws Exception{
-        String encode = DataUtils.getEncodeing("RSA");
-        String url = "http://" + ip +":" + port + "/" + path + "/v1/app/role/" +Id + "/" +encode;
+        String url = "http://" + ip +":" + port + "/" + path + "/v1/app/role/" +Id;
 
-        Map<String,Object> map = new HashMap<>();
+        //获得token
+        String userToken = tokenData.getUserToken();
+        String token = "Bearer " + userToken;
 
-        HttpResult httpResult = apiService.doGet(url, map);
+        HttpResult httpResult = apiService.get(url,token);
 
         ResultResposeVo vo = JSONObject.parseObject(httpResult.getBody(),ResultResposeVo.class);
         if (vo.getCode() != 0) {
@@ -141,12 +148,13 @@ public class UserRoleController {
     @CheckToken
     @IgnoreResponseAdvice
     public Object getRole() throws Exception{
-        String encode = DataUtils.getEncodeing("RSA");
-        String url = "http://" + ip +":" + port + "/" + path + "/v1/app/role/RoleInfo?AppId=" +encode;
+        String url = "http://" + ip +":" + port + "/" + path + "/v1/app/role/RoleInfo";
 
-        Map<String,Object> map = new HashMap<>();
+        //获得token
+        String userToken = tokenData.getUserToken();
+        String token = "Bearer " + userToken;
 
-        HttpResult httpResult = apiService.doGet(url, map);
+        HttpResult httpResult = apiService.get(url,token);
 
         ResultResposeVo vo = JSONObject.parseObject(httpResult.getBody(),ResultResposeVo.class);
         if (vo.getCode() != 0) {
@@ -167,12 +175,13 @@ public class UserRoleController {
     @CheckToken
     @IgnoreResponseAdvice
     public Object queryPageRole(@RequestParam("current") Integer current, @RequestParam("size") Integer size) throws Exception{
-        String encode = DataUtils.getEncodeing("RSA");
-        String url = "http://" + ip +":" + port + "/" + path + "/v1/app/role/queryPageRole?AppId=" +encode + "&current=" +current + "&size=" +size;
+        String url = "http://" + ip +":" + port + "/" + path + "/v1/app/role/queryPageRole?current=" +current + "&size=" +size;
 
-        Map<String,Object> map = new HashMap<>();
+        //获得token
+        String userToken = tokenData.getUserToken();
+        String token = "Bearer " + userToken;
 
-        HttpResult httpResult = apiService.doGet(url, map);
+        HttpResult httpResult = apiService.get(url,token);
 
         ResultResposeVo vo = JSONObject.parseObject(httpResult.getBody(),ResultResposeVo.class);
         if (vo.getCode() != 0) {
@@ -193,12 +202,14 @@ public class UserRoleController {
     @CheckToken
     @IgnoreResponseAdvice
     public Object updateRole (@RequestBody RoleUpdateVo vo) throws Exception{
-        String encode = DataUtils.getEncodeing("RSA");
-        vo.setAppId(encode);
         String url = "http://" + ip +":" + port + "/" + path + "/v1/app/role/updateRole";
 
         String s = JSONObject.toJSONString(vo);
-        HttpResult httpResult = apiService.doPost(url, s);
+        //获得token
+        String userToken = tokenData.getUserToken();
+        String token = "Bearer " + userToken;
+
+        HttpResult httpResult = apiService.post(url,s,token);
 
         ResultResposeVo vo1 = JSONObject.parseObject(httpResult.getBody(),ResultResposeVo.class);
         if (vo1.getCode() != 0) {
@@ -225,13 +236,14 @@ public class UserRoleController {
         UserLoginQuery user = localUser.getUser("用户信息");
         Long companyId = user.getCompanyId();
 
-        String encode = DataUtils.getEncodeing("RSA");
-        String url = "http://" + ip +":" + port + "/" + path + "/v1/app/role/queryZiPageRole?AppId="
-                +encode + "&current=" +current + "&size=" +size + "&companyId=" +companyId;
+        String url = "http://" + ip +":" + port + "/" + path + "/v1/app/role/queryZiPageRole?current="
+              +current + "&size=" +size + "&companyId=" +companyId;
 
-        Map<String,Object> map = new HashMap<>();
+        //获得token
+        String userToken = tokenData.getUserToken();
+        String token = "Bearer " + userToken;
 
-        HttpResult httpResult = apiService.doGet(url, map);
+        HttpResult httpResult = apiService.get(url,token);
 
         ResultResposeVo vo = JSONObject.parseObject(httpResult.getBody(),ResultResposeVo.class);
         if (vo.getCode() != 0) {

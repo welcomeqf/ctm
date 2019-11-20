@@ -13,6 +13,7 @@ import com.yq.jwt.islogin.CheckToken;
 import eqlee.ctm.api.entity.query.UserWithQuery;
 import eqlee.ctm.api.entity.vo.*;
 import eqlee.ctm.api.vilidate.DataUtils;
+import eqlee.ctm.api.vilidate.TokenData;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -52,6 +53,9 @@ public class UserApiController {
     @Autowired
     private HttpClientUtils apiService;
 
+    @Autowired
+    private TokenData tokenData;
+
 
     @ApiOperation(value = "注册-- 9093:api", notes = "注册-- 9093:api")
     @ApiImplicitParams({
@@ -70,7 +74,12 @@ public class UserApiController {
         String url = "http://" + ip +":" + port + "/" + path + "/v1/app/user/register";
 
         String s = JSONObject.toJSONString(userVo);
-        HttpResult httpResult = apiService.doPost(url, s);
+
+        //获得token
+        String userToken = tokenData.getUserToken();
+        String token = "Bearer " + userToken;
+
+        HttpResult httpResult = apiService.post(url, s,token);
 
         ResultResposeVo vo = JSONObject.parseObject(httpResult.getBody(),ResultResposeVo.class);
         if (vo.getCode() != 0) {
@@ -89,12 +98,13 @@ public class UserApiController {
     @CrossOrigin
     @IgnoreResponseAdvice
     public Object login(@RequestBody UserLoginVo userLoginVo) throws Exception {
-        String encode = DataUtils.getEncodeing("RSA");
-        String url = "http://" + ip + ":" + port + "/" + path +  "/v1/app/user/login?userName=" + userLoginVo.getUserName() + "&AppId=" + encode + "&password=" + userLoginVo.getPassword();
+        String url = "http://" + ip + ":" + port + "/" + path +  "/v1/app/user/login?userName=" + userLoginVo.getUserName() + "&password=" + userLoginVo.getPassword();
 
-        Map<String, Object> map = new HashMap<>();
+        //获得token
+        String userToken = tokenData.getUserToken();
+        String token = "Bearer " + userToken;
 
-        HttpResult httpResult = apiService.doGet(url, map);
+        HttpResult httpResult = apiService.get(url,token);
 
         ResultResposeVo vo = JSONObject.parseObject(httpResult.getBody(),ResultResposeVo.class);
         if (vo.getCode() != 0) {
@@ -113,12 +123,13 @@ public class UserApiController {
     @CheckToken
     @IgnoreResponseAdvice
     public Object deleteUser(@PathVariable("userName") String userName) throws Exception{
-        String encode = DataUtils.getEncodeing("RSA");
-        String url = "http://" + ip +":" + port + "/" + path + "/v1/app/user/deleteUser/" +userName + "/" +encode;
+        String url = "http://" + ip +":" + port + "/" + path + "/v1/app/user/deleteUser/" +userName;
 
-        Map<String,Object> map = new HashMap<>();
+        //获得token
+        String userToken = tokenData.getUserToken();
+        String token = "Bearer " + userToken;
 
-        HttpResult httpResult = apiService.doGet(url, map);
+        HttpResult httpResult = apiService.get(url,token);
 
         ResultResposeVo vo = JSONObject.parseObject(httpResult.getBody(),ResultResposeVo.class);
         if (vo.getCode() != 0) {
@@ -135,12 +146,13 @@ public class UserApiController {
     @CheckToken
     @IgnoreResponseAdvice
     public Object exitUser(@PathVariable("userName") String userName) throws Exception{
-        String encode = DataUtils.getEncodeing("RSA");
-        String url = "http://" + ip +":" + port + "/" + path + "/v1/app/user/exitUser/" +userName + "/" +encode;
+        String url = "http://" + ip +":" + port + "/" + path + "/v1/app/user/exitUser/" +userName;
 
-        Map<String,Object> map = new HashMap<>();
+        //获得token
+        String userToken = tokenData.getUserToken();
+        String token = "Bearer " + userToken;
 
-        HttpResult httpResult = apiService.doGet(url, map);
+        HttpResult httpResult = apiService.get(url,token);
 
         ResultResposeVo vo = JSONObject.parseObject(httpResult.getBody(),ResultResposeVo.class);
         if (vo.getCode() != 0) {
@@ -156,12 +168,13 @@ public class UserApiController {
     @CheckToken
     @IgnoreResponseAdvice
     public Object stopUser(@PathVariable("userName") String userName) throws Exception{
-        String encode = DataUtils.getEncodeing("RSA");
-        String url = "http://" + ip +":" + port + "/" + path + "/v1/app/user/stopUser/" +userName + "/" +encode;
+        String url = "http://" + ip +":" + port + "/" + path + "/v1/app/user/stopUser/" +userName;
 
-        Map<String,Object> map = new HashMap<>();
+        //获得token
+        String userToken = tokenData.getUserToken();
+        String token = "Bearer " + userToken;
 
-        HttpResult httpResult = apiService.doGet(url, map);
+        HttpResult httpResult = apiService.get(url,token);
 
         ResultResposeVo vo = JSONObject.parseObject(httpResult.getBody(),ResultResposeVo.class);
         if (vo.getCode() != 0) {
@@ -177,12 +190,13 @@ public class UserApiController {
     @CheckToken
     @IgnoreResponseAdvice
     public Object toStopUser(@PathVariable("userName") String userName) throws Exception{
-        String encode = DataUtils.getEncodeing("RSA");
-        String url = "http://" + ip +":" + port + "/" + path + "/v1/app/user/toStopUser/" +userName + "/" +encode;
+        String url = "http://" + ip +":" + port + "/" + path + "/v1/app/user/toStopUser/" +userName;
 
-        Map<String,Object> map = new HashMap<>();
+        //获得token
+        String userToken = tokenData.getUserToken();
+        String token = "Bearer " + userToken;
 
-        HttpResult httpResult = apiService.doGet(url, map);
+        HttpResult httpResult = apiService.get(url,token);
 
         ResultResposeVo vo = JSONObject.parseObject(httpResult.getBody(),ResultResposeVo.class);
         if (vo.getCode() != 0) {
@@ -205,11 +219,9 @@ public class UserApiController {
     @IgnoreResponseAdvice
     public Object downRegister(@RequestBody UserVo userVo) throws Exception{
         UserLoginQuery user = localUser.getUser("用户信息");
-        String encode = DataUtils.getEncodeing("RSA");
         UserWithQuery query = new UserWithQuery();
 
         //装配query
-        query.setAppId(encode);
         query.setCompanyId(user.getCompanyId());
         query.setRoleName(userVo.getRoleName());
         query.setName(userVo.getName());
@@ -220,7 +232,11 @@ public class UserApiController {
         String url = "http://" + ip +":" + port + "/" + path + "/v1/app/user/downRegister";
 
         String s = JSONObject.toJSONString(query);
-        HttpResult httpResult = apiService.doPost(url, s);
+        //获得token
+        String userToken = tokenData.getUserToken();
+        String token = "Bearer " + userToken;
+
+        HttpResult httpResult = apiService.post(url,s,token);
 
         ResultResposeVo vo = JSONObject.parseObject(httpResult.getBody(),ResultResposeVo.class);
         if (vo.getCode() != 0) {
@@ -255,13 +271,14 @@ public class UserApiController {
                                                @RequestParam("size") Integer size,
                                                @RequestParam("userName") String userName,
                                                @RequestParam("roleName") String roleName) throws Exception{
-        String encode = DataUtils.getEncodeing("RSA");
-        String url = "http://" + ip +":" + port + "/" + path + "/v1/app/user/queryPageUserByName?current=" +current + "&AppId=" +encode + "&size=" + size
+        String url = "http://" + ip +":" + port + "/" + path + "/v1/app/user/queryPageUserByName?current=" +current + "&size=" + size
                 + "&userName=" + userName + "&roleName=" +roleName;
 
-        Map<String,Object> map = new HashMap<>();
+        //获得token
+        String userToken = tokenData.getUserToken();
+        String token = "Bearer " + userToken;
 
-        HttpResult httpResult = apiService.doGet(url, map);
+        HttpResult httpResult = apiService.get(url,token);
 
         ResultResposeVo vo = JSONObject.parseObject(httpResult.getBody(),ResultResposeVo.class);
         if (vo.getCode() != 0) {
@@ -283,13 +300,14 @@ public class UserApiController {
     public Object queryUserByName(@RequestParam("current") Integer current,
                                            @RequestParam("size") Integer size,
                                            @RequestParam("userNameOrRole") String userNameOrRole) throws Exception{
-        String encode = DataUtils.getEncodeing("RSA");
-        String url = "http://" + ip +":" + port + "/" + path + "/v1/app/user/queryUserByNameOrRole?current=" +current + "&AppId=" +encode + "&size=" + size
+        String url = "http://" + ip +":" + port + "/" + path + "/v1/app/user/queryUserByNameOrRole?current=" +current + "&size=" + size
                 + "&userNameOrRole=" + userNameOrRole;
 
-        Map<String,Object> map = new HashMap<>();
+        //获得token
+        String userToken = tokenData.getUserToken();
+        String token = "Bearer " + userToken;
 
-        HttpResult httpResult = apiService.doGet(url, map);
+        HttpResult httpResult = apiService.get(url,token);
 
         ResultResposeVo vo = JSONObject.parseObject(httpResult.getBody(),ResultResposeVo.class);
         if (vo.getCode() != 0) {
@@ -300,7 +318,7 @@ public class UserApiController {
 
     @ApiOperation(value = "根据用户名和原密码重置密码", notes = "根据用户名和原密码重置密码")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "Id", value = "Id", required = true, dataType = "Long", paramType = "path"),
+            @ApiImplicitParam(name = "id", value = "id", required = true, dataType = "Long", paramType = "path"),
             @ApiImplicitParam(name = "userName", value = "用户名", required = true, dataType = "String", paramType = "path"),
             @ApiImplicitParam(name = "password", value = "新密码", required = true, dataType = "String", paramType = "path"),
             @ApiImplicitParam(name = "oldPassword", value = "原密码", required = true, dataType = "String", paramType = "path")
@@ -310,17 +328,19 @@ public class UserApiController {
     @CheckToken
     @IgnoreResponseAdvice
     public Object updateUserPassword(@RequestBody UserPasswordUpVo vo) throws Exception{
-        String encode = DataUtils.getEncodeing("RSA");
         UserUpdatePasswordVo result = new UserUpdatePasswordVo();
-        result.setAppId(encode);
         result.setId(vo.getId());
         result.setOldPassword(vo.getOldPassword());
         result.setPassword(vo.getPassword());
         result.setUserName(vo.getUserName());
         String url = "http://" + ip +":" + port + "/" + path + "/v1/app/user/updateUserPassword";
 
-        String s = JSONObject.toJSONString(result);
-        HttpResult httpResult = apiService.doPost(url, s);
+        String jsonString = JSONObject.toJSONString(result);
+        //获得token
+        String userToken = tokenData.getUserToken();
+        String token = "Bearer " + userToken;
+
+        HttpResult httpResult = apiService.post(url,jsonString,token);
 
         ResultResposeVo vo1 = JSONObject.parseObject(httpResult.getBody(),ResultResposeVo.class);
         if (vo1.getCode() != 0) {
@@ -345,8 +365,6 @@ public class UserApiController {
     @IgnoreResponseAdvice
     public Object updateUser(@RequestBody UserUpdateVo vo) throws Exception{
         UserUpdateInfoVo infoVo = new UserUpdateInfoVo();
-        String encode = DataUtils.getEncodeing("RSA");
-        infoVo.setAppId(encode);
         infoVo.setCname(vo.getCname());
         infoVo.setId(vo.getId());
         infoVo.setNewPassword(vo.getNewPassword());
@@ -355,7 +373,11 @@ public class UserApiController {
         String url = "http://" + ip +":" + port + "/" + path + "/v1/app/user/updateUser";
 
         String s = JSONObject.toJSONString(infoVo);
-        HttpResult httpResult = apiService.doPost(url, s);
+        //获得token
+        String userToken = tokenData.getUserToken();
+        String token = "Bearer " + userToken;
+
+        HttpResult httpResult = apiService.post(url,s,token);
 
         ResultResposeVo vo1 = JSONObject.parseObject(httpResult.getBody(),ResultResposeVo.class);
         if (vo1.getCode() != 0) {
@@ -372,12 +394,13 @@ public class UserApiController {
     @CheckToken
     @IgnoreResponseAdvice
     public Object getUserById (@RequestParam("id") Long id) throws Exception{
-        String encode = DataUtils.getEncodeing("RSA");
-        String url = "http://" + ip +":" + port + "/" + path + "/v1/app/user/getUserById?appId=" +encode + "&id=" +id;
+        String url = "http://" + ip +":" + port + "/" + path + "/v1/app/user/getUserById?id=" +id;
 
-        Map<String,Object> map = new HashMap<>();
+        //获得token
+        String userToken = tokenData.getUserToken();
+        String token = "Bearer " + userToken;
 
-        HttpResult httpResult = apiService.doGet(url, map);
+        HttpResult httpResult = apiService.get(url,token);
 
         ResultResposeVo vo = JSONObject.parseObject(httpResult.getBody(),ResultResposeVo.class);
         if (vo.getCode() != 0) {

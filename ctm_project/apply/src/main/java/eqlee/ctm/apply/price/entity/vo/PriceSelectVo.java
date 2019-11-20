@@ -14,8 +14,6 @@ public class PriceSelectVo {
 
     private String outDate;
 
-    private String lineName;
-
     private Double adultPrice;
 
     private Double oldPrice;
@@ -23,4 +21,12 @@ public class PriceSelectVo {
     private Double babyPrice;
 
     private Double childPrice;
+
+    private Double marketAdultPrice;
+
+    private Double marketOldPrice;
+
+    private Double marketBabyPrice;
+
+    private Double marketChildPrice;
 }

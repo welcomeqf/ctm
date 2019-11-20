@@ -39,41 +39,20 @@ public interface PriceMapper extends IBaseMapper<Price> {
 
 
     /**
-     * 由出行时间和线路名获取Price列表
+     * 查询当前月的所有价格
      * @param page
-     * @param OutDate
-     * @param LineName
+     * @param start
+     * @param end
+     * @param lineId
      * @return
      */
     Page<PriceSelectVo> selectPriceByFilter(Page<PriceSelectVo> page,
-                                            @Param("OutDate") LocalDate OutDate,
-                                            @Param("LineName") String LineName);
+                                            @Param("start") LocalDate start,
+                                            @Param("end") LocalDate end,
+                                            @Param("lineId") Long lineId);
 
 
-    /**
-     * 由出行时间获取Price列表
-     * @param page
-     * @param OutDate
-     * @return
-     */
-    Page<PriceSelectVo> selectPriceByOutDate(Page<PriceSelectVo> page,
-                                            @Param("OutDate") LocalDate OutDate);
 
-    /**
-     * 由线路名获取Price列表
-     * @param page
-     * @param LineName
-     * @return
-     */
-    Page<PriceSelectVo> selectPriceByLineName(Page<PriceSelectVo> page,
-                                            @Param("LineName") String LineName);
-
-    /**
-     * 获取Price列表
-     * @param page
-     * @return
-     */
-    Page<PriceSelectVo> selectPrice(Page<PriceSelectVo> page);
 
     /**
      * 查询一条价格记录
@@ -81,4 +60,15 @@ public interface PriceMapper extends IBaseMapper<Price> {
      * @return
      */
     PriceSeacherVo queryOne (Long Id);
+
+    /**
+     * 查询时间段的价格
+     * @param lineId
+     * @param startDate
+     * @param endDate
+     * @return
+     */
+    List<Price> queryAllPriceByTime (@Param("lineId") Long lineId,
+                               @Param("startDate") LocalDate startDate,
+                               @Param("endDate") LocalDate endDate);
 }

@@ -5,10 +5,12 @@ import com.yq.IBaseMapper.IBaseMapper;
 import eqlee.ctm.apply.entry.entity.Apply;
 import eqlee.ctm.apply.entry.entity.query.*;
 import eqlee.ctm.apply.entry.entity.vo.ApplyOpenIdVo;
+import eqlee.ctm.apply.orders.entity.Vo.LongVo;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 /**
@@ -285,12 +287,280 @@ public interface ApplyMapper extends IBaseMapper<Apply> {
                                                          @Param("OutTime") LocalDate OutTime,
                                                             @Param("id") Long id);
 
+
+    /**
+     * 分页查询我的报名记录
+     * @param page
+     * @return
+     */
+    Page<ApplyCompanyQuery> listPageDoApply2MeCancel(Page<ApplyCompanyQuery> page,
+                                               @Param("id") Long id);
+
+    /**
+     * 分页查询我的报名记录
+     * 通过出行时间进行条件选择
+     * @param page
+     * @param OutDate
+     * @return
+     */
+    Page<ApplyCompanyQuery> listPageDoApply2MeByTimeCancel(Page<ApplyCompanyQuery> page,
+                                                     @Param("OutDate") LocalDate OutDate,
+                                                     @Param("id") Long id);
+
+    /**
+     * 分页查询我的报名记录
+     * 通过线路名进行条件选择
+     * @param page
+     * @param lineName
+     * @return
+     */
+    Page<ApplyCompanyQuery> listPageDoApply2MeByNameCancel(Page<ApplyCompanyQuery> page,
+                                                     @Param("lineName") String lineName,
+                                                     @Param("id") Long id);
+
+    /**
+     * 分页查询我的报名记录
+     * 通过出行时间和线路名进行条件选择
+     * @param page
+     * @param lineName
+     * @param OutTime
+     * @return
+     */
+    Page<ApplyCompanyQuery> listPageDoApply2MeByNameAndTimeCancel(Page<ApplyCompanyQuery> page,
+                                                            @Param("lineName") String lineName,
+                                                            @Param("OutTime") LocalDate OutTime,
+                                                            @Param("id") Long id);
+
+
+    //根据报名日期查询
+    /**
+     * 分页查询我的报名记录
+     * 通过出行时间进行条件选择
+     * @param page
+     * @param startDate
+     * @param endDate
+     * @return
+     */
+    Page<ApplyCompanyQuery> listPageDoApply2MeByTimeWithAT(Page<ApplyCompanyQuery> page,
+                                                     @Param("startDate") LocalDateTime startDate,
+                                                     @Param("endDate") LocalDateTime endDate,
+                                                     @Param("id") Long id);
+
+
+    /**
+     * 分页查询我的报名记录
+     * 通过出行时间和线路名进行条件选择
+     * @param page
+     * @param startDate
+     * @param endDate
+     * @return
+     */
+    Page<ApplyCompanyQuery> listPageDoApply2MeByNameAndTimeWithAT(Page<ApplyCompanyQuery> page,
+                                                            @Param("lineName") String lineName,
+                                                            @Param("startDate") LocalDateTime startDate,
+                                                            @Param("endDate") LocalDateTime endDate,
+                                                            @Param("id") Long id);
+
+
+
+    /**
+     * 分页查询我的报名记录
+     * 通过出行时间进行条件选择
+     * @param page
+     * @param startDate
+     * @param endDate
+     * @return
+     */
+    Page<ApplyCompanyQuery> listPageDoApply2MeByTimeCancelWithAT(Page<ApplyCompanyQuery> page,
+                                                                 @Param("startDate") LocalDateTime startDate,
+                                                                 @Param("endDate") LocalDateTime endDate,
+                                                                 @Param("id") Long id);
+
+
+    /**
+     * 分页查询我的报名记录
+     * 通过出行时间和线路名进行条件选择
+     * @param page
+     * @param lineName
+     * @param startDate
+     * @param endDate
+     * @return
+     */
+    Page<ApplyCompanyQuery> listPageDoApply2MeByNameAndTimeCancelWithAT(Page<ApplyCompanyQuery> page,
+                                                              @Param("lineName") String lineName,
+                                                              @Param("startDate") LocalDateTime startDate,
+                                                              @Param("endDate") LocalDateTime endDate,
+                                                              @Param("id") Long id);
+
+    /**
+     * 查询今日报名的数据
+     * @param page
+     * @param startDate
+     * @param endDate
+     * @param id
+     * @return
+     */
+    Page<ApplyCompanyQuery> listToDayApply (Page<ApplyCompanyQuery> page,
+                                            @Param("startDate") LocalDateTime startDate,
+                                            @Param("endDate") LocalDateTime endDate,
+                                            @Param("id") Long id);
+
+    /**
+     * 今日出行
+     * @param page
+     * @param outDate
+     * @param id
+     * @return
+     */
+    Page<ApplyCompanyQuery> listToDayOut (Page<ApplyCompanyQuery> page,
+                                          @Param("outDate") LocalDate outDate,
+                                          @Param("id") Long id);
+
     /**
      * 查询支付信息
      * @param userId
      * @return
      */
     ApplyOpenIdVo queryPayInfo (Long userId);
+
+
+    //运营查询我的报名记录的数据
+
+    /**
+     * 分页查询我的报名记录
+     * @param page
+     * @return
+     */
+    Page<ApplyCompanyQuery> listAdminDoApply2Me(Page<ApplyCompanyQuery> page);
+
+    /**
+     * 分页查询我的报名记录
+     * 通过出行时间进行条件选择
+     * @param page
+     * @param OutDate
+     * @return
+     */
+    Page<ApplyCompanyQuery> listAdminDoApply2MeByTime(Page<ApplyCompanyQuery> page,
+                                                     @Param("OutDate") LocalDate OutDate);
+
+    /**
+     * 分页查询我的报名记录
+     * 通过线路名进行条件选择
+     * @param page
+     * @param lineName
+     * @return
+     */
+    Page<ApplyCompanyQuery> listAdminDoApply2MeByName(Page<ApplyCompanyQuery> page,
+                                                     @Param("lineName") String lineName);
+
+    /**
+     * 分页查询我的报名记录
+     * 通过出行时间和线路名进行条件选择
+     * @param page
+     * @param lineName
+     * @param OutTime
+     * @return
+     */
+    Page<ApplyCompanyQuery> listAdminDoApply2MeByNameAndTime(Page<ApplyCompanyQuery> page,
+                                                            @Param("lineName") String lineName,
+                                                            @Param("OutTime") LocalDate OutTime);
+
+
+    /**
+     * 分页查询我的报名记录
+     * @param page
+     * @return
+     */
+    Page<ApplyCompanyQuery> listAdminDoApply2MeCancel(Page<ApplyCompanyQuery> page);
+
+    /**
+     * 分页查询我的报名记录
+     * 通过出行时间进行条件选择
+     * @param page
+     * @param OutDate
+     * @return
+     */
+    Page<ApplyCompanyQuery> listAdminDoApply2MeByTimeCancel(Page<ApplyCompanyQuery> page,
+                                                           @Param("OutDate") LocalDate OutDate);
+
+    /**
+     * 分页查询我的报名记录
+     * 通过线路名进行条件选择
+     * @param page
+     * @param lineName
+     * @return
+     */
+    Page<ApplyCompanyQuery> listAdminDoApply2MeByNameCancel(Page<ApplyCompanyQuery> page,
+                                                           @Param("lineName") String lineName);
+
+    /**
+     * 分页查询我的报名记录
+     * 通过出行时间和线路名进行条件选择
+     * @param page
+     * @param lineName
+     * @param OutTime
+     * @return
+     */
+    Page<ApplyCompanyQuery> listAdminDoApply2MeByNameAndTimeCancel(Page<ApplyCompanyQuery> page,
+                                                                  @Param("lineName") String lineName,
+                                                                  @Param("OutTime") LocalDate OutTime);
+
+
+    //根据报名日期查询
+    /**
+     * 分页查询我的报名记录
+     * 通过出行时间进行条件选择
+     * @param page
+     * @param startDate
+     * @param endDate
+     * @return
+     */
+    Page<ApplyCompanyQuery> listAdminDoApply2MeByTimeWithAT(Page<ApplyCompanyQuery> page,
+                                                           @Param("startDate") LocalDateTime startDate,
+                                                           @Param("endDate") LocalDateTime endDate);
+
+
+    /**
+     * 分页查询我的报名记录
+     * 通过出行时间和线路名进行条件选择
+     * @param page
+     * @param startDate
+     * @param endDate
+     * @return
+     */
+    Page<ApplyCompanyQuery> listAdminDoApply2MeByNameAndTimeWithAT(Page<ApplyCompanyQuery> page,
+                                                                  @Param("lineName") String lineName,
+                                                                  @Param("startDate") LocalDateTime startDate,
+                                                                  @Param("endDate") LocalDateTime endDate);
+
+
+
+    /**
+     * 分页查询我的报名记录
+     * 通过出行时间进行条件选择
+     * @param page
+     * @param startDate
+     * @param endDate
+     * @return
+     */
+    Page<ApplyCompanyQuery> listAdminDoApply2MeByTimeCancelWithAT(Page<ApplyCompanyQuery> page,
+                                                                 @Param("startDate") LocalDateTime startDate,
+                                                                 @Param("endDate") LocalDateTime endDate);
+
+
+    /**
+     * 分页查询我的报名记录
+     * 通过出行时间和线路名进行条件选择
+     * @param page
+     * @param lineName
+     * @param startDate
+     * @param endDate
+     * @return
+     */
+    Page<ApplyCompanyQuery> listAdminDoApply2MeByNameAndTimeCancelWithAT(Page<ApplyCompanyQuery> page,
+                                                                        @Param("lineName") String lineName,
+                                                                        @Param("startDate") LocalDateTime startDate,
+                                                                        @Param("endDate") LocalDateTime endDate);
 
     /**
      * 查询全部
@@ -342,13 +612,6 @@ public interface ApplyMapper extends IBaseMapper<Apply> {
     Page<ApplyMonthQuery> queryMonthYiApplyByTime(Page<ApplyMonthQuery> page,
                                                   @Param("outDate") LocalDate outDate);
 
-
-    /**
-     * 查询用户信息
-     * @param id
-     * @return
-     */
-    User queryUserById (Long id);
 
 
 
@@ -413,4 +676,11 @@ public interface ApplyMapper extends IBaseMapper<Apply> {
      * @return
      */
     List<Long> queryAllAdmin (String roleName);
+
+    /**
+     * 批量修改导游选人的状态
+     * @param list
+     * @return
+     */
+    Integer updateAllApply (List<LongVo> list);
 }

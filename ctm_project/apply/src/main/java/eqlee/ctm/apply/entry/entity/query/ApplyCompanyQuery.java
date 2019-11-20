@@ -58,4 +58,19 @@ public class ApplyCompanyQuery {
      * 是否付款(true-已付款  false-未付款)
      */
     private Boolean IsPayment;
+
+    /**
+     * 下单时间
+     */
+    private String CreateDate;
+
+    /**
+     * 门市价
+     */
+    private Double MarketAllPrice;
+
+    /**
+     * 结算价
+     */
+    private Double AllPrice;
 }

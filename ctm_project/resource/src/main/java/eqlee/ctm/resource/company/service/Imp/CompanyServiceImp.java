@@ -83,6 +83,8 @@ public class CompanyServiceImp extends ServiceImpl<CompanyMapper,Company> implem
         }
         if (WITH_PAY.equals(companyVo.getPayMethod())) {
             company.setPayMethod(3);
+        } else {
+            throw new ApplicationException(CodeType.SERVICE_ERROR, "结算类型有误");
         }
         int insert = baseMapper.insert(company);
 
@@ -138,7 +140,18 @@ public class CompanyServiceImp extends ServiceImpl<CompanyMapper,Company> implem
         }else {
             company.setStopped(false);
         }
-        company.setPayMethod(companyVo.getPayMethod());
+
+        if (NOW_PAY.equals(companyVo.getPayMethod())) {
+            company.setPayMethod(1);
+        }
+        if (MONTH_PAY.equals(companyVo.getPayMethod())) {
+            company.setPayMethod(2);
+        }
+        if (WITH_PAY.equals(companyVo.getPayMethod())) {
+            company.setPayMethod(3);
+        }else {
+            throw new ApplicationException(CodeType.SERVICE_ERROR, "结算类型有误");
+        }
 
         int update = baseMapper.updateById(company);
         if (update <= 0) {
@@ -254,6 +267,15 @@ public class CompanyServiceImp extends ServiceImpl<CompanyMapper,Company> implem
         query.setCName(user.getCname());
         query.setRoleName(user.getRoleName());
         query.setTel(user.getTel());
+        if (company.getPayMethod() == 1) {
+            query.setPayType(NOW_PAY);
+        } else if (company.getPayMethod() == 2) {
+            query.setPayType(MONTH_PAY);
+        } else if (company.getPayMethod() == 3) {
+            query.setPayType(WITH_PAY);
+        } else {
+            query.setPayType("请选择");
+        }
         return query;
     }
 }

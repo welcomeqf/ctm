@@ -65,6 +65,11 @@ public class Orders extends Model<Orders> {
     private String GuideName;
 
     /**
+     * 导游电话
+     */
+    private String GuideTel;
+
+    /**
      * 车辆类别
      */
     private Boolean CarType;

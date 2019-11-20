@@ -86,7 +86,7 @@ public class OrderServiceImpl extends ServiceImpl<OrdersMapper, Orders> implemen
      * @param indexVoList
      */
     @Override
-    public synchronized void saveApply(List<LongVo> indexVoList) {
+    public void saveApply(List<LongVo> indexVoList) {
 
         List<Long> ids = new ArrayList<>();
         //重装list
@@ -106,6 +106,7 @@ public class OrderServiceImpl extends ServiceImpl<OrdersMapper, Orders> implemen
         orders.setId(numberId);
         orders.setOrderNo(idGenerator.getOrderCode());
         orders.setGuideName(user.getCname());
+        orders.setGuideTel(user.getTel());
         orders.setCreateUserId(user.getId());
         Double allPrice = 0.0;
 
@@ -169,9 +170,8 @@ public class OrderServiceImpl extends ServiceImpl<OrdersMapper, Orders> implemen
         orderDetailedService.batchInsertorderDetailed(orderDetailedList);
 
         //修改报名表导游选人状态
-        for (LongVo longVo : indexVoList) {
-            applyService.updateGuestStatus(longVo.getId());
-        }
+       //优化---
+       applyService.updateAllGuestStatus (indexVoList);
     }
 
 
@@ -252,12 +252,12 @@ public class OrderServiceImpl extends ServiceImpl<OrdersMapper, Orders> implemen
        }
 
        //增加消息提醒的记录
-        MsgVo vo = new MsgVo();
-       vo.setCreateId(user.getId());
-       vo.setMsg(GUEIST_PERSON);
-       vo.setMsgType(3);
-       vo.setToId(Id);
-       httpUtils.addMsg(vo);
+//        MsgVo vo = new MsgVo();
+//       vo.setCreateId(user.getId());
+//       vo.setMsg(GUEIST_PERSON);
+//       vo.setMsgType(3);
+//       vo.setToId(Id);
+//       httpUtils.addMsg(vo);
     }
 
     /**
@@ -364,12 +364,12 @@ public class OrderServiceImpl extends ServiceImpl<OrdersMapper, Orders> implemen
         }
 
         //增加一条同意换人的记录
-        MsgVo vo = new MsgVo();
-        vo.setCreateId(user.getId());
-        vo.setMsg(GUEIST_DO);
-        vo.setMsgType(1);
-        vo.setToId(orders.getCreateUserId());
-        httpUtils.addMsg(vo);
+//        MsgVo vo = new MsgVo();
+//        vo.setCreateId(user.getId());
+//        vo.setMsg(GUEIST_DO);
+//        vo.setMsgType(1);
+//        vo.setToId(orders.getCreateUserId());
+//        httpUtils.addMsg(vo);
 
         //修改换人表数据
         orderSubstitutService.apotSubstitution(DateUtil.parseDate(outDate),lineName,user.getId(),1);
@@ -410,12 +410,12 @@ public class OrderServiceImpl extends ServiceImpl<OrdersMapper, Orders> implemen
 
 
         //增加一条拒绝换人的记录
-        MsgVo vo = new MsgVo();
-        vo.setCreateId(user.getId());
-        vo.setMsg(GUEIST_DO);
-        vo.setMsgType(2);
-        vo.setToId(orders.getCreateUserId());
-        httpUtils.addMsg(vo);
+//        MsgVo vo = new MsgVo();
+//        vo.setCreateId(user.getId());
+//        vo.setMsg(GUEIST_DO);
+//        vo.setMsgType(2);
+//        vo.setToId(orders.getCreateUserId());
+//        httpUtils.addMsg(vo);
 
         //修改换人表数据
         orderSubstitutService.apotSubstitution(DateUtil.parseDate(outDate),lineName,user.getId(),2);

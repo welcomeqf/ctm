@@ -12,6 +12,8 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 import java.time.LocalDate;
+import java.util.Map;
+
 /**
  * @Author qf
  * @Date 2019/9/17
@@ -50,11 +52,11 @@ public interface IPriceService {
     /**
      * 根据出行时间或者线路名查看价格序列(模糊查询)
      * @param page
-     * @param OutDate
-     * @param LineName
+     * @param outDate
+     * @param lineId
      * @return
      */
-    Page<PriceSelectVo> queryPricePageByFilter(Page<PriceSelectVo> page, String OutDate, String LineName);
+    Map<String,Object> queryPricePageByFilter(Page<PriceSelectVo> page, String outDate, Long lineId);
 
 
     /**

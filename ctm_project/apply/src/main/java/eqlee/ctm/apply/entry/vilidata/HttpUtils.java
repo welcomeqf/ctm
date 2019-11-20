@@ -1,5 +1,6 @@
 package eqlee.ctm.apply.entry.vilidata;
 
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.yq.constanct.CodeType;
 import com.yq.exception.ApplicationException;
@@ -8,10 +9,12 @@ import com.yq.httpclient.HttpResult;
 import eqlee.ctm.apply.entry.entity.bo.MsgUpdateAllBo;
 import eqlee.ctm.apply.entry.entity.query.ExaRefundQuery;
 import eqlee.ctm.apply.entry.entity.query.ResultRefundQuery;
+import eqlee.ctm.apply.entry.entity.query.UserQuery;
 import eqlee.ctm.apply.entry.entity.vo.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.RequestParam;
+import springfox.documentation.spring.web.json.Json;
 
 /**
  * @Author qf
@@ -27,6 +30,8 @@ public class HttpUtils {
 
     private final String URL = "http://pay.wapi.eqlee.com";
 
+    private final String localUrl = "http://localhost:8001";
+
     /**
      * ctm的路径
      */
@@ -36,9 +41,25 @@ public class HttpUtils {
 
     private final String path = "ctm_msg";
 
-    private final String AccessKey = "157222853200009";
+    /**
+     * 用户模块路径
+     */
+    private final String user_url;
 
-    private final String AccessKeySecret = "74c172912d9b4631bc72e567c27b2ece";
+    @Autowired
+    private TokenData tokenData;
+
+    private final String AccessKey;
+
+    private final String AccessKeySecret;
+
+    public HttpUtils() {
+        user_url = "http://localhost:9092/ctm_user";
+
+        AccessKey = "157222853200009";
+
+        AccessKeySecret = "74c172912d9b4631bc72e567c27b2ece";
+    }
 
     /**
      * 获取token
@@ -228,6 +249,58 @@ public class HttpUtils {
         if (result.getCode() != 0) {
             throw new ApplicationException(CodeType.RESOURCES_NOT_FIND,result.getMsg());
         }
+    }
+
+
+    /**
+     * 查询用户信息
+     * @param id
+     */
+    public String queryUserInfo (Long id) throws Exception{
+        //路径
+        String url = user_url + "/v1/app/user/getUserById?id=" + id;
+        HttpResult httpResult;
+
+        //获得token
+        String userToken;
+
+        ResultResposeVo result;
+        userToken = tokenData.getUserToken();
+        String token = "Bearer " + userToken;
+        httpResult = apiService.get(url,token);
+        result = JSONObject.parseObject(httpResult.getBody(),ResultResposeVo.class);
+
+        if (result.getCode() != 0) {
+            throw new ApplicationException(CodeType.RESOURCES_NOT_FIND,result.getMsg());
+        }
+        return JSON.toJSONString(result.getData());
+    }
+
+
+    /**
+     * 查询所有管理员的id集合
+     * @return
+     */
+    public Object queryAllAdminInfo (){
+        //路径
+        String url = user_url + "/v1/app/user/queryAllAdminId";
+        HttpResult httpResult;
+
+        try {
+            //获得token
+            String userToken = tokenData.getUserToken();
+            String token = "Bearer " + userToken;
+            httpResult = apiService.get(url,token);
+        }catch (Exception e) {
+            throw new ApplicationException(CodeType.SERVICE_ERROR, "调用出错");
+        }
+
+        ResultResposeVo result = JSONObject.parseObject(httpResult.getBody(),ResultResposeVo.class);
+        if (result.getCode() != 0) {
+            throw new ApplicationException(CodeType.RESOURCES_NOT_FIND,result.getMsg());
+        }
+
+        return result.getData();
     }
 
 }

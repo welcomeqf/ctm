@@ -20,6 +20,7 @@ import eqlee.ctm.api.pay.entity.Pay;
 import eqlee.ctm.api.pay.entity.PayResult;
 import eqlee.ctm.api.pay.entity.PayToken;
 import eqlee.ctm.api.pay.entity.query.ResultQuery;
+import eqlee.ctm.api.pay.entity.vo.PayTokenVo;
 import eqlee.ctm.api.pay.entity.vo.ResultTokenVo;
 import eqlee.ctm.api.pay.entity.vo.TokenVo;
 import eqlee.ctm.api.pay.entity.vo.sucFailVo;
@@ -83,7 +84,7 @@ public class PayController {
         String s = JSONObject.toJSONString(payToken);
         HttpResult httpResult = apiService.doPost(url, s);
 
-        TokenVo vo = JSONObject.parseObject(httpResult.getBody(), TokenVo.class);
+        PayTokenVo vo = JSONObject.parseObject(httpResult.getBody(), PayTokenVo.class);
 
         ResultTokenVo result = vo.getResult();
         return result.getToken();

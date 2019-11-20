@@ -76,4 +76,11 @@ public class ApplyVo {
     private Long updateUserId;
 
     private Long companyUserId;
+
+    private String cName;
+
+    /**
+     * 门市价
+     */
+    private Double marketAllPrice;
 }

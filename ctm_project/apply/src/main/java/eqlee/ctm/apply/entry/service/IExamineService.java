@@ -96,4 +96,10 @@ public interface IExamineService {
      */
     ResultVo updateLocalMsgStatus ();
 
+    /**
+     * 查询所有未审核信息
+     * @return
+     */
+    ApplyNoReadCountQuery queryAllNoExaCount ();
+
 }

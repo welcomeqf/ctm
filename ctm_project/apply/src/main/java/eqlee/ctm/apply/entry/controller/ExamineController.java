@@ -156,29 +156,14 @@ public class ExamineController {
     }
 
 
-    @ApiOperation(value = "查询未读的条数", notes = "查询未读的条数")
-    @ApiImplicitParams({
-          @ApiImplicitParam(name = "toId", value = "接收人id", required = true, dataType = "Long", paramType = "path"),
-          @ApiImplicitParam(name = "msgType", value = "消息类型", required = true, dataType = "int", paramType = "path"),
-          @ApiImplicitParam(name = "msg", value = "消息名称", required = true, dataType = "String", paramType = "path")
-    })
-    @GetMapping("/queryNoReadCount")
+    @ApiOperation(value = "查询所有未审核信息", notes = "查询所有未审核信息")
+    @GetMapping("/queryAllNoExaCount")
     @CrossOrigin
     @CheckToken
-    public ApplyNoReadCountQuery queryNoReadCount(@RequestParam("toId") Long toId,
-                                                  @RequestParam("msgType") Integer msgType,
-                                                  @RequestParam("msg") String msg) {
-        return examineService.queryNoReadCount(toId,msgType,msg);
+    public ApplyNoReadCountQuery queryAllNoExaCount() {
+        return examineService.queryAllNoExaCount();
     }
 
-
-    @ApiOperation(value = "修改当前用户的所有未读消息状态", notes = "修改当前用户的所有未读消息状态")
-    @GetMapping("/updateLocalMsgStatus")
-    @CrossOrigin
-    @CheckToken
-    public ResultVo updateLocalMsgStatus() {
-        return examineService.updateLocalMsgStatus();
-    }
 
 
 }

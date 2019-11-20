@@ -44,6 +44,11 @@ public class Apply extends Model<Apply> {
     private Double AllPrice;
 
     /**
+     * 门市价
+     */
+    private Double MarketAllPrice;
+
+    /**
      * 线路ID  哪条线路
      */
     private Long LineId;
@@ -169,9 +174,9 @@ public class Apply extends Model<Apply> {
     private Integer ExpreDate;
 
     /**
-     * 是否读过此数据
+     * 名字
      */
-    private Boolean IsRead;
+    private String CName;
 
     @Override
     protected Serializable pkVal() {

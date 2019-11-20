@@ -29,11 +29,6 @@ public class UserUpdateInfoVo {
     private String tel;
 
     /**
-     * 签名ID
-     */
-    private String appId;
-
-    /**
      * 是否停用（false--正常  true--停用）
      */
     private Boolean stopped;

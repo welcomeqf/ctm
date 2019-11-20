@@ -33,4 +33,9 @@ public class CompanyQuery {
      * 角色名
      */
     private String roleName;
+
+    /**
+     * 结算方式
+     */
+    private String payType;
 }

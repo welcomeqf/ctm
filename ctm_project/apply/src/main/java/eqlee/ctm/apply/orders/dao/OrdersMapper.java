@@ -25,11 +25,6 @@ import java.util.List;
  */
 @Component
 public interface OrdersMapper extends IBaseMapper<Orders> {
-    /**
-     * 批量插入
-     * @param ordersList
-     */
-    void batchInsertOrders(List<Orders> ordersList);
 
 
     /**
@@ -99,37 +94,6 @@ public interface OrdersMapper extends IBaseMapper<Orders> {
     int updateCarStatus (@Param("CarNo") String CarNo);
 
 
-    /**
-     * 判断是否是本公司车辆
-     * @param CarNo
-     * @return
-     */
-    CarVo isCompanyCar(String CarNo);
-
-
-    /**
-     * 插入车辆
-     * @param Id
-     * @param CarNumber
-     * @param UserId
-     */
-    void insertCar(@Param("Id") Long Id,
-                   @Param("CarNumber") String CarNumber,
-                   @Param("UserId") Long UserId);
-
-
-
-
-    /**
-     *更新Orders表
-     * @param LineName
-     * @param OutDate
-     * @return
-     */
-    int updateOrdersInformation(@Param("LineName") String LineName,
-                                @Param("OutDate") LocalDate OutDate,
-                                @Param("Id") Long Id);
-
 
     /**
      * 查询导游需要确认换人的列表
@@ -149,18 +113,6 @@ public interface OrdersMapper extends IBaseMapper<Orders> {
      */
     int sureChoised(@Param("id") Long id,
                     @Param("orderId") Long orderId);
-
-    /**
-     *  ..
-     * @param Id
-     * @param lineName
-     * @param outDate
-     * @return
-     */
-    int sureOrders(@Param("Id") Long Id,
-                    @Param("lineName") String lineName,
-                    @Param("outDate") LocalDate outDate);
-
 
 
     /**
@@ -205,13 +157,6 @@ public interface OrdersMapper extends IBaseMapper<Orders> {
      * @return
      */
     Page<UnpaidInformationVo> unpaidInformation(Page<UnpaidInformationVo> page);
-
-    /**
-     * 根据报名表的Id查出ApplyVo列表
-     * @param id
-     * @return
-     */
-    OrdersVo selectApplyVoList(Long id);
 
 
     /**

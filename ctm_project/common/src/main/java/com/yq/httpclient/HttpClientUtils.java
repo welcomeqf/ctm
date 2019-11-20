@@ -253,4 +253,49 @@ public class HttpClientUtils {
 
     }
 
+
+    /**
+     * 带token请求Post
+     * @param url
+     * @param jsonInfo
+     * @return
+     * @throws Exception
+     */
+    public HttpResult post(String url, String jsonInfo,String token) throws Exception {
+        // 声明httpPost请求
+        HttpPost httpPost = new HttpPost(url);
+
+//        httpPost.setHeader("Accept", "application/json");
+        httpPost.addHeader("Content-Type", "application/json");
+        httpPost.addHeader("Authorization",token);
+        String charSet = "UTF-8";
+        StringEntity entity = new StringEntity(jsonInfo, charSet);
+        httpPost.setEntity(entity);
+
+        // 使用HttpClient发起请求，返回response
+        CloseableHttpResponse response = null;
+        try {
+            response = httpClient.execute(httpPost);
+        } catch (IOException e) {
+            HttpResult httpResult = new HttpResult();
+            httpResult.setCode(404);
+            httpResult.setBody("请求失败");
+            return httpResult;
+        }
+
+        // 解析response封装返回对象httpResult
+        HttpResult httpResult = new HttpResult();
+        // 解析数据封装HttpResult
+        if (response.getEntity() != null) {
+            httpResult.setCode(response.getStatusLine().getStatusCode());
+            httpResult.setBody(EntityUtils.toString(response.getEntity(),charSet));
+
+        } else {
+            httpResult.setCode(response.getStatusLine().getStatusCode());
+        }
+
+        // 返回结果
+        return httpResult;
+    }
+
 }

@@ -1,5 +1,6 @@
 package eqlee.ctm.api.pay.entity.vo;
 
+import eqlee.ctm.api.entity.query.AuthResult;
 import lombok.Data;
 
 /**
@@ -10,9 +11,9 @@ import lombok.Data;
 @Data
 public class TokenVo {
 
-    private Integer StatusCode;
+    private Integer code;
 
-    private String Error;
+    private String msg;
 
-    private ResultTokenVo Result;
+    private AuthResult data;
 }

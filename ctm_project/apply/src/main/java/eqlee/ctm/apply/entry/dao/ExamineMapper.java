@@ -28,4 +28,10 @@ public interface ExamineMapper extends IBaseMapper<Examine> {
      * @return
      */
     ExamineUpdateInfoVo queryUpdateInfo (Long Id);
+
+    /**
+     * 查询财务未审核条数
+     * @return
+     */
+    Integer queryNoExaCount ();
 }

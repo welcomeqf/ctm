@@ -13,6 +13,7 @@ import eqlee.ctm.api.entity.query.PrivilegeQuery;
 import eqlee.ctm.api.entity.query.PrivilegeWithQuery;
 import eqlee.ctm.api.entity.vo.ResultResposeVo;
 import eqlee.ctm.api.vilidate.DataUtils;
+import eqlee.ctm.api.vilidate.TokenData;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -49,6 +50,9 @@ public class UserPrivilegeController {
     @Autowired
     private HttpClientUtils apiService;
 
+    @Autowired
+    private TokenData tokenData;
+
     @ApiOperation(value = "增加权限-- 9093:api", notes = "增加权限-- 9093:api")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "roleId", value = "角色Id", required = true, dataType = "String", paramType = "path"),
@@ -59,10 +63,8 @@ public class UserPrivilegeController {
     @CheckToken
     @IgnoreResponseAdvice
     public Object insertPrivilege(@RequestBody PrivilegeQuery query) throws Exception{
-        String encode = DataUtils.getEncodeing("RSA");
 
         PrivilegeDetailedQuery query1 = new PrivilegeDetailedQuery();
-        query1.setAppId(encode);
         query1.setRoleId(query.getRoleId());
 
         List<PrivilegeWithQuery> list = new ArrayList<>();
@@ -77,7 +79,11 @@ public class UserPrivilegeController {
         String url = "http://" + ip +":" + port + "/" + path + "/v1/app/privilege/insertPrivilege";
 
         String s = JSONObject.toJSONString(query1);
-        HttpResult httpResult = apiService.doPost(url, s);
+        //获得token
+        String userToken = tokenData.getUserToken();
+        String token = "Bearer " + userToken;
+
+        HttpResult httpResult = apiService.post(url,s,token);
 
         ResultResposeVo vo = JSONObject.parseObject(httpResult.getBody(),ResultResposeVo.class);
         if (vo.getCode() != 0) {

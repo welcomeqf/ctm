@@ -14,18 +14,21 @@ import com.yq.utils.IdGenerator;
 import eqlee.ctm.apply.entry.dao.ExamineMapper;
 import eqlee.ctm.apply.entry.entity.Apply;
 import eqlee.ctm.apply.entry.entity.Examine;
+import eqlee.ctm.apply.entry.entity.bo.UserAdminBo;
 import eqlee.ctm.apply.entry.entity.query.*;
 import eqlee.ctm.apply.entry.entity.vo.*;
 import eqlee.ctm.apply.entry.service.IApplyService;
 import eqlee.ctm.apply.entry.service.IExamineService;
 import eqlee.ctm.apply.entry.vilidata.HttpUtils;
 import eqlee.ctm.apply.line.entity.vo.ResultVo;
+import eqlee.ctm.apply.orders.service.IOrderSubstitutService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -46,6 +49,9 @@ public class ExamineServiceImpl extends ServiceImpl<ExamineMapper, Examine> impl
 
     @Autowired
     private HttpUtils httpUtils;
+
+    @Autowired
+    private IOrderSubstitutService orderSubstitutService;
 
     IdGenerator idGenerator = new IdGenerator();
 
@@ -94,20 +100,25 @@ public class ExamineServiceImpl extends ServiceImpl<ExamineMapper, Examine> impl
 
         //批量增加所有运营可见的消息提醒
         //查询所有管理员的id集合
-        List<Long> longList = applyService.queryAdminIds();
-
-        if (longList.size() == 0) {
-            throw new ApplicationException(CodeType.SERVICE_ERROR, "请将管理员的角色名设置为运营人员");
-        }
-
-        //批量增加所有运营审核的报名消息提醒
-        MsgAddVo msgVo = new MsgAddVo();
-        msgVo.setCreateId(user.getId());
-        msgVo.setMsgType(3);
-        msgVo.setMsg(CANCEL_EXA);
-        msgVo.setToId(longList);
-
-        httpUtils.addAllMsg(msgVo);
+//        List<Long> longList = new ArrayList<>();
+//        List<UserAdminBo> idList = (List<UserAdminBo>) httpUtils.queryAllAdminInfo();
+//
+//        if (idList.size() == 0) {
+//            throw new ApplicationException(CodeType.SERVICE_ERROR, "请将管理员的角色名设置为运营人员");
+//        }
+//
+//        for (UserAdminBo bo : idList) {
+//            longList.add(bo.getAdminId());
+//        }
+//
+//        //批量增加所有运营审核的报名消息提醒
+//        MsgAddVo msgVo = new MsgAddVo();
+//        msgVo.setCreateId(user.getId());
+//        msgVo.setMsgType(3);
+//        msgVo.setMsg(CANCEL_EXA);
+//        msgVo.setToId(longList);
+//
+//        httpUtils.addAllMsg(msgVo);
 
     }
 
@@ -155,6 +166,10 @@ public class ExamineServiceImpl extends ServiceImpl<ExamineMapper, Examine> impl
         //判断该账号是什么支付
         ApplySeacherVo vo = applyService.queryById(ApplyId);
 
+        if (vo.getIsSelect()) {
+            throw new ApplicationException(CodeType.SERVICE_ERROR, "该单已经被导游选了,不能同意");
+        }
+
         LambdaQueryWrapper<Examine> queryWrapper = new LambdaQueryWrapper<Examine>()
                 .eq(Examine::getApplyId,ApplyId)
                 .eq(Examine::getExamineType,"1");
@@ -198,13 +213,13 @@ public class ExamineServiceImpl extends ServiceImpl<ExamineMapper, Examine> impl
         }
 
         //增加一条通过报名的消息提醒记录
-        MsgVo msgVo = new MsgVo();
-        msgVo.setCreateId(user.getId());
-        msgVo.setMsgType(1);
-        msgVo.setMsg(CANCEL_DO);
-        msgVo.setToId(vo.getCreateUserId());
-
-        httpUtils.addMsg(msgVo);
+//        MsgVo msgVo = new MsgVo();
+//        msgVo.setCreateId(user.getId());
+//        msgVo.setMsgType(1);
+//        msgVo.setMsg(CANCEL_DO);
+//        msgVo.setToId(vo.getCreateUserId());
+//
+//        httpUtils.addMsg(msgVo);
 
         //改变报名表
         applyService.cancelApply(ApplyId);
@@ -232,14 +247,14 @@ public class ExamineServiceImpl extends ServiceImpl<ExamineMapper, Examine> impl
         }
 
         //增加一条不通过取消报名的消息提醒记录
-        ApplySeacherVo vo = applyService.queryById(ApplyId);
-        MsgVo msgVo = new MsgVo();
-        msgVo.setCreateId(user.getId());
-        msgVo.setMsgType(2);
-        msgVo.setMsg(CANCEL_DO);
-        msgVo.setToId(vo.getCreateUserId());
-
-        httpUtils.addMsg(msgVo);
+//        ApplySeacherVo vo = applyService.queryById(ApplyId);
+//        MsgVo msgVo = new MsgVo();
+//        msgVo.setCreateId(user.getId());
+//        msgVo.setMsgType(2);
+//        msgVo.setMsg(CANCEL_DO);
+//        msgVo.setToId(vo.getCreateUserId());
+//
+//        httpUtils.addMsg(msgVo);
 
         ExaApplyResultQuery query = new ExaApplyResultQuery();
         query.setType("ok");
@@ -298,13 +313,13 @@ public class ExamineServiceImpl extends ServiceImpl<ExamineMapper, Examine> impl
         }
 
         //增加一条不通过报名的消息提醒记录
-        MsgVo msgVo = new MsgVo();
-        msgVo.setCreateId(user.getId());
-        msgVo.setMsgType(2);
-        msgVo.setMsg(APPLY_DO);
-        msgVo.setToId(vo.getCreateUserId());
-
-        httpUtils.addMsg(msgVo);
+//        MsgVo msgVo = new MsgVo();
+//        msgVo.setCreateId(user.getId());
+//        msgVo.setMsgType(2);
+//        msgVo.setMsg(APPLY_DO);
+//        msgVo.setToId(vo.getCreateUserId());
+//
+//        httpUtils.addMsg(msgVo);
 
         //同步报名表的审核状态
         applyService.updateExamineStatus(ApplyId,2);
@@ -332,13 +347,13 @@ public class ExamineServiceImpl extends ServiceImpl<ExamineMapper, Examine> impl
         ApplySeacherVo query = applyService.queryById(ApplyId);
 
         //增加一条通过报名的消息提醒记录
-        MsgVo vo = new MsgVo();
-        vo.setCreateId(user.getId());
-        vo.setMsgType(1);
-        vo.setMsg(APPLY_DO);
-        vo.setToId(query.getCreateUserId());
-
-        httpUtils.addMsg(vo);
+//        MsgVo vo = new MsgVo();
+//        vo.setCreateId(user.getId());
+//        vo.setMsgType(1);
+//        vo.setMsg(APPLY_DO);
+//        vo.setToId(query.getCreateUserId());
+//
+//        httpUtils.addMsg(vo);
 
         //同步报名表的审核状态
         applyService.updateExamineStatus(ApplyId,1);
@@ -420,6 +435,44 @@ public class ExamineServiceImpl extends ServiceImpl<ExamineMapper, Examine> impl
         ResultVo vo = new ResultVo();
         vo.setResult("ok");
         return vo;
+    }
+
+    /**
+     * 查询所有未审核信息
+     * @return
+     */
+    @Override
+    public ApplyNoReadCountQuery queryAllNoExaCount() {
+        UserLoginQuery user = localUser.getUser("用户信息");
+
+        ApplyNoReadCountQuery query = new ApplyNoReadCountQuery();
+
+        LambdaQueryWrapper<Examine> wrapper = new LambdaQueryWrapper<Examine>()
+              .eq(Examine::getExamineResult,0);
+
+        if ("运营人员".equals(user.getRoleName())) {
+            Integer count = baseMapper.selectCount(wrapper);
+
+            if (count >= 99) {
+                query.setCount(99);
+            }
+
+            return query;
+        }
+
+        if ("导游".equals(user.getRoleName())) {
+            return orderSubstitutService.queryGuideNoExaCount();
+        }
+
+        if ("财务".equals(user.getRoleName())) {
+            Integer integer = baseMapper.queryNoExaCount();
+            query.setCount(integer);
+
+            return query;
+        }
+        //同行
+        query.setCount(9999);
+        return query;
     }
 
 

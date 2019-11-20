@@ -13,6 +13,7 @@ import com.yq.jwt.islogin.CheckToken;
 import eqlee.ctm.api.entity.query.UserPrivilegeQuery;
 import eqlee.ctm.api.entity.vo.*;
 import eqlee.ctm.api.vilidate.DataUtils;
+import eqlee.ctm.api.vilidate.TokenData;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
@@ -56,6 +57,9 @@ public class UserMenuController {
     @Autowired
     private LocalUser localUser;
 
+    @Autowired
+    private TokenData tokenData;
+
 
     @ApiOperation(value = "查询所有权限", notes = "查询所有权限")
     @ApiImplicitParam(name = "Id", value = "Id", required = false, dataType = "Long", paramType = "path")
@@ -64,12 +68,13 @@ public class UserMenuController {
     @CheckToken
     @IgnoreResponseAdvice
     public Object queryMenu(@RequestParam("Id") Long Id) throws Exception{
-        String encode = DataUtils.getEncodeing("RSA");
-        String url = "http://" + ip +":" + port + "/" + path + "/v1/app/menu/queryMenu?Id=" +Id + "&AppId=" +encode;
+        String url = "http://" + ip +":" + port + "/" + path + "/v1/app/menu/queryMenu?Id=" +Id;
 
-        Map<String,Object> map = new HashMap<>();
+        //获得token
+        String userToken = tokenData.getUserToken();
+        String token = "Bearer " + userToken;
 
-        HttpResult httpResult = apiService.doGet(url, map);
+        HttpResult httpResult = apiService.get(url,token);
 
         ResultResposeVo vo = JSONObject.parseObject(httpResult.getBody(),ResultResposeVo.class);
         if (vo.getCode() != 0) {
@@ -86,12 +91,13 @@ public class UserMenuController {
     @CrossOrigin
     @IgnoreResponseAdvice
     public Object queryAllParentMenu(@RequestParam("roleId") Long roleId) throws Exception{
-        String encode = DataUtils.getEncodeing("RSA");
-        String url = "http://" + ip +":" + port + "/" + path + "/v1/app/menu/queryAll?&AppId=" +encode + "&roleId=" +roleId;
+        String url = "http://" + ip +":" + port + "/" + path + "/v1/app/menu/queryAll?roleId=" +roleId;
 
-        Map<String,Object> map = new HashMap<>();
+        //获得token
+        String userToken = tokenData.getUserToken();
+        String token = "Bearer " + userToken;
 
-        HttpResult httpResult = apiService.doGet(url, map);
+        HttpResult httpResult = apiService.get(url,token);
 
         ResultResposeVo vo = JSONObject.parseObject(httpResult.getBody(),ResultResposeVo.class);
         if (vo.getCode() != 0) {
@@ -120,12 +126,13 @@ public class UserMenuController {
     @CrossOrigin
     @IgnoreResponseAdvice
     public Object queryAllParent() throws Exception{
-        String encode = DataUtils.getEncodeing("RSA");
-        String url = "http://" + ip +":" + port + "/" + path + "/v1/app/menu/queryAllParent?&AppId=" +encode;
+        String url = "http://" + ip +":" + port + "/" + path + "/v1/app/menu/queryAllParent";
 
-        Map<String,Object> map = new HashMap<>();
+        //获得token
+        String userToken = tokenData.getUserToken();
+        String token = "Bearer " + userToken;
 
-        HttpResult httpResult = apiService.doGet(url, map);
+        HttpResult httpResult = apiService.get(url,token);
 
         ResultResposeVo vo = JSONObject.parseObject(httpResult.getBody(),ResultResposeVo.class);
         if (vo.getCode() != 0) {
@@ -156,16 +163,18 @@ public class UserMenuController {
             list.add(query);
         }
 
-        String encode = DataUtils.getEncodeing("RSA");
         String url = "http://" + ip +":" + port + "/" + path + "/v1/app/menu/queryZiAll";
 
         MenuZiVo vo = new MenuZiVo();
-        vo.setAppId(encode);
         vo.setList(list);
         vo.setRoleId(roleId);
 
         String s = JSONObject.toJSONString(vo);
-        HttpResult httpResult = apiService.doPost(url, s);
+        //获得token
+        String userToken = tokenData.getUserToken();
+        String token = "Bearer " + userToken;
+
+        HttpResult httpResult = apiService.post(url,s,token);
 
         ResultResposeVo vo1 = JSONObject.parseObject(httpResult.getBody(),ResultResposeVo.class);
         if (vo1.getCode() != 0) {

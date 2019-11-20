@@ -1,5 +1,6 @@
 package eqlee.ctm.apply.orders.service;
 
+import eqlee.ctm.apply.entry.entity.query.ApplyNoReadCountQuery;
 import eqlee.ctm.apply.orders.entity.OrderSubstitut;
 
 import java.time.LocalDate;
@@ -25,4 +26,10 @@ public interface IOrderSubstitutService {
      * @param type
      */
     void apotSubstitution (LocalDate outDate, String lineName, Long id, Integer type);
+
+    /**
+     * 查询所有导游未审核的换人记录
+     * @return
+     */
+    ApplyNoReadCountQuery queryGuideNoExaCount ();
 }

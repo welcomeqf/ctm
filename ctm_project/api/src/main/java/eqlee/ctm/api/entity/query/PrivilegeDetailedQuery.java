@@ -15,6 +15,4 @@ public class PrivilegeDetailedQuery {
     private Long roleId;
 
     private List<PrivilegeWithQuery> menuList;
-
-    private String appId;
 }

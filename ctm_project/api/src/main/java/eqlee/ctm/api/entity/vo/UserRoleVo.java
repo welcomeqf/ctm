@@ -10,9 +10,6 @@ import lombok.Data;
 @Data
 public class UserRoleVo {
 
-
-    private String appId;
-
     /**
      * 角色名字
      */

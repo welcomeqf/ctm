@@ -41,6 +41,7 @@ public class FinanceExcelController {
             @ApiImplicitParam(name = "type", value = "类型(未审核,已审核)", required = false, dataType = "String", paramType = "path")
     })
     @GetMapping("/exa")
+    @CheckToken
     @CrossOrigin
     public void financeExcel(HttpServletResponse response,
                              @RequestParam("current") Integer current,

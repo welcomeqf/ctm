@@ -24,6 +24,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @Author qf
@@ -39,7 +40,7 @@ public class PriceController {
     @Autowired
     private IPriceService priceService;
 
-    @ApiOperation(value = "价格设定", notes = "价格设定")
+    @ApiOperation(value = "价格设定与修改(没有就增加  有就修改)", notes = "价格设定与修改(没有就增加  有就修改)")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "startTime", value = "开始时间", required = true, dataType = "String", paramType = "path"),
             @ApiImplicitParam(name = "endTime", value = "结束时间", required = true, dataType = "String", paramType = "path"),
@@ -74,58 +75,25 @@ public class PriceController {
     }
 
 
-
-    @ApiOperation(value = "批量价格修改", notes = "批量价格修改")
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "startTime", value = "开始时间", required = true, dataType = "String", paramType = "path"),
-            @ApiImplicitParam(name = "endTime", value = "结束时间", required = true, dataType = "String", paramType = "path"),
-            @ApiImplicitParam(name = "lineName", value = "线路名", required = true, dataType = "String", paramType = "path"),
-            @ApiImplicitParam(name = "adultPrice", value = "成年价格", required = true, dataType = "double", paramType = "path"),
-            @ApiImplicitParam(name = "oldPrice", value = "老人价格", required = true, dataType = "double", paramType = "path"),
-            @ApiImplicitParam(name = "babyPrice", value = "幼儿价格", required = true, dataType = "double", paramType = "path"),
-            @ApiImplicitParam(name = "childPrice", value = "小孩价格", required = true, dataType = "double", paramType = "path"),
-            @ApiImplicitParam(name = "MarketAdultPrice", value = "门市成年价格", required = true, dataType = "double", paramType = "path"),
-            @ApiImplicitParam(name = "MarketOldPrice", value = "门市老人价格", required = true, dataType = "double", paramType = "path"),
-            @ApiImplicitParam(name = "MarketBabyPrice", value = "门市幼儿价格", required = true, dataType = "double", paramType = "path"),
-            @ApiImplicitParam(name = "MarketChildPrice", value = "门市小孩价格", required = true, dataType = "double", paramType = "path")
-    })
-    @PostMapping("/batchUpdatePrice")
-    @CrossOrigin
-    @CheckToken
-    public ResultVo batchUpdatePrice(@RequestBody PriceVo priceVo) {
-        if (StringUtils.isBlank(priceVo.getStartTime()) || StringUtils.isBlank(priceVo.getEndTime())
-                || StringUtils.isBlank(priceVo.getLineName()) || priceVo.getAdultPrice() == null || priceVo.getMarketOldPrice() == null
-                || priceVo.getOldPrice() == null || priceVo.getBabyPrice() == null || priceVo.getChildPrice() ==null
-                || priceVo.getMarketAdultPrice() == null || priceVo.getMarketBabyPrice() == null || priceVo.getMarketChildPrice() == null) {
-            throw new ApplicationException(CodeType.PARAM_ERROR,"价格修改参数不能为空");
-        }
-        priceService.batchUpdatePrice(priceVo);
-
-        ResultVo resultVo = new ResultVo();
-        resultVo.setResult("ok");
-        return resultVo;
-    }
-
-
     @ApiOperation(value = "由时间和线路对价格进行查询", notes = "由时间和线路对价格进行查询")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "OutDate", value = "出发时间", required = false, dataType = "String", paramType = "path"),
-            @ApiImplicitParam(name = "LineName", value = "线路名称", required = false, dataType = "String", paramType = "path"),
+            @ApiImplicitParam(name = "outDate", value = "出发时间", required = false, dataType = "String", paramType = "path"),
+            @ApiImplicitParam(name = "lineId", value = "线路名称", required = false, dataType = "String", paramType = "path"),
             @ApiImplicitParam(name = "current", value = "当前页", required = true, dataType = "Long", paramType = "path"),
             @ApiImplicitParam(name = "size", value = "页面大小", required = true, dataType = "Long", paramType = "path"),
     })
     @GetMapping("/queryPricePageByFilter")
     @CrossOrigin
     @CheckToken
-    public Page<PriceSelectVo> queryPricePageByFilter(@RequestParam("OutDate") String OutDate,
-                                                      @RequestParam("LineName") String LineName,
-                                                      @RequestParam("size") Integer size,
-                                                      @RequestParam("current") Integer current) {
-        if(size == null || current == null){
-            throw new ApplicationException(CodeType.PARAM_ERROR,"价格修改参数不能为空");
+    public Map<String,Object> queryPricePageByFilter(@RequestParam("outDate") String outDate,
+                                                     @RequestParam("lineId") Long lineId,
+                                                     @RequestParam("size") Integer size,
+                                                     @RequestParam("current") Integer current) {
+        if(size == null || current == null || lineId == null || StringUtils.isBlank(outDate)){
+            throw new ApplicationException(CodeType.PARAM_ERROR, "参数不能为空");
         }
         Page<PriceSelectVo> page = new Page<>(current,size);
-        return priceService.queryPricePageByFilter(page,OutDate,LineName);
+        return priceService.queryPricePageByFilter(page,outDate,lineId);
     }
 
 

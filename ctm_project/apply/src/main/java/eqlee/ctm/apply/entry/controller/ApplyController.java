@@ -54,7 +54,8 @@ public class ApplyController {
             @ApiImplicitParam(name = "oldNumber", value = "老人人数", required = true, dataType = "int", paramType = "path"),
             @ApiImplicitParam(name = "childNumber", value = "小孩人数", required = true, dataType = "int", paramType = "path"),
             @ApiImplicitParam(name = "companyUserId", value = "同行id", required = true, dataType = "Long", paramType = "path"),
-            @ApiImplicitParam(name = "payType", value = "支付类型(月结,现结,面收)", required = true, dataType = "String", paramType = "path")
+            @ApiImplicitParam(name = "payType", value = "支付类型(月结,现结,面收)", required = true, dataType = "String", paramType = "path"),
+          @ApiImplicitParam(name = "marketAllPrice", value = "门市价", required = true, dataType = "double", paramType = "path")
     })
     @PostMapping("/insertApply")
     @CrossOrigin
@@ -64,7 +65,7 @@ public class ApplyController {
             StringUtils.isBlank(applyVo.getContactTel()) || StringUtils.isBlank(applyVo.getPlace()) ||
             StringUtils.isBlank(applyVo.getLineName()) || applyVo.getAdultNumber() == null ||
             applyVo.getBabyNumber() == null || applyVo.getOldNumber() == null ||
-            applyVo.getChildNumber() == null || StringUtils.isBlank(applyVo.getPayType())) {
+            applyVo.getChildNumber() == null || StringUtils.isBlank(applyVo.getPayType()) || applyVo.getMarketAllPrice() == null) {
             throw new ApplicationException(CodeType.PARAM_ERROR,"申请报名表参数不能为空");
         }
         if (applyVo.getAdultNumber() < 0 || applyVo.getBabyNumber() < 0 || applyVo.getOldNumber() < 0
@@ -183,20 +184,30 @@ public class ApplyController {
             @ApiImplicitParam(name = "current", value = "当前页", required = true, dataType = "int", paramType = "path"),
             @ApiImplicitParam(name = "size", value = "每页显示的条数", required = true, dataType = "int", paramType = "path"),
             @ApiImplicitParam(name = "OutTime", value = "出行时间", required = false, dataType = "String", paramType = "path"),
-            @ApiImplicitParam(name = "LineName", value = "线路名模糊查询", required = false, dataType = "String", paramType = "path")
+            @ApiImplicitParam(name = "applyTime", value = "报名时间", required = false, dataType = "String", paramType = "path"),
+            @ApiImplicitParam(name = "LineName", value = "线路名模糊查询", required = false, dataType = "String", paramType = "path"),
+            @ApiImplicitParam(name = "type", value = "(0-已取消 1-今天已报名 2-今天出行)", required = false, dataType = "int", paramType = "path")
     })
     @GetMapping("/page2MeApply")
     @CrossOrigin
     @CheckToken
     public Page<ApplyCompanyQuery> page2MeApply(@RequestParam("current") Integer current, @RequestParam("size") Integer size,
-                                                @RequestParam("OutTime") String OutTime, @RequestParam("LineName") String LineName) {
+                                                @RequestParam("OutTime") String OutTime, @RequestParam("LineName") String LineName,
+                                                @RequestParam("applyTime") String applyTime,@RequestParam("type") Integer type,
+                                                @RequestParam("companyUserId") Long companyUserId) {
 
         if (current == null || size == null) {
             throw new ApplicationException(CodeType.PARAM_ERROR,"参数不能为空");
         }
-
         Page<ApplyCompanyQuery> page = new Page<>(current,size);
-        return applyService.page2MeApply(page,LineName,OutTime);
+        UserLoginQuery user = localUser.getUser("用户信息");
+
+        String admin = "运营人员";
+        if (admin.equals(user.getRoleName())) {
+            return applyService.pageAdminApply(page,LineName,OutTime,applyTime,type,companyUserId);
+        }
+
+        return applyService.page2MeApply(page,LineName,OutTime,applyTime,type);
 
     }
 
@@ -259,13 +270,13 @@ public class ApplyController {
     }
 
 
-    @ApiOperation(value = "同行月结现结统计", notes = "同行月结现结统计")
+    @ApiOperation(value = "同行报名记录统计", notes = "同行报名记录统计")
     @ApiImplicitParams({
           @ApiImplicitParam(name = "current", value = "当前页", required = true, dataType = "int", paramType = "path"),
           @ApiImplicitParam(name = "size", value = "每页显示的条数", required = true, dataType = "int", paramType = "path"),
           @ApiImplicitParam(name = "outDate", value = "出发日期", required = false, dataType = "String", paramType = "path"),
           @ApiImplicitParam(name = "lineName", value = "线路名称", required = false, dataType = "String", paramType = "path"),
-          @ApiImplicitParam(name = "payType", value = "(0--现结  1--月结)", required = true, dataType = "int", paramType = "path")
+          @ApiImplicitParam(name = "payType", value = "(0--现结  1--月结 2--面收)", required = true, dataType = "int", paramType = "path")
     })
     @GetMapping("/pageResultCountList")
     @CrossOrigin
@@ -300,13 +311,5 @@ public class ApplyController {
         return applyService.queryPayInfo(applyNo);
     }
 
-
-    @ApiOperation(value = "查询同行报名审核以及取消审核条数", notes = "查询同行报名审核以及取消审核条数")
-    @GetMapping("/queryReadCount")
-    @CrossOrigin
-    @CheckToken
-    public ApplyReadCountQuery queryReadCount() {
-        return applyService.queryReadCount();
-    }
 
 }

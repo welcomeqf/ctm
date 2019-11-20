@@ -4,18 +4,22 @@
 <mapper namespace="eqlee.ctm.apply.entry.dao.ExamineMapper">
 
     <select id="listUpdateInfo" resultType="eqlee.ctm.apply.entry.entity.vo.ExamineUpdateInfoVo">
-      select a.Id, b.CName as 'UpdateUserName',convert(varchar(100),a.UpdateDate,20) as 'UpdateDate',a.Remark
-      from Examine a join SystemUser b on a.CreateUserId = b.Id where a.ExamineType = '2'
+       select a.Id, b.CName as 'UpdateUserName',convert(varchar(100),a.UpdateDate,20) as 'UpdateDate',a.Remark
+      from Examine a left join Apply b on a.ApplyId = b.Id where a.ExamineType = '2'
       ORDER by a.UpdateDate desc
     </select>
 
 
 
     <select id="queryUpdateInfo" resultType="eqlee.ctm.apply.entry.entity.vo.ExamineUpdateInfoVo" parameterType="long">
-      select a.Id, b.CName as 'UpdateUserName',convert(varchar(100),a.UpdateDate,20) as 'UpdateDate',a.Remark
-      from Examine a join SystemUser b on a.CreateUserId = b.Id where a.ExamineType = '2' and a.Id = #{Id}
+       select a.Id, b.CName as 'UpdateUserName',convert(varchar(100),a.UpdateDate,20) as 'UpdateDate',a.Remark
+      from Examine a left join Apply b on a.ApplyId = b.Id where a.ExamineType = '2' and a.Id = #{Id}
+      ORDER by a.UpdateDate desc
     </select>
 
 
+    <select id="queryNoExaCount" resultType="Integer">
+      select count(*) from Income where Status = 0
+    </select>
 
 </mapper>

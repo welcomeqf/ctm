@@ -13,6 +13,7 @@ import com.yq.utils.StringUtils;
 import eqlee.ctm.apply.channle.entity.Channel;
 import eqlee.ctm.apply.channle.service.IChannelService;
 import eqlee.ctm.apply.line.entity.Line;
+import eqlee.ctm.apply.line.entity.vo.ResultVo;
 import eqlee.ctm.apply.line.service.ILineService;
 import eqlee.ctm.apply.price.dao.PriceMapper;
 import eqlee.ctm.apply.price.entity.Price;
@@ -29,10 +30,7 @@ import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 /**
  * @Author qf
@@ -78,7 +76,7 @@ public class PriceServiceImpl extends ServiceImpl<PriceMapper, Price> implements
     }
 
     /**
-     * 价格设定
+     * 价格设定与修改(没有就增加  有就修改)
      *
      * @param priceVo
      */
@@ -98,54 +96,11 @@ public class PriceServiceImpl extends ServiceImpl<PriceMapper, Price> implements
             throw new ApplicationException(CodeType.SERVICE_ERROR,"请设定今天或今天之后的价格");
         }
 
-        //判断该天是否已经设定价格
-        LambdaQueryWrapper<Price> lambdaQueryWrapper = new LambdaQueryWrapper<Price>()
-                .eq(Price::getLineId,line.getId())
-                .eq(Price::getOutDate,priceVo.getStartTime());
-
-        Price price1 = baseMapper.selectOne(lambdaQueryWrapper);
-
-        if (price1 != null) {
-            throw new ApplicationException(CodeType.SERVICE_ERROR,"该天已经设定过价格");
-        }
-
-        LambdaQueryWrapper<Price> Wrapper = new LambdaQueryWrapper<Price>()
-                .eq(Price::getLineId,line.getId())
-                .eq(Price::getOutDate,priceVo.getEndTime());
-
-        Price price2 = baseMapper.selectOne(Wrapper);
-
-        if (price2 != null) {
-            throw new ApplicationException(CodeType.SERVICE_ERROR,"该天已经设定过价格");
-        }
-
         Channel channel = channelService.selectChannelByType("代理");
         //获取用户信息
         UserLoginQuery user = localUser.getUser("用户信息");
         IdGenerator idGenerator = new IdGenerator();
-        //如果输入的开始时间和结束时间是同一天的话   就只设定该天一天的价格
-        if (priceVo.getStartTime().equals(priceVo.getEndTime())) {
-            LocalDate outDate = DateUtil.parseDate(priceVo.getStartTime());
-            Price price = new Price();
-            price.setId(idGenerator.getNumberId());
-            price.setAdultPrice(priceVo.getAdultPrice());
-            price.setMarketAdultPrice(priceVo.getMarketAdultPrice());
-            price.setMarketBabyPrice(priceVo.getMarketBabyPrice());
-            price.setMarketChildPrice(priceVo.getMarketChildPrice());
-            price.setMarketOldPrice(priceVo.getMarketOldPrice());
-            price.setBabyPrice(priceVo.getBabyPrice());
-            price.setChildPrice(priceVo.getChildPrice());
-            price.setRemark(priceVo.getRemark());
-            price.setOldPrice(priceVo.getOldPrice());
-            price.setOutDate(outDate);
-            price.setLineId(line.getId());
-            price.setCreateUserId(user.getId());
-            price.setUpdateUserId(user.getId());
-            // 渠道ID
-            price.setChannelId(channel.getId());
-            baseMapper.insert(price);
-            return;
-        }
+
         //输入的开始时间和结束时间不是同一天，就默认批量设置相同的价格
         LocalDateTime start = DateUtil.parseDateTime(priceVo.getStartTime() + " 00:00:00");
         LocalDateTime end = DateUtil.parseDateTime(priceVo.getEndTime() + " 00:00:00");
@@ -156,39 +111,64 @@ public class PriceServiceImpl extends ServiceImpl<PriceMapper, Price> implements
         String month = priceVo.getStartTime().substring(5, 7);
         String day = priceVo.getStartTime().substring(8, 10);
         //创建一个集合
-        List<Price> list = new ArrayList<>();
+        List<PriceAllUpdateVo> list = new ArrayList<>();
         for (int i = 0; i <= days; i++) {
-            Price price = new Price();
-            price.setId(idGenerator.getNumberId());
+            PriceAllUpdateVo price = new PriceAllUpdateVo();
             price.setAdultPrice(priceVo.getAdultPrice());
             price.setBabyPrice(priceVo.getBabyPrice());
             price.setChildPrice(priceVo.getChildPrice());
             price.setOldPrice(priceVo.getOldPrice());
+            price.setMarketAdultPrice(priceVo.getMarketAdultPrice());
             price.setMarketOldPrice(priceVo.getMarketOldPrice());
             price.setMarketChildPrice(priceVo.getMarketChildPrice());
             price.setMarketBabyPrice(priceVo.getMarketBabyPrice());
-            price.setMarketAdultPrice(priceVo.getMarketAdultPrice());
-            price.setRemark(priceVo.getRemark());
             price.setLineId(line.getId());
 
-            price.setCreateUserId(user.getId());
-            price.setUpdateUserId(user.getId());
-            // 渠道ID
-            price.setChannelId(channel.getId());
             //设置每一天的日期
             SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd");
             Calendar c = Calendar.getInstance();
             c.set(Integer.parseInt(year), Integer.parseInt(month) - 1, Integer.parseInt(day));
             c.add(Calendar.DAY_OF_MONTH, i);
-            price.setOutDate(DateUtil.parseDate(sf.format(c.getTime())));
+
+            String format = sf.format(c.getTime());
+            LocalDate date = DateUtil.parseDate(format);
+
+            LambdaQueryWrapper<Price> wrapper = new LambdaQueryWrapper<Price>()
+                  .eq(Price::getLineId,line.getId())
+                  .eq(Price::getOutDate,date);
+            Price one = baseMapper.selectOne(wrapper);
+
+            if (one == null) {
+                //增加
+                LocalDate outDate = DateUtil.parseDate(priceVo.getStartTime());
+                Price price1 = new Price();
+                price1.setId(idGenerator.getNumberId());
+                price1.setAdultPrice(priceVo.getAdultPrice());
+                price1.setMarketAdultPrice(priceVo.getMarketAdultPrice());
+                price1.setMarketBabyPrice(priceVo.getMarketBabyPrice());
+                price1.setMarketChildPrice(priceVo.getMarketChildPrice());
+                price1.setMarketOldPrice(priceVo.getMarketOldPrice());
+                price1.setBabyPrice(priceVo.getBabyPrice());
+                price1.setChildPrice(priceVo.getChildPrice());
+                price1.setRemark(priceVo.getRemark());
+                price1.setOldPrice(priceVo.getOldPrice());
+                price1.setOutDate(date);
+                price1.setLineId(line.getId());
+                price1.setCreateUserId(user.getId());
+                price1.setUpdateUserId(user.getId());
+                // 渠道ID
+                price1.setChannelId(channel.getId());
+                baseMapper.insert(price1);
+            }
+            price.setOutDate(date);
             list.add(price);
         }
 
-        Integer result = baseMapper.allInsertPrice(list);
+        Integer result = baseMapper.batchUpdatePrice(list);
 
         if (result <= 0) {
             log.error("all insert price fail.");
-            throw new ApplicationException(CodeType.SERVICE_ERROR, "批量设置价格失败");
+            throw new ApplicationException(CodeType.SERVICE_ERROR, "修改价格失败");
         }
 
     }
@@ -248,27 +228,6 @@ public class PriceServiceImpl extends ServiceImpl<PriceMapper, Price> implements
         }
 
         //如果输入的开始时间和结束时间是同一天的话  就只设定该天一天的价格
-        if (priceVo.getStartTime().equals(priceVo.getEndTime())) {
-            LocalDate outDate = DateUtil.parseDate(priceVo.getStartTime());
-            Price price = new Price();
-            price.setAdultPrice(priceVo.getAdultPrice());
-            price.setBabyPrice(priceVo.getBabyPrice());
-            price.setChildPrice(priceVo.getChildPrice());
-            price.setOldPrice(priceVo.getOldPrice());
-            price.setMarketAdultPrice(priceVo.getMarketAdultPrice());
-            price.setMarketOldPrice(priceVo.getMarketOldPrice());
-            price.setMarketChildPrice(priceVo.getMarketChildPrice());
-            price.setMarketBabyPrice(priceVo.getMarketBabyPrice());
-           LambdaQueryWrapper<Price> queryWrapper = new LambdaQueryWrapper<Price>()
-                   .eq(Price::getLineId,line.getId())
-                   .eq(Price::getOutDate,outDate);
-            int update = baseMapper.update(price, queryWrapper);
-
-            if (update <= 0) {
-                throw new ApplicationException(CodeType.SERVICE_ERROR,"修改失败");
-            }
-
-        }
 
         //如果输入的时间是批量删除的话
         LocalDateTime start = DateUtil.parseDateTime(priceVo.getStartTime() + " 00:00:00");
@@ -314,28 +273,28 @@ public class PriceServiceImpl extends ServiceImpl<PriceMapper, Price> implements
     /**
      * 根据出行时间或者线路名查看价格序列
      * @param page
-     * @param OutDate
-     * @param LineName
+     * @param outDate
+     * @param lineId
      * @return
      */
     @Override
-    public Page<PriceSelectVo> queryPricePageByFilter(Page<PriceSelectVo> page, String OutDate, String LineName) {
-        if (StringUtils.isBlank(OutDate) && StringUtils.isBlank(LineName)) {
-            //查询全部
-            return baseMapper.selectPrice(page);
-        }
+    public Map<String,Object> queryPricePageByFilter(Page<PriceSelectVo> page, String outDate, Long lineId) {
+        //起始日期
+        LocalDate start = DateUtil.parseDate(outDate);
+        //获取下个月的日期
+        LocalDate localDate1 = start.plusMonths(1);
+        //获取当前月的最后一天
+        LocalDate end = localDate1.minusDays(1);
 
-        if (StringUtils.isBlank(OutDate) && StringUtils.isNotBlank(LineName)) {
-            return baseMapper.selectPriceByLineName(page,LineName);
-        }
+        Page<PriceSelectVo> pricePage = baseMapper.selectPriceByFilter(page, start, end, lineId);
 
-        if (StringUtils.isNotBlank(OutDate) && StringUtils.isBlank(LineName)) {
-            LocalDate localDate = DateUtil.parseDate(OutDate);
-            return baseMapper.selectPriceByOutDate(page,localDate);
-        }
+        Map<String,Object> map = new HashMap<>();
+        map.put("price",pricePage);
+        map.put("startDate",outDate);
+        String endDate = DateUtil.formatDate(end);
+        map.put("endDate",endDate);
 
-        LocalDate localDate = DateUtil.parseDate(OutDate);
-        return baseMapper.selectPriceByFilter(page,localDate,LineName);
+        return map;
 
     }
 

@@ -2,14 +2,8 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="eqlee.ctm.apply.orders.dao.OrdersMapper">
-    <insert id="batchInsertOrders" parameterType="eqlee.ctm.apply.orders.entity.Orders">
-        <foreach collection="list" item="item" index="index">
-            insert into Orders(Id,OrderNo,AccountName,OutDate,CompanyName,LineName,AllPrice,
-            Region,GuideName,CreateUserId) values(#{item.Id},#{item.OrderNo},#{item.AccountName},
-            #{item.OutDate},#{item.CompanyName},#{item.LineName},#{item.AllPrice},#{item.Region},#{item.GuideName},
-            #{item.CreateUserId})
-        </foreach>
-    </insert>
+
+
     <select id="selectOrdersByCreateUserId" resultType="eqlee.ctm.apply.orders.entity.Vo.OrderIndexVo">
        select b.Id,b.OrderNo,a.ContactName,a.Place,a.AdultNumber,a.BabyNumber,a.OldNumber,a.ChildNumber from OrderDetailed a
        join Orders b on a.OrderId = b.Id where a.CreateUserId = #{CreateUserId} and b.OutDate=
@@ -32,24 +26,9 @@
         and OutDate=#{OutDate} and CreateUserId=#{Id}
     </update>
 
-    <select id="isCompanyCar" parameterType="string" resultType="eqlee.ctm.apply.orders.entity.Vo.CarVo">
-        select * from Car where CarNo=#{CarNo}
-    </select>
-
-    <insert id="insertCar">
-        insert into Car(Id,CarNo,IsCompany,CreateUserId,Statu) values(#{Id},#{CarNumber},0 ,#{UserId},1)
-    </insert>
-
-
-    <update id="updateOrdersInformation">
-        update Orders set GuideName=(select CName where Id =#{Id}),set CarType=#{CarType},set CarNumber=#{CarNumber},
-        set CreateUserId =#{CreateUserId},set Statu=0 where OutDate=#{OutDate} and LineName=${LineName} and GuideName=#{GuideName}
-        and Statu=1
-    </update>
-
     <select id="waiteChangeIndex" resultType="eqlee.ctm.apply.orders.entity.Vo.ChangedVo">
-        select b.Id as 'OrderId',b.Place,d.Tel,a.LineName,convert(varchar(20),a.OutDate,23)OutDate,b.AllNumber,
-       a.GuideName from OrderSubstitut a join OrderDetailed b on a.Id = b.OrderSubstitutId join SystemUser d on d.Id = a.CreateUserId
+        select b.Id as 'OrderId',b.Place,d.GuideTel as 'Tel',a.LineName,convert(varchar(20),a.OutDate,23)OutDate,b.AllNumber,
+       a.GuideName from OrderSubstitut a join OrderDetailed b on a.Id = b.OrderSubstitutId join Orders d on d.Id = b.OrderId
        where a.ToGuideId = #{Id} and  b.Statu = 1
        order by a.OutDate desc
     </select>
@@ -58,28 +37,23 @@
         update OrderDetailed set Statu=2,OrderId = #{orderId} where Statu=1 and Id = #{id}
     </update>
 
-    <update id="sureOrders">
-        update Orders set GuideName = (select CName from SystemUser where Id = #{Id}),CreateUserId =#{Id}
-         where LineName = #{lineName} and OutDate = #{outDate}
-    </update>
-
 
     <update id="denyChoised" parameterType="Long">
         update OrderDetailed set Statu=3 where Statu=1 and Id = #{id}
     </update>
 
     <select id="denyChoisedindex" resultType="eqlee.ctm.apply.orders.entity.query.ChangedQuery">
-         select u.Tel as 'guideTel',a.LineName as 'lineName',a.ToGuideId as 'guestId',b.Statu as 'Status',
-        convert(varchar(20),a.OutDate,23)outDate,b.AllNumber,b.ContactName,b.ContactTel,u.CName as 'guestName'
-        from OrderSubstitut a left join OrderDetailed b on a.Id = b.OrderSubstitutId join SystemUser u on a.ToGuideId = u.Id
+         select u.GuideTel as 'guideTel',a.LineName as 'lineName',a.ToGuideId as 'guestId',b.Statu as 'Status',
+        convert(varchar(20),a.OutDate,23)outDate,b.AllNumber,b.ContactName,b.ContactTel,u.GuideName as 'guestName'
+        from OrderSubstitut a left join OrderDetailed b on a.Id = b.OrderSubstitutId join Orders u on b.OrderId = u.Id
        where a.CreateUserId=#{Id}
        order by a.OutDate desc
     </select>
 
     <select id="withChoiseIndex" resultType="eqlee.ctm.apply.orders.entity.query.ChangedQuery">
-       select u.Tel as 'guideTel',a.LineName as 'lineName',a.ToGuideId as 'guestId',b.Statu as 'Status',convert(varchar(20),a.OutDate,23)outDate,
+       select u.GuideTel as 'guideTel',a.LineName as 'lineName',a.ToGuideId as 'guestId',b.Statu as 'Status',convert(varchar(20),a.OutDate,23)outDate,
        b.AllNumber,b.ContactName,b.ContactTel,a.GuideName as 'guestName'
-        from OrderSubstitut a left join OrderDetailed b on a.Id = b.OrderSubstitutId join SystemUser u on a.ToGuideId = u.Id
+        from OrderSubstitut a left join OrderDetailed b on a.Id = b.OrderSubstitutId join Orders u on b.OrderId = u.Id
        where a.ToGuideId = #{Id} order by a.OutDate desc
     </select>
 
@@ -90,13 +64,6 @@
 
     <select id="unpaidInformation" resultType="eqlee.ctm.apply.orders.entity.Vo.UnpaidInformationVo">
         select ContactName,ContactTel,Price from OrderDetailed where PayType = 2
-    </select>
-
-    <select id="selectApplyVoList" resultType="eqlee.ctm.apply.orders.entity.Vo.OrdersVo" parameterType="Long">
-        select a.Id as id,a.LineId as lineId,a.AllNumber as 'allNumber',a.ContactName as 'contactName',
-        a.ContactTel as 'contactTel',a.Region as 'region',a.Place as 'place',
-        b.LineName as 'lineName',convert(varchar(20),a.OutDate,23) as 'outDate' from Apply a
-        left join Line b on a.LineId = b.Id where a.Id = #{id}
     </select>
 
 
