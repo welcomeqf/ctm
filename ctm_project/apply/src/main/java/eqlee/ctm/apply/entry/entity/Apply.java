@@ -178,6 +178,16 @@ public class Apply extends Model<Apply> {
      */
     private String CName;
 
+    /**
+     * 面收金额
+     */
+    private Double MsPrice;
+
+    /**
+     * 报名备注
+     */
+    private String ApplyRemark;
+
     @Override
     protected Serializable pkVal() {
         return this.Id;

@@ -17,6 +17,7 @@ import eqlee.ctm.apply.line.entity.vo.ResultVo;
 import eqlee.ctm.apply.line.service.ILineService;
 import eqlee.ctm.apply.price.dao.PriceMapper;
 import eqlee.ctm.apply.price.entity.Price;
+import eqlee.ctm.apply.price.entity.query.PriceNumberQuery;
 import eqlee.ctm.apply.price.entity.query.PriceQuery;
 import eqlee.ctm.apply.price.entity.vo.*;
 import eqlee.ctm.apply.price.service.IPriceService;
@@ -272,13 +273,13 @@ public class PriceServiceImpl extends ServiceImpl<PriceMapper, Price> implements
 
     /**
      * 根据出行时间或者线路名查看价格序列
-     * @param page
+     * @param numberType
      * @param outDate
      * @param lineId
      * @return
      */
     @Override
-    public Map<String,Object> queryPricePageByFilter(Page<PriceSelectVo> page, String outDate, Long lineId) {
+    public Map<String,Object> queryPricePageByFilter(Integer numberType, String outDate, Long lineId) {
         //起始日期
         LocalDate start = DateUtil.parseDate(outDate);
         //获取下个月的日期
@@ -286,14 +287,71 @@ public class PriceServiceImpl extends ServiceImpl<PriceMapper, Price> implements
         //获取当前月的最后一天
         LocalDate end = localDate1.minusDays(1);
 
-        Page<PriceSelectVo> pricePage = baseMapper.selectPriceByFilter(page, start, end, lineId);
+        List<PriceSelectVo> pricePage = baseMapper.selectPriceByFilter(start, end, lineId);
 
         Map<String,Object> map = new HashMap<>();
-        map.put("price",pricePage);
         map.put("startDate",outDate);
         String endDate = DateUtil.formatDate(end);
         map.put("endDate",endDate);
 
+        List<PriceNumberQuery> queryList = new ArrayList<>();
+        if (numberType == 1) {
+            //老人
+            for (PriceSelectVo vo : pricePage) {
+                PriceNumberQuery query = new PriceNumberQuery();
+                query.setId(vo.getId());
+                query.setOutDate(vo.getOutDate());
+                query.setPrice(vo.getOldPrice());
+                query.setMarketPrice(vo.getMarketOldPrice());
+                queryList.add(query);
+            }
+
+            map.put("price",queryList);
+            return map;
+        }
+
+        if (numberType == 2) {
+            //小孩
+            for (PriceSelectVo vo : pricePage) {
+                PriceNumberQuery query = new PriceNumberQuery();
+                query.setId(vo.getId());
+                query.setOutDate(vo.getOutDate());
+                query.setPrice(vo.getChildPrice());
+                query.setMarketPrice(vo.getMarketChildPrice());
+                queryList.add(query);
+            }
+
+            map.put("price",queryList);
+            return map;
+
+        }
+
+        if (numberType == 3) {
+            //幼儿
+            for (PriceSelectVo vo : pricePage) {
+                PriceNumberQuery query = new PriceNumberQuery();
+                query.setId(vo.getId());
+                query.setOutDate(vo.getOutDate());
+                query.setPrice(vo.getBabyPrice());
+                query.setMarketPrice(vo.getMarketBabyPrice());
+                queryList.add(query);
+            }
+
+            map.put("price",queryList);
+            return map;
+        }
+
+        //成人
+        for (PriceSelectVo vo : pricePage) {
+            PriceNumberQuery query = new PriceNumberQuery();
+            query.setId(vo.getId());
+            query.setOutDate(vo.getOutDate());
+            query.setPrice(vo.getAdultPrice());
+            query.setMarketPrice(vo.getMarketAdultPrice());
+            queryList.add(query);
+        }
+
+        map.put("price",queryList);
         return map;
 
     }

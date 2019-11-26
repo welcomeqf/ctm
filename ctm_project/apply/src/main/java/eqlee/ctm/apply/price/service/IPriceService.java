@@ -51,12 +51,12 @@ public interface IPriceService {
 
     /**
      * 根据出行时间或者线路名查看价格序列(模糊查询)
-     * @param page
+     * @param numberType
      * @param outDate
      * @param lineId
      * @return
      */
-    Map<String,Object> queryPricePageByFilter(Page<PriceSelectVo> page, String outDate, Long lineId);
+    Map<String,Object> queryPricePageByFilter(Integer numberType, String outDate, Long lineId);
 
 
     /**

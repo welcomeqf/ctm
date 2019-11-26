@@ -73,4 +73,16 @@ public class ApplyCompanyQuery {
      * 结算价
      */
     private Double AllPrice;
+
+    private Integer ChildNumber;
+
+    private Integer OldNumber;
+
+    private Integer BabyNumber;
+
+    private Integer AdultNumber;
+
+    private String Place;
+
+    private String CName;
 }

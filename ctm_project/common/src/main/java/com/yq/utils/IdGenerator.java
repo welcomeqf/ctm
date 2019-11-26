@@ -72,6 +72,21 @@ public class IdGenerator {
     }
 
     /**
+     * 获得订单号
+     * 用户量少的情况下使用
+     * 基本无并发下使用--
+     * @return
+     */
+    public String getShortOrderNo() {
+        String time = DateUtil.formatSimpleDateTime(LocalDateTime.now());
+        int randoms = (int) (Math.random() * (9 + 1) + 10);
+
+        String data = String.valueOf(randoms);
+
+        return time + data;
+    }
+
+    /**
      * Twitter_Snowflake<br>
      * SnowFlake的结构如下(每部分用-分开):<br>
      * 0 - 0000000000 0000000000 0000000000 0000000000 0 - 00000 - 00000 - 000000000000 <br>

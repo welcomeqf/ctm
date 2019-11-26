@@ -293,6 +293,7 @@ public class InFinanceServiceImpl extends ServiceImpl<InFinanceMapper, Income> i
             query.setTrueAllNumber(vo.getTrueAllNumber());
             query.setUnpaidNumber(vo.getUnpaidNumber());
             query.setGuideId(vo.getGuestId());
+            query.setAllDoNumber(vo.getAllDoNumber());
 
             allNoNumber =allNoNumber + vo.getAllNumber();
             allNoPrice = allNoPrice + vo.getAllPrice();

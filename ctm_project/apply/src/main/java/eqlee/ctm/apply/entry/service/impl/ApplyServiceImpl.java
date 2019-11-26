@@ -129,7 +129,7 @@ public class ApplyServiceImpl extends ServiceImpl<ApplyMapper, Apply> implements
         //算出总人数
         Integer AllNumber = applyVo.getAdultNumber() + applyVo.getChildNumber() + applyVo.getOldNumber() + applyVo.getBabyNumber();
         //生成报名单号
-        String orderCode = idGenerator.getOrderCode();
+        String orderCode = idGenerator.getShortOrderNo();
 
         UserLoginQuery user = localUser.getUser("用户信息");
 
@@ -190,6 +190,8 @@ public class ApplyServiceImpl extends ServiceImpl<ApplyMapper, Apply> implements
             apply.setUpdateUserId(user.getId());
             apply.setCName(applyVo.getCName());
             apply.setMarketAllPrice(applyVo.getMarketAllPrice());
+            apply.setMsPrice(applyVo.getMsPrice());
+            apply.setApplyRemark(applyVo.getApplyRemark());
 
         } else {
             //运营人员代录
@@ -213,6 +215,8 @@ public class ApplyServiceImpl extends ServiceImpl<ApplyMapper, Apply> implements
             apply.setUpdateUserId(applyVo.getUpdateUserId());
             apply.setCName(applyVo.getCName());
             apply.setMarketAllPrice(applyVo.getMarketAllPrice());
+            apply.setMsPrice(applyVo.getMsPrice());
+            apply.setApplyRemark(applyVo.getApplyRemark());
 
         }
 
@@ -223,11 +227,36 @@ public class ApplyServiceImpl extends ServiceImpl<ApplyMapper, Apply> implements
         if (MONTH_PAY.equals(applyVo.getPayType())) {
             apply.setPayType(1);
             apply.setIsPayment(true);
+
+           //如果是月结，判断月结金额是否达标
+           LambdaQueryWrapper<Apply> queryWrapper = new LambdaQueryWrapper<Apply>()
+                 .eq(Apply::getPayType,1);
+           List<Apply> applies = baseMapper.selectList(queryWrapper);
+
+           //算出本月已使用的金额
+           Double sxAllPrice = 0.0;
+           for (Apply apply1 : applies) {
+              sxAllPrice += apply1.getMsPrice();
+           }
+           //已使用的面收金额与额度比较
+           Double faPrice = applyVo.getSxPrice() - (sxAllPrice + applyVo.getMsPrice());
+
+           Double syPrice = applyVo.getSxPrice() - sxAllPrice;
+
+           if (faPrice < 0) {
+              throw new ApplicationException(CodeType.SERVICE_ERROR, "您的额度不足，剩余额度:" + syPrice);
+           }
         }
         if (NOW_PAY.equals(applyVo.getPayType())) {
             apply.setPayType(0);
         }
         if (AGENT_PAY.equals(applyVo.getPayType())) {
+
+           //如果是面收   则判断面收金额是否为空
+           if (applyVo.getMsPrice() == null) {
+              throw new ApplicationException(CodeType.SERVICE_ERROR, "请输入面收金额");
+           }
+
             apply.setPayType(2);
             apply.setIsPayment(true);
         }
@@ -287,41 +316,30 @@ public class ApplyServiceImpl extends ServiceImpl<ApplyMapper, Apply> implements
         return query;
     }
 
-    /**
-     * 分页展示报名记录
-     * <a>如果只有出发日期，只对出发日期进行条件查询</a>
-     * <b>如果只有线路名，区域任意一种，对线路名，或区域进行模糊查询</b>
-     * <c>默认参数都为空，对所有分页</c>
-     * <d>对出发日期，线路名或者区域查询</d>
-     * @param page
-     * @param OutDate
-     * @param LineNameOrRegion
-     * @return
-     */
-    @Override
-    public Page<ApplyQuery> listPageApply(Page<ApplyQuery> page,String OutDate, String LineNameOrRegion) {
-        if (StringUtils.isBlank(OutDate) && StringUtils.isBlank(LineNameOrRegion) ) {
-            //分页查询所有报名记录
-            return baseMapper.listPageApply(page);
-        }
+   /**
+    * 分页展示报名记录
+    * <a>如果只有出发日期，只对出发日期进行条件查询</a>
+    * <b>如果只有线路名，区域任意一种，对线路名，或区域进行模糊查询</b>
+    * <c>默认参数都为空，对所有分页</c>
+    * <d>对出发日期，线路名或者区域查询</d>
+    * @param page
+    * @param OutDate
+    * @param LineNameOrRegion
+    * @return
+    */
+   @Override
+   public Page<ApplyQuery> listPage2Apply(Page<ApplyQuery> page, String OutDate, String LineNameOrRegion) {
 
-        if (StringUtils.isBlank(LineNameOrRegion) && StringUtils.isNotBlank(OutDate)) {
-            //分页及时间条件查询报名记录
-            LocalDate localDate = DateUtil.parseDate(OutDate);
-            return baseMapper.listPageApplyByDate(page,localDate);
-        }
+      LocalDate outTime = null;
 
-        if (StringUtils.isBlank(OutDate) && StringUtils.isNotBlank(LineNameOrRegion)) {
-            //分页及线路名或区域模糊查询报名记录
-            return baseMapper.listPageApplyByLine(page,LineNameOrRegion);
-        }
+      if (StringUtils.isNotBlank(OutDate)) {
+         outTime = DateUtil.parseDate(OutDate);
+      }
 
-        //分页及时间条件查询及线路名或区域模糊查询报名记录
-        LocalDate localDate = DateUtil.parseDate(OutDate);
-        return baseMapper.listPageApplyByAll(page,LineNameOrRegion,localDate);
-    }
+      return baseMapper.queryApplyInfo (page,LineNameOrRegion,outTime);
+   }
 
-    /**
+   /**
      * 修改报名表
      * @param updateInfo
      */
@@ -342,68 +360,37 @@ public class ApplyServiceImpl extends ServiceImpl<ApplyMapper, Apply> implements
         }
     }
 
-    /**
-     * 分页查询已报名未审核的列表,可以根据出发时间模糊查询
-     *（默认出来本公司所有的数据）
-     * @param page
-     * @param OutDate
-     * @param LineName
-     * @return
-     */
-    @Override
-    public Page<ApplyDoExaQuery> listPageDoApply(Page<ApplyDoExaQuery> page, String OutDate, String LineName , String ApplyType) {
+   /**
+    * 分页查询已报名未审核的列表,可以根据出发时间模糊查询
+    * 优化
+    * @param page
+    * @param outDate
+    * @param lineName
+    * @param applyType
+    * @return
+    */
+   @Override
+   public Page<ApplyDoExaQuery> listPageDo2Apply(Page<ApplyDoExaQuery> page, String outDate, String lineName, String applyType) {
 
-        if (StringUtils.isBlank(ApplyType) || APPLY_EXA.equals(ApplyType)) {
-            //若审核为空或是报名审核都默认报名审核记录
+      LocalDate outTime = null;
 
-            if (StringUtils.isBlank(OutDate) && StringUtils.isBlank(LineName)) {
-                //当出发时间 和线路名 都为空时
-                return baseMapper.listPageDoApply(page);
-            }
+      if (StringUtils.isNotBlank(outDate)) {
+         outTime = DateUtil.parseDate(outDate);
+      }
 
-            if (StringUtils.isBlank(LineName) && StringUtils.isNotBlank(OutDate)) {
-                //当线路名为空
-                LocalDate outDate = DateUtil.parseDate(OutDate);
-                return baseMapper.listPageDoApplyByNo(page,outDate);
-            }
+      Integer type;
+      if (APPLY_EXA.equals(applyType)) {
+         //报名审核
+         type = 0;
+      }else {
+         //取消审核
+         type = 1;
+      }
 
-            if (StringUtils.isBlank(OutDate) && StringUtils.isNotBlank(LineName)) {
-                //当出发时间为空
-                return baseMapper.listPageDoApplyByLineName(page,LineName);
-            }
+      return baseMapper.queryAllExaInfo (page,outTime,lineName,type);
+   }
 
-            if (StringUtils.isNotBlank(OutDate) && StringUtils.isNotBlank(LineName)) {
-                //根据订单号和线路名模糊查询分页数据
-                LocalDate outDate = DateUtil.parseDate(OutDate);
-                return baseMapper.listPageDoApplyByNoWithLine(page,LineName,outDate);
-            }
-
-        }
-
-        //取消审核的记录--
-        if (StringUtils.isBlank(LineName) && StringUtils.isNotBlank(OutDate)) {
-            //当线路名为空
-            LocalDate outDate = DateUtil.parseDate(OutDate);
-            return baseMapper.listPageNotCancelByTime(page,outDate);
-        }
-
-        if (StringUtils.isBlank(OutDate) && StringUtils.isBlank(LineName)) {
-            //当出发时间 和线路名 都为空时
-            return baseMapper.listPageNotCancel(page);
-        }
-
-        if (StringUtils.isBlank(OutDate) && StringUtils.isNotBlank(LineName)) {
-            //当出发时间为空
-            return baseMapper.listPageNotCancelByLineName(page,LineName);
-
-        }
-
-        //三者都不为空并且是取消审核的记录
-        LocalDate outDate = DateUtil.parseDate(OutDate);
-        return baseMapper.listPageNotCancelByTimeWithLine(page,LineName,outDate);
-    }
-
-    /**
+   /**
      * 分页查询已报名已审核的列表,可以根据出发时间模糊查询
      *（默认出来本公司所有的数据）
      * @param page
@@ -598,16 +585,18 @@ public class ApplyServiceImpl extends ServiceImpl<ApplyMapper, Apply> implements
     }
 
     /**
-     * 我的报名记录
+     * 优化
+     * 我的报名记录(同行)
      * @param page
      * @param lineName
      * @param outDate
      * @param applyTime
      * @param type
+     * @param todayType
      * @return
      */
     @Override
-    public Page<ApplyCompanyQuery> page2MeApply(Page<ApplyCompanyQuery> page, String lineName, String outDate, String applyTime, Integer type) {
+    public Page<ApplyCompanyQuery> pageMeApply(Page<ApplyCompanyQuery> page, String lineName, String outDate, String applyTime, Integer type, Integer todayType) {
 
         UserLoginQuery user = localUser.getUser("用户信息");
 
@@ -615,314 +604,107 @@ public class ApplyServiceImpl extends ServiceImpl<ApplyMapper, Apply> implements
             throw new ApplicationException(CodeType.SERVICE_ERROR, "请勿同时选择两个时间");
         }
 
-        //报名时间为空
-        if (StringUtils.isBlank(applyTime)) {
+        LocalDate outTime = null;
+        LocalDateTime startDate = null;
+        LocalDateTime endDate = null;
 
-            if (StringUtils.isBlank(lineName) && StringUtils.isBlank(outDate) && type == null) {
-                //都为空
-                return baseMapper.listPageDoApply2Me(page,user.getId());
-            }
-
-            if (StringUtils.isBlank(lineName) && StringUtils.isNotBlank(outDate) && type == null) {
-                //根据出行日期查询
-                LocalDate localDate = DateUtil.parseDate(outDate);
-                return baseMapper.listPageDoApply2MeByTime(page,localDate,user.getId());
-            }
-
-            if (StringUtils.isNotBlank(lineName) && StringUtils.isBlank(outDate) && type == null) {
-                //根据线路名模糊查询
-                return baseMapper.listPageDoApply2MeByName(page,lineName,user.getId());
-            }
-
-            //都不为空
-            if (StringUtils.isNotBlank(lineName) && StringUtils.isNotBlank(outDate) && type == null) {
-                LocalDate localDate = DateUtil.parseDate(outDate);
-                return baseMapper.listPageDoApply2MeByNameAndTime(page,lineName,localDate,user.getId());
-            }
-
-            if (StringUtils.isBlank(lineName) && StringUtils.isBlank(outDate) && type == 0) {
-                //都为空
-                return baseMapper.listPageDoApply2MeCancel(page,user.getId());
-            }
-
-            if (StringUtils.isBlank(lineName) && StringUtils.isNotBlank(outDate) && type == 0) {
-                //根据出行日期查询
-                LocalDate localDate = DateUtil.parseDate(outDate);
-                return baseMapper.listPageDoApply2MeByTimeCancel(page,localDate,user.getId());
-            }
-
-            if (StringUtils.isNotBlank(lineName) && StringUtils.isBlank(outDate) && type == 0) {
-                //根据线路名模糊查询
-                return baseMapper.listPageDoApply2MeByNameCancel(page,lineName,user.getId());
-            }
-
-            //都不为空
-            if (StringUtils.isNotBlank(lineName) && StringUtils.isNotBlank(outDate) && type == 0) {
-                LocalDate localDate = DateUtil.parseDate(outDate);
-                return baseMapper.listPageDoApply2MeByNameAndTimeCancel(page,lineName,localDate,user.getId());
-            }
+        if (StringUtils.isNotBlank(outDate)) {
+            outTime = DateUtil.parseDate(outDate);
         }
 
-        //报名日期不为空
         if (StringUtils.isNotBlank(applyTime)) {
-
             String start = applyTime + " 00:00:00";
             String end = applyTime + " 23:59:59";
-            LocalDateTime startDate = DateUtil.parseDateTime(start);
-            LocalDateTime endDate = DateUtil.parseDateTime(end);
+            startDate = DateUtil.parseDateTime(start);
+            endDate = DateUtil.parseDateTime(end);
+        }
 
-            if (StringUtils.isBlank(lineName) && type == null) {
-                //根据报名日期查询
-
-                return baseMapper.listPageDoApply2MeByTimeWithAT(page,startDate,endDate,user.getId());
-            }
-
-            //都不为空
-            if (StringUtils.isNotBlank(lineName) && type == null) {
-                return baseMapper.listPageDoApply2MeByNameAndTimeWithAT(page,lineName,startDate,endDate,user.getId());
-            }
-
-            if (StringUtils.isBlank(lineName) && type == 0) {
-                //根据报名日期查询
-                return baseMapper.listPageDoApply2MeByTimeCancelWithAT(page,startDate,endDate,user.getId());
-            }
-
-            //都不为空
-            if (StringUtils.isNotBlank(lineName)  && type == 0) {
-                return baseMapper.listPageDoApply2MeByNameAndTimeCancelWithAT(page,lineName,startDate,endDate,user.getId());
-            }
+        if (todayType == null) {
+            return baseMapper.allCompanyList (page,lineName,outTime,startDate,endDate,user.getId(),type);
         }
 
         //查询今天已报名
-        if (type == 1) {
+        if (todayType == 1) {
             LocalDate now = LocalDate.now();
             String nowTime = DateUtil.formatDate(now);
             //加上分秒
             String start = nowTime + " 00:00:00";
             String end = nowTime + " 23:59:59";
-            LocalDateTime sartDate = DateUtil.parseDateTime(start);
-            LocalDateTime endDate = DateUtil.parseDateTime(end);
+            LocalDateTime sartTime = DateUtil.parseDateTime(start);
+            LocalDateTime endTime = DateUtil.parseDateTime(end);
 
-            return baseMapper.listToDayApply(page,sartDate,endDate,user.getId());
+            return baseMapper.listToDayApply(page,sartTime,endTime,user.getId());
         }
 
         //查询今天出行
-        if (type == 2) {
+        if (todayType == 2) {
             LocalDate now = LocalDate.now();
             return baseMapper.listToDayOut(page,now,user.getId());
+        }else {
+           throw new ApplicationException(CodeType.SERVICE_ERROR, "参数type或todayType有误");
         }
-
-        if (type != 0 && type != 1 && type != 2 && type != null) {
-            //传入参数有误
-            throw new ApplicationException(CodeType.SERVICE_ERROR, "参数type有误");
-        }
-        return null;
     }
 
-    /**
-     * 我的报名记录（运营人员）
-     * @param page
-     * @param lineName
-     * @param outDate
-     * @param applyTime
-     * @param type
-     * @param companyUserId
-     * @return
-     */
-    @Override
-    public Page<ApplyCompanyQuery> pageAdminApply(Page<ApplyCompanyQuery> page, String lineName, String outDate, String applyTime, Integer type, Long companyUserId) {
+   /**
+    * 我的报名记录(运营人员)
+    * 优化
+    * @param page
+    * @param lineName
+    * @param outDate
+    * @param applyTime
+    * @param type
+    * @param companyUserId
+    * @param todayType
+    * @return
+    */
+   @Override
+   public Page<ApplyCompanyQuery> pageAdmin2Apply(Page<ApplyCompanyQuery> page, String lineName, String outDate, String applyTime, Integer type, Long companyUserId, Integer todayType) {
 
-        if (StringUtils.isNotBlank(applyTime) && StringUtils.isNotBlank(outDate)) {
-            throw new ApplicationException(CodeType.SERVICE_ERROR, "请勿同时选择两个时间");
-        }
+      if (StringUtils.isNotBlank(applyTime) && StringUtils.isNotBlank(outDate)) {
+         throw new ApplicationException(CodeType.SERVICE_ERROR, "请勿同时选择两个时间");
+      }
 
-        if (companyUserId == null) {
-            //报名时间为空
-            if (StringUtils.isBlank(applyTime)) {
+      LocalDate outTime = null;
+      LocalDateTime startDate = null;
+      LocalDateTime endDate = null;
 
-                if (StringUtils.isBlank(lineName) && StringUtils.isBlank(outDate) && type == null) {
-                    //都为空
-                    return baseMapper.listAdminDoApply2Me(page);
-                }
+      if (StringUtils.isNotBlank(outDate)) {
+         outTime = DateUtil.parseDate(outDate);
+      }
 
-                if (StringUtils.isBlank(lineName) && StringUtils.isNotBlank(outDate) && type == null) {
-                    //根据出行日期查询
-                    LocalDate localDate = DateUtil.parseDate(outDate);
-                    return baseMapper.listAdminDoApply2MeByTime(page,localDate);
-                }
+      if (StringUtils.isNotBlank(applyTime)) {
+         String start = applyTime + " 00:00:00";
+         String end = applyTime + " 23:59:59";
+         startDate = DateUtil.parseDateTime(start);
+         endDate = DateUtil.parseDateTime(end);
+      }
 
-                if (StringUtils.isNotBlank(lineName) && StringUtils.isBlank(outDate) && type == null) {
-                    //根据线路名模糊查询
-                    return baseMapper.listAdminDoApply2MeByName(page,lineName);
-                }
-
-                //都不为空
-                if (StringUtils.isNotBlank(lineName) && StringUtils.isNotBlank(outDate) && type == null) {
-                    LocalDate localDate = DateUtil.parseDate(outDate);
-                    return baseMapper.listAdminDoApply2MeByNameAndTime(page,lineName,localDate);
-                }
-
-                if (StringUtils.isBlank(lineName) && StringUtils.isBlank(outDate) && type == 0) {
-                    //都为空
-                    return baseMapper.listAdminDoApply2MeCancel(page);
-                }
-
-                if (StringUtils.isBlank(lineName) && StringUtils.isNotBlank(outDate) && type == 0) {
-                    //根据出行日期查询
-                    LocalDate localDate = DateUtil.parseDate(outDate);
-                    return baseMapper.listAdminDoApply2MeByTimeCancel(page,localDate);
-                }
-
-                if (StringUtils.isNotBlank(lineName) && StringUtils.isBlank(outDate) && type == 0) {
-                    //根据线路名模糊查询
-                    return baseMapper.listAdminDoApply2MeByNameCancel(page,lineName);
-                }
-
-                //都不为空
-                if (StringUtils.isNotBlank(lineName) && StringUtils.isNotBlank(outDate) && type == 0) {
-                    LocalDate localDate = DateUtil.parseDate(outDate);
-                    return baseMapper.listAdminDoApply2MeByNameAndTimeCancel(page,lineName,localDate);
-                }
-            }
-
-            //报名日期不为空
-            if (StringUtils.isNotBlank(applyTime)) {
-
-                String start = applyTime + " 00:00:00";
-                String end = applyTime + " 23:59:59";
-                LocalDateTime startDate = DateUtil.parseDateTime(start);
-                LocalDateTime endDate = DateUtil.parseDateTime(end);
-
-                if (StringUtils.isBlank(lineName) && type == null) {
-                    //根据报名日期查询
-
-                    return baseMapper.listAdminDoApply2MeByTimeWithAT(page,startDate,endDate);
-                }
-
-                //都不为空
-                if (StringUtils.isNotBlank(lineName) && type == null) {
-                    return baseMapper.listAdminDoApply2MeByNameAndTimeWithAT(page,lineName,startDate,endDate);
-                }
-
-                if (StringUtils.isBlank(lineName) && type == 0) {
-                    //根据报名日期查询
-                    return baseMapper.listAdminDoApply2MeByTimeCancelWithAT(page,startDate,endDate);
-                }
-
-                //都不为空
-                if (StringUtils.isNotBlank(lineName)  && type == 0) {
-                    return baseMapper.listAdminDoApply2MeByNameAndTimeCancelWithAT(page,lineName,startDate,endDate);
-                }
-            }
-        }
+      if (todayType == null) {
+         return baseMapper.allCompanyAdminList (page,lineName,outTime,startDate,endDate,companyUserId,type);
+      }
 
 
-        //报名时间为空
-        if (StringUtils.isBlank(applyTime)) {
+      //查询今天已报名
+      if (todayType == 1) {
+         LocalDate now = LocalDate.now();
+         String nowTime = DateUtil.formatDate(now);
+         //加上分秒
+         String start = nowTime + " 00:00:00";
+         String end = nowTime + " 23:59:59";
+         LocalDateTime sartTime = DateUtil.parseDateTime(start);
+         LocalDateTime endTime = DateUtil.parseDateTime(end);
 
-            if (StringUtils.isBlank(lineName) && StringUtils.isBlank(outDate) && type == null) {
-                //都为空
-                return baseMapper.listPageDoApply2Me(page,companyUserId);
-            }
+         return baseMapper.listToDayApply(page,sartTime,endTime,companyUserId);
+      }
 
-            if (StringUtils.isBlank(lineName) && StringUtils.isNotBlank(outDate) && type == null) {
-                //根据出行日期查询
-                LocalDate localDate = DateUtil.parseDate(outDate);
-                return baseMapper.listPageDoApply2MeByTime(page,localDate,companyUserId);
-            }
-
-            if (StringUtils.isNotBlank(lineName) && StringUtils.isBlank(outDate) && type == null) {
-                //根据线路名模糊查询
-                return baseMapper.listPageDoApply2MeByName(page,lineName,companyUserId);
-            }
-
-            //都不为空
-            if (StringUtils.isNotBlank(lineName) && StringUtils.isNotBlank(outDate) && type == null) {
-                LocalDate localDate = DateUtil.parseDate(outDate);
-                return baseMapper.listPageDoApply2MeByNameAndTime(page,lineName,localDate,companyUserId);
-            }
-
-            if (StringUtils.isBlank(lineName) && StringUtils.isBlank(outDate) && type == 0) {
-                //都为空
-                return baseMapper.listPageDoApply2MeCancel(page,companyUserId);
-            }
-
-            if (StringUtils.isBlank(lineName) && StringUtils.isNotBlank(outDate) && type == 0) {
-                //根据出行日期查询
-                LocalDate localDate = DateUtil.parseDate(outDate);
-                return baseMapper.listPageDoApply2MeByTimeCancel(page,localDate,companyUserId);
-            }
-
-            if (StringUtils.isNotBlank(lineName) && StringUtils.isBlank(outDate) && type == 0) {
-                //根据线路名模糊查询
-                return baseMapper.listPageDoApply2MeByNameCancel(page,lineName,companyUserId);
-            }
-
-            //都不为空
-            if (StringUtils.isNotBlank(lineName) && StringUtils.isNotBlank(outDate) && type == 0) {
-                LocalDate localDate = DateUtil.parseDate(outDate);
-                return baseMapper.listPageDoApply2MeByNameAndTimeCancel(page,lineName,localDate,companyUserId);
-            }
-        }
-
-        //报名日期不为空
-        if (StringUtils.isNotBlank(applyTime)) {
-
-            String start = applyTime + " 00:00:00";
-            String end = applyTime + " 23:59:59";
-            LocalDateTime startDate = DateUtil.parseDateTime(start);
-            LocalDateTime endDate = DateUtil.parseDateTime(end);
-
-            if (StringUtils.isBlank(lineName) && type == null) {
-                //根据报名日期查询
-
-                return baseMapper.listPageDoApply2MeByTimeWithAT(page,startDate,endDate,companyUserId);
-            }
-
-            //都不为空
-            if (StringUtils.isNotBlank(lineName) && type == null) {
-                return baseMapper.listPageDoApply2MeByNameAndTimeWithAT(page,lineName,startDate,endDate,companyUserId);
-            }
-
-            if (StringUtils.isBlank(lineName) && type == 0) {
-                //根据报名日期查询
-                return baseMapper.listPageDoApply2MeByTimeCancelWithAT(page,startDate,endDate,companyUserId);
-            }
-
-            //都不为空
-            if (StringUtils.isNotBlank(lineName)  && type == 0) {
-                return baseMapper.listPageDoApply2MeByNameAndTimeCancelWithAT(page,lineName,startDate,endDate,companyUserId);
-            }
-        }
-
-        //查询今天已报名
-        if (type == 1) {
-            LocalDate now = LocalDate.now();
-            String nowTime = DateUtil.formatDate(now);
-            //加上分秒
-            String start = nowTime + " 00:00:00";
-            String end = nowTime + " 23:59:59";
-            LocalDateTime sartDate = DateUtil.parseDateTime(start);
-            LocalDateTime endDate = DateUtil.parseDateTime(end);
-
-            return baseMapper.listToDayApply(page,sartDate,endDate,companyUserId);
-        }
-
-        //查询今天出行
-        if (type == 2) {
-            LocalDate now = LocalDate.now();
-            return baseMapper.listToDayOut(page,now,companyUserId);
-        }
-
-        if (type != 0 && type != 1 && type != 2 && type != null) {
-            //传入参数有误
-            throw new ApplicationException(CodeType.SERVICE_ERROR, "参数type有误");
-        }
-
-
-        return null;
-    }
-
+      //查询今天出行
+      if (todayType == 2) {
+         LocalDate now = LocalDate.now();
+         return baseMapper.listToDayOut(page,now,companyUserId);
+      } else {
+         throw new ApplicationException(CodeType.SERVICE_ERROR, "参数type有误");
+      }
+   }
 
     /**
      * 修改导游选人状态
@@ -974,52 +756,28 @@ public class ApplyServiceImpl extends ServiceImpl<ApplyMapper, Apply> implements
         return baseMapper.selectList(lambdaQueryWrapper);
     }
 
-    /**
-     * 分页查询月结的信息
-     * type==0 默认
-     * type==1 未付款
-     * type==2 已付款
-     * @param page
-     * @param type
-     * @param outDate
-     * @return
-     */
-    @Override
-    public Page<ApplyMonthQuery> queryMonthApply(Page<ApplyMonthQuery> page, Integer type,String outDate) {
+   /**
+    * 分页查询月结的信息
+    * type==0 默认
+    * type==1 未付款
+    * type==2 已付款
+    * @param page
+    * @param type
+    * @param outDate
+    * @return
+    */
+   @Override
+   public Page<ApplyMonthQuery> queryMonth2Apply(Page<ApplyMonthQuery> page, Integer type, String outDate) {
 
-        if (type == 1 && StringUtils.isBlank(outDate)) {
-            //未付款信息
-               return baseMapper.queryMonthWeiApply(page);
-        }
+      LocalDate outTime = null;
 
-        if (type == 1 && StringUtils.isNotBlank(outDate)) {
-            //根据出行日期查询未付款信息
-            LocalDate localDate = DateUtil.parseDate(outDate);
-            return baseMapper.queryMonthWeiApplyByTime(page,localDate);
-        }
+      if (StringUtils.isNotBlank(outDate)) {
+         outTime = DateUtil.parseDate(outDate);
+      }
+      return baseMapper.queryAllMonth (page,outTime,type);
+   }
 
-        if (type == 2 && StringUtils.isBlank(outDate)) {
-            //已付款信息
-            return baseMapper.queryMonthYiApply(page);
-        }
-
-        if (type == 2 && StringUtils.isNotBlank(outDate)) {
-            //根据出行日期查询已付款信息
-            LocalDate localDate = DateUtil.parseDate(outDate);
-            return baseMapper.queryMonthYiApplyByTime(page,localDate);
-        }
-
-        if (StringUtils.isNotBlank(outDate)) {
-            //根据出行日期查询全部
-            LocalDate localDate = DateUtil.parseDate(outDate);
-            return baseMapper.queryMonthApplyByTime(page,localDate);
-        }
-
-        //查询全部
-        return baseMapper.queryMonthApply(page);
-    }
-
-    /**
+   /**
      * 修改付款状态
      * @param id
      */
@@ -1110,36 +868,23 @@ public class ApplyServiceImpl extends ServiceImpl<ApplyMapper, Apply> implements
         }
     }
 
-    /**
-     * 同行月结现结统计
-     * @param page
-     * @param payType
-     * @param outDate
-     * @param lineName
-     * @return
-     */
-    @Override
-    public Page<ApplyResultCountQuery> pageResultCountList(Page<ApplyResultCountQuery> page, Integer payType, String outDate, String lineName) {
-        if (StringUtils.isBlank(outDate) && StringUtils.isBlank(lineName)) {
-            //线路名和出发时间为空时
-            return baseMapper.pageResult(page,payType);
-        }
+   /**
+    * 同行月结现结统计(优化)
+    * @param page
+    * @param payType
+    * @param outDate
+    * @param lineName
+    * @return
+    */
+   @Override
+   public Page<ApplyResultCountQuery> pageResult2CountList(Page<ApplyResultCountQuery> page, Integer payType, String outDate, String lineName) {
 
-        if (StringUtils.isBlank(outDate) && StringUtils.isNotBlank(lineName)) {
-            //线路名不为空
-            return baseMapper.pageResultByLineName(page,payType,lineName);
-        }
-
-        if (StringUtils.isNotBlank(outDate) && StringUtils.isBlank(lineName)) {
-            //出发时间不为空
-            LocalDate date = DateUtil.parseDate(outDate);
-            return baseMapper.pageResultByOutDate(page,payType,date);
-        }
-
-        //都不为空
-        LocalDate date = DateUtil.parseDate(outDate);
-        return baseMapper.pageResultByTimeAndName(page,payType,date,lineName);
-    }
+      LocalDate outTime = null;
+      if (StringUtils.isNotBlank(outDate)) {
+         outTime = DateUtil.parseDate(outDate);
+      }
+      return baseMapper.queryCompanyResultCount (page,payType,outTime,lineName);
+   }
 
     /**
      * 查询待付款支付信息

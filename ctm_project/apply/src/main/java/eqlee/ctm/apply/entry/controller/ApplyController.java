@@ -93,7 +93,7 @@ public class ApplyController {
             throw new ApplicationException(CodeType.PARAM_ERROR);
         }
         Page<ApplyQuery> page = new Page<>(current,size);
-        return applyService.listPageApply(page,OutDate,LineNameOrRegion);
+        return applyService.listPage2Apply(page,OutDate,LineNameOrRegion);
     }
 
     @ApiOperation(value = "运营审核未审核的报名记录（可根据出发日期和线路模糊查询）", notes = "运营审核未审核的报名记录（可根据出发日期和线路模糊查询）")
@@ -116,7 +116,7 @@ public class ApplyController {
 
         Page<ApplyDoExaQuery> page = new Page<>(current,size);
 
-        return applyService.listPageDoApply(page,OutDate,LineName,ApplyType);
+        return applyService.listPageDo2Apply(page,OutDate,LineName,ApplyType);
     }
 
 
@@ -186,7 +186,8 @@ public class ApplyController {
             @ApiImplicitParam(name = "OutTime", value = "出行时间", required = false, dataType = "String", paramType = "path"),
             @ApiImplicitParam(name = "applyTime", value = "报名时间", required = false, dataType = "String", paramType = "path"),
             @ApiImplicitParam(name = "LineName", value = "线路名模糊查询", required = false, dataType = "String", paramType = "path"),
-            @ApiImplicitParam(name = "type", value = "(0-已取消 1-今天已报名 2-今天出行)", required = false, dataType = "int", paramType = "path")
+            @ApiImplicitParam(name = "type", value = "(0-已取消)", required = false, dataType = "int", paramType = "path"),
+            @ApiImplicitParam(name = "todayType", value = "(1-今天已报名 2-今天出行)", required = false, dataType = "int", paramType = "path")
     })
     @GetMapping("/page2MeApply")
     @CrossOrigin
@@ -194,7 +195,7 @@ public class ApplyController {
     public Page<ApplyCompanyQuery> page2MeApply(@RequestParam("current") Integer current, @RequestParam("size") Integer size,
                                                 @RequestParam("OutTime") String OutTime, @RequestParam("LineName") String LineName,
                                                 @RequestParam("applyTime") String applyTime,@RequestParam("type") Integer type,
-                                                @RequestParam("companyUserId") Long companyUserId) {
+                                                @RequestParam("companyUserId") Long companyUserId,@RequestParam("todayType") Integer todayType) {
 
         if (current == null || size == null) {
             throw new ApplicationException(CodeType.PARAM_ERROR,"参数不能为空");
@@ -204,10 +205,10 @@ public class ApplyController {
 
         String admin = "运营人员";
         if (admin.equals(user.getRoleName())) {
-            return applyService.pageAdminApply(page,LineName,OutTime,applyTime,type,companyUserId);
+            return applyService.pageAdmin2Apply(page,LineName,OutTime,applyTime,type,companyUserId,todayType);
         }
 
-        return applyService.page2MeApply(page,LineName,OutTime,applyTime,type);
+        return applyService.pageMeApply(page,LineName,OutTime,applyTime,type,todayType);
 
     }
 
@@ -217,7 +218,7 @@ public class ApplyController {
             @ApiImplicitParam(name = "current", value = "当前页", required = true, dataType = "int", paramType = "path"),
             @ApiImplicitParam(name = "size", value = "每页显示的条数", required = true, dataType = "int", paramType = "path"),
             @ApiImplicitParam(name = "outDate", value = "出行时间", required = false, dataType = "String", paramType = "path"),
-            @ApiImplicitParam(name = "type", value = "类型(0-查询全部 1-未付款 2-已付款)", required = false, dataType = "int", paramType = "path")
+            @ApiImplicitParam(name = "type", value = "类型(0-查询全部 1-未付款 2-已付款)", required = true, dataType = "int", paramType = "path")
     })
     @GetMapping("/queryMonthApply")
     @CrossOrigin
@@ -225,11 +226,11 @@ public class ApplyController {
     public Page<ApplyMonthQuery> queryMonthApply(@RequestParam("current") Integer current, @RequestParam("size") Integer size,
                                                 @RequestParam("outDate") String outDate, @RequestParam("type") Integer type) {
 
-        if (current == null || size == null) {
+        if (current == null || size == null || type == null) {
             throw new ApplicationException(CodeType.PARAM_ERROR,"参数不能为空");
         }
         Page<ApplyMonthQuery> page = new Page<>(current,size);
-        return applyService.queryMonthApply(page,type,outDate);
+        return applyService.queryMonth2Apply(page,type,outDate);
 
     }
 
@@ -294,7 +295,7 @@ public class ApplyController {
 
         Page<ApplyResultCountQuery> page = new Page<>(current,size);
 
-        return applyService.pageResultCountList(page,payType,outDate,lineName);
+        return applyService.pageResult2CountList(page,payType,outDate,lineName);
     }
 
 
@@ -310,6 +311,5 @@ public class ApplyController {
         }
         return applyService.queryPayInfo(applyNo);
     }
-
 
 }

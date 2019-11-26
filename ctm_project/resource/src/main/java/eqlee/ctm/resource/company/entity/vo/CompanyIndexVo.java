@@ -37,4 +37,10 @@ public class CompanyIndexVo {
      */
     private boolean stopped;
 
+    private String companyNo;
+
+    private String companyPic;
+
+    private Double sxPrice;
+
 }

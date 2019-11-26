@@ -93,6 +93,11 @@ public class OrderDetailed extends Model<OrderDetailed> {
     private Integer PayType;
 
     /**
+     * 面收金额
+     */
+    private Double MsPrice;
+
+    /**
      * (0--未付款  1--已付款)
      */
     private Boolean IsPayment;

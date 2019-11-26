@@ -24,4 +24,16 @@ public class CompanyVo {
 
     private Boolean stopped;
 
+    private String companyNo;
+
+    /**
+     * 同行合同图片
+     */
+    private String companyPic;
+
+    /**
+     * 授信月结金额
+     */
+    private Double sxPrice;
+
 }

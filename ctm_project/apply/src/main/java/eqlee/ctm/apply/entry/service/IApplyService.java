@@ -25,7 +25,6 @@ public interface IApplyService {
      */
     ApplyPayResultQuery insertApply(ApplyVo applyVo);
 
-
     /**
      * 分页展示报名记录
      * <a>如果只有出发日期，只对出发日期进行条件查询</a>
@@ -37,7 +36,7 @@ public interface IApplyService {
      * @param LineNameOrRegion
      * @return
      */
-    Page<ApplyQuery> listPageApply(Page<ApplyQuery> page,String OutDate, String LineNameOrRegion);
+    Page<ApplyQuery> listPage2Apply (Page<ApplyQuery> page,String OutDate, String LineNameOrRegion);
 
     /**
      * 修改报名表
@@ -47,13 +46,14 @@ public interface IApplyService {
 
     /**
      * 分页查询已报名未审核的列表,可以根据出发时间模糊查询
+     * 优化
      * @param page
-     * @param OutDate
-     * @param LineName
-     * @param ApplyType
+     * @param outDate
+     * @param lineName
+     * @param applyType
      * @return
      */
-    Page<ApplyDoExaQuery> listPageDoApply(Page<ApplyDoExaQuery> page, String OutDate, String LineName, String ApplyType);
+    Page<ApplyDoExaQuery> listPageDo2Apply(Page<ApplyDoExaQuery> page, String outDate, String lineName, String applyType);
 
 
     /**
@@ -125,9 +125,10 @@ public interface IApplyService {
      * @param outDate
      * @param applyTime
      * @param type
+     * @param todayType
      * @return
      */
-    Page<ApplyCompanyQuery> page2MeApply (Page<ApplyCompanyQuery> page, String lineName, String outDate, String applyTime, Integer type);
+    Page<ApplyCompanyQuery> pageMeApply (Page<ApplyCompanyQuery> page, String lineName, String outDate, String applyTime, Integer type,Integer todayType);
 
     /**
      * 我的报名记录(运营人员)
@@ -137,9 +138,11 @@ public interface IApplyService {
      * @param applyTime
      * @param type
      * @param companyUserId
+     * @param todayType
      * @return
      */
-    Page<ApplyCompanyQuery> pageAdminApply (Page<ApplyCompanyQuery> page, String lineName, String outDate, String applyTime, Integer type, Long companyUserId);
+    Page<ApplyCompanyQuery> pageAdmin2Apply (Page<ApplyCompanyQuery> page, String lineName, String outDate, String applyTime, Integer type, Long companyUserId,Integer todayType);
+
 
     /**
      * 根据报名表id修改导游选人状态
@@ -171,7 +174,7 @@ public interface IApplyService {
      * @param outDate
      * @return
      */
-    Page<ApplyMonthQuery> queryMonthApply (Page<ApplyMonthQuery> page,Integer type,String outDate);
+    Page<ApplyMonthQuery> queryMonth2Apply (Page<ApplyMonthQuery> page,Integer type,String outDate);
 
     /**
      * 修改付款状态
@@ -190,6 +193,7 @@ public interface IApplyService {
      */
     void dopAllApply ();
 
+
     /**
      * 同行月结现结统计
      * @param page
@@ -198,7 +202,7 @@ public interface IApplyService {
      * @param lineName
      * @return
      */
-    Page<ApplyResultCountQuery> pageResultCountList (Page<ApplyResultCountQuery> page, Integer payType,String outDate, String lineName);
+    Page<ApplyResultCountQuery> pageResult2CountList (Page<ApplyResultCountQuery> page, Integer payType,String outDate, String lineName);
 
 
     /**

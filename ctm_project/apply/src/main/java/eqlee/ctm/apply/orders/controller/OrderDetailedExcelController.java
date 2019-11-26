@@ -71,7 +71,11 @@ public class OrderDetailedExcelController {
       head.add("订单号");
       head.add("联系人");
       head.add("联系电话");
-      head.add("人数");
+      head.add("成人人数");
+      head.add("小孩人数");
+      head.add("老人人数");
+      head.add("幼儿人数");
+      head.add("总人数");
       head.add("接送地");
       head.add("支付方式");
       //创建报表体
@@ -81,6 +85,10 @@ public class OrderDetailedExcelController {
          bodyValue.add(query.getOrderNo());
          bodyValue.add(query.getContactName());
          bodyValue.add(query.getContactTel());
+         bodyValue.add(String.valueOf(query.getAdultNumber()));
+         bodyValue.add(String.valueOf(query.getChildNumber()));
+         bodyValue.add(String.valueOf(query.getOldNumber()));
+         bodyValue.add(String.valueOf(query.getBabyNumber()));
          bodyValue.add(String.valueOf(query.getAllNumber()));
          bodyValue.add(query.getPlace());
          if (query.getPayType() == 0) {

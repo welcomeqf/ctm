@@ -11,6 +11,7 @@ import eqlee.ctm.apply.entry.entity.query.ApplyCompanyQuery;
 import eqlee.ctm.apply.entry.entity.query.ApplyMonthQuery;
 import eqlee.ctm.apply.entry.entity.query.ApplyResultCountQuery;
 import eqlee.ctm.apply.entry.service.IApplyService;
+import eqlee.ctm.apply.line.entity.vo.ResultVo;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -62,14 +63,14 @@ public class ApplyExcelController {
                             @RequestParam("payType") Integer payType,
                             @RequestParam("outDate") String outDate){
 
-      if (current == null || size == null) {
-         throw new ApplicationException(CodeType.PARAMETER_ERROR);
+      if (current == null || size == null || payType == null) {
+         throw new ApplicationException(CodeType.PARAM_ERROR);
       }
 
       Page<ApplyResultCountQuery> page = new Page<>(current,size);
 
       //查询出需要导出的数据
-      Page<ApplyResultCountQuery> queryPage = applyService.pageResultCountList(page,payType,outDate,lineName);
+      Page<ApplyResultCountQuery> queryPage = applyService.pageResult2CountList(page,payType,outDate,lineName);
 
       //拿到集合数据
       List<ApplyResultCountQuery> list = queryPage.getRecords();
@@ -81,8 +82,12 @@ public class ApplyExcelController {
       head.add("线路名");
       head.add("联系人");
       head.add("联系人电话");
+      head.add("成人人数");
+      head.add("老人人数");
+      head.add("小孩人数");
+      head.add("幼儿人数");
       head.add("总人数");
-      head.add("总价格");
+      head.add("结算价");
       //创建报表体
       List<List<String>> body = new ArrayList<>();
       for (ApplyResultCountQuery query : list) {
@@ -92,6 +97,10 @@ public class ApplyExcelController {
          bodyValue.add(query.getLineName());
          bodyValue.add(query.getContactName());
          bodyValue.add(query.getContactTel());
+         bodyValue.add(String.valueOf(query.getAdultNumber()));
+         bodyValue.add(String.valueOf(query.getOldNumber()));
+         bodyValue.add(String.valueOf(query.getChildNumber()));
+         bodyValue.add(String.valueOf(query.getBabyNumber()));
          bodyValue.add(String.valueOf(query.getAllNumber()));
          bodyValue.add(String.valueOf(query.getAllPrice()));
          //将数据添加到报表体中
@@ -126,7 +135,7 @@ public class ApplyExcelController {
       Page<ApplyMonthQuery> page = new Page<>(current,size);
 
       //查询出需要导出的数据
-      Page<ApplyMonthQuery> queryPage = applyService.queryMonthApply(page,type,outDate);
+      Page<ApplyMonthQuery> queryPage = applyService.queryMonth2Apply(page,type,outDate);
 
       //拿到集合数据
       List<ApplyMonthQuery> list = queryPage.getRecords();
@@ -164,15 +173,17 @@ public class ApplyExcelController {
          @ApiImplicitParam(name = "OutTime", value = "出行时间", required = false, dataType = "String", paramType = "path"),
          @ApiImplicitParam(name = "applyTime", value = "报名时间", required = false, dataType = "String", paramType = "path"),
          @ApiImplicitParam(name = "LineName", value = "线路名模糊查询", required = false, dataType = "String", paramType = "path"),
-         @ApiImplicitParam(name = "type", value = "(0-已取消 1-今天已报名 2-今天出行)", required = false, dataType = "int", paramType = "path")
+         @ApiImplicitParam(name = "type", value = "(0-已取消)", required = false, dataType = "int", paramType = "path"),
+         @ApiImplicitParam(name = "todayType", value = "(1-今天已报名 2-今天出行)", required = false, dataType = "int", paramType = "path")
    })
    @GetMapping("/page2MeExl")
-   @CrossOrigin
    @CheckToken
+   @CrossOrigin
    public void page2MeExl(@RequestParam("current") Integer current, @RequestParam("size") Integer size,
-                                               @RequestParam("OutTime") String OutTime, @RequestParam("LineName") String LineName,
-                                               @RequestParam("applyTime") String applyTime, @RequestParam("type") Integer type,
-                                               @RequestParam("companyUserId") Long companyUserId,HttpServletResponse response) {
+                              @RequestParam("OutTime") String OutTime, @RequestParam("LineName") String LineName,
+                              @RequestParam("applyTime") String applyTime, @RequestParam("type") Integer type,
+                              @RequestParam("todayType") Integer todayType,
+                              @RequestParam("companyUserId") Long companyUserId, HttpServletResponse response) {
 
       if (current == null || size == null) {
          throw new ApplicationException(CodeType.PARAM_ERROR,"参数不能为空");
@@ -182,7 +193,7 @@ public class ApplyExcelController {
 
       String admin = "运营人员";
       if (admin.equals(user.getRoleName())) {
-         Page<ApplyCompanyQuery> applyList = applyService.pageAdminApply(page, LineName, OutTime, applyTime, type, companyUserId);
+         Page<ApplyCompanyQuery> applyList = applyService.pageAdmin2Apply(page, LineName, OutTime, applyTime, type, companyUserId,todayType);
 
          List<ApplyCompanyQuery> list = applyList.getRecords();
 
@@ -197,6 +208,8 @@ public class ApplyExcelController {
          head.add("门市价");
          head.add("结算价");
          head.add("总人数");
+         head.add("接送地");
+         head.add("经手人");
          head.add("审核状态");
          //创建报表体
          List<List<String>> body = new ArrayList<>();
@@ -211,6 +224,8 @@ public class ApplyExcelController {
             bodyValue.add(String.valueOf(query.getMarketAllPrice()));
             bodyValue.add(String.valueOf(query.getAllPrice()));
             bodyValue.add(String.valueOf(query.getAllNumber()));
+            bodyValue.add(query.getPlace());
+            bodyValue.add(query.getCName());
             if (query.getIsCancel()) {
                bodyValue.add("已取消");
             } else {
@@ -238,10 +253,11 @@ public class ApplyExcelController {
          return;
       }
 
-      Page<ApplyCompanyQuery> pageList = applyService.page2MeApply(page, LineName, OutTime, applyTime, type);
+      Page<ApplyCompanyQuery> pageList = applyService.pageMeApply(page, LineName, OutTime, applyTime, type,todayType);
 
       //同行的数据
       List<ApplyCompanyQuery> list = pageList.getRecords();
+
 
       //创建报表数据头
       List<String> head = new ArrayList<>();
@@ -254,6 +270,8 @@ public class ApplyExcelController {
       head.add("门市价");
       head.add("结算价");
       head.add("总人数");
+      head.add("接送地");
+      head.add("经手人");
       head.add("审核状态");
       //创建报表体
       List<List<String>> body = new ArrayList<>();
@@ -268,6 +286,8 @@ public class ApplyExcelController {
          bodyValue.add(String.valueOf(query.getMarketAllPrice()));
          bodyValue.add(String.valueOf(query.getAllPrice()));
          bodyValue.add(String.valueOf(query.getAllNumber()));
+         bodyValue.add(query.getPlace());
+         bodyValue.add(query.getCName());
          if (query.getIsCancel()) {
             bodyValue.add("已取消");
          } else {

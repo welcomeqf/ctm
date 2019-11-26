@@ -25,9 +25,27 @@ public class ExamineUpdateInfoVo{
      */
     private String UpdateDate;
 
+    private String ContactName;
+
+    private String ContactTel;
+
+    private String Place;
+
     /**
      * 修改内容
      */
     private String Remark;
+
+    private String oldConnectName;
+
+    /**
+     * 联系电话
+     */
+    private String oldConnectTel;
+
+    /**
+     * 接送地点
+     */
+    private String oldPlace;
 
 }

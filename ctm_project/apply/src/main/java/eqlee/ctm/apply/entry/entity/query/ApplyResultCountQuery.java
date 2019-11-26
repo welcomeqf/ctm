@@ -46,4 +46,14 @@ public class ApplyResultCountQuery {
     * 总人数
     */
    private Integer allNumber;
+
+   private Double MarketAllPrice;
+
+   private Integer AdultNumber;
+
+   private Integer BabyNumber;
+
+   private Integer OldNumber;
+
+   private Integer ChildNumber;
 }

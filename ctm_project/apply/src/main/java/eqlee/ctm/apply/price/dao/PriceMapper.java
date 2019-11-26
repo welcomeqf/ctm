@@ -40,14 +40,12 @@ public interface PriceMapper extends IBaseMapper<Price> {
 
     /**
      * 查询当前月的所有价格
-     * @param page
      * @param start
      * @param end
      * @param lineId
      * @return
      */
-    Page<PriceSelectVo> selectPriceByFilter(Page<PriceSelectVo> page,
-                                            @Param("start") LocalDate start,
+    List<PriceSelectVo> selectPriceByFilter(@Param("start") LocalDate start,
                                             @Param("end") LocalDate end,
                                             @Param("lineId") Long lineId);
 

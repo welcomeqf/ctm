@@ -29,7 +29,7 @@ public class OrderDetailedQuery {
     private Integer PayType;
 
     /**
-     * 人数
+     * 总人数
      */
     private Integer AllNumber;
 
@@ -42,4 +42,29 @@ public class OrderDetailedQuery {
      * 订单号
      */
     private String OrderNo;
+
+    /**
+     * 成人人数
+     */
+    private Integer AdultNumber;
+
+    /**
+     * 幼儿人数
+     */
+    private Integer BabyNumber;
+
+    /**
+     * 老人人数
+     */
+    private Integer OldNumber;
+
+    /**
+     * 小孩人数
+     */
+    private Integer ChildNumber;
+
+    /**
+     * 面收金额
+     */
+    private Double MsPrice;
 }

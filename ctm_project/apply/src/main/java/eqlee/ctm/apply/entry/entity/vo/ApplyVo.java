@@ -83,4 +83,19 @@ public class ApplyVo {
      * 门市价
      */
     private Double marketAllPrice;
+
+    /**
+     * 面收金额
+     */
+    private Double msPrice;
+
+    /**
+     * 报名备注
+     */
+    private String applyRemark;
+
+    /**
+     * 授信月结金额
+     */
+    private Double sxPrice;
 }

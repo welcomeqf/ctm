@@ -1,5 +1,6 @@
 package eqlee.ctm.apply.entry.service.impl;
 
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
@@ -14,6 +15,7 @@ import com.yq.utils.IdGenerator;
 import eqlee.ctm.apply.entry.dao.ExamineMapper;
 import eqlee.ctm.apply.entry.entity.Apply;
 import eqlee.ctm.apply.entry.entity.Examine;
+import eqlee.ctm.apply.entry.entity.bo.ExamineUpdateVo;
 import eqlee.ctm.apply.entry.entity.bo.UserAdminBo;
 import eqlee.ctm.apply.entry.entity.query.*;
 import eqlee.ctm.apply.entry.entity.vo.*;
@@ -133,13 +135,15 @@ public class ExamineServiceImpl extends ServiceImpl<ExamineMapper, Examine> impl
         examine.setApplyId(examineVo.getApplyId());
         examine.setExamineType("2");
         examine.setExamineResult(1);
-        //将修改的信息以json的形式装进备注字段
-        UpdateInfoVo infoVo = new UpdateInfoVo();
-        infoVo.setConnectName(examineVo.getConnectName());
-        infoVo.setConnectTel(examineVo.getConnectTel());
-        infoVo.setPlace(examineVo.getPlace());
+        //将修改之前的信息以json的形式装进备注字段
+        ApplySeacherVo vo = applyService.queryById(examineVo.getApplyId());
 
-        examine.setRemark(infoVo.toString());
+        UpdateInfoVo infoVo = new UpdateInfoVo();
+        infoVo.setConnectName(vo.getContactName());
+        infoVo.setConnectTel(vo.getContactTel());
+        infoVo.setPlace(vo.getPlace());
+
+        examine.setRemark(JSON.toJSONString(infoVo));
 
         UserLoginQuery user = localUser.getUser("用户信息");
         examine.setCreateUserId(user.getId());
@@ -386,7 +390,23 @@ public class ExamineServiceImpl extends ServiceImpl<ExamineMapper, Examine> impl
      */
     @Override
     public Page<ExamineUpdateInfoVo> listUpdateInfo(Page<ExamineUpdateInfoVo> vo) {
-        return baseMapper.listUpdateInfo(vo);
+
+        Page<ExamineUpdateInfoVo> list = baseMapper.listUpdateInfo(vo);
+
+        List<ExamineUpdateInfoVo> voList = list.getRecords();
+
+        for (ExamineUpdateInfoVo infoVo : voList) {
+
+            UpdateInfoVo updateInfoVo = JSONObject.parseObject(infoVo.getRemark(), UpdateInfoVo.class);
+
+            infoVo.setOldConnectName(updateInfoVo.getConnectName());
+            infoVo.setOldConnectTel(updateInfoVo.getConnectTel());
+            infoVo.setOldPlace(updateInfoVo.getPlace());
+        }
+
+        list.setRecords(voList);
+
+        return list;
     }
 
     /**

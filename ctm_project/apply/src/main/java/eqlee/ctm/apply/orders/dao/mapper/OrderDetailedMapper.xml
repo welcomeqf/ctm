@@ -17,12 +17,14 @@
 
     <select id="pageOrderDetailed" resultType="eqlee.ctm.apply.orders.entity.query.OrderDetailedQuery">
         select a.Id as 'OrderId',a.ContactName,a.ContactTel,a.Place,a.AllNumber,a.PayType,b.OrderNo
+        ,a.AdultNumber,a.BabyNumber,a.OldNumber,a.ChildNumber,a.MsPrice
         from OrderDetailed a left join Orders b on a.OrderId = b.Id
         where b.OutDate = #{outDate} and b.LineName = #{lineName} and b.CreateUserId = #{id}
     </select>
 
     <select id="pageOrderDetailedByType" resultType="eqlee.ctm.apply.orders.entity.query.OrderDetailedQuery">
         select a.Id as 'OrderId',a.ContactName,a.ContactTel,a.Place,a.AllNumber,a.PayType,b.OrderNo
+        ,a.AdultNumber,a.BabyNumber,a.OldNumber,a.ChildNumber,a.MsPrice
         from OrderDetailed a left join Orders b on a.OrderId = b.Id
         where b.OutDate = #{outDate} and b.LineName = #{lineName} and b.CreateUserId = #{id} and a.PayType = #{type}
     </select>

@@ -38,4 +38,11 @@ public class CompanyQuery {
      * 结算方式
      */
     private String payType;
+
+    private String companyNo;
+
+    /**
+     * 授信月结金额
+     */
+    private Double sxPrice;
 }

@@ -104,7 +104,7 @@ public class OrderServiceImpl extends ServiceImpl<OrdersMapper, Orders> implemen
         Orders orders = new Orders();
         long numberId = idGenerator.getNumberId();
         orders.setId(numberId);
-        orders.setOrderNo(idGenerator.getOrderCode());
+        orders.setOrderNo(idGenerator.getShortOrderNo());
         orders.setGuideName(user.getCname());
         orders.setGuideTel(user.getTel());
         orders.setCreateUserId(user.getId());
@@ -132,6 +132,7 @@ public class OrderServiceImpl extends ServiceImpl<OrdersMapper, Orders> implemen
             orderDetailed.setPrice(apply.getAllPrice());
             orderDetailed.setCreateUserId(user.getId());
             orderDetailed.setPayType(apply.getPayType());
+            orderDetailed.setMsPrice(apply.getMsPrice());
 
             //先判断该天是否已经选了人
             LambdaQueryWrapper<Orders> wrapper = new LambdaQueryWrapper<Orders>()

@@ -12,6 +12,8 @@ import java.time.LocalDate;
 @Data
 public class ApplyQuery {
 
+    private Long id;
+
     private String LineName;
 
     private String OutDate;

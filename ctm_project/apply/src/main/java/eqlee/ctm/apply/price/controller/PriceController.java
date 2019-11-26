@@ -77,23 +77,20 @@ public class PriceController {
 
     @ApiOperation(value = "由时间和线路对价格进行查询", notes = "由时间和线路对价格进行查询")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "outDate", value = "出发时间", required = false, dataType = "String", paramType = "path"),
-            @ApiImplicitParam(name = "lineId", value = "线路名称", required = false, dataType = "String", paramType = "path"),
-            @ApiImplicitParam(name = "current", value = "当前页", required = true, dataType = "Long", paramType = "path"),
-            @ApiImplicitParam(name = "size", value = "页面大小", required = true, dataType = "Long", paramType = "path"),
+            @ApiImplicitParam(name = "outDate", value = "出发时间", required = true, dataType = "String", paramType = "path"),
+            @ApiImplicitParam(name = "lineId", value = "线路名称", required = true, dataType = "String", paramType = "path"),
+            @ApiImplicitParam(name = "numberType", value = "类型(0-成人 1-小孩 2-老人 3-幼儿)", required = false, dataType = "int", paramType = "path")
     })
     @GetMapping("/queryPricePageByFilter")
     @CrossOrigin
     @CheckToken
     public Map<String,Object> queryPricePageByFilter(@RequestParam("outDate") String outDate,
                                                      @RequestParam("lineId") Long lineId,
-                                                     @RequestParam("size") Integer size,
-                                                     @RequestParam("current") Integer current) {
-        if(size == null || current == null || lineId == null || StringUtils.isBlank(outDate)){
+                                                     @RequestParam("numberType") Integer numberType) {
+        if(lineId == null || StringUtils.isBlank(outDate)){
             throw new ApplicationException(CodeType.PARAM_ERROR, "参数不能为空");
         }
-        Page<PriceSelectVo> page = new Page<>(current,size);
-        return priceService.queryPricePageByFilter(page,outDate,lineId);
+        return priceService.queryPricePageByFilter(numberType,outDate,lineId);
     }
 
 

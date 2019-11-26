@@ -119,7 +119,7 @@ public class CompanyController {
         pageCompany.setCurrent(current);
         pageCompany.setSize(size);
         pageCompany.setName(companyName);
-        return  companyService.GetCompanyPageByName(pageCompany);
+        return companyService.GetCompanyPageByName(pageCompany);
     }
 
 
@@ -152,7 +152,7 @@ public class CompanyController {
     @GetMapping("/Stu/{Id}")
     @CrossOrigin
     @CheckToken
-    public ResultVo UpdateCompanyStop (@PathVariable("Id") Long Id) {
+    public ResultVo pdateCompanyStop (@PathVariable("Id") Long Id) {
         if(Id==null) {
             log.error("update company stop param is null");
             throw new ApplicationException(CodeType.PARAMETER_ERROR,"修改公司状态Id为空");

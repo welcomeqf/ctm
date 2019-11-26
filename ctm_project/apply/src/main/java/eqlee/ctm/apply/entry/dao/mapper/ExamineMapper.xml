@@ -4,7 +4,8 @@
 <mapper namespace="eqlee.ctm.apply.entry.dao.ExamineMapper">
 
     <select id="listUpdateInfo" resultType="eqlee.ctm.apply.entry.entity.vo.ExamineUpdateInfoVo">
-       select a.Id, b.CName as 'UpdateUserName',convert(varchar(100),a.UpdateDate,20) as 'UpdateDate',a.Remark
+       select a.Id, b.CName as 'UpdateUserName',convert(varchar(100),a.UpdateDate,20) as 'UpdateDate',a.Remark,
+       b.ContactName,b.ContactTel,b.Place
       from Examine a left join Apply b on a.ApplyId = b.Id where a.ExamineType = '2'
       ORDER by a.UpdateDate desc
     </select>

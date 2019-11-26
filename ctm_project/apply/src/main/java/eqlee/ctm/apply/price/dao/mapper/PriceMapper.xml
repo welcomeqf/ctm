@@ -28,7 +28,8 @@
     <select id="selectPriceByFilter" resultType="eqlee.ctm.apply.price.entity.vo.PriceSelectVo" >
         select Id as 'id',AdultPrice as 'adultPrice',OldPrice as 'oldPrice',BabyPrice as 'babyPrice',ChildPrice as 'childPrice',convert(varchar(20),OutDate,23)outDate,
       MarketAdultPrice as 'marketAdultPrice',MarketOldPrice as 'marketOldPrice',MarketBabyPrice as 'marketBabyPrice',MarketChildPrice as 'marketChildPrice'
-      from Price where  LineId = #{lineId} and OutDate between #{start} and #{end} order by OutDate
+      from Price where LineId = #{lineId} and (OutDate between #{start} and #{end})
+      order by OutDate
     </select>
 
 

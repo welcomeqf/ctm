@@ -18,6 +18,7 @@ import eqlee.ctm.resource.company.entity.vo.CompanyIndexVo;
 import eqlee.ctm.resource.company.entity.vo.CompanyQueryVo;
 import eqlee.ctm.resource.company.entity.vo.CompanyVo;
 import eqlee.ctm.resource.company.service.ICompanyService;
+import eqlee.ctm.resource.company.vilidata.HttpUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -38,6 +39,9 @@ public class CompanyServiceImp extends ServiceImpl<CompanyMapper,Company> implem
 
     @Autowired
     private LocalUser localUser;
+
+    @Autowired
+    private HttpUtils apiService;
 
     private final String MONTH_PAY = "月结";
 
@@ -63,6 +67,14 @@ public class CompanyServiceImp extends ServiceImpl<CompanyMapper,Company> implem
      */
     @Override
     public void addCompany(CompanyVo companyVo) {
+        LambdaQueryWrapper<Company> wrapper = new LambdaQueryWrapper<Company>()
+              .eq(Company::getCompanyNo,companyVo.getCompanyNo());
+        Company one = baseMapper.selectOne(wrapper);
+
+        if (one != null) {
+            throw new ApplicationException(CodeType.SERVICE_ERROR, "该编号已存在");
+        }
+
         UserLoginQuery user = localUser.getUser("用户信息");
 
         IdGenerator idGenerator = new IdGenerator();
@@ -71,6 +83,10 @@ public class CompanyServiceImp extends ServiceImpl<CompanyMapper,Company> implem
         company.setCompanyName(companyVo.getCompanyName());
         company.setCreateUserId(user.getId());
         company.setUpdateUserId(user.getId());
+        company.setSxPrice(companyVo.getSxPrice());
+        company.setCompanyNo(companyVo.getCompanyNo());
+        company.setCompanyPic(companyVo.getCompanyPic());
+        company.setStopped(companyVo.getStopped());
         String startDate = companyVo.getStartDate() + " 00:00:00";
         String endDate = companyVo.getEndDate() + " 23:59:59";
         company.setStartDate(DateUtil.parseDateTime(startDate));
@@ -83,7 +99,9 @@ public class CompanyServiceImp extends ServiceImpl<CompanyMapper,Company> implem
         }
         if (WITH_PAY.equals(companyVo.getPayMethod())) {
             company.setPayMethod(3);
-        } else {
+        }
+
+        if (!NOW_PAY.equals(companyVo.getPayMethod()) && !MONTH_PAY.equals(companyVo.getPayMethod()) && !WITH_PAY.equals(companyVo.getPayMethod())) {
             throw new ApplicationException(CodeType.SERVICE_ERROR, "结算类型有误");
         }
         int insert = baseMapper.insert(company);
@@ -103,17 +121,11 @@ public class CompanyServiceImp extends ServiceImpl<CompanyMapper,Company> implem
     @Override
     public void deleteCompany(Long id) {
         //先删除该公司对应的子角色
-        int i = baseMapper.deleteCompanyRole(id);
-
-        if (i <= 0) {
-            throw new ApplicationException(CodeType.SERVICE_ERROR,"删除该公司下的所有子角色失败");
-        }
-
         //删除该公司下的所有用户
-        int deleteUser = baseMapper.deleteUser(id);
-
-        if (deleteUser <= 0) {
-            throw new ApplicationException(CodeType.SERVICE_ERROR,"删除该公司旗下的所有用户失败");
+        try {
+            apiService.deleteUserAndRole(id);
+        } catch (Exception e) {
+            throw new ApplicationException(CodeType.SERVICE_ERROR, "删除失败");
         }
 
         int delete = baseMapper.deleteById(id);
@@ -125,6 +137,15 @@ public class CompanyServiceImp extends ServiceImpl<CompanyMapper,Company> implem
 
     @Override
     public void UpdateCompany(Long Id, CompanyVo companyVo) {
+
+        LambdaQueryWrapper<Company> wrapper = new LambdaQueryWrapper<Company>()
+              .eq(Company::getCompanyNo,companyVo.getCompanyNo());
+        Company one = baseMapper.selectOne(wrapper);
+
+        if (one != null) {
+            throw new ApplicationException(CodeType.SERVICE_ERROR, "该编号已存在");
+        }
+
         UserLoginQuery user = localUser.getUser("用户信息");
 
         Company company = new Company();
@@ -134,6 +155,9 @@ public class CompanyServiceImp extends ServiceImpl<CompanyMapper,Company> implem
         String endDate = companyVo.getEndDate() + " 23:59:59";
         company.setStartDate(DateUtil.parseDateTime(startDate));
         company.setEndDate(DateUtil.parseDateTime(endDate));
+        company.setSxPrice(companyVo.getSxPrice());
+        company.setCompanyNo(companyVo.getCompanyNo());
+        company.setCompanyPic(companyVo.getCompanyPic());
         company.setUpdateUserId(user.getId());
         if(companyVo.getStopped()){
             company.setStopped(true);
@@ -226,6 +250,9 @@ public class CompanyServiceImp extends ServiceImpl<CompanyMapper,Company> implem
         companyVo.setStartDate(DateUtil.formatDateTime(company.getStartDate()));
         companyVo.setEndDate(DateUtil.formatDateTime(company.getEndDate()));
         companyVo.setCompanyName(company.getCompanyName());
+        companyVo.setCompanyNo(company.getCompanyNo());
+        companyVo.setCompanyPic(company.getCompanyPic());
+        companyVo.setSxPrice(company.getSxPrice());
         companyVo.setId(Id);
         companyVo.setPayMethod(company.getPayMethod());
         if (company.isStopped()){
@@ -263,6 +290,8 @@ public class CompanyServiceImp extends ServiceImpl<CompanyMapper,Company> implem
         CompanyQuery query = new CompanyQuery();
         query.setCompanyName(company.getCompanyName());
         query.setId(user.getId());
+        query.setCompanyNo(company.getCompanyNo());
+        query.setSxPrice(company.getSxPrice());
         query.setAccount(user.getAccount());
         query.setCName(user.getCname());
         query.setRoleName(user.getRoleName());

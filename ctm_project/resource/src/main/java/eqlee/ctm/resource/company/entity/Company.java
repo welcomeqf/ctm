@@ -42,6 +42,21 @@ public class Company extends Model<Company> {
     private LocalDateTime endDate;
 
     /**
+     * 同行编号
+     */
+    private String CompanyNo;
+
+    /**
+     * 同行合同图片
+     */
+    private String CompanyPic;
+
+    /**
+     * 授信月结金额
+     */
+    private Double SxPrice;
+
+    /**
      * 支付方式
      */
     private Integer PayMethod;

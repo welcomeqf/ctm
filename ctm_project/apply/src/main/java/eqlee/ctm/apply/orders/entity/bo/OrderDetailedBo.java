@@ -83,4 +83,9 @@ public class OrderDetailedBo {
      */
     private Long CreateUserId;
 
+    /**
+     * 面收金额
+     */
+    private Double MsPrice;
+
 }
