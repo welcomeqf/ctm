@@ -44,4 +44,12 @@ public class GuestResultQuery {
      * 审核状态
      */
     private Integer Status;
+
+    private Integer TreeAdultNumber;
+
+    private Integer TreeBabyNumber;
+
+    private Integer TreeOldNumber;
+
+    private Integer TreeChildNumber;
 }

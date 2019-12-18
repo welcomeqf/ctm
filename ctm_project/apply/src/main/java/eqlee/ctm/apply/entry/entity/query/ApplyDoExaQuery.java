@@ -76,4 +76,14 @@ public class ApplyDoExaQuery {
      * 审核类型（0--报名审核  1--取消报名审核）
      */
     private String ExamineType;
+
+    /**
+     * 联系人
+     */
+    private String ContactName;
+
+    /**
+     * 联系电话
+     */
+    private String ContactTel;
 }

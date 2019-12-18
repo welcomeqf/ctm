@@ -71,7 +71,6 @@ public class CarController {
     @ApiOperation(value = "车辆增加",notes = "车辆增加")
     @PostMapping("/addCar")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "carName", value = "车辆名", required = true, dataType = "String", paramType = "path"),
             @ApiImplicitParam(name = "carNo", value = "车牌号", required = true, dataType = "String", paramType = "path"),
             @ApiImplicitParam(name = "statu", value = "状态", required = true, dataType = "String", paramType = "path"),
             @ApiImplicitParam(name = "remark", value = "备注", required = true, dataType = "String", paramType = "path"),
@@ -80,7 +79,7 @@ public class CarController {
     @CrossOrigin
     @CheckToken
     public void addCar(@RequestBody CarVo carVo) {
-        if(StringUtils.isBlank(carVo.getCarNo()) ||StringUtils.isBlank(carVo.getCarName())){
+        if(StringUtils.isBlank(carVo.getCarNo())){
             throw new ApplicationException(CodeType.PARAMETER_ERROR,"增加车辆信息为空");
         }
         carService.addCar(carVo);
@@ -107,8 +106,7 @@ public class CarController {
     @ApiOperation(value = "车辆修改",notes = "车辆修改")
     @PostMapping("/updateCar")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "Id", value = "车辆Id", required = true, dataType = "Long", paramType = "path"),
-            @ApiImplicitParam(name = "carName", value = "车辆名", required = true, dataType = "String", paramType = "path"),
+            @ApiImplicitParam(name = "id", value = "车辆Id", required = true, dataType = "Long", paramType = "path"),
             @ApiImplicitParam(name = "carNo", value = "车辆号", required = true, dataType = "String", paramType = "path"),
             @ApiImplicitParam(name = "statu", value = "状态", required = true, dataType = "String", paramType = "path"),
             @ApiImplicitParam(name = "remark", value = "备注", required = true, dataType = "String", paramType = "path"),
@@ -117,7 +115,7 @@ public class CarController {
     @CrossOrigin
     @CheckToken
     public void updateCar(@RequestBody CarUpdateVo carUpdateVo) {
-        if(StringUtils.isBlank(carUpdateVo.getCarNo()) ||StringUtils.isBlank(carUpdateVo.getCarName())||carUpdateVo.getId() == null){
+        if(StringUtils.isBlank(carUpdateVo.getCarNo()) ||carUpdateVo.getId() == null){
             throw new ApplicationException(CodeType.PARAMETER_ERROR);
         }
         carService.updateCar(carUpdateVo,carUpdateVo.getId());

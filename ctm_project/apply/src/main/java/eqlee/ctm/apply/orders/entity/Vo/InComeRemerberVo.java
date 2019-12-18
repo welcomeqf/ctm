@@ -65,4 +65,9 @@ public class InComeRemerberVo {
      */
     private Boolean CarType;
 
+    /**
+     * 一个报名单的总价格（***）
+     */
+    private Double Price;
+
 }

@@ -87,6 +87,7 @@
           <element id="library" level="project" name="Maven: com.alibaba:fastjson:1.2.58" />
           <element id="library" level="project" name="Maven: org.apache.httpcomponents:httpclient:4.5.9" />
           <element id="library" level="project" name="Maven: org.apache.httpcomponents:httpcore:4.4.12" />
+          <element id="library" level="project" name="Maven: org.apache.httpcomponents:httpmime:4.5.9" />
           <element id="library" level="project" name="Maven: org.springframework.boot:spring-boot-starter:2.1.8.RELEASE" />
           <element id="library" level="project" name="Maven: org.springframework.boot:spring-boot:2.1.8.RELEASE" />
           <element id="library" level="project" name="Maven: org.springframework.boot:spring-boot-autoconfigure:2.1.8.RELEASE" />

@@ -1,5 +1,6 @@
 package eqlee.ctm.apply.orders.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.yq.constanct.CodeType;
@@ -8,10 +9,15 @@ import com.yq.jwt.contain.LocalUser;
 import com.yq.jwt.entity.UserLoginQuery;
 import com.yq.utils.DateUtil;
 import com.yq.utils.StringUtils;
+import eqlee.ctm.apply.line.entity.vo.ResultVo;
 import eqlee.ctm.apply.orders.dao.OrderDetailedMapper;
 import eqlee.ctm.apply.orders.entity.OrderDetailed;
+import eqlee.ctm.apply.orders.entity.bo.IdBo;
+import eqlee.ctm.apply.orders.entity.bo.OrderBo;
 import eqlee.ctm.apply.orders.entity.bo.OrderDetailedBo;
 import eqlee.ctm.apply.orders.entity.query.OrderDetailedQuery;
+import eqlee.ctm.apply.orders.entity.query.OrdersNoCountInfoQuery;
+import eqlee.ctm.apply.orders.entity.query.OrdersNoCountQuery;
 import eqlee.ctm.apply.orders.service.IOrdersDetailedService;
 import eqlee.ctm.apply.orders.service.IOrdersService;
 import lombok.extern.slf4j.Slf4j;
@@ -50,40 +56,49 @@ public class OrdersDetailedServiceImpl extends ServiceImpl<OrderDetailedMapper, 
 
     /**
      * 查询导游人员表
-     * @param page
+     * @param id
      * @param payType
      * @return
      */
     @Override
-    public Page<OrderDetailedQuery> pageOrderDetailed2Type(Page<OrderDetailedQuery> page, String payType, String lineName, String outDate) {
-
-        UserLoginQuery users = user.getUser("用户信息");
-        Long id = users.getId();
-        LocalDate localDate = DateUtil.parseDate(outDate);
-
-        if (StringUtils.isBlank(payType)) {
+    public List<OrderDetailedQuery> pageOrderDetailed2Type(Long id, Integer payType) {
             //查询所有
-            return baseMapper.pageOrderDetailed(page,lineName,localDate,id);
-        }
+            return baseMapper.pageOrderDetailed(payType,id);
 
-        if (!MONTH_PAY.equals(payType) && !NOW_PAY.equals(payType) && !AGENT_PAY.equals(payType)) {
-            throw new ApplicationException(CodeType.PARAM_ERROR,"您输入的结算方式有误");
-        }
-
-        int type = 0;
-        if (MONTH_PAY.equals(payType)) {
-            type = 1;
-        }
-
-        if (NOW_PAY.equals(payType)) {
-            type = 0;
-        }
-
-        if (AGENT_PAY.equals(payType)) {
-            type = 2;
-        }
-
-        return baseMapper.pageOrderDetailedByType(page,lineName,localDate,type,id);
     }
+
+    /**
+     * 管理分配首页
+     * @param page
+     * @param startDate
+     * @param endDate
+     * @param lineName
+     * @param region
+     * @return
+     */
+    @Override
+    public Page<OrderBo> pageOrder(Page<OrderBo> page,String startDate, String endDate, String lineName, String region) {
+        UserLoginQuery users = user.getUser("用户信息");
+
+        LocalDate start = null;
+        LocalDate end = null;
+
+        if (StringUtils.isNotBlank(startDate)) {
+            start = DateUtil.parseDate(startDate);
+            end = DateUtil.parseDate(endDate);
+        }
+
+        if (StringUtils.isBlank(lineName)) {
+            lineName = null;
+        }
+
+        if (StringUtils.isBlank(region)) {
+            region = null;
+        }
+
+        return baseMapper.pageOrder(page,start,end,lineName,region,users.getId());
+    }
+
+
 
 }

@@ -14,8 +14,6 @@ public class CarVo {
 
     private String carNo;
 
-    private String carName;
-
     private String remark;
 
 

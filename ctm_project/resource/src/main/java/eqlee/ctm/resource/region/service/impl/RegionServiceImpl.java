@@ -6,6 +6,7 @@ import com.yq.constanct.CodeType;
 import com.yq.exception.ApplicationException;
 import eqlee.ctm.resource.region.dao.RegionMapper;
 import eqlee.ctm.resource.region.entity.Region;
+import eqlee.ctm.resource.region.entity.query.RegionUpdateQuery;
 import eqlee.ctm.resource.region.service.IRegionService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -59,5 +60,23 @@ public class RegionServiceImpl extends ServiceImpl<RegionMapper, Region> impleme
    @Override
    public List<Region> queryRegion() {
       return baseMapper.selectList(null);
+   }
+
+   /**
+    * 修改区域
+    * @param query
+    */
+   @Override
+   public void updateRegion(RegionUpdateQuery query) {
+
+      Region region = new Region();
+      region.setId(query.getId());
+      region.setRegionName(query.getRegionName());
+
+      int byId = baseMapper.updateById(region);
+
+      if (byId <= 0) {
+         throw new ApplicationException(CodeType.SERVICE_ERROR, "修改失败");
+      }
    }
 }

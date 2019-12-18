@@ -11,6 +11,9 @@ import eqlee.ctm.apply.entry.entity.query.ExaRefundQuery;
 import eqlee.ctm.apply.entry.entity.query.ResultRefundQuery;
 import eqlee.ctm.apply.entry.entity.query.UserQuery;
 import eqlee.ctm.apply.entry.entity.vo.*;
+import eqlee.ctm.apply.message.entity.vo.MsgAddVo;
+import eqlee.ctm.apply.message.entity.vo.MsgUpdateVo;
+import eqlee.ctm.apply.message.entity.vo.MsgVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -44,44 +47,12 @@ public class HttpUtils {
     /**
      * 用户模块路径
      */
-    private final String user_url;
+    private final String user_url = "http://localhost:9092/ctm_user";
+
+    private final String user_url1 = "http://localhost:8001";
 
     @Autowired
     private TokenData tokenData;
-
-    private final String AccessKey;
-
-    private final String AccessKeySecret;
-
-    public HttpUtils() {
-        user_url = "http://localhost:9092/ctm_user";
-
-        AccessKey = "157222853200009";
-
-        AccessKeySecret = "74c172912d9b4631bc72e567c27b2ece";
-    }
-
-    /**
-     * 获取token
-     * @return
-     * @throws Exception
-     */
-    public String getPayToken () throws Exception{
-
-        String url = URL +"/v1/Token/Token";
-
-        Token payToken = new Token();
-        payToken.setAccessKey(AccessKey);
-        payToken.setAccessKeySecret(AccessKeySecret);
-
-        String s = JSONObject.toJSONString(payToken);
-        HttpResult httpResult = apiService.doPost(url, s);
-
-        TokenVo vo = JSONObject.parseObject(httpResult.getBody(), TokenVo.class);
-
-        ResultTokenVo result = vo.getResult();
-        return result.getToken();
-    }
 
     /**
      * 微信退款
@@ -95,6 +66,29 @@ public class HttpUtils {
 
         String url = URL + "/v1/WeChatPay/WechatRefund?payOrderSerialNumber=" + payOrderSerialNumber +"&totalFee=" +totalFee
                 + "&refundFee=" +refundFee;
+
+        HttpResult httpResult = apiService.get(url, token);
+
+        if (httpResult == null) {
+            throw new ApplicationException(CodeType.SERVICE_ERROR,"无返回数据");
+        }
+
+        ExaRefundQuery query = JSONObject.parseObject(httpResult.getBody(), ExaRefundQuery.class);
+        return query.getResult();
+    }
+
+    /**
+     * 支付宝退款
+     * @param payOrderSerialNumber
+     * @param refundReason
+     * @param refundFee
+     * @param token
+     * @return
+     */
+    public ResultRefundQuery aliRefund (String payOrderSerialNumber, String refundReason, Double refundFee, String token){
+
+        String url = URL + "/v1/Alipay/AliRefund?payOrderSerialNumber=" + payOrderSerialNumber +"&RefundReason=" +refundReason
+              + "&refundFee=" +refundFee;
 
         HttpResult httpResult = apiService.get(url, token);
 
@@ -265,7 +259,7 @@ public class HttpUtils {
         String userToken;
 
         ResultResposeVo result;
-        userToken = tokenData.getUserToken();
+        userToken = tokenData.getMapToken();
         String token = "Bearer " + userToken;
         httpResult = apiService.get(url,token);
         result = JSONObject.parseObject(httpResult.getBody(),ResultResposeVo.class);
@@ -284,15 +278,15 @@ public class HttpUtils {
     public Object queryAllAdminInfo (){
         //路径
         String url = user_url + "/v1/app/user/queryAllAdminId";
-        HttpResult httpResult;
+        HttpResult httpResult = null;
 
         try {
             //获得token
-            String userToken = tokenData.getUserToken();
+            String userToken = tokenData.getMapToken();
             String token = "Bearer " + userToken;
             httpResult = apiService.get(url,token);
         }catch (Exception e) {
-            throw new ApplicationException(CodeType.SERVICE_ERROR, "调用出错");
+            e.printStackTrace();
         }
 
         ResultResposeVo result = JSONObject.parseObject(httpResult.getBody(),ResultResposeVo.class);

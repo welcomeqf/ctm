@@ -12,6 +12,7 @@ import eqlee.ctm.resource.company.entity.vo.CompanyVo;
 import eqlee.ctm.resource.company.entity.vo.ResultVo;
 import eqlee.ctm.resource.region.entity.Region;
 import eqlee.ctm.resource.region.entity.query.RegionQuery;
+import eqlee.ctm.resource.region.entity.query.RegionUpdateQuery;
 import eqlee.ctm.resource.region.service.IRegionService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -88,5 +89,26 @@ public class RegionController {
    @CheckToken
    public List<Region> queryRegion () {
       return regionService.queryRegion();
+   }
+
+
+   @ApiOperation(value = "修改区域", notes = "修改区域")
+   @ApiImplicitParams({
+         @ApiImplicitParam(name = "id", value = "id", required = true, dataType = "Long", paramType = "path"),
+         @ApiImplicitParam(name = "regionName", value = "区域名", required = true, dataType = "String", paramType = "path")
+   })
+   @PostMapping("/updateRegion")
+   @CrossOrigin
+   @CheckToken
+   public ResultVo updateRegion (@RequestBody RegionUpdateQuery regionQuery) {
+      if(StringUtils.isBlank(regionQuery.getRegionName()) || regionQuery.getId() == null) {
+         throw new ApplicationException(CodeType.PARAMETER_ERROR);
+      }
+
+      regionService.updateRegion(regionQuery);
+
+      ResultVo resultVo = new ResultVo();
+      resultVo.setResult("ok");
+      return resultVo;
    }
 }

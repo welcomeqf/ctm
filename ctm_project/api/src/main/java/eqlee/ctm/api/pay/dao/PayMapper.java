@@ -5,6 +5,7 @@ import eqlee.ctm.api.pay.entity.Pay;
 import eqlee.ctm.api.pay.entity.query.ApplyPayResultQuery;
 import eqlee.ctm.api.pay.entity.query.PayResultQuery;
 import eqlee.ctm.api.pay.entity.vo.GetApplyIdVo;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -21,9 +22,10 @@ public interface PayMapper extends IBaseMapper<Pay> {
     /**
      * 修改报名表状态
      * @param applyNo
-     * @return
+     * @param payInfo
      */
-    int updateApplyPayStatus (String applyNo);
+    void updateApplyPayStatus (@Param("applyNo") String applyNo,
+                               @Param("payInfo") Integer payInfo);
 
     /**
      * 得到报名id

@@ -18,7 +18,7 @@
         <foreach collection="list" item="item" index="index">
             update Price set AdultPrice = #{item.adultPrice},OldPrice = #{item.oldPrice},BabyPrice = #{item.babyPrice},ChildPrice = #{item.childPrice},
             MarketAdultPrice = #{item.marketAdultPrice},MarketOldPrice = #{item.marketOldPrice}, MarketBabyPrice = #{item.marketBabyPrice},
-            MarketChildPrice = #{item.marketChildPrice}
+            MarketChildPrice = #{item.marketChildPrice},Remark = #{item.remark}
             where OutDate = #{item.outDate} and LineId = #{item.lineId}
         </foreach>
     </update>

@@ -7,6 +7,9 @@ import com.yq.jwt.contain.LocalUser;
 import com.yq.jwt.entity.UserLoginQuery;
 import com.yq.jwt.islogin.CheckToken;
 import com.yq.utils.ExcelUtils;
+import com.yq.utils.FilesUtils;
+import com.yq.vilidata.TimeData;
+import com.yq.vilidata.query.TimeQuery;
 import eqlee.ctm.apply.entry.entity.query.ApplyCompanyQuery;
 import eqlee.ctm.apply.entry.entity.query.ApplyMonthQuery;
 import eqlee.ctm.apply.entry.entity.query.ApplyResultCountQuery;
@@ -24,6 +27,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletResponse;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -57,11 +61,13 @@ public class ApplyExcelController {
    @CheckToken
    @CrossOrigin
    public void applyExcel(HttpServletResponse response,
-                            @RequestParam("current") Integer current,
-                            @RequestParam("size") Integer size,
-                            @RequestParam("lineName") String lineName,
-                            @RequestParam("payType") Integer payType,
-                            @RequestParam("outDate") String outDate){
+                          @RequestParam("current") Integer current,
+                          @RequestParam("size") Integer size,
+                          @RequestParam("lineName") String lineName,
+                          @RequestParam("payType") Integer payType,
+                          @RequestParam("startDate") String startDate,
+                          @RequestParam("endDate") String endDate,
+                          @RequestParam("companyId") Long companyId){
 
       if (current == null || size == null || payType == null) {
          throw new ApplicationException(CodeType.PARAM_ERROR);
@@ -70,8 +76,15 @@ public class ApplyExcelController {
       Page<ApplyResultCountQuery> page = new Page<>(current,size);
 
       //查询出需要导出的数据
-      Page<ApplyResultCountQuery> queryPage = applyService.pageResult2CountList(page,payType,outDate,lineName);
-
+      TimeQuery timeQuery = TimeData.getParam(startDate, endDate);
+      UserLoginQuery user = localUser.getUser("用户信息");
+      String admin = "运营人员";
+      Page<ApplyResultCountQuery> queryPage;
+      if (admin.equals(user.getRoleName())) {
+         queryPage = applyService.pageResultAdminCountList(page, payType, lineName, startDate, endDate, companyId);
+      } else {
+         queryPage = applyService.pageResult2CountList(page,payType,lineName,timeQuery.getStartTime(),timeQuery.getEndTime());
+      }
       //拿到集合数据
       List<ApplyResultCountQuery> list = queryPage.getRecords();
 
@@ -108,7 +121,9 @@ public class ApplyExcelController {
       }
       String fileName = "同行报名记录统计.xls";
       HSSFWorkbook excel = ExcelUtils.expExcel(head,body);
-      ExcelUtils.outFile(excel,"./"+fileName,response);
+      String fileStorePath = "exl";
+      String path = FilesUtils.getPath(fileName,fileStorePath);
+      ExcelUtils.outFile(excel,path,response);
    }
 
 
@@ -162,7 +177,9 @@ public class ApplyExcelController {
       }
       String fileName = "财务月结记录统计.xls";
       HSSFWorkbook excel = ExcelUtils.expExcel(head,body);
-      ExcelUtils.outFile(excel,"./"+fileName,response);
+      String fileStorePath = "exl";
+      String path = FilesUtils.getPath(fileName,fileStorePath);
+      ExcelUtils.outFile(excel,path,response);
    }
 
 
@@ -182,7 +199,7 @@ public class ApplyExcelController {
    public void page2MeExl(@RequestParam("current") Integer current, @RequestParam("size") Integer size,
                               @RequestParam("OutTime") String OutTime, @RequestParam("LineName") String LineName,
                               @RequestParam("applyTime") String applyTime, @RequestParam("type") Integer type,
-                              @RequestParam("todayType") Integer todayType,
+                              @RequestParam("todayType") Integer todayType,@RequestParam("roadName") String roadName,
                               @RequestParam("companyUserId") Long companyUserId, HttpServletResponse response) {
 
       if (current == null || size == null) {
@@ -193,7 +210,7 @@ public class ApplyExcelController {
 
       String admin = "运营人员";
       if (admin.equals(user.getRoleName())) {
-         Page<ApplyCompanyQuery> applyList = applyService.pageAdmin2Apply(page, LineName, OutTime, applyTime, type, companyUserId,todayType);
+         Page<ApplyCompanyQuery> applyList = applyService.pageAdmin2Apply(page, LineName, OutTime, applyTime, type, companyUserId,todayType,roadName);
 
          List<ApplyCompanyQuery> list = applyList.getRecords();
 
@@ -249,11 +266,13 @@ public class ApplyExcelController {
          }
          String fileName = "我的报名记录统计.xls";
          HSSFWorkbook excel = ExcelUtils.expExcel(head,body);
-         ExcelUtils.outFile(excel,"./"+fileName,response);
+         String fileStorePath = "exl";
+         String path = FilesUtils.getPath(fileName,fileStorePath);
+         ExcelUtils.outFile(excel,path,response);
          return;
       }
 
-      Page<ApplyCompanyQuery> pageList = applyService.pageMeApply(page, LineName, OutTime, applyTime, type,todayType);
+      Page<ApplyCompanyQuery> pageList = applyService.pageMeApply(page, LineName, OutTime, applyTime, type,todayType,roadName);
 
       //同行的数据
       List<ApplyCompanyQuery> list = pageList.getRecords();
@@ -311,6 +330,8 @@ public class ApplyExcelController {
       }
       String fileName = "我的报名记录统计.xls";
       HSSFWorkbook excel = ExcelUtils.expExcel(head,body);
-      ExcelUtils.outFile(excel,"./"+fileName,response);
+      String fileStorePath = "exl";
+      String path = FilesUtils.getPath(fileName,fileStorePath);
+      ExcelUtils.outFile(excel,path,response);
    }
 }

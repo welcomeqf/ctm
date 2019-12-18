@@ -8,6 +8,7 @@ import eqlee.ctm.apply.orders.entity.OrderDetailed;
 import eqlee.ctm.apply.orders.entity.Orders;
 import eqlee.ctm.apply.orders.entity.Vo.*;
 import eqlee.ctm.apply.orders.entity.bo.CarQueryBo;
+import eqlee.ctm.apply.orders.entity.bo.OrdersMonthBo;
 import eqlee.ctm.apply.orders.entity.query.ChangedQuery;
 import eqlee.ctm.apply.orders.entity.query.OrderContectQuery;
 import eqlee.ctm.apply.price.entity.vo.PriceVo;
@@ -169,4 +170,16 @@ public interface OrdersMapper extends IBaseMapper<Orders> {
     List<OrderContectQuery> listContect(@Param("LineName") String LineName,
                                         @Param("OutDate") LocalDate OutDate,
                                         @Param("Id") Long Id);
+
+    /**
+     * 查询月结的总金额
+     * @param lineName
+     * @param outDate
+     * @param id
+     * @return
+     */
+    OrdersMonthBo queryMonthPrice (@Param("lineName") String lineName,
+                                   @Param("outDate") LocalDate outDate,
+                                   @Param("id") Long id);
+
 }

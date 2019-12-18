@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.yq.IBaseMapper.IBaseMapper;
 import eqlee.ctm.apply.entry.entity.Examine;
 import eqlee.ctm.apply.entry.entity.vo.ExamineUpdateInfoVo;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Component;
 
 /**
@@ -17,9 +18,11 @@ public interface ExamineMapper extends IBaseMapper<Examine> {
     /**
      * 展示修改记录
      * @param page
+     * @param id
      * @return
      */
-    Page<ExamineUpdateInfoVo> listUpdateInfo (Page<ExamineUpdateInfoVo> page);
+    Page<ExamineUpdateInfoVo> listUpdateInfo (Page<ExamineUpdateInfoVo> page,
+                                              @Param("id") Long id);
 
 
     /**

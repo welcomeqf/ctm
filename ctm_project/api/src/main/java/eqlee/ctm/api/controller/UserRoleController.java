@@ -74,7 +74,7 @@ public class UserRoleController {
 
         String s = JSONObject.toJSONString(query);
         //获得token
-        String userToken = tokenData.getUserToken();
+        String userToken = tokenData.getMapToken();
         String token = "Bearer " + userToken;
 
         HttpResult httpResult = apiService.post(url,s,token);
@@ -105,7 +105,7 @@ public class UserRoleController {
 
         String s = JSONObject.toJSONString(query);
         //获得token
-        String userToken = tokenData.getUserToken();
+        String userToken = tokenData.getMapToken();
         String token = "Bearer " + userToken;
 
         HttpResult httpResult = apiService.post(url,s,token);
@@ -129,7 +129,7 @@ public class UserRoleController {
         String url = "http://" + ip +":" + port + "/" + path + "/v1/app/role/" +Id;
 
         //获得token
-        String userToken = tokenData.getUserToken();
+        String userToken = tokenData.getMapToken();
         String token = "Bearer " + userToken;
 
         HttpResult httpResult = apiService.get(url,token);
@@ -151,7 +151,7 @@ public class UserRoleController {
         String url = "http://" + ip +":" + port + "/" + path + "/v1/app/role/RoleInfo";
 
         //获得token
-        String userToken = tokenData.getUserToken();
+        String userToken = tokenData.getMapToken();
         String token = "Bearer " + userToken;
 
         HttpResult httpResult = apiService.get(url,token);
@@ -178,7 +178,7 @@ public class UserRoleController {
         String url = "http://" + ip +":" + port + "/" + path + "/v1/app/role/queryPageRole?current=" +current + "&size=" +size;
 
         //获得token
-        String userToken = tokenData.getUserToken();
+        String userToken = tokenData.getMapToken();
         String token = "Bearer " + userToken;
 
         HttpResult httpResult = apiService.get(url,token);
@@ -206,7 +206,7 @@ public class UserRoleController {
 
         String s = JSONObject.toJSONString(vo);
         //获得token
-        String userToken = tokenData.getUserToken();
+        String userToken = tokenData.getMapToken();
         String token = "Bearer " + userToken;
 
         HttpResult httpResult = apiService.post(url,s,token);
@@ -240,7 +240,7 @@ public class UserRoleController {
               +current + "&size=" +size + "&companyId=" +companyId;
 
         //获得token
-        String userToken = tokenData.getUserToken();
+        String userToken = tokenData.getMapToken();
         String token = "Bearer " + userToken;
 
         HttpResult httpResult = apiService.get(url,token);

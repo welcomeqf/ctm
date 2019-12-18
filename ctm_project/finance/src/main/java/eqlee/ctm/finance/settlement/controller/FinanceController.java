@@ -5,11 +5,10 @@ import com.yq.constanct.CodeType;
 import com.yq.exception.ApplicationException;
 import com.yq.jwt.islogin.CheckToken;
 import com.yq.utils.StringUtils;
+import eqlee.ctm.finance.settlement.entity.bo.FinanceCompanyBo;
+import eqlee.ctm.finance.settlement.entity.bo.FinanceCompanyInfoBo;
 import eqlee.ctm.finance.settlement.entity.query.*;
-import eqlee.ctm.finance.settlement.entity.vo.ContectUserVo;
-import eqlee.ctm.finance.settlement.entity.vo.ExaVo;
-import eqlee.ctm.finance.settlement.entity.vo.FinanceVo;
-import eqlee.ctm.finance.settlement.entity.vo.ResultVo;
+import eqlee.ctm.finance.settlement.entity.vo.*;
 import eqlee.ctm.finance.settlement.service.IInFinanceService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -22,6 +21,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @Author qf
@@ -48,18 +48,8 @@ public class FinanceController {
             @ApiImplicitParam(name = "treeBabyNumber", value = "实到幼儿人数", required = true, dataType = "int", paramType = "path"),
             @ApiImplicitParam(name = "treeOldNumber", value = "实到老人人数", required = true, dataType = "int", paramType = "path"),
             @ApiImplicitParam(name = "treeChildNumber", value = "实到小孩人数", required = true, dataType = "int", paramType = "path"),
-            @ApiImplicitParam(name = "unpaidList", value = "未付款的联系人列表（以下是数组的具体字段）", required = true, dataType = "list", paramType = "path"),
-            @ApiImplicitParam(name = "contectUserName", value = "联系人名字（这是数组的第一个字段）", required = true, dataType = "int", paramType = "path"),
-            @ApiImplicitParam(name = "contectUserTel", value = "联系电话", required = true, dataType = "int", paramType = "path"),
-            @ApiImplicitParam(name = "allNumber", value = "一个联系人代表的未付款代收总人数", required = true, dataType = "int", paramType = "path"),
-            @ApiImplicitParam(name = "allPrice", value = "一个联系人代表的未付款代收总价格", required = true, dataType = "double", paramType = "path"),
-            @ApiImplicitParam(name = "babyNumber", value = "一个联系人代表的幼儿人数", required = true, dataType = "int", paramType = "path"),
-            @ApiImplicitParam(name = "oldNumber", value = "一个联系人代表的老人人数", required = true, dataType = "int", paramType = "path"),
-            @ApiImplicitParam(name = "childNumber", value = "一个联系人代表的小孩人数", required = true, dataType = "int", paramType = "path"),
-            @ApiImplicitParam(name = "adultNumber", value = "一个联系人代表的成年人数（这是数组的最后一个字段）", required = true, dataType = "int", paramType = "path"),
-            @ApiImplicitParam(name = "unpaidNumber", value = "未付款人数", required = true, dataType = "int", paramType = "path"),
             @ApiImplicitParam(name = "gaiMoney", value = "应收金额", required = true, dataType = "double", paramType = "path"),
-            @ApiImplicitParam(name = "trueMoney", value = "实收金额", required = true, dataType = "double", paramType = "path"),
+            @ApiImplicitParam(name = "otherInPrice", value = "其他收入", required = true, dataType = "list", paramType = "path"),
             @ApiImplicitParam(name = "ticketName", value = "门票名", required = true, dataType = "String", paramType = "path"),
             @ApiImplicitParam(name = "ticketPrice", value = "门票费用", required = true, dataType = "double", paramType = "path"),
             @ApiImplicitParam(name = "lunchPrice", value = "午餐费用", required = true, dataType = "double", paramType = "path"),
@@ -67,7 +57,9 @@ public class FinanceController {
             @ApiImplicitParam(name = "rentCarPrice", value = "租车费用", required = true, dataType = "double", paramType = "path"),
             @ApiImplicitParam(name = "guideSubsidy", value = "导游补助", required = true, dataType = "double", paramType = "path"),
             @ApiImplicitParam(name = "driverSubsidy", value = "司机补助", required = true, dataType = "double", paramType = "path"),
-            @ApiImplicitParam(name = "allOutPrice", value = "总支出费用", required = true, dataType = "double", paramType = "path")
+            @ApiImplicitParam(name = "allOutPrice", value = "总支出费用", required = true, dataType = "double", paramType = "path"),
+            @ApiImplicitParam(name = "allPrice", value = "该团总价格", required = true, dataType = "double", paramType = "path"),
+            @ApiImplicitParam(name = "monthPrice", value = "月结金额", required = true, dataType = "double", paramType = "path")
     })
     @PostMapping("/insertFinance")
     @CrossOrigin
@@ -75,10 +67,9 @@ public class FinanceController {
     public ResultVo insertFinance(@RequestBody FinanceVo vo) {
         if (StringUtils.isBlank(vo.getOutDate()) || StringUtils.isBlank(vo.getLineName())
         || vo.getTrueAllNumber() == null || vo.getTreeAdultNumber() == null || vo.getTreeBabyNumber() == null || vo.getTreeOldNumber() == null
-        || vo.getTreeChildNumber() == null || vo.getUnpaidNumber() == null || vo.getGaiMoney() == null
-        || vo.getTrueMoney() == null || StringUtils.isBlank(vo.getTicketName()) || vo.getTicketPrice() == null || vo.getLunchPrice() == null
-        || vo.getParkingRatePrice() == null || vo.getRentCarPrice() == null || vo.getGuideSubsidy() == null || vo.getDriverSubsidy() == null
-        || vo.getAllOutPrice() == null) {
+        || vo.getTreeChildNumber() == null || vo.getGaiMoney() == null || StringUtils.isBlank(vo.getTicketName()) || vo.getTicketPrice() == null
+         || vo.getLunchPrice() == null || vo.getParkingRatePrice() == null || vo.getRentCarPrice() == null || vo.getGuideSubsidy() == null ||
+              vo.getDriverSubsidy() == null || vo.getAllOutPrice() == null || vo.getAllPrice() == null || vo.getMonthPrice() == null || vo.getCarType() == null) {
             throw new ApplicationException(CodeType.PARAMETER_ERROR,"参数不能为空");
         }
 
@@ -97,7 +88,9 @@ public class FinanceController {
             @ApiImplicitParam(name = "current", value = "当前页", required = true, dataType = "int", paramType = "path"),
             @ApiImplicitParam(name = "size", value = "每页显示条数", required = true, dataType = "int", paramType = "path"),
             @ApiImplicitParam(name = "GuestName", value = "导游名字", required = false, dataType = "String", paramType = "path"),
-            @ApiImplicitParam(name = "type", value = "类型(未审核,已审核)", required = false, dataType = "String", paramType = "path")
+            @ApiImplicitParam(name = "outDate", value = "出行日期", required = false, dataType = "String", paramType = "path"),
+            @ApiImplicitParam(name = "lineName", value = "线路名字", required = false, dataType = "String", paramType = "path"),
+            @ApiImplicitParam(name = "type", value = "类型(0-未审核,1-已审核)", required = false, dataType = "int", paramType = "path")
     })
     @GetMapping("/listExamine2Page")
     @CrossOrigin
@@ -105,14 +98,16 @@ public class FinanceController {
     public Page<ExamineResultQuery> listExamine2Page (@RequestParam("current") Integer current,
                                                       @RequestParam("size") Integer size,
                                                       @RequestParam("GuestName") String guestName,
-                                                      @RequestParam("type") String type) {
+                                                      @RequestParam("type") Integer type,
+                                                      @RequestParam("outDate") String outDate,
+                                                      @RequestParam("lineName") String lineName) {
         if (current == null || size == null) {
             throw new ApplicationException(CodeType.PARAMETER_ERROR);
         }
 
         Page<ExamineResultQuery> page = new Page<>(current,size);
 
-        return inFinanceService.listExamine2Page(page,guestName,type);
+        return inFinanceService.listExamine2Page(page,guestName,type,outDate,lineName);
     }
 
 
@@ -121,7 +116,7 @@ public class FinanceController {
     @GetMapping("/listExamineDetailed")
     @CrossOrigin
     @CheckToken
-    public ExamineDetailedQuery listExamineDetailed (@RequestParam("Id") Long Id) {
+    public Map<String,Object> listExamineDetailed (@RequestParam("Id") Long Id) {
         if (Id == null) {
             throw new ApplicationException(CodeType.PARAMETER_ERROR);
         }
@@ -133,6 +128,8 @@ public class FinanceController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "current", value = "当前页", required = true, dataType = "int", paramType = "path"),
             @ApiImplicitParam(name = "size", value = "每页显示条数", required = true, dataType = "int", paramType = "path"),
+            @ApiImplicitParam(name = "outDate", value = "出行时间", required = false, dataType = "int", paramType = "path"),
+            @ApiImplicitParam(name = "lineName", value = "线路名", required = false, dataType = "String", paramType = "path"),
             @ApiImplicitParam(name = "exaType", value = "审核类型(待审核,或已通过,或已拒绝)", required = false, dataType = "String", paramType = "path")
     })
     @GetMapping("/guestPage2Me")
@@ -140,17 +137,17 @@ public class FinanceController {
     @CheckToken
     public Page<GuestResultQuery> guestPage2Me (@RequestParam("current") Integer current,
                                                 @RequestParam("size") Integer size,
-                                                @RequestParam("exaType") String exaType) {
+                                                @RequestParam("exaType") String exaType,
+                                                @RequestParam("outDate") String outDate,
+                                                @RequestParam("lineName") String lineName) {
 
         Page<GuestResultQuery> page = new Page<>(current,size);
-        return inFinanceService.GuestPage2Me(page,exaType);
+        return inFinanceService.GuestPage2Me(page,exaType,outDate,lineName);
     }
 
     @ApiOperation(value = "财务审核同意或拒绝操作", notes = "财务审核同意或拒绝操作")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "outDate", value = "出发时间", required = true, dataType = "String", paramType = "path"),
-            @ApiImplicitParam(name = "lineName", value = "线路名", required = true, dataType = "String", paramType = "path"),
-            @ApiImplicitParam(name = "guestId", value = "导游id", required = true, dataType = "Long", paramType = "path"),
+            @ApiImplicitParam(name = "id", value = "id", required = true, dataType = "Long", paramType = "path"),
             @ApiImplicitParam(name = "type", value = "(1-代表通过，2-拒绝)", required = true, dataType = "int", paramType = "path")
     })
     @PostMapping("/examineGuestResult")
@@ -158,12 +155,11 @@ public class FinanceController {
     @CheckToken
     public ExaResultQuery examineGuestResult (@RequestBody ExaVo vo) {
 
-     if (StringUtils.isBlank(vo.getOutDate()) || StringUtils.isBlank(vo.getLineName())
-             || vo.getGuestId() == null || vo.getType() == null) {
+     if (vo.getId() == null || vo.getType() == null) {
          throw new ApplicationException(CodeType.PARAM_ERROR,"参数不能为空");
      }
 
-        ExaResultQuery query = inFinanceService.examineGuestResult(vo.getOutDate(), vo.getLineName(), vo.getGuestId(), vo.getType());
+        ExaResultQuery query = inFinanceService.examineGuestResult(vo.getId() , vo.getType());
         return query;
     }
 
@@ -193,5 +189,54 @@ public class FinanceController {
         return inFinanceService.pageExamine(page,outDate,lineName,guestId);
     }
 
+
+
+    @ApiOperation(value = "统计财务的月结统计", notes = "统计财务的月结统计")
+    @ApiImplicitParams({
+          @ApiImplicitParam(name = "outDate", value = "出发时间（默认传第一天）", required = false, dataType = "String", paramType = "path"),
+          @ApiImplicitParam(name = "companyName", value = "公司名,同行账号,同行代表人姓名,同行代表人电话", required = false, dataType = "String", paramType = "path"),
+          @ApiImplicitParam(name = "current", value = "当前页", required = true, dataType = "int", paramType = "path"),
+          @ApiImplicitParam(name = "size", value = "每页显示条数", required = true, dataType = "int", paramType = "path")
+    })
+    @GetMapping("/pageCompanyCount")
+    @CrossOrigin
+    @CheckToken
+    public Page<FinanceCompanyBo> pageCompanyCount (@RequestParam("outDate") String outDate,
+                                                    @RequestParam("companyName") String companyName,
+                                                    @RequestParam("current") Integer current,
+                                                    @RequestParam("size") Integer size) {
+
+        if (current == null || size == null) {
+            throw new ApplicationException(CodeType.PARAM_ERROR);
+        }
+
+        Page<FinanceCompanyBo> page = new Page<>(current,size);
+        return inFinanceService.pageCompanyCount(page,outDate,companyName);
+    }
+
+
+    @ApiOperation(value = "月结统计详情", notes = "月结统计详情")
+    @ApiImplicitParams({
+          @ApiImplicitParam(name = "outDate", value = "出发时间（默认传第一天）", required = true, dataType = "String", paramType = "path"),
+          @ApiImplicitParam(name = "accountName", value = "同行代表人账号", required = true, dataType = "String", paramType = "path"),
+          @ApiImplicitParam(name = "current", value = "当前页", required = true, dataType = "int", paramType = "path"),
+          @ApiImplicitParam(name = "lineName", value = "线路名", required = false, dataType = "String", paramType = "path"),
+          @ApiImplicitParam(name = "size", value = "每页显示条数", required = true, dataType = "int", paramType = "path")
+    })
+    @GetMapping("/queryCompanyInfoCount")
+    @CrossOrigin
+    @CheckToken
+    public Map<String,Object> queryCompanyInfoCount (@RequestParam("outDate") String outDate,
+                                                     @RequestParam("accountName") String accountName,
+                                                     @RequestParam("current") Integer current,
+                                                     @RequestParam("size") Integer size,
+                                                     @RequestParam("lineName") String lineName) {
+        if (StringUtils.isBlank(outDate) || StringUtils.isBlank(accountName) || current == null || size == null) {
+            throw new ApplicationException(CodeType.PARAM_ERROR);
+        }
+
+        Page<FinanceCompanyInfoBo> page = new Page<>(current,size);
+        return inFinanceService.queryCompanyInfoCount (page,lineName,outDate,accountName);
+    }
 
 }

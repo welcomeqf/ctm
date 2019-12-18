@@ -6,6 +6,7 @@ import com.yq.exception.ApplicationException;
 import com.yq.jwt.islogin.CheckToken;
 import com.yq.utils.DateUtil;
 import com.yq.utils.StringUtils;
+import eqlee.ctm.apply.entry.entity.bo.PriceBo;
 import eqlee.ctm.apply.line.entity.vo.ResultVo;
 import eqlee.ctm.apply.price.entity.Price;
 import eqlee.ctm.apply.price.entity.query.PriceQuery;
@@ -58,7 +59,7 @@ public class PriceController {
     @PostMapping("/insertPrice")
     @CrossOrigin
     @CheckToken
-    public ResultVo insertPrice(@RequestBody PriceVo priceVo) {
+    public ResultVo insertPrice(@RequestBody PriceBo priceVo) {
         if (StringUtils.isBlank(priceVo.getStartTime()) || StringUtils.isBlank(priceVo.getEndTime())
         || StringUtils.isBlank(priceVo.getLineName()) || priceVo.getAdultPrice() == null || priceVo.getMarketOldPrice() == null
         || priceVo.getOldPrice() == null || priceVo.getBabyPrice() == null || priceVo.getChildPrice() ==null
@@ -67,7 +68,11 @@ public class PriceController {
             throw new ApplicationException(CodeType.PARAM_ERROR,"价格设定参数不能为空");
         }
 
-        priceService.insertPrice(priceVo);
+        if (priceVo.getWeekList().size() == 0) {
+            throw new ApplicationException(CodeType.PARAM_ERROR, "请选择星期");
+        }
+
+        priceService.batchUpdatePrice(priceVo);
 
         ResultVo resultVo = new ResultVo();
         resultVo.setResult("ok");
@@ -95,30 +100,38 @@ public class PriceController {
 
 
     @ApiOperation(value = "查询一条价格记录", notes = "查询一条价格记录")
-    @ApiImplicitParam(name = "Id", value = "Id", required = true, dataType = "Long", paramType = "path")
+    @ApiImplicitParam(name = "id", value = "id", required = true, dataType = "Long", paramType = "path")
     @GetMapping("/queryPriceById")
     @CrossOrigin
     @CheckToken
-    public PriceSeacherVo queryPriceById (@RequestParam("Id") Long Id) {
-        return priceService.queryPriceById(Id);
+    public Price queryPriceById (@RequestParam("id") Long id) {
+        return priceService.queryPriceById(id);
     }
 
 
     @ApiOperation(value = "修改一条价格记录", notes = "修改一条价格记录")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "id", value = "id", required = true, dataType = "Long", paramType = "path"),
+            @ApiImplicitParam(name = "outDate", value = "出行日期", required = true, dataType = "String", paramType = "path"),
+            @ApiImplicitParam(name = "lineId", value = "线路Id", required = true, dataType = "Long", paramType = "path"),
             @ApiImplicitParam(name = "adultPrice", value = "成年价格", required = true, dataType = "double", paramType = "path"),
             @ApiImplicitParam(name = "oldPrice", value = "老人价格", required = true, dataType = "double", paramType = "path"),
             @ApiImplicitParam(name = "babyPrice", value = "幼儿价格", required = true, dataType = "double", paramType = "path"),
-            @ApiImplicitParam(name = "childPrice", value = "小孩价格", required = true, dataType = "double", paramType = "path")
+            @ApiImplicitParam(name = "childPrice", value = "小孩价格", required = true, dataType = "double", paramType = "path"),
+            @ApiImplicitParam(name = "MarketAdultPrice", value = "门市成年价格", required = true, dataType = "double", paramType = "path"),
+            @ApiImplicitParam(name = "MarketOldPrice", value = "门市老人价格", required = true, dataType = "double", paramType = "path"),
+            @ApiImplicitParam(name = "MarketBabyPrice", value = "门市幼儿价格", required = true, dataType = "double", paramType = "path"),
+            @ApiImplicitParam(name = "MarketChildPrice", value = "门市小孩价格", required = true, dataType = "double", paramType = "path"),
+            @ApiImplicitParam(name = "remark", value = "备注", required = false, dataType = "String", paramType = "path")
     })
     @PostMapping("/updateOnePrice")
     @CrossOrigin
     @CheckToken
     public ResultVo updateOnePrice(@RequestBody PriceUpdateVo priceVo) {
-        if ( priceVo.getAdultPrice() == null || priceVo.getId() == null || priceVo.getOldPrice() == null
-                || priceVo.getBabyPrice() == null || priceVo.getChildPrice() ==null) {
-            log.error("price param is not null.");
+        if ( priceVo.getAdultPrice() == null || priceVo.getOldPrice() == null
+                || priceVo.getBabyPrice() == null || priceVo.getChildPrice() ==null || priceVo.getMarketAdultPrice() == null
+        || priceVo.getMarketBabyPrice() == null || priceVo.getMarketChildPrice() == null
+        || priceVo.getMarketOldPrice() == null) {
             throw new ApplicationException(CodeType.PARAM_ERROR);
         }
         priceService.updatePrice(priceVo);

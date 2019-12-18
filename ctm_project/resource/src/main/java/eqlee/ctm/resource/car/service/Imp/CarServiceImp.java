@@ -44,7 +44,6 @@ public class CarServiceImp extends ServiceImpl<CarMapper, Car> implements ICarSe
         IdGenerator idGenerator = new IdGenerator();
         car.setId(idGenerator.getNumberId());
         car.setRemark(carVo.getRemark());
-        car.setCarName(carVo.getCarName());
         car.setCreateUserId(user.getId());
         car.setUpdateUserId(user.getId());
         LambdaQueryWrapper<Car> queryWrapper = new LambdaQueryWrapper<Car>()
@@ -89,7 +88,6 @@ public class CarServiceImp extends ServiceImpl<CarMapper, Car> implements ICarSe
         car.setUpdateUserId(user.getId());
         car.setId(Id);
         car.setRemark(carVo.getRemark());
-        car.setCarName(carVo.getCarName());
         car.setCarNo(carVo.getCarNo());
         car.setStatu(carVo.getStatu());
         if(carVo.isStop()) {

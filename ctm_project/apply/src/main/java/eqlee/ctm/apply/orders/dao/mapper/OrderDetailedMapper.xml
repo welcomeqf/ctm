@@ -6,27 +6,50 @@
 
     <insert id="batchInsertorderDetailed" parameterType="eqlee.ctm.apply.orders.entity.bo.OrderDetailedBo">
         insert into OrderDetailed(Id,OrderId,ContactName,ContactTel,Place,AdultNumber,BabyNumber,
-        OldNumber,ChildNumber,AllNumber,Price,CreateUserId,PayType,AccountName,CompanyName)
+        OldNumber,ChildNumber,AllNumber,Price,CreateUserId,PayType,AccountName,CompanyName,MsPrice,MonthPrice,
+        CompanyUserName,CompanyUserTel)
         <foreach collection="list" item="item" index="index" separator="union all">
             select #{item.Id},#{item.OrderId},#{item.ContactName},#{item.ContactTel},#{item.Place},
             #{item.AdultNumber},#{item.BabyNumber},#{item.OldNumber},#{item.ChildNumber},
             #{item.AllNumber},#{item.Price},#{item.CreateUserId},#{item.PayType},#{item.AccountName},#{item.CompanyName}
+            ,#{item.MsPrice},#{item.MonthPrice},#{item.CompanyUserName},#{item.CompanyUserTel}
         </foreach>
     </insert>
 
 
     <select id="pageOrderDetailed" resultType="eqlee.ctm.apply.orders.entity.query.OrderDetailedQuery">
-        select a.Id as 'OrderId',a.ContactName,a.ContactTel,a.Place,a.AllNumber,a.PayType,b.OrderNo
-        ,a.AdultNumber,a.BabyNumber,a.OldNumber,a.ChildNumber,a.MsPrice
-        from OrderDetailed a left join Orders b on a.OrderId = b.Id
-        where b.OutDate = #{outDate} and b.LineName = #{lineName} and b.CreateUserId = #{id}
+        select Id as 'OrderId',ContactName,ContactTel,Place,AllNumber,PayType
+        ,AdultNumber,BabyNumber,OldNumber,ChildNumber,isnull(MsPrice,0)MsPrice
+        from OrderDetailed
+        <where>
+            1 = 1
+            and OrderId = #{id}
+            <if test="payType != null">
+                and PayType = #{payType}
+            </if>
+        </where>
     </select>
 
-    <select id="pageOrderDetailedByType" resultType="eqlee.ctm.apply.orders.entity.query.OrderDetailedQuery">
-        select a.Id as 'OrderId',a.ContactName,a.ContactTel,a.Place,a.AllNumber,a.PayType,b.OrderNo
-        ,a.AdultNumber,a.BabyNumber,a.OldNumber,a.ChildNumber,a.MsPrice
-        from OrderDetailed a left join Orders b on a.OrderId = b.Id
-        where b.OutDate = #{outDate} and b.LineName = #{lineName} and b.CreateUserId = #{id} and a.PayType = #{type}
+    <select id="pageOrder" resultType="eqlee.ctm.apply.orders.entity.bo.OrderBo">
+        select max(a.Id)id,max(a.OrderNo)orderNo,max(convert(varchar(20),a.OutDate,23))outDate,max(a.LineName)lineName,max(a.Region)region,sum(isnull(b.MsPrice,0))msPrice,
+       sum(b.AdultNumber)adultNumber,sum(b.BabyNumber)babyNumber,sum(b.OldNumber)oldNumber,sum(b.ChildNumber)childNumber,
+       sum(b.AllNumber)allNumber
+       from Orders a join OrderDetailed b on a.Id = b.OrderId
+       <where>
+           1 = 1
+           and a.CreateUserId = #{id}
+           <if test="start != null">
+              and a.OutDate between #{start} and #{end}
+           </if>
+           <if test="lineName != null">
+              and a.LineName = #{lineName}
+           </if>
+           <if test="region != null">
+               <bind name="region_" value="'%' + region + '%'"/>
+               and a.Region like #{region_}
+           </if>
+       </where>
+       group by a.OrderNo
     </select>
 
 </mapper>

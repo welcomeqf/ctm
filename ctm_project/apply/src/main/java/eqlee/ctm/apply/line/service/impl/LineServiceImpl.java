@@ -9,15 +9,20 @@ import com.yq.jwt.contain.LocalUser;
 import com.yq.jwt.entity.UserLoginQuery;
 import com.yq.utils.IdGenerator;
 import com.yq.utils.StringUtils;
+import eqlee.ctm.apply.entry.entity.Apply;
+import eqlee.ctm.apply.entry.service.IApplyService;
 import eqlee.ctm.apply.line.dao.LineMapper;
 import eqlee.ctm.apply.line.entity.Line;
 import eqlee.ctm.apply.line.entity.query.LinePageQuery;
 import eqlee.ctm.apply.line.entity.query.LineSeacherQuery;
+import eqlee.ctm.apply.line.entity.vo.LineInfomationVo;
 import eqlee.ctm.apply.line.entity.vo.LineUpdateVo;
 import eqlee.ctm.apply.line.entity.vo.LineVo;
 import eqlee.ctm.apply.line.service.ILineService;
 import eqlee.ctm.apply.option.entity.Option;
 import eqlee.ctm.apply.option.service.ICityService;
+import eqlee.ctm.apply.price.entity.Price;
+import eqlee.ctm.apply.price.service.IPriceService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -40,6 +45,12 @@ public class LineServiceImpl extends ServiceImpl<LineMapper, Line> implements IL
 
     @Autowired
     private ICityService cityService;
+
+    @Autowired
+    private IPriceService priceService;
+
+    @Autowired
+    private IApplyService applyService;
 
     /**
      * 根据线路名查询线路
@@ -130,6 +141,7 @@ public class LineServiceImpl extends ServiceImpl<LineMapper, Line> implements IL
         line.setInformation(vo.getInformation());
         line.setLineName(vo.getLineName());
         line.setRemark(vo.getRemark());
+        line.setCity(vo.getCity());
         line.setTravelSituation(vo.getTravelSituation());
         line.setUpdateUserId(user.getId());
         line.setId(Id);
@@ -229,6 +241,20 @@ public class LineServiceImpl extends ServiceImpl<LineMapper, Line> implements IL
      */
     @Override
     public void deleteLine(Long Id) {
+
+        //设置价格，报名后的线路都不能删除
+        List<Price> list = priceService.queryPriceByLineNameId(Id);
+
+        if (list.size() > 0) {
+            throw new ApplicationException(CodeType.SERVICE_ERROR, "该线路正在使用不能被删除");
+        }
+
+        List<Apply> applies = applyService.queryApplyByLineId(Id);
+
+        if (applies.size() > 0) {
+            throw new ApplicationException(CodeType.SERVICE_ERROR, "该线路正在使用不能被删除");
+        }
+
         int delete = baseMapper.deleteById(Id);
 
         if (delete <= 0) {
@@ -243,7 +269,39 @@ public class LineServiceImpl extends ServiceImpl<LineMapper, Line> implements IL
      */
     @Override
     public List<Line> listAllLine() {
+        LambdaQueryWrapper<Line> wrapper = new LambdaQueryWrapper<Line>()
+              .eq(Line::getStopped,false);
+        return baseMapper.selectList(wrapper);
+    }
+
+    @Override
+    public List<Line> queryAllLine() {
         return baseMapper.selectList(null);
+    }
+
+
+    /**
+     * 查询图文
+     * @param id
+     * @return
+     */
+    @Override
+    public LineInfomationVo queryContent(Long id) {
+        Line line = baseMapper.selectById(id);
+        LineInfomationVo vo = new LineInfomationVo();
+        vo.setContent(line.getInformation());
+        return vo;
+    }
+
+
+    /**
+     * 查询线路集合
+     * @param list
+     * @return
+     */
+    @Override
+    public List<Line> queryByIdList(List<Long> list) {
+        return baseMapper.selectBatchIds(list);
     }
 
 

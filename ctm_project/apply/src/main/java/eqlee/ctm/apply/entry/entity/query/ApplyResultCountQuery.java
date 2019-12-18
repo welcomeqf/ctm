@@ -47,7 +47,7 @@ public class ApplyResultCountQuery {
     */
    private Integer allNumber;
 
-   private Double MarketAllPrice;
+   private Double Msprice;
 
    private Integer AdultNumber;
 

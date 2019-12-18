@@ -36,4 +36,16 @@ public class ChangedVo {
 
     private Integer AllNumber;
 
+    private Integer AdultNumber;
+
+    private Integer BabyNumber;
+
+    private Integer OldNumber;
+
+    private Integer ChildNumber;
+
+    private String ContactName;
+
+    private String ContactTel;
+
 }

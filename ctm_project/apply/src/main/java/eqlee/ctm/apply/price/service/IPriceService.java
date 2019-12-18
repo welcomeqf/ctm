@@ -1,6 +1,7 @@
 package eqlee.ctm.apply.price.service;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import eqlee.ctm.apply.entry.entity.bo.PriceBo;
 import eqlee.ctm.apply.price.entity.Price;
 import eqlee.ctm.apply.price.entity.query.PriceQuery;
 import eqlee.ctm.apply.price.entity.vo.PriceSeacherVo;
@@ -31,6 +32,8 @@ public interface IPriceService {
 
     /**
      * 价格设定
+     * 对一段时间增加或修改
+     * （不加星期约束）
      * @param priceVo
      */
     void insertPrice(PriceVo priceVo);
@@ -44,9 +47,9 @@ public interface IPriceService {
 
     /**
      * 批量修改价格
-     * @param priceVo
+     * @param priceBo
      */
-    void batchUpdatePrice(PriceVo priceVo);
+    void batchUpdatePrice(PriceBo priceBo);
 
 
     /**
@@ -70,15 +73,22 @@ public interface IPriceService {
 
     /**
      * 查询一条数据
-     * @param Id
+     * @param id
      * @return
      */
-    PriceSeacherVo queryPriceById (Long Id);
+    Price queryPriceById (Long id);
 
     /**
      * 删除价格
      * @param id
      */
     void deletePriceById (Long id);
+
+    /**
+     * 跟剧线路ID查询价格
+     * @param lineId
+     * @return
+     */
+    List<Price> queryPriceByLineNameId (Long lineId);
 
 }

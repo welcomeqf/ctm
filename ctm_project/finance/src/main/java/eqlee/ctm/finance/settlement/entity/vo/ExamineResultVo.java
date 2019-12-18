@@ -1,8 +1,10 @@
 package eqlee.ctm.finance.settlement.entity.vo;
 
+import eqlee.ctm.finance.other.entity.Other;
 import lombok.Data;
 
 import java.time.LocalDate;
+import java.util.List;
 
 /**
  * @Author qf
@@ -12,6 +14,8 @@ import java.time.LocalDate;
 @Data
 public class ExamineResultVo {
 
+
+    private Long id;
 
     private Long GuestId;
     /**
@@ -30,90 +34,14 @@ public class ExamineResultVo {
     private String LineName;
 
     /**
-     * 应到人数
-     */
-    private Integer AllDoNumber;
-
-    /**
-     * 实到人数
-     */
-    private Integer TrueAllNumber;
-
-    /**
-     * 实到成人人数
-     */
-    private Integer TreeAdultNumber;
-
-    /**
-     * 实到幼儿人数
-     */
-    private Integer TreeBabyNumber;
-
-    /**
-     * 实到老人人数
-     */
-    private Integer TreeOldNumber;
-
-    /**
-     * 实到小孩人数
-     */
-    private Integer TreeChildNumber;
-
-    /**
-     * 未付款人数
-     */
-    private Integer UnpaidNumber;
-
-    /**
-     * 结算价(应收金额)
+     * 结算价(面收金额)
      */
     private Double SettlementPrice;
 
     /**
-     * 代收费用（实收金额）
+     * 总收入
      */
-    private Double SubstitutionPrice;
-
-
-    /**
-     * 联系人名字
-     */
-    private String ContectUserName;
-
-    /**
-     * 联系电话
-     */
-    private String ContectUserTel;
-
-    /**
-     * 面收未付款总人数
-     */
-    private Integer AllNumber;
-
-    /**
-     * 面收未付款总价格
-     */
-    private Double AllPrice;
-
-    /**
-     * 未付款代收幼儿人数
-     */
-    private Integer BabyNumber;
-
-    /**
-     * 未付款代收老人人数
-     */
-    private Integer OldNumber;
-
-    /**
-     * 未付款代收小孩人数
-     */
-    private Integer ChildNumber;
-
-    /**
-     * 未付款代收成年人数
-     */
-    private Integer AdultNumber;
+    private Double AllInPrice;
 
     /**
      * 门票名
@@ -161,12 +89,54 @@ public class ExamineResultVo {
     private Double AllOutPrice;
 
     /**
-     * 应得收入（应收金额-总支出费用）
-     */
-    private Double InPrice;
-
-    /**
      * 结算金额
      */
     private Double FinallyPrice;
+
+    /**
+     * 毛利
+     */
+    private Double ProfitPrice;
+
+    /**
+     * 月结总价
+     */
+    private Double MonthPrice;
+
+    /**
+     * 应到人数
+     */
+    private Integer AllDoNumber;
+
+    /**
+     * 实到人数
+     */
+    private Integer TrueAllNumber;
+
+    /**
+     * 实到成人人数
+     */
+    private Integer TreeAdultNumber;
+
+    /**
+     * 实到幼儿人数
+     */
+    private Integer TreeBabyNumber;
+
+    /**
+     * 实到老人人数
+     */
+    private Integer TreeOldNumber;
+
+    /**
+     * 实到小孩人数
+     */
+    private Integer TreeChildNumber;
+
+
+
+
+
+
+
 }

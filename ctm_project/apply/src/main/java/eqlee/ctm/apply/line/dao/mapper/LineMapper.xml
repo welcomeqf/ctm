@@ -5,13 +5,13 @@
 
     <select id="queryLine2PageAndName" resultType="eqlee.ctm.apply.line.entity.query.LineSeacherQuery">
         <bind name="line_Name" value="'%' + lineName + '%'"/>
-      select Id,LineName,Information,Region,TravelSituation,MaxNumber,MinNumber,City,PicturePath from Line
+      select Id,LineName,Information,Region,TravelSituation,MaxNumber,MinNumber,City,PicturePath,Stopped from Line
       where LineName like #{line_Name}
     </select>
 
 
     <select id="queryLine2Page" resultType="eqlee.ctm.apply.line.entity.query.LineSeacherQuery">
-        select Id,LineName,Information,Region,TravelSituation,MaxNumber,MinNumber,City,PicturePath from Line
+        select Id,LineName,Information,Region,TravelSituation,MaxNumber,MinNumber,City,PicturePath,Stopped from Line
     </select>
 
 

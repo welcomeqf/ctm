@@ -12,7 +12,7 @@ public class PayTokenVo {
 
    private Integer StatusCode;
 
-   private String Error;
+   private Boolean Error;
 
    private ResultTokenVo Result;
 }

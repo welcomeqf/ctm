@@ -28,6 +28,8 @@ public class LineUpdateVo {
 
     private Boolean stopped;
 
+    private String city;
+
     private String remark;
 
 }

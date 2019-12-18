@@ -7,6 +7,7 @@ import com.yq.jwt.islogin.CheckToken;
 import com.yq.utils.StringUtils;
 import eqlee.ctm.apply.line.entity.Line;
 import eqlee.ctm.apply.line.entity.query.LineSeacherQuery;
+import eqlee.ctm.apply.line.entity.vo.LineInfomationVo;
 import eqlee.ctm.apply.line.entity.vo.LineUpdateVo;
 import eqlee.ctm.apply.line.entity.vo.LineVo;
 import eqlee.ctm.apply.line.entity.vo.ResultVo;
@@ -78,6 +79,7 @@ public class LineController {
             @ApiImplicitParam(name = "lineName", value = "线路名", required = true, dataType = "String", paramType = "path"),
             @ApiImplicitParam(name = "information", value = "线路简介", required = true, dataType = "String", paramType = "path"),
             @ApiImplicitParam(name = "region", value = "区域", required = true, dataType = "String", paramType = "path"),
+            @ApiImplicitParam(name = "city", value = "城市", required = true, dataType = "String", paramType = "path"),
             @ApiImplicitParam(name = "travelSituation", value = "出游情况（几日游）", required = true, dataType = "int", paramType = "path"),
             @ApiImplicitParam(name = "stopped", value = "是否停用(false-正常 1-禁用true)", required = true, dataType = "Boolean", paramType = "path"),
             @ApiImplicitParam(name = "maxNumber", value = "最大人数", required = true, dataType = "int", paramType = "path"),
@@ -163,6 +165,19 @@ public class LineController {
     }
 
 
+    @ApiOperation(value = "查询图文", notes = "查询图文")
+    @ApiImplicitParam(name = "id", value = "id", required = true, dataType = "Long", paramType = "path")
+    @GetMapping("/queryContent")
+    @CrossOrigin
+    @CheckToken
+    public LineInfomationVo queryContent(@RequestParam("id") Long id) {
+        if (id == null) {
+            throw new ApplicationException(CodeType.PARAM_ERROR);
+        }
+        return lineService.queryContent(id);
+    }
+
+
     @ApiOperation(value = "根据Id删除一条线路", notes = "根据Id删除一条线路")
     @ApiImplicitParam(name = "Id", value = "Id", required = true, dataType = "Long", paramType = "path")
     @DeleteMapping("/deleteLine/{Id}")
@@ -180,7 +195,7 @@ public class LineController {
     }
 
 
-    @ApiOperation(value = "查询所有线路", notes = "查询所有线路")
+    @ApiOperation(value = "查询所有未禁用的线路", notes = "查询所有未禁用的线路")
     @GetMapping("/listAllLine")
     @CrossOrigin
     @CheckToken
@@ -188,6 +203,14 @@ public class LineController {
         return lineService.listAllLine();
     }
 
+
+    @ApiOperation(value = "查询所有的线路", notes = "查询所有的线路")
+    @GetMapping("/queryAllLine")
+    @CrossOrigin
+    @CheckToken
+    public List<Line> queryAllLine () {
+        return lineService.queryAllLine();
+    }
 
 
     @ApiOperation(value = "模糊查询分页查询所有可报名线路", notes = "模糊查询分页查询所有可报名线路")

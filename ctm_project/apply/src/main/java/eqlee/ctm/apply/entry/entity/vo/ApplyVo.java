@@ -17,7 +17,7 @@ public class ApplyVo {
      */
     private String outDate;
     /**
-     * 同行公司名
+     * 同行公司名Id
      */
     private Long companyNameId;
 
@@ -98,4 +98,32 @@ public class ApplyVo {
      * 授信月结金额
      */
     private Double sxPrice;
+
+
+    /**
+     * 成年价格
+     */
+    private Double adultPrice;
+
+    /**
+     * 老人价格
+     */
+    private Double oldPrice;
+
+    /**
+     * 幼儿价格
+     */
+    private Double babyPrice;
+
+    /**
+     * 小孩价格
+     */
+    private Double childPrice;
+
+    /**
+     * null为正常报名
+     * 传任意值为补录
+     */
+    private String type;
+
 }

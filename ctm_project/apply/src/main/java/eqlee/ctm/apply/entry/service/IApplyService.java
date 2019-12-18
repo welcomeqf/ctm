@@ -2,6 +2,7 @@ package eqlee.ctm.apply.entry.service;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import eqlee.ctm.apply.entry.entity.Apply;
+import eqlee.ctm.apply.entry.entity.bo.ApplyCountBo;
 import eqlee.ctm.apply.entry.entity.query.*;
 import eqlee.ctm.apply.entry.entity.vo.ApplySeacherVo;
 import eqlee.ctm.apply.entry.entity.vo.ApplyVo;
@@ -26,6 +27,13 @@ public interface IApplyService {
     ApplyPayResultQuery insertApply(ApplyVo applyVo);
 
     /**
+     * 补录
+     * @param applyVo
+     * @return
+     */
+    ApplyPayResultQuery insertWithApply(ApplyVo applyVo);
+
+    /**
      * 分页展示报名记录
      * <a>如果只有出发日期，只对出发日期进行条件查询</a>
      * <b>如果只有线路名，区域任意一种，对线路名，或区域进行模糊查询</b>
@@ -36,7 +44,7 @@ public interface IApplyService {
      * @param LineNameOrRegion
      * @return
      */
-    Page<ApplyQuery> listPage2Apply (Page<ApplyQuery> page,String OutDate, String LineNameOrRegion);
+    Page<ApplyQuery> listPage2Apply (Page<ApplyQuery> page,String OutDate, String LineNameOrRegion, String lineName);
 
     /**
      * 修改报名表
@@ -50,10 +58,10 @@ public interface IApplyService {
      * @param page
      * @param outDate
      * @param lineName
-     * @param applyType
+     * @param type
      * @return
      */
-    Page<ApplyDoExaQuery> listPageDo2Apply(Page<ApplyDoExaQuery> page, String outDate, String lineName, String applyType);
+    Page<ApplyDoExaQuery> listPageDo2Apply(Page<ApplyDoExaQuery> page, String outDate, String lineName, Integer type, String applyDate, Integer exaStatus);
 
 
     /**
@@ -86,8 +94,9 @@ public interface IApplyService {
      * 修改审核状态
      * @param Id
      * @param Status
+     * @param type
      */
-    void updateExamineStatus(Long Id, Integer Status);
+    void updateExamineStatus(Long Id, Integer Status, Integer type);
 
     /**
      * 查询报名表
@@ -128,7 +137,7 @@ public interface IApplyService {
      * @param todayType
      * @return
      */
-    Page<ApplyCompanyQuery> pageMeApply (Page<ApplyCompanyQuery> page, String lineName, String outDate, String applyTime, Integer type,Integer todayType);
+    Page<ApplyCompanyQuery> pageMeApply (Page<ApplyCompanyQuery> page, String lineName, String outDate, String applyTime, Integer type,Integer todayType,String roadName);
 
     /**
      * 我的报名记录(运营人员)
@@ -141,7 +150,7 @@ public interface IApplyService {
      * @param todayType
      * @return
      */
-    Page<ApplyCompanyQuery> pageAdmin2Apply (Page<ApplyCompanyQuery> page, String lineName, String outDate, String applyTime, Integer type, Long companyUserId,Integer todayType);
+    Page<ApplyCompanyQuery> pageAdmin2Apply (Page<ApplyCompanyQuery> page, String lineName, String outDate, String applyTime, Integer type, Long companyUserId,Integer todayType,String roadName);
 
 
     /**
@@ -198,12 +207,24 @@ public interface IApplyService {
      * 同行月结现结统计
      * @param page
      * @param payType
-     * @param outDate
      * @param lineName
+     * @param startDate
+     * @param endDate
      * @return
      */
-    Page<ApplyResultCountQuery> pageResult2CountList (Page<ApplyResultCountQuery> page, Integer payType,String outDate, String lineName);
+    Page<ApplyResultCountQuery> pageResult2CountList (Page<ApplyResultCountQuery> page, Integer payType, String lineName, String startDate, String endDate);
 
+    /**
+     * 运营月结现结统计查询
+     * @param page
+     * @param payType
+     * @param lineName
+     * @param startDate
+     * @param endDate
+     * @param companyUserId
+     * @return
+     */
+    Page<ApplyResultCountQuery> pageResultAdminCountList (Page<ApplyResultCountQuery> page, Integer payType, String lineName, String startDate, String endDate, Long companyUserId);
 
     /**
      * 返回待付款的支付信息
@@ -217,8 +238,26 @@ public interface IApplyService {
      * 查询所有管理员Id
      * @return
      */
-    List<Long> queryAdminIds ();
+    List<Apply> queryAdminIds ();
 
+    /**
+     *  统计同行当月的数据
+     * @return
+     */
+    ApplyCountBo queryApplyCount ();
 
+    /**
+     * 跟剧线路ID查询报名表
+     * @param lineId
+     * @return
+     */
+    List<Apply> queryApplyByLineId (Long lineId);
+
+    /**
+     * 需改取消状态
+     * @param type
+     * @param id
+     */
+    void updateApplyCancel(Integer type, Long id);
 
 }

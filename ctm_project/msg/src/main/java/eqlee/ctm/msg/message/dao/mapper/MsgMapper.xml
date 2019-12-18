@@ -1,24 +1,16 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="eqlee.ctm.msg.message.dao.MessageMapper">
+<mapper namespace="eqlee.ctm.msg.message.dao.MsgMapper">
 
-
-
-    <select id="pageMsg" resultType="eqlee.ctm.msg.message.entity.query.MsgQuery">
-      select Id as 'id',CreateId as 'createId',ToId as 'toid',convert(varchar(100),CreateDate,20)createDate,
-      convert(varchar(100),ReadDate,20)readDate from Message
-      where IsRead = 0 and MsgType = #{msgType} and ToId = #{toId}
-      order by CreateDate desc
+    <select id="queryMsg" resultType="eqlee.ctm.msg.message.entity.MsgResult">
+        select Id as 'id',ToId as 'toId',Msg as 'msg' from Message
+        where IsRead = 0
     </select>
 
-
-    <insert id="addAllMsg" parameterType="eqlee.ctm.msg.message.entity.vo.MsgVo">
-        insert into Message (CreateId,ToId,MsgType,Msg)
-        <foreach collection="list" item="item" index="index" separator="union all">
-            select #{item.createId},#{item.toId},#{item.msgType},#{item.msg}
-        </foreach>
-    </insert>
+    <update id="updateMsgStatus" parameterType="int">
+            update Message set IsRead = 1 where Id = #{id}
+    </update>
 
 
 </mapper>

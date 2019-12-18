@@ -12,6 +12,10 @@ public class PriceUpdateVo {
 
     private Long id;
 
+    private String outDate;
+
+    private Long lineId;
+
     private Double adultPrice;
 
     private Double oldPrice;
@@ -19,4 +23,14 @@ public class PriceUpdateVo {
     private Double babyPrice;
 
     private Double childPrice;
+
+    private Double marketAdultPrice;
+
+    private Double marketOldPrice;
+
+    private Double marketBabyPrice;
+
+    private Double marketChildPrice;
+
+    private String remark;
 }

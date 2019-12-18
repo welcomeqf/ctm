@@ -60,6 +60,11 @@ public class Orders extends Model<Orders> {
     private String Region;
 
     /**
+     * 公司Id
+     */
+    private Long CompanyId;
+
+    /**
      * 导游姓名
      */
     private String GuideName;
@@ -111,6 +116,7 @@ public class Orders extends Model<Orders> {
 
 
     private Integer Statu;
+
 
     @Override
     protected Serializable pkVal() {

@@ -22,8 +22,9 @@ public interface IPayService {
     /**
      * 修改报名表支付状态
      * @param applyNo
+     * @param payInfo
      */
-    void updateApplyPayStatus (String applyNo);
+    void updateApplyPayStatus (String applyNo, Integer payInfo);
 
     /**
      * 支付失败删除该报名记录并删除审核记录

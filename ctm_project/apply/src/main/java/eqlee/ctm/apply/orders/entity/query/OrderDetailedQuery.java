@@ -39,11 +39,6 @@ public class OrderDetailedQuery {
     private String Place;
 
     /**
-     * 订单号
-     */
-    private String OrderNo;
-
-    /**
      * 成人人数
      */
     private Integer AdultNumber;

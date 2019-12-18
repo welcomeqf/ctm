@@ -46,4 +46,6 @@ public class OrderContectQuery {
      * 联系电话
      */
     private String ContactTel;
+
+    private Double MsPrice;
 }

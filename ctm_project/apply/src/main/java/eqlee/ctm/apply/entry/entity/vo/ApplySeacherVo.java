@@ -146,4 +146,9 @@ public class ApplySeacherVo {
     private Integer statu;
 
     private Boolean isSelect;
+
+    /**
+     * 0-- 微信支付  1--支付宝支付
+     */
+    private Integer payInfo;
 }

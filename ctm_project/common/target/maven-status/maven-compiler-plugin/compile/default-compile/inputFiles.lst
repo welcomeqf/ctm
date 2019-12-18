@@ -3,8 +3,10 @@ E:\MyWork\CTM_Source\ctm_project\common\src\main\java\com\yq\jwt\entity\Privileg
 E:\MyWork\CTM_Source\ctm_project\common\src\main\java\com\yq\utils\IdGenerator.java
 E:\MyWork\CTM_Source\ctm_project\common\src\main\java\com\yq\httpclient\HttpClientUtils.java
 E:\MyWork\CTM_Source\ctm_project\common\src\main\java\com\yq\jwt\JwtVerfy.java
+E:\MyWork\CTM_Source\ctm_project\common\src\main\java\com\yq\entity\websocket\NettyType.java
 E:\MyWork\CTM_Source\ctm_project\common\src\main\java\com\yq\data\PageUtils.java
 E:\MyWork\CTM_Source\ctm_project\common\src\main\java\com\yq\utils\DateUtil.java
+E:\MyWork\CTM_Source\ctm_project\common\src\main\java\com\yq\utils\WeekUtils.java
 E:\MyWork\CTM_Source\ctm_project\common\src\main\java\com\yq\jwt\Interceptor\JwtParseUtil.java
 E:\MyWork\CTM_Source\ctm_project\common\src\main\java\com\yq\IBaseMapper\IBaseMapper.java
 E:\MyWork\CTM_Source\ctm_project\common\src\main\java\com\yq\utils\StringUtils.java
@@ -16,6 +18,7 @@ E:\MyWork\CTM_Source\ctm_project\common\src\main\java\com\yq\handle\ApplicationA
 E:\MyWork\CTM_Source\ctm_project\common\src\main\java\com\yq\httpclient\HttpResult.java
 E:\MyWork\CTM_Source\ctm_project\common\src\main\java\com\yq\utils\JwtUtil.java
 E:\MyWork\CTM_Source\ctm_project\common\src\main\java\com\yq\vilidata\query\PageQuery.java
+E:\MyWork\CTM_Source\ctm_project\common\src\main\java\com\yq\entity\vo\WebSokcetVo.java
 E:\MyWork\CTM_Source\ctm_project\common\src\main\java\com\yq\utils\ShaUtils.java
 E:\MyWork\CTM_Source\ctm_project\common\src\main\java\com\yq\data\Result.java
 E:\MyWork\CTM_Source\ctm_project\common\src\main\java\com\yq\jwt\islogin\CheckToken.java
@@ -25,6 +28,7 @@ E:\MyWork\CTM_Source\ctm_project\common\src\main\java\com\yq\vilidata\query\Time
 E:\MyWork\CTM_Source\ctm_project\common\src\main\java\com\yq\handle\GlobalResponseHandler.java
 E:\MyWork\CTM_Source\ctm_project\common\src\main\java\com\yq\constanct\CodeType.java
 E:\MyWork\CTM_Source\ctm_project\common\src\main\java\com\yq\exception\ApplicationException.java
+E:\MyWork\CTM_Source\ctm_project\common\src\main\java\com\yq\utils\FilesUtils.java
 E:\MyWork\CTM_Source\ctm_project\common\src\main\java\com\yq\anntation\IgnoreResponseAdvice.java
 E:\MyWork\CTM_Source\ctm_project\common\src\main\java\com\yq\utils\SignUtils.java
 E:\MyWork\CTM_Source\ctm_project\common\src\main\java\com\yq\jwt\entity\UserLoginQuery.java

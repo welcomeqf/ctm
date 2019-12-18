@@ -5,6 +5,7 @@ import com.yq.constanct.CodeType;
 import com.yq.exception.ApplicationException;
 import com.yq.jwt.islogin.CheckToken;
 import com.yq.utils.ExcelUtils;
+import com.yq.utils.FilesUtils;
 import com.yq.utils.StringUtils;
 import com.yq.vilidata.TimeData;
 import com.yq.vilidata.query.TimeQuery;
@@ -45,8 +46,8 @@ public class StatisticEcxController {
          @ApiImplicitParam(name = "endTime", value = "结束时间", required = false, dataType = "String", paramType = "path")
    })
    @GetMapping("/priceExcel")
-   @CheckToken
    @CrossOrigin
+   @CheckToken
    public void priceExcel(HttpServletResponse response,
                             @RequestParam("startTime") String startTime,
                             @RequestParam("endTime") String endTime){
@@ -73,7 +74,9 @@ public class StatisticEcxController {
       }
       String fileName = "金额统计报表导出.xls";
       HSSFWorkbook excel = ExcelUtils.expExcel(head,body);
-      ExcelUtils.outFile(excel,"./"+fileName,response);
+      String fileStorePath = "exl";
+      String path = FilesUtils.getPath(fileName,fileStorePath);
+      ExcelUtils.outFile(excel,path,response);
    }
 
 
@@ -111,6 +114,8 @@ public class StatisticEcxController {
       }
       String fileName = "报名人数报表.xls";
       HSSFWorkbook excel = ExcelUtils.expExcel(head,body);
-      ExcelUtils.outFile(excel,"./"+fileName,response);
+      String fileStorePath = "exl";
+      String path = FilesUtils.getPath(fileName,fileStorePath);
+      ExcelUtils.outFile(excel,path,response);
    }
 }

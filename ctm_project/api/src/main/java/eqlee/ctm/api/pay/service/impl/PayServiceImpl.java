@@ -1,5 +1,6 @@
 package eqlee.ctm.api.pay.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.yq.constanct.CodeType;
 import com.yq.exception.ApplicationException;
@@ -33,9 +34,19 @@ public class PayServiceImpl extends ServiceImpl<PayMapper, Pay> implements IPayS
      * @param pay
      */
     @Override
-    public PayResult insertPayInfo(Pay pay) {
-        int insert = baseMapper.insert(pay);
+    public synchronized PayResult insertPayInfo(Pay pay) {
+
+        LambdaQueryWrapper<Pay> wrapper = new LambdaQueryWrapper<Pay>()
+              .eq(Pay::getApplyNo,pay.getApplyNo())
+              .eq(Pay::getThirdPartyNumber,pay.getThirdPartyNumber());
+
+        Pay one = baseMapper.selectOne(wrapper);
         PayResult result = new PayResult();
+        if (one != null) {
+            return null;
+        }
+
+        int insert = baseMapper.insert(pay);
         if (insert <= 0) {
             result.setResult("增加支付信息失败");
         } else {
@@ -48,10 +59,11 @@ public class PayServiceImpl extends ServiceImpl<PayMapper, Pay> implements IPayS
     /**
      * 修改报名表支付状态
      * @param applyNo
+     * @param payInfo
      */
     @Override
-    public void updateApplyPayStatus(String applyNo) {
-        baseMapper.updateApplyPayStatus(applyNo);
+    public void updateApplyPayStatus(String applyNo, Integer payInfo) {
+        baseMapper.updateApplyPayStatus(applyNo,payInfo);
     }
 
     /**

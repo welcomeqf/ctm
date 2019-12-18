@@ -48,7 +48,7 @@ public class OrderDetailed extends Model<OrderDetailed> {
     private String ContactTel;
 
     /**
-     * 同行代表人姓名
+     * 同行代表人账号
      */
     private String AccountName;
 
@@ -56,6 +56,16 @@ public class OrderDetailed extends Model<OrderDetailed> {
      * 同行公司名
      */
     private String CompanyName;
+
+    /**
+     * 同行代表人姓名
+     */
+    private String CompanyUserName;
+
+    /**
+     * 同行 代表人电话
+     */
+    private String CompanyUserTel;
 
     /**
      * 接送地
@@ -91,6 +101,11 @@ public class OrderDetailed extends Model<OrderDetailed> {
      * 支付类型(0--现结  1--月结  2--代付)
      */
     private Integer PayType;
+
+    /**
+     * 月结金额
+     */
+    private Double MonthPrice;
 
     /**
      * 面收金额

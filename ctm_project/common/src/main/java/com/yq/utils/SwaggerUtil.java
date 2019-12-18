@@ -39,7 +39,7 @@ public class SwaggerUtil {
                 .title("Ctm 接口文档")
                 //条款地址
                 .termsOfServiceUrl("http://despairyoke.github.io/")
-                .contact("wqf")
+                .contact("vincent")
                 .version("1.0")
                 //描述
                 .description("API 接口")

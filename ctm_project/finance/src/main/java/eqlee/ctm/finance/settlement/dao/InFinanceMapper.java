@@ -3,6 +3,9 @@ package eqlee.ctm.finance.settlement.dao;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.yq.IBaseMapper.IBaseMapper;
 import eqlee.ctm.finance.settlement.entity.Income;
+import eqlee.ctm.finance.settlement.entity.bo.FinanceCompanyBo;
+import eqlee.ctm.finance.settlement.entity.bo.FinanceCompanyInfoBo;
+import eqlee.ctm.finance.settlement.entity.bo.MsgCaiBo;
 import eqlee.ctm.finance.settlement.entity.query.ExamineInfoQuery;
 import eqlee.ctm.finance.settlement.entity.query.ExamineResultQuery;
 import eqlee.ctm.finance.settlement.entity.query.GuestResultQuery;
@@ -34,75 +37,39 @@ public interface InFinanceMapper extends IBaseMapper<Income> {
     /**
      * 分页查询所有审核数据
      * @param page
-     * @return
-     */
-    Page<ExamineResultQuery> listExamine2Page(Page<ExamineResultQuery> page);
-
-    /**
-     * 未审核的财务数据
-     * @param page
-     * @return
-     */
-    Page<ExamineResultQuery> listExamine2No (Page<ExamineResultQuery> page);
-
-    /**
-     * 已审核的财务数据
-     * @param page
-     * @return
-     */
-    Page<ExamineResultQuery> listExamine2Do (Page<ExamineResultQuery> page);
-
-
-    /**
-     * 通过导游名字模糊查询未审核数据
-     * @param page
      * @param guestName
+     * @param type
+     * @param outTime
+     * @param lineName
      * @return
      */
-    Page<ExamineResultQuery> listExamine2NoByGuestName(Page<ExamineResultQuery> page,
-                                                         @Param("guestName") String guestName);
-
-    /**
-     * 通过导游名字模糊查询已审核数据
-     * @param page
-     * @param guestName
-     * @return
-     */
-    Page<ExamineResultQuery> listExamine2DoByGuestName(Page<ExamineResultQuery> page,
-                                                       @Param("guestName") String guestName);
-
-
-    /**
-     * 通过导游名字模糊查询所有审核数据
-     * @param page
-     * @param guestName
-     * @return
-     */
-    Page<ExamineResultQuery> listExamine2PageByGuestName(Page<ExamineResultQuery> page,
-                                                         @Param("guestName") String guestName);
+    Page<ExamineResultQuery> listPageExa (Page<ExamineResultQuery> page,
+                                          @Param("guestName") String guestName,
+                                          @Param("type") Integer type,
+                                          @Param("outTime") LocalDate outTime,
+                                          @Param("lineName") String lineName);
 
     /**
      * 展示审核详情
      * @param Id
      * @return
      */
-    List<ExamineResultVo> listExamineDetailed(Long Id);
+    ExamineResultVo listExamineDetailed(Long Id);
 
     /**
      * 展示导游个人信息
      * @param page
-     * @return
-     */
-    Page<GuestResultQuery> pageGuest2Me (Page<GuestResultQuery> page);
-
-    /**
-     * 展示导游个人信息根据审核状态
-     * @param page
      * @param Status
+     * @param outTime
+     * @param lineName
      * @return
      */
-    Page<GuestResultQuery> pageGuest2MeByStatus (Page<GuestResultQuery> page,
-                                                @Param("Status") Integer Status);
+    Page<GuestResultQuery> pageGuest2Me (Page<GuestResultQuery> page,
+                                         @Param("Status") Integer Status,
+                                         @Param("outTime") LocalDate outTime,
+                                         @Param("lineName") String lineName);
+
+
 
     /**
      * 标记该订单已完成
@@ -118,30 +85,22 @@ public interface InFinanceMapper extends IBaseMapper<Income> {
 
     /**
      * 财务通过审核
-     * @param outDate
-     * @param lineName
-     * @param guestId
+     * @param id
      * @param time
      * @return
      */
-    int examineGuestResult(@Param("outDate") LocalDate outDate,
-                            @Param("lineName") String lineName,
-                            @Param("guestId") Long guestId,
+    int examineGuestResult(@Param("id") Long id,
                             @Param("time") LocalDateTime time);
 
 
     /**
-     * 财务通过审核
-     * @param outDate
-     * @param lineName
-     * @param guestId
+     * 财务拒绝审核
+     * @param id
      * @param time
      * @return
      */
-    int examineResult(@Param("outDate") LocalDate outDate,
-                           @Param("lineName") String lineName,
-                           @Param("guestId") Long guestId,
-                           @Param("time") LocalDateTime time);
+    int examineResult(@Param("id") Long id,
+                      @Param("time") LocalDateTime time);
 
 
     /**
@@ -163,4 +122,45 @@ public interface InFinanceMapper extends IBaseMapper<Income> {
      * @return
      */
     Integer updateCarStatus (String carNo);
+
+    /**
+     * 月结统计
+     * @param page
+     * @param start
+     * @param end
+     * @param companyName
+     * @return
+     */
+    Page<FinanceCompanyBo> pageFinanceCompany (Page<FinanceCompanyBo> page,
+                                               @Param("start") LocalDate start,
+                                               @Param("end") LocalDate end,
+                                               @Param("companyName") String companyName);
+
+    /**
+     *    月结统计详情
+     * @param page
+     * @param lineName
+     * @param start
+     * @param end
+     * @param accountName
+     * @return
+     */
+    Page<FinanceCompanyInfoBo> queryCompanyInfoCount (Page<FinanceCompanyInfoBo> page,
+                                                      @Param("lineName") String lineName,
+                                                      @Param("start") LocalDate start,
+                                                      @Param("end") LocalDate end,
+                                                      @Param("accountName") String accountName);
+
+    /**
+     * 增加要传递的消息
+     * @param toId
+     * @param createId
+     * @param msg
+     * @param msgType
+     * @return
+     */
+    Integer insertMsg (@Param("toId") Long toId,
+                       @Param("createId")Long createId,
+                       @Param("msg")String msg,
+                       @Param("msgType")Integer msgType);
 }

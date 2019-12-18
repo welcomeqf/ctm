@@ -5,13 +5,25 @@
 
 
     <select id ="guiderIndex" resultType="eqlee.ctm.apply.guider.entity.vo.GuiderVo">
-        select * from(
-        select max(Id)id,max(LineName)lineName,max(convert(varchar(20),OutDate,23))outDate,sum(AllNumber)allNumber,
-        sum(case when isnull(IsSelect,0)=1 then isnull(AllNumber,0) else 0 end)slcCnt
-        from(
-        select a.Id,a.LineId,b.LineName,a.OutDate,a.AllNumber,a.IsSelect,a.IsCancel from Apply a
-        left join Line b  on a.LineId = b.Id where a.IsCancel = 0 and a.Statu != 0 and a.IsPayment = 1)tab
-        group by OutDate,LineId)tab
+         select a.Id as 'id',b.LineName as 'lineName',convert(varchar(20),a.OutDate,23)outDate,a.AllNumber as 'allNumber',
+        a.ContactName as 'contactName',a.ContactTel as 'contactTel',a.Place as 'place',a.AdultNumber as 'adultNumber',
+        a.BabyNumber as 'babyNumber',a.OldNumber as 'oldNumber',a.ChildNumber as 'childNumber'
+        from Apply a
+        left join Line b  on a.LineId = b.Id
+        <where>
+            1 = 1
+            and a.IsCancel = 0 and a.Statu = 1 and a.IsPayment = 1 and a.IsSelect = 0
+            <if test="outDate != null">
+                and a.OutDate = #{outDate}
+            </if>
+            <if test="lineName != null">
+                and b.LineName = #{lineName}
+            </if>
+            <if test="region != null">
+                <bind name="_region" value="'%' + region + '%'"/>
+                and a.Place like #{_region}
+            </if>
+        </where>
         order by OutDate desc
     </select>
 

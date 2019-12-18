@@ -47,11 +47,17 @@ public interface GuiderMapper {
                                       @Param("lineName") String lineName);
 
      /**
-      *  查询导游首页
+      * 查询导游首页
       * @param page
+      * @param outDate
+      * @param lineName
+      * @param region
       * @return
       */
-     Page<GuiderVo> guiderIndex(Page<GuiderVo> page);
+     Page<GuiderVo> guiderIndex(Page<GuiderVo> page,
+                                @Param("outDate") LocalDate outDate,
+                                @Param("lineName") String lineName,
+                                @Param("region") String region);
 
 
      /**

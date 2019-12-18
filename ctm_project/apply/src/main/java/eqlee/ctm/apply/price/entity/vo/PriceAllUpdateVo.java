@@ -31,4 +31,6 @@ public class PriceAllUpdateVo {
     private Double marketBabyPrice;
 
     private Double marketChildPrice;
+
+    private String remark;
 }

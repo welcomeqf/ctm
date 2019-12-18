@@ -1,5 +1,6 @@
 server:
   port: 8005
+  max-http-header-size: 102400
 mybatis-plus:
   configuration:
     map-underscore-to-camel-case: false

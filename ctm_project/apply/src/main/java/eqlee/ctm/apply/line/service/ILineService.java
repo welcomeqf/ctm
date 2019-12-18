@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import eqlee.ctm.apply.line.entity.Line;
 import eqlee.ctm.apply.line.entity.query.LinePageQuery;
 import eqlee.ctm.apply.line.entity.query.LineSeacherQuery;
+import eqlee.ctm.apply.line.entity.vo.LineInfomationVo;
 import eqlee.ctm.apply.line.entity.vo.LineUpdateVo;
 import eqlee.ctm.apply.line.entity.vo.LineVo;
 
@@ -84,6 +85,27 @@ public interface ILineService {
      * @return
      */
     List<Line> listAllLine ();
+
+    /**
+     * 查询所有的线路
+     * @return
+     */
+    List<Line> queryAllLine ();
+
+    /**
+     * 查询图文
+     * @param id
+     * @return
+     */
+    LineInfomationVo queryContent (Long id);
+
+
+    /**
+     * 查询所有线路
+     * @param list
+     * @return
+     */
+    List<Line> queryByIdList (List<Long> list);
 
 
 

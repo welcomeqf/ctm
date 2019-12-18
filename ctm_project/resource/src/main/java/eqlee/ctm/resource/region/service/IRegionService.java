@@ -1,6 +1,7 @@
 package eqlee.ctm.resource.region.service;
 
 import eqlee.ctm.resource.region.entity.Region;
+import eqlee.ctm.resource.region.entity.query.RegionUpdateQuery;
 
 import java.util.List;
 
@@ -28,4 +29,10 @@ public interface IRegionService {
     * @return
     */
    List<Region> queryRegion ();
+
+   /**
+    * 修改区域
+    * @param query
+    */
+   void updateRegion (RegionUpdateQuery query);
 }

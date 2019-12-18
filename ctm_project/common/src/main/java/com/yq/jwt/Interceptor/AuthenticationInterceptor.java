@@ -88,7 +88,6 @@ public class AuthenticationInterceptor implements HandlerInterceptor {
                 String audience = jwt.getAudience();
                 Long erp = Long.parseLong(audience);
                 Date erpDate = new Date(erp);
-                erpDate.before(date);
                 //判断token时间是否过期
                 if (erpDate.before(date)) {
                     throw new ApplicationException(CodeType.OVENDU_ERROR);

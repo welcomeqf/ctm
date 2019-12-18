@@ -32,6 +32,16 @@ public class OrderDetailedBo {
     private String AccountName;
 
     /**
+     * 同行代表人姓名
+     */
+    private String CompanyUserName;
+
+    /**
+     * 同行 代表人电话
+     */
+    private String CompanyUserTel;
+
+    /**
      * 同行公司名
      */
     private String CompanyName;
@@ -87,5 +97,10 @@ public class OrderDetailedBo {
      * 面收金额
      */
     private Double MsPrice;
+
+    /**
+     * 月结金额
+     */
+    private Double MonthPrice;
 
 }

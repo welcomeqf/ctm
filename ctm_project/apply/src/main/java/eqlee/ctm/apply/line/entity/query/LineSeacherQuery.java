@@ -51,4 +51,6 @@ public class LineSeacherQuery {
      * 最小人数
      */
     private Integer MinNumber;
+
+    private Boolean Stopped;
 }

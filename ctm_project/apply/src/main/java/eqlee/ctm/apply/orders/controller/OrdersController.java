@@ -3,14 +3,15 @@ package eqlee.ctm.apply.orders.controller;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.yq.constanct.CodeType;
 import com.yq.exception.ApplicationException;
+import com.yq.jwt.entity.UserLoginQuery;
 import com.yq.jwt.islogin.CheckToken;
 import com.yq.utils.StringUtils;
 import eqlee.ctm.apply.line.entity.vo.ResultVo;
 import eqlee.ctm.apply.orders.entity.Vo.*;
 import eqlee.ctm.apply.orders.entity.bo.CarBo;
 import eqlee.ctm.apply.orders.entity.bo.ChoisedBo;
-import eqlee.ctm.apply.orders.entity.query.ChangedQuery;
-import eqlee.ctm.apply.orders.entity.query.OrderQuery;
+import eqlee.ctm.apply.orders.entity.bo.IdBo;
+import eqlee.ctm.apply.orders.entity.query.*;
 import eqlee.ctm.apply.orders.service.IOrdersService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -20,6 +21,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -49,14 +51,14 @@ public class OrdersController {
     @PostMapping("/saveOrders")
     @CrossOrigin
     @CheckToken
-    public ResultVo saveApplyed(@RequestBody IdVo vo){
-        if(vo.getList() == null){
+    public LongResultQuery saveApplyed(@RequestBody IdVo vo){
+        if(vo.getList().size() == 0){
             throw new ApplicationException(CodeType.PARAM_ERROR);
         }
-        ordersService.saveApply(vo.getList());
-        ResultVo resultVo = new ResultVo();
-        resultVo.setResult("ok");
-        return resultVo;
+        Long orderId = ordersService.saveApply(vo.getList());
+        LongResultQuery query = new LongResultQuery();
+        query.setId(orderId);
+        return query;
     }
 
 
@@ -215,8 +217,42 @@ public class OrdersController {
     @CrossOrigin
     @CheckToken
     public List<OrderQuery> queryLineAndTime () {
-
         return ordersService.queryLineAndTime();
     }
 
+
+    @ApiOperation(value = "查询所有未结算的条数",notes = "查询所有未结算的条数")
+    @GetMapping("/queryAllNoCount")
+    @CrossOrigin
+    @CheckToken
+    public OrdersNoCountQuery queryAllNoCount () {
+        Integer integer = ordersService.queryAllNoCount();
+        OrdersNoCountQuery query = new OrdersNoCountQuery();
+        query.setResult(integer);
+        return query;
+    }
+
+
+    @ApiOperation(value = "查询所有未结算的具体信息",notes = "查询所有未结算的具体信息")
+    @GetMapping("/queryAllNoCountInfo")
+    @CrossOrigin
+    @CheckToken
+    public List<OrdersNoCountInfoQuery> queryAllNoCountInfo () {
+        return ordersService.queryAllNoCountInfo();
+    }
+
+
+    @ApiOperation(value = "查询id",notes = "查询id")
+    @GetMapping("/queryOrderId")
+    @CrossOrigin
+    @CheckToken
+    public IdBo queryOrderId (@RequestParam("outDate") String outDate,
+                              @RequestParam("lineName") String lineName) {
+
+        if (StringUtils.isBlank(outDate) || StringUtils.isBlank(lineName)) {
+            throw new ApplicationException(CodeType.PARAM_ERROR, "参数不能为空");
+        }
+
+        return ordersService.queryOrderId(outDate,lineName);
+    }
 }

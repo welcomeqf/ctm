@@ -18,16 +18,21 @@ public class GuiderVo {
 
     private String outDate;
 
-    /**
-     * 已选人数
-     */
-    private Integer slcCnt;
-
-    /**
-     * 最大人数
-     *
-     */
     private Integer allNumber;
+
+    private Integer adultNumber;
+
+    private String contactName;
+
+    private String contactTel;
+
+    private String place;
+
+    private Integer babyNumber;
+
+    private Integer oldNumber;
+
+    private Integer childNumber;
 
 
 }

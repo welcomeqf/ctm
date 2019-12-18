@@ -1,10 +1,13 @@
+com\yq\utils\WeekUtils.class
 com\yq\jwt\islogin\CheckToken.class
+com\yq\entity\websocket\NettyType.class
 com\yq\utils\Base64Util.class
 com\yq\jwt\islogin\LoginToken.class
 com\yq\utils\StringUtils.class
 com\yq\jwt\Interceptor\AuthenticationInterceptor.class
 com\yq\utils\IdGenerator$SnowflakeIdWorker.class
 com\yq\utils\DateUtil.class
+com\yq\utils\FilesUtils.class
 com\yq\data\PageUtils.class
 com\yq\vilidata\TimeData.class
 com\yq\vilidata\query\PageQuery.class
@@ -29,6 +32,7 @@ com\yq\utils\ExcelUtils.class
 com\yq\utils\JwtUtil.class
 com\yq\httpclient\ErrorResult.class
 com\yq\IBaseMapper\IBaseMapper.class
+com\yq\entity\vo\WebSokcetVo.class
 com\yq\exception\ApplicationException.class
 com\yq\jwt\JwtVerfy.class
 com\yq\utils\ShaUtils.class

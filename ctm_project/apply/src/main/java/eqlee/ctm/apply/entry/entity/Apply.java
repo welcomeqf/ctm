@@ -94,14 +94,29 @@ public class Apply extends Model<Apply> {
     private Integer AllNumber;
 
     /**
+     * 同行id
+     */
+    private Long CompanyId;
+
+    /**
      * 同行公司名
      */
     private String CompanyName;
 
     /**
-     * 同行代表人
+     * 同行代表人账号
      */
     private String CompanyUser;
+
+    /**
+     * 同行代表人名字
+     */
+    private String CName;
+
+    /**
+     * 同行代表人电话
+     */
+    private String CompanyTel;
 
     /**
      * 省（备用）
@@ -174,11 +189,6 @@ public class Apply extends Model<Apply> {
     private Integer ExpreDate;
 
     /**
-     * 名字
-     */
-    private String CName;
-
-    /**
      * 面收金额
      */
     private Double MsPrice;
@@ -187,6 +197,16 @@ public class Apply extends Model<Apply> {
      * 报名备注
      */
     private String ApplyRemark;
+
+    /**
+     * 0--微信  1--支付宝
+     */
+    private Integer PayInfo;
+
+    /**
+     * 0--正常  1--申请中
+     */
+    private Integer CancelInfo;
 
     @Override
     protected Serializable pkVal() {

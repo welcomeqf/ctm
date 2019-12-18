@@ -16,8 +16,8 @@
     </delete>
 
 
-    <update id="updateApplyPayStatus" parameterType="String">
-        update Apply set IsPayment=1 where ApplyNo = #{applyNo}
+    <update id="updateApplyPayStatus">
+        update Apply set IsPayment=1,PayInfo = #{payInfo} where ApplyNo = #{applyNo}
     </update>
 
     <select id="queryPayResult" parameterType="String" resultType="eqlee.ctm.api.pay.entity.query.PayResultQuery">

@@ -18,9 +18,10 @@ public interface IGuiderService {
      * @param page
      * @param outDate
      * @param lineName
+     * @param region
      * @return
      */
-    Page<GuiderVo> guiderIndex(Page<GuiderVo> page,String outDate,String lineName);
+    Page<GuiderVo> guiderIndex(Page<GuiderVo> page,String outDate,String lineName, String region);
 
 
     /**

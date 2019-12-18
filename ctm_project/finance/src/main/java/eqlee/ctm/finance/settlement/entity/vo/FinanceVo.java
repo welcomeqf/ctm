@@ -1,5 +1,6 @@
 package eqlee.ctm.finance.settlement.entity.vo;
 
+import eqlee.ctm.finance.settlement.entity.bo.OtherBo;
 import lombok.Data;
 
 import java.util.List;
@@ -57,15 +58,6 @@ public class FinanceVo {
      */
     private Integer treeChildNumber;
 
-    /**
-     * 未付款的联系人列表
-     */
-    private List<ContectUserVo> unpaidList;
-
-    /**
-     * 未付款人数
-     */
-    private Integer unpaidNumber;
 
     /**
      * 应收金额
@@ -73,9 +65,9 @@ public class FinanceVo {
     private Double gaiMoney;
 
     /**
-     * 实收金额
+     * 其他收入
      */
-    private Double trueMoney;
+    private List<OtherBo> otherInPrice;
 
     /**
      * 门票名
@@ -116,5 +108,17 @@ public class FinanceVo {
      * 总支出费用
      */
     private Double allOutPrice;
+
+    /**
+     * 该团总价格
+     */
+    private Double allPrice;
+
+    /**
+     * 月结金额
+     */
+    private Double monthPrice;
+
+    private Boolean carType;
 
 }

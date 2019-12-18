@@ -80,7 +80,7 @@ public class UserPrivilegeController {
 
         String s = JSONObject.toJSONString(query1);
         //获得token
-        String userToken = tokenData.getUserToken();
+        String userToken = tokenData.getMapToken();
         String token = "Bearer " + userToken;
 
         HttpResult httpResult = apiService.post(url,s,token);

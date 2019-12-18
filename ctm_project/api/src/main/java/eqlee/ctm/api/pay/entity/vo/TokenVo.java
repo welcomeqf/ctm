@@ -1,6 +1,6 @@
 package eqlee.ctm.api.pay.entity.vo;
 
-import eqlee.ctm.api.entity.query.AuthResult;
+import eqlee.ctm.api.entity.bo.AuthTokenBo;
 import lombok.Data;
 
 /**
@@ -15,5 +15,5 @@ public class TokenVo {
 
     private String msg;
 
-    private AuthResult data;
+    private AuthTokenBo data;
 }

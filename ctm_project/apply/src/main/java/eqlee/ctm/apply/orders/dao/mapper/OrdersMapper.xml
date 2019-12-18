@@ -28,6 +28,7 @@
 
     <select id="waiteChangeIndex" resultType="eqlee.ctm.apply.orders.entity.Vo.ChangedVo">
         select b.Id as 'OrderId',b.Place,d.GuideTel as 'Tel',a.LineName,convert(varchar(20),a.OutDate,23)OutDate,b.AllNumber,
+        b.AdultNumber,b.BabyNumber,b.OldNumber,b.ChildNumber,b.ContactName,b.ContactTel,
        a.GuideName from OrderSubstitut a join OrderDetailed b on a.Id = b.OrderSubstitutId join Orders d on d.Id = b.OrderId
        where a.ToGuideId = #{Id} and  b.Statu = 1
        order by a.OutDate desc
@@ -44,7 +45,8 @@
 
     <select id="denyChoisedindex" resultType="eqlee.ctm.apply.orders.entity.query.ChangedQuery">
          select u.GuideTel as 'guideTel',a.LineName as 'lineName',a.ToGuideId as 'guestId',b.Statu as 'Status',
-        convert(varchar(20),a.OutDate,23)outDate,b.AllNumber,b.ContactName,b.ContactTel,u.GuideName as 'guestName'
+        convert(varchar(20),a.OutDate,23)outDate,b.AllNumber,b.ContactName,b.ContactTel,u.GuideName as 'guestName',
+        b.AdultNumber,b.BabyNumber,b.OldNumber,b.ChildNumber,b.Place
         from OrderSubstitut a left join OrderDetailed b on a.Id = b.OrderSubstitutId join Orders u on b.OrderId = u.Id
        where a.CreateUserId=#{Id}
        order by a.OutDate desc
@@ -52,13 +54,13 @@
 
     <select id="withChoiseIndex" resultType="eqlee.ctm.apply.orders.entity.query.ChangedQuery">
        select u.GuideTel as 'guideTel',a.LineName as 'lineName',a.ToGuideId as 'guestId',b.Statu as 'Status',convert(varchar(20),a.OutDate,23)outDate,
-       b.AllNumber,b.ContactName,b.ContactTel,a.GuideName as 'guestName'
+       b.AllNumber,b.ContactName,b.ContactTel,a.GuideName as 'guestName',b.AdultNumber,b.BabyNumber,b.OldNumber,b.ChildNumber,b.Place
         from OrderSubstitut a left join OrderDetailed b on a.Id = b.OrderSubstitutId join Orders u on b.OrderId = u.Id
        where a.ToGuideId = #{Id} order by a.OutDate desc
     </select>
 
     <select id="selectIncomeCount" resultType="eqlee.ctm.apply.orders.entity.Vo.InComeRemerberVo">
-        select a.Id,b.CarNumber,b.CarType,a.AdultNumber,a.BabyNumber,a.OldNumber,a.ChildNumber,a.IsPayment,a.ContactName,a.PayType,a.AllNumber,a.ContactTel from OrderDetailed a join Orders b on
+        select a.Id,b.CarNumber,b.CarType,a.AdultNumber,a.BabyNumber,a.OldNumber,a.ChildNumber,a.IsPayment,a.ContactName,a.PayType,a.AllNumber,a.ContactTel,a.Price from OrderDetailed a join Orders b on
         a.OrderId = b.Id where b.OutDate=#{OutDate} and b.LineName=#{LineName} and b.CreateUserId=#{Id}
     </select>
 
@@ -68,7 +70,7 @@
 
 
     <select id="listContect" resultType="eqlee.ctm.apply.orders.entity.query.OrderContectQuery">
-        select a.Id,a.AdultNumber,a.BabyNumber,a.OldNumber,a.ChildNumber,a.ContactName,a.AllNumber,a.ContactTel from OrderDetailed a join Orders b on
+        select a.Id,a.AdultNumber,a.BabyNumber,a.OldNumber,a.ChildNumber,a.ContactName,a.AllNumber,a.ContactTel,a.MsPrice from OrderDetailed a join Orders b on
         a.OrderId = b.Id where b.OutDate=#{OutDate} and b.LineName=#{LineName} and b.CreateUserId=#{Id} and a.PayType = 2
     </select>
 
@@ -79,5 +81,10 @@
     <update id="updateCarStatus" parameterType="String">
         update Car set Statu = 1 where CarNo= #{CarNo}
     </update>
+
+    <select id="queryMonthPrice" resultType="eqlee.ctm.apply.orders.entity.bo.OrdersMonthBo">
+        select sum(a.Price)allPrice from OrderDetailed a join Orders b on a.OrderId = b.Id
+        where (a.PayType = 1 or a.PayType = 2) and b.OutDate = #{outDate} and b.LineName = #{lineName} and b.CreateUserId = #{id}
+    </select>
 </mapper>
 

@@ -11,4 +11,6 @@ import lombok.Data;
 public class AuthResult {
 
    private String token;
+
+   private Long expTime;
 }

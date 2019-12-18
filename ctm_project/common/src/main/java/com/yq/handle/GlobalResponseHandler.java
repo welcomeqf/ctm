@@ -28,6 +28,12 @@ public class GlobalResponseHandler implements ResponseBodyAdvice {
                 aClass.isAnnotationPresent(IgnoreResponseAdvice.class)) {
             return false;
         }
+
+        if (methodParameter.getMember().getName().equals("error") || methodParameter.getMember().getName().equals("uiConfiguration")
+              || methodParameter.getMember().getName().equals("securityConfiguration") || methodParameter.getMember().getName().equals("swaggerResources")
+              || methodParameter.getMember().getName().equals("getDocumentation")) {
+            return false;
+        }
         return true;
     }
 

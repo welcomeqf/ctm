@@ -28,5 +28,13 @@ public class ChangedQuery {
 
    private String ContactTel;
 
+   private Integer AdultNumber;
 
+   private Integer BabyNumber;
+
+   private Integer OldNumber;
+
+   private Integer ChildNumber;
+
+   private String Place;
 }

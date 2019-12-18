@@ -4,10 +4,14 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import eqlee.ctm.apply.guider.entity.vo.ApplyVo;
 import eqlee.ctm.apply.orders.entity.Orders;
 import eqlee.ctm.apply.orders.entity.Vo.*;
+import eqlee.ctm.apply.orders.entity.bo.IdBo;
 import eqlee.ctm.apply.orders.entity.query.ChangedQuery;
+import eqlee.ctm.apply.orders.entity.query.OrderDetailedFainllyQuery;
 import eqlee.ctm.apply.orders.entity.query.OrderQuery;
+import eqlee.ctm.apply.orders.entity.query.OrdersNoCountInfoQuery;
 import org.apache.ibatis.annotations.Param;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
 
@@ -22,7 +26,7 @@ public interface IOrdersService {
      *
      * @param applyVoList
      */
-    void saveApply(List<LongVo> applyVoList);
+    Long saveApply(List<LongVo> applyVoList);
 
 
     /**
@@ -38,11 +42,10 @@ public interface IOrdersService {
 
     /**
      * 由线路名，出发时间，导游ID得到车牌号
-     * @param LineName
-     * @param OutDate
+     * @param id
      * @return
      */
-    String getCarNumber(String LineName, String OutDate);
+    OrderDetailedFainllyQuery getCarNumber(Long id);
 
 
     /**
@@ -130,4 +133,31 @@ public interface IOrdersService {
      * @return
      */
     List<OrderQuery> queryLineAndTime ();
+
+    /**
+     * 查询所有未结算的条数
+     * @return
+     */
+    Integer queryAllNoCount ();
+
+    /**
+     * 查询所有未结算的具体的信息
+     * @return
+     */
+    List<OrdersNoCountInfoQuery>  queryAllNoCountInfo ();
+
+    /**
+     * 根据线路和时间查询id
+     * @param outDate
+     * @param lineName
+     * @return
+     */
+    IdBo queryOrderId (String outDate, String lineName);
+
+    /**
+     * 查询一条记录
+     * @param id
+     * @return
+     */
+    Orders queryOne (Long id);
 }

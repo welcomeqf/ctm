@@ -3,6 +3,8 @@ package eqlee.ctm.apply.entry.dao;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.yq.IBaseMapper.IBaseMapper;
 import eqlee.ctm.apply.entry.entity.Apply;
+import eqlee.ctm.apply.entry.entity.bo.ApplyBo;
+import eqlee.ctm.apply.entry.entity.bo.ApplyCompanyBo;
 import eqlee.ctm.apply.entry.entity.query.*;
 import eqlee.ctm.apply.entry.entity.vo.ApplyOpenIdVo;
 import eqlee.ctm.apply.orders.entity.Vo.LongVo;
@@ -33,22 +35,29 @@ public interface ApplyMapper extends IBaseMapper<Apply> {
      */
     Page<ApplyQuery> queryApplyInfo(Page<ApplyQuery> page,
                                     @Param("lineNameOrRegion") String lineNameOrRegion,
-                                    @Param("outDate") LocalDate outDate);
+                                    @Param("outDate") LocalDate outDate,
+                                    @Param("lineName") String lineName);
 
 
     //未审核数据
+
     /**
      * 分页查询已报名未审核的列表,可以根据出发时间模糊查询
      * @param page
      * @param outDate
      * @param lineName
      * @param type
+     * @param start
+     * @param end
      * @return
      */
     Page<ApplyDoExaQuery> queryAllExaInfo(Page<ApplyDoExaQuery> page,
                                           @Param("outDate") LocalDate outDate,
                                           @Param("lineName") String lineName,
-                                          @Param("type") Integer type);
+                                          @Param("type") Integer type,
+                                          @Param("start") LocalDateTime start,
+                                          @Param("end") LocalDateTime end,
+                                          @Param("exaStatus") Integer exaStatus);
 
 
     /**
@@ -184,7 +193,8 @@ public interface ApplyMapper extends IBaseMapper<Apply> {
                                            @Param("startDate") LocalDateTime startDate,
                                            @Param("endDate") LocalDateTime endDate,
                                            @Param("id") Long id,
-                                           @Param("type") Integer type);
+                                           @Param("type") Integer type,
+                                           @Param("roadName") String roadName);
 
     /**
      * 我的报名记录(运营人员)
@@ -203,7 +213,8 @@ public interface ApplyMapper extends IBaseMapper<Apply> {
                                            @Param("startDate") LocalDateTime startDate,
                                            @Param("endDate") LocalDateTime endDate,
                                            @Param("companyUserId") Long companyUserId,
-                                           @Param("type") Integer type);
+                                           @Param("type") Integer type,
+                                           @Param("roadName") String roadName);
 
     /**
      * 查询今日报名的数据
@@ -259,15 +270,35 @@ public interface ApplyMapper extends IBaseMapper<Apply> {
      * 查询同行月结现结面收账单
      * @param page
      * @param payType
-     * @param outDate
+     * @param start
+     * @param end
      * @param lineName
+     * @param id
      * @return
      */
     Page<ApplyResultCountQuery> queryCompanyResultCount (Page<ApplyResultCountQuery> page,
                                                          @Param("payType") Integer payType,
-                                                         @Param("outDate") LocalDate outDate,
-                                                         @Param("lineName") String lineName);
+                                                         @Param("start") LocalDate start,
+                                                         @Param("end") LocalDate end,
+                                                         @Param("lineName") String lineName,
+                                                         @Param("id") Long id);
 
+    /**
+     * 运营人员月结现结账单核算
+     * @param page
+     * @param payType
+     * @param start
+     * @param end
+     * @param lineName
+     * @param companyUserId
+     * @return
+     */
+    Page<ApplyResultCountQuery> queryCompanyAdminResultCount (Page<ApplyResultCountQuery> page,
+                                                         @Param("payType") Integer payType,
+                                                         @Param("start") LocalDate start,
+                                                         @Param("end") LocalDate end,
+                                                         @Param("lineName") String lineName,
+                                                         @Param("companyUserId") Long companyUserId);
 
     /**
      * 批量回收订单
@@ -289,4 +320,47 @@ public interface ApplyMapper extends IBaseMapper<Apply> {
      * @return
      */
     Integer updateAllApply (List<LongVo> list);
+
+    /**
+     * 查询公司信息
+     * @param id
+     * @return
+     */
+    ApplyCompanyBo queryApplyCompanyInfo (Long id);
+
+    /**
+     * 查询同行核算统计金额数据
+     * @param id
+     * @param start
+     * @param end
+     * @return
+     */
+    ApplyBo queryApplyCountInfo (@Param("id") Long id,
+                                 @Param("start") LocalDate start,
+                                 @Param("end") LocalDate end);
+
+
+    /**
+     *  查询同行核算统计
+     * @param id
+     * @param start
+     * @param end
+     * @param payType
+     * @return
+     */
+    ApplyBo queryApplyCount (@Param("id") Long id,
+                             @Param("start") LocalDate start,
+                             @Param("end") LocalDate end,
+                             @Param("payType") Integer payType);
+
+    /**
+     * 查询当前月使用的金额
+     * @param id
+     * @param start
+     * @param end
+     * @return
+     */
+    List<Apply> queryAllPriceToApply (@Param("id") Long id,
+                                      @Param("start") LocalDateTime start,
+                                      @Param("end") LocalDateTime end);
 }

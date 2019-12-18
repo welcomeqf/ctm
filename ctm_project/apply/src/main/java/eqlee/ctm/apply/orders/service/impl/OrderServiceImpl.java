@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.yq.constanct.CodeType;
+import com.yq.entity.websocket.NettyType;
 import com.yq.exception.ApplicationException;
 import com.yq.jwt.contain.LocalUser;
 import com.yq.jwt.entity.UserLoginQuery;
@@ -11,23 +12,19 @@ import com.yq.utils.DateUtil;
 import com.yq.utils.IdGenerator;
 import com.yq.utils.StringUtils;
 import eqlee.ctm.apply.entry.entity.Apply;
-import eqlee.ctm.apply.entry.entity.vo.MsgVo;
 import eqlee.ctm.apply.entry.service.IApplyService;
 import eqlee.ctm.apply.entry.vilidata.HttpUtils;
 import eqlee.ctm.apply.line.entity.Line;
 import eqlee.ctm.apply.line.service.ILineService;
+import eqlee.ctm.apply.message.entity.vo.MsgVo;
+import eqlee.ctm.apply.message.service.IMessageService;
 import eqlee.ctm.apply.orders.dao.OrdersMapper;
 import eqlee.ctm.apply.orders.entity.OrderDetailed;
 import eqlee.ctm.apply.orders.entity.OrderSubstitut;
 import eqlee.ctm.apply.orders.entity.Orders;
 import eqlee.ctm.apply.orders.entity.Vo.*;
-import eqlee.ctm.apply.orders.entity.bo.CarQueryBo;
-import eqlee.ctm.apply.orders.entity.bo.OrderDetailedBo;
-import eqlee.ctm.apply.orders.entity.bo.OrderTypeBo;
-import eqlee.ctm.apply.orders.entity.query.ChangedQuery;
-import eqlee.ctm.apply.orders.entity.query.OrderContectQuery;
-import eqlee.ctm.apply.orders.entity.query.OrderQuery;
-import eqlee.ctm.apply.orders.entity.query.PriceQuery;
+import eqlee.ctm.apply.orders.entity.bo.*;
+import eqlee.ctm.apply.orders.entity.query.*;
 import eqlee.ctm.apply.orders.service.IOrderSubstitutService;
 import eqlee.ctm.apply.orders.service.IOrdersDetailedService;
 import eqlee.ctm.apply.orders.service.IOrdersService;
@@ -70,29 +67,27 @@ public class OrderServiceImpl extends ServiceImpl<OrdersMapper, Orders> implemen
    private HttpUtils httpUtils;
 
    @Autowired
+   private IMessageService messageService;
+
+   @Autowired
    private IOrderSubstitutService orderSubstitutService;
 
    IdGenerator idGenerator = new IdGenerator();
-
-   /**
-    * 以下是消息提醒中的msg
-    */
-   private final String GUEIST_PERSON = "换人提醒";
-
-   private final String GUEIST_DO = "换人";
 
     /**
      * 导游选人
      * @param indexVoList
      */
     @Override
-    public void saveApply(List<LongVo> indexVoList) {
+    public Long saveApply(List<LongVo> indexVoList) {
 
         List<Long> ids = new ArrayList<>();
         //重装list
         for (LongVo vo : indexVoList) {
             ids.add(vo.getId());
         }
+
+        Long result;
 
         //查询报名表
         List<Apply> applies = applyService.listApply(ids);
@@ -104,23 +99,33 @@ public class OrderServiceImpl extends ServiceImpl<OrdersMapper, Orders> implemen
         Orders orders = new Orders();
         long numberId = idGenerator.getNumberId();
         orders.setId(numberId);
-        orders.setOrderNo(idGenerator.getShortOrderNo());
+        orders.setOrderNo(idGenerator.getShortNo());
         orders.setGuideName(user.getCname());
         orders.setGuideTel(user.getTel());
         orders.setCreateUserId(user.getId());
         Double allPrice = 0.0;
 
         Orders order = null;
+       String newLineName = "";
 
-        for (Apply apply : applies) {
+       List<Long> lineIds = new ArrayList<>();
+
+       for (Apply apply : applies) {
             //装配订单
             OrderDetailedBo orderDetailed = new OrderDetailedBo();
-            Line line = lineService.queryOneLine(apply.getLineId());
-            orders.setLineName(line.getLineName());
+
             orders.setOutDate(apply.getOutDate());
             orders.setRegion(apply.getRegion());
+            orders.setCompanyId(apply.getCompanyId());
 
-            orders.setAllPrice(allPrice + apply.getAllPrice());
+            allPrice = allPrice + apply.getAllPrice();
+
+            //月结金额
+           if (apply.getPayType() == 1 || apply.getPayType() == 2) {
+              orderDetailed.setMonthPrice(apply.getAllPrice());
+           } else {
+              orderDetailed.setMonthPrice(0.0);
+           }
 
             orderDetailed.setAccountName(apply.getCompanyUser());
             orderDetailed.setCompanyName(apply.getCompanyName());
@@ -129,14 +134,24 @@ public class OrderServiceImpl extends ServiceImpl<OrdersMapper, Orders> implemen
             orderDetailed.setChildNumber(apply.getChildNumber());
             orderDetailed.setOldNumber(apply.getOldNumber());
             orderDetailed.setAllNumber(apply.getAllNumber());
-            orderDetailed.setPrice(apply.getAllPrice());
+            if (apply.getAllPrice() != null) {
+               orderDetailed.setPrice(apply.getAllPrice());
+            }
             orderDetailed.setCreateUserId(user.getId());
             orderDetailed.setPayType(apply.getPayType());
+
+            if (apply.getMsPrice() == null) {
+               apply.setMsPrice(0.0);
+            }
+
             orderDetailed.setMsPrice(apply.getMsPrice());
+
+            //同行代表人姓名和电话
+           orderDetailed.setCompanyUserName(apply.getCName());
+           orderDetailed.setCompanyUserTel(apply.getCompanyTel());
 
             //先判断该天是否已经选了人
             LambdaQueryWrapper<Orders> wrapper = new LambdaQueryWrapper<Orders>()
-                    .eq(Orders::getLineName, orders.getLineName())
                     .eq(Orders::getOutDate, orders.getOutDate())
                     .eq(Orders::getCreateUserId, user.getId());
             order = baseMapper.selectOne(wrapper);
@@ -144,6 +159,7 @@ public class OrderServiceImpl extends ServiceImpl<OrdersMapper, Orders> implemen
             //订单详情表
             if (order != null) {
                 orderDetailed.setOrderId(order.getId());
+                newLineName = order.getLineName();
             }
 
             if (order == null) {
@@ -155,16 +171,45 @@ public class OrderServiceImpl extends ServiceImpl<OrdersMapper, Orders> implemen
             orderDetailed.setId(idGenerator.getNumberId());
             orderDetailed.setPlace(apply.getPlace());
             orderDetailedList.add(orderDetailed);
+
+
+          lineIds.add(apply.getLineId());
         }
 
+       //查询线路集合
+       List<Line> lines = lineService.queryByIdList(lineIds);
 
+       for (Line line : lines) {
+
+          //第二次进来直接拼团
+          if (order != null) {
+             if (!line.getLineName().equals(newLineName)) {
+                newLineName = "";
+                break;
+             }
+          }
+
+          //第一次进来只有一条线路就生成
+          //多条线路就拼团
+          if (lines.size() == 1) {
+             newLineName = line.getLineName();
+          }else {
+             newLineName = "";
+          }
+       }
+
+       orders.setLineName(newLineName);
+       orders.setAllPrice(allPrice);
         //没有该订单就生成订单
         if (order == null) {
+           result = numberId;
             int insert = baseMapper.insert(orders);
 
             if (insert <= 0) {
                 throw new ApplicationException(CodeType.SERVICE_ERROR,"生成订单失败");
             }
+        } else {
+           result = order.getId();
         }
 
         //有此订单了就不再生成订单
@@ -173,6 +218,8 @@ public class OrderServiceImpl extends ServiceImpl<OrdersMapper, Orders> implemen
         //修改报名表导游选人状态
        //优化---
        applyService.updateAllGuestStatus (indexVoList);
+
+       return result;
     }
 
 
@@ -197,19 +244,14 @@ public class OrderServiceImpl extends ServiceImpl<OrdersMapper, Orders> implemen
      * @return
      */
     @Override
-    public String getCarNumber(String LineName, String OutDate) {
-        LocalDate localDate = DateUtil.parseDate(OutDate);
-        UserLoginQuery user = localUser.getUser("用户信息");
-        LambdaQueryWrapper<Orders> queryWrapper = new LambdaQueryWrapper<Orders>()
-                .eq(Orders::getLineName,LineName).eq(Orders::getCreateUserId,user.getId())
-                .eq(Orders::getOutDate,localDate);
-        List<Orders> ordersList = baseMapper.selectList(queryWrapper);
-        String carNumber = "";
-        for (Orders orders:ordersList) {
-          carNumber = orders.getCarNumber();
-          break;
-        }
-        return carNumber;
+    public OrderDetailedFainllyQuery getCarNumber(Long id) {
+       Orders orders1 = baseMapper.selectById(id);
+
+       OrderDetailedFainllyQuery query = new OrderDetailedFainllyQuery();
+       query.setCarNo(orders1.getCarNumber());
+       query.setLineName(orders1.getLineName());
+       query.setOutDate(DateUtil.formatDate(orders1.getOutDate()));
+       return query;
     }
 
 
@@ -253,12 +295,13 @@ public class OrderServiceImpl extends ServiceImpl<OrdersMapper, Orders> implemen
        }
 
        //增加消息提醒的记录
-//        MsgVo vo = new MsgVo();
-//       vo.setCreateId(user.getId());
-//       vo.setMsg(GUEIST_PERSON);
-//       vo.setMsgType(3);
-//       vo.setToId(Id);
-//       httpUtils.addMsg(vo);
+        MsgVo vo = new MsgVo();
+       vo.setCreateId(user.getId());
+       vo.setMsg(NettyType.PERSON_EXA.getMsg());
+       vo.setMsgType(3);
+
+       vo.setToId(Id);
+       messageService.insertMsg(vo);
     }
 
     /**
@@ -365,12 +408,13 @@ public class OrderServiceImpl extends ServiceImpl<OrdersMapper, Orders> implemen
         }
 
         //增加一条同意换人的记录
-//        MsgVo vo = new MsgVo();
-//        vo.setCreateId(user.getId());
-//        vo.setMsg(GUEIST_DO);
-//        vo.setMsgType(1);
-//        vo.setToId(orders.getCreateUserId());
-//        httpUtils.addMsg(vo);
+        MsgVo vo = new MsgVo();
+        vo.setCreateId(user.getId());
+        vo.setMsg(NettyType.AGGRE_NO_PERSON_EXA.getMsg());
+        vo.setMsgType(1);
+
+        vo.setToId(orders.getCreateUserId());
+        messageService.insertMsg(vo);
 
         //修改换人表数据
         orderSubstitutService.apotSubstitution(DateUtil.parseDate(outDate),lineName,user.getId(),1);
@@ -411,12 +455,13 @@ public class OrderServiceImpl extends ServiceImpl<OrdersMapper, Orders> implemen
 
 
         //增加一条拒绝换人的记录
-//        MsgVo vo = new MsgVo();
-//        vo.setCreateId(user.getId());
-//        vo.setMsg(GUEIST_DO);
-//        vo.setMsgType(2);
-//        vo.setToId(orders.getCreateUserId());
-//        httpUtils.addMsg(vo);
+        MsgVo vo = new MsgVo();
+        vo.setCreateId(user.getId());
+        vo.setMsg(NettyType.AGGRE_PERSON_EXA.getMsg());
+        vo.setMsgType(2);
+
+        vo.setToId(orders.getCreateUserId());
+        messageService.insertMsg(vo);
 
         //修改换人表数据
         orderSubstitutService.apotSubstitution(DateUtil.parseDate(outDate),lineName,user.getId(),2);
@@ -459,10 +504,6 @@ public class OrderServiceImpl extends ServiceImpl<OrdersMapper, Orders> implemen
         UserLoginQuery user = localUser.getUser("用户信息");
         List<InComeRemerberVo> incomeRemerberVoList = baseMapper.selectIncomeCount(LineName,DateUtil.parseDate(OutDate),user.getId());
 
-        if (incomeRemerberVoList.size() == 0) {
-            throw new ApplicationException(CodeType.SERVICE_ERROR,"日期或线路错误");
-        }
-
         Price price = priceService.queryPrice(DateUtil.parseDate(OutDate),LineName);
 
         if (price == null) {
@@ -476,11 +517,10 @@ public class OrderServiceImpl extends ServiceImpl<OrdersMapper, Orders> implemen
         incomeVo.setChildNumber(0);
         incomeVo.setBabyNumber(0);
         incomeVo.setOldNumber(0);
-        incomeVo.setUnpaid(0);
         incomeVo.setSumInCome(0.0);
         incomeVo.setCarType(true);
         Double sum = 0.0;
-        int unpaid = 0;
+        Double allPrice = 0.0;
         for (InComeRemerberVo item:incomeRemerberVoList) {
            incomeVo.setComeedCount(incomeVo.getComeedCount() + item.getAllNumber());
            incomeVo.setDoNumber(incomeVo.getDoNumber() + item.getAllNumber());
@@ -491,37 +531,34 @@ public class OrderServiceImpl extends ServiceImpl<OrdersMapper, Orders> implemen
            incomeVo.setCarNumber(item.getCarNumber());
            incomeVo.setCarType(item.getCarType());
 
+           /**
+            * 总价格
+            */
+           allPrice = allPrice + item.getPrice();
+
         }
 
         List<OrderContectQuery> queries = baseMapper.listContect(LineName, DateUtil.parseDate(OutDate), user.getId());
 
-        //查询面收的人员名单
-        List<OrderTypeBo> list = new ArrayList<>();
-        for (OrderContectQuery query : queries) {
-            //算出总价
-            Double AllPrice = query.getAdultNumber() * price.getAdultPrice() + query.getBabyNumber() * price.getBabyPrice()
-                    + query.getChildNumber() + price.getChildPrice() + query.getOldNumber() * price.getOldPrice();
-            OrderTypeBo bo = new OrderTypeBo();
-            bo.setId(query.getId());
-            bo.setAdultNumber(query.getAdultNumber());
-            bo.setAllNumber(query.getAllNumber());
-            bo.setAllPrice(AllPrice);
-            bo.setBabyNumber(query.getBabyNumber());
-            bo.setChildNumber(query.getChildNumber());
-            bo.setContactName(query.getContactName());
-            bo.setContactTel(query.getContactTel());
-            bo.setOldNumber(query.getOldNumber());
-            list.add(bo);
+        //查询面收金额
+       for (OrderContectQuery query : queries) {
+          //算出总面收金额
+          if (query.getMsPrice() != null) {
+             sum = sum + query.getMsPrice();
+          }
+       }
 
-            sum = sum + AllPrice;
-            unpaid = unpaid + query.getAllNumber();
-        }
+       incomeVo.setSumInCome(sum);
+       incomeVo.setAllPrice(allPrice);
 
-        incomeVo.setContactNames(list);
-        incomeVo.setSumInCome(sum);
-        incomeVo.setUnpaid(unpaid);
-
-        return incomeVo;
+       //查询月结金额
+       OrdersMonthBo monthBo = baseMapper.queryMonthPrice(LineName, DateUtil.parseDate(OutDate), user.getId());
+       if (monthBo != null) {
+          incomeVo.setMonthPrice(monthBo.getAllPrice());
+       } else {
+          incomeVo.setMonthPrice(0.0);
+       }
+       return incomeVo;
     }
 
 
@@ -561,5 +598,85 @@ public class OrderServiceImpl extends ServiceImpl<OrdersMapper, Orders> implemen
         return result;
     }
 
+   /**
+    * 查询未结算的条数
+    * @return
+    */
+   @Override
+   public Integer queryAllNoCount () {
+      UserLoginQuery user = localUser.getUser("用户信息");
+      LocalDate now = LocalDate.now();
+      LambdaQueryWrapper<Orders> wrapper = new LambdaQueryWrapper<Orders>()
+            .eq(Orders::getCreateUserId,user.getId())
+            .le(Orders::getOutDate,now)
+            .eq(Orders::getIsFinash,0);
+
+      //查询条数
+      return baseMapper.selectCount(wrapper);
+   }
+
+   /**
+    * 查询具体未结算的信息
+    * @return
+    */
+   @Override
+   public List<OrdersNoCountInfoQuery> queryAllNoCountInfo() {
+      UserLoginQuery user = localUser.getUser("用户信息");
+      LocalDate now = LocalDate.now();
+      LambdaQueryWrapper<Orders> wrapper = new LambdaQueryWrapper<Orders>()
+            .eq(Orders::getCreateUserId,user.getId())
+            .le(Orders::getOutDate,now)
+            .eq(Orders::getIsFinash,0);
+
+      List<Orders> orders = baseMapper.selectList(wrapper);
+
+      List<OrdersNoCountInfoQuery> result = new ArrayList<>();
+      for (Orders order : orders) {
+         OrdersNoCountInfoQuery query = new OrdersNoCountInfoQuery();
+         query.setLineName(order.getLineName());
+         query.setOutDate(DateUtil.formatDate(order.getOutDate()));
+         query.setCarNo(order.getCarNumber());
+         result.add(query);
+      }
+
+      return result;
+   }
+
+   /**
+    * 查询id
+    * @param outDate
+    * @param lineName
+    * @return
+    */
+   @Override
+   public IdBo queryOrderId(String outDate, String lineName) {
+      UserLoginQuery user = localUser.getUser("用户信息");
+
+      LocalDate date = DateUtil.parseDate(outDate);
+
+      LambdaQueryWrapper<Orders> wrapper = new LambdaQueryWrapper<Orders>()
+            .eq(Orders::getLineName,lineName)
+            .eq(Orders::getOutDate,date)
+            .eq(Orders::getCreateUserId,user.getId());
+
+      Orders orders = baseMapper.selectOne(wrapper);
+
+      IdBo bo = new IdBo();
+
+      bo.setId(orders.getId());
+
+      return bo;
+   }
+
+
+   /**
+    * 查询一条记录
+    * @param id
+    * @return
+    */
+   @Override
+   public Orders queryOne(Long id) {
+      return baseMapper.selectById(id);
+   }
 
 }

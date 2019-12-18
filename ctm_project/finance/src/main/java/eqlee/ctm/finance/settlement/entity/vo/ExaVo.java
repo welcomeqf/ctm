@@ -10,11 +10,7 @@ import lombok.Data;
 @Data
 public class ExaVo {
 
-    private String outDate;
-
-    private String lineName;
-
-    private Long guestId;
+    private Long id;
 
     private Integer type;
 }

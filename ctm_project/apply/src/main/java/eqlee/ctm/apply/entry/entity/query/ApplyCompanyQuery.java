@@ -55,6 +55,11 @@ public class ApplyCompanyQuery {
     private Boolean IsCancel;
 
     /**
+     * 0--正常  1--取消中
+     */
+    private Integer CancelInfo;
+
+    /**
      * 是否付款(true-已付款  false-未付款)
      */
     private Boolean IsPayment;

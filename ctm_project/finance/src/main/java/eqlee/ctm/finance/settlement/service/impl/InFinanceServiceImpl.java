@@ -1,18 +1,24 @@
 package eqlee.ctm.finance.settlement.service.impl;
 
+import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.yq.constanct.CodeType;
+import com.yq.entity.websocket.NettyType;
 import com.yq.exception.ApplicationException;
 import com.yq.jwt.contain.LocalUser;
 import com.yq.jwt.entity.UserLoginQuery;
 import com.yq.utils.DateUtil;
 import com.yq.utils.IdGenerator;
 import com.yq.utils.StringUtils;
+import eqlee.ctm.finance.other.entity.Other;
+import eqlee.ctm.finance.other.entity.vo.OtherUpdateVo;
+import eqlee.ctm.finance.other.service.IOtherService;
 import eqlee.ctm.finance.settlement.dao.InFinanceMapper;
 import eqlee.ctm.finance.settlement.entity.Income;
 import eqlee.ctm.finance.settlement.entity.Number;
 import eqlee.ctm.finance.settlement.entity.Outcome;
+import eqlee.ctm.finance.settlement.entity.bo.*;
 import eqlee.ctm.finance.settlement.entity.query.*;
 import eqlee.ctm.finance.settlement.entity.vo.ContectUserNumberVo;
 import eqlee.ctm.finance.settlement.entity.vo.ContectUserVo;
@@ -22,6 +28,8 @@ import eqlee.ctm.finance.settlement.service.IInFinanceService;
 import eqlee.ctm.finance.settlement.service.INumberDetailedService;
 import eqlee.ctm.finance.settlement.service.INumberService;
 import eqlee.ctm.finance.settlement.service.IOutFinanceService;
+import eqlee.ctm.finance.settlement.vilidata.HttpUtils;
+import eqlee.ctm.finance.settlement.vilidata.entity.UserIdBo;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -30,7 +38,9 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 收入service
@@ -51,6 +61,12 @@ public class InFinanceServiceImpl extends ServiceImpl<InFinanceMapper, Income> i
 
     @Autowired
     private INumberDetailedService numberDetailedService;
+
+    @Autowired
+    private HttpUtils httpUtils;
+
+    @Autowired
+    private IOtherService otherService;
 
     @Autowired
     private INumberService numberService;
@@ -81,6 +97,7 @@ public class InFinanceServiceImpl extends ServiceImpl<InFinanceMapper, Income> i
         long numberId = idGenerator.getNumberId();
         income.setId(numberId);
         income.setCreateUserId(user.getId());
+        income.setGuideTel(user.getTel());
         income.setGuideName(user.getCname());
         income.setLineName(vo.getLineName());
         //加入到人数表以及人数明细表
@@ -94,49 +111,50 @@ public class InFinanceServiceImpl extends ServiceImpl<InFinanceMapper, Income> i
         number.setTreeChildNumber(vo.getTreeChildNumber());
         number.setTreeOldNumber(vo.getTreeOldNumber());
         number.setTrueAllNumber(vo.getTrueAllNumber());
-        number.setUnpaidNumber(vo.getUnpaidNumber());
         number.setUpdateUserId(user.getId());
+
+        //增加--
+        number.setAllPrice(vo.getAllPrice());
+        number.setMonthPrice(vo.getMonthPrice());
         //增加人数表
         numberService.insertNumber(number);
-
-        //将未付款代付信息批量插入数据库
-
-        if (vo.getUnpaidList().size() != 0) {
-            List<ContectUserNumberVo> list = new ArrayList<>();
-
-            for (ContectUserVo contectUserVo : vo.getUnpaidList()) {
-                ContectUserNumberVo vo1 = new ContectUserNumberVo();
-                vo1.setId(idGenerator.getNumberId());
-                vo1.setNumberId(id);
-                vo1.setAdultNumber(contectUserVo.getAdultNumber());
-                vo1.setAllNumber(contectUserVo.getAllNumber());
-                vo1.setAllPrice(contectUserVo.getAllPrice());
-                vo1.setBabyNumber(contectUserVo.getBabyNumber());
-                vo1.setChildNumber(contectUserVo.getChildNumber());
-                vo1.setContectUserName(contectUserVo.getContectUserName());
-                vo1.setContectUserTel(contectUserVo.getContectUserTel());
-                vo1.setOldNumber(contectUserVo.getOldNumber());
-                vo1.setCreateUserId(user.getId());
-                vo1.setUpdateUserId(user.getId());
-                list.add(vo1);
-            }
-            numberDetailedService.insertAllNumberDetailed(list);
-        }
 
         //
 
         income.setOutDate(DateUtil.parseDate(vo.getOutDate()));
-        //结算价(应收金额)
+        //结算价(面收金额)
         income.setSettlementPrice(vo.getGaiMoney());
-        //代收费用（实收金额）
-        income.setSubstitutionPrice(vo.getTrueMoney());
         income.setUpdateUserId(user.getId());
         income.setNumberId(id);
+
+        Double price = 0.0;
+        for (OtherBo bo : vo.getOtherInPrice()) {
+            price = price + bo.getPrice();
+        }
+        //总收入
+        Double all = price + vo.getGaiMoney();
+        income.setAllInPrice(all);
+
         int insert = baseMapper.insert(income);
 
         if (insert<= 0) {
             log.error("insert income fail.");
             throw new ApplicationException(CodeType.SERVICE_ERROR,"提交收入表失败");
+        }
+
+        //装配其他收入表
+
+        if (vo.getOtherInPrice().size() > 0) {
+            List<OtherUpdateVo> list = new ArrayList<>();
+            for (OtherBo otherBo : vo.getOtherInPrice()) {
+                OtherUpdateVo updateVo = new OtherUpdateVo();
+                updateVo.setId(otherBo.getId());
+                updateVo.setOtherPrice(otherBo.getPrice());
+                updateVo.setIncomeId(numberId);
+                //updateOther
+                list.add(updateVo);
+            }
+            otherService.updateOther(list);
         }
 
         //装配支出表
@@ -173,59 +191,64 @@ public class InFinanceServiceImpl extends ServiceImpl<InFinanceMapper, Income> i
 
 
         //修改车辆状态
-        Integer status = baseMapper.updateCarStatus(vo.getCarNo());
+        if (!vo.getCarType()) {
+            //公司内部车辆
+            Integer status = baseMapper.updateCarStatus(vo.getCarNo());
 
-        if (status <= 0) {
-            throw new ApplicationException(CodeType.SERVICE_ERROR, "还车失败");
+            if (status <= 0) {
+                throw new ApplicationException(CodeType.SERVICE_ERROR, "还车失败");
+            }
         }
+
+        List<UserIdBo> idList = (List<UserIdBo>) httpUtils.queryAllAdminInfo();
+
+        if (idList.size() == 0) {
+            throw new ApplicationException(CodeType.SERVICE_ERROR, "请将财务的角色名设置为财务");
+        }
+
+        for (int j = 0; j <= idList.size()-1; j++) {
+            UserIdBo bo = JSONObject.parseObject(String.valueOf(idList.get(j)),UserIdBo.class);
+
+            //消息提醒财务审核
+            //增加消息提醒的记录
+            Integer integer = baseMapper.insertMsg(bo.getAdminId(),user.getId(),NettyType.CAI_EXA.getMsg(),3);
+
+            if (integer <= 0) {
+                throw new ApplicationException(CodeType.SERVICE_ERROR, "提交有误");
+            }
+        }
+
+
     }
 
     /**
      * 分页查询所有财务审核
      * @param page
      * @param guestName
-     * @param
+     * @param type
+     * @param outDate
+     * @param lineName
      * @return
      */
     @Override
-    public Page<ExamineResultQuery> listExamine2Page(Page<ExamineResultQuery> page, String guestName, String type) {
+    public Page<ExamineResultQuery> listExamine2Page(Page<ExamineResultQuery> page, String guestName, Integer type, String outDate, String lineName) {
 
-        if (StringUtils.isBlank(guestName) && StringUtils.isBlank(type)) {
-            //查询全部
-            return baseMapper.listExamine2Page(page);
+        if (StringUtils.isBlank(guestName)) {
+            guestName = null;
         }
 
-        if (StringUtils.isBlank(guestName) && StringUtils.isNotBlank(type)) {
-            //未审核  已审核
-            if (!EXA_NO.equals(type) && !EXA_DO.equals(type)) {
-                throw new ApplicationException(CodeType.SERVICE_ERROR, "type传入有误");
-            }
+        LocalDate outTime = null;
 
-            if (EXA_NO.equals(type)) {
-                //未审核的记录
-                return baseMapper.listExamine2No(page);
-            }
-
-            //已审核的记录
-            return baseMapper.listExamine2Do(page);
+        if (StringUtils.isNotBlank(outDate)) {
+            outTime = DateUtil.parseDate(outDate);
         }
 
-        if (StringUtils.isNotBlank(guestName) && StringUtils.isBlank(type)) {
-            return baseMapper.listExamine2PageByGuestName(page,guestName);
+        if (StringUtils.isBlank(lineName)) {
+            lineName = null;
         }
 
-        //都不为空
-        if (!EXA_NO.equals(type) && !EXA_DO.equals(type)) {
-            throw new ApplicationException(CodeType.SERVICE_ERROR, "type传入有误");
-        }
+        return baseMapper.listPageExa (page,guestName,type,outTime,lineName);
 
-        if (EXA_NO.equals(type)) {
-            //未审核的记录
-            return baseMapper.listExamine2NoByGuestName(page,guestName);
-        }
-
-        //已审核的记录
-        return baseMapper.listExamine2DoByGuestName(page,guestName);
     }
 
     /**
@@ -234,149 +257,122 @@ public class InFinanceServiceImpl extends ServiceImpl<InFinanceMapper, Income> i
      * @return
      */
     @Override
-    public ExamineDetailedQuery queryExamineDetailed(Long Id) {
-        List<ExamineResultVo> voList = baseMapper.listExamineDetailed(Id);
-        //重新装配数据返回
-        ExamineDetailedQuery query = new ExamineDetailedQuery();
-        List<ExamineContectQuery> queryList = new ArrayList<>();
-        Integer allNoNumber = 0;
-        Double allNoPrice = 0.0;
-        for (ExamineResultVo vo : voList) {
-            ExamineContectQuery contectQuery = new ExamineContectQuery();
-            //装配联系人
-            if ((StringUtils.isBlank(vo.getContectUserName()) && StringUtils.isBlank(vo.getContectUserTel()))) {
-                //没有未付款人员
-                vo.setAdultNumber(0);
-                vo.setAllNumber(0);
-                vo.setAllPrice(0.0);
-                vo.setBabyNumber(0);
-                vo.setChildNumber(0);
-                vo.setContectUserName("无");
-                vo.setContectUserTel("无");
-                vo.setOldNumber(0);
-            }
+    public Map<String,Object> queryExamineDetailed(Long Id) {
 
-            contectQuery.setAdultNumber(vo.getAdultNumber());
-            contectQuery.setAllNumber(vo.getAllNumber());
-            contectQuery.setAllPrice(vo.getAllPrice());
-            contectQuery.setBabyNumber(vo.getBabyNumber());
-            contectQuery.setChildNumber(vo.getChildNumber());
-            contectQuery.setContectUserName(vo.getContectUserName());
-            contectQuery.setContectUserTel(vo.getContectUserTel());
-            contectQuery.setOldNumber(vo.getOldNumber());
-            queryList.add(contectQuery);
+        List<Other> others = otherService.queryOtherByIncome(Id);
 
+        ExamineResultVo vo = baseMapper.listExamineDetailed(Id);
 
+        Map<String,Object> map = new HashMap<>();
 
-            //装配审核详情结果类
-            query.setAllDoNumber(vo.getAllDoNumber());
-            query.setAllOutPrice(vo.getAllOutPrice());
-            query.setCarNo(vo.getCarNo());
-            query.setDriverSubsidy(vo.getDriverSubsidy());
-            query.setFinallyPrice(vo.getFinallyPrice());
-            query.setGuideName(vo.getGuideName());
-            query.setGuideSubsidy(vo.getGuideSubsidy());
-            query.setInPrice(vo.getInPrice());
-            query.setLineName(vo.getLineName());
-            query.setLunchPrice(vo.getLunchPrice());
-            query.setOutDate(vo.getOutDate());
-            query.setParkingRatePrice(vo.getParkingRatePrice());
-            query.setRentCarPrice(vo.getRentCarPrice());
-            query.setSettlementPrice(vo.getSettlementPrice());
-            query.setSubstitutionPrice(vo.getSubstitutionPrice());
-            query.setTicketName(vo.getTicketName());
-            query.setTicketPrice(vo.getTicketPrice());
-            query.setTreeAdultNumber(vo.getTreeAdultNumber());
-            query.setTreeBabyNumber(vo.getTreeBabyNumber());
-            query.setTreeChildNumber(vo.getTreeChildNumber());
-            query.setTreeOldNumber(vo.getTreeOldNumber());
-            query.setTrueAllNumber(vo.getTrueAllNumber());
-            query.setUnpaidNumber(vo.getUnpaidNumber());
-            query.setGuideId(vo.getGuestId());
-            query.setAllDoNumber(vo.getAllDoNumber());
+        map.put("obj",vo);
+        map.put("other",others);
 
-            allNoNumber =allNoNumber + vo.getAllNumber();
-            allNoPrice = allNoPrice + vo.getAllPrice();
-        }
-
-        query.setQueryList(queryList);
-        query.setAllNoNumber(allNoNumber);
-        query.setAllNoPrice(allNoPrice);
-
-        return query;
+        return map;
     }
 
     /**
      * 展示导游的个人记录
      * @param page
      * @param exaType
+     * @param outDate
+     * @param lineName
      * @return
      */
     @Override
-    public Page<GuestResultQuery> GuestPage2Me(Page<GuestResultQuery> page, String exaType) {
+    public Page<GuestResultQuery> GuestPage2Me(Page<GuestResultQuery> page, String exaType, String outDate, String lineName) {
+
         if (StringUtils.isBlank(exaType)) {
-            //展示所有记录
-            return baseMapper.pageGuest2Me(page);
+            exaType = null;
         }
 
-        if (!EXA_DAI.equals(exaType) && !EXA_WEI.equals(exaType) && !EXA_YI.equals(exaType)) {
-            throw new ApplicationException(CodeType.SERVICE_ERROR,"审核类型输入有误");
+        int exa = 3;
+        if (StringUtils.isNotBlank(exaType)) {
+            if (!EXA_DAI.equals(exaType) && !EXA_WEI.equals(exaType) && !EXA_YI.equals(exaType)) {
+                throw new ApplicationException(CodeType.SERVICE_ERROR,"审核类型输入有误");
+            }
+
+            if (EXA_DAI.equals(exaType)) {
+                exa = 0;
+            }
+
+            if (EXA_YI.equals(exaType)) {
+                exa = 1;
+            }
+
+            if (EXA_WEI.equals(exaType)) {
+                exa = 2;
+            }
         }
 
-        int exa = 0;
-        if (EXA_DAI.equals(exaType)) {
-            exa = 0;
+        if (StringUtils.isBlank(lineName)) {
+            lineName = null;
         }
 
-        if (EXA_YI.equals(exaType)) {
-            exa = 1;
+        LocalDate outTime = null;
+        if (StringUtils.isNotBlank(outDate)) {
+            outTime = DateUtil.parseDate(outDate);
         }
 
-        if (EXA_WEI.equals(exaType)) {
-            exa = 2;
-        }
-
-        return baseMapper.pageGuest2MeByStatus(page,exa);
+        return baseMapper.pageGuest2Me(page,exa,outTime,lineName);
     }
 
     /**
      * 财务同意或拒绝审核
-     * @param outDate
-     * @param lineName
-     * @param guestId
+     * @param id
      * @param type
      * @return
      */
     @Override
-    public ExaResultQuery examineGuestResult(String outDate, String lineName, Long guestId, Integer type) {
+    public ExaResultQuery examineGuestResult(Long id, Integer type) {
+
+        UserLoginQuery user = localUser.getUser("用户信息");
+
+        Income income = baseMapper.selectById(id);
 
         if (type != 1 && type != 2) {
             throw new ApplicationException(CodeType.SERVICE_ERROR,"type参数只能是1或2");
         }
 
         LocalDateTime time = LocalDateTime.now();
-        LocalDate date = DateUtil.parseDate(outDate);
 
         ExaResultQuery query = new ExaResultQuery();
         if (type == 1) {
             //同意
-            int result = baseMapper.examineGuestResult(date, lineName, guestId, time);
+            int result = baseMapper.examineGuestResult(id, time);
 
 
             if (result <= 0) {
                 throw new ApplicationException(CodeType.SERVICE_ERROR,"操作失败");
             }
+
+            //增加消息提醒的记录
+            Integer integer = baseMapper.insertMsg(income.getCreateUserId(),user.getId(),NettyType.AGGRE_CAI_EXA.getMsg(),3);
+
+            if (integer <= 0) {
+                throw new ApplicationException(CodeType.SERVICE_ERROR, "增加有误");
+            }
+
             query.setExaResult(1);
             return query;
         }
 
         //拒绝
-        int result = baseMapper.examineResult(date, lineName, guestId, time);
+        int result = baseMapper.examineResult(id, time);
 
 
         if (result <= 0) {
             throw new ApplicationException(CodeType.SERVICE_ERROR,"操作失败");
         }
+
+        //增加消息提醒的记录
+        //财务拒绝的记录
+        Integer integer = baseMapper.insertMsg(income.getCreateUserId(),user.getId(),NettyType.AGGRE_CAI_NO_EXA.getMsg(),3);
+
+        if (integer <= 0) {
+            throw new ApplicationException(CodeType.SERVICE_ERROR, "增加有误");
+        }
+
         query.setExaResult(2);
         return query;
     }
@@ -392,5 +388,72 @@ public class InFinanceServiceImpl extends ServiceImpl<InFinanceMapper, Income> i
         LocalDate date = DateUtil.parseDate(outDate);
 
         return baseMapper.pageExamine(page,date,lineName,guideId);
+    }
+
+    /**
+     * 财务的月结统计
+     * @param outDate
+     * @param companyName
+     * @return
+     */
+    @Override
+    public Page<FinanceCompanyBo> pageCompanyCount(Page<FinanceCompanyBo> page,String outDate, String companyName) {
+        LocalDate start = null;
+        LocalDate end = null;
+        if (StringUtils.isNotBlank(outDate)) {
+            start = DateUtil.parseDate(outDate);
+            //获取当月最后一天
+            LocalDate date = start.plusMonths(1);
+            end = date.minusDays(1);
+        }
+
+        if (StringUtils.isBlank(companyName)) {
+            companyName = null;
+        }
+
+        return baseMapper.pageFinanceCompany (page,start,end,companyName);
+    }
+
+    /**
+     * 月结统计 详情
+     * @param page
+     * @param lineName
+     * @param outDate
+     * @param accountName
+     * @return
+     */
+    @Override
+    public Map<String,Object> queryCompanyInfoCount(Page<FinanceCompanyInfoBo> page, String lineName, String outDate, String accountName) {
+        LocalDate start = null;
+        LocalDate end = null;
+        if (StringUtils.isNotBlank(outDate)) {
+            start = DateUtil.parseDate(outDate);
+            //获取当月最后一天
+            LocalDate date = start.plusMonths(1);
+            end = date.minusDays(1);
+        }
+
+        if (StringUtils.isBlank(lineName)) {
+            lineName = null;
+        }
+
+
+        Page<FinanceCompanyInfoBo> pageList = baseMapper.queryCompanyInfoCount(page, lineName, start, end, accountName);
+
+
+        CompanyMonthBo bo = new CompanyMonthBo();
+
+        for (FinanceCompanyInfoBo list : pageList.getRecords()) {
+            bo.setCompanyNo(list.getCompanyNo());
+            bo.setCompanyName(list.getCompanyName());
+            bo.setCompanyUserName(list.getCompanyUserName());
+            break;
+        }
+
+        Map<String,Object> map = new HashMap<>();
+        map.put("pageData",pageList);
+        map.put("sameData",bo);
+
+        return map;
     }
 }

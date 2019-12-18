@@ -76,7 +76,7 @@ public class UserApiController {
         String s = JSONObject.toJSONString(userVo);
 
         //获得token
-        String userToken = tokenData.getUserToken();
+        String userToken = tokenData.getMapToken();
         String token = "Bearer " + userToken;
 
         HttpResult httpResult = apiService.post(url, s,token);
@@ -98,10 +98,10 @@ public class UserApiController {
     @CrossOrigin
     @IgnoreResponseAdvice
     public Object login(@RequestBody UserLoginVo userLoginVo) throws Exception {
-        String url = "http://" + ip + ":" + port + "/" + path +  "/v1/app/user/login?userName=" + userLoginVo.getUserName() + "&password=" + userLoginVo.getPassword();
+        String url = "http://" + ip + ":" + port +  "/" + path + "/v1/app/user/login?userName=" + userLoginVo.getUserName() + "&password=" + userLoginVo.getPassword();
 
         //获得token
-        String userToken = tokenData.getUserToken();
+        String userToken = tokenData.getMapToken();
         String token = "Bearer " + userToken;
 
         HttpResult httpResult = apiService.get(url,token);
@@ -126,7 +126,7 @@ public class UserApiController {
         String url = "http://" + ip +":" + port + "/" + path + "/v1/app/user/deleteUser/" +userName;
 
         //获得token
-        String userToken = tokenData.getUserToken();
+        String userToken = tokenData.getMapToken();
         String token = "Bearer " + userToken;
 
         HttpResult httpResult = apiService.get(url,token);
@@ -149,7 +149,7 @@ public class UserApiController {
         String url = "http://" + ip +":" + port + "/" + path + "/v1/app/user/exitUser/" +userName;
 
         //获得token
-        String userToken = tokenData.getUserToken();
+        String userToken = tokenData.getMapToken();
         String token = "Bearer " + userToken;
 
         HttpResult httpResult = apiService.get(url,token);
@@ -171,7 +171,7 @@ public class UserApiController {
         String url = "http://" + ip +":" + port + "/" + path + "/v1/app/user/stopUser/" +userName;
 
         //获得token
-        String userToken = tokenData.getUserToken();
+        String userToken = tokenData.getMapToken();
         String token = "Bearer " + userToken;
 
         HttpResult httpResult = apiService.get(url,token);
@@ -193,7 +193,7 @@ public class UserApiController {
         String url = "http://" + ip +":" + port + "/" + path + "/v1/app/user/toStopUser/" +userName;
 
         //获得token
-        String userToken = tokenData.getUserToken();
+        String userToken = tokenData.getMapToken();
         String token = "Bearer " + userToken;
 
         HttpResult httpResult = apiService.get(url,token);
@@ -233,7 +233,7 @@ public class UserApiController {
 
         String s = JSONObject.toJSONString(query);
         //获得token
-        String userToken = tokenData.getUserToken();
+        String userToken = tokenData.getMapToken();
         String token = "Bearer " + userToken;
 
         HttpResult httpResult = apiService.post(url,s,token);
@@ -275,7 +275,7 @@ public class UserApiController {
                 + "&userName=" + userName + "&roleName=" +roleName;
 
         //获得token
-        String userToken = tokenData.getUserToken();
+        String userToken = tokenData.getMapToken();
         String token = "Bearer " + userToken;
 
         HttpResult httpResult = apiService.get(url,token);
@@ -304,7 +304,7 @@ public class UserApiController {
                 + "&userNameOrRole=" + userNameOrRole;
 
         //获得token
-        String userToken = tokenData.getUserToken();
+        String userToken = tokenData.getMapToken();
         String token = "Bearer " + userToken;
 
         HttpResult httpResult = apiService.get(url,token);
@@ -337,7 +337,7 @@ public class UserApiController {
 
         String jsonString = JSONObject.toJSONString(result);
         //获得token
-        String userToken = tokenData.getUserToken();
+        String userToken = tokenData.getMapToken();
         String token = "Bearer " + userToken;
 
         HttpResult httpResult = apiService.post(url,jsonString,token);
@@ -374,7 +374,7 @@ public class UserApiController {
 
         String s = JSONObject.toJSONString(infoVo);
         //获得token
-        String userToken = tokenData.getUserToken();
+        String userToken = tokenData.getMapToken();
         String token = "Bearer " + userToken;
 
         HttpResult httpResult = apiService.post(url,s,token);
@@ -397,7 +397,7 @@ public class UserApiController {
         String url = "http://" + ip +":" + port + "/" + path + "/v1/app/user/getUserById?id=" +id;
 
         //获得token
-        String userToken = tokenData.getUserToken();
+        String userToken = tokenData.getMapToken();
         String token = "Bearer " + userToken;
 
         HttpResult httpResult = apiService.get(url,token);

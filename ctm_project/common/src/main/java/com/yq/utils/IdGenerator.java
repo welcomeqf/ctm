@@ -87,6 +87,22 @@ public class IdGenerator {
     }
 
     /**
+     *   ctm用
+     *   其他项目不用
+     * @return
+     */
+    public String getShortNo() {
+        String time = DateUtil.formatSimpleDateTime(LocalDateTime.now());
+
+
+        String s = time.substring(5, 14);
+
+        int randoms = (int) (Math.random() * 100);
+
+        return s + String.valueOf(randoms);
+    }
+
+    /**
      * Twitter_Snowflake<br>
      * SnowFlake的结构如下(每部分用-分开):<br>
      * 0 - 0000000000 0000000000 0000000000 0000000000 0 - 00000 - 00000 - 000000000000 <br>

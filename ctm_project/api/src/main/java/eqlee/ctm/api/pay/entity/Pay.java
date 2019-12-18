@@ -93,4 +93,9 @@ public class Pay extends Model<Pay> {
      * 修改时间
      */
     private LocalDateTime UpdateDate;
+
+    /**
+     * (0--微信  1--支付宝)
+     */
+    private Integer PayType;
 }

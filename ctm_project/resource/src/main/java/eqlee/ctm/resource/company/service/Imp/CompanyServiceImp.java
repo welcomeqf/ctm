@@ -138,14 +138,6 @@ public class CompanyServiceImp extends ServiceImpl<CompanyMapper,Company> implem
     @Override
     public void UpdateCompany(Long Id, CompanyVo companyVo) {
 
-        LambdaQueryWrapper<Company> wrapper = new LambdaQueryWrapper<Company>()
-              .eq(Company::getCompanyNo,companyVo.getCompanyNo());
-        Company one = baseMapper.selectOne(wrapper);
-
-        if (one != null) {
-            throw new ApplicationException(CodeType.SERVICE_ERROR, "该编号已存在");
-        }
-
         UserLoginQuery user = localUser.getUser("用户信息");
 
         Company company = new Company();
@@ -173,7 +165,9 @@ public class CompanyServiceImp extends ServiceImpl<CompanyMapper,Company> implem
         }
         if (WITH_PAY.equals(companyVo.getPayMethod())) {
             company.setPayMethod(3);
-        }else {
+        }
+
+        if (!NOW_PAY.equals(companyVo.getPayMethod()) && !MONTH_PAY.equals(companyVo.getPayMethod()) && !WITH_PAY.equals(companyVo.getPayMethod())) {
             throw new ApplicationException(CodeType.SERVICE_ERROR, "结算类型有误");
         }
 

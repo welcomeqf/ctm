@@ -43,26 +43,22 @@ public class GuiderServiceImpl implements IGuiderService {
      * @return
      */
     @Override
-    public Page<GuiderVo> guiderIndex(Page<GuiderVo> page,String outDate,String lineName) {
+    public Page<GuiderVo> guiderIndex(Page<GuiderVo> page,String outDate,String lineName, String region) {
 
-        if (StringUtils.isBlank(outDate) && StringUtils.isBlank(lineName)) {
-            //日期和线路名为空
-            return guiderMapper.guiderIndex(page);
+        if (StringUtils.isBlank(lineName)) {
+            lineName = null;
         }
 
-        if (StringUtils.isBlank(outDate) && StringUtils.isNotBlank(lineName)) {
-            //根据线路名查询
-            return guiderMapper.guiderIndexByLine(page,lineName);
+        LocalDate localDate = null;
+
+        if (StringUtils.isNotBlank(outDate)) {
+            localDate = DateUtil.parseDate(outDate);
         }
 
-        if (StringUtils.isNotBlank(outDate) && StringUtils.isBlank(lineName)) {
-            //根据日期查询
-            LocalDate localDate = DateUtil.parseDate(outDate);
-            return guiderMapper.guiderIndexByTime(page,localDate);
+        if (StringUtils.isBlank(region)) {
+            region = null;
         }
-
-        LocalDate localDate = DateUtil.parseDate(outDate);
-        return guiderMapper.guiderIndexByLineAndTime(page,localDate,lineName);
+        return guiderMapper.guiderIndex(page,localDate,lineName,region);
     }
 
 

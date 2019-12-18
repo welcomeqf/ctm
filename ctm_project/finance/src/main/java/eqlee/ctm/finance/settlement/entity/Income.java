@@ -31,6 +31,11 @@ public class Income extends Model<Income> {
     private String GuideName;
 
     /**
+     * 导游电话
+     */
+    private String GuideTel;
+
+    /**
      * 出发日期
      */
     private LocalDate OutDate;
@@ -69,6 +74,21 @@ public class Income extends Model<Income> {
      * 代收费用（实收金额）
      */
     private Double SubstitutionPrice;
+
+    /**
+     * 车费收入
+     */
+    private Double CarInPrice;
+
+    /**
+     * 其他收入
+     */
+    private Double OtherInPrice;
+
+    /**
+     * 总收入
+     */
+    private Double AllInPrice;
 
     /**
      * 备注

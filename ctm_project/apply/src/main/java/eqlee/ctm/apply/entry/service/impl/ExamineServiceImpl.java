@@ -7,6 +7,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.yq.constanct.CodeType;
+import com.yq.entity.websocket.NettyType;
 import com.yq.exception.ApplicationException;
 import com.yq.httpclient.HttpClientUtils;
 import com.yq.jwt.contain.LocalUser;
@@ -22,7 +23,11 @@ import eqlee.ctm.apply.entry.entity.vo.*;
 import eqlee.ctm.apply.entry.service.IApplyService;
 import eqlee.ctm.apply.entry.service.IExamineService;
 import eqlee.ctm.apply.entry.vilidata.HttpUtils;
+import eqlee.ctm.apply.entry.vilidata.TokenData;
 import eqlee.ctm.apply.line.entity.vo.ResultVo;
+import eqlee.ctm.apply.message.entity.vo.MsgAddVo;
+import eqlee.ctm.apply.message.entity.vo.MsgVo;
+import eqlee.ctm.apply.message.service.IMessageService;
 import eqlee.ctm.apply.orders.service.IOrderSubstitutService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -53,19 +58,15 @@ public class ExamineServiceImpl extends ServiceImpl<ExamineMapper, Examine> impl
     private HttpUtils httpUtils;
 
     @Autowired
+    private TokenData tokenData;
+
+    @Autowired
+    private IMessageService messageService;
+
+    @Autowired
     private IOrderSubstitutService orderSubstitutService;
 
     IdGenerator idGenerator = new IdGenerator();
-
-    /**
-     * 以下是消息记录中的msg
-     */
-    private final String CANCEL_EXA = "取消报名审核";
-
-    private final String CANCEL_DO = "取消报名";
-
-    private final String APPLY_DO = "报名申请";
-
 
     /**
      * 提交取消报名表的审核
@@ -100,27 +101,33 @@ public class ExamineServiceImpl extends ServiceImpl<ExamineMapper, Examine> impl
             throw new ApplicationException(CodeType.SERVICE_ERROR, "提交取消报名审核失败");
         }
 
+        //修改报名表的状态
+        applyService.updateApplyCancel(1,ApplyId);
+
+
         //批量增加所有运营可见的消息提醒
         //查询所有管理员的id集合
-//        List<Long> longList = new ArrayList<>();
-//        List<UserAdminBo> idList = (List<UserAdminBo>) httpUtils.queryAllAdminInfo();
-//
-//        if (idList.size() == 0) {
-//            throw new ApplicationException(CodeType.SERVICE_ERROR, "请将管理员的角色名设置为运营人员");
-//        }
-//
-//        for (UserAdminBo bo : idList) {
-//            longList.add(bo.getAdminId());
-//        }
-//
-//        //批量增加所有运营审核的报名消息提醒
-//        MsgAddVo msgVo = new MsgAddVo();
-//        msgVo.setCreateId(user.getId());
-//        msgVo.setMsgType(3);
-//        msgVo.setMsg(CANCEL_EXA);
-//        msgVo.setToId(longList);
-//
-//        httpUtils.addAllMsg(msgVo);
+        List<Long> longList = new ArrayList<>();
+        List<UserAdminBo> idList = (List<UserAdminBo>) httpUtils.queryAllAdminInfo();
+
+        if (idList.size() == 0) {
+            throw new ApplicationException(CodeType.SERVICE_ERROR, "请将管理员的角色名设置为运营人员");
+        }
+
+        for (int i = 0; i <= idList.size()-1; i++) {
+            UserAdminBo bo = JSONObject.parseObject(String.valueOf(idList.get(i)),UserAdminBo.class);
+            longList.add(bo.getAdminId());
+        }
+
+        //批量增加所有运营审核的报名消息提醒
+        MsgAddVo msgVo = new MsgAddVo();
+        msgVo.setCreateId(user.getId());
+        msgVo.setMsgType(3);
+        msgVo.setMsg(NettyType.CANCEL_EXA.getMsg());
+        msgVo.setToId(longList);
+
+        //增加数据库
+        messageService.addAllMsg(msgVo);
 
     }
 
@@ -188,26 +195,46 @@ public class ExamineServiceImpl extends ServiceImpl<ExamineMapper, Examine> impl
             throw new ApplicationException(CodeType.SERVICE_ERROR, "通过取消报名审核失败");
         }
 
+        //修改报名表的状态
+        applyService.updateApplyCancel(0,ApplyId);
+
         //是否退款
         ExaApplyResultQuery query = new ExaApplyResultQuery();
         if (vo.getPayType() == 0) {
             //现结退款
             //获得token
-            String payToken = null;
+            String payToken;
             try {
-                payToken = httpUtils.getPayToken();
+                payToken = tokenData.getPayMapToken();
             } catch (Exception e) {
                 throw new ApplicationException(CodeType.SERVICE_ERROR,"获取token失败");
             }
             String tokenString = "Bearer " +payToken;
             //申请退款
-            ResultRefundQuery refund = httpUtils.refund(vo.getApplyNo(), vo.getAllPrice(), vo.getAllPrice(), tokenString);
-            if (refund.getError()) {
-                //退款失败
-                throw new ApplicationException(CodeType.SERVICE_ERROR,"退款失败");
+            if (vo.getPayInfo() == null) {
+                throw new ApplicationException(CodeType.SERVICE_ERROR, "没有支付记录");
             }
-            //退款成功
-            query.setType("退款成功");
+            //判断是什么支付
+            if (vo.getPayInfo() == 1) {
+                //支付宝支付
+                ResultRefundQuery aliRefund = httpUtils.aliRefund(vo.getApplyNo(), "取消报名", vo.getAllPrice(), tokenString);
+                if (aliRefund.getError()) {
+                    //退款失败
+                    throw new ApplicationException(CodeType.SERVICE_ERROR,"退款失败");
+                }
+                //退款成功
+                query.setType("退款成功");
+            }
+            if (vo.getPayInfo() == 0) {
+                //微信支付
+                ResultRefundQuery refund = httpUtils.refund(vo.getApplyNo(), vo.getAllPrice(), vo.getAllPrice(), tokenString);
+                if (refund.getError()) {
+                    //退款失败
+                    throw new ApplicationException(CodeType.SERVICE_ERROR,"退款失败");
+                }
+                //退款成功
+                query.setType("退款成功");
+            }
         }
         if (vo.getPayType() == 1) {
             query.setType("月结");
@@ -217,13 +244,14 @@ public class ExamineServiceImpl extends ServiceImpl<ExamineMapper, Examine> impl
         }
 
         //增加一条通过报名的消息提醒记录
-//        MsgVo msgVo = new MsgVo();
-//        msgVo.setCreateId(user.getId());
-//        msgVo.setMsgType(1);
-//        msgVo.setMsg(CANCEL_DO);
-//        msgVo.setToId(vo.getCreateUserId());
-//
-//        httpUtils.addMsg(msgVo);
+        MsgVo msgVo = new MsgVo();
+        msgVo.setCreateId(user.getId());
+        msgVo.setMsgType(1);
+        msgVo.setMsg(NettyType.AGGRE_CANCEL_EXA.getMsg());
+
+        msgVo.setToId(vo.getCreateUserId());
+
+        messageService.insertMsg(msgVo);
 
         //改变报名表
         applyService.cancelApply(ApplyId);
@@ -250,15 +278,20 @@ public class ExamineServiceImpl extends ServiceImpl<ExamineMapper, Examine> impl
             throw new ApplicationException(CodeType.SERVICE_ERROR, "不通过取消报名的审核记录-失败");
         }
 
+
+        //修改报名表的状态
+        applyService.updateApplyCancel(2,ApplyId);
+
         //增加一条不通过取消报名的消息提醒记录
-//        ApplySeacherVo vo = applyService.queryById(ApplyId);
-//        MsgVo msgVo = new MsgVo();
-//        msgVo.setCreateId(user.getId());
-//        msgVo.setMsgType(2);
-//        msgVo.setMsg(CANCEL_DO);
-//        msgVo.setToId(vo.getCreateUserId());
-//
-//        httpUtils.addMsg(msgVo);
+        ApplySeacherVo vo = applyService.queryById(ApplyId);
+        MsgVo msgVo = new MsgVo();
+        msgVo.setCreateId(user.getId());
+        msgVo.setMsgType(2);
+        msgVo.setMsg(NettyType.NOAGGRE_CANCEL_EXA.getMsg());
+
+        msgVo.setToId(vo.getCreateUserId());
+
+        messageService.insertMsg(msgVo);
 
         ExaApplyResultQuery query = new ExaApplyResultQuery();
         query.setType("ok");
@@ -293,21 +326,40 @@ public class ExamineServiceImpl extends ServiceImpl<ExamineMapper, Examine> impl
         if (vo.getPayType() == 0) {
             //现结退款
             //获得token
-            String payToken = null;
+            String payToken;
             try {
-                payToken = httpUtils.getPayToken();
+                payToken = tokenData.getPayMapToken();
             } catch (Exception e) {
                 throw new ApplicationException(CodeType.SERVICE_ERROR,"获取token失败");
             }
             String tokenString = "Bearer " +payToken;
-            //申请退款
-            ResultRefundQuery refund = httpUtils.refund(vo.getApplyNo(), vo.getAllPrice(), vo.getAllPrice(), tokenString);
-            if (refund.getError()) {
-                //退款失败
-                throw new ApplicationException(CodeType.SERVICE_ERROR,"退款失败");
+
+            if (vo.getPayInfo() == null) {
+                throw new ApplicationException(CodeType.SERVICE_ERROR, "没有支付记录");
             }
-            //退款成功
-            query.setType("退款成功");
+
+            if (vo.getPayInfo() == 1) {
+                //支付宝支付
+                ResultRefundQuery aliRefund = httpUtils.aliRefund(vo.getApplyNo(), "拒绝报名", vo.getAllPrice(), tokenString);
+                if (aliRefund.getError()) {
+                    //退款失败
+                    throw new ApplicationException(CodeType.SERVICE_ERROR,"退款失败");
+                }
+                //退款成功
+                query.setType("退款成功");
+            }
+
+            if (vo.getPayInfo() == 0) {
+                //微信支付
+                //申请退款
+                ResultRefundQuery refund = httpUtils.refund(vo.getApplyNo(), vo.getAllPrice(), vo.getAllPrice(), tokenString);
+                if (refund.getError()) {
+                    //退款失败
+                    throw new ApplicationException(CodeType.SERVICE_ERROR,"退款失败");
+                }
+                //退款成功
+                query.setType("退款成功");
+            }
         }
         if (vo.getPayType() == 1) {
             query.setType("月结");
@@ -317,16 +369,17 @@ public class ExamineServiceImpl extends ServiceImpl<ExamineMapper, Examine> impl
         }
 
         //增加一条不通过报名的消息提醒记录
-//        MsgVo msgVo = new MsgVo();
-//        msgVo.setCreateId(user.getId());
-//        msgVo.setMsgType(2);
-//        msgVo.setMsg(APPLY_DO);
-//        msgVo.setToId(vo.getCreateUserId());
-//
-//        httpUtils.addMsg(msgVo);
+        MsgVo msgVo = new MsgVo();
+        msgVo.setCreateId(user.getId());
+        msgVo.setMsgType(2);
+        msgVo.setMsg(NettyType.NOAGGRE_EXA.getMsg());
+
+        msgVo.setToId(vo.getCreateUserId());
+
+        messageService.insertMsg(msgVo);
 
         //同步报名表的审核状态
-        applyService.updateExamineStatus(ApplyId,2);
+        applyService.updateExamineStatus(ApplyId,2,0);
         return query;
     }
 
@@ -350,17 +403,18 @@ public class ExamineServiceImpl extends ServiceImpl<ExamineMapper, Examine> impl
 
         ApplySeacherVo query = applyService.queryById(ApplyId);
 
-        //增加一条通过报名的消息提醒记录
-//        MsgVo vo = new MsgVo();
-//        vo.setCreateId(user.getId());
-//        vo.setMsgType(1);
-//        vo.setMsg(APPLY_DO);
-//        vo.setToId(query.getCreateUserId());
+//        增加一条通过报名的消息提醒记录
+        MsgVo vo = new MsgVo();
+        vo.setCreateId(user.getId());
+        vo.setMsgType(1);
+        vo.setMsg(NettyType.AGGRE_EXA.getMsg());
+
+        vo.setToId(query.getCreateUserId());
 //
-//        httpUtils.addMsg(vo);
+        messageService.insertMsg(vo);
 
         //同步报名表的审核状态
-        applyService.updateExamineStatus(ApplyId,1);
+        applyService.updateExamineStatus(ApplyId,1,0);
     }
 
     /**
@@ -391,7 +445,14 @@ public class ExamineServiceImpl extends ServiceImpl<ExamineMapper, Examine> impl
     @Override
     public Page<ExamineUpdateInfoVo> listUpdateInfo(Page<ExamineUpdateInfoVo> vo) {
 
-        Page<ExamineUpdateInfoVo> list = baseMapper.listUpdateInfo(vo);
+        UserLoginQuery user = localUser.getUser("用户信息");
+        Long id = null;
+        if ("同行".equals(user.getRoleName())) {
+            //查看自己的数据
+            id = user.getId();
+        }
+
+        Page<ExamineUpdateInfoVo> list = baseMapper.listUpdateInfo(vo,id);
 
         List<ExamineUpdateInfoVo> voList = list.getRecords();
 

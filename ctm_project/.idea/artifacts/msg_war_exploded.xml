@@ -36,6 +36,7 @@
           <element id="library" level="project" name="Maven: org.springframework:spring-core:5.1.9.RELEASE" />
           <element id="library" level="project" name="Maven: org.springframework:spring-jcl:5.1.9.RELEASE" />
           <element id="library" level="project" name="Maven: com.microsoft.sqlserver:mssql-jdbc:6.4.0.jre8" />
+          <element id="library" level="project" name="Maven: io.netty:netty-all:4.1.33.Final" />
           <element id="archive" name="common-0.0.1-SNAPSHOT.jar">
             <element id="module-output" name="common" />
           </element>
@@ -83,6 +84,7 @@
           <element id="library" level="project" name="Maven: com.alibaba:fastjson:1.2.58" />
           <element id="library" level="project" name="Maven: org.apache.httpcomponents:httpclient:4.5.9" />
           <element id="library" level="project" name="Maven: org.apache.httpcomponents:httpcore:4.4.12" />
+          <element id="library" level="project" name="Maven: org.apache.httpcomponents:httpmime:4.5.9" />
           <element id="library" level="project" name="Maven: org.springframework.boot:spring-boot-starter:2.1.8.RELEASE" />
           <element id="library" level="project" name="Maven: org.springframework.boot:spring-boot:2.1.8.RELEASE" />
           <element id="library" level="project" name="Maven: org.springframework.boot:spring-boot-autoconfigure:2.1.8.RELEASE" />

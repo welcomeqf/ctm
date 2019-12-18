@@ -36,7 +36,8 @@ public class GuiderController {
             @ApiImplicitParam(name = "current", value = "当前页", required = true, dataType = "Long", paramType = "path"),
             @ApiImplicitParam(name = "size", value = "页面大小", required = true, dataType = "Long", paramType = "path"),
             @ApiImplicitParam(name = "outDate", value = "出发时间", required = false, dataType = "String", paramType = "path"),
-            @ApiImplicitParam(name = "lineName", value = "线路名", required = false, dataType = "String", paramType = "path")
+            @ApiImplicitParam(name = "lineName", value = "线路名", required = false, dataType = "String", paramType = "path"),
+            @ApiImplicitParam(name = "region", value = "区域", required = false, dataType = "String", paramType = "path")
     })
     @GetMapping("/guiderIndex")
     @CrossOrigin
@@ -44,35 +45,16 @@ public class GuiderController {
     public Page<GuiderVo> guiderIndex(@RequestParam("current") Integer current,
                                       @RequestParam("size") Integer size,
                                       @RequestParam("outDate") String outDate,
-                                      @RequestParam("lineName") String lineName){
+                                      @RequestParam("lineName") String lineName,
+                                      @RequestParam("region") String region){
         if(current == null || size == null){
             throw new ApplicationException(CodeType.PARAM_ERROR,"参数不能为空");
         }
         Page<GuiderVo> page = new Page<>(current,size);
-        return guiderService.guiderIndex(page,outDate,lineName);
+        return guiderService.guiderIndex(page,outDate,lineName,region);
     }
 
 
-    @ApiOperation(value = "导游选人时看到的报名表",notes = "导游选人时看到的报名表")
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "current", value = "当前页", required = true, dataType = "int", paramType = "path"),
-            @ApiImplicitParam(name = "size", value = "每页条数", required = true, dataType = "int", paramType = "path"),
-            @ApiImplicitParam(name = "lineName", value = "线路名", required = true, dataType = "String", paramType = "path"),
-            @ApiImplicitParam(name = "outDate", value = "日期", required = true, dataType = "String", paramType = "path"),
-            @ApiImplicitParam(name = "region", value = "区域", required = false, dataType = "String", paramType = "path")
-    })
-    @GetMapping("/applyIndex")
-    @CrossOrigin
-    @CheckToken
-    public Page<ApplyVo> applyIndex(@RequestParam("lineName") String lineName,
-                                    @RequestParam("outDate") String outDate,
-                                    @RequestParam("current") Integer current,
-                                    @RequestParam("size") Integer size,
-                                    @RequestParam("region") String region){
-        if(StringUtils.isBlank(lineName) || current == null || size == null || StringUtils.isBlank(outDate)){
-            throw new ApplicationException(CodeType.PARAM_ERROR,"参数不能为空");
-        }
-        return guiderService.applyIndex(current,size,lineName,outDate,region);
-    }
+
 
 }

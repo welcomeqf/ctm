@@ -44,17 +44,7 @@ public class IncomeVo {
     private Integer ChildNumber;
 
     /**
-     * 联系人列表
-     */
-    private List<OrderTypeBo> ContactNames;
-
-    /**
-     * 未付人数
-     */
-    private Integer Unpaid;
-
-    /**
-     * 应收金额
+     * 面收金额
      */
     private Double SumInCome;
 
@@ -64,5 +54,9 @@ public class IncomeVo {
      * false--本公司车辆   true--外部车辆
      */
     private Boolean CarType;
+
+    private Double allPrice;
+
+    private Double monthPrice;
 
 }

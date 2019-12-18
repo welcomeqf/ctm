@@ -40,9 +40,9 @@ public class ExamineResultQuery {
     private Double AllOutPrice;
 
     /**
-     * 应得收入（应收金额-总支出费用）
+     * 总收入
      */
-    private Double InPrice;
+    private Double AllInPrice;
 
     /**
      * 实际收入（实收金额-总支出费用）

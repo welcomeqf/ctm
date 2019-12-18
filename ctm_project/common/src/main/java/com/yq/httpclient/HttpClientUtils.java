@@ -1,17 +1,25 @@
 package com.yq.httpclient;
 
+import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.*;
 import org.apache.http.client.utils.URIBuilder;
+import org.apache.http.entity.ContentType;
 import org.apache.http.entity.StringEntity;
+import org.apache.http.entity.mime.MultipartEntityBuilder;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
+import org.apache.poi.ss.formula.functions.T;
 import org.springframework.stereotype.Component;
+import org.springframework.web.multipart.MultipartFile;
+import sun.text.resources.cldr.te.FormatData_te;
 
-import java.io.IOException;
+import java.io.*;
+import java.nio.charset.Charset;
 import java.util.Map;
 
 /**
@@ -93,7 +101,6 @@ public class HttpClientUtils {
 
         httpPost.setHeader("Accept", "application/json");
         httpPost.setHeader("Content-Type", "application/json");
-//        httpPost.setHeader("token","lpck");
         String charSet = "UTF-8";
         StringEntity entity = new StringEntity(jsonInfo, charSet);
         httpPost.setEntity(entity);
@@ -242,6 +249,7 @@ public class HttpClientUtils {
 
                     } else {
                         res.setCode(response.getStatusLine().getStatusCode());
+                        res.setBody("调用错误");
                     }
                     return res;
                 }
@@ -297,5 +305,72 @@ public class HttpClientUtils {
         // 返回结果
         return httpResult;
     }
+
+
+    /**
+     * 转file
+     * @param ins
+     * @param file
+     */
+    public static void inputStreamToFile(InputStream ins, File file) {
+        try {
+            OutputStream os = new FileOutputStream(file);
+            int bytesRead = 0;
+            byte[] buffer = new byte[8192];
+            while ((bytesRead = ins.read(buffer, 0, 8192)) != -1) {
+                os.write(buffer, 0, bytesRead);
+            }
+            os.close();
+            ins.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+
+    /**
+     * 带token请求Post
+     * 文件上传
+     * 调文件服务器的httpClient方法
+     * @param file
+     * @param token
+     * @param url
+     * @return
+     * @throws Exception
+     */
+    public HttpResult filePost(MultipartFile file, String token, String url) throws Exception {
+        //创建httpPost
+        CloseableHttpClient httpClient = HttpClients.createDefault();
+        HttpPost httpPost = new HttpPost(url);
+
+        //装token
+        httpPost.addHeader("Authorization",token);
+
+        //把文件加到HTTP的post请求中
+        MultipartEntityBuilder builder = MultipartEntityBuilder.create();
+        builder.addBinaryBody("file",
+              file.getInputStream(),
+              ContentType.APPLICATION_OCTET_STREAM,
+              file.getOriginalFilename());
+
+        HttpEntity entity = builder.build();
+        httpPost.setEntity(entity);
+        HttpResponse response = httpClient.execute(httpPost);
+        /**请求发送成功，并得到响应**/
+        HttpResult httpResult = new HttpResult();
+        // 解析数据封装HttpResult
+        String charSet = "UTF-8";
+        if (response.getEntity() != null) {
+            httpResult.setCode(response.getStatusLine().getStatusCode());
+            httpResult.setBody(EntityUtils.toString(response.getEntity(),charSet));
+
+        } else {
+            httpResult.setCode(response.getStatusLine().getStatusCode());
+        }
+
+        // 返回结果
+        return httpResult;
+    }
+
 
 }

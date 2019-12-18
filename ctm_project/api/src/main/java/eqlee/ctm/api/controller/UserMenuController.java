@@ -71,7 +71,7 @@ public class UserMenuController {
         String url = "http://" + ip +":" + port + "/" + path + "/v1/app/menu/queryMenu?Id=" +Id;
 
         //获得token
-        String userToken = tokenData.getUserToken();
+        String userToken = tokenData.getMapToken();
         String token = "Bearer " + userToken;
 
         HttpResult httpResult = apiService.get(url,token);
@@ -94,7 +94,7 @@ public class UserMenuController {
         String url = "http://" + ip +":" + port + "/" + path + "/v1/app/menu/queryAll?roleId=" +roleId;
 
         //获得token
-        String userToken = tokenData.getUserToken();
+        String userToken = tokenData.getMapToken();
         String token = "Bearer " + userToken;
 
         HttpResult httpResult = apiService.get(url,token);
@@ -111,9 +111,7 @@ public class UserMenuController {
     @GetMapping("/query")
     @CrossOrigin
     @CheckToken
-    @IgnoreResponseAdvice
     public Object queryAllMenu(){
-
         UserLoginQuery users = localUser.getUser("用户信息");
         return users.getMenuList();
 
@@ -129,7 +127,7 @@ public class UserMenuController {
         String url = "http://" + ip +":" + port + "/" + path + "/v1/app/menu/queryAllParent";
 
         //获得token
-        String userToken = tokenData.getUserToken();
+        String userToken = tokenData.getMapToken();
         String token = "Bearer " + userToken;
 
         HttpResult httpResult = apiService.get(url,token);
@@ -171,7 +169,7 @@ public class UserMenuController {
 
         String s = JSONObject.toJSONString(vo);
         //获得token
-        String userToken = tokenData.getUserToken();
+        String userToken = tokenData.getMapToken();
         String token = "Bearer " + userToken;
 
         HttpResult httpResult = apiService.post(url,s,token);

@@ -52,6 +52,16 @@ public class Number extends Model<Number> {
     private Integer TreeChildNumber;
 
     /**
+     * 总金额
+     */
+    private Double AllPrice;
+
+    /**
+     * 月结金额
+     */
+    private Double MonthPrice;
+
+    /**
      * 未付款人数
      */
     private Integer UnpaidNumber;
