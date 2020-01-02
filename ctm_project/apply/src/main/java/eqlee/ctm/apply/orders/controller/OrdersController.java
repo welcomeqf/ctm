@@ -75,8 +75,7 @@ public class OrdersController {
     @CrossOrigin
     @CheckToken
     public ResultVo updateApply(@RequestBody OrderWithVo vo){
-        if(vo.getId() == null || vo.getOrderIndexVos() == null || StringUtils.isBlank(vo.getOutDate())
-        || StringUtils.isBlank(vo.getLineName())){
+        if(vo.getId() == null || vo.getOrderIndexVos() == null || StringUtils.isBlank(vo.getOutDate())){
             throw new ApplicationException(CodeType.PARAM_ERROR,"参数不能为空");
         }
         ordersService.updateApply(vo.getOrderIndexVos(),vo.getId(),vo.getLineName(),vo.getOutDate());
@@ -96,10 +95,10 @@ public class OrdersController {
     @CrossOrigin
     @CheckToken
     public ResultVo saveCar(@RequestBody CarBo bo){
-        if(StringUtils.isBlank(bo.getLineName()) || StringUtils.isBlank(bo.getOutDate()) || StringUtils.isBlank(bo.getCarNumber())){
+        if(StringUtils.isBlank(bo.getOutDate()) || StringUtils.isBlank(bo.getCarNumber())){
             throw new ApplicationException(CodeType.PARAM_ERROR,"参数不能为空");
         }
-        ordersService.save(bo.getLineName(),bo.getOutDate(),bo.getCarNumber());
+        ordersService.save(bo.getOutDate(),bo.getCarNumber());
         ResultVo resultVo = new ResultVo();
         resultVo.setResult("ok");
         return resultVo;
@@ -133,7 +132,7 @@ public class OrdersController {
     @CrossOrigin
     @CheckToken
     public ResultVo sureChoised(@RequestBody ChoisedBo bo){
-        if(bo.getType() == null || bo.getOrderId() == null || StringUtils.isBlank(bo.getLineName()) || StringUtils.isBlank(bo.getOutDate())){
+        if(bo.getType() == null || bo.getOrderId() == null || StringUtils.isBlank(bo.getOutDate())){
             throw new ApplicationException(CodeType.PARAM_ERROR,"参数不能为空");
         }
 
@@ -181,19 +180,15 @@ public class OrdersController {
 
 
     @ApiOperation(value = "收入统计",notes = "收入统计")
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "LineName", value = "线路名", required = true, dataType = "String", paramType = "path"),
-            @ApiImplicitParam(name = "OutDate", value = "出发日期", required = true, dataType = "String", paramType = "path")
-    })
+    @ApiImplicitParam(name = "OutDate", value = "出发日期", required = true, dataType = "String", paramType = "path")
     @GetMapping("/incomeCount")
     @CrossOrigin
     @CheckToken
-    public IncomeVo IncomeCount(@RequestParam("LineName") String LineName,
-                                @RequestParam("OutDate") String OutDate){
-        if(StringUtils.isBlank(LineName)||StringUtils.isBlank(OutDate)){
+    public IncomeVo IncomeCount(@RequestParam("OutDate") String outDate){
+        if(StringUtils.isBlank(outDate)){
             throw new ApplicationException(CodeType.PARAM_ERROR,"参数不能为空");
         }
-        return ordersService.IncomeCount(LineName,OutDate);
+        return ordersService.IncomeCount(outDate);
     }
 
 
@@ -249,10 +244,19 @@ public class OrdersController {
     public IdBo queryOrderId (@RequestParam("outDate") String outDate,
                               @RequestParam("lineName") String lineName) {
 
-        if (StringUtils.isBlank(outDate) || StringUtils.isBlank(lineName)) {
+        if (StringUtils.isBlank(outDate)) {
             throw new ApplicationException(CodeType.PARAM_ERROR, "参数不能为空");
         }
 
         return ordersService.queryOrderId(outDate,lineName);
+    }
+
+
+    @ApiOperation(value = "查询ID",notes = "查询ID")
+    @GetMapping("/queryId")
+    @CrossOrigin
+    @CheckToken
+    public IdBo queryId (@RequestParam("outDate") String outDate) {
+        return ordersService.queryId(outDate);
     }
 }

@@ -90,4 +90,14 @@ public class ApplyCompanyQuery {
     private String Place;
 
     private String CName;
+
+    /**
+     * 0--现结  1--月结  2--面收
+     */
+    private Integer PayType;
+
+    /**
+     * 0-正常报名  1-补录 2-包团
+     */
+    private Integer type;
 }

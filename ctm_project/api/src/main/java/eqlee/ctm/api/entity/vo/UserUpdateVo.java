@@ -32,4 +32,9 @@ public class UserUpdateVo {
      * 是否停用（false--正常  true--停用）
      */
     private Boolean stopped;
+
+    /**
+     * 城市
+     */
+    private String city;
 }

@@ -10,6 +10,10 @@ import lombok.Data;
 @Data
 public class ApplyCompanyBo {
 
+   private String companyNo;
+
+   private String companyName;
+
    private String endTime;
 
    private Double sxPrice;

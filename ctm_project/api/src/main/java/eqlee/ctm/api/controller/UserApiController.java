@@ -98,7 +98,7 @@ public class UserApiController {
     @CrossOrigin
     @IgnoreResponseAdvice
     public Object login(@RequestBody UserLoginVo userLoginVo) throws Exception {
-        String url = "http://" + ip + ":" + port +  "/" + path + "/v1/app/user/login?userName=" + userLoginVo.getUserName() + "&password=" + userLoginVo.getPassword();
+        String url = "http://" + ip + ":" + port + "/" + path + "/v1/app/user/login?userName=" + userLoginVo.getUserName() + "&password=" + userLoginVo.getPassword();
 
         //获得token
         String userToken = tokenData.getMapToken();
@@ -118,12 +118,12 @@ public class UserApiController {
 
     @ApiOperation(value = "注销", notes = "注销")
     @ApiImplicitParam(name = "userName", value = "用户名", required = true, dataType = "String", paramType = "path")
-    @DeleteMapping("/deleteUser/{userName}")
+    @GetMapping("/deleteUser")
     @CrossOrigin
     @CheckToken
     @IgnoreResponseAdvice
-    public Object deleteUser(@PathVariable("userName") String userName) throws Exception{
-        String url = "http://" + ip +":" + port + "/" + path + "/v1/app/user/deleteUser/" +userName;
+    public Object deleteUser(@RequestParam("id") String id) throws Exception{
+        String url = "http://" + ip +":" + port + "/" + path + "/v1/app/user/deleteUser/" +id;
 
         //获得token
         String userToken = tokenData.getMapToken();
@@ -228,6 +228,8 @@ public class UserApiController {
         query.setPassword(userVo.getPassword());
         query.setPhone(userVo.getPhone());
         query.setUserName(userVo.getUserName());
+        query.setCity(userVo.getCity());
+
 
         String url = "http://" + ip +":" + port + "/" + path + "/v1/app/user/downRegister";
 
@@ -370,6 +372,7 @@ public class UserApiController {
         infoVo.setNewPassword(vo.getNewPassword());
         infoVo.setStopped(vo.getStopped());
         infoVo.setTel(vo.getTel());
+        infoVo.setCity(vo.getCity());
         String url = "http://" + ip +":" + port + "/" + path + "/v1/app/user/updateUser";
 
         String s = JSONObject.toJSONString(infoVo);

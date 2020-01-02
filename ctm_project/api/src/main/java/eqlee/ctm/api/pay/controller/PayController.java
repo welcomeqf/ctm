@@ -19,6 +19,7 @@ import eqlee.ctm.api.code.service.IPayInfoService;
 import eqlee.ctm.api.pay.entity.Pay;
 import eqlee.ctm.api.pay.entity.PayResult;
 import eqlee.ctm.api.pay.entity.PayToken;
+import eqlee.ctm.api.pay.entity.bo.PayInfoBo;
 import eqlee.ctm.api.pay.entity.query.ResultQuery;
 import eqlee.ctm.api.pay.entity.vo.PayTokenVo;
 import eqlee.ctm.api.pay.entity.vo.ResultTokenVo;
@@ -113,10 +114,19 @@ public class PayController {
             pay.setPayStatu(1);
             pay.setPayDate(LocalDateTime.now());
             pay.setThirdPartyNumber(vo.getThirdPayOrderId());
+            pay.setRemark(vo.getMessage());
             pay.setPayType(0);
             PayResult result = payService.insertPayInfo(pay);
             //修改报名表支付状态
             payService.updateApplyPayStatus(vo.getPayOrderSerialNumber(),0);
+            pay.setId(idGenerator.getNumberId());
+            pay.setApplyNo(vo.getPayOrderSerialNumber());
+            pay.setPayStatu(2);
+            pay.setPayDate(LocalDateTime.now());
+            pay.setThirdPartyNumber(vo.getThirdPayOrderId());
+            pay.setRemark(vo.getMessage());
+            pay.setPayType(0);
+            payService.insertPayInfo(pay);
             return Result.SUCCESS(result);
         }
         //支付失败
@@ -142,6 +152,7 @@ public class PayController {
             pay.setPayDate(LocalDateTime.now());
             pay.setThirdPartyNumber(vo.getThirdPayOrderId());
             pay.setPayType(1);
+            pay.setRemark(vo.getMessage());
             PayResult result = payService.insertPayInfo(pay);
             //修改报名表支付状态
             payService.updateApplyPayStatus(vo.getPayOrderSerialNumber(),1);
@@ -149,6 +160,14 @@ public class PayController {
         }
         //支付失败
         PayResult applyInfo = payService.deleteApplyInfo(vo.getPayOrderSerialNumber());
+        pay.setId(idGenerator.getNumberId());
+        pay.setApplyNo(vo.getPayOrderSerialNumber());
+        pay.setPayStatu(2);
+        pay.setPayDate(LocalDateTime.now());
+        pay.setThirdPartyNumber(vo.getThirdPayOrderId());
+        pay.setPayType(1);
+        pay.setRemark(vo.getMessage());
+        PayResult result = payService.insertPayInfo(pay);
         return Result.SUCCESS(applyInfo);
     }
 
@@ -280,5 +299,24 @@ public class PayController {
 
         return JSONObject.parse(httpResult.getBody());
     }
+
+
+
+    @GetMapping("/insertPayInfo")
+    @IgnoreResponseAdvice
+    @CrossOrigin
+    @CheckToken
+    public void insertPayInfo (@RequestBody PayInfoBo vo){
+        Pay pay = new Pay();
+        pay.setId(idGenerator.getNumberId());
+        pay.setApplyNo(vo.getPayOrderSerialNumber());
+        pay.setPayStatu(vo.getPayStatus());
+        pay.setPayDate(LocalDateTime.now());
+        pay.setThirdPartyNumber(vo.getThirdPayOrderId());
+        pay.setRemark(vo.getMessage());
+        pay.setPayType(vo.getPayType());
+        payService.insertPayInfo(pay);
+    }
+
 
 }

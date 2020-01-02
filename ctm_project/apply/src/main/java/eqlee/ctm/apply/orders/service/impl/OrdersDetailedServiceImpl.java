@@ -9,6 +9,8 @@ import com.yq.jwt.contain.LocalUser;
 import com.yq.jwt.entity.UserLoginQuery;
 import com.yq.utils.DateUtil;
 import com.yq.utils.StringUtils;
+import eqlee.ctm.apply.guider.entity.vo.GuiderIdParamVo;
+import eqlee.ctm.apply.guider.entity.vo.GuiderVo;
 import eqlee.ctm.apply.line.entity.vo.ResultVo;
 import eqlee.ctm.apply.orders.dao.OrderDetailedMapper;
 import eqlee.ctm.apply.orders.entity.OrderDetailed;
@@ -96,9 +98,25 @@ public class OrdersDetailedServiceImpl extends ServiceImpl<OrderDetailedMapper, 
             region = null;
         }
 
-        return baseMapper.pageOrder(page,start,end,lineName,region,users.getId());
+        Long id = null;
+        if ("运营人员".equals(users.getRoleName())) {
+            id = null;
+        } else {
+            id = users.getId();
+        }
+
+        return baseMapper.pageOrder(page,start,end,lineName,region,id);
     }
 
+    /**
+     *
+     * @param id
+     * @return
+     */
+    @Override
+    public OrderDetailed queryById(Long id) {
+        return baseMapper.selectById(id);
+    }
 
 
 }

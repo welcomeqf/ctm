@@ -8,7 +8,10 @@
         <bind name="_companyName" value="'%' + companyName + '%'"/>
         select Id as 'id',CompanyName as 'companyName' ,convert(varchar,StartDate,120) as 'startDate',
         convert(varchar,endDate,120) as 'endDate',PayMethod as 'payMethod',Stopped as 'stopped',CompanyNo as 'companyNo',
-        CompanyPic as 'companyPic',SxPrice as 'sxPrice' from Company where CompanyName like #{_companyName}
+        CompanyPic as 'companyPic',SxPrice as 'sxPrice',
+        ChargeName as 'chargeName',FinanceTel as 'financeTel',Business as 'business',
+        Licence as 'licence',Insurance as 'insurance',BankCard as 'bankCard',Address as 'address',Status as 'status'
+        from Company where CompanyName like #{_companyName}
     </select>
 
 

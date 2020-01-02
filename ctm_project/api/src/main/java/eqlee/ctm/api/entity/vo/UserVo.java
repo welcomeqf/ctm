@@ -24,4 +24,6 @@ public class UserVo {
 
     private String roleName;
 
+    private String city;
+
 }

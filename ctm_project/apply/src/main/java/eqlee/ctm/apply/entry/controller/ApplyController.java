@@ -11,6 +11,7 @@ import com.yq.vilidata.TimeData;
 import com.yq.vilidata.query.TimeQuery;
 import eqlee.ctm.apply.entry.entity.Apply;
 import eqlee.ctm.apply.entry.entity.bo.ApplyCountBo;
+import eqlee.ctm.apply.entry.entity.bo.ApplyDoExaInfo;
 import eqlee.ctm.apply.entry.entity.query.*;
 import eqlee.ctm.apply.entry.entity.vo.ApplySeacherVo;
 import eqlee.ctm.apply.entry.entity.vo.ApplyVo;
@@ -70,7 +71,7 @@ public class ApplyController {
         if (StringUtils.isBlank(applyVo.getOutDate()) || StringUtils.isBlank(applyVo.getContactName()) ||
             StringUtils.isBlank(applyVo.getContactTel()) || StringUtils.isBlank(applyVo.getPlace()) ||
             StringUtils.isBlank(applyVo.getLineName()) || applyVo.getAdultNumber() == null ||
-            applyVo.getBabyNumber() == null || applyVo.getOldNumber() == null ||
+            applyVo.getBabyNumber() == null || applyVo.getOldNumber() == null || applyVo.getType() == null ||
             applyVo.getChildNumber() == null || StringUtils.isBlank(applyVo.getPayType()) || applyVo.getMarketAllPrice() == null
         || applyVo.getAdultPrice() == null || applyVo.getBabyPrice() == null || applyVo.getChildPrice() == null || applyVo.getOldPrice() == null) {
             throw new ApplicationException(CodeType.PARAM_ERROR,"申请报名表参数不能为空");
@@ -80,8 +81,12 @@ public class ApplyController {
             throw new ApplicationException(CodeType.PARAM_ERROR,"人数个数不能为负数");
         }
 
-        if (StringUtils.isBlank(applyVo.getType())) {
-            //报名
+        if (applyVo.getType() != 0 && applyVo.getType() != 1 && applyVo.getType() != 2) {
+            throw new ApplicationException(CodeType.PARAM_ERROR, "传入type有误");
+        }
+
+        if (applyVo.getType() == 0 || applyVo.getType() == 2) {
+            //报名或包团
             return applyService.insertApply(applyVo);
         }
 
@@ -297,39 +302,35 @@ public class ApplyController {
           @ApiImplicitParam(name = "size", value = "每页显示的条数", required = true, dataType = "int", paramType = "path"),
           @ApiImplicitParam(name = "lineName", value = "线路名称", required = false, dataType = "String", paramType = "path"),
           @ApiImplicitParam(name = "startDate", value = "开始日期", required = false, dataType = "String", paramType = "path"),
-          @ApiImplicitParam(name = "endDate", value = "结束日期", required = false, dataType = "String", paramType = "path"),
-          @ApiImplicitParam(name = "payType", value = "(0--现结  1--月结 2--面收)", required = true, dataType = "int", paramType = "path")
+          @ApiImplicitParam(name = "endDate", value = "结束日期", required = false, dataType = "String", paramType = "path")
     })
     @GetMapping("/pageResultCountList")
     @CrossOrigin
     @CheckToken
-    public Map<String,Object> pageResultCountList(@RequestParam("current") Integer current, @RequestParam("size") Integer size,
-                                   @RequestParam("lineName") String lineName, @RequestParam("payType") Integer payType,
-                                   @RequestParam("startDate") String startDate, @RequestParam("endDate") String endDate,
-                                   @RequestParam("companyId") Long companyId) {
-        if (current == null || size == null || payType == null) {
+    public Map<String,Object> pageResultCountList(@RequestParam("current") Integer current,
+                                                  @RequestParam("size") Integer size,
+                                                  @RequestParam("lineName") String lineName,
+                                                  @RequestParam("startDate") String startDate,
+                                                  @RequestParam("endDate") String endDate,
+                                                  @RequestParam("companyId") Long companyId) {
+        if (current == null || size == null) {
             throw new ApplicationException(CodeType.PARAM_ERROR);
-        }
-
-        if (payType != 0 && payType != 1 && payType != 2) {
-            throw new ApplicationException(CodeType.PARAM_ERROR, "传入的payType有误");
         }
 
         UserLoginQuery user = localUser.getUser("用户信息");
         Page<ApplyResultCountQuery> page = new Page<>(current,size);
 
-        TimeQuery query = TimeData.getParam(startDate, endDate);
 
         String admin = "运营人员";
         HashMap<String,Object> map = new HashMap<>();
         if (admin.equals(user.getRoleName())) {
-            Page<ApplyResultCountQuery> data = applyService.pageResultAdminCountList(page, payType, lineName, startDate, endDate, companyId);
+            Page<ApplyResultCountQuery> data = applyService.pageResultAdminCountList(page, lineName, startDate, endDate, companyId);
             map.put("data",data);
             map.put("count",null);
             return map;
         }
         //得到分页的具体数据
-        Page<ApplyResultCountQuery> data = applyService.pageResult2CountList(page, payType, lineName, query.getStartTime(), query.getEndTime());
+        Page<ApplyResultCountQuery> data = applyService.pageResult2CountList(page, lineName, startDate, endDate);
         //查询统计的数据
         ApplyCountBo applyCountBo = applyService.queryApplyCount();
         List<ApplyCountBo> list = new ArrayList<>();
@@ -351,6 +352,20 @@ public class ApplyController {
             throw new ApplicationException(CodeType.PARAM_ERROR,"参数不能为空");
         }
         return applyService.queryPayInfo(applyNo);
+    }
+
+
+    @ApiOperation(value = "报名审核的详情", notes = "报名审核的详情")
+    @ApiImplicitParam(name = "applyNo", value = "报名单号", required = true, dataType = "String", paramType = "path")
+    @GetMapping("/queryApplyDoExaInfo")
+    @CrossOrigin
+    @CheckToken
+    public ApplyDoExaInfo queryApplyDoExaInfo(@RequestParam("applyNo") String applyNo) {
+
+        if (StringUtils.isBlank(applyNo)) {
+            throw new ApplicationException(CodeType.PARAM_ERROR,"参数不能为空");
+        }
+        return applyService.queryApplyDoExaInfo(applyNo);
     }
 
 }

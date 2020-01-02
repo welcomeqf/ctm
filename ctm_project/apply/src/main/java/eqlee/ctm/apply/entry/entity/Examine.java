@@ -67,6 +67,11 @@ public class Examine extends Model<Examine> {
      */
     private LocalDateTime UpdateDate;
 
+    /**
+     * 审核备注
+     */
+    private String ExaRemark;
+
     @Override
     protected Serializable pkVal() {
         return this.Id;

@@ -7,25 +7,28 @@
     <insert id="batchInsertorderDetailed" parameterType="eqlee.ctm.apply.orders.entity.bo.OrderDetailedBo">
         insert into OrderDetailed(Id,OrderId,ContactName,ContactTel,Place,AdultNumber,BabyNumber,
         OldNumber,ChildNumber,AllNumber,Price,CreateUserId,PayType,AccountName,CompanyName,MsPrice,MonthPrice,
-        CompanyUserName,CompanyUserTel)
+        CompanyUserName,CompanyUserTel,LineName,ApplyRemark,Types)
         <foreach collection="list" item="item" index="index" separator="union all">
             select #{item.Id},#{item.OrderId},#{item.ContactName},#{item.ContactTel},#{item.Place},
             #{item.AdultNumber},#{item.BabyNumber},#{item.OldNumber},#{item.ChildNumber},
             #{item.AllNumber},#{item.Price},#{item.CreateUserId},#{item.PayType},#{item.AccountName},#{item.CompanyName}
-            ,#{item.MsPrice},#{item.MonthPrice},#{item.CompanyUserName},#{item.CompanyUserTel}
+            ,#{item.MsPrice},#{item.MonthPrice},#{item.CompanyUserName},#{item.CompanyUserTel},#{item.LineName},#{item.ApplyRemark}
+            ,#{item.Types}
         </foreach>
     </insert>
 
 
     <select id="pageOrderDetailed" resultType="eqlee.ctm.apply.orders.entity.query.OrderDetailedQuery">
-        select Id as 'OrderId',ContactName,ContactTel,Place,AllNumber,PayType
-        ,AdultNumber,BabyNumber,OldNumber,ChildNumber,isnull(MsPrice,0)MsPrice
-        from OrderDetailed
+        select b.Id as 'OrderId',b.ContactName,b.ContactTel,b.Place,b.AllNumber,b.PayType
+        ,b.AdultNumber,b.BabyNumber,b.OldNumber,b.ChildNumber,isnull(b.MsPrice,0)MsPrice
+        ,a.OutDate as 'outDate',b.LineName as 'lineName',b.CompanyName as 'companyName',b.Price as 'allPrice'
+        ,b.ApplyRemark as 'applyRemark',a.GuideName as 'guideName',b.Types as 'type'
+        from Orders a join OrderDetailed b on a.Id = b.OrderId
         <where>
             1 = 1
-            and OrderId = #{id}
+            and a.Id = #{id}
             <if test="payType != null">
-                and PayType = #{payType}
+                and b.PayType = #{payType}
             </if>
         </where>
     </select>
@@ -33,11 +36,13 @@
     <select id="pageOrder" resultType="eqlee.ctm.apply.orders.entity.bo.OrderBo">
         select max(a.Id)id,max(a.OrderNo)orderNo,max(convert(varchar(20),a.OutDate,23))outDate,max(a.LineName)lineName,max(a.Region)region,sum(isnull(b.MsPrice,0))msPrice,
        sum(b.AdultNumber)adultNumber,sum(b.BabyNumber)babyNumber,sum(b.OldNumber)oldNumber,sum(b.ChildNumber)childNumber,
-       sum(b.AllNumber)allNumber
+       sum(b.AllNumber)allNumber,max(a.GuideName)guideName,max(a.CarNumber)carNumber
        from Orders a join OrderDetailed b on a.Id = b.OrderId
        <where>
            1 = 1
-           and a.CreateUserId = #{id}
+           <if test="id != null">
+               and a.CreateUserId = #{id}
+           </if>
            <if test="start != null">
               and a.OutDate between #{start} and #{end}
            </if>

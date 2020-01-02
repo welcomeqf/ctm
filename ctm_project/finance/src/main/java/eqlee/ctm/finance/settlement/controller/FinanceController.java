@@ -7,6 +7,7 @@ import com.yq.jwt.islogin.CheckToken;
 import com.yq.utils.StringUtils;
 import eqlee.ctm.finance.settlement.entity.bo.FinanceCompanyBo;
 import eqlee.ctm.finance.settlement.entity.bo.FinanceCompanyInfoBo;
+import eqlee.ctm.finance.settlement.entity.bo.ResultBo;
 import eqlee.ctm.finance.settlement.entity.query.*;
 import eqlee.ctm.finance.settlement.entity.vo.*;
 import eqlee.ctm.finance.settlement.service.IInFinanceService;
@@ -48,16 +49,8 @@ public class FinanceController {
             @ApiImplicitParam(name = "treeBabyNumber", value = "实到幼儿人数", required = true, dataType = "int", paramType = "path"),
             @ApiImplicitParam(name = "treeOldNumber", value = "实到老人人数", required = true, dataType = "int", paramType = "path"),
             @ApiImplicitParam(name = "treeChildNumber", value = "实到小孩人数", required = true, dataType = "int", paramType = "path"),
-            @ApiImplicitParam(name = "gaiMoney", value = "应收金额", required = true, dataType = "double", paramType = "path"),
-            @ApiImplicitParam(name = "otherInPrice", value = "其他收入", required = true, dataType = "list", paramType = "path"),
-            @ApiImplicitParam(name = "ticketName", value = "门票名", required = true, dataType = "String", paramType = "path"),
-            @ApiImplicitParam(name = "ticketPrice", value = "门票费用", required = true, dataType = "double", paramType = "path"),
-            @ApiImplicitParam(name = "lunchPrice", value = "午餐费用", required = true, dataType = "double", paramType = "path"),
-            @ApiImplicitParam(name = "parkingRatePrice", value = "停车费", required = true, dataType = "double", paramType = "path"),
-            @ApiImplicitParam(name = "rentCarPrice", value = "租车费用", required = true, dataType = "double", paramType = "path"),
-            @ApiImplicitParam(name = "guideSubsidy", value = "导游补助", required = true, dataType = "double", paramType = "path"),
-            @ApiImplicitParam(name = "driverSubsidy", value = "司机补助", required = true, dataType = "double", paramType = "path"),
-            @ApiImplicitParam(name = "allOutPrice", value = "总支出费用", required = true, dataType = "double", paramType = "path"),
+            @ApiImplicitParam(name = "gaiMoney", value = "面收金额", required = true, dataType = "double", paramType = "path"),
+            @ApiImplicitParam(name = "otherInPrice", value = "其他收入", required = true, dataType = "Double", paramType = "path"),
             @ApiImplicitParam(name = "allPrice", value = "该团总价格", required = true, dataType = "double", paramType = "path"),
             @ApiImplicitParam(name = "monthPrice", value = "月结金额", required = true, dataType = "double", paramType = "path")
     })
@@ -65,11 +58,10 @@ public class FinanceController {
     @CrossOrigin
     @CheckToken
     public ResultVo insertFinance(@RequestBody FinanceVo vo) {
-        if (StringUtils.isBlank(vo.getOutDate()) || StringUtils.isBlank(vo.getLineName())
-        || vo.getTrueAllNumber() == null || vo.getTreeAdultNumber() == null || vo.getTreeBabyNumber() == null || vo.getTreeOldNumber() == null
-        || vo.getTreeChildNumber() == null || vo.getGaiMoney() == null || StringUtils.isBlank(vo.getTicketName()) || vo.getTicketPrice() == null
-         || vo.getLunchPrice() == null || vo.getParkingRatePrice() == null || vo.getRentCarPrice() == null || vo.getGuideSubsidy() == null ||
-              vo.getDriverSubsidy() == null || vo.getAllOutPrice() == null || vo.getAllPrice() == null || vo.getMonthPrice() == null || vo.getCarType() == null) {
+        if (StringUtils.isBlank(vo.getOutDate()) || vo.getTrueAllNumber() == null ||
+              vo.getTreeAdultNumber() == null || vo.getTreeBabyNumber() == null || vo.getTreeOldNumber() == null
+        || vo.getTreeChildNumber() == null || vo.getGaiMoney() == null || vo.getAllPrice() == null ||
+              vo.getMonthPrice() == null || vo.getCarType() == null) {
             throw new ApplicationException(CodeType.PARAMETER_ERROR,"参数不能为空");
         }
 
@@ -237,6 +229,21 @@ public class FinanceController {
 
         Page<FinanceCompanyInfoBo> page = new Page<>(current,size);
         return inFinanceService.queryCompanyInfoCount (page,lineName,outDate,accountName);
+    }
+
+
+
+    @ApiOperation(value = "查询提交信息", notes = "查询提交信息")
+    @ApiImplicitParam(name = "outDate", value = "出发时间", required = true, dataType = "String", paramType = "path")
+    @GetMapping("/queryResult")
+    @CrossOrigin
+    @CheckToken
+    public ResultBo queryResult (@RequestParam("outDate") String outDate) {
+
+        if (StringUtils.isBlank(outDate)) {
+            throw new ApplicationException(CodeType.PARAM_ERROR,"参数不能为空");
+        }
+        return inFinanceService.queryResult(outDate);
     }
 
 }

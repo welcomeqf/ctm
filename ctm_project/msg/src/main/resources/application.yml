@@ -1,6 +1,6 @@
 ws:
   ip: 10.36.142.73
-  port: 8899
+  port: 1350
 server:
   port: 8008
   max-http-header-size: 102400

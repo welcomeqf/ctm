@@ -60,9 +60,17 @@ public class ExamineController {
     @CrossOrigin
     @CheckToken
     public ResultVo insertUpdateExamine(@RequestBody ExamineVo vo) {
-        if (vo.getApplyId() == null || StringUtils.isBlank(vo.getConnectName()) ||
-            StringUtils.isBlank(vo.getConnectTel()) || StringUtils.isBlank(vo.getPlace())) {
-            throw new ApplicationException(CodeType.PARAM_ERROR);
+        if (StringUtils.isBlank(vo.getOutDate()) || StringUtils.isBlank(vo.getContactName()) ||
+              StringUtils.isBlank(vo.getContactTel()) || StringUtils.isBlank(vo.getPlace()) ||
+              StringUtils.isBlank(vo.getLineName()) || vo.getAdultNumber() == null || StringUtils.isBlank(vo.getApplyNo()) ||
+              vo.getBabyNumber() == null || vo.getOldNumber() == null || vo.getType() == null || vo.getCreateUserId() == null ||
+              vo.getChildNumber() == null || StringUtils.isBlank(vo.getPayType()) || vo.getMarketAllPrice() == null
+              || vo.getAdultPrice() == null || vo.getBabyPrice() == null || vo.getChildPrice() == null || vo.getOldPrice() == null) {
+            throw new ApplicationException(CodeType.PARAM_ERROR,"申请报名表参数不能为空");
+        }
+        if (vo.getAdultNumber() < 0 || vo.getBabyNumber() < 0 || vo.getOldNumber() < 0
+              || vo.getChildNumber() < 0) {
+            throw new ApplicationException(CodeType.PARAM_ERROR,"人数个数不能为负数");
         }
         examineService.UpdateApplyExamine(vo);
 
@@ -92,7 +100,7 @@ public class ExamineController {
             return query;
         }
         if (infoVo.getStatus() == 2) {
-            ExaApplyResultQuery query = examineService.NotAdoptCancelExamine(infoVo.getApplyId());
+            ExaApplyResultQuery query = examineService.NotAdoptCancelExamine(infoVo.getApplyId(),infoVo.getExaRemark());
             return query;
         }
 
@@ -123,7 +131,7 @@ public class ExamineController {
 
         if (infoVo.getStatus() == 2) {
             //拒绝报名审核
-            return examineService.NotAdoptExamine(infoVo.getApplyId());
+            return examineService.NotAdoptExamine(infoVo.getApplyId(),infoVo.getExaRemark());
         }
 
         ExaApplyResultQuery resultVo = new ExaApplyResultQuery();
@@ -165,5 +173,13 @@ public class ExamineController {
     }
 
 
+    @ApiOperation(value = "查看备注", notes = "查看备注")
+    @GetMapping("/queryRemark")
+    @CrossOrigin
+    @CheckToken
+    public ResultVo queryRemark(@RequestParam("examineType") String examineType,
+                                @RequestParam("applyId") Long applyId) {
+        return examineService.queryRemark(examineType,applyId);
+    }
 
 }

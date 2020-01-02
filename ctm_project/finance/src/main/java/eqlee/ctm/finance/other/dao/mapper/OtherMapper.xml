@@ -6,8 +6,8 @@
 
 
     <select id="queryOther" resultType="eqlee.ctm.finance.other.entity.vo.OtherVo">
-      select max(Id)id,max(OtherName)otherName,max(CreateDate)createDate
-      from Other group by OtherName
+      select Id as 'id',OtherName as 'otherName',OtherContent as 'otherContent',
+      Types as 'types',convert(varchar(20),CreateDate,23)createDate from Other
     </select>
 
     <update id="updateOther" parameterType="eqlee.ctm.finance.other.entity.vo.OtherUpdateVo">

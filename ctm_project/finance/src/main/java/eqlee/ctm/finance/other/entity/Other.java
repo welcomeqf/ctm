@@ -25,22 +25,37 @@ public class Other extends Model<Other> {
    private Long Id;
 
    /**
-    * 收入id
-    */
-   private Long IncomeId;
-
-   /**
-    * 其他收费名称
+    * 紧急通知标题
     */
    private String OtherName;
 
    /**
-    * 其他收费金额
+    * 紧急通知内容
     */
-   private Double OtherPrice;
+   private String OtherContent;
+
+   /**
+    * 0-不展示 1-展示
+    */
+   private Integer Types;
+
+   /**
+    * 创建人
+    */
+   private Long CreateUserId;
 
    /**
     * 创建时间
     */
    private LocalDateTime CreateDate;
+
+   /**
+    * 修改人
+    */
+   private Long UpdateUserId;
+
+   /**
+    * 修改时间
+    */
+   private LocalDateTime UpdateDate;
 }

@@ -1,5 +1,6 @@
 package eqlee.ctm.apply.entry.entity.query;
 
+import com.yq.IBaseMapper.IBaseMapper;
 import lombok.Data;
 
 /**
@@ -78,6 +79,11 @@ public class ApplyDoExaQuery {
     private String ExamineType;
 
     /**
+     * 0-待处理 1-通过 2-拒绝
+     */
+    private Integer ExamineResult;
+
+    /**
      * 联系人
      */
     private String ContactName;
@@ -86,4 +92,13 @@ public class ApplyDoExaQuery {
      * 联系电话
      */
     private String ContactTel;
+
+    private Double AllPrice;
+
+    /**
+     * (0--正常报名  1-补录  2-包团)
+     */
+    private Integer Type;
+
+
 }

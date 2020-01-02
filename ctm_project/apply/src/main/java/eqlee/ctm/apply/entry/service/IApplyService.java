@@ -3,7 +3,9 @@ package eqlee.ctm.apply.entry.service;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import eqlee.ctm.apply.entry.entity.Apply;
 import eqlee.ctm.apply.entry.entity.bo.ApplyCountBo;
+import eqlee.ctm.apply.entry.entity.bo.ApplyDoExaInfo;
 import eqlee.ctm.apply.entry.entity.query.*;
+import eqlee.ctm.apply.entry.entity.vo.ApplyOpenIdVo;
 import eqlee.ctm.apply.entry.entity.vo.ApplySeacherVo;
 import eqlee.ctm.apply.entry.entity.vo.ApplyVo;
 import eqlee.ctm.apply.orders.entity.Vo.LongVo;
@@ -51,6 +53,12 @@ public interface IApplyService {
      * @param updateInfo
      */
     void updateApply(ApplyUpdateInfo updateInfo);
+
+    /**
+     * 删除报名表
+     * @param id
+     */
+    void deleteApply (Long id);
 
     /**
      * 分页查询已报名未审核的列表,可以根据出发时间模糊查询
@@ -206,25 +214,23 @@ public interface IApplyService {
     /**
      * 同行月结现结统计
      * @param page
-     * @param payType
      * @param lineName
      * @param startDate
      * @param endDate
      * @return
      */
-    Page<ApplyResultCountQuery> pageResult2CountList (Page<ApplyResultCountQuery> page, Integer payType, String lineName, String startDate, String endDate);
+    Page<ApplyResultCountQuery> pageResult2CountList (Page<ApplyResultCountQuery> page, String lineName, String startDate, String endDate);
 
     /**
      * 运营月结现结统计查询
      * @param page
-     * @param payType
      * @param lineName
      * @param startDate
      * @param endDate
      * @param companyUserId
      * @return
      */
-    Page<ApplyResultCountQuery> pageResultAdminCountList (Page<ApplyResultCountQuery> page, Integer payType, String lineName, String startDate, String endDate, Long companyUserId);
+    Page<ApplyResultCountQuery> pageResultAdminCountList (Page<ApplyResultCountQuery> page, String lineName, String startDate, String endDate, Long companyUserId);
 
     /**
      * 返回待付款的支付信息
@@ -259,5 +265,24 @@ public interface IApplyService {
      * @param id
      */
     void updateApplyCancel(Integer type, Long id);
+
+    /**
+     * 查询一些支付信息
+     * 以及报名的一些信息
+     * @param applyNo
+     * @return
+     */
+    ApplyDoExaInfo queryApplyDoExaInfo (String applyNo);
+
+    /**
+     * 修改今天到之前的授信金额状态
+     */
+    void updateSxPriceStatus ();
+
+    /**
+     *  查询auto
+     * @return
+     */
+    ApplyOpenIdVo queryAuto (Long id);
 
 }

@@ -64,7 +64,7 @@ public class Company extends Model<Company> {
     /**
      * 公司状态
      */
-    private boolean Stopped;
+    private Boolean Stopped;
 
     /**
      * 备注
@@ -91,6 +91,55 @@ public class Company extends Model<Company> {
      */
     private LocalDateTime UpdateDate;
 
+    /**
+     * 负责人名字
+     */
+    private String ChargeName;
+
+    /**
+     * 负责人电话
+     */
+    private String ChargeTel;
+
+    /**
+     * 财务人名字
+     */
+    private String FinanceName;
+
+    /**
+     * 财务人电话
+     */
+    private String FinanceTel;
+
+    /**
+     * 营业执照图片
+     */
+    private String Business;
+
+    /**
+     * 许可证
+     */
+    private String Licence;
+
+    /**
+     * 保险证
+     */
+    private String Insurance;
+
+    /**
+     * 银行卡
+     */
+    private String BankCard;
+
+    /**
+     * 公司地址
+     */
+    private String Address;
+
+    /**
+     * 0-待审核  1-通过 2-拒绝
+     */
+    private Integer Status;
 
     @Override
     protected Serializable pkVal() {

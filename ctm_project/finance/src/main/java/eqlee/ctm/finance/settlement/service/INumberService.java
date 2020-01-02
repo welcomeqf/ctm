@@ -14,4 +14,17 @@ public interface INumberService {
      * @param number
      */
     void insertNumber (Number number);
+
+    /**
+     * 根据ID查询
+     * @param id
+     * @return
+     */
+    Number queryById (Long id);
+
+    /**
+     * 修改
+     * @param number
+     */
+    void updateNumber (Number number);
 }

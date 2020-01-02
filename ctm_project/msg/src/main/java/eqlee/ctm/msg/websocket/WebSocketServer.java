@@ -35,7 +35,7 @@ public class WebSocketServer implements CommandLineRunner {
 
    private final String ip = "";
 
-   private final int port = 8899;
+   private final int port = 1350;
 
    private Channel channel;
 

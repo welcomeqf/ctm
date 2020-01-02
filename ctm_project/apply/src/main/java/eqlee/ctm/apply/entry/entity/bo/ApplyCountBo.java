@@ -10,7 +10,9 @@ import lombok.Data;
 @Data
 public class ApplyCountBo {
 
-   private String cname;
+   private String companyName;
+
+   private String companyNo;
 
    /**
     * 合同结束时间
@@ -27,13 +29,11 @@ public class ApplyCountBo {
     */
    private String picture;
 
-   private Double monthPrice;
-
-   private Double nowPrice;
-
    private Double msPrice;
 
    private Integer allNumber;
 
    private Double allPrice;
+
+   private String startDate;
 }

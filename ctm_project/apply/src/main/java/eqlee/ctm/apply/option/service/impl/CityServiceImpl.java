@@ -11,6 +11,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 /**
  * @Author qf
  * @Date 2019/11/7
@@ -45,5 +47,15 @@ public class CityServiceImpl extends ServiceImpl<CityMapper, Option> implements 
         LambdaQueryWrapper<Option> wrapper = new LambdaQueryWrapper<Option>()
                 .eq(Option::getName,cityName);
         return baseMapper.selectOne(wrapper);
+    }
+
+
+    /**
+     * 查询所有城市
+     * @return
+     */
+    @Override
+    public List<Option> queryAllCity() {
+        return baseMapper.selectList(null);
     }
 }

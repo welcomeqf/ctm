@@ -56,4 +56,9 @@ public class ApplyResultCountQuery {
    private Integer OldNumber;
 
    private Integer ChildNumber;
+
+   /**
+    * 同行代表人
+    */
+   private String companyUserName;
 }

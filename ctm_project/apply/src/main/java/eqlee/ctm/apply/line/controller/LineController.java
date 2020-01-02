@@ -232,4 +232,14 @@ public class LineController {
         return lineService.pageLine(pageQuery,lineName);
     }
 
+
+
+    @ApiOperation(value = "查询自己所在城市的所有线路", notes = "查询自己所在城市的所有线路")
+    @GetMapping("/queryLocalCityLine")
+    @CrossOrigin
+    @CheckToken
+    public List<Line> queryLocalCityLine () {
+        return lineService.queryLocalCityLine();
+    }
+
 }

@@ -127,13 +127,20 @@ public class OrderServiceImpl extends ServiceImpl<OrdersMapper, Orders> implemen
               orderDetailed.setMonthPrice(0.0);
            }
 
-            orderDetailed.setAccountName(apply.getCompanyUser());
-            orderDetailed.setCompanyName(apply.getCompanyName());
-            orderDetailed.setAdultNumber(apply.getAdultNumber());
-            orderDetailed.setBabyNumber(apply.getBabyNumber());
-            orderDetailed.setChildNumber(apply.getChildNumber());
-            orderDetailed.setOldNumber(apply.getOldNumber());
-            orderDetailed.setAllNumber(apply.getAllNumber());
+           //线路名，备注
+          Line line = lineService.queryOneLine(apply.getLineId());
+
+           orderDetailed.setLineName(line.getLineName());
+           orderDetailed.setApplyRemark(apply.getApplyRemark());
+           orderDetailed.setTypes(apply.getType());
+
+           orderDetailed.setAccountName(apply.getCompanyUser());
+           orderDetailed.setCompanyName(apply.getCompanyName());
+           orderDetailed.setAdultNumber(apply.getAdultNumber());
+           orderDetailed.setBabyNumber(apply.getBabyNumber());
+           orderDetailed.setChildNumber(apply.getChildNumber());
+           orderDetailed.setOldNumber(apply.getOldNumber());
+           orderDetailed.setAllNumber(apply.getAllNumber());
             if (apply.getAllPrice() != null) {
                orderDetailed.setPrice(apply.getAllPrice());
             }
@@ -251,6 +258,7 @@ public class OrderServiceImpl extends ServiceImpl<OrdersMapper, Orders> implemen
        query.setCarNo(orders1.getCarNumber());
        query.setLineName(orders1.getLineName());
        query.setOutDate(DateUtil.formatDate(orders1.getOutDate()));
+       query.setGuideName(orders1.getGuideName());
        return query;
     }
 
@@ -266,7 +274,6 @@ public class OrderServiceImpl extends ServiceImpl<OrdersMapper, Orders> implemen
         //查询被换人的导游是否是在同一天同一条线路
         LocalDate localDate = DateUtil.parseDate(outDate);
         LambdaQueryWrapper<Orders> wrapper = new LambdaQueryWrapper<Orders>()
-                .eq(Orders::getLineName,lineName)
                 .eq(Orders::getOutDate,localDate)
                 .eq(Orders::getCreateUserId,Id);
         Orders orders = baseMapper.selectOne(wrapper);
@@ -295,28 +302,26 @@ public class OrderServiceImpl extends ServiceImpl<OrdersMapper, Orders> implemen
        }
 
        //增加消息提醒的记录
-        MsgVo vo = new MsgVo();
-       vo.setCreateId(user.getId());
-       vo.setMsg(NettyType.PERSON_EXA.getMsg());
-       vo.setMsgType(3);
-
-       vo.setToId(Id);
-       messageService.insertMsg(vo);
+//        MsgVo vo = new MsgVo();
+//       vo.setCreateId(user.getId());
+//       vo.setMsg(NettyType.PERSON_EXA.getMsg());
+//       vo.setMsgType(3);
+//
+//       vo.setToId(Id);
+//       messageService.insertMsg(vo);
     }
 
     /**
      * 排车
-     * @param LineName
      * @param OutDate
      * @param CarNumber
      */
     @Override
-    public void save(String LineName, String OutDate, String CarNumber) {
+    public void save(String OutDate, String CarNumber) {
 
         UserLoginQuery userLoginQuery = localUser.getUser("用户信息");
         //判断该线路日期是否配了车
         LambdaQueryWrapper<Orders> wrapper = new LambdaQueryWrapper<Orders>()
-                .eq(Orders::getLineName,LineName)
                 .eq(Orders::getOutDate,OutDate)
                 .eq(Orders::getCreateUserId,userLoginQuery.getId());
         Orders orders = baseMapper.selectOne(wrapper);
@@ -330,7 +335,7 @@ public class OrderServiceImpl extends ServiceImpl<OrdersMapper, Orders> implemen
 
         if(bo == null) {
             //公司外部车辆
-            int update = baseMapper.updateOrdersOutsideCarNo(LineName,DateUtil.parseDate(OutDate),CarNumber,userLoginQuery.getId());
+            int update = baseMapper.updateOrdersOutsideCarNo(DateUtil.parseDate(OutDate),CarNumber,userLoginQuery.getId());
             if(update == 0){
                 throw new ApplicationException(CodeType.SERVICE_ERROR,"更新失败");
             }
@@ -346,7 +351,7 @@ public class OrderServiceImpl extends ServiceImpl<OrdersMapper, Orders> implemen
         }
 
         //本公司车辆
-        int update = baseMapper.updateOrdersCarNo(LineName,DateUtil.parseDate(OutDate),CarNumber,userLoginQuery.getId());
+        int update = baseMapper.updateOrdersCarNo(DateUtil.parseDate(OutDate),CarNumber,userLoginQuery.getId());
 
         if(update == 0){
             throw new ApplicationException(CodeType.SERVICE_ERROR,"更新失败");
@@ -397,7 +402,6 @@ public class OrderServiceImpl extends ServiceImpl<OrdersMapper, Orders> implemen
         //查询到该条的订单信息
         LocalDate localDate = DateUtil.parseDate(outDate);
         LambdaQueryWrapper<Orders> wrapper = new LambdaQueryWrapper<Orders>()
-                .eq(Orders::getLineName,lineName)
                 .eq(Orders::getOutDate,localDate)
                 .eq(Orders::getCreateUserId,user.getId());
 
@@ -407,14 +411,16 @@ public class OrderServiceImpl extends ServiceImpl<OrdersMapper, Orders> implemen
             throw new ApplicationException(CodeType.SERVICE_ERROR, "线路或日期不一致不能换人");
         }
 
-        //增加一条同意换人的记录
-        MsgVo vo = new MsgVo();
-        vo.setCreateId(user.getId());
-        vo.setMsg(NettyType.AGGRE_NO_PERSON_EXA.getMsg());
-        vo.setMsgType(1);
+       OrderDetailed detailed = orderDetailedService.queryById(id);
 
-        vo.setToId(orders.getCreateUserId());
-        messageService.insertMsg(vo);
+       //增加一条同意换人的记录
+//        MsgVo vo = new MsgVo();
+//        vo.setCreateId(user.getId());
+//        vo.setMsg(NettyType.AGGRE_NO_PERSON_EXA.getMsg());
+//        vo.setMsgType(1);
+//
+//        vo.setToId(detailed.getCreateUserId());
+//        messageService.insertMsg(vo);
 
         //修改换人表数据
         orderSubstitutService.apotSubstitution(DateUtil.parseDate(outDate),lineName,user.getId(),1);
@@ -440,28 +446,17 @@ public class OrderServiceImpl extends ServiceImpl<OrdersMapper, Orders> implemen
 
         UserLoginQuery user = localUser.getUser("用户信息");
 
-        //查询到该条的订单信息
-        LocalDate localDate = DateUtil.parseDate(outDate);
-        LambdaQueryWrapper<Orders> wrapper = new LambdaQueryWrapper<Orders>()
-                .eq(Orders::getLineName,lineName)
-                .eq(Orders::getOutDate,localDate)
-                .eq(Orders::getCreateUserId,user.getId());
 
-        Orders orders = baseMapper.selectOne(wrapper);
-
-        if (orders == null) {
-            throw new ApplicationException(CodeType.SERVICE_ERROR, "线路或日期不一致不能换人");
-        }
-
+       OrderDetailed detailed = orderDetailedService.queryById(id);
 
         //增加一条拒绝换人的记录
-        MsgVo vo = new MsgVo();
-        vo.setCreateId(user.getId());
-        vo.setMsg(NettyType.AGGRE_PERSON_EXA.getMsg());
-        vo.setMsgType(2);
-
-        vo.setToId(orders.getCreateUserId());
-        messageService.insertMsg(vo);
+//        MsgVo vo = new MsgVo();
+//        vo.setCreateId(user.getId());
+//        vo.setMsg(NettyType.AGGRE_PERSON_EXA.getMsg());
+//        vo.setMsgType(2);
+//
+//        vo.setToId(detailed.getCreateUserId());
+//        messageService.insertMsg(vo);
 
         //修改换人表数据
         orderSubstitutService.apotSubstitution(DateUtil.parseDate(outDate),lineName,user.getId(),2);
@@ -495,69 +490,36 @@ public class OrderServiceImpl extends ServiceImpl<OrdersMapper, Orders> implemen
 
     /**
      * 导游收入统计
-     * @param LineName
-     * @param OutDate
+     * @param outDate
      * @return
      */
     @Override
-    public IncomeVo IncomeCount(String LineName, String OutDate) {
+    public IncomeVo IncomeCount(String outDate) {
         UserLoginQuery user = localUser.getUser("用户信息");
-        List<InComeRemerberVo> incomeRemerberVoList = baseMapper.selectIncomeCount(LineName,DateUtil.parseDate(OutDate),user.getId());
 
-        Price price = priceService.queryPrice(DateUtil.parseDate(OutDate),LineName);
+       IncomeVo incomeVo = baseMapper.selectIncomeCount(DateUtil.parseDate(outDate), user.getId());
 
-        if (price == null) {
-            throw new ApplicationException(CodeType.SERVICE_ERROR,"该线路该天的价格已被删除");
-        }
+       //查询车辆类型
+       LambdaQueryWrapper<Orders> wrapper = new LambdaQueryWrapper<Orders>()
+             .eq(Orders::getOutDate,DateUtil.parseDate(outDate))
+             .eq(Orders::getCreateUserId,user.getId());
 
-        IncomeVo incomeVo = new IncomeVo();
-        incomeVo.setComeedCount(0);
-        incomeVo.setDoNumber(0);
-        incomeVo.setAdultNumber(0);
-        incomeVo.setChildNumber(0);
-        incomeVo.setBabyNumber(0);
-        incomeVo.setOldNumber(0);
-        incomeVo.setSumInCome(0.0);
-        incomeVo.setCarType(true);
-        Double sum = 0.0;
-        Double allPrice = 0.0;
-        for (InComeRemerberVo item:incomeRemerberVoList) {
-           incomeVo.setComeedCount(incomeVo.getComeedCount() + item.getAllNumber());
-           incomeVo.setDoNumber(incomeVo.getDoNumber() + item.getAllNumber());
-           incomeVo.setAdultNumber(incomeVo.getAdultNumber()+item.getAdultNumber());
-           incomeVo.setBabyNumber(incomeVo.getBabyNumber()+item.getBabyNumber());
-           incomeVo.setOldNumber(incomeVo.getOldNumber() + item.getOldNumber());
-           incomeVo.setChildNumber(incomeVo.getChildNumber() + item.getChildNumber());
-           incomeVo.setCarNumber(item.getCarNumber());
-           incomeVo.setCarType(item.getCarType());
+       Orders orders = baseMapper.selectOne(wrapper);
 
-           /**
-            * 总价格
-            */
-           allPrice = allPrice + item.getPrice();
+       if (orders != null) {
+          incomeVo.setCarType(orders.getCarType());
+       }
 
-        }
+       IncomeVo vo = baseMapper.queryStatus(DateUtil.parseDate(outDate), user.getId());
 
-        List<OrderContectQuery> queries = baseMapper.listContect(LineName, DateUtil.parseDate(OutDate), user.getId());
-
-        //查询面收金额
-       for (OrderContectQuery query : queries) {
-          //算出总面收金额
-          if (query.getMsPrice() != null) {
-             sum = sum + query.getMsPrice();
+       if (vo != null) {
+          incomeVo.setStatus(vo.getStatus());
+       } else {
+          if (incomeVo != null) {
+             incomeVo.setStatus(3);
           }
        }
 
-       incomeVo.setSumInCome(sum);
-       incomeVo.setAllPrice(allPrice);
-
-       //查询月结金额
-       OrdersMonthBo monthBo = baseMapper.queryMonthPrice(LineName, DateUtil.parseDate(OutDate), user.getId());
-       if (monthBo != null) {
-          incomeVo.setMonthPrice(monthBo.getAllPrice());
-       } else {
-          incomeVo.setMonthPrice(0.0);
-       }
        return incomeVo;
     }
 
@@ -636,6 +598,7 @@ public class OrderServiceImpl extends ServiceImpl<OrdersMapper, Orders> implemen
          query.setLineName(order.getLineName());
          query.setOutDate(DateUtil.formatDate(order.getOutDate()));
          query.setCarNo(order.getCarNumber());
+         query.setId(order.getId());
          result.add(query);
       }
 
@@ -655,7 +618,6 @@ public class OrderServiceImpl extends ServiceImpl<OrdersMapper, Orders> implemen
       LocalDate date = DateUtil.parseDate(outDate);
 
       LambdaQueryWrapper<Orders> wrapper = new LambdaQueryWrapper<Orders>()
-            .eq(Orders::getLineName,lineName)
             .eq(Orders::getOutDate,date)
             .eq(Orders::getCreateUserId,user.getId());
 
@@ -677,6 +639,55 @@ public class OrderServiceImpl extends ServiceImpl<OrdersMapper, Orders> implemen
    @Override
    public Orders queryOne(Long id) {
       return baseMapper.selectById(id);
+   }
+
+
+   /**
+    * 修改车辆出行状态
+    */
+   @Override
+   public void upCarStatus() {
+
+      LocalDate now = LocalDate.now();
+
+      LambdaQueryWrapper<Orders> wrapper = new LambdaQueryWrapper<Orders>()
+            .le(Orders::getOutDate,now);
+
+      List<Orders> orders = baseMapper.selectList(wrapper);
+
+
+      Integer integer = baseMapper.upCarStatus(orders);
+
+      if (integer <= 0) {
+         throw new ApplicationException(CodeType.SERVICE_ERROR, "修改出行状态失败");
+      }
+
+   }
+
+   @Override
+   public IdBo queryId(String outDate) {
+
+      UserLoginQuery user = localUser.getUser("用户信息");
+
+      LocalDate localDate = null;
+      if (StringUtils.isNotBlank(outDate)) {
+         localDate = DateUtil.parseDate(outDate);
+      }
+
+      LambdaQueryWrapper<Orders> wrapper = new LambdaQueryWrapper<Orders>()
+            .eq(Orders::getOutDate,localDate)
+            .eq(Orders::getCreateUserId,user.getId());
+
+      Orders orders = baseMapper.selectOne(wrapper);
+
+      if (orders == null) {
+         throw new ApplicationException(CodeType.SERVICE_ERROR);
+      }
+
+      IdBo bo = new IdBo();
+      bo.setId(orders.getId());
+
+      return bo;
    }
 
 }

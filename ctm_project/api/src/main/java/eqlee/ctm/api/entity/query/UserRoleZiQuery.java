@@ -10,8 +10,6 @@ import lombok.Data;
 @Data
 public class UserRoleZiQuery {
 
-    private String appId;
-
     /**
      * 角色名字
      */

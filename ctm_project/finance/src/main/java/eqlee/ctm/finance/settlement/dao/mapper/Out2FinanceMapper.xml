@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="eqlee.ctm.finance.settlement.dao.Out2FinanceMapper">
+
+    <insert id="insertOut2Info" parameterType="eqlee.ctm.finance.settlement.entity.bo.OutComeInfoBo">
+        insert into OutCome2 (Id,IncomeId,OutName,OutPrice,Picture,CreateUserId,UpdateUserId)
+        <foreach collection="list" item="item" index="index" separator="union all">
+            select #{item.id},#{item.incomeId},#{item.outName},#{item.outPrice},#{item.picture},
+            #{item.createUserId},#{item.updateUserId}
+        </foreach>
+    </insert>
+
+</mapper>

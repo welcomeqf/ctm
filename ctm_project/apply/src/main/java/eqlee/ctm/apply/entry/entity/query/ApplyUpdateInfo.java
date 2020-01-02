@@ -26,4 +26,6 @@ public class ApplyUpdateInfo {
      * 接送地点
      */
     private String Place;
+
+    private String remark;
 }

@@ -1,6 +1,7 @@
 package eqlee.ctm.finance.settlement.entity.vo;
 
 import eqlee.ctm.finance.settlement.entity.bo.OtherBo;
+import eqlee.ctm.finance.settlement.entity.bo.OutComeParamInfo;
 import lombok.Data;
 
 import java.util.List;
@@ -60,54 +61,19 @@ public class FinanceVo {
 
 
     /**
-     * 应收金额
+     * 面收金额
      */
     private Double gaiMoney;
 
     /**
      * 其他收入
      */
-    private List<OtherBo> otherInPrice;
+    private Double otherInPrice;
 
     /**
-     * 门票名
+     * 支出消费信息
      */
-    private String ticketName;
-
-    /**
-     * 门票价格
-     */
-    private Double ticketPrice;
-
-    /**
-     * 午餐费用
-     */
-    private Double lunchPrice;
-
-    /**
-     * 停车费
-     */
-    private Double parkingRatePrice;
-
-    /**
-     * 租车费用
-     */
-    private Double rentCarPrice;
-
-    /**
-     * 导游补助
-     */
-    private Double guideSubsidy;
-
-    /**
-     * 司机补助
-     */
-    private Double driverSubsidy;
-
-    /**
-     * 总支出费用
-     */
-    private Double allOutPrice;
+    private List<OutComeParamInfo> outList;
 
     /**
      * 该团总价格
@@ -120,5 +86,10 @@ public class FinanceVo {
     private Double monthPrice;
 
     private Boolean carType;
+
+    /**
+     * 0-待审核  1-已同意  2-以拒绝  3--第一次提交
+     */
+    private Integer status;
 
 }

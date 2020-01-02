@@ -2,9 +2,11 @@ package eqlee.ctm.apply.guider.service;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import eqlee.ctm.apply.guider.entity.vo.ApplyVo;
+import eqlee.ctm.apply.guider.entity.vo.GuiderList;
 import eqlee.ctm.apply.guider.entity.vo.GuiderVo;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * @Author Claire
@@ -17,11 +19,11 @@ public interface IGuiderService {
      * 导游首页展示
      * @param page
      * @param outDate
-     * @param lineName
+     * @param lineNameList
      * @param region
      * @return
      */
-    Page<GuiderVo> guiderIndex(Page<GuiderVo> page,String outDate,String lineName, String region);
+    Map<String,Object> guiderIndex(Page<GuiderVo> page, String outDate, GuiderList lineNameList, String region);
 
 
     /**

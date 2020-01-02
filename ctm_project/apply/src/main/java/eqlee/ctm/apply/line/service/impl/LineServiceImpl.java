@@ -129,6 +129,11 @@ public class LineServiceImpl extends ServiceImpl<LineMapper, Line> implements IL
      */
     @Override
     public void updateLine(LineUpdateVo vo, Long Id) {
+
+        if (Id == 658822140488843264L) {
+            throw new ApplicationException(CodeType.SERVICE_ERROR, "该线路不能修改");
+        }
+
         //获取用户信息
         UserLoginQuery user = localUser.getUser("用户信息");
 
@@ -242,6 +247,10 @@ public class LineServiceImpl extends ServiceImpl<LineMapper, Line> implements IL
     @Override
     public void deleteLine(Long Id) {
 
+        if (Id == 658822140488843264L) {
+            throw new ApplicationException(CodeType.SERVICE_ERROR, "该线路不能删除");
+        }
+
         //设置价格，报名后的线路都不能删除
         List<Price> list = priceService.queryPriceByLineNameId(Id);
 
@@ -302,6 +311,20 @@ public class LineServiceImpl extends ServiceImpl<LineMapper, Line> implements IL
     @Override
     public List<Line> queryByIdList(List<Long> list) {
         return baseMapper.selectBatchIds(list);
+    }
+
+
+    /**
+     * 查询当前城市的所有线路
+     * @return
+     */
+    @Override
+    public List<Line> queryLocalCityLine() {
+        UserLoginQuery user = localUser.getUser("用户信息");
+
+        LambdaQueryWrapper<Line> wrapper = new LambdaQueryWrapper<Line>()
+              .eq(Line::getCity,user.getCity());
+        return baseMapper.selectList(wrapper);
     }
 
 

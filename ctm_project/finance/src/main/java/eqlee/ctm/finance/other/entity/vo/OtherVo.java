@@ -18,12 +18,22 @@ public class OtherVo {
    private Long id;
 
    /**
-    * 其他收费名称
+    * 紧急通知标题
     */
    private String otherName;
 
    /**
+    * 紧急通知内容
+    */
+   private String otherContent;
+
+   /**
+    * 0-不展示 1-展示
+    */
+   private Integer types;
+
+   /**
     * 创建时间
     */
-   private LocalDateTime createDate;
+   private String createDate;
 }

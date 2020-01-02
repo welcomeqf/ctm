@@ -3,8 +3,8 @@ package eqlee.ctm.finance.settlement.service;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import eqlee.ctm.finance.settlement.entity.bo.FinanceCompanyBo;
 import eqlee.ctm.finance.settlement.entity.bo.FinanceCompanyInfoBo;
+import eqlee.ctm.finance.settlement.entity.bo.ResultBo;
 import eqlee.ctm.finance.settlement.entity.query.*;
-import eqlee.ctm.finance.settlement.entity.vo.ExamineResultVo;
 import eqlee.ctm.finance.settlement.entity.vo.FinanceVo;
 
 import java.util.Map;
@@ -22,6 +22,14 @@ public interface IInFinanceService {
      * @param vo
      */
     void insertFinance (FinanceVo vo);
+
+    /**
+     * 查询提交信息
+     * @param outDate
+     * @return
+     */
+    ResultBo queryResult (String outDate);
+
 
     /**
      * 分页查询所有财务审核

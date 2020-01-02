@@ -33,4 +33,29 @@ public class NumberServiceImpl extends ServiceImpl<NumberMapper, Number> impleme
             throw new ApplicationException(CodeType.SERVICE_ERROR,"增加人员数失败");
         }
     }
+
+
+    /**
+     * 根据ID查询
+     * @param id
+     * @return
+     */
+    @Override
+    public Number queryById(Long id) {
+        return baseMapper.selectById(id);
+    }
+
+
+    /**
+     * 修改
+     * @param number
+     */
+    @Override
+    public void updateNumber(Number number) {
+        int i = baseMapper.updateById(number);
+
+        if (i <= 0) {
+            throw new ApplicationException(CodeType.SERVICE_ERROR, "提交有误");
+        }
+    }
 }

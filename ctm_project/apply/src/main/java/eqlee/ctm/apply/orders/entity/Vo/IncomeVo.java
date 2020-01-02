@@ -14,49 +14,49 @@ import java.util.Map;
 @Data
 public class IncomeVo {
     /**
-     *应到人数
+     *总人数
      */
-    private Integer comeedCount;
-
-    /**
-     * 实到人数
-     */
-    private Integer DoNumber;
+    private Integer allNumber;
 
     /**
      * 成人人数
      */
-    private Integer AdultNumber;
+    private Integer adultNumber;
 
     /**
      * 幼儿人数
      */
-    private Integer BabyNumber;
+    private Integer babyNumber;
 
     /**
      * 老人人数
      */
-    private Integer OldNumber;
+    private Integer oldNumber;
 
     /**
      * 小孩人数
      */
-    private Integer ChildNumber;
+    private Integer childNumber;
 
     /**
      * 面收金额
      */
-    private Double SumInCome;
+    private Double msPrice;
 
-    private String CarNumber;
+    private String carNumber;
 
     /**
      * false--本公司车辆   true--外部车辆
      */
-    private Boolean CarType;
+    private Boolean carType;
 
     private Double allPrice;
 
     private Double monthPrice;
+
+    /**
+     * 状态(0--已提交待审核1--审核成功2--审核失败)
+     */
+    private Integer status;
 
 }

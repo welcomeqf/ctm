@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="eqlee.ctm.resource.system.dao.SystemConfigMapper">
+
+
+    <update id="allUpdateConfig" parameterType="eqlee.ctm.resource.system.entity.vo.SystemCompanyVo">
+        <foreach collection="list" item="item" index="index">
+            update SystemConfig set Types = #{item.type},Description = #{item.description},Nos = #{item.no},
+            Valuess = #{item.value},IsPublic = #{item.isPublic},Remark = #{item.remark}
+            where Id = #{item.id}
+        </foreach>
+    </update>
+
+</mapper>

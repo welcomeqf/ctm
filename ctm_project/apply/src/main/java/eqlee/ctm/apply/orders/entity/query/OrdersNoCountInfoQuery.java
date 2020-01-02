@@ -15,4 +15,6 @@ public class OrdersNoCountInfoQuery {
    private String lineName;
 
    private String carNo;
+
+   private Long id;
 }

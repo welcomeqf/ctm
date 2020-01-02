@@ -5,10 +5,7 @@ import eqlee.ctm.apply.entry.entity.Examine;
 import eqlee.ctm.apply.entry.entity.query.ApplyNoReadCountQuery;
 import eqlee.ctm.apply.entry.entity.query.ExaApplyResultQuery;
 import eqlee.ctm.apply.entry.entity.query.ExaMqAdminQuery;
-import eqlee.ctm.apply.entry.entity.vo.ExamineAddVo;
-import eqlee.ctm.apply.entry.entity.vo.ExamineInfoVo;
-import eqlee.ctm.apply.entry.entity.vo.ExamineUpdateInfoVo;
-import eqlee.ctm.apply.entry.entity.vo.ExamineVo;
+import eqlee.ctm.apply.entry.entity.vo.*;
 import eqlee.ctm.apply.line.entity.vo.ResultVo;
 
 /**
@@ -41,16 +38,19 @@ public interface IExamineService {
     /**
      * 拒绝取消报名表的审核
      * @param ApplyId
+     * @param exaRemark
      * @return
      */
-    ExaApplyResultQuery NotAdoptCancelExamine (Long ApplyId);
+    ExaApplyResultQuery NotAdoptCancelExamine (Long ApplyId, String exaRemark);
 
 
     /**
      * 不通过报名审核
      * @param ApplyId
+     * @param exaRemark
+     * @return
      */
-    ExaApplyResultQuery NotAdoptExamine(Long ApplyId);
+    ExaApplyResultQuery NotAdoptExamine(Long ApplyId, String exaRemark);
 
     /**
      *  通过报名表的审核
@@ -101,5 +101,13 @@ public interface IExamineService {
      * @return
      */
     ApplyNoReadCountQuery queryAllNoExaCount ();
+
+    /**
+     * 查看备注
+     * @param examineType
+     * @param applyId
+     * @return
+     */
+    ResultVo queryRemark (String examineType, Long applyId);
 
 }

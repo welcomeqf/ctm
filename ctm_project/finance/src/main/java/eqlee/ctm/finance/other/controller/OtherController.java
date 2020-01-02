@@ -4,6 +4,7 @@ import com.yq.constanct.CodeType;
 import com.yq.exception.ApplicationException;
 import com.yq.jwt.islogin.CheckToken;
 import com.yq.utils.StringUtils;
+import eqlee.ctm.finance.other.entity.Other;
 import eqlee.ctm.finance.other.entity.vo.OtherVo;
 import eqlee.ctm.finance.other.service.IOtherService;
 import eqlee.ctm.finance.settlement.entity.vo.ResultVo;
@@ -23,7 +24,7 @@ import java.util.List;
  * @vesion 1.0
  **/
 @Slf4j
-@Api("其他收费配置API")
+@Api("紧急通知API")
 @RestController
 @RequestMapping("/v1/other")
 public class OtherController {
@@ -32,11 +33,7 @@ public class OtherController {
    private IOtherService otherService;
 
 
-   @ApiOperation(value = "增加/修改其他收费名称", notes = "增加/修改其他收费名称")
-   @ApiImplicitParams({
-         @ApiImplicitParam(name = "id", value = "id", required = true, dataType = "Long", paramType = "path"),
-         @ApiImplicitParam(name = "OtherName", value = "其他收费名称", required = true, dataType = "String", paramType = "path")
-   })
+   @ApiOperation(value = "增加/修改紧急通知", notes = "增加/修改紧急通知")
    @PostMapping("/addOther")
    @CrossOrigin
    @CheckToken
@@ -53,7 +50,7 @@ public class OtherController {
 
 
 
-   @ApiOperation(value = "删除", notes = "删除")
+   @ApiOperation(value = "删除紧急通知", notes = "删除紧急通知")
    @ApiImplicitParam(name = "id", value = "id", required = true, dataType = "Long", paramType = "path")
    @GetMapping("/deleteOther")
    @CrossOrigin
@@ -70,7 +67,7 @@ public class OtherController {
    }
 
 
-   @ApiOperation(value = "查询", notes = "查询")
+   @ApiOperation(value = "查询紧急通知", notes = "查询紧急通知")
    @GetMapping("/queryOther")
    @CrossOrigin
    @CheckToken

@@ -107,27 +107,27 @@ public class ExamineServiceImpl extends ServiceImpl<ExamineMapper, Examine> impl
 
         //批量增加所有运营可见的消息提醒
         //查询所有管理员的id集合
-        List<Long> longList = new ArrayList<>();
-        List<UserAdminBo> idList = (List<UserAdminBo>) httpUtils.queryAllAdminInfo();
-
-        if (idList.size() == 0) {
-            throw new ApplicationException(CodeType.SERVICE_ERROR, "请将管理员的角色名设置为运营人员");
-        }
-
-        for (int i = 0; i <= idList.size()-1; i++) {
-            UserAdminBo bo = JSONObject.parseObject(String.valueOf(idList.get(i)),UserAdminBo.class);
-            longList.add(bo.getAdminId());
-        }
-
-        //批量增加所有运营审核的报名消息提醒
-        MsgAddVo msgVo = new MsgAddVo();
-        msgVo.setCreateId(user.getId());
-        msgVo.setMsgType(3);
-        msgVo.setMsg(NettyType.CANCEL_EXA.getMsg());
-        msgVo.setToId(longList);
-
-        //增加数据库
-        messageService.addAllMsg(msgVo);
+//        List<Long> longList = new ArrayList<>();
+//        List<UserAdminBo> idList = (List<UserAdminBo>) httpUtils.queryAllAdminInfo();
+//
+//        if (idList.size() == 0) {
+//            throw new ApplicationException(CodeType.SERVICE_ERROR, "请将管理员的角色名设置为运营人员");
+//        }
+//
+//        for (int i = 0; i <= idList.size()-1; i++) {
+//            UserAdminBo bo = JSONObject.parseObject(String.valueOf(idList.get(i)),UserAdminBo.class);
+//            longList.add(bo.getAdminId());
+//        }
+//
+//        //批量增加所有运营审核的报名消息提醒
+//        MsgAddVo msgVo = new MsgAddVo();
+//        msgVo.setCreateId(user.getId());
+//        msgVo.setMsgType(3);
+//        msgVo.setMsg(NettyType.CANCEL_EXA.getMsg());
+//        msgVo.setToId(longList);
+//
+//        //增加数据库
+//        messageService.addAllMsg(msgVo);
 
     }
 
@@ -149,6 +149,7 @@ public class ExamineServiceImpl extends ServiceImpl<ExamineMapper, Examine> impl
         infoVo.setConnectName(vo.getContactName());
         infoVo.setConnectTel(vo.getContactTel());
         infoVo.setPlace(vo.getPlace());
+        infoVo.setRemark(vo.getApplyRemark());
 
         examine.setRemark(JSON.toJSONString(infoVo));
 
@@ -158,13 +159,40 @@ public class ExamineServiceImpl extends ServiceImpl<ExamineMapper, Examine> impl
         baseMapper.insert(examine);
 
         //同时修改报名表的审核状态
-        ApplyUpdateInfo info = new ApplyUpdateInfo();
-        info.setId(examineVo.getApplyId());
-        info.setContactName(examineVo.getConnectName());
-        info.setContactTel(examineVo.getConnectTel());
-        info.setPlace(examineVo.getPlace());
-        //修改报名表
-        applyService.updateApply(info);
+        //删除报名表
+        applyService.deleteApply(examineVo.getApplyId());
+
+        ApplyVo applyVo = new ApplyVo();
+        applyVo.setMsPrice(examineVo.getMsPrice());
+        applyVo.setSxPrice(examineVo.getSxPrice());
+        applyVo.setCName(examineVo.getCName());
+        applyVo.setAdultNumber(examineVo.getAdultNumber());
+        applyVo.setAdultPrice(examineVo.getAdultPrice());
+        applyVo.setApplyRemark(examineVo.getApplyRemark());
+        applyVo.setBabyNumber(examineVo.getBabyNumber());
+        applyVo.setBabyPrice(examineVo.getBabyPrice());
+        applyVo.setChildNumber(examineVo.getChildNumber());
+        applyVo.setChildPrice(examineVo.getChildPrice());
+        applyVo.setCompanyNameId(examineVo.getCompanyNameId());
+        applyVo.setCompanyUser(examineVo.getCompanyUser());
+        applyVo.setCompanyUserId(examineVo.getCompanyUserId());
+        applyVo.setContactName(examineVo.getContactName());
+        applyVo.setContactTel(examineVo.getContactTel());
+        applyVo.setLineName(examineVo.getLineName());
+        applyVo.setMarketAllPrice(examineVo.getMarketAllPrice());
+        applyVo.setOldNumber(examineVo.getOldNumber());
+        applyVo.setOldPrice(examineVo.getOldPrice());
+        applyVo.setOutDate(examineVo.getOutDate());
+        applyVo.setPayType(examineVo.getPayType());
+        applyVo.setPlace(examineVo.getPlace());
+        applyVo.setType(examineVo.getType());
+
+        applyVo.setUpOrInsert(1);
+        applyVo.setApplyId(examineVo.getApplyId());
+        applyVo.setApplyNo(examineVo.getApplyNo());
+        applyVo.setCreateUserId(examineVo.getCreateUserId());
+
+        applyService.insertApply(applyVo);
     }
 
     /**
@@ -244,14 +272,14 @@ public class ExamineServiceImpl extends ServiceImpl<ExamineMapper, Examine> impl
         }
 
         //增加一条通过报名的消息提醒记录
-        MsgVo msgVo = new MsgVo();
-        msgVo.setCreateId(user.getId());
-        msgVo.setMsgType(1);
-        msgVo.setMsg(NettyType.AGGRE_CANCEL_EXA.getMsg());
-
-        msgVo.setToId(vo.getCreateUserId());
-
-        messageService.insertMsg(msgVo);
+//        MsgVo msgVo = new MsgVo();
+//        msgVo.setCreateId(user.getId());
+//        msgVo.setMsgType(1);
+//        msgVo.setMsg(NettyType.AGGRE_CANCEL_EXA.getMsg());
+//
+//        msgVo.setToId(vo.getCreateUserId());
+//
+//        messageService.insertMsg(msgVo);
 
         //改变报名表
         applyService.cancelApply(ApplyId);
@@ -261,14 +289,17 @@ public class ExamineServiceImpl extends ServiceImpl<ExamineMapper, Examine> impl
     /**
      * 不通过取消报名审核
      * @param ApplyId
+     * @param exaRemark
+     * @return
      */
     @Override
-    public ExaApplyResultQuery NotAdoptCancelExamine(Long ApplyId) {
+    public ExaApplyResultQuery NotAdoptCancelExamine(Long ApplyId, String exaRemark) {
         LambdaQueryWrapper<Examine> queryWrapper = new LambdaQueryWrapper<Examine>()
                 .eq(Examine::getApplyId,ApplyId)
                 .eq(Examine::getExamineType,"1");
         Examine examine = new Examine();
         examine.setExamineResult(2);
+        examine.setExaRemark(exaRemark);
         UserLoginQuery user = localUser.getUser("用户信息");
         examine.setUpdateUserId(user.getId());
         int update = baseMapper.update(examine, queryWrapper);
@@ -283,15 +314,15 @@ public class ExamineServiceImpl extends ServiceImpl<ExamineMapper, Examine> impl
         applyService.updateApplyCancel(2,ApplyId);
 
         //增加一条不通过取消报名的消息提醒记录
-        ApplySeacherVo vo = applyService.queryById(ApplyId);
-        MsgVo msgVo = new MsgVo();
-        msgVo.setCreateId(user.getId());
-        msgVo.setMsgType(2);
-        msgVo.setMsg(NettyType.NOAGGRE_CANCEL_EXA.getMsg());
-
-        msgVo.setToId(vo.getCreateUserId());
-
-        messageService.insertMsg(msgVo);
+//        ApplySeacherVo vo = applyService.queryById(ApplyId);
+//        MsgVo msgVo = new MsgVo();
+//        msgVo.setCreateId(user.getId());
+//        msgVo.setMsgType(2);
+//        msgVo.setMsg(NettyType.NOAGGRE_CANCEL_EXA.getMsg());
+//
+//        msgVo.setToId(vo.getCreateUserId());
+//
+//        messageService.insertMsg(msgVo);
 
         ExaApplyResultQuery query = new ExaApplyResultQuery();
         query.setType("ok");
@@ -302,15 +333,19 @@ public class ExamineServiceImpl extends ServiceImpl<ExamineMapper, Examine> impl
     /**
      * 不通过报名审核
      * @param ApplyId
+     * @param exaRemark
+     * @return
      */
     @Override
-    public ExaApplyResultQuery NotAdoptExamine(Long ApplyId) {
+    public ExaApplyResultQuery NotAdoptExamine(Long ApplyId, String exaRemark) {
         Examine examine = new Examine();
         examine.setExamineResult(2);
         LambdaQueryWrapper<Examine> queryWrapper = new LambdaQueryWrapper<Examine>()
-                .eq(Examine::getApplyId,ApplyId);
+                .eq(Examine::getApplyId,ApplyId)
+                .eq(Examine::getExamineType,"0");
         UserLoginQuery user = localUser.getUser("用户信息");
         examine.setUpdateUserId(user.getId());
+        examine.setExaRemark(exaRemark);
         int update = baseMapper.update(examine, queryWrapper);
 
         if (update <= 0) {
@@ -369,14 +404,14 @@ public class ExamineServiceImpl extends ServiceImpl<ExamineMapper, Examine> impl
         }
 
         //增加一条不通过报名的消息提醒记录
-        MsgVo msgVo = new MsgVo();
-        msgVo.setCreateId(user.getId());
-        msgVo.setMsgType(2);
-        msgVo.setMsg(NettyType.NOAGGRE_EXA.getMsg());
-
-        msgVo.setToId(vo.getCreateUserId());
-
-        messageService.insertMsg(msgVo);
+//        MsgVo msgVo = new MsgVo();
+//        msgVo.setCreateId(user.getId());
+//        msgVo.setMsgType(2);
+//        msgVo.setMsg(NettyType.NOAGGRE_EXA.getMsg());
+//
+//        msgVo.setToId(vo.getCreateUserId());
+//
+//        messageService.insertMsg(msgVo);
 
         //同步报名表的审核状态
         applyService.updateExamineStatus(ApplyId,2,0);
@@ -392,7 +427,8 @@ public class ExamineServiceImpl extends ServiceImpl<ExamineMapper, Examine> impl
         Examine examine = new Examine();
         examine.setExamineResult(1);
         LambdaQueryWrapper<Examine> queryWrapper = new LambdaQueryWrapper<Examine>()
-                .eq(Examine::getApplyId,ApplyId);
+                .eq(Examine::getApplyId,ApplyId)
+                .eq(Examine::getExamineType,"0");
         UserLoginQuery user = localUser.getUser("用户信息");
         examine.setUpdateUserId(user.getId());
         int update = baseMapper.update(examine, queryWrapper);
@@ -404,14 +440,14 @@ public class ExamineServiceImpl extends ServiceImpl<ExamineMapper, Examine> impl
         ApplySeacherVo query = applyService.queryById(ApplyId);
 
 //        增加一条通过报名的消息提醒记录
-        MsgVo vo = new MsgVo();
-        vo.setCreateId(user.getId());
-        vo.setMsgType(1);
-        vo.setMsg(NettyType.AGGRE_EXA.getMsg());
-
-        vo.setToId(query.getCreateUserId());
+//        MsgVo vo = new MsgVo();
+//        vo.setCreateId(user.getId());
+//        vo.setMsgType(1);
+//        vo.setMsg(NettyType.AGGRE_EXA.getMsg());
 //
-        messageService.insertMsg(vo);
+//        vo.setToId(query.getCreateUserId());
+////
+//        messageService.insertMsg(vo);
 
         //同步报名表的审核状态
         applyService.updateExamineStatus(ApplyId,1,0);
@@ -554,6 +590,25 @@ public class ExamineServiceImpl extends ServiceImpl<ExamineMapper, Examine> impl
         //同行
         query.setCount(9999);
         return query;
+    }
+
+    /**
+     * 返回备注
+     * @param examineType
+     * @param applyId
+     * @return
+     */
+    @Override
+    public ResultVo queryRemark(String examineType, Long applyId) {
+
+        LambdaQueryWrapper<Examine> wrapper = new LambdaQueryWrapper<Examine>()
+              .eq(Examine::getApplyId,applyId)
+              .eq(Examine::getExamineType,examineType);
+        Examine examine = baseMapper.selectOne(wrapper);
+
+        ResultVo vo = new ResultVo();
+        vo.setResult(examine.getExaRemark());
+        return vo;
     }
 
 

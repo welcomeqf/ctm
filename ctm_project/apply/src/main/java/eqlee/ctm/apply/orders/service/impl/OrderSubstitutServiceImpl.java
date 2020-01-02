@@ -51,7 +51,6 @@ public class OrderSubstitutServiceImpl extends ServiceImpl<OrderSubstitutMapper,
 
         LambdaQueryWrapper<OrderSubstitut> queryWrapper = new LambdaQueryWrapper<OrderSubstitut>()
                 .eq(OrderSubstitut::getToGuideId,id)
-                .eq(OrderSubstitut::getLineName,lineName)
                 .eq(OrderSubstitut::getOutDate,outDate);
 
         LocalDateTime now = LocalDateTime.now();

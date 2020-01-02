@@ -62,4 +62,18 @@ public class OrderDetailedQuery {
      * 面收金额
      */
     private Double MsPrice;
+
+    private String outDate;
+
+    private String lineName;
+
+    private String companyName;
+
+    private String allPrice;
+
+    private String applyRemark;
+
+    private String guideName;
+
+    private Integer type;
 }

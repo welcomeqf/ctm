@@ -208,6 +208,37 @@ public class Apply extends Model<Apply> {
      */
     private Integer CancelInfo;
 
+    /**
+     * 0--正常报名  1--补录 2--包团
+     */
+    private Integer Type;
+
+    /**
+     * (0--正常  1--已结算)
+     * 续授信金额将之前的报名单为1
+     */
+    private Integer SxType;
+
+    /**
+     * 成人价格
+     */
+    private Double AdultPrice;
+
+    /**
+     * 幼儿价格
+     */
+    private Double BabyPrice;
+
+    /**
+     * 老人价格
+     */
+    private Double OldPrice;
+
+    /**
+     * 小孩价格
+     */
+    private Double ChildPrice;
+
     @Override
     protected Serializable pkVal() {
         return this.Id;

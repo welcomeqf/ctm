@@ -5,6 +5,7 @@ import com.yq.IBaseMapper.IBaseMapper;
 import eqlee.ctm.apply.entry.entity.Apply;
 import eqlee.ctm.apply.entry.entity.bo.ApplyBo;
 import eqlee.ctm.apply.entry.entity.bo.ApplyCompanyBo;
+import eqlee.ctm.apply.entry.entity.bo.ApplyDoExaInfo;
 import eqlee.ctm.apply.entry.entity.query.*;
 import eqlee.ctm.apply.entry.entity.vo.ApplyOpenIdVo;
 import eqlee.ctm.apply.orders.entity.Vo.LongVo;
@@ -184,7 +185,9 @@ public interface ApplyMapper extends IBaseMapper<Apply> {
      * @param startDate
      * @param endDate
      * @param id
+     * @param companyId
      * @param type
+     * @param roadName
      * @return
      */
     Page<ApplyCompanyQuery> allCompanyList(Page<ApplyCompanyQuery> page,
@@ -193,6 +196,7 @@ public interface ApplyMapper extends IBaseMapper<Apply> {
                                            @Param("startDate") LocalDateTime startDate,
                                            @Param("endDate") LocalDateTime endDate,
                                            @Param("id") Long id,
+                                           @Param("companyId") Long companyId,
                                            @Param("type") Integer type,
                                            @Param("roadName") String roadName);
 
@@ -269,24 +273,23 @@ public interface ApplyMapper extends IBaseMapper<Apply> {
     /**
      * 查询同行月结现结面收账单
      * @param page
-     * @param payType
      * @param start
      * @param end
      * @param lineName
      * @param id
+     * @param companyId
      * @return
      */
     Page<ApplyResultCountQuery> queryCompanyResultCount (Page<ApplyResultCountQuery> page,
-                                                         @Param("payType") Integer payType,
                                                          @Param("start") LocalDate start,
                                                          @Param("end") LocalDate end,
                                                          @Param("lineName") String lineName,
-                                                         @Param("id") Long id);
+                                                         @Param("id") Long id,
+                                                         @Param("companyId") Long companyId);
 
     /**
      * 运营人员月结现结账单核算
      * @param page
-     * @param payType
      * @param start
      * @param end
      * @param lineName
@@ -294,7 +297,6 @@ public interface ApplyMapper extends IBaseMapper<Apply> {
      * @return
      */
     Page<ApplyResultCountQuery> queryCompanyAdminResultCount (Page<ApplyResultCountQuery> page,
-                                                         @Param("payType") Integer payType,
                                                          @Param("start") LocalDate start,
                                                          @Param("end") LocalDate end,
                                                          @Param("lineName") String lineName,
@@ -331,36 +333,34 @@ public interface ApplyMapper extends IBaseMapper<Apply> {
     /**
      * 查询同行核算统计金额数据
      * @param id
-     * @param start
-     * @param end
      * @return
      */
-    ApplyBo queryApplyCountInfo (@Param("id") Long id,
-                                 @Param("start") LocalDate start,
-                                 @Param("end") LocalDate end);
+    ApplyBo queryApplyCountInfo (Long id);
 
 
     /**
      *  查询同行核算统计
      * @param id
-     * @param start
-     * @param end
      * @param payType
      * @return
      */
     ApplyBo queryApplyCount (@Param("id") Long id,
-                             @Param("start") LocalDate start,
-                             @Param("end") LocalDate end,
                              @Param("payType") Integer payType);
 
     /**
      * 查询当前月使用的金额
      * @param id
-     * @param start
-     * @param end
      * @return
      */
-    List<Apply> queryAllPriceToApply (@Param("id") Long id,
-                                      @Param("start") LocalDateTime start,
-                                      @Param("end") LocalDateTime end);
+    List<Apply> queryAllPriceToApply (Long id);
+
+    /**
+     * 查询支付信息
+     * @param applyNo
+     * @return
+     */
+    ApplyDoExaInfo queryApplyDoExaInfo (String applyNo);
+
+
+
 }

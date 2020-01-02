@@ -54,8 +54,7 @@ public class ApplyExcelController {
          @ApiImplicitParam(name = "current", value = "当前页", required = true, dataType = "int", paramType = "path"),
          @ApiImplicitParam(name = "size", value = "每页显示的条数", required = true, dataType = "int", paramType = "path"),
          @ApiImplicitParam(name = "outDate", value = "出发日期", required = false, dataType = "String", paramType = "path"),
-         @ApiImplicitParam(name = "lineName", value = "线路名称", required = false, dataType = "String", paramType = "path"),
-         @ApiImplicitParam(name = "payType", value = "(0--现结  1--月结 2--面收)", required = true, dataType = "int", paramType = "path")
+         @ApiImplicitParam(name = "lineName", value = "线路名称", required = false, dataType = "String", paramType = "path")
    })
    @GetMapping("/count")
    @CheckToken
@@ -64,26 +63,23 @@ public class ApplyExcelController {
                           @RequestParam("current") Integer current,
                           @RequestParam("size") Integer size,
                           @RequestParam("lineName") String lineName,
-                          @RequestParam("payType") Integer payType,
                           @RequestParam("startDate") String startDate,
                           @RequestParam("endDate") String endDate,
                           @RequestParam("companyId") Long companyId){
 
-      if (current == null || size == null || payType == null) {
+      if (current == null || size == null) {
          throw new ApplicationException(CodeType.PARAM_ERROR);
       }
 
       Page<ApplyResultCountQuery> page = new Page<>(current,size);
 
-      //查询出需要导出的数据
-      TimeQuery timeQuery = TimeData.getParam(startDate, endDate);
       UserLoginQuery user = localUser.getUser("用户信息");
       String admin = "运营人员";
       Page<ApplyResultCountQuery> queryPage;
       if (admin.equals(user.getRoleName())) {
-         queryPage = applyService.pageResultAdminCountList(page, payType, lineName, startDate, endDate, companyId);
+         queryPage = applyService.pageResultAdminCountList(page, lineName, startDate, endDate, companyId);
       } else {
-         queryPage = applyService.pageResult2CountList(page,payType,lineName,timeQuery.getStartTime(),timeQuery.getEndTime());
+         queryPage = applyService.pageResult2CountList(page,lineName,startDate,endDate);
       }
       //拿到集合数据
       List<ApplyResultCountQuery> list = queryPage.getRecords();
@@ -101,6 +97,13 @@ public class ApplyExcelController {
       head.add("幼儿人数");
       head.add("总人数");
       head.add("结算价");
+      head.add("总价");
+      Double price = 0.0;
+
+      for (ApplyResultCountQuery query : list) {
+         price = price + query.getAllPrice();
+      }
+
       //创建报表体
       List<List<String>> body = new ArrayList<>();
       for (ApplyResultCountQuery query : list) {
@@ -116,6 +119,7 @@ public class ApplyExcelController {
          bodyValue.add(String.valueOf(query.getBabyNumber()));
          bodyValue.add(String.valueOf(query.getAllNumber()));
          bodyValue.add(String.valueOf(query.getAllPrice()));
+         bodyValue.add(String.valueOf(price));
          //将数据添加到报表体中
          body.add(bodyValue);
       }

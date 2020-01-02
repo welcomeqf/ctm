@@ -9,8 +9,10 @@
     </select>
 
     <select id="listPageExa" resultType="eqlee.ctm.finance.settlement.entity.query.ExamineResultQuery">
-         select a.Id, a.GuideName,convert(varchar(20),a.OutDate,23) as 'OutDate',a.LineName,a.GuideTel as 'Tel',a.AllInPrice,
-        (a.AllInPrice - b.AllOutPrice) as 'FinallyPrice',b.AllOutPrice,a.Status from Income a join Outcome b
+        select max(a.Id)Id, max(a.GuideName)GuideName,max(convert(varchar(20),a.OutDate,23)) as 'OutDate',max(a.LineName)LineName,
+        max(a.GuideTel) as 'Tel',max(a.AllInPrice)AllInPrice,
+        (isnull(max(a.AllInPrice),0) - isnull(sum(b.OutPrice),0)) as 'FinallyPrice',isnull(sum(b.OutPrice),0)AllOutPrice,max(a.Status)Status
+        from Income a left join Outcome2 b
         on a.Id = b.IncomeId
         <where>
             1 = 1
@@ -33,23 +35,23 @@
                 and a.LineName = #{lineName}
             </if>
         </where>
-        order by a.OutDate desc
+        group by a.OutDate
     </select>
 
     <select id="listExamineDetailed" parameterType="long" resultType="eqlee.ctm.finance.settlement.entity.vo.ExamineResultVo">
         select a.Id as 'id',a.CreateUserId as 'GuestId',a.GuideName,convert(varchar(20),a.OutDate,23) as 'OutDate',a.LineName,a.SettlementPrice,
-        isnull(a.AllInPrice,0)AllInPrice,
-        b.TicketName,b.TicketPrice,b.LunchPrice,b.ParkingRatePrice,b.CarNo,b.RentCarPrice,b.GuideSubsidy,b.DriverSubsidy,b.AllOutPrice,
-        (isnull(a.AllInPrice,0) - b.AllOutPrice) as 'FinallyPrice',(isnull(c.AllPrice,0) - b.AllOutPrice)ProfitPrice,c.MonthPrice,
+        isnull(a.AllInPrice,0)AllInPrice,c.MonthPrice,
         c.AllDoNumber,c.TreeAdultNumber,c.TreeBabyNumber,c.TreeOldNumber,c.TreeChildNumber,c.TrueAllNumber
-        from Income a join OutCome b on a.Id = b.IncomeId join Number c on a.NumberId = c.Id
+        from Income a left join Outcome2 b on a.Id = b.IncomeId join Number c on a.NumberId = c.Id
         where a.Id = #{Id}
     </select>
 
     <select id="pageGuest2Me" resultType="eqlee.ctm.finance.settlement.entity.query.GuestResultQuery">
-        select convert(varchar(20),a.OutDate,23) as 'OutDate',a.LineName,c.TrueAllNumber,(isnull(a.AllInPrice,0))SubstitutionPrice,b.AllOutPrice,
-        (b.AllOutPrice- isnull(a.AllInPrice,0))ResultPrice,a.Status,c.TreeAdultNumber,c.TreeBabyNumber,c.TreeOldNumber,c.TreeChildNumber
-        from Income a join OutCome b on a.Id = b.IncomeId join Number c on a.NumberId = c.Id
+        select convert(varchar(20),max(a.OutDate),23) as 'OutDate',max(a.LineName)LineName,max(c.TrueAllNumber)TrueAllNumber,
+        (isnull(max(a.AllInPrice),0))SubstitutionPrice,max(c.TreeBabyNumber)TreeBabyNumber,max(c.TreeOldNumber)TreeOldNumber
+        ,max(a.Status)Status,max(c.TreeAdultNumber)TreeAdultNumber,max(c.TreeChildNumber)TreeChildNumber
+        ,isnull(sum(b.OutPrice),0)AllOutPrice,(isnull(sum(b.OutPrice),0)- isnull(max(a.AllInPrice),0))ResultPrice
+        from Income a left join OutCome2 b on a.Id = b.IncomeId join Number c on a.NumberId = c.Id
         <where>
             1 = 1
             <if test="Status != 3">
@@ -62,11 +64,11 @@
                 and a.LineName = #{lineName}
             </if>
         </where>
-        order by a.OutDate desc
+        group by a.OutDate
     </select>
 
     <update id="updateIsFinash">
-        update Orders set IsFinash = 1, UpdateDate = #{dateTime} where OutDate = #{outDate} and LineName = #{lineName}
+        update Orders set IsFinash = 1, UpdateDate = #{dateTime} where OutDate = #{outDate}
         and CreateUserId = #{id}
     </update>
 
@@ -80,9 +82,9 @@
 
     <select id="pageExamine" resultType="eqlee.ctm.finance.settlement.entity.query.ExamineInfoQuery">
         select a.CreateUserId as 'guideId',a.GuideName as 'guideName',convert(varchar(100),a.OutDate,20) as 'outDate',a.LineName as 'lineName',
-       (a.SubstitutionPrice - b.AllOutPrice) as 'finallyPrice',a.UpdateDate as 'updateDate',a.Status as 'status'
-        from Income a join OutCome b on a.Id = b.IncomeId
-        where a.CreateUserId = #{guideId} and OutDate = #{outDate} and LineName = #{lineName}
+       a.UpdateDate as 'updateDate',a.Status as 'status'
+        from Income a left join OutCome2 b on a.Id = b.IncomeId
+        where a.CreateUserId = #{guideId} and OutDate = #{outDate}
         order by a.UpdateDate desc
     </select>
 

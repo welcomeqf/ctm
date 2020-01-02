@@ -64,4 +64,14 @@ public class OrderBo {
     * 总人数
     */
    private Integer allNumber;
+
+   /**
+    * 导游名字
+    */
+   private String guideName;
+
+   /**
+    * 车牌号
+    */
+   private String carNumber;
 }

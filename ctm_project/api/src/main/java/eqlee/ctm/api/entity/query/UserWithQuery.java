@@ -21,4 +21,6 @@ public class UserWithQuery {
     private Long companyId;
 
     private String roleName;
+
+    private String city;
 }

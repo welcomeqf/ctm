@@ -103,4 +103,19 @@ public class OrderDetailedBo {
      */
     private Double MonthPrice;
 
+    /**
+     * 线路名
+     */
+    private String LineName;
+
+    /**
+     * 报名表的备注
+     */
+    private String ApplyRemark;
+
+    /**
+     * (0--正常报名  1-补录  2-包团)
+     */
+    private Integer Types;
+
 }

@@ -75,6 +75,8 @@ public class AuthenticationInterceptor implements HandlerInterceptor {
                     query.setMenuList(JWT.decode(token).getClaim("menuList").asList(PrivilegeMenuQuery.class));
                     query.setRoleName(JWT.decode(token).getClaim("roleName").asString());
                     query.setTel(JWT.decode(token).getClaim("tel").asString());
+                    query.setStatus(JWT.decode(token).getClaim("status").asInt());
+                    query.setCity(JWT.decode(token).getClaim("city").asString());
 
                 } catch (JWTDecodeException j) {
                     throw new ApplicationException(CodeType.OVENDU_ERROR,"token错误");

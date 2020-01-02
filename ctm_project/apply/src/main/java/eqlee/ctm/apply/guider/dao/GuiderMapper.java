@@ -2,6 +2,7 @@ package eqlee.ctm.apply.guider.dao;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import eqlee.ctm.apply.guider.entity.vo.ApplyVo;
+import eqlee.ctm.apply.guider.entity.vo.GuiderCountNumber;
 import eqlee.ctm.apply.guider.entity.vo.GuiderVo;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Component;
@@ -50,14 +51,54 @@ public interface GuiderMapper {
       * 查询导游首页
       * @param page
       * @param outDate
-      * @param lineName
       * @param region
+      * @param city
+      * @param lineId1
+      * @param lineId2
+      * @param lineId3
+      * @param lineId4
+      * @param lineId5
+      * @param lineId6
+      * @param lineId7
       * @return
       */
      Page<GuiderVo> guiderIndex(Page<GuiderVo> page,
                                 @Param("outDate") LocalDate outDate,
-                                @Param("lineName") String lineName,
-                                @Param("region") String region);
+                                @Param("region") String region,
+                                @Param("city") String city,
+                                @Param("lineId1") Long lineId1,
+                                @Param("lineId2")Long lineId2,
+                                @Param("lineId3")Long lineId3,
+                                @Param("lineId4")Long lineId4,
+                                @Param("lineId5")Long lineId5,
+                                @Param("lineId6")Long lineId6,
+                                @Param("lineId7")Long lineId7);
+
+
+     /**
+      * 查询人数统计
+      * @param outDate
+      * @param region
+      * @param city
+      * @param lineId1
+      * @param lineId2
+      * @param lineId3
+      * @param lineId4
+      * @param lineId5
+      * @param lineId6
+      * @param lineId7
+      * @return
+      */
+     GuiderCountNumber queryCountNumberInfo (@Param("outDate") LocalDate outDate,
+                                             @Param("region") String region,
+                                             @Param("city") String city,
+                                             @Param("lineId1") Long lineId1,
+                                             @Param("lineId2")Long lineId2,
+                                             @Param("lineId3")Long lineId3,
+                                             @Param("lineId4")Long lineId4,
+                                             @Param("lineId5")Long lineId5,
+                                             @Param("lineId6")Long lineId6,
+                                             @Param("lineId7")Long lineId7);
 
 
      /**

@@ -14,6 +14,7 @@ import eqlee.ctm.apply.entry.entity.vo.*;
 import eqlee.ctm.apply.message.entity.vo.MsgAddVo;
 import eqlee.ctm.apply.message.entity.vo.MsgUpdateVo;
 import eqlee.ctm.apply.message.entity.vo.MsgVo;
+import eqlee.ctm.apply.sxpay.entity.PayInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -50,6 +51,11 @@ public class HttpUtils {
     private final String user_url = "http://localhost:9092/ctm_user";
 
     private final String user_url1 = "http://localhost:8001";
+
+    /**
+     * 主api路径
+     */
+    private final String api_url = "http://localhost:9093/ctm_api";
 
     @Autowired
     private TokenData tokenData;
@@ -285,6 +291,36 @@ public class HttpUtils {
             String userToken = tokenData.getMapToken();
             String token = "Bearer " + userToken;
             httpResult = apiService.get(url,token);
+        }catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        ResultResposeVo result = JSONObject.parseObject(httpResult.getBody(),ResultResposeVo.class);
+        if (result.getCode() != 0) {
+            throw new ApplicationException(CodeType.RESOURCES_NOT_FIND,result.getMsg());
+        }
+
+        return result.getData();
+    }
+
+
+
+    /**
+     * 增加支付信息
+     * @return
+     */
+    public Object insertPayInfo (PayInfo info){
+        //路径
+        String url = api_url + "/v1/pay/insertPayInfo";
+        HttpResult httpResult = null;
+
+        String s = JSONObject.toJSONString(info);
+
+        try {
+            //获得token
+            String userToken = tokenData.getMapToken();
+            String token = "Bearer " + userToken;
+            httpResult = apiService.post(url,s,token);
         }catch (Exception e) {
             e.printStackTrace();
         }

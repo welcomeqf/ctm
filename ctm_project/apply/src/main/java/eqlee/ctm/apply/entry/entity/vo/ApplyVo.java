@@ -121,9 +121,22 @@ public class ApplyVo {
     private Double childPrice;
 
     /**
-     * null为正常报名
-     * 传任意值为补录
+     * 正常报名 type = 0
+     * 补录type= 1
+     * 包团type = 2
      */
-    private String type;
+    private Integer type;
+
+    /**
+     * 1-修改 0-报名
+     */
+    private Integer upOrInsert;
+
+    private Long applyId;
+
+    /**
+     * 报名单号
+     */
+    private String applyNo;
 
 }

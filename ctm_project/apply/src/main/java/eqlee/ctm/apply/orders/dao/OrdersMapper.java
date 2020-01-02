@@ -55,27 +55,23 @@ public interface OrdersMapper extends IBaseMapper<Orders> {
 
     /**
      * 插入车牌号(本公司车辆)
-     * @param LineName
      * @param OutDate
      * @param CarNumber
      * @return
      */
-     int updateOrdersCarNo(@Param("LineName") String LineName,
-                           @Param("OutDate") LocalDate OutDate,
+     int updateOrdersCarNo(@Param("OutDate") LocalDate OutDate,
                            @Param("CarNumber") String CarNumber,
                            @Param("Id") Long Id);
 
 
     /**
      * 插入车牌号(非公司车辆)
-     * @param LineName
      * @param OutDate
      * @param CarNumber
      * @param Id
      * @return
      */
-    int updateOrdersOutsideCarNo(@Param("LineName") String LineName,
-                                 @Param("OutDate") LocalDate OutDate,
+    int updateOrdersOutsideCarNo(@Param("OutDate") LocalDate OutDate,
                                  @Param("CarNumber") String CarNumber,
                                  @Param("Id") Long Id);
 
@@ -145,13 +141,12 @@ public interface OrdersMapper extends IBaseMapper<Orders> {
 
     /**
      * 导游收入统计
-     * @param LineName
-     * @param OutDate
+     * @param outDate
+     * @param id
      * @return
      */
-    List<InComeRemerberVo> selectIncomeCount(@Param("LineName") String LineName,
-                                             @Param("OutDate") LocalDate OutDate,
-                                             @Param("Id") Long Id);
+    IncomeVo selectIncomeCount(@Param("outDate") LocalDate outDate,
+                                             @Param("id") Long id);
     /**
      * 未付款人信息
      * @param page
@@ -181,5 +176,23 @@ public interface OrdersMapper extends IBaseMapper<Orders> {
     OrdersMonthBo queryMonthPrice (@Param("lineName") String lineName,
                                    @Param("outDate") LocalDate outDate,
                                    @Param("id") Long id);
+
+
+    /**
+     * 查询审核状态
+     * @param outDate
+     * @param id
+     * @return
+     */
+    IncomeVo queryStatus (@Param("outDate") LocalDate outDate,
+                          @Param("id") Long id);
+
+
+    /**
+     * 批量修改车辆出行状态
+     * @param list
+     * @return
+     */
+    Integer upCarStatus (List<Orders> list);
 
 }

@@ -34,16 +34,4 @@ public interface IOtherService {
     */
    List<OtherVo> queryOther();
 
-   /**
-    *  批量装配其他收入表
-    * @param vo
-    */
-   void updateOther (List<OtherUpdateVo> vo);
-
-   /**
-    * 查询结算的其他收入具体信息
-    * @param incomeId
-    * @return
-    */
-   List<Other> queryOtherByIncome (Long incomeId);
 }

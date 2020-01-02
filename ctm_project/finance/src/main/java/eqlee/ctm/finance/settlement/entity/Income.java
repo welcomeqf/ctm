@@ -56,6 +56,11 @@ public class Income extends Model<Income> {
     private Long NumberId;
 
     /**
+     * 车牌号
+     */
+    private String CarNo;
+
+    /**
      * 收款单位
      */
     private String ReceivingUnit;

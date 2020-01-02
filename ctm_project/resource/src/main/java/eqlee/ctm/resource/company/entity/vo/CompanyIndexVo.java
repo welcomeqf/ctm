@@ -35,12 +35,51 @@ public class CompanyIndexVo {
     /**
      * 公司状态
      */
-    private boolean stopped;
+    private Boolean stopped;
 
     private String companyNo;
 
     private String companyPic;
 
     private Double sxPrice;
+
+    /**
+     * 负责人名字
+     */
+    private String chargeName;
+
+    /**
+     * 财务人电话
+     */
+    private String financeTel;
+
+    /**
+     * 营业执照图片
+     */
+    private String business;
+
+    /**
+     * 许可证
+     */
+    private String licence;
+
+    /**
+     * 保险证
+     */
+    private String insurance;
+
+    /**
+     * 银行卡
+     */
+    private String bankCard;
+
+    private String address;
+
+    /**
+     * 0-待审核 1-通过 2-拒绝
+     */
+    private Integer status;
+
+
 
 }

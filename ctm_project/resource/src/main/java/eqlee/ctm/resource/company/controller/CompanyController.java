@@ -7,6 +7,7 @@ import com.yq.jwt.entity.UserLoginQuery;
 import com.yq.jwt.islogin.CheckToken;
 import com.yq.utils.StringUtils;
 import eqlee.ctm.resource.company.entity.Company;
+import eqlee.ctm.resource.company.entity.query.CompanyAdminQuery;
 import eqlee.ctm.resource.company.entity.query.CompanyQuery;
 import eqlee.ctm.resource.company.entity.query.PageCompanyQuery;
 import eqlee.ctm.resource.company.entity.vo.CompanyIndexVo;
@@ -46,7 +47,6 @@ public class CompanyController {
     @CheckToken
     public CompanyQueryVo CompanyIndex (@RequestParam("Id") Long Id) {
         if(Id == null){
-            log.error("update company param is null");
             throw new ApplicationException(CodeType.PARAMETER_ERROR);
         }
         return companyService.UpdateCompanyIndex(Id);
@@ -61,15 +61,23 @@ public class CompanyController {
             @ApiImplicitParam(name = "startDate", value = "合同开始时间", required = true, dataType = "String", paramType = "path"),
             @ApiImplicitParam(name = "endDate", value = "合同结束时间", required = true, dataType = "String", paramType = "path"),
             @ApiImplicitParam(name = "payMethod", value = "支付方式", required = true, dataType = "Integer", paramType = "path"),
-            @ApiImplicitParam(name = "stopped", value = "状态", required = true, dataType = "Boolean", paramType = "path")
+            @ApiImplicitParam(name = "companyNo", value = "公司编号", required = true, dataType = "Integer", paramType = "path"),
+            @ApiImplicitParam(name = "companyPic", value = "合同图片", required = true, dataType = "Integer", paramType = "path"),
+            @ApiImplicitParam(name = "chargeName", value = "负责人名字", required = true, dataType = "Integer", paramType = "path"),
+            @ApiImplicitParam(name = "chargeTel", value = "负责人电话", required = true, dataType = "Integer", paramType = "path"),
+            @ApiImplicitParam(name = "financeName", value = "财务名字", required = true, dataType = "Integer", paramType = "path"),
+            @ApiImplicitParam(name = "financeTel", value = "财务电话", required = true, dataType = "Integer", paramType = "path"),
+            @ApiImplicitParam(name = "business", value = "营业执照图片", required = true, dataType = "Integer", paramType = "path"),
+            @ApiImplicitParam(name = "licence", value = "许可证", required = true, dataType = "Integer", paramType = "path"),
+            @ApiImplicitParam(name = "insurance", value = "保险证", required = true, dataType = "Integer", paramType = "path"),
+            @ApiImplicitParam(name = "bankCard", value = "银行卡", required = true, dataType = "Integer", paramType = "path"),
+            @ApiImplicitParam(name = "status", value = "0-待审核 1-通过 2-拒绝", required = true, dataType = "Integer", paramType = "path"),
     })
     @PostMapping("/updateCompany")
     @CrossOrigin
     @CheckToken
     public ResultVo updateCompany (@RequestBody CompanyVo companyVo) {
-        if(companyVo.getId() == null || companyVo.getPayMethod() == null
-        || StringUtils.isBlank(companyVo.getEndDate())|| StringUtils.isBlank(companyVo.getStartDate())
-        || StringUtils.isBlank(companyVo.getCompanyName())){
+        if(companyVo.getId() == null ||  StringUtils.isBlank(companyVo.getCompanyName())){
             log.error("update company param is null");
             throw new ApplicationException(CodeType.PARAMETER_ERROR);
         }
@@ -125,10 +133,21 @@ public class CompanyController {
 
     @ApiOperation(value = "添加", notes = "添加同行信息")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "companyName", value = "公司名称", required = true, dataType = "String", paramType = "path"),
-            @ApiImplicitParam(name = "startDate", value = "合同开始时间", required = true, dataType = "String", paramType = "path"),
-            @ApiImplicitParam(name = "endDate", value = "合同结束时间", required = true, dataType = "String", paramType = "path"),
-            @ApiImplicitParam(name = "payMethod", value = "支付方式", required = true, dataType = "Integer", paramType = "path"),
+          @ApiImplicitParam(name = "companyName", value = "公司名称", required = true, dataType = "String", paramType = "path"),
+          @ApiImplicitParam(name = "startDate", value = "合同开始时间", required = true, dataType = "String", paramType = "path"),
+          @ApiImplicitParam(name = "endDate", value = "合同结束时间", required = true, dataType = "String", paramType = "path"),
+          @ApiImplicitParam(name = "payMethod", value = "支付方式", required = true, dataType = "Integer", paramType = "path"),
+          @ApiImplicitParam(name = "companyNo", value = "公司编号", required = true, dataType = "Integer", paramType = "path"),
+          @ApiImplicitParam(name = "companyPic", value = "合同图片", required = true, dataType = "Integer", paramType = "path"),
+          @ApiImplicitParam(name = "chargeName", value = "负责人名字", required = true, dataType = "Integer", paramType = "path"),
+          @ApiImplicitParam(name = "chargeTel", value = "负责人电话", required = true, dataType = "Integer", paramType = "path"),
+          @ApiImplicitParam(name = "financeName", value = "财务名字", required = true, dataType = "Integer", paramType = "path"),
+          @ApiImplicitParam(name = "financeTel", value = "财务电话", required = true, dataType = "Integer", paramType = "path"),
+          @ApiImplicitParam(name = "business", value = "营业执照图片", required = true, dataType = "Integer", paramType = "path"),
+          @ApiImplicitParam(name = "licence", value = "许可证", required = true, dataType = "Integer", paramType = "path"),
+          @ApiImplicitParam(name = "insurance", value = "保险证", required = true, dataType = "Integer", paramType = "path"),
+          @ApiImplicitParam(name = "bankCard", value = "银行卡", required = true, dataType = "Integer", paramType = "path"),
+          @ApiImplicitParam(name = "sxPrice", value = "授信金额", required = true, dataType = "Integer", paramType = "path"),
     })
     @PostMapping("/addCompany")
     @CrossOrigin
@@ -136,7 +155,10 @@ public class CompanyController {
     public ResultVo addCompany (@RequestBody CompanyVo companyVo) {
         if(companyVo.getPayMethod() == null
                 || StringUtils.isBlank(companyVo.getEndDate())|| StringUtils.isBlank(companyVo.getStartDate())
-                || StringUtils.isBlank(companyVo.getCompanyName())) {
+                || StringUtils.isBlank(companyVo.getCompanyName()) || StringUtils.isBlank(companyVo.getChargeName())
+        || StringUtils.isBlank(companyVo.getFinanceTel()) || StringUtils.isBlank(companyVo.getBusiness())
+        || StringUtils.isBlank(companyVo.getBankCard()) || StringUtils.isBlank(companyVo.getLicence())
+        || StringUtils.isBlank(companyVo.getInsurance())) {
             throw new ApplicationException(CodeType.PARAMETER_ERROR,"增加公司参数不能为空.");
         }
         companyService.addCompany(companyVo);
@@ -183,5 +205,54 @@ public class CompanyController {
     public CompanyQuery queryAllMenu(){
         return companyService.getCompanyName();
 
+    }
+
+    @ApiOperation(value = "查询所有同行", notes = "查询所有同行")
+    @GetMapping("/getCompany")
+    @CrossOrigin
+    @CheckToken
+    public List<Company> getCompany(){
+        return companyService.queryAllCompany();
+
+    }
+
+
+    @ApiOperation(value = "查询自己的信息以及公司的信息", notes = "查询自己的信息以及公司的信息")
+    @GetMapping("/queryAdminMeInfo")
+    @CrossOrigin
+    @CheckToken
+    public CompanyAdminQuery queryAdminMeInfo(){
+        return companyService.queryAdminMeInfo();
+
+    }
+
+    @ApiOperation(value = "注册", notes = "注册")
+    @ApiImplicitParams({
+          @ApiImplicitParam(name = "companyName", value = "公司名称", required = true, dataType = "String", paramType = "path"),
+          @ApiImplicitParam(name = "startDate", value = "合同开始时间", required = true, dataType = "String", paramType = "path"),
+          @ApiImplicitParam(name = "endDate", value = "合同结束时间", required = true, dataType = "String", paramType = "path"),
+          @ApiImplicitParam(name = "payMethod", value = "支付方式", required = true, dataType = "Integer", paramType = "path"),
+          @ApiImplicitParam(name = "companyNo", value = "公司编号", required = true, dataType = "Integer", paramType = "path"),
+          @ApiImplicitParam(name = "companyPic", value = "合同图片", required = true, dataType = "Integer", paramType = "path"),
+          @ApiImplicitParam(name = "chargeName", value = "负责人名字", required = true, dataType = "Integer", paramType = "path"),
+          @ApiImplicitParam(name = "chargeTel", value = "负责人电话", required = true, dataType = "Integer", paramType = "path"),
+          @ApiImplicitParam(name = "financeName", value = "财务名字", required = true, dataType = "Integer", paramType = "path"),
+          @ApiImplicitParam(name = "financeTel", value = "财务电话", required = true, dataType = "Integer", paramType = "path"),
+          @ApiImplicitParam(name = "business", value = "营业执照图片", required = true, dataType = "Integer", paramType = "path"),
+          @ApiImplicitParam(name = "licence", value = "许可证", required = true, dataType = "Integer", paramType = "path"),
+          @ApiImplicitParam(name = "insurance", value = "保险证", required = true, dataType = "Integer", paramType = "path"),
+          @ApiImplicitParam(name = "bankCard", value = "银行卡", required = true, dataType = "Integer", paramType = "path"),
+    })
+    @PostMapping("/registerCompany")
+    @CrossOrigin
+    public ResultVo registerCompany (@RequestBody CompanyVo companyVo) {
+        if(StringUtils.isBlank(companyVo.getCompanyName()) || StringUtils.isBlank(companyVo.getChargeName())
+              || StringUtils.isBlank(companyVo.getAddress())) {
+            throw new ApplicationException(CodeType.PARAMETER_ERROR,"所填信息不能为空.");
+        }
+        companyService.registerCompany(companyVo);
+        ResultVo resultVo = new ResultVo();
+        resultVo.setResult("ok");
+        return resultVo;
     }
 }

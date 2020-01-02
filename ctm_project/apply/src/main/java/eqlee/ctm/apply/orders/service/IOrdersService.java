@@ -61,11 +61,10 @@ public interface IOrdersService {
     /**
      * 保存车辆信息
      *
-     * @param LineName
      * @param OutDate
      * @param CarNumber
      */
-    void save(String LineName, String OutDate, String CarNumber);
+    void save(String OutDate, String CarNumber);
 
 
     /**
@@ -113,11 +112,10 @@ public interface IOrdersService {
 
     /**
      * 导游收入统计
-     * @param LineName
-     * @param OutDate
+     * @param outDate
      * @return
      */
-    IncomeVo IncomeCount(String LineName,String OutDate);
+    IncomeVo IncomeCount(String outDate);
 
 
 
@@ -160,4 +158,16 @@ public interface IOrdersService {
      * @return
      */
     Orders queryOne (Long id);
+
+    /**
+     * 修改车辆出行状态
+     */
+    void upCarStatus ();
+
+    /**
+     * 查询ID
+     * @param outDate
+     * @return
+     */
+    IdBo queryId (String outDate);
 }

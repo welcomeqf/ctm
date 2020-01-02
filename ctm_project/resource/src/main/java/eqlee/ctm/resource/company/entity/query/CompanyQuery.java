@@ -2,6 +2,8 @@ package eqlee.ctm.resource.company.entity.query;
 
 import lombok.Data;
 
+import java.time.LocalDateTime;
+
 /**
  * @Author qf
  * @Date 2019/10/24

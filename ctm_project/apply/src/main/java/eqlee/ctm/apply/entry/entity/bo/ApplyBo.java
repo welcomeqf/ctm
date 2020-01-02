@@ -10,7 +10,7 @@ import lombok.Data;
 @Data
 public class ApplyBo {
 
-   private Double price;
+   private Double msPrice;
 
    private Integer allNumber;
 

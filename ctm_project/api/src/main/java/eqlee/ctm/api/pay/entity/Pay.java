@@ -95,7 +95,12 @@ public class Pay extends Model<Pay> {
     private LocalDateTime UpdateDate;
 
     /**
-     * (0--微信  1--支付宝)
+     * (0--微信  1--支付宝  2--转账图片说明)
      */
     private Integer PayType;
+
+    /**
+     * 上传转账图片
+     */
+    private String PayPhone;
 }

@@ -15,10 +15,7 @@ import com.yq.utils.IdGenerator;
 import com.yq.utils.StringUtils;
 import eqlee.ctm.apply.entry.dao.ApplyMapper;
 import eqlee.ctm.apply.entry.entity.Apply;
-import eqlee.ctm.apply.entry.entity.bo.ApplyBo;
-import eqlee.ctm.apply.entry.entity.bo.ApplyCompanyBo;
-import eqlee.ctm.apply.entry.entity.bo.ApplyCountBo;
-import eqlee.ctm.apply.entry.entity.bo.UserAdminBo;
+import eqlee.ctm.apply.entry.entity.bo.*;
 import eqlee.ctm.apply.entry.entity.query.*;
 import eqlee.ctm.apply.entry.entity.vo.*;
 import eqlee.ctm.apply.entry.service.IApplyService;
@@ -138,11 +135,9 @@ public class ApplyServiceImpl extends ServiceImpl<ApplyMapper, Apply> implements
 
         UserLoginQuery user = localUser.getUser("用户信息");
 
-       UserQuery userById = null;
         if ("同行".equals(user.getRoleName())) {
             applyVo.setCompanyNameId(user.getCompanyId());
             applyVo.setCName(user.getCname());
-            applyVo.setCreateUserId(user.getId());
         } else {
             //运营代录
             if (applyVo.getCompanyUserId() == null) {
@@ -151,18 +146,17 @@ public class ApplyServiceImpl extends ServiceImpl<ApplyMapper, Apply> implements
             //装配同行id
             //先查询该同行信息
             //-------------------
-            try {
-                String users = httpUtils.queryUserInfo(applyVo.getCompanyUserId());
-                userById = JSONObject.parseObject (users,UserQuery.class);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+//            try {
+//                String users = httpUtils.queryUserInfo(applyVo.getCompanyUserId());
+//                userById = JSONObject.parseObject (users,UserQuery.class);
+//            } catch (Exception e) {
+//                e.printStackTrace();
+//            }
 
-            applyVo.setCompanyNameId(userById.getCompanyId());
-            applyVo.setCompanyUser(userById.getAccount());
-            applyVo.setCreateUserId(userById.getId());
-            applyVo.setUpdateUserId(userById.getId());
-            applyVo.setCName(userById.getCname());
+           //            applyVo.setCompanyUser(userById.getAccount());
+            applyVo.setCompanyNameId(applyVo.getCompanyUserId());
+            applyVo.setCName(user.getCname());
+            applyVo.setUpdateUserId(user.getId());
         }
 
         Company company = baseMapper.queryCompanyById(applyVo.getCompanyNameId());
@@ -173,17 +167,27 @@ public class ApplyServiceImpl extends ServiceImpl<ApplyMapper, Apply> implements
 
         //装配实体类
         Apply apply = new Apply();
+       Long id = idGenerator.getNumberId();
 
-        Long id = idGenerator.getNumberId();
+       if (applyVo.getUpOrInsert() == 1) {
+          //修改
+          apply.setApplyNo(applyVo.getApplyNo());
+          apply.setCreateUserId(applyVo.getCreateUserId());
+          apply.setId(applyVo.getApplyId());
+
+       } else {
+          apply.setApplyNo(orderCode);
+          apply.setCreateUserId(user.getId());
+          apply.setId(id);
+       }
+
         if ("同行".equals(user.getRoleName())) {
-            apply.setId(id);
             apply.setAdultNumber(applyVo.getAdultNumber());
             apply.setBabyNumber(applyVo.getBabyNumber());
             apply.setChildNumber(applyVo.getChildNumber());
             apply.setOldNumber(applyVo.getOldNumber());
             apply.setAllNumber(AllNumber);
             apply.setAllPrice(AllPrice);
-            apply.setApplyNo(orderCode);
             apply.setCompanyName(company.getCompanyName());
             apply.setCompanyUser(user.getAccount());
             apply.setContactName(applyVo.getContactName());
@@ -192,7 +196,6 @@ public class ApplyServiceImpl extends ServiceImpl<ApplyMapper, Apply> implements
             apply.setRegion(line.getRegion());
             apply.setLineId(line.getId());
             apply.setOutDate(localDate);
-            apply.setCreateUserId(user.getId());
             apply.setUpdateUserId(user.getId());
             apply.setCName(applyVo.getCName());
             apply.setMarketAllPrice(applyVo.getMarketAllPrice());
@@ -201,17 +204,16 @@ public class ApplyServiceImpl extends ServiceImpl<ApplyMapper, Apply> implements
 
             apply.setCompanyId(applyVo.getCompanyNameId());
             apply.setCompanyTel(user.getTel());
+            apply.setType(applyVo.getType());
 
         } else {
             //运营人员代录
-            apply.setId(id);
             apply.setAdultNumber(applyVo.getAdultNumber());
             apply.setBabyNumber(applyVo.getBabyNumber());
             apply.setChildNumber(applyVo.getChildNumber());
             apply.setOldNumber(applyVo.getOldNumber());
             apply.setAllNumber(AllNumber);
             apply.setAllPrice(AllPrice);
-            apply.setApplyNo(orderCode);
             apply.setCompanyName(company.getCompanyName());
             apply.setCompanyUser(applyVo.getCompanyUser());
             apply.setContactName(applyVo.getContactName());
@@ -220,7 +222,6 @@ public class ApplyServiceImpl extends ServiceImpl<ApplyMapper, Apply> implements
             apply.setRegion(line.getRegion());
             apply.setLineId(line.getId());
             apply.setOutDate(localDate);
-            apply.setCreateUserId(applyVo.getCreateUserId());
             apply.setUpdateUserId(applyVo.getUpdateUserId());
             apply.setCName(applyVo.getCName());
             apply.setMarketAllPrice(applyVo.getMarketAllPrice());
@@ -228,7 +229,7 @@ public class ApplyServiceImpl extends ServiceImpl<ApplyMapper, Apply> implements
             apply.setApplyRemark(applyVo.getApplyRemark());
 
            apply.setCompanyId(applyVo.getCompanyNameId());
-           apply.setCompanyTel(userById.getTel());
+           apply.setType(applyVo.getType());
 
         }
 
@@ -242,14 +243,9 @@ public class ApplyServiceImpl extends ServiceImpl<ApplyMapper, Apply> implements
 
            //如果是月结，判断月结金额是否达标
            //获取当前月份
-           String nowTime = DateUtil.formatDate(LocalDate.now());
-           String monthTime = nowTime.substring(0,7) + "-01 00:00:00";
-
-           LocalDateTime startTime = DateUtil.parseDateTime(monthTime);
-           LocalDateTime endTime = startTime.plusMonths(1);
 
            //查询当前月使用的金额
-           List<Apply> applies = baseMapper.queryAllPriceToApply(applyVo.getCreateUserId(),startTime,endTime);
+           List<Apply> applies = baseMapper.queryAllPriceToApply(applyVo.getCreateUserId());
 
            //算出本月已使用的金额
            Double sxAllPrice = 0.0;
@@ -286,14 +282,9 @@ public class ApplyServiceImpl extends ServiceImpl<ApplyMapper, Apply> implements
 
             //
            //获取当前月份
-           String nowTime = DateUtil.formatDate(LocalDate.now());
-           String monthTime = nowTime.substring(0,7) + "-01 00:00:00";
-
-           LocalDateTime startTime = DateUtil.parseDateTime(monthTime);
-           LocalDateTime endTime = startTime.plusMonths(1);
 
            //查询当前月使用的金额
-           List<Apply> applies = baseMapper.queryAllPriceToApply(applyVo.getCreateUserId(),startTime,endTime);
+           List<Apply> applies = baseMapper.queryAllPriceToApply(applyVo.getCreateUserId());
 
            //算出本月已使用的金额
            Double sxAllPrice = 0.0;
@@ -320,6 +311,12 @@ public class ApplyServiceImpl extends ServiceImpl<ApplyMapper, Apply> implements
             throw new ApplicationException(CodeType.SERVICE_ERROR,"您输入支付类型有误，请重新输入");
         }
 
+       //单价
+       apply.setAdultPrice(applyVo.getAdultPrice());
+       apply.setBabyPrice(applyVo.getBabyPrice());
+       apply.setChildPrice(applyVo.getChildPrice());
+       apply.setOldPrice(applyVo.getOldPrice());
+
         int insert = baseMapper.insert(apply);
 
         ExamineAddVo vo = new ExamineAddVo();
@@ -335,26 +332,26 @@ public class ApplyServiceImpl extends ServiceImpl<ApplyMapper, Apply> implements
 
         //查询所有管理员的id集合
 
-        List<Long> longList = new ArrayList<>();
-        List<UserAdminBo> idList = (List<UserAdminBo>) httpUtils.queryAllAdminInfo();
-
-        if (idList.size() == 0) {
-            throw new ApplicationException(CodeType.SERVICE_ERROR, "请将管理员的角色名设置为运营人员");
-        }
-
-       for (int i = 0; i <= idList.size()-1; i++) {
-          UserAdminBo bo = JSONObject.parseObject(String.valueOf(idList.get(i)),UserAdminBo.class);
-          longList.add(bo.getAdminId());
-       }
-
-        //批量增加所有运营审核的报名消息提醒
-        MsgAddVo msgVo = new MsgAddVo();
-        msgVo.setCreateId(user.getId());
-        msgVo.setMsgType(3);
-        msgVo.setMsg(NettyType.MSG_EXA.getMsg());
-        msgVo.setToId(longList);
+//        List<Long> longList = new ArrayList<>();
+//        List<UserAdminBo> idList = (List<UserAdminBo>) httpUtils.queryAllAdminInfo();
 //
-       messageService.addAllMsg(msgVo);
+//        if (idList.size() == 0) {
+//            throw new ApplicationException(CodeType.SERVICE_ERROR, "请将管理员的角色名设置为运营人员");
+//        }
+//
+//       for (int i = 0; i <= idList.size()-1; i++) {
+//          UserAdminBo bo = JSONObject.parseObject(String.valueOf(idList.get(i)),UserAdminBo.class);
+//          longList.add(bo.getAdminId());
+//       }
+//
+//        //批量增加所有运营审核的报名消息提醒
+//        MsgAddVo msgVo = new MsgAddVo();
+//        msgVo.setCreateId(user.getId());
+//        msgVo.setMsgType(3);
+//        msgVo.setMsg(NettyType.MSG_EXA.getMsg());
+//        msgVo.setToId(longList);
+////
+//       messageService.addAllMsg(msgVo);
 
         //组装ApplyPayResultQuery 返回数据
         ApplyPayResultQuery query = new ApplyPayResultQuery();
@@ -435,11 +432,9 @@ public class ApplyServiceImpl extends ServiceImpl<ApplyMapper, Apply> implements
 
       UserLoginQuery user = localUser.getUser("用户信息");
 
-      UserQuery userById = null;
       if ("同行".equals(user.getRoleName())) {
          applyVo.setCompanyNameId(user.getCompanyId());
          applyVo.setCName(user.getCname());
-         applyVo.setCreateUserId(user.getId());
       } else {
          //运营代录
          if (applyVo.getCompanyUserId() == null) {
@@ -448,18 +443,17 @@ public class ApplyServiceImpl extends ServiceImpl<ApplyMapper, Apply> implements
          //装配同行id
          //先查询该同行信息
          //-------------------
-         try {
-            String users = httpUtils.queryUserInfo(applyVo.getCompanyUserId());
-            userById = JSONObject.parseObject (users,UserQuery.class);
-         } catch (Exception e) {
-            e.printStackTrace();
-         }
+//         try {
+//            String users = httpUtils.queryUserInfo(applyVo.getCompanyUserId());
+//            userById = JSONObject.parseObject (users,UserQuery.class);
+//         } catch (Exception e) {
+//            e.printStackTrace();
+//         }
 
-         applyVo.setCompanyNameId(userById.getCompanyId());
-         applyVo.setCompanyUser(userById.getAccount());
-         applyVo.setCreateUserId(userById.getId());
-         applyVo.setUpdateUserId(userById.getId());
-         applyVo.setCName(userById.getCname());
+         applyVo.setCompanyNameId(applyVo.getCompanyUserId());
+//         applyVo.setCompanyUser(userById.getAccount());
+         applyVo.setUpdateUserId(user.getId());
+         applyVo.setCName(user.getCname());
       }
 
       Company company = baseMapper.queryCompanyById(applyVo.getCompanyNameId());
@@ -472,15 +466,26 @@ public class ApplyServiceImpl extends ServiceImpl<ApplyMapper, Apply> implements
       Apply apply = new Apply();
 
       Long id = idGenerator.getNumberId();
-      if ("同行".equals(user.getRoleName())) {
+
+      if (applyVo.getUpOrInsert() == 1) {
+         //修改
+         apply.setApplyNo(applyVo.getApplyNo());
+         apply.setCreateUserId(applyVo.getCreateUserId());
+         apply.setId(applyVo.getApplyId());
+
+      } else {
+         apply.setApplyNo(orderCode);
+         apply.setCreateUserId(user.getId());
          apply.setId(id);
+      }
+
+      if ("同行".equals(user.getRoleName())) {
          apply.setAdultNumber(applyVo.getAdultNumber());
          apply.setBabyNumber(applyVo.getBabyNumber());
          apply.setChildNumber(applyVo.getChildNumber());
          apply.setOldNumber(applyVo.getOldNumber());
          apply.setAllNumber(AllNumber);
          apply.setAllPrice(AllPrice);
-         apply.setApplyNo(orderCode);
          apply.setCompanyName(company.getCompanyName());
          apply.setCompanyUser(user.getAccount());
          apply.setContactName(applyVo.getContactName());
@@ -489,7 +494,6 @@ public class ApplyServiceImpl extends ServiceImpl<ApplyMapper, Apply> implements
          apply.setRegion(line.getRegion());
          apply.setLineId(line.getId());
          apply.setOutDate(localDate);
-         apply.setCreateUserId(user.getId());
          apply.setUpdateUserId(user.getId());
          apply.setCName(applyVo.getCName());
          apply.setMarketAllPrice(applyVo.getMarketAllPrice());
@@ -498,17 +502,16 @@ public class ApplyServiceImpl extends ServiceImpl<ApplyMapper, Apply> implements
 
          apply.setCompanyId(applyVo.getCompanyNameId());
          apply.setCompanyTel(user.getTel());
+         apply.setType(applyVo.getType());
 
       } else {
          //运营人员代录
-         apply.setId(id);
          apply.setAdultNumber(applyVo.getAdultNumber());
          apply.setBabyNumber(applyVo.getBabyNumber());
          apply.setChildNumber(applyVo.getChildNumber());
          apply.setOldNumber(applyVo.getOldNumber());
          apply.setAllNumber(AllNumber);
          apply.setAllPrice(AllPrice);
-         apply.setApplyNo(orderCode);
          apply.setCompanyName(company.getCompanyName());
          apply.setCompanyUser(applyVo.getCompanyUser());
          apply.setContactName(applyVo.getContactName());
@@ -517,7 +520,6 @@ public class ApplyServiceImpl extends ServiceImpl<ApplyMapper, Apply> implements
          apply.setRegion(line.getRegion());
          apply.setLineId(line.getId());
          apply.setOutDate(localDate);
-         apply.setCreateUserId(applyVo.getCreateUserId());
          apply.setUpdateUserId(applyVo.getUpdateUserId());
          apply.setCName(applyVo.getCName());
          apply.setMarketAllPrice(applyVo.getMarketAllPrice());
@@ -525,7 +527,7 @@ public class ApplyServiceImpl extends ServiceImpl<ApplyMapper, Apply> implements
          apply.setApplyRemark(applyVo.getApplyRemark());
 
          apply.setCompanyId(applyVo.getCompanyNameId());
-         apply.setCompanyTel(userById.getTel());
+         apply.setType(applyVo.getType());
 
       }
 
@@ -538,15 +540,9 @@ public class ApplyServiceImpl extends ServiceImpl<ApplyMapper, Apply> implements
          apply.setIsPayment(true);
 
          //如果是月结，判断月结金额是否达标
-         //获取当前月份
-         String nowTime = DateUtil.formatDate(LocalDate.now());
-         String monthTime = nowTime.substring(0,7) + "-01 00:00:00";
-
-         LocalDateTime startTime = DateUtil.parseDateTime(monthTime);
-         LocalDateTime endTime = startTime.plusMonths(1);
 
          //查询当前月使用的金额
-         List<Apply> applies = baseMapper.queryAllPriceToApply(applyVo.getCreateUserId(),startTime,endTime);
+         List<Apply> applies = baseMapper.queryAllPriceToApply(applyVo.getCreateUserId());
 
          //算出本月已使用的金额
          Double sxAllPrice = 0.0;
@@ -583,14 +579,9 @@ public class ApplyServiceImpl extends ServiceImpl<ApplyMapper, Apply> implements
 
          //
          //获取当前月份
-         String nowTime = DateUtil.formatDate(LocalDate.now());
-         String monthTime = nowTime.substring(0,7) + "-01 00:00:00";
-
-         LocalDateTime startTime = DateUtil.parseDateTime(monthTime);
-         LocalDateTime endTime = startTime.plusMonths(1);
 
          //查询当前月使用的金额
-         List<Apply> applies = baseMapper.queryAllPriceToApply(applyVo.getCreateUserId(),startTime,endTime);
+         List<Apply> applies = baseMapper.queryAllPriceToApply(applyVo.getCreateUserId());
 
          //算出本月已使用的金额
          Double sxAllPrice = 0.0;
@@ -617,6 +608,12 @@ public class ApplyServiceImpl extends ServiceImpl<ApplyMapper, Apply> implements
          throw new ApplicationException(CodeType.SERVICE_ERROR,"您输入支付类型有误，请重新输入");
       }
 
+      //单价
+      apply.setAdultPrice(applyVo.getAdultPrice());
+      apply.setBabyPrice(applyVo.getBabyPrice());
+      apply.setChildPrice(applyVo.getChildPrice());
+      apply.setOldPrice(applyVo.getOldPrice());
+
       int insert = baseMapper.insert(apply);
 
       ExamineAddVo vo = new ExamineAddVo();
@@ -632,26 +629,26 @@ public class ApplyServiceImpl extends ServiceImpl<ApplyMapper, Apply> implements
 
       //查询所有管理员的id集合
 
-      List<Long> longList = new ArrayList<>();
-      List<UserAdminBo> idList = (List<UserAdminBo>) httpUtils.queryAllAdminInfo();
-
-      if (idList.size() == 0) {
-         throw new ApplicationException(CodeType.SERVICE_ERROR, "请将管理员的角色名设置为运营人员");
-      }
-
-      for (int i = 0; i <= idList.size()-1; i++) {
-         UserAdminBo bo = JSONObject.parseObject(String.valueOf(idList.get(i)),UserAdminBo.class);
-         longList.add(bo.getAdminId());
-      }
-
-      //批量增加所有运营审核的报名消息提醒
-      MsgAddVo msgVo = new MsgAddVo();
-      msgVo.setCreateId(user.getId());
-      msgVo.setMsgType(3);
-      msgVo.setMsg(NettyType.MSG_EXA.getMsg());
-      msgVo.setToId(longList);
+//      List<Long> longList = new ArrayList<>();
+//      List<UserAdminBo> idList = (List<UserAdminBo>) httpUtils.queryAllAdminInfo();
 //
-      messageService.addAllMsg(msgVo);
+//      if (idList.size() == 0) {
+//         throw new ApplicationException(CodeType.SERVICE_ERROR, "请将管理员的角色名设置为运营人员");
+//      }
+//
+//      for (int i = 0; i <= idList.size()-1; i++) {
+//         UserAdminBo bo = JSONObject.parseObject(String.valueOf(idList.get(i)),UserAdminBo.class);
+//         longList.add(bo.getAdminId());
+//      }
+//
+//      //批量增加所有运营审核的报名消息提醒
+//      MsgAddVo msgVo = new MsgAddVo();
+//      msgVo.setCreateId(user.getId());
+//      msgVo.setMsgType(3);
+//      msgVo.setMsg(NettyType.MSG_EXA.getMsg());
+//      msgVo.setToId(longList);
+////
+//      messageService.addAllMsg(msgVo);
 
       //组装ApplyPayResultQuery 返回数据
       ApplyPayResultQuery query = new ApplyPayResultQuery();
@@ -713,6 +710,7 @@ public class ApplyServiceImpl extends ServiceImpl<ApplyMapper, Apply> implements
         apply.setContactName(updateInfo.getContactName());
         apply.setContactTel(updateInfo.getContactTel());
         apply.setPlace(updateInfo.getPlace());
+        apply.setApplyRemark(updateInfo.getRemark());
         LocalDateTime now = LocalDateTime.now();
         apply.setRemark(now + "修改");
         int result = baseMapper.updateById(apply);
@@ -722,6 +720,19 @@ public class ApplyServiceImpl extends ServiceImpl<ApplyMapper, Apply> implements
             throw new ApplicationException(CodeType.SERVICE_ERROR,"修改报名表失败");
         }
     }
+
+   /**
+    * 删除报名表
+    * @param id
+    */
+   @Override
+   public void deleteApply(Long id) {
+      int i = baseMapper.deleteById(id);
+
+      if (i <= 0) {
+         throw new ApplicationException(CodeType.SERVICE_ERROR, "删除失败");
+      }
+   }
 
    /**
     * 分页查询已报名未审核的列表,可以根据出发时间模糊查询
@@ -944,6 +955,13 @@ public class ApplyServiceImpl extends ServiceImpl<ApplyMapper, Apply> implements
         vo.setUpdateUserId(apply.getUpdateUserId());
         vo.setIsSelect(apply.getIsSelect());
 
+        //单价
+         vo.setAdultPrice(apply.getAdultPrice());
+         vo.setBabyPrice(apply.getBabyPrice());
+         vo.setChildPrice(apply.getChildPrice());
+         vo.setOldPrice(apply.getOldPrice());
+         vo.setCompanyId(apply.getCompanyId());
+
         //出发日期
         vo.setOutDate(DateUtil.formatDate(apply.getOutDate()));
 
@@ -953,7 +971,13 @@ public class ApplyServiceImpl extends ServiceImpl<ApplyMapper, Apply> implements
         //支付类型 0--微信支付  1--支付宝支付
        vo.setPayInfo(apply.getPayInfo());
 
-        return vo;
+       Line line = lineService.queryOneLine(apply.getLineId());
+       vo.setLineName(line.getLineName());
+       vo.setApplyRemark(apply.getApplyRemark());
+
+       vo.setMsPrice(apply.getMsPrice());
+
+       return vo;
     }
 
     /**
@@ -999,8 +1023,18 @@ public class ApplyServiceImpl extends ServiceImpl<ApplyMapper, Apply> implements
           roadName = null;
        }
 
+       Long id = null;
+       if (user.getStatus() == 1) {
+          id = user.getId();
+       }
+
+       Long companyId = null;
+       if (user.getStatus() == 0) {
+          companyId = user.getCompanyId();
+       }
+
         if (todayType == null) {
-           return baseMapper.allCompanyList (page,lineName,outTime,startDate,endDate,user.getId(),type,roadName);
+           return baseMapper.allCompanyList (page,lineName,outTime,startDate,endDate,id,companyId,type,roadName);
         }
 
         //查询今天已报名
@@ -1222,7 +1256,6 @@ public class ApplyServiceImpl extends ServiceImpl<ApplyMapper, Apply> implements
 
         List<Apply> applies = baseMapper.selectList(wrapper);
 
-       System.out.println(applies);
         if (applies.size() == 0) {
             return;
         }
@@ -1244,7 +1277,6 @@ public class ApplyServiceImpl extends ServiceImpl<ApplyMapper, Apply> implements
             }
         }
 
-       System.out.println("list:"+list);
         if (list.size() == 0) {
             return;
         }
@@ -1252,7 +1284,6 @@ public class ApplyServiceImpl extends ServiceImpl<ApplyMapper, Apply> implements
         //批量回收订单
         Integer integer = baseMapper.updateAllApplyStatus(list);
 
-       System.out.println(integer);
         if (integer <= 0) {
             log.error("定时任务回收订单失败");
             throw new ApplicationException(CodeType.SERVICE_ERROR, "修改失败");
@@ -1262,14 +1293,13 @@ public class ApplyServiceImpl extends ServiceImpl<ApplyMapper, Apply> implements
    /**
     * 同行月结现结统计
     * @param page
-    * @param payType
     * @param lineName
     * @param startDate
     * @param endDate
     * @return
     */
    @Override
-   public Page<ApplyResultCountQuery> pageResult2CountList(Page<ApplyResultCountQuery> page, Integer payType, String lineName, String startDate, String endDate) {
+   public Page<ApplyResultCountQuery> pageResult2CountList(Page<ApplyResultCountQuery> page, String lineName, String startDate, String endDate) {
 
       UserLoginQuery user = localUser.getUser("用户信息");
 
@@ -1287,13 +1317,22 @@ public class ApplyServiceImpl extends ServiceImpl<ApplyMapper, Apply> implements
          lineName = null;
       }
 
-      return baseMapper.queryCompanyResultCount (page,payType,start,end,lineName,user.getId());
+      Long id = null;
+      if (user.getStatus() == 1) {
+         id = user.getId();
+      }
+
+      Long companyId = null;
+      if (user.getStatus() == 0) {
+         companyId = user.getCompanyId();
+      }
+
+      return baseMapper.queryCompanyResultCount (page,start,end,lineName,id,companyId);
    }
 
    /**
     * 运营统计现结月结金额
     * @param page
-    * @param payType
     * @param lineName
     * @param startDate
     * @param endDate
@@ -1301,7 +1340,7 @@ public class ApplyServiceImpl extends ServiceImpl<ApplyMapper, Apply> implements
     * @return
     */
    @Override
-   public Page<ApplyResultCountQuery> pageResultAdminCountList(Page<ApplyResultCountQuery> page, Integer payType, String lineName, String startDate, String endDate, Long companyUserId) {
+   public Page<ApplyResultCountQuery> pageResultAdminCountList(Page<ApplyResultCountQuery> page, String lineName, String startDate, String endDate, Long companyUserId) {
       LocalDate start = null;
       if (StringUtils.isNotBlank(startDate)) {
          start = DateUtil.parseDate(startDate);
@@ -1316,7 +1355,7 @@ public class ApplyServiceImpl extends ServiceImpl<ApplyMapper, Apply> implements
          lineName = null;
       }
 
-      return baseMapper.queryCompanyAdminResultCount (page,payType,start,end,lineName,companyUserId);
+      return baseMapper.queryCompanyAdminResultCount (page,start,end,lineName,companyUserId);
    }
 
    /**
@@ -1385,7 +1424,7 @@ public class ApplyServiceImpl extends ServiceImpl<ApplyMapper, Apply> implements
     }
 
    /**
-    * 统计同行当月的数据
+    * 统计查询
     * @return
     */
    @Override
@@ -1395,54 +1434,45 @@ public class ApplyServiceImpl extends ServiceImpl<ApplyMapper, Apply> implements
       ApplyCompanyBo bo = baseMapper.queryApplyCompanyInfo(user.getCompanyId());
       ApplyCountBo result = new ApplyCountBo();
 
-      result.setCname(user.getCname());
+      result.setCompanyName(bo.getCompanyName());
+      result.setCompanyNo(bo.getCompanyNo());
       result.setEndTime(bo.getEndTime());
       result.setPicture(bo.getPicture());
       result.setSxPrice(bo.getSxPrice());
 
-      //查询报名表中本月金额的数据
-      LocalDate today = LocalDate.now();
-
-      //获取当月第一天
-      LocalDate start = today.with(TemporalAdjusters.firstDayOfMonth());
-      //获取当月最后一天
-      LocalDate date = start.plusMonths(1);
-      LocalDate end = date.minusDays(1);
-
       //查询总金额
-      ApplyBo applyBo = baseMapper.queryApplyCountInfo(user.getId(), start, end);
+      ApplyBo applyBo = baseMapper.queryApplyCountInfo(user.getId());
 
       if (applyBo != null) {
          result.setAllNumber(applyBo.getAllNumber());
          result.setAllPrice(applyBo.getAllPrice());
+         result.setMsPrice(applyBo.getMsPrice());
       } else {
          result.setAllNumber(0);
          result.setAllPrice(0.0);
-      }
-
-      //现结金额
-      ApplyBo nowBo = baseMapper.queryApplyCount(user.getId(), start, end, 0);
-      if (nowBo != null) {
-         result.setNowPrice(nowBo.getPrice());
-      } else {
-         result.setNowPrice(0.0);
-      }
-
-      //月结金额
-      ApplyBo monthBo = baseMapper.queryApplyCount(user.getId(), start, end, 1);
-      if (monthBo != null) {
-         result.setMonthPrice(monthBo.getPrice());
-      } else {
-         result.setMonthPrice(0.0);
-      }
-
-      //面收金额
-      ApplyBo msBo = baseMapper.queryApplyCount(user.getId(), start, end, 2);
-      if (msBo != null) {
-         result.setMsPrice(msBo.getPrice());
-      } else {
          result.setMsPrice(0.0);
       }
+
+
+      LambdaQueryWrapper<Apply> wrapper = new LambdaQueryWrapper<Apply>()
+            .eq(Apply::getCreateUserId,user.getId())
+            .eq(Apply::getSxType,0);
+
+      List<Apply> applyList = baseMapper.selectList(wrapper);
+
+      LocalDateTime startDate = LocalDateTime.now();
+      for (Apply apply : applyList) {
+
+         long until = startDate.until(apply.getCreateDate(), ChronoUnit.DAYS);
+
+         if (until < 0) {
+            startDate = apply.getCreateDate();
+         }
+
+
+      }
+
+      result.setStartDate(DateUtil.formatDate(startDate));
 
       return result;
    }
@@ -1477,6 +1507,71 @@ public class ApplyServiceImpl extends ServiceImpl<ApplyMapper, Apply> implements
       if (updateById <= 0) {
          throw new ApplicationException(CodeType.SERVICE_ERROR, "取消错误");
       }
+   }
+
+   /**
+    * 查询支付的一些信息
+    * @param applyNo
+    * @return
+    */
+   @Override
+   public ApplyDoExaInfo queryApplyDoExaInfo(String applyNo) {
+      return baseMapper.queryApplyDoExaInfo (applyNo);
+   }
+
+   /**
+    * 续月结的金额
+    */
+   @Override
+   public void updateSxPriceStatus() {
+
+//      LocalDateTime now = LocalDateTime.now();
+//
+//      String s = DateUtil.formatDate(now);
+//
+//      String substring = s.substring(8,9);
+//
+//      //获取这个月的10号
+//      String s1 = s.substring(0,8);
+//      String start = s1 + "10 00:00:00";
+//      LocalDateTime dateTime = DateUtil.parseDateTime(start);
+//      LocalDateTime startDate;
+//      if ("0".equals(substring)) {
+//         //从上个月的10号到今天
+//         startDate = dateTime.minusMonths(1);
+//
+//      } else {
+//         //从这个月10号到今天
+//         //这个月10号
+//         startDate = dateTime;
+//      }
+
+
+      LambdaQueryWrapper<Apply> wrapper = new LambdaQueryWrapper<Apply>()
+            .eq(Apply::getIsCancel,0)
+            .eq(Apply::getSxType,0);
+
+      Apply apply = new Apply();
+      apply.setSxType(1);
+
+      int update = baseMapper.update(apply, wrapper);
+
+      if (update <= 0) {
+         throw new ApplicationException(CodeType.SERVICE_ERROR, "修改状态失败");
+      }
+
+   }
+
+
+   /**
+    * 查询auto
+    * @param id
+    * @return
+    */
+   @Override
+   public ApplyOpenIdVo queryAuto(Long id) {
+      UserLoginQuery user = localUser.getUser("用户信息");
+      return baseMapper.queryPayInfo(user.getId());
    }
 
 

@@ -73,13 +73,11 @@ public interface InFinanceMapper extends IBaseMapper<Income> {
 
     /**
      * 标记该订单已完成
-     * @param lineName
      * @param outDate
      * @param id
      * @param dateTime
      */
-    int updateIsFinash(@Param("lineName") String lineName,
-                        @Param("outDate") LocalDate outDate,
+    int updateIsFinash(@Param("outDate") LocalDate outDate,
                         @Param("id") Long id,
                         @Param("dateTime") LocalDateTime dateTime);
 

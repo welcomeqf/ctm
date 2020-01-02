@@ -13,4 +13,6 @@ public class ExamineAddInfoVo {
     private Long applyId;
 
     private Integer status;
+
+    private String exaRemark;
 }

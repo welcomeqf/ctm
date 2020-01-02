@@ -1,6 +1,8 @@
 package eqlee.ctm.apply.orders.service;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import eqlee.ctm.apply.guider.entity.vo.GuiderIdParamVo;
+import eqlee.ctm.apply.guider.entity.vo.GuiderVo;
 import eqlee.ctm.apply.line.entity.vo.ResultVo;
 import eqlee.ctm.apply.orders.entity.OrderDetailed;
 import eqlee.ctm.apply.orders.entity.bo.IdBo;
@@ -45,5 +47,13 @@ public interface IOrdersDetailedService {
      * @return
      */
     Page<OrderBo> pageOrder (Page<OrderBo> page,String startDate, String endDate, String lineName, String region);
+
+
+    /**
+     * 根据ID查询信息
+     * @param id
+     * @return
+     */
+    OrderDetailed queryById (Long id);
 
 }

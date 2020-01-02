@@ -108,5 +108,12 @@ public interface ILineService {
     List<Line> queryByIdList (List<Long> list);
 
 
+    /**
+     * 查询自己所在城市的所有线路
+     * @return
+     */
+    List<Line> queryLocalCityLine ();
+
+
 
 }

@@ -10,8 +10,10 @@ import com.yq.jwt.contain.LocalUser;
 import com.yq.jwt.entity.UserLoginQuery;
 import com.yq.utils.DateUtil;
 import com.yq.utils.IdGenerator;
+import com.yq.utils.StringUtils;
 import eqlee.ctm.resource.company.dao.CompanyMapper;
 import eqlee.ctm.resource.company.entity.Company;
+import eqlee.ctm.resource.company.entity.query.CompanyAdminQuery;
 import eqlee.ctm.resource.company.entity.query.CompanyQuery;
 import eqlee.ctm.resource.company.entity.query.PageCompanyQuery;
 import eqlee.ctm.resource.company.entity.vo.CompanyIndexVo;
@@ -56,7 +58,11 @@ public class CompanyServiceImp extends ServiceImpl<CompanyMapper,Company> implem
     @Override
     public List<Company> queryAllCompany() {
 
-        List<Company> companies = baseMapper.selectList(null);
+        LambdaQueryWrapper<Company> lambdaQueryWrapper = new LambdaQueryWrapper<Company>()
+              .eq(Company::getStopped,0)
+              .eq(Company::getStatus,1);
+
+        List<Company> companies = baseMapper.selectList(lambdaQueryWrapper);
         return companies;
     }
 
@@ -85,8 +91,17 @@ public class CompanyServiceImp extends ServiceImpl<CompanyMapper,Company> implem
         company.setUpdateUserId(user.getId());
         company.setSxPrice(companyVo.getSxPrice());
         company.setCompanyNo(companyVo.getCompanyNo());
+        company.setChargeName(companyVo.getChargeName());
+        company.setChargeTel(companyVo.getChargeTel());
+        company.setFinanceName(companyVo.getFinanceName());
+        company.setAddress(companyVo.getAddress());
+        company.setFinanceTel(companyVo.getFinanceTel());
+        company.setInsurance(companyVo.getInsurance());
+        company.setBankCard(companyVo.getBankCard());
+        company.setBusiness(companyVo.getBusiness());
+        company.setLicence(companyVo.getLicence());
+        company.setStatus(1);
         company.setCompanyPic(companyVo.getCompanyPic());
-        company.setStopped(companyVo.getStopped());
         String startDate = companyVo.getStartDate() + " 00:00:00";
         String endDate = companyVo.getEndDate() + " 23:59:59";
         company.setStartDate(DateUtil.parseDateTime(startDate));
@@ -140,22 +155,42 @@ public class CompanyServiceImp extends ServiceImpl<CompanyMapper,Company> implem
 
         UserLoginQuery user = localUser.getUser("用户信息");
 
+        Company company1 = baseMapper.selectById(Id);
+
         Company company = new Company();
+        company.setCompanyPic(companyVo.getCompanyPic());
+        company.setLicence(companyVo.getLicence());
+        company.setBusiness(companyVo.getBusiness());
+        company.setBankCard(companyVo.getBankCard());
+        company.setInsurance(companyVo.getInsurance());
+
+        if (StringUtils.isBlank(company1.getCompanyNo())) {
+            company.setCompanyNo(companyVo.getCompanyNo());
+        }
+
         company.setId(Id);
         company.setCompanyName(companyVo.getCompanyName());
-        String startDate = companyVo.getStartDate() + " 00:00:00";
-        String endDate = companyVo.getEndDate() + " 23:59:59";
-        company.setStartDate(DateUtil.parseDateTime(startDate));
-        company.setEndDate(DateUtil.parseDateTime(endDate));
+
+        if (StringUtils.isNotBlank(companyVo.getStartDate())) {
+            String startDate = companyVo.getStartDate() + " 00:00:00";
+            company.setEndDate(DateUtil.parseDateTime(startDate));
+        }
+
+        if (StringUtils.isNotBlank(companyVo.getEndDate())) {
+            String endDate = companyVo.getEndDate() + " 23:59:59";
+            company.setEndDate(DateUtil.parseDateTime(endDate));
+        }
+
         company.setSxPrice(companyVo.getSxPrice());
         company.setCompanyNo(companyVo.getCompanyNo());
-        company.setCompanyPic(companyVo.getCompanyPic());
+        company.setCreateUserId(user.getId());
         company.setUpdateUserId(user.getId());
-        if(companyVo.getStopped()){
-            company.setStopped(true);
-        }else {
-            company.setStopped(false);
-        }
+        company.setChargeName(companyVo.getChargeName());
+        company.setChargeTel(companyVo.getChargeTel());
+        company.setFinanceName(companyVo.getFinanceName());
+        company.setAddress(companyVo.getAddress());
+        company.setFinanceTel(companyVo.getFinanceTel());
+        company.setStatus(companyVo.getStatus());
 
         if (NOW_PAY.equals(companyVo.getPayMethod())) {
             company.setPayMethod(1);
@@ -167,9 +202,6 @@ public class CompanyServiceImp extends ServiceImpl<CompanyMapper,Company> implem
             company.setPayMethod(3);
         }
 
-        if (!NOW_PAY.equals(companyVo.getPayMethod()) && !MONTH_PAY.equals(companyVo.getPayMethod()) && !WITH_PAY.equals(companyVo.getPayMethod())) {
-            throw new ApplicationException(CodeType.SERVICE_ERROR, "结算类型有误");
-        }
 
         int update = baseMapper.updateById(company);
         if (update <= 0) {
@@ -203,7 +235,7 @@ public class CompanyServiceImp extends ServiceImpl<CompanyMapper,Company> implem
         UserLoginQuery user = localUser.getUser("用户信息");
         Company company = new Company();
         Company newCompany = baseMapper.selectById(id);
-        if(newCompany.isStopped()) {
+        if(newCompany.getStopped()) {
             company.setStopped(false);
         } else {
             company.setStopped(true);
@@ -241,20 +273,32 @@ public class CompanyServiceImp extends ServiceImpl<CompanyMapper,Company> implem
     public CompanyQueryVo UpdateCompanyIndex(Long Id) {
         CompanyQueryVo companyVo = new CompanyQueryVo();
         Company company = baseMapper.selectById(Id);
-        companyVo.setStartDate(DateUtil.formatDateTime(company.getStartDate()));
-        companyVo.setEndDate(DateUtil.formatDateTime(company.getEndDate()));
+
+        if (company.getStartDate() != null) {
+            companyVo.setStartDate(DateUtil.formatDate(company.getStartDate()));
+        }
+
+        if (company.getEndDate() != null) {
+            companyVo.setEndDate(DateUtil.formatDate(company.getEndDate()));
+        }
         companyVo.setCompanyName(company.getCompanyName());
         companyVo.setCompanyNo(company.getCompanyNo());
         companyVo.setCompanyPic(company.getCompanyPic());
         companyVo.setSxPrice(company.getSxPrice());
         companyVo.setId(Id);
         companyVo.setPayMethod(company.getPayMethod());
-        if (company.isStopped()){
-            companyVo.setStopped(true);
-        }
-        if (!company.isStopped()){
-            companyVo.setStopped(false);
-        }
+        companyVo.setStopped(company.getStopped());
+        companyVo.setAddress(company.getAddress());
+        companyVo.setBankCard(company.getBankCard());
+        companyVo.setBusiness(company.getBusiness());
+        companyVo.setChargeName(company.getChargeName());
+        companyVo.setChargeTel(company.getChargeTel());
+        companyVo.setFinanceName(company.getFinanceName());
+        companyVo.setFinanceTel(company.getFinanceTel());
+        companyVo.setInsurance(company.getInsurance());
+        companyVo.setLicence(company.getLicence());
+        companyVo.setStatus(company.getStatus());
+        companyVo.setRemark(company.getRemark());
         return companyVo;
     }
 
@@ -300,5 +344,64 @@ public class CompanyServiceImp extends ServiceImpl<CompanyMapper,Company> implem
             query.setPayType("请选择");
         }
         return query;
+    }
+
+    /**
+     * 查询自己的信息以及该公司的信息资料
+     * @return
+     */
+    @Override
+    public CompanyAdminQuery queryAdminMeInfo() {
+        UserLoginQuery user = localUser.getUser("用户信息");
+
+        CompanyAdminQuery query = new CompanyAdminQuery();
+
+        query.setId(user.getId());
+        query.setAccount(user.getAccount());
+        query.setCName(user.getCname());
+        query.setRoleName(user.getRoleName());
+        query.setTel(user.getTel());
+
+        //查询公司信息
+        Company company = baseMapper.selectById(user.getCompanyId());
+        query.setCompanyName(company.getCompanyName());
+        query.setCompanyNo(company.getCompanyNo());
+        query.setCompanyPic(company.getCompanyPic());
+        query.setStartDate(DateUtil.formatDate(company.getStartDate()));
+        query.setEndDate(DateUtil.formatDate(company.getEndDate()));
+        query.setPayMethod(company.getPayMethod());
+        query.setSxPrice(company.getSxPrice());
+        return query;
+    }
+
+    /**
+     * 注册
+     * @param companyVo
+     */
+    @Override
+    public void registerCompany(CompanyVo companyVo) {
+
+        IdGenerator idGenerator = new IdGenerator();
+        Company company = new Company();
+        company.setId(idGenerator.getNumberId());
+        company.setCompanyName(companyVo.getCompanyName());
+        company.setCompanyNo(companyVo.getCompanyNo());
+        company.setChargeName(companyVo.getChargeName());
+        company.setChargeTel(companyVo.getChargeTel());
+        company.setFinanceName(companyVo.getFinanceName());
+        company.setFinanceTel(companyVo.getFinanceTel());
+        company.setInsurance(companyVo.getInsurance());
+        company.setBankCard(companyVo.getBankCard());
+        company.setBusiness(companyVo.getBusiness());
+        company.setLicence(companyVo.getLicence());
+        company.setAddress(companyVo.getAddress());
+        company.setCompanyPic(companyVo.getCompanyPic());
+
+        int insert = baseMapper.insert(company);
+
+        if (insert <= 0) {
+            log.error("insert company fail");
+            throw new ApplicationException(CodeType.SERVICE_ERROR,"增加同行公司失败");
+        }
     }
 }

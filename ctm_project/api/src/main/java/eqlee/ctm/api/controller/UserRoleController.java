@@ -9,6 +9,7 @@ import com.yq.httpclient.HttpResult;
 import com.yq.jwt.contain.LocalUser;
 import com.yq.jwt.entity.UserLoginQuery;
 import com.yq.jwt.islogin.CheckToken;
+import eqlee.ctm.api.entity.bo.RoleRegisterBo;
 import eqlee.ctm.api.entity.query.UserRoleZiQuery;
 import eqlee.ctm.api.entity.vo.ResultResposeVo;
 import eqlee.ctm.api.entity.vo.RoleUpdateVo;
@@ -67,9 +68,7 @@ public class UserRoleController {
     public Object addRole(@RequestBody UserRoleVo roleVo) throws Exception{
         String url = "http://" + ip +":" + port + "/" + path +  "/v1/app/role/addRole";
 
-        UserLoginQuery user = localUser.getUser("用户信息");
-        UserRoleZiQuery query = new UserRoleZiQuery();
-        query.setCompanyId(user.getCompanyId());
+        RoleRegisterBo query = new RoleRegisterBo();
         query.setRoleName(roleVo.getRoleName());
 
         String s = JSONObject.toJSONString(query);
@@ -120,13 +119,13 @@ public class UserRoleController {
 
 
     @ApiOperation(value = "删除角色", notes = "删除角色")
-    @ApiImplicitParam(name = "Id", value = "Id", required = true, dataType = "int", paramType = "path")
-    @DeleteMapping("/{Id}")
+    @ApiImplicitParam(name = "id", value = "id", required = true, dataType = "int", paramType = "path")
+    @GetMapping("/deleteRole")
     @CrossOrigin
     @CheckToken
     @IgnoreResponseAdvice
-    public Object deleteRole(@PathVariable("Id") Long Id) throws Exception{
-        String url = "http://" + ip +":" + port + "/" + path + "/v1/app/role/" +Id;
+    public Object deleteRole(@RequestParam("id") Long id) throws Exception{
+        String url = "http://" + ip +":" + port + "/" + path + "/v1/app/role/" +id;
 
         //获得token
         String userToken = tokenData.getMapToken();

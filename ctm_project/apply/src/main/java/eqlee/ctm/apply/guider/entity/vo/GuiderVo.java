@@ -34,6 +34,36 @@ public class GuiderVo {
 
     private Integer childNumber;
 
+    /**
+     * 结算价
+     */
+    private Double allPrice;
+
+    /**
+     * 面收金额
+     */
+    private Double msPrice;
+
+    /**
+     * 备注
+     */
+    private String applyRemark;
+
+    /**
+     * 同行
+     */
+    private String companyName;
+
+    /**
+     * 是否选人  true-已选  false-未选
+     */
+    private Boolean isSelect;
+
+    /**
+     * (0--正常报名  1-补录  2-包团)
+     */
+    private Integer type;
+
 
 }
 

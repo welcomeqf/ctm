@@ -105,6 +105,8 @@ public class ApplySeacherVo {
      */
     private Integer payType;
 
+    private Double msPrice;
+
     /**
      * (0默认false--未付款 1  true--已付款)
      */
@@ -151,4 +153,19 @@ public class ApplySeacherVo {
      * 0-- 微信支付  1--支付宝支付
      */
     private Integer payInfo;
+
+    private String lineName;
+
+    private String applyRemark;
+
+    private Double adultPrice;
+
+    private Double babyPrice;
+
+    private Double oldPrice;
+
+
+    private Double childPrice;
+
+    private Long companyId;
 }
