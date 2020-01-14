@@ -37,17 +37,15 @@ public interface InFinanceMapper extends IBaseMapper<Income> {
     /**
      * 分页查询所有审核数据
      * @param page
-     * @param guestName
+     * @param guideName
      * @param type
      * @param outTime
-     * @param lineName
      * @return
      */
     Page<ExamineResultQuery> listPageExa (Page<ExamineResultQuery> page,
-                                          @Param("guestName") String guestName,
+                                          @Param("guideName") String guideName,
                                           @Param("type") Integer type,
-                                          @Param("outTime") LocalDate outTime,
-                                          @Param("lineName") String lineName);
+                                          @Param("outTime") LocalDate outTime);
 
     /**
      * 展示审核详情
@@ -67,7 +65,8 @@ public interface InFinanceMapper extends IBaseMapper<Income> {
     Page<GuestResultQuery> pageGuest2Me (Page<GuestResultQuery> page,
                                          @Param("Status") Integer Status,
                                          @Param("outTime") LocalDate outTime,
-                                         @Param("lineName") String lineName);
+                                         @Param("lineName") String lineName,
+                                         @Param("id") Long id);
 
 
 
@@ -85,10 +84,14 @@ public interface InFinanceMapper extends IBaseMapper<Income> {
      * 财务通过审核
      * @param id
      * @param time
+     * @param caiName
+     * @param remark
      * @return
      */
     int examineGuestResult(@Param("id") Long id,
-                            @Param("time") LocalDateTime time);
+                            @Param("time") LocalDateTime time,
+                           @Param("caiName") String caiName,
+                           @Param("remark") String remark);
 
 
     /**
@@ -98,7 +101,9 @@ public interface InFinanceMapper extends IBaseMapper<Income> {
      * @return
      */
     int examineResult(@Param("id") Long id,
-                      @Param("time") LocalDateTime time);
+                      @Param("time") LocalDateTime time,
+                      @Param("caiName") String caiName,
+                      @Param("remark") String remark);
 
 
     /**

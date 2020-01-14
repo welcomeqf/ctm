@@ -11,9 +11,9 @@ import lombok.Data;
 public class PriceCountVo {
 
     /**
-     * 日期（天数）
+     * 城市
      */
-    private String day;
+    private String city;
 
     /**
      * 总金额

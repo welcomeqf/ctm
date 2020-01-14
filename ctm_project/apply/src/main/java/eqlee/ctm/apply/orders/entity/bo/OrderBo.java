@@ -74,4 +74,8 @@ public class OrderBo {
     * 车牌号
     */
    private String carNumber;
+
+   private Integer status;
+
+   private String remark;
 }

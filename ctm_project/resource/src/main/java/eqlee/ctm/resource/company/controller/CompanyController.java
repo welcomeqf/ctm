@@ -37,9 +37,6 @@ public class CompanyController {
     private ICompanyService companyService;
 
 
-
-
-
     @ApiOperation(value = "展示同行信息修改首页", notes = "展示同行信息修改首页")
     @ApiImplicitParam(name = "Id", value = "公司Id", required = true, dataType = "Long", paramType = "path")
     @GetMapping("/CompanyIndex")
@@ -153,12 +150,8 @@ public class CompanyController {
     @CrossOrigin
     @CheckToken
     public ResultVo addCompany (@RequestBody CompanyVo companyVo) {
-        if(companyVo.getPayMethod() == null
-                || StringUtils.isBlank(companyVo.getEndDate())|| StringUtils.isBlank(companyVo.getStartDate())
-                || StringUtils.isBlank(companyVo.getCompanyName()) || StringUtils.isBlank(companyVo.getChargeName())
-        || StringUtils.isBlank(companyVo.getFinanceTel()) || StringUtils.isBlank(companyVo.getBusiness())
-        || StringUtils.isBlank(companyVo.getBankCard()) || StringUtils.isBlank(companyVo.getLicence())
-        || StringUtils.isBlank(companyVo.getInsurance())) {
+        if(companyVo.getPayMethod() == null || StringUtils.isBlank(companyVo.getCompanyName()) ||
+              StringUtils.isBlank(companyVo.getChargeName()) || StringUtils.isBlank(companyVo.getCompanyFullName())) {
             throw new ApplicationException(CodeType.PARAMETER_ERROR,"增加公司参数不能为空.");
         }
         companyService.addCompany(companyVo);

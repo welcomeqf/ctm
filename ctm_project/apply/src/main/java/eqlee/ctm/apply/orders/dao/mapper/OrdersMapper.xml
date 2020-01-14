@@ -57,12 +57,12 @@
        where a.ToGuideId = #{Id} order by a.OutDate desc
     </select>
 
-    <select id="selectIncomeCount" resultType="eqlee.ctm.apply.orders.entity.Vo.IncomeVo">
+    <select id="selectIncomeCount" resultType="eqlee.ctm.apply.orders.entity.Vo.IncomeVo" parameterType="Long">
          select sum(b.AllNumber)allNumber,sum(b.AdultNumber)AdultNumber,sum(b.BabyNumber)BabyNumber
        ,sum(b.OldNumber)OldNumber,sum(b.ChildNumber)ChildNumber,sum(b.MsPrice)msPrice,max(a.CarNumber)CarNumber
        ,sum(b.Price)allPrice,sum(b.MonthPrice)monthPrice
        from Orders a join OrderDetailed b on a.Id = b.OrderId
-       where a.OutDate = #{outDate} and b.CreateUserId=#{id}
+       where a.Id = #{orderId}
        group by a.Id
     </select>
 
@@ -89,8 +89,8 @@
         where (a.PayType = 1 or a.PayType = 2) and b.OutDate = #{outDate} and b.CreateUserId = #{id}
     </select>
 
-    <select id="queryStatus" resultType="eqlee.ctm.apply.orders.entity.Vo.IncomeVo">
-        select Status from Income where OutDate = #{outDate} and CreateUserId = #{id}
+    <select id="queryStatus" resultType="eqlee.ctm.apply.orders.entity.Vo.IncomeVo" parameterType="Long">
+        select Status from Income where OrderId = #{orderId}
     </select>
 
 

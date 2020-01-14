@@ -258,7 +258,8 @@ public class HttpUtils {
      */
     public String queryUserInfo (Long id) throws Exception{
         //路径
-        String url = user_url + "/v1/app/user/getUserById?id=" + id;
+        String url = user_url + "/v1/app/user/queryCompanyUserInfo?companyId=" + id;
+//        String url = "http://localhost:8001/v1/app/user/queryCompanyUserInfo?companyId=" + id;
         HttpResult httpResult;
 
         //获得token
@@ -317,20 +318,14 @@ public class HttpUtils {
         String s = JSONObject.toJSONString(info);
 
         try {
-            //获得token
-            String userToken = tokenData.getMapToken();
-            String token = "Bearer " + userToken;
-            httpResult = apiService.post(url,s,token);
+            httpResult = apiService.doPost(url,s);
         }catch (Exception e) {
             e.printStackTrace();
         }
 
         ResultResposeVo result = JSONObject.parseObject(httpResult.getBody(),ResultResposeVo.class);
-        if (result.getCode() != 0) {
-            throw new ApplicationException(CodeType.RESOURCES_NOT_FIND,result.getMsg());
-        }
 
-        return result.getData();
+        return null;
     }
 
 }

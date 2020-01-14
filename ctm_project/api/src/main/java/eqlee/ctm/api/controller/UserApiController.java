@@ -8,8 +8,10 @@ import com.yq.exception.ApplicationException;
 import com.yq.httpclient.HttpClientUtils;
 import com.yq.httpclient.HttpResult;
 import com.yq.jwt.contain.LocalUser;
+import com.yq.jwt.entity.CityJwtBo;
 import com.yq.jwt.entity.UserLoginQuery;
 import com.yq.jwt.islogin.CheckToken;
+import eqlee.ctm.api.entity.bo.ParamBo;
 import eqlee.ctm.api.entity.query.UserWithQuery;
 import eqlee.ctm.api.entity.vo.*;
 import eqlee.ctm.api.vilidate.DataUtils;
@@ -23,7 +25,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -72,6 +76,12 @@ public class UserApiController {
     @IgnoreResponseAdvice
     public Object register(@RequestBody UserVo userVo) throws Exception{
         String url = "http://" + ip +":" + port + "/" + path + "/v1/app/user/register";
+
+        if (userVo.getType() == 1) {
+            //本公司
+            UserLoginQuery user = localUser.getUser("用户信息");
+            userVo.setCompanyId(user.getCompanyId());
+        }
 
         String s = JSONObject.toJSONString(userVo);
 
@@ -229,6 +239,7 @@ public class UserApiController {
         query.setPhone(userVo.getPhone());
         query.setUserName(userVo.getUserName());
         query.setCity(userVo.getCity());
+        query.setCompanyName(userVo.getCompanyName());
 
 
         String url = "http://" + ip +":" + port + "/" + path + "/v1/app/user/downRegister";
@@ -270,11 +281,17 @@ public class UserApiController {
     @CheckToken
     @IgnoreResponseAdvice
     public Object queryPageUserByName(@RequestParam("current") Integer current,
-                                               @RequestParam("size") Integer size,
-                                               @RequestParam("userName") String userName,
-                                               @RequestParam("roleName") String roleName) throws Exception{
+                                      @RequestParam("size") Integer size,
+                                      @RequestParam("userName") String userName,
+                                      @RequestParam("roleName") String roleName,
+                                      @RequestParam("companyId") Long companyId,
+                                      @RequestParam("type") Integer type) throws Exception{
+        if (companyId == null) {
+            companyId = 1L;
+        }
+
         String url = "http://" + ip +":" + port + "/" + path + "/v1/app/user/queryPageUserByName?current=" +current + "&size=" + size
-                + "&userName=" + userName + "&roleName=" +roleName;
+                + "&userName=" + userName + "&companyId=" +companyId + "&roleName=" +roleName + "&type=" +type;
 
         //获得token
         String userToken = tokenData.getMapToken();
@@ -371,6 +388,7 @@ public class UserApiController {
         infoVo.setId(vo.getId());
         infoVo.setNewPassword(vo.getNewPassword());
         infoVo.setStopped(vo.getStopped());
+        infoVo.setRoleName(vo.getRoleName());
         infoVo.setTel(vo.getTel());
         infoVo.setCity(vo.getCity());
         String url = "http://" + ip +":" + port + "/" + path + "/v1/app/user/updateUser";
@@ -398,6 +416,61 @@ public class UserApiController {
     @IgnoreResponseAdvice
     public Object getUserById (@RequestParam("id") Long id) throws Exception{
         String url = "http://" + ip +":" + port + "/" + path + "/v1/app/user/getUserById?id=" +id;
+
+        //获得token
+        String userToken = tokenData.getMapToken();
+        String token = "Bearer " + userToken;
+
+        HttpResult httpResult = apiService.get(url,token);
+
+        ResultResposeVo vo = JSONObject.parseObject(httpResult.getBody(),ResultResposeVo.class);
+        if (vo.getCode() != 0) {
+            throw new ApplicationException(CodeType.RESOURCES_NOT_FIND,vo.getMsg());
+        }
+        return JSONObject.parse(httpResult.getBody());
+    }
+
+
+    @PostMapping("/queryLocalCityUser")
+    @CrossOrigin
+    @CheckToken
+    @IgnoreResponseAdvice
+    public Object queryLocalCityUser() throws Exception{
+
+        String url = "http://" + ip +":" + port + "/" + path + "/v1/app/user/queryLocalCityUser";
+
+        UserLoginQuery user = localUser.getUser("用户信息");
+        ParamBo bo = new ParamBo();
+        List<String> list = new ArrayList<>();
+        for (CityJwtBo jwtBo : user.getCity()) {
+            list.add(jwtBo.getCity());
+        }
+        bo.setList(list);
+
+        String s = JSONObject.toJSONString(bo);
+        //获得token
+        String userToken = tokenData.getMapToken();
+        String token = "Bearer " + userToken;
+
+        HttpResult httpResult = apiService.post(url,s,token);
+
+        ResultResposeVo vo1 = JSONObject.parseObject(httpResult.getBody(),ResultResposeVo.class);
+        if (vo1.getCode() != 0) {
+            throw new ApplicationException(CodeType.RESOURCES_NOT_FIND,vo1.getMsg());
+        }
+
+        return JSONObject.parse(httpResult.getBody());
+    }
+
+
+    @ApiOperation(value = "查询所有角色下的用户", notes = "查询所有角色下的用户")
+    @ApiImplicitParam(name = "roleName", value = "roleName", required = true, dataType = "String", paramType = "path")
+    @GetMapping("/queryUserByRole")
+    @CrossOrigin
+    @CheckToken
+    @IgnoreResponseAdvice
+    public Object queryUserByRole (@RequestParam("roleName") String roleName) throws Exception{
+        String url = "http://" + ip +":" + port + "/" + path + "/v1/app/user/queryUserByRole?roleName=" +roleName;
 
         //获得token
         String userToken = tokenData.getMapToken();

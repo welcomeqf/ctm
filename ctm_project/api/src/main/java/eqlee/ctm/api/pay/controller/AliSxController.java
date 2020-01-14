@@ -5,6 +5,7 @@ import com.yq.constanct.CodeType;
 import com.yq.exception.ApplicationException;
 import com.yq.httpclient.HttpClientUtils;
 import com.yq.httpclient.HttpResult;
+import eqlee.ctm.api.pay.entity.bo.ParamObj;
 import eqlee.ctm.api.pay.entity.bo.PayResultBo;
 import eqlee.ctm.api.pay.vilidata.PayTokenUtils;
 import io.swagger.annotations.Api;
@@ -43,6 +44,7 @@ public class AliSxController {
          @ApiImplicitParam(name = "Money", value = "金钱", required = true, dataType = "String", paramType = "path"),
          @ApiImplicitParam(name = "productName", value = "产品名称标题", required = true, dataType = "String", paramType = "path"),
          @ApiImplicitParam(name = "Body", value = "商品描述", required = true, dataType = "String", paramType = "path"),
+         @ApiImplicitParam(name = "date", value = "每月的第一天", required = true, dataType = "String", paramType = "path"),
          @ApiImplicitParam(name = "returnUrl", value = "支付完成同步请求页面", required = true, dataType = "String", paramType = "path"),
          @ApiImplicitParam(name = "type", value = "0-续费授信 1-结算授信金额", required = true, dataType = "String", paramType = "path")
    })
@@ -53,7 +55,9 @@ public class AliSxController {
                              @RequestParam("productName") String productName,
                              @RequestParam("Body") String Body,
                              @RequestParam("returnUrl") String returnUrl,
-                             @RequestParam("type") Integer type) throws Exception{
+                             @RequestParam("type") Integer type,
+                             @RequestParam("date") String date,
+                             @RequestParam("companyName") String companyName) throws Exception{
       String callbackUrl = null;
       if (type == 0) {
          //续费
@@ -66,7 +70,7 @@ public class AliSxController {
       }
 
       String url = URL + "/v1/Alipay/GetTradeQrCodePayPayModel?payOrderSerialNumber=" + payOrderSerialNumber +"&Money=" +Money
-            + "&productName=" + productName + "&callbackUrl=" +callbackUrl + "&Body=" + Body + "&returnUrl=" +returnUrl;
+            + "&productName=" + productName + "&callbackUrl=" +callbackUrl + "&Body=" + Body + "&returnUrl=" +returnUrl + "&selfParameter=" +date  +companyName;
 
       String token = tokenUtils.getMapToken();
       String tokenString = "Bearer " +token;
@@ -100,6 +104,7 @@ public class AliSxController {
          @ApiImplicitParam(name = "Money", value = "金钱", required = true, dataType = "String", paramType = "path"),
          @ApiImplicitParam(name = "productName", value = "商品标题", required = true, dataType = "String", paramType = "path"),
          @ApiImplicitParam(name = "Body", value = "商品描述", required = true, dataType = "String", paramType = "path"),
+         @ApiImplicitParam(name = "date", value = "每月的第一天", required = true, dataType = "String", paramType = "path"),
          @ApiImplicitParam(name = "returnUrl", value = "支付完成同步请求页面", required = true, dataType = "String", paramType = "path"),
          @ApiImplicitParam(name = "type", value = "0-续费授信 1-结算授信金额", required = true, dataType = "String", paramType = "path")
    })
@@ -110,7 +115,9 @@ public class AliSxController {
                      @RequestParam("productName") String productName,
                      @RequestParam("Body") String Body,
                      @RequestParam("returnUrl") String returnUrl,
-                     @RequestParam("type") Integer type) throws Exception{
+                     @RequestParam("type") Integer type,
+                     @RequestParam("date") String date,
+                     @RequestParam("companyName") String companyName) throws Exception{
       String callbackUrl = null;
       if (type == 0) {
          //续费
@@ -123,7 +130,7 @@ public class AliSxController {
       }
 
       String url = URL + "/v1/Alipay/GetTradeWapPayModel?payOrderSerialNumber=" + payOrderSerialNumber +"&Money=" +Money
-            + "&productName=" + productName + "&callbackUrl=" +callbackUrl + "&Body=" +Body + "&returnUrl=" +returnUrl;
+            + "&productName=" + productName + "&callbackUrl=" +callbackUrl + "&Body=" +Body + "&returnUrl=" +returnUrl + "&selfParameter=" +date  +companyName;
 
       //获取token
       String token = tokenUtils.getMapToken();

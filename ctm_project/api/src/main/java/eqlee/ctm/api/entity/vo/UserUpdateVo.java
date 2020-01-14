@@ -1,6 +1,10 @@
 package eqlee.ctm.api.entity.vo;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import eqlee.ctm.api.entity.bo.CityBo;
 import lombok.Data;
+
+import java.util.List;
 
 /**
  * @Author qf
@@ -33,8 +37,10 @@ public class UserUpdateVo {
      */
     private Boolean stopped;
 
+    private String roleName;
+
     /**
      * 城市
      */
-    private String city;
+    private List<CityBo> city;
 }

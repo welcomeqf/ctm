@@ -92,4 +92,7 @@ public class FinanceVo {
      */
     private Integer status;
 
+
+    private Long orderId;
+
 }

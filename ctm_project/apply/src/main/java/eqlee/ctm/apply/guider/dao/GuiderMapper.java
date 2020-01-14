@@ -9,6 +9,7 @@ import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 
 /**
  * @Author Claire
@@ -47,58 +48,38 @@ public interface GuiderMapper {
      Page<GuiderVo> guiderIndexByLine(Page<GuiderVo> page,
                                       @Param("lineName") String lineName);
 
+
+
      /**
-      * 查询导游首页
+      *  ----查询导游首页
       * @param page
       * @param outDate
       * @param region
-      * @param city
-      * @param lineId1
-      * @param lineId2
-      * @param lineId3
-      * @param lineId4
-      * @param lineId5
-      * @param lineId6
-      * @param lineId7
+      * @param cityList
+      * @param list
       * @return
       */
-     Page<GuiderVo> guiderIndex(Page<GuiderVo> page,
-                                @Param("outDate") LocalDate outDate,
-                                @Param("region") String region,
-                                @Param("city") String city,
-                                @Param("lineId1") Long lineId1,
-                                @Param("lineId2")Long lineId2,
-                                @Param("lineId3")Long lineId3,
-                                @Param("lineId4")Long lineId4,
-                                @Param("lineId5")Long lineId5,
-                                @Param("lineId6")Long lineId6,
-                                @Param("lineId7")Long lineId7);
+     Page<GuiderVo> guiderIndex2(Page<GuiderVo> page,
+                                 @Param("outDate") LocalDate outDate,
+                                 @Param("region") String region,
+                                 @Param("cityList") List<String> cityList,
+                                 @Param("list") List<Long> list);
+
+
 
 
      /**
-      * 查询人数统计
+      *  - -查询人数统计
       * @param outDate
       * @param region
-      * @param city
-      * @param lineId1
-      * @param lineId2
-      * @param lineId3
-      * @param lineId4
-      * @param lineId5
-      * @param lineId6
-      * @param lineId7
+      * @param cityList
+      * @param list
       * @return
       */
-     GuiderCountNumber queryCountNumberInfo (@Param("outDate") LocalDate outDate,
+     GuiderCountNumber queryCountNumberInfo2 (@Param("outDate") LocalDate outDate,
                                              @Param("region") String region,
-                                             @Param("city") String city,
-                                             @Param("lineId1") Long lineId1,
-                                             @Param("lineId2")Long lineId2,
-                                             @Param("lineId3")Long lineId3,
-                                             @Param("lineId4")Long lineId4,
-                                             @Param("lineId5")Long lineId5,
-                                             @Param("lineId6")Long lineId6,
-                                             @Param("lineId7")Long lineId7);
+                                              @Param("cityList") List<String> cityList,
+                                              @Param("list") List<Long> list);
 
 
      /**

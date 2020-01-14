@@ -8,6 +8,7 @@ import eqlee.ctm.api.pay.entity.vo.GetApplyIdVo;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDate;
 import java.util.List;
 
 /**
@@ -61,4 +62,16 @@ public interface PayMapper extends IBaseMapper<Pay> {
      * @return
      */
     ApplyPayResultQuery queryApplyResult (String applyNo);
+
+
+    /**
+     * 修改报名表支付状态（转账）
+     * @param start
+     * @param end
+     * @param companyName
+     * @return
+     */
+    Integer upSxTypeStatus (@Param("start") LocalDate start,
+                            @Param("end") LocalDate end,
+                            @Param("companyName") String companyName);
 }

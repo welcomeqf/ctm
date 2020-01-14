@@ -14,6 +14,7 @@ import com.yq.utils.StringUtils;
 import eqlee.ctm.api.code.entity.PayInfo;
 import eqlee.ctm.api.code.entity.query.PayInfoQuery;
 import eqlee.ctm.api.code.service.IPayInfoService;
+import eqlee.ctm.api.pay.entity.bo.ParamObj;
 import eqlee.ctm.api.pay.service.IPayService;
 import eqlee.ctm.api.pay.vilidata.PayData;
 import eqlee.ctm.api.pay.vilidata.PayTokenUtils;
@@ -62,6 +63,7 @@ public class WxSxController {
          @ApiImplicitParam(name = "payOrderSerialNumber", value = "订单号", required = true, dataType = "String", paramType = "path"),
          @ApiImplicitParam(name = "Money", value = "金钱", required = true, dataType = "String", paramType = "path"),
          @ApiImplicitParam(name = "productName", value = "商品描述", required = true, dataType = "String", paramType = "path"),
+         @ApiImplicitParam(name = "date", value = "每月的第一天", required = true, dataType = "String", paramType = "path"),
          @ApiImplicitParam(name = "type", value = "0-续费授信 1-结算授信金额", required = true, dataType = "String", paramType = "path")
    })
    @GetMapping("/pcPay")
@@ -70,7 +72,9 @@ public class WxSxController {
    public Object pay(@RequestParam("payOrderSerialNumber") String payOrderSerialNumber,
                      @RequestParam("Money") Double Money,
                      @RequestParam("productName") String productName,
-                     @RequestParam("type") Integer type) throws Exception{
+                     @RequestParam("type") Integer type,
+                     @RequestParam("date") String date,
+                     @RequestParam("companyName") String companyName) throws Exception{
       String callbackUrl = null;
       if (type == 0) {
          //续费
@@ -83,7 +87,7 @@ public class WxSxController {
       }
 
       String url = URL + "/v1/WeChatPay/GetQRCode?payOrderSerialNumber=" + payOrderSerialNumber +"&Money=" +Money
-            + "&productName=" + productName + "&callbackUrl=" +callbackUrl;
+            + "&productName=" + productName + "&callbackUrl=" +callbackUrl + "&selfParameter=" + date +companyName;
 
       String token = payTokenUtils.getMapToken();
       String tokenString = "Bearer " +token;
@@ -103,6 +107,7 @@ public class WxSxController {
          @ApiImplicitParam(name = "Money", value = "金钱", required = true, dataType = "String", paramType = "path"),
          @ApiImplicitParam(name = "productName", value = "商品描述", required = true, dataType = "String", paramType = "path"),
          @ApiImplicitParam(name = "code", value = "微信个人信息code", required = true, dataType = "String", paramType = "path"),
+         @ApiImplicitParam(name = "date", value = "每月的第一天", required = true, dataType = "String", paramType = "path"),
          @ApiImplicitParam(name = "type", value = "0-续费授信 1-结算授信金额", required = true, dataType = "String", paramType = "path")
    })
    @GetMapping("/appPay")
@@ -113,7 +118,9 @@ public class WxSxController {
                      @RequestParam("Money") Double Money,
                      @RequestParam("productName") String productName,
                      @RequestParam("code") String code,
-                     @RequestParam("type") Integer type) throws Exception{
+                     @RequestParam("type") Integer type,
+                     @RequestParam("date") String date,
+                     @RequestParam("companyName") String companyName) throws Exception{
       String callbackUrl = null;
       if (type == 0) {
          //续费
@@ -165,7 +172,7 @@ public class WxSxController {
       }
 
       String url = URL + "/v1/WeChatPay/GetJsApiPayInfo?payOrderSerialNumber=" + payOrderSerialNumber +"&Money=" +Money
-            + "&productName=" + productName + "&callbackUrl=" +callbackUrl + "&openId=" +openId;
+            + "&productName=" + productName + "&callbackUrl=" +callbackUrl + "&openId=" +openId + "&selfParameter=" +date +companyName;
 
       //获取token
       String token = payTokenUtils.getMapToken();

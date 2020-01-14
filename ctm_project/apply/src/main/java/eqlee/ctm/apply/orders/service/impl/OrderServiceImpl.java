@@ -58,9 +58,6 @@ public class OrderServiceImpl extends ServiceImpl<OrdersMapper, Orders> implemen
    private LocalUser localUser;
 
    @Autowired
-   private IPriceService priceService;
-
-   @Autowired
    private ILineService lineService;
 
    @Autowired
@@ -116,6 +113,7 @@ public class OrderServiceImpl extends ServiceImpl<OrdersMapper, Orders> implemen
 
             orders.setOutDate(apply.getOutDate());
             orders.setRegion(apply.getRegion());
+            orders.setCity(apply.getCity());
             orders.setCompanyId(apply.getCompanyId());
 
             allPrice = allPrice + apply.getAllPrice();
@@ -490,27 +488,22 @@ public class OrderServiceImpl extends ServiceImpl<OrdersMapper, Orders> implemen
 
     /**
      * 导游收入统计
-     * @param outDate
+     * @param orderId
      * @return
      */
     @Override
-    public IncomeVo IncomeCount(String outDate) {
-        UserLoginQuery user = localUser.getUser("用户信息");
+    public IncomeVo incomeCount(Long orderId) {
 
-       IncomeVo incomeVo = baseMapper.selectIncomeCount(DateUtil.parseDate(outDate), user.getId());
+       IncomeVo incomeVo = baseMapper.selectIncomeCount(orderId);
 
        //查询车辆类型
-       LambdaQueryWrapper<Orders> wrapper = new LambdaQueryWrapper<Orders>()
-             .eq(Orders::getOutDate,DateUtil.parseDate(outDate))
-             .eq(Orders::getCreateUserId,user.getId());
-
-       Orders orders = baseMapper.selectOne(wrapper);
+       Orders orders = baseMapper.selectById(orderId);
 
        if (orders != null) {
           incomeVo.setCarType(orders.getCarType());
        }
 
-       IncomeVo vo = baseMapper.queryStatus(DateUtil.parseDate(outDate), user.getId());
+       IncomeVo vo = baseMapper.queryStatus(orderId);
 
        if (vo != null) {
           incomeVo.setStatus(vo.getStatus());
@@ -567,10 +560,8 @@ public class OrderServiceImpl extends ServiceImpl<OrdersMapper, Orders> implemen
    @Override
    public Integer queryAllNoCount () {
       UserLoginQuery user = localUser.getUser("用户信息");
-      LocalDate now = LocalDate.now();
       LambdaQueryWrapper<Orders> wrapper = new LambdaQueryWrapper<Orders>()
             .eq(Orders::getCreateUserId,user.getId())
-            .le(Orders::getOutDate,now)
             .eq(Orders::getIsFinash,0);
 
       //查询条数
@@ -584,9 +575,33 @@ public class OrderServiceImpl extends ServiceImpl<OrdersMapper, Orders> implemen
    @Override
    public List<OrdersNoCountInfoQuery> queryAllNoCountInfo() {
       UserLoginQuery user = localUser.getUser("用户信息");
-      LocalDate now = LocalDate.now();
       LambdaQueryWrapper<Orders> wrapper = new LambdaQueryWrapper<Orders>()
             .eq(Orders::getCreateUserId,user.getId())
+            .eq(Orders::getIsFinash,0);
+
+      List<Orders> orders = baseMapper.selectList(wrapper);
+
+      List<OrdersNoCountInfoQuery> result = new ArrayList<>();
+      for (Orders order : orders) {
+         OrdersNoCountInfoQuery query = new OrdersNoCountInfoQuery();
+         query.setLineName(order.getLineName());
+         query.setOutDate(DateUtil.formatDate(order.getOutDate()));
+         query.setCarNo(order.getCarNumber());
+         query.setId(order.getId());
+         result.add(query);
+      }
+
+      return result;
+   }
+
+   /**
+    * 查询全部未结算的信息
+    * @return
+    */
+   @Override
+   public List<OrdersNoCountInfoQuery> queryAllNoCountInfo2() {
+      LocalDate now = LocalDate.now();
+      LambdaQueryWrapper<Orders> wrapper = new LambdaQueryWrapper<Orders>()
             .le(Orders::getOutDate,now)
             .eq(Orders::getIsFinash,0);
 

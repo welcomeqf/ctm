@@ -1,6 +1,9 @@
 package eqlee.ctm.api.entity.query;
 
+import eqlee.ctm.api.entity.bo.CityBo;
 import lombok.Data;
+
+import java.util.List;
 
 /**
  * @Author qf
@@ -20,7 +23,9 @@ public class UserWithQuery {
 
     private Long companyId;
 
+    private String companyName;
+
     private String roleName;
 
-    private String city;
+    private List<CityBo> city;
 }

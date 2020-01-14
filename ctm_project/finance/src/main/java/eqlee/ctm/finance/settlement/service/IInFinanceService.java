@@ -25,22 +25,21 @@ public interface IInFinanceService {
 
     /**
      * 查询提交信息
-     * @param outDate
+     * @param orderId
      * @return
      */
-    ResultBo queryResult (String outDate);
+    ResultBo queryResult (Long orderId);
 
 
     /**
      * 分页查询所有财务审核
      * @param page
-     * @param guestName
+     * @param guideName
      * @param type
      * @param outDate
-     * @param lineName
      * @return
      */
-    Page<ExamineResultQuery> listExamine2Page(Page<ExamineResultQuery> page, String guestName, Integer type, String outDate, String lineName);
+    Page<ExamineResultQuery> listExamine2Page(Page<ExamineResultQuery> page, String guideName, Integer type, String outDate);
 
 
     /**
@@ -67,7 +66,7 @@ public interface IInFinanceService {
      * @param type
      * @return
      */
-    ExaResultQuery examineGuestResult (Long id, Integer type);
+    ExaResultQuery examineGuestResult (Long id, Integer type, String caiName, String remark);
 
     /**
      * 展示所有财务审核的结果

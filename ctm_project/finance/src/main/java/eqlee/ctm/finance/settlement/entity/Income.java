@@ -36,6 +36,16 @@ public class Income extends Model<Income> {
     private String GuideTel;
 
     /**
+     * 财务人名字
+     */
+    private String CaiName;
+
+    /**
+     * 订单Id
+     */
+    private Long OrderId;
+
+    /**
      * 出发日期
      */
     private LocalDate OutDate;

@@ -2,6 +2,8 @@ package eqlee.ctm.apply.sxpay.entity;
 
 import lombok.Data;
 
+import java.time.LocalDateTime;
+
 /**
  * @author qf
  * @date 2019/12/24
@@ -9,6 +11,7 @@ import lombok.Data;
  **/
 @Data
 public class PayInfo {
+
 
    private String thirdPayOrderId;
 

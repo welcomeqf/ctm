@@ -19,6 +19,24 @@ public interface IOut2FinanceService {
    void insertOut2Info (List<OutComeInfoBo> list);
 
    /**
+    * 批量修改
+    * @param list
+    */
+   void updateOut2Info (List<OutComeInfoBo> list);
+
+   /**
+    * 修改支出
+    * @param bo
+    */
+   void upOut2Info (OutComeInfoBo bo);
+
+   /**
+    * 增加
+    * @param bo
+    */
+   void insertOut (OutComeInfoBo bo);
+
+   /**
     * 查询一个团的所有支出
     * @param incomeId
     * @return

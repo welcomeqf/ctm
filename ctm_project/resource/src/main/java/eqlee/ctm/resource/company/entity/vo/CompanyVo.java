@@ -16,6 +16,8 @@ public class CompanyVo {
 
     private String companyName;
 
+    private String companyFullName;
+
     private String startDate;
 
     private String endDate;

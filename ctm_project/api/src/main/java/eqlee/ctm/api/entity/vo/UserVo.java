@@ -2,7 +2,10 @@ package eqlee.ctm.api.entity.vo;
 
 import com.alibaba.fastjson.annotation.JSONField;
 import com.alibaba.fastjson.serializer.ToStringSerializer;
+import eqlee.ctm.api.entity.bo.CityBo;
 import lombok.Data;
+
+import java.util.List;
 
 /**
  * @Author qf
@@ -22,8 +25,15 @@ public class UserVo {
 
     private Long companyId;
 
+    private String companyName;
+
     private String roleName;
 
-    private String city;
+    private List<CityBo> city;
+
+    /**
+     * 0--外部公司 1--本公司
+     */
+    private Integer type;
 
 }

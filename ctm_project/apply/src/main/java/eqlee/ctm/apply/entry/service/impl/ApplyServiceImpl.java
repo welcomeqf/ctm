@@ -9,6 +9,8 @@ import com.yq.constanct.CodeType;
 import com.yq.entity.websocket.NettyType;
 import com.yq.exception.ApplicationException;
 import com.yq.jwt.contain.LocalUser;
+import com.yq.jwt.entity.CityJwtBo;
+import com.yq.jwt.entity.PrivilegeMenuQuery;
 import com.yq.jwt.entity.UserLoginQuery;
 import com.yq.utils.DateUtil;
 import com.yq.utils.IdGenerator;
@@ -28,6 +30,7 @@ import eqlee.ctm.apply.message.service.IMessageService;
 import eqlee.ctm.apply.orders.entity.Vo.LongVo;
 import eqlee.ctm.apply.price.entity.Price;
 import eqlee.ctm.apply.price.service.IPriceService;
+import eqlee.ctm.apply.sxpay.entity.PayInfo;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -135,28 +138,36 @@ public class ApplyServiceImpl extends ServiceImpl<ApplyMapper, Apply> implements
 
         UserLoginQuery user = localUser.getUser("用户信息");
 
-        if ("同行".equals(user.getRoleName())) {
-            applyVo.setCompanyNameId(user.getCompanyId());
-            applyVo.setCName(user.getCname());
-        } else {
-            //运营代录
-            if (applyVo.getCompanyUserId() == null) {
-                throw new ApplicationException(CodeType.SERVICE_ERROR, "代录请选择替录人员.");
-            }
-            //装配同行id
-            //先查询该同行信息
-            //-------------------
-//            try {
-//                String users = httpUtils.queryUserInfo(applyVo.getCompanyUserId());
-//                userById = JSONObject.parseObject (users,UserQuery.class);
-//            } catch (Exception e) {
-//                e.printStackTrace();
-//            }
+        if ("运营人员".equals(user.getRoleName()) || "管理员".equals(user.getRoleName()) || "超级管理员".equals(user.getRoleName())) {
+           //运营代录
+           if (applyVo.getCompanyUserId() == null) {
+              throw new ApplicationException(CodeType.SERVICE_ERROR, "代录请选择替录人员.");
+           }
+           //装配同行id
+           //先查询该同行信息
+           //-------------------
+           UserQuery userById = null;
+           try {
+              String users = httpUtils.queryUserInfo(applyVo.getCompanyUserId());
+              userById = JSONObject.parseObject (users,UserQuery.class);
+           } catch (Exception e) {
+              e.printStackTrace();
+           }
 
-           //            applyVo.setCompanyUser(userById.getAccount());
-            applyVo.setCompanyNameId(applyVo.getCompanyUserId());
-            applyVo.setCName(user.getCname());
-            applyVo.setUpdateUserId(user.getId());
+           //同行代表名字
+           if (userById != null) {
+              applyVo.setCompanyUser(userById.getCname());
+              applyVo.setCompanyTel(userById.getCompanyTel());
+           }
+
+           applyVo.setCompanyNameId(applyVo.getCompanyUserId());
+           applyVo.setCName(user.getCname());
+           applyVo.setUpdateUserId(user.getId());
+        } else {
+           //同行报名
+           applyVo.setCompanyNameId(user.getCompanyId());
+           applyVo.setCName(user.getCname());
+           applyVo.setCompanyTel(user.getTel());
         }
 
         Company company = baseMapper.queryCompanyById(applyVo.getCompanyNameId());
@@ -181,56 +192,61 @@ public class ApplyServiceImpl extends ServiceImpl<ApplyMapper, Apply> implements
           apply.setId(id);
        }
 
-        if ("同行".equals(user.getRoleName())) {
-            apply.setAdultNumber(applyVo.getAdultNumber());
-            apply.setBabyNumber(applyVo.getBabyNumber());
-            apply.setChildNumber(applyVo.getChildNumber());
-            apply.setOldNumber(applyVo.getOldNumber());
-            apply.setAllNumber(AllNumber);
-            apply.setAllPrice(AllPrice);
-            apply.setCompanyName(company.getCompanyName());
-            apply.setCompanyUser(user.getAccount());
-            apply.setContactName(applyVo.getContactName());
-            apply.setContactTel(applyVo.getContactTel());
-            apply.setPlace(applyVo.getPlace());
-            apply.setRegion(line.getRegion());
-            apply.setLineId(line.getId());
-            apply.setOutDate(localDate);
-            apply.setUpdateUserId(user.getId());
-            apply.setCName(applyVo.getCName());
-            apply.setMarketAllPrice(applyVo.getMarketAllPrice());
-            apply.setMsPrice(applyVo.getMsPrice());
-            apply.setApplyRemark(applyVo.getApplyRemark());
+       if ("运营人员".equals(user.getRoleName()) || "管理员".equals(user.getRoleName()) || "超级管理员".equals(user.getRoleName())) {
 
-            apply.setCompanyId(applyVo.getCompanyNameId());
-            apply.setCompanyTel(user.getTel());
-            apply.setType(applyVo.getType());
+          //运营人员代录
+          apply.setAdultNumber(applyVo.getAdultNumber());
+          apply.setBabyNumber(applyVo.getBabyNumber());
+          apply.setChildNumber(applyVo.getChildNumber());
+          apply.setCompanyTel(applyVo.getCompanyTel());
+          apply.setOldNumber(applyVo.getOldNumber());
+          apply.setAllNumber(AllNumber);
+          apply.setAllPrice(AllPrice);
+          apply.setCompanyName(company.getCompanyName());
+          apply.setCompanyUser(applyVo.getCompanyUser());
+          apply.setContactName(applyVo.getContactName());
+          apply.setContactTel(applyVo.getContactTel());
+          apply.setPlace(applyVo.getPlace());
+          apply.setRegion(line.getRegion());
+          apply.setLineId(line.getId());
+          apply.setCity(line.getCity());
+          apply.setOutDate(localDate);
+          apply.setUpdateUserId(applyVo.getUpdateUserId());
+          apply.setCName(applyVo.getCName());
+          apply.setMarketAllPrice(applyVo.getMarketAllPrice());
+          apply.setMsPrice(applyVo.getMsPrice());
+          apply.setApplyRemark(applyVo.getApplyRemark());
+
+          apply.setCompanyId(applyVo.getCompanyNameId());
+          apply.setType(applyVo.getType());
 
         } else {
-            //运营人员代录
-            apply.setAdultNumber(applyVo.getAdultNumber());
-            apply.setBabyNumber(applyVo.getBabyNumber());
-            apply.setChildNumber(applyVo.getChildNumber());
-            apply.setOldNumber(applyVo.getOldNumber());
-            apply.setAllNumber(AllNumber);
-            apply.setAllPrice(AllPrice);
-            apply.setCompanyName(company.getCompanyName());
-            apply.setCompanyUser(applyVo.getCompanyUser());
-            apply.setContactName(applyVo.getContactName());
-            apply.setContactTel(applyVo.getContactTel());
-            apply.setPlace(applyVo.getPlace());
-            apply.setRegion(line.getRegion());
-            apply.setLineId(line.getId());
-            apply.setOutDate(localDate);
-            apply.setUpdateUserId(applyVo.getUpdateUserId());
-            apply.setCName(applyVo.getCName());
-            apply.setMarketAllPrice(applyVo.getMarketAllPrice());
-            apply.setMsPrice(applyVo.getMsPrice());
-            apply.setApplyRemark(applyVo.getApplyRemark());
 
-           apply.setCompanyId(applyVo.getCompanyNameId());
-           apply.setType(applyVo.getType());
+          apply.setAdultNumber(applyVo.getAdultNumber());
+          apply.setBabyNumber(applyVo.getBabyNumber());
+          apply.setChildNumber(applyVo.getChildNumber());
+          apply.setOldNumber(applyVo.getOldNumber());
+          apply.setAllNumber(AllNumber);
+          apply.setAllPrice(AllPrice);
+          apply.setCompanyName(company.getCompanyName());
+          apply.setCompanyUser(user.getCname());
+          apply.setCompanyTel(applyVo.getCompanyTel());
+          apply.setContactName(applyVo.getContactName());
+          apply.setContactTel(applyVo.getContactTel());
+          apply.setPlace(applyVo.getPlace());
+          apply.setRegion(line.getRegion());
+          apply.setLineId(line.getId());
+          apply.setCity(line.getCity());
+          apply.setOutDate(localDate);
+          apply.setUpdateUserId(user.getId());
+          apply.setCName(applyVo.getCName());
+          apply.setMarketAllPrice(applyVo.getMarketAllPrice());
+          apply.setMsPrice(applyVo.getMsPrice());
+          apply.setApplyRemark(applyVo.getApplyRemark());
 
+          apply.setCompanyId(applyVo.getCompanyNameId());
+          apply.setCompanyTel(user.getTel());
+          apply.setType(applyVo.getType());
         }
 
 
@@ -432,10 +448,8 @@ public class ApplyServiceImpl extends ServiceImpl<ApplyMapper, Apply> implements
 
       UserLoginQuery user = localUser.getUser("用户信息");
 
-      if ("同行".equals(user.getRoleName())) {
-         applyVo.setCompanyNameId(user.getCompanyId());
-         applyVo.setCName(user.getCname());
-      } else {
+      if ("运营人员".equals(user.getRoleName()) || "管理员".equals(user.getRoleName()) || "超级管理员".equals(user.getRoleName())) {
+
          //运营代录
          if (applyVo.getCompanyUserId() == null) {
             throw new ApplicationException(CodeType.SERVICE_ERROR, "代录请选择替录人员.");
@@ -443,17 +457,27 @@ public class ApplyServiceImpl extends ServiceImpl<ApplyMapper, Apply> implements
          //装配同行id
          //先查询该同行信息
          //-------------------
-//         try {
-//            String users = httpUtils.queryUserInfo(applyVo.getCompanyUserId());
-//            userById = JSONObject.parseObject (users,UserQuery.class);
-//         } catch (Exception e) {
-//            e.printStackTrace();
-//         }
+         UserQuery userById = null;
+         try {
+            String users = httpUtils.queryUserInfo(applyVo.getCompanyUserId());
+            userById = JSONObject.parseObject (users,UserQuery.class);
+         } catch (Exception e) {
+            e.printStackTrace();
+         }
 
          applyVo.setCompanyNameId(applyVo.getCompanyUserId());
-//         applyVo.setCompanyUser(userById.getAccount());
+         if (userById != null) {
+            applyVo.setCompanyUser(userById.getCname());
+            applyVo.setCompanyTel(userById.getCompanyTel());
+         }
          applyVo.setUpdateUserId(user.getId());
          applyVo.setCName(user.getCname());
+
+      } else {
+
+         applyVo.setCompanyNameId(user.getCompanyId());
+         applyVo.setCName(user.getCname());
+         applyVo.setCompanyTel(user.getTel());
       }
 
       Company company = baseMapper.queryCompanyById(applyVo.getCompanyNameId());
@@ -479,32 +503,8 @@ public class ApplyServiceImpl extends ServiceImpl<ApplyMapper, Apply> implements
          apply.setId(id);
       }
 
-      if ("同行".equals(user.getRoleName())) {
-         apply.setAdultNumber(applyVo.getAdultNumber());
-         apply.setBabyNumber(applyVo.getBabyNumber());
-         apply.setChildNumber(applyVo.getChildNumber());
-         apply.setOldNumber(applyVo.getOldNumber());
-         apply.setAllNumber(AllNumber);
-         apply.setAllPrice(AllPrice);
-         apply.setCompanyName(company.getCompanyName());
-         apply.setCompanyUser(user.getAccount());
-         apply.setContactName(applyVo.getContactName());
-         apply.setContactTel(applyVo.getContactTel());
-         apply.setPlace(applyVo.getPlace());
-         apply.setRegion(line.getRegion());
-         apply.setLineId(line.getId());
-         apply.setOutDate(localDate);
-         apply.setUpdateUserId(user.getId());
-         apply.setCName(applyVo.getCName());
-         apply.setMarketAllPrice(applyVo.getMarketAllPrice());
-         apply.setMsPrice(applyVo.getMsPrice());
-         apply.setApplyRemark(applyVo.getApplyRemark());
+      if ("运营人员".equals(user.getRoleName()) || "管理员".equals(user.getRoleName()) || "超级管理员".equals(user.getRoleName()))  {
 
-         apply.setCompanyId(applyVo.getCompanyNameId());
-         apply.setCompanyTel(user.getTel());
-         apply.setType(applyVo.getType());
-
-      } else {
          //运营人员代录
          apply.setAdultNumber(applyVo.getAdultNumber());
          apply.setBabyNumber(applyVo.getBabyNumber());
@@ -514,11 +514,13 @@ public class ApplyServiceImpl extends ServiceImpl<ApplyMapper, Apply> implements
          apply.setAllPrice(AllPrice);
          apply.setCompanyName(company.getCompanyName());
          apply.setCompanyUser(applyVo.getCompanyUser());
+         apply.setCompanyTel(applyVo.getCompanyTel());
          apply.setContactName(applyVo.getContactName());
          apply.setContactTel(applyVo.getContactTel());
          apply.setPlace(applyVo.getPlace());
          apply.setRegion(line.getRegion());
          apply.setLineId(line.getId());
+         apply.setCity(line.getCity());
          apply.setOutDate(localDate);
          apply.setUpdateUserId(applyVo.getUpdateUserId());
          apply.setCName(applyVo.getCName());
@@ -529,6 +531,33 @@ public class ApplyServiceImpl extends ServiceImpl<ApplyMapper, Apply> implements
          apply.setCompanyId(applyVo.getCompanyNameId());
          apply.setType(applyVo.getType());
 
+      } else {
+
+         apply.setAdultNumber(applyVo.getAdultNumber());
+         apply.setBabyNumber(applyVo.getBabyNumber());
+         apply.setChildNumber(applyVo.getChildNumber());
+         apply.setOldNumber(applyVo.getOldNumber());
+         apply.setAllNumber(AllNumber);
+         apply.setAllPrice(AllPrice);
+         apply.setCompanyName(company.getCompanyName());
+         apply.setCompanyTel(applyVo.getCompanyTel());
+         apply.setCompanyUser(user.getCname());
+         apply.setContactName(applyVo.getContactName());
+         apply.setContactTel(applyVo.getContactTel());
+         apply.setPlace(applyVo.getPlace());
+         apply.setRegion(line.getRegion());
+         apply.setLineId(line.getId());
+         apply.setCity(line.getCity());
+         apply.setOutDate(localDate);
+         apply.setUpdateUserId(user.getId());
+         apply.setCName(applyVo.getCName());
+         apply.setMarketAllPrice(applyVo.getMarketAllPrice());
+         apply.setMsPrice(applyVo.getMsPrice());
+         apply.setApplyRemark(applyVo.getApplyRemark());
+
+         apply.setCompanyId(applyVo.getCompanyNameId());
+         apply.setCompanyTel(user.getTel());
+         apply.setType(applyVo.getType());
       }
 
 
@@ -744,7 +773,9 @@ public class ApplyServiceImpl extends ServiceImpl<ApplyMapper, Apply> implements
     * @return
     */
    @Override
-   public Page<ApplyDoExaQuery> listPageDo2Apply(Page<ApplyDoExaQuery> page, String outDate, String lineName, Integer type, String applyDate, Integer exaStatus) {
+   public Page<ApplyDoExaQuery> listPageDo2Apply(Page<ApplyDoExaQuery> page, String outDate, Long lineName, Integer type, String applyDate, Integer exaStatus) {
+
+      UserLoginQuery user = localUser.getUser("用户信息");
 
       LocalDate outTime = null;
 
@@ -752,9 +783,6 @@ public class ApplyServiceImpl extends ServiceImpl<ApplyMapper, Apply> implements
          outTime = DateUtil.parseDate(outDate);
       }
 
-      if (StringUtils.isBlank(lineName)) {
-         lineName = null;
-      }
 
       LocalDateTime start = null;
       LocalDateTime end = null;
@@ -765,7 +793,17 @@ public class ApplyServiceImpl extends ServiceImpl<ApplyMapper, Apply> implements
          end = DateUtil.parseDateTime(endTime);
       }
 
-      return baseMapper.queryAllExaInfo (page,outTime,lineName,type,start,end,exaStatus);
+
+      //加城市   好奔溃
+      List<String> list = new ArrayList<>();
+      if (user.getCity().size() > 0) {
+         for (CityJwtBo bo : user.getCity()) {
+            list.add(bo.getCity());
+         }
+      }
+
+      return baseMapper.queryAllExaInfo2 (page,outTime,lineName,type,start,end,exaStatus,list);
+
    }
 
    /**
@@ -1293,28 +1331,24 @@ public class ApplyServiceImpl extends ServiceImpl<ApplyMapper, Apply> implements
    /**
     * 同行月结现结统计
     * @param page
-    * @param lineName
-    * @param startDate
-    * @param endDate
+    * @param time
+    * @param type
     * @return
     */
    @Override
-   public Page<ApplyResultCountQuery> pageResult2CountList(Page<ApplyResultCountQuery> page, String lineName, String startDate, String endDate) {
+   public Page<ApplyResultCountQuery> pageResult2CountList(Page<ApplyResultCountQuery> page, String time, Integer type, Integer caiType) {
 
       UserLoginQuery user = localUser.getUser("用户信息");
 
       LocalDate start = null;
-      if (StringUtils.isNotBlank(startDate)) {
-         start = DateUtil.parseDate(startDate);
-      }
-
       LocalDate end = null;
-      if (StringUtils.isNotBlank(endDate)) {
-         end = DateUtil.parseDate(endDate);
-      }
 
-      if (StringUtils.isBlank(lineName)) {
-         lineName = null;
+      if (StringUtils.isNotBlank(time)) {
+         String date = time + "-01-01";
+         start = DateUtil.parseDate(date);
+
+         //结束时间
+         end = start.plusYears(1).minusDays(1);
       }
 
       Long id = null;
@@ -1327,35 +1361,33 @@ public class ApplyServiceImpl extends ServiceImpl<ApplyMapper, Apply> implements
          companyId = user.getCompanyId();
       }
 
-      return baseMapper.queryCompanyResultCount (page,start,end,lineName,id,companyId);
+      return baseMapper.queryCompanyResultCount (page,start,end,type,caiType,id,companyId);
    }
 
    /**
-    * 运营统计现结月结金额
+    * 管理员统计现结月结金额
     * @param page
-    * @param lineName
-    * @param startDate
-    * @param endDate
+    * @param time
+    * @param type
     * @param companyUserId
     * @return
     */
    @Override
-   public Page<ApplyResultCountQuery> pageResultAdminCountList(Page<ApplyResultCountQuery> page, String lineName, String startDate, String endDate, Long companyUserId) {
+   public Page<ApplyResultCountQuery> pageResultAdminCountList(Page<ApplyResultCountQuery> page, String time, Integer type, Integer caiType, Long companyUserId) {
+
       LocalDate start = null;
-      if (StringUtils.isNotBlank(startDate)) {
-         start = DateUtil.parseDate(startDate);
-      }
-
       LocalDate end = null;
-      if (StringUtils.isNotBlank(endDate)) {
-         end = DateUtil.parseDate(endDate);
+
+      if (StringUtils.isNotBlank(time)) {
+         String date = time + "-01-01";
+         start = DateUtil.parseDate(date);
+
+         //结束时间
+         end = start.plusYears(1).minusDays(1);
       }
 
-      if (StringUtils.isBlank(lineName)) {
-         lineName = null;
-      }
 
-      return baseMapper.queryCompanyAdminResultCount (page,start,end,lineName,companyUserId);
+      return baseMapper.queryCompanyAdminResultCount (page,start,end,type,caiType,companyUserId);
    }
 
    /**
@@ -1523,33 +1555,26 @@ public class ApplyServiceImpl extends ServiceImpl<ApplyMapper, Apply> implements
     * 续月结的金额
     */
    @Override
-   public void updateSxPriceStatus() {
+   public void updateSxPriceStatus(String s) {
+      //日期
+      String startDate = s.substring(0,10);
+      //公司名
+      String  companyName = s.substring(10);
 
-//      LocalDateTime now = LocalDateTime.now();
-//
-//      String s = DateUtil.formatDate(now);
-//
-//      String substring = s.substring(8,9);
-//
-//      //获取这个月的10号
-//      String s1 = s.substring(0,8);
-//      String start = s1 + "10 00:00:00";
-//      LocalDateTime dateTime = DateUtil.parseDateTime(start);
-//      LocalDateTime startDate;
-//      if ("0".equals(substring)) {
-//         //从上个月的10号到今天
-//         startDate = dateTime.minusMonths(1);
-//
-//      } else {
-//         //从这个月10号到今天
-//         //这个月10号
-//         startDate = dateTime;
-//      }
+      //每月开始的第一天
+      LocalDate start = DateUtil.parseDate(startDate);
+      LocalDate date = start.plusMonths(1);
+      //当前月的最后一天
+      LocalDate endTime = date.minusDays(1);
 
 
       LambdaQueryWrapper<Apply> wrapper = new LambdaQueryWrapper<Apply>()
             .eq(Apply::getIsCancel,0)
-            .eq(Apply::getSxType,0);
+            .eq(Apply::getSxType,0)
+            .eq(Apply::getIsSelect,1)
+            .eq(Apply::getCompanyName,companyName)
+            .ge(Apply::getOutDate,start)
+            .le(Apply::getOutDate,endTime);
 
       Apply apply = new Apply();
       apply.setSxType(1);
@@ -1572,6 +1597,141 @@ public class ApplyServiceImpl extends ServiceImpl<ApplyMapper, Apply> implements
    public ApplyOpenIdVo queryAuto(Long id) {
       UserLoginQuery user = localUser.getUser("用户信息");
       return baseMapper.queryPayInfo(user.getId());
+   }
+
+
+   /**
+    *  查询统计的详情
+    * @param page
+    * @param outDate
+    * @param companyName
+    * @param lineName
+    * @return
+    */
+   @Override
+   public Page<ApplyCountVo> queryCountInfo(Page<ApplyCountVo> page, String outDate, String companyName, String lineName) {
+
+      LocalDate start = null;
+      LocalDate end = null;
+
+      if (StringUtils.isNotBlank(outDate)) {
+         start = DateUtil.parseDate(outDate);
+
+         end = start.plusMonths(1).minusDays(1);
+      }
+
+      if (StringUtils.isBlank(lineName)) {
+         lineName = null;
+      }
+
+      return baseMapper.queryCountInfo (page,start,end,companyName,lineName);
+   }
+
+   @Override
+   public Page<ApplyCountCaiBo> queryCountInfo2(Page<ApplyCountVo> page, String outDate, String companyName, String lineName) {
+      LocalDate start = null;
+      LocalDate end = null;
+
+      if (StringUtils.isNotBlank(outDate)) {
+         start = DateUtil.parseDate(outDate);
+
+         end = start.plusMonths(1).minusDays(1);
+      }
+
+      if (StringUtils.isBlank(lineName)) {
+         lineName = null;
+      }
+      return baseMapper.queryCountInfo2 (page,start,end,companyName,lineName);
+   }
+
+   /**
+    * 查询信息
+    * @param id
+    * @return
+    */
+   @Override
+   public ApplyCompanyInfo queryInfo(Long id) {
+      Apply apply = baseMapper.selectById(id);
+      ApplyCompanyInfo bo = new ApplyCompanyInfo();
+      bo.setCompanyName(apply.getCompanyName());
+      bo.setSxType(apply.getSxType());
+      bo.setCaiType(apply.getCaiType());
+      return bo;
+   }
+
+
+   /**
+    *   财务确认
+    * @param outDate
+    * @param companyName
+    */
+   @Override
+   public void upCaiMonthCount(String outDate, String companyName) {
+
+      LocalDate start = null;
+      LocalDate end = null;
+
+      if (StringUtils.isNotBlank(outDate)) {
+         start = DateUtil.parseDate(outDate);
+
+         end = start.plusMonths(1).minusDays(1);
+      }
+
+      LambdaQueryWrapper<Apply> wrapper = new LambdaQueryWrapper<Apply>()
+            .eq(Apply::getIsSelect,1)
+            .eq(Apply::getCompanyName,companyName)
+            .ge(Apply::getOutDate,start)
+            .le(Apply::getOutDate,end);
+
+      Apply apply = new Apply();
+      apply.setCaiType(1);
+
+      int update = baseMapper.update(apply, wrapper);
+
+      if (update <= 0) {
+         throw new ApplicationException(CodeType.SERVICE_ERROR, "确认失败");
+      }
+   }
+
+
+   /**
+    * 查询待审核条数
+    * @return
+    */
+   @Override
+   public ApplyExaCountQuery queryCount() {
+
+      Long id = 634338640817815552L;
+      ApplyExaCountQuery result = new ApplyExaCountQuery();
+      UserLoginQuery user = localUser.getUser("用户信息");
+
+     List<String> list = new ArrayList<>();
+
+      for (CityJwtBo bo : user.getCity()) {
+         list.add(bo.getCity());
+      }
+
+      for (PrivilegeMenuQuery query : user.getMenuList()) {
+         if (id.equals(query.getMenuId())) {
+
+            LambdaQueryWrapper<Apply> wrapper = new LambdaQueryWrapper<Apply>()
+                  .eq(Apply::getStatu,0)
+                  .eq(Apply::getIsPayment,1)
+                  .in(Apply::getCity,list)
+                  .eq(Apply::getIsCancel,0);
+            Integer integer = baseMapper.selectCount(wrapper);
+
+            result.setCount(integer);
+            return result;
+
+         }
+      }
+
+      //
+      result.setCount(99999);
+      return result;
+
+
    }
 
 

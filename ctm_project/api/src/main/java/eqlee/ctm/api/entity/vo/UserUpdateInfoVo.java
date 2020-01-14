@@ -1,6 +1,9 @@
 package eqlee.ctm.api.entity.vo;
 
+import eqlee.ctm.api.entity.bo.CityBo;
 import lombok.Data;
+
+import java.util.List;
 
 /**
  * @Author qf
@@ -28,6 +31,8 @@ public class UserUpdateInfoVo {
      */
     private String tel;
 
+    private String roleName;
+
     /**
      * 是否停用（false--正常  true--停用）
      */
@@ -36,5 +41,5 @@ public class UserUpdateInfoVo {
     /**
      * 城市
      */
-    private String city;
+    private List<CityBo> city;
 }

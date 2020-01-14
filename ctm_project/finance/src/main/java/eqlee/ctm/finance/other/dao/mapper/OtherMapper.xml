@@ -8,6 +8,7 @@
     <select id="queryOther" resultType="eqlee.ctm.finance.other.entity.vo.OtherVo">
       select Id as 'id',OtherName as 'otherName',OtherContent as 'otherContent',
       Types as 'types',convert(varchar(20),CreateDate,23)createDate from Other
+      order by UpdateDate desc
     </select>
 
     <update id="updateOther" parameterType="eqlee.ctm.finance.other.entity.vo.OtherUpdateVo">

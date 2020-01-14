@@ -11,9 +11,9 @@ import lombok.Data;
 public class PersonCountVo {
 
     /**
-     * 天数（日期）
+     * 城市
      */
-    private String day;
+    private String city;
 
     /**
      * 总人数

@@ -36,6 +36,54 @@ public class Out2FinanceServiceImpl extends ServiceImpl<Out2FinanceMapper, Outco
 
 
    /**
+    * 批量修改
+    * @param list
+    */
+   @Override
+   public void updateOut2Info(List<OutComeInfoBo> list) {
+      baseMapper.upOut2Info(list);
+   }
+
+   /**
+    * 修改支出
+    * @param bo
+    */
+   @Override
+   public void upOut2Info(OutComeInfoBo bo) {
+      Outcome2 outcome2 = new Outcome2();
+      outcome2.setId(bo.getId());
+      outcome2.setOutName(bo.getOutName());
+      outcome2.setOutPrice(bo.getOutPrice());
+      outcome2.setPicture(bo.getPicture());
+      baseMapper.updateById(outcome2);
+
+
+
+   }
+
+   /**
+    * 增加支出
+    * @param bo
+    */
+   @Override
+   public void insertOut(OutComeInfoBo bo) {
+      Outcome2 outcome2 = new Outcome2();
+      outcome2.setId(bo.getId());
+      outcome2.setIncomeId(bo.getIncomeId());
+      outcome2.setCreateUserId(bo.getCreateUserId());
+      outcome2.setOutName(bo.getOutName());
+      outcome2.setOutPrice(bo.getOutPrice());
+      outcome2.setPicture(bo.getPicture());
+      outcome2.setUpdateUserId(bo.getUpdateUserId());
+      int insert = baseMapper.insert(outcome2);
+
+      if (insert <= 0) {
+         throw new ApplicationException(CodeType.SERVICE_ERROR, "提交失败");
+      }
+   }
+
+
+   /**
     * 查询一个团所有支出
     * @param incomeId
     * @return

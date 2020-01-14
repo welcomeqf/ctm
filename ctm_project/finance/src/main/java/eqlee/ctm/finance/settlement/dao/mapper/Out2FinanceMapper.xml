@@ -11,4 +11,11 @@
         </foreach>
     </insert>
 
+
+    <update id="upOut2Info" parameterType="eqlee.ctm.finance.settlement.entity.bo.OutComeInfoBo">
+        <foreach collection="list" item="item" index="index">
+            update OutCome2 set OutName = #{item.outName},OutPrice = #{item.outPrice},Picture = #{item.picture}
+            where Id = #{item.id}
+        </foreach>
+    </update>
 </mapper>

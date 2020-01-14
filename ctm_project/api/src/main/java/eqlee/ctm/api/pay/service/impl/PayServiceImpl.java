@@ -4,10 +4,12 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.yq.constanct.CodeType;
 import com.yq.exception.ApplicationException;
+import com.yq.utils.DateUtil;
 import eqlee.ctm.api.pay.dao.PayMapper;
 import eqlee.ctm.api.pay.entity.Pay;
 import eqlee.ctm.api.pay.entity.PayResult;
 import eqlee.ctm.api.pay.entity.query.ApplyPayResultQuery;
+import eqlee.ctm.api.pay.entity.query.MonthPayResultQuery;
 import eqlee.ctm.api.pay.entity.query.PayResultQuery;
 import eqlee.ctm.api.pay.entity.query.ResultQuery;
 import eqlee.ctm.api.pay.entity.vo.GetApplyIdVo;
@@ -16,6 +18,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.util.List;
 
 /**
@@ -52,6 +55,9 @@ public class PayServiceImpl extends ServiceImpl<PayMapper, Pay> implements IPayS
         } else {
             result.setResult("ok");
         }
+
+        //修改报名表的支付状态
+
 
         return result;
     }
@@ -140,5 +146,78 @@ public class PayServiceImpl extends ServiceImpl<PayMapper, Pay> implements IPayS
         }
 
         return result;
+    }
+
+    @Override
+    public ResultQuery queryMonthResult(String applyNo) {
+        List<PayResultQuery> list = baseMapper.queryPayResult(applyNo);
+
+        if (list.size() == 0) {
+            throw new ApplicationException(CodeType.SERVICE_ERROR,"请重新支付");
+        }
+
+        ResultQuery result = new ResultQuery();
+        for (PayResultQuery payResult : list) {
+            result.setId(payResult.getId());
+            result.setApplyNo(payResult.getApplyNo());
+            result.setPayDate(payResult.getPayDate());
+            result.setThirdPartyNumber(payResult.getThirdPartyNumber());
+
+            if (payResult.getPayStatus() == 0 || payResult.getPayStatus() == 2) {
+                result.setPayStatus("支付失败");
+            } else {
+                result.setPayStatus("支付成功");
+            }
+        }
+        return result;
+    }
+
+
+    /**
+     * 查询支付后的凭证
+     * @param monthNo
+     * @return
+     */
+    @Override
+    public MonthPayResultQuery queryMonthPayResult(String monthNo) {
+
+        LambdaQueryWrapper<Pay> wrapper = new LambdaQueryWrapper<Pay>()
+              .eq(Pay::getApplyNo,monthNo);
+
+        Pay pay = baseMapper.selectOne(wrapper);
+
+        if (pay == null) {
+            throw new ApplicationException(CodeType.SERVICE_ERROR, "您可能未支付");
+        }
+
+        MonthPayResultQuery query = new MonthPayResultQuery();
+        query.setPayDate(DateUtil.formatDateTime(pay.getPayDate()));
+        query.setFilePath(pay.getPayPhone());
+        if (pay.getPayType() == 0) {
+            query.setPayType("微信支付");
+        } else if (pay.getPayType() == 1) {
+            query.setPayType("支付宝支付");
+        } else if (pay.getPayType() == 2) {
+            query.setPayType("转账支付");
+        }
+        query.setThNo(pay.getThirdPartyNumber());
+        query.setMonthNo(monthNo);
+        query.setPayMoney(pay.getPayMoney());
+        query.setPayStatus(pay.getPayStatu());
+        return query;
+    }
+
+    @Override
+    public void upMonthStatus(String startDate, String companyName) {
+
+        LocalDate satrt = DateUtil.parseDate(startDate);
+
+        LocalDate end = satrt.plusMonths(1).minusDays(1);
+
+        Integer integer = baseMapper.upSxTypeStatus(satrt, end, companyName);
+
+        if (integer <= 0) {
+            throw new ApplicationException(CodeType.SERVICE_ERROR, "修改失败");
+        }
     }
 }

@@ -15,9 +15,14 @@ public class CompanyQueryVo {
     private Long Id;
 
     /**
-     * 公司名称
+     * 公司简称
      */
     private String CompanyName;
+
+    /**
+     * 公司全称
+     */
+    private String CompanyFullName;
 
     /**
      * 合同开始时间

@@ -14,6 +14,8 @@ public class ApplyCompanyQuery {
 
     private Long Id;
 
+    private String CompanyName;
+
     /**
      * 报名单号
      */

@@ -48,16 +48,8 @@ public class InFinanceServiceImpl extends ServiceImpl<InFinanceMapper, Income> i
     private LocalUser localUser;
 
     @Autowired
-    private IOutFinanceService outFinanceService;
-
-    @Autowired
     private IOut2FinanceService  out2FinanceService;
 
-    @Autowired
-    private HttpUtils httpUtils;
-
-    @Autowired
-    private IOtherService otherService;
 
     @Autowired
     private INumberService numberService;
@@ -69,10 +61,6 @@ public class InFinanceServiceImpl extends ServiceImpl<InFinanceMapper, Income> i
     private final String EXA_YI = "已通过";
 
     private final String EXA_WEI = "已拒绝";
-
-    private final String EXA_NO = "未审核";
-
-    private final String EXA_DO = "已审核";
 
     /**
      * 增加导游消费情况
@@ -99,6 +87,7 @@ public class InFinanceServiceImpl extends ServiceImpl<InFinanceMapper, Income> i
             if (income != null) {
                 income.setLineName(vo.getLineName());
                 income.setCarNo(vo.getCarNo());
+                income.setStatus(0);
                 income.setSettlementPrice(vo.getGaiMoney());
                 income.setOtherInPrice(vo.getOtherInPrice());
                 Double all = vo.getOtherInPrice() + vo.getGaiMoney();
@@ -126,25 +115,39 @@ public class InFinanceServiceImpl extends ServiceImpl<InFinanceMapper, Income> i
             }
 
             //支出表
-            out2FinanceService.deleteOut(income.getId());
 
-            List<OutComeInfoBo> list = new ArrayList<>();
+//            List<OutComeInfoBo> list = new ArrayList<>();
+//            List<OutComeInfoBo> addList = new ArrayList<>();
             if (vo.getOutList().size() > 0) {
                 for (OutComeParamInfo info : vo.getOutList()) {
-                    OutComeInfoBo bo = new OutComeInfoBo();
-                    bo.setId(idGenerator.getNumberId());
-                    bo.setIncomeId(income.getId());
-                    bo.setOutName(info.getOutName());
-                    bo.setOutPrice(info.getOutPrice());
-                    bo.setPicture(info.getPicture());
-                    bo.setCreateUserId(user.getId());
-                    bo.setUpdateUserId(user.getId());
-                    list.add(bo);
-                }
-            }
 
-            //批量增加数据库
-            out2FinanceService.insertOut2Info(list);
+                    if (info.getId() == null) {
+                        OutComeInfoBo bo = new OutComeInfoBo();
+                        //增加
+                        bo.setId(idGenerator.getNumberId());
+                        bo.setIncomeId(income.getId());
+                        bo.setOutName(info.getOutName());
+                        bo.setOutPrice(info.getOutPrice());
+                        bo.setPicture(info.getPicture());
+                        bo.setCreateUserId(user.getId());
+                        bo.setUpdateUserId(user.getId());
+                        out2FinanceService.insertOut(bo);
+                    }
+
+                    if (info.getId() != null) {
+                        OutComeInfoBo bo = new OutComeInfoBo();
+                        //修改
+                        bo.setId(info.getId());
+                        bo.setOutName(info.getOutName());
+                        bo.setOutPrice(info.getOutPrice());
+                        bo.setPicture(info.getPicture());
+                        out2FinanceService.upOut2Info(bo);
+                    }
+
+                }
+//                //批量修改数据库
+//                out2FinanceService.updateOut2Info(list);
+            }
 
 
         }
@@ -159,6 +162,7 @@ public class InFinanceServiceImpl extends ServiceImpl<InFinanceMapper, Income> i
             income.setCreateUserId(user.getId());
             income.setGuideTel(user.getTel());
             income.setGuideName(user.getCname());
+            income.setOrderId(vo.getOrderId());
             income.setLineName(vo.getLineName());
             income.setCarNo(vo.getCarNo());
             //加入到人数表以及人数明细表
@@ -237,26 +241,28 @@ public class InFinanceServiceImpl extends ServiceImpl<InFinanceMapper, Income> i
 
             //批量增加数据库
             out2FinanceService.insertOut2Info(list);
-        }
+
+            //标记该订单已完成
+            int i = baseMapper.updateIsFinash(DateUtil.parseDate(vo.getOutDate()), user.getId(), LocalDateTime.now());
+
+            if (i <= 0) {
+                throw new ApplicationException(CodeType.SERVICE_ERROR,"该线路不存在");
+            }
 
 
-        //标记该订单已完成
-        int i = baseMapper.updateIsFinash(DateUtil.parseDate(vo.getOutDate()), user.getId(), LocalDateTime.now());
+            //修改车辆状态
+            if (!vo.getCarType()) {
+                //公司内部车辆
+                Integer status = baseMapper.updateCarStatus(vo.getCarNo());
 
-        if (i <= 0) {
-            throw new ApplicationException(CodeType.SERVICE_ERROR,"该线路不存在");
-        }
-
-
-        //修改车辆状态
-        if (!vo.getCarType()) {
-            //公司内部车辆
-            Integer status = baseMapper.updateCarStatus(vo.getCarNo());
-
-            if (status <= 0) {
-                throw new ApplicationException(CodeType.SERVICE_ERROR, "还车失败");
+                if (status <= 0) {
+                    throw new ApplicationException(CodeType.SERVICE_ERROR, "还车失败");
+                }
             }
         }
+
+
+
 
 //        List<UserIdBo> idList = (List<UserIdBo>) httpUtils.queryAllAdminInfo();
 //
@@ -281,18 +287,14 @@ public class InFinanceServiceImpl extends ServiceImpl<InFinanceMapper, Income> i
 
     /**
      * 查询支出信息
-     * @param outDate
+     * @param orderId
      * @return
      */
     @Override
-    public ResultBo queryResult(String outDate) {
+    public ResultBo queryResult(Long orderId) {
 
-        UserLoginQuery user = localUser.getUser("用户信息");
-
-        LocalDate outTime = DateUtil.parseDate(outDate);
         LambdaQueryWrapper<Income> wrapper = new LambdaQueryWrapper<Income>()
-              .eq(Income::getOutDate,outTime)
-              .eq(Income::getCreateUserId,user.getId());
+              .eq(Income::getOrderId,orderId);
         Income income = baseMapper.selectOne(wrapper);
 
         if (income == null) {
@@ -306,6 +308,8 @@ public class InFinanceServiceImpl extends ServiceImpl<InFinanceMapper, Income> i
 
         vo.setOutList(outcome2s);
 
+        vo.setCaiName(income.getCaiName());
+        vo.setRemark(income.getRemark());
 
         return vo;
     }
@@ -313,18 +317,13 @@ public class InFinanceServiceImpl extends ServiceImpl<InFinanceMapper, Income> i
     /**
      * 分页查询所有财务审核
      * @param page
-     * @param guestName
+     * @param guideName
      * @param type
      * @param outDate
-     * @param lineName
      * @return
      */
     @Override
-    public Page<ExamineResultQuery> listExamine2Page(Page<ExamineResultQuery> page, String guestName, Integer type, String outDate, String lineName) {
-
-        if (StringUtils.isBlank(guestName)) {
-            guestName = null;
-        }
+    public Page<ExamineResultQuery> listExamine2Page(Page<ExamineResultQuery> page, String guideName, Integer type, String outDate) {
 
         LocalDate outTime = null;
 
@@ -332,11 +331,12 @@ public class InFinanceServiceImpl extends ServiceImpl<InFinanceMapper, Income> i
             outTime = DateUtil.parseDate(outDate);
         }
 
-        if (StringUtils.isBlank(lineName)) {
-            lineName = null;
+        if (StringUtils.isBlank(guideName)) {
+            guideName = null;
         }
 
-        return baseMapper.listPageExa (page,guestName,type,outTime,lineName);
+
+        return baseMapper.listPageExa (page,guideName,type,outTime);
 
     }
 
@@ -368,6 +368,8 @@ public class InFinanceServiceImpl extends ServiceImpl<InFinanceMapper, Income> i
      */
     @Override
     public Page<GuestResultQuery> GuestPage2Me(Page<GuestResultQuery> page, String exaType, String outDate, String lineName) {
+
+        UserLoginQuery user = localUser.getUser("用户信息");
 
         if (StringUtils.isBlank(exaType)) {
             exaType = null;
@@ -401,7 +403,14 @@ public class InFinanceServiceImpl extends ServiceImpl<InFinanceMapper, Income> i
             outTime = DateUtil.parseDate(outDate);
         }
 
-        return baseMapper.pageGuest2Me(page, exa, outTime, lineName);
+        Long id = null;
+        if ("导游".equals(user.getRoleName())) {
+            id = user.getId();
+        } else {
+            id = null;
+        }
+
+        return baseMapper.pageGuest2Me(page, exa, outTime, lineName,id);
     }
 
     /**
@@ -411,11 +420,7 @@ public class InFinanceServiceImpl extends ServiceImpl<InFinanceMapper, Income> i
      * @return
      */
     @Override
-    public ExaResultQuery examineGuestResult(Long id, Integer type) {
-
-        UserLoginQuery user = localUser.getUser("用户信息");
-
-        Income income = baseMapper.selectById(id);
+    public ExaResultQuery examineGuestResult(Long id, Integer type, String caiName, String remark) {
 
         if (type != 1 && type != 2) {
             throw new ApplicationException(CodeType.SERVICE_ERROR,"type参数只能是1或2");
@@ -426,7 +431,7 @@ public class InFinanceServiceImpl extends ServiceImpl<InFinanceMapper, Income> i
         ExaResultQuery query = new ExaResultQuery();
         if (type == 1) {
             //同意
-            int result = baseMapper.examineGuestResult(id, time);
+            int result = baseMapper.examineGuestResult(id, time,caiName,remark);
 
 
             if (result <= 0) {
@@ -445,7 +450,7 @@ public class InFinanceServiceImpl extends ServiceImpl<InFinanceMapper, Income> i
         }
 
         //拒绝
-        int result = baseMapper.examineResult(id, time);
+        int result = baseMapper.examineResult(id, time,caiName,remark);
 
 
         if (result <= 0) {

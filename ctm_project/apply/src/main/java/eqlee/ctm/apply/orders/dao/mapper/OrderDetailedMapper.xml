@@ -36,8 +36,8 @@
     <select id="pageOrder" resultType="eqlee.ctm.apply.orders.entity.bo.OrderBo">
         select max(a.Id)id,max(a.OrderNo)orderNo,max(convert(varchar(20),a.OutDate,23))outDate,max(a.LineName)lineName,max(a.Region)region,sum(isnull(b.MsPrice,0))msPrice,
        sum(b.AdultNumber)adultNumber,sum(b.BabyNumber)babyNumber,sum(b.OldNumber)oldNumber,sum(b.ChildNumber)childNumber,
-       sum(b.AllNumber)allNumber,max(a.GuideName)guideName,max(a.CarNumber)carNumber
-       from Orders a join OrderDetailed b on a.Id = b.OrderId
+       sum(b.AllNumber)allNumber,max(a.GuideName)guideName,max(a.CarNumber)carNumber,max(d.Status)status,max(d.Remark)remark
+       from Orders a join OrderDetailed b on a.Id = b.OrderId left join Income d on a.Id = d.OrderId
        <where>
            1 = 1
            <if test="id != null">
@@ -55,6 +55,45 @@
            </if>
        </where>
        group by a.OrderNo
+    </select>
+
+
+    <select id="pageOrder2" resultType="eqlee.ctm.apply.orders.entity.bo.OrderBo">
+        select max(a.Id)id,max(a.OrderNo)orderNo,max(convert(varchar(20),a.OutDate,23))outDate,max(a.LineName)lineName,max(a.Region)region,sum(isnull(b.MsPrice,0))msPrice,
+        sum(b.AdultNumber)adultNumber,sum(b.BabyNumber)babyNumber,sum(b.OldNumber)oldNumber,sum(b.ChildNumber)childNumber,
+        sum(b.AllNumber)allNumber,max(a.GuideName)guideName,max(a.CarNumber)carNumber,max(d.Status)status,max(d.Remark)remark
+        from Orders a join OrderDetailed b on a.Id = b.OrderId left join Income d on a.Id = d.OrderId
+        <where>
+            1 = 1
+            <if test="id != null">
+                and a.CreateUserId = #{id}
+            </if>
+            <if test="start != null">
+                and a.OutDate between #{start} and #{end}
+            </if>
+            <if test="lineName != null">
+                and a.LineName = #{lineName}
+            </if>
+            <if test="guideName != null">
+                and a.GuideName = #{guideName}
+            </if>
+            <if test="inStatus != null">
+                <if test="inStatus == 0">
+                    and a.IsFinash = 0
+                </if>
+                <if test="inStatus == 1">
+                    and a.IsFinash = 1
+                </if>
+            </if>
+        </where>
+        group by a.OrderNo
+    </select>
+
+
+    <select id="queryInOutInfo" resultType="eqlee.ctm.apply.orders.entity.query.OrderFinanceQuery" parameterType="Long">
+        select a.CaiName as 'financeName',b.OutName as 'outName',b.OutPrice as 'outPrice',a.OtherInPrice as 'otherInPrice'
+        from Income a left join OutCome2 b on a.Id = b.IncomeId
+        where a.OrderId = #{orderId}
     </select>
 
 </mapper>

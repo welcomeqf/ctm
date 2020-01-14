@@ -2,17 +2,21 @@ package eqlee.ctm.apply.orders.controller;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.yq.constanct.CodeType;
+import com.yq.entity.exl.ContentExl;
+import com.yq.entity.exl.OutInfoExl;
 import com.yq.exception.ApplicationException;
 import com.yq.jwt.islogin.CheckToken;
 import com.yq.utils.DateUtil;
 import com.yq.utils.ExcelUtils;
 import com.yq.utils.FilesUtils;
+import com.yq.utils.StringUtils;
 import com.yq.vilidata.TimeData;
 import com.yq.vilidata.query.TimeQuery;
 import eqlee.ctm.apply.entry.entity.query.ApplyResultCountQuery;
 import eqlee.ctm.apply.orders.entity.Orders;
 import eqlee.ctm.apply.orders.entity.bo.OrderBo;
 import eqlee.ctm.apply.orders.entity.query.OrderDetailedQuery;
+import eqlee.ctm.apply.orders.entity.query.OrderFinanceQuery;
 import eqlee.ctm.apply.orders.service.IOrdersDetailedService;
 import eqlee.ctm.apply.orders.service.IOrdersService;
 import io.swagger.annotations.Api;
@@ -21,10 +25,14 @@ import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.ss.usermodel.Workbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -67,27 +75,32 @@ public class OrderDetailedExcelController {
 
       Orders orders = ordersService.queryOne(id);
 
-      //创建报表数据头
-      List<String> head = new ArrayList<>();
-      head.add("出行日期");
-      head.add("线路名");
-      head.add("车牌号");
-      head.add("联系人");
-      head.add("联系电话");
-      head.add("成人人数");
-      head.add("小孩人数");
-      head.add("老人人数");
-      head.add("幼儿人数");
-      head.add("总人数");
-      head.add("接送地");
-      head.add("支付方式");
+      List<OrderFinanceQuery> outInfo = ordersDetailedService.queryInOutInfo(orders.getId());
+
+      Integer adultNumber = 0;
+      Integer oldNumber = 0;
+      Integer childNumber = 0;
+      Integer babyNumber = 0;
+      Integer allNumber = 0;
+      Double allMoney = 0.0;
+      Double msMoney = 0.0;
+
       //创建报表体
       List<List<String>> body = new ArrayList<>();
       for (OrderDetailedQuery query : list) {
+
+         adultNumber += query.getAdultNumber();
+         oldNumber += query.getOldNumber();
+         childNumber += query.getChildNumber();
+         babyNumber += query.getBabyNumber();
+         allNumber += query.getAllNumber();
+         allMoney += query.getAllPrice();
+         msMoney += query.getMsPrice();
+
          List<String> bodyValue = new ArrayList<>();
+         bodyValue.add(query.getCompanyName());
          bodyValue.add(DateUtil.formatDate(orders.getOutDate()));
          bodyValue.add(orders.getLineName());
-         bodyValue.add(orders.getCarNumber());
          bodyValue.add(query.getContactName());
          bodyValue.add(query.getContactTel());
          bodyValue.add(String.valueOf(query.getAdultNumber()));
@@ -95,22 +108,60 @@ public class OrderDetailedExcelController {
          bodyValue.add(String.valueOf(query.getOldNumber()));
          bodyValue.add(String.valueOf(query.getBabyNumber()));
          bodyValue.add(String.valueOf(query.getAllNumber()));
+         bodyValue.add(String.valueOf(query.getAllPrice()));
          bodyValue.add(query.getPlace());
-         if (query.getPayType() == 0) {
-            bodyValue.add("现结");
-         } else if (query.getPayType() == 1) {
-            bodyValue.add("月结");
-         } else {
-            bodyValue.add("面收");
-         }
+         bodyValue.add(query.getApplyRemark());
+         bodyValue.add(query.getGuideName());
          //将数据添加到报表体中
          body.add(bodyValue);
       }
+      ContentExl contentExl = new ContentExl();
+      contentExl.setNumber("成人:" + adultNumber + " 老人:" + oldNumber + " 小孩:" + childNumber + " 幼儿:" +babyNumber);
+      contentExl.setAllNumber(allNumber);
+      contentExl.setIncomeMoney(allMoney);
+
+      //总支出
+      Double allOutMoney = 0.0;
+
+      //其他收入
+      Double otherInMoney = 0.0;
+
+      List<OutInfoExl> outList = new ArrayList<>();
+      if (outInfo.size() > 0) {
+         String finance = null;
+         for (OrderFinanceQuery financeQuery : outInfo) {
+            OutInfoExl exl = new OutInfoExl();
+            finance = financeQuery.getFinanceName();
+            exl.setOutName(financeQuery.getOutName());
+            exl.setOutPrice(financeQuery.getOutPrice());
+            outList.add(exl);
+            allOutMoney += financeQuery.getOutPrice();
+            otherInMoney = financeQuery.getOtherInPrice();
+         }
+         contentExl.setFinanceName(finance);
+
+      }
+
+      //总收入
+      Double allInMoney = otherInMoney + msMoney + allMoney;
+      contentExl.setAllPrice(allInMoney);
+
+      //利润
+      Double setMoney = allInMoney - allOutMoney;
+
+      contentExl.setGuideName(orders.getGuideName());
+      contentExl.setMsPrice(msMoney);
+      contentExl.setOtherPrice(otherInMoney);
+
+      contentExl.setSetPrice("本单利润: " + setMoney);
+
+      contentExl.setList(outList);
+
       String fileName = "导游选人列表统计.xls";
-      HSSFWorkbook excel = ExcelUtils.expExcel(head, body);
+      Workbook excel = ExcelUtils.exp2Excel(body,contentExl);
       String fileStorePath = "exl";
       String path = FilesUtils.getPath(fileName,fileStorePath);
-      ExcelUtils.outFile(excel,path,response);
+      ExcelUtils.outFile2(excel,path,response);
    }
 
 
@@ -149,13 +200,16 @@ public class OrderDetailedExcelController {
       head.add("订单号");
       head.add("出行时间");
       head.add("线路名");
+      head.add("导游名");
+      head.add("车辆");
       head.add("区域");
-      head.add("面收总额");
       head.add("成人人数");
       head.add("小孩人数");
       head.add("老人人数");
       head.add("幼儿人数");
       head.add("总人数");
+      head.add("代收金额");
+      head.add("订单状态");
       //创建报表体
       List<List<String>> body = new ArrayList<>();
       for (OrderBo query : list) {
@@ -163,13 +217,28 @@ public class OrderDetailedExcelController {
          bodyValue.add(query.getOrderNo());
          bodyValue.add(query.getOutDate());
          bodyValue.add(query.getLineName());
+         bodyValue.add(query.getGuideName());
+         if (StringUtils.isBlank(query.getCarNumber())) {
+            bodyValue.add("未选车辆");
+         } else {
+            bodyValue.add(query.getCarNumber());
+         }
          bodyValue.add(query.getRegion());
-         bodyValue.add(String.valueOf(query.getMsPrice()));
          bodyValue.add(String.valueOf(query.getAdultNumber()));
          bodyValue.add(String.valueOf(query.getChildNumber()));
          bodyValue.add(String.valueOf(query.getOldNumber()));
          bodyValue.add(String.valueOf(query.getBabyNumber()));
          bodyValue.add(String.valueOf(query.getAllNumber()));
+         bodyValue.add(String.valueOf(query.getMsPrice()));
+         if (query.getStatus() == null) {
+            bodyValue.add("未交账");
+         } else if (query.getStatus() == 1) {
+            bodyValue.add("已通过");
+         } else if (query.getStatus() == 2) {
+            bodyValue.add("已拒绝");
+         } else if (query.getStatus() == 0){
+            bodyValue.add("已交账");
+         }
          //将数据添加到报表体中
          body.add(bodyValue);
       }

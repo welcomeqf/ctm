@@ -139,4 +139,9 @@ public class ApplyVo {
      */
     private String applyNo;
 
+    /**
+     * 同行代表电话
+     */
+    private String companyTel;
+
 }

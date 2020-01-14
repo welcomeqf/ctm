@@ -51,4 +51,13 @@ public interface LineMapper extends IBaseMapper<Line> {
     Page<LineSeacherQuery> queryLineAndName(Page<LineSeacherQuery> page,
                                                  @Param("lineName") String lineName);
 
+
+
+    /**
+     *   查询该城市下的所有线路
+     * @param list
+     * @return
+     */
+    List<Line> queryLocalCity (List<String> list);
+
 }

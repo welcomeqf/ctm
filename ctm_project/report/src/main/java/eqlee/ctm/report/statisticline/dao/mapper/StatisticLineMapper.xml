@@ -6,16 +6,16 @@
 
 
     <select id="selectPriceByTime" resultType="eqlee.ctm.report.statisticline.entity.vo.PriceCountVo">
-      select convert(varchar(20),OutDate,23) as 'day', sum(AllPrice) as 'allPrice' from Orders
+       select  max(City)city, sum(AllPrice) as 'allPrice' from Orders
       where OutDate between #{startTime} and #{endTime}
-      group by OutDate
+      group by City
     </select>
 
 
     <select id="selectCountByTime" resultType="eqlee.ctm.report.statisticline.entity.vo.PersonCountVo">
-      select convert(varchar(20),a.OutDate,23) as 'day', sum(b.AllNumber) as 'allPersonCount' from Orders a
+      select max(a.City)city, sum(b.AllNumber) as 'allPersonCount' from Orders a
       join OrderDetailed b on a.Id = b.OrderId
-      where OutDate between #{startTime} and #{endTime} group by a.OutDate
+      where OutDate between #{startTime} and #{endTime} group by a.City
     </select>
 
 </mapper>

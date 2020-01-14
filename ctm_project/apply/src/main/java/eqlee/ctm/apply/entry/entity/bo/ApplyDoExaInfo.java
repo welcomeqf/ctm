@@ -61,4 +61,28 @@ public class ApplyDoExaInfo {
     * 支付金额
     */
    private Integer payPrice;
+
+   //同行   出行日期  线路名  联系人  电话  保名人数  结算金额
+
+   private String companyName;
+
+   private String outDate;
+
+   private String lineName;
+
+   private  String contactName;
+
+   private String contactTel;
+
+   private Integer allNumber;
+
+   private Integer adultNumber;
+
+   private Integer babyNumber;
+
+   private Integer oldNumber;
+
+   private Integer childNumber;
+
+   private Double allPrice;
 }

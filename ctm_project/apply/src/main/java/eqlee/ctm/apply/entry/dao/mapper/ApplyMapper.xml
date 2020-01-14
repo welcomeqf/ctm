@@ -8,7 +8,7 @@
       select * from (
       select max(Id)id,max(LineName)LineName,max(Region)Region,max(convert(varchar(20),OutDate,23))OutDate,max(AdultPrice)AdultPrice,max(OldPrice)OldPrice,max(BabyPrice)BabyPrice,
         max(ChildPrice)ChildPrice,max(MaxNumber)MaxNumber,isnull(sum(DoAllNumber),0)DoAllNumber,max(TravelSituation)TravelSituation,max(MarketAdultPrice)MarketAdultPrice,
-        max(MarketOldPrice)MarketOldPrice,max(MarketBabyPrice)MarketBabyPrice,max(MarketChildPrice)MarketChildPrice
+        max(MarketOldPrice)MarketOldPrice,max(MarketBabyPrice)MarketBabyPrice,max(MarketChildPrice)MarketChildPrice,max(PicturePath)PicturePath
         from VLinePrice
         group by LineId,OutDate
       )tab
@@ -29,36 +29,41 @@
     </select>
 
     <!-- 未审核的数据(报名审核+取消审核) + 已审核数据 -->
-    <select id="queryAllExaInfo" resultType="eqlee.ctm.apply.entry.entity.query.ApplyDoExaQuery">
-        select a.Id,a.ApplyNo,convert(varchar(20),a.OutDate,23) as 'OutDate',b.LineName,a.AdultNumber,a.BabyNumber,a.OldNumber,a.ChildNumber,
-      a.statu,a.CompanyName,a.CompanyUser,a.IsPayment,a.IsCancel,d.ExamineType,a.ContactName,a.ContactTel,a.AllPrice,a.Type,d.ExamineResult
-      from Apply a join Line b on a.LineId = b.Id join Examine d on a.Id = d.ApplyId
-      <where>
-          1 = 1
-          and a.IsPayment = 1
-          <if test="outDate != null">
-              and a.OutDate = #{outDate}
-          </if>
-          <if test="lineName != null">
-              <bind name="lineName_name" value="'%' + lineName + '%'"/>
-              and b.LineName like #{lineName_name}
-          </if>
-          <if test="type == 0">
-              and d.ExamineType = '0' and a.IsCancel = 0
-          </if>
-          <if test="type == 1">
-              and d.ExamineType = '1'
-          </if>
-          <if test="start != null">
-              and (a.CreateDate between #{start} and #{end})
-          </if>
-          <if test="exaStatus == 0">
-              and ((d.ExamineType = '0' or d.ExamineType = '1') and d.ExamineResult = 0)
-          </if>
-          <if test="exaStatus == 1">
-              and ((d.ExamineType = '0' or d.ExamineType = '1') and d.ExamineResult != 0)
-          </if>
-      </where>
+    <select id="queryAllExaInfo2" resultType="eqlee.ctm.apply.entry.entity.query.ApplyDoExaQuery">
+    select a.Id,a.ApplyNo,convert(varchar(20),a.OutDate,23) as 'OutDate',b.LineName,a.AdultNumber,a.BabyNumber,a.OldNumber,a.ChildNumber,
+    a.statu,a.CompanyName,a.CompanyUser,a.IsPayment,a.IsCancel,d.ExamineType,a.ContactName,a.ContactTel,a.AllPrice,a.Type,d.ExamineResult
+    from Apply a join Line b on a.LineId = b.Id join Examine d on a.Id = d.ApplyId
+        <where>
+            1 = 1
+            and a.IsPayment = 1
+            <if test="outDate != null">
+                and a.OutDate = #{outDate}
+            </if>
+            <if test="lineName != null">
+                and b.Id = #{lineName}
+            </if>
+            <if test="type == 0">
+                and d.ExamineType = '0' and a.IsCancel = 0
+            </if>
+            <if test="type == 1">
+                and d.ExamineType = '1'
+            </if>
+            <if test="start != null">
+                and (a.CreateDate between #{start} and #{end})
+            </if>
+            <if test="exaStatus == 0">
+                and ((d.ExamineType = '0' or d.ExamineType = '1') and d.ExamineResult = 0)
+            </if>
+            <if test="exaStatus == 1">
+                and ((d.ExamineType = '0' or d.ExamineType = '1') and d.ExamineResult != 0)
+            </if>
+            <if test="list != null">
+                and b.City in
+                <foreach collection="list" item="item" index="index" open="(" separator="," close=")">
+                    #{item}
+                </foreach>
+            </if>
+        </where>
     </select>
 
     <select id="listPageDoApply2Company" resultType="eqlee.ctm.apply.entry.entity.query.ApplyCompanyQuery">
@@ -154,7 +159,7 @@
     <select id="allCompanyList" resultType="eqlee.ctm.apply.entry.entity.query.ApplyCompanyQuery">
         select a.Id,a.ApplyNo,convert(varchar(20),a.OutDate,23) as 'OutDate',b.LineName,a.AllNumber,a.AllPrice,a.MarketAllPrice,
         a.ContactName,a.ContactTel,a.Statu,a.IsCancel,a.IsPayment,convert(varchar(100),a.CreateDate,20) as 'CreateDate'
-        ,a.ChildNumber,a.OldNumber,a.BabyNumber,a.AdultNumber,a.Place,a.CName,a.CancelInfo,a.PayType,a.Type as 'type'
+        ,a.ChildNumber,a.OldNumber,a.BabyNumber,a.AdultNumber,a.Place,a.CName,a.CancelInfo,a.PayType,a.Type as 'type',a.CompanyName
         from Apply a join Line b on a.LineId = b.Id
         <where>
             1 = 1
@@ -192,7 +197,7 @@
     <select id="allCompanyAdminList" resultType="eqlee.ctm.apply.entry.entity.query.ApplyCompanyQuery">
         select a.Id,a.ApplyNo,convert(varchar(20),a.OutDate,23) as 'OutDate',b.LineName,a.AllNumber,a.AllPrice,a.MarketAllPrice,
         a.ContactName,a.ContactTel,a.Statu,a.IsCancel,a.IsPayment,convert(varchar(100),a.CreateDate,20) as 'CreateDate'
-        ,a.ChildNumber,a.OldNumber,a.BabyNumber,a.AdultNumber,a.Place,a.CName,a.CancelInfo,a.PayType,a.Type as 'type'
+        ,a.ChildNumber,a.OldNumber,a.BabyNumber,a.AdultNumber,a.Place,a.CName,a.CancelInfo,a.PayType,a.Type as 'type',a.CompanyName
         from Apply a join Line b on a.LineId = b.Id
         <where>
             1 = 1
@@ -267,10 +272,10 @@
 
     <!-- 同行现结月结账单统计 -->
     <select id="queryCompanyResultCount" resultType="eqlee.ctm.apply.entry.entity.query.ApplyResultCountQuery">
-        select a.Id as 'id',a.ApplyNo as 'applyNo',convert(varchar(20),a.OutDate,23)outDate,a.AllPrice as 'allPrice',
-      b.LineName as 'lineName',a.ContactName as 'contactName',a.ContactTel as 'contactTel',a.AllNumber as 'allNumber'
-      ,isnull(a.MsPrice,0.0)Msprice,a.AdultNumber,a.BabyNumber,a.OldNumber,a.ChildNumber,a.CName as 'companyUserName'
-      from Apply a join Line b on a.LineId = b.Id
+        select max(a.Id)id,max(a.ApplyNo) as 'applyNo',max(year(a.OutDate))year,max(month(a.OutDate))month,sum(a.AllPrice) as 'allPrice',
+        sum(a.AllNumber) as 'allNumber',sum(isnull(a.MsPrice,0.0))msprice,sum(a.AdultNumber)adultNumber,sum(a.BabyNumber)babyNumber,
+        sum(a.OldNumber)oldNumber,sum(a.ChildNumber)childNumber,max(a.CompanyName)companyName,max(a.SxType)sxType,max(isnull(a.CaiType,0))caiType
+        from Apply a join Line b on a.LineId = b.Id
       <where>
           1 = 1
           and a.IsSelect = 1
@@ -283,19 +288,21 @@
           <if test="start != null">
               and a.OutDate between #{start} and #{end}
           </if>
-          <if test="lineName != null">
-              <bind name="line_Name" value="'%' + lineName + '%'"/>
-              and b.LineName like #{line_Name}
+          <if test="type != null">
+              and a.SxType = #{type}
+          </if>
+          <if test="caiType != null">
+              and a.CaiType = #{caiType}
           </if>
       </where>
-        ORDER by a.OutDate desc
+        group by year(a.OutDate),month(a.OutDate),a.CompanyName
     </select>
 
     <!-- 运营人员现结月结账单展示 -->
     <select id="queryCompanyAdminResultCount" resultType="eqlee.ctm.apply.entry.entity.query.ApplyResultCountQuery">
-        select a.Id as 'id',a.ApplyNo as 'applyNo',convert(varchar(20),a.OutDate,23)outDate,a.AllPrice as 'allPrice',
-        b.LineName as 'lineName',a.ContactName as 'contactName',a.ContactTel as 'contactTel',a.AllNumber as 'allNumber'
-        ,isnull(a.MsPrice,0.0)Msprice,a.AdultNumber,a.BabyNumber,a.OldNumber,a.ChildNumber,a.CName as 'companyUserName'
+        select max(a.Id)id,max(a.ApplyNo) as 'applyNo',max(year(a.OutDate))year,max(month(a.OutDate))month,sum(a.AllPrice) as 'allPrice',
+        sum(a.AllNumber) as 'allNumber',sum(isnull(a.MsPrice,0.0))msprice,sum(a.AdultNumber)adultNumber,sum(a.BabyNumber)babyNumber,
+        sum(a.OldNumber)oldNumber,sum(a.ChildNumber)childNumber,max(a.CompanyName)companyName,max(a.SxType)sxType,max(isnull(a.CaiType,0))caiType
         from Apply a join Line b on a.LineId = b.Id
         <where>
             1 = 1
@@ -303,15 +310,17 @@
             <if test="start != null">
                 and a.OutDate between #{start} and #{end}
             </if>
-            <if test="lineName != null">
-                <bind name="line_Name" value="'%' + lineName + '%'"/>
-                and b.LineName like #{line_Name}
+            <if test="type != null">
+                and a.SxType = #{type}
+            </if>
+            <if test="caiType != null">
+                and a.CaiType = #{caiType}
             </if>
             <if test="companyUserId != null">
                 and a.CompanyId = #{companyUserId}
             </if>
         </where>
-        ORDER by a.OutDate desc
+        group by year(a.OutDate),month(a.OutDate),a.CompanyName
     </select>
 
     <!-- 批量回收未付款过期的订单 -->
@@ -358,9 +367,55 @@
     </select>
 
     <select id="queryApplyDoExaInfo" parameterType="String" resultType="eqlee.ctm.apply.entry.entity.bo.ApplyDoExaInfo">
-        select a.Id as 'id',a.Place as 'place',a.PayType as 'payType',convert(varchar(100),a.CreateDate,20)createDate,
+       select a.Id as 'id',a.Place as 'place',a.PayType as 'payType',convert(varchar(100),a.CreateDate,20)createDate,
         isnull(a.MsPrice,0.0)msPrice,a.ApplyRemark as 'applyRemark',b.ThirdPartyNumber as 'thirdNumber',
-        convert(varchar(100),b.PayDate,20)payDate,b.PayStatu as 'payStatus',b.PayType as 'type',a.AllPrice as 'payPrice'
-        from Apply a left join Pay b on a.ApplyNo = b.ApplyNo where a.ApplyNo = #{applyNo}
+        convert(varchar(100),b.PayDate,20)payDate,b.PayStatu as 'payStatus',b.PayType as 'type',a.AllPrice as 'payPrice',
+        a.CompanyName as 'companyName',a.OutDate as 'outDate',d.LineName as 'lineName',a.ContactName as 'contactName',
+        a.ContactTel as 'contactTel',a.AllNumber as 'allNumber',a.AdultNumber as 'adultNumber',a.BabyNumber as 'babyNumber',
+        a.OldNumber as 'oldNumber',a.ChildNumber as 'childNumber',a.AllPrice as 'allPrice'
+        from Apply a left join Pay b on a.ApplyNo = b.ApplyNo join Line d on a.LineId = d.Id
+        where a.ApplyNo = #{applyNo}
     </select>
+
+
+    <select id="queryCountInfo" resultType="eqlee.ctm.apply.entry.entity.vo.ApplyCountVo">
+         select a.ApplyNo as 'applyNo',convert(varchar(20),a.OutDate,23)outDate,b.LineName as 'lineName',a.ContactName as 'contactName',
+      a.ContactTel as 'contactTel',a.AllNumber as 'allNumber',a.AdultNumber as 'adultNumber',a.BabyNumber as 'babyNumber',
+      a.OldNumber as 'oldNumber',a.ChildNumber as 'childNumber',a.AllPrice as 'allPrice',a.MsPrice as 'msPrice',a.CName as 'cname'
+      from Apply a join Line b on a.LineId = b.Id
+      <where>
+          1 = 1
+          and a.IsSelect = 1
+          and a.CompanyName = #{companyName}
+          <if test="start != null">
+              and a.OutDate between #{start} and #{end}
+          </if>
+          <if test="lineName != null">
+              and b.LineName = #{lineName}
+          </if>
+      </where>
+      order by a.OutDate desc
+    </select>
+
+
+    <select id="queryCountInfo2" resultType="eqlee.ctm.apply.entry.entity.bo.ApplyCountCaiBo">
+        select a.ApplyNo as 'applyNo',convert(varchar(20),a.OutDate,23)outDate,b.LineName as 'lineName',a.ContactName as 'contactName',
+        a.ContactTel as 'contactTel',a.AllNumber as 'allNumber',a.AdultNumber as 'adultNumber',a.BabyNumber as 'babyNumber',
+        a.OldNumber as 'oldNumber',a.ChildNumber as 'childNumber',a.AllPrice as 'allPrice',a.MsPrice as 'msPrice',a.CompanyUser as 'cname',
+        a.CompanyTel as 'companyDbTel'
+        from Apply a join Line b on a.LineId = b.Id
+        <where>
+            1 = 1
+            and a.IsSelect = 1
+            and a.CompanyName = #{companyName}
+            <if test="start != null">
+                and a.OutDate between #{start} and #{end}
+            </if>
+            <if test="lineName != null">
+                and b.LineName = #{lineName}
+            </if>
+        </where>
+        order by a.OutDate desc
+    </select>
+
 </mapper>

@@ -2,13 +2,17 @@ package eqlee.ctm.apply.entry.service;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import eqlee.ctm.apply.entry.entity.Apply;
+import eqlee.ctm.apply.entry.entity.bo.ApplyCompanyInfo;
 import eqlee.ctm.apply.entry.entity.bo.ApplyCountBo;
+import eqlee.ctm.apply.entry.entity.bo.ApplyCountCaiBo;
 import eqlee.ctm.apply.entry.entity.bo.ApplyDoExaInfo;
 import eqlee.ctm.apply.entry.entity.query.*;
+import eqlee.ctm.apply.entry.entity.vo.ApplyCountVo;
 import eqlee.ctm.apply.entry.entity.vo.ApplyOpenIdVo;
 import eqlee.ctm.apply.entry.entity.vo.ApplySeacherVo;
 import eqlee.ctm.apply.entry.entity.vo.ApplyVo;
 import eqlee.ctm.apply.orders.entity.Vo.LongVo;
+import eqlee.ctm.apply.sxpay.entity.PayInfo;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -69,7 +73,7 @@ public interface IApplyService {
      * @param type
      * @return
      */
-    Page<ApplyDoExaQuery> listPageDo2Apply(Page<ApplyDoExaQuery> page, String outDate, String lineName, Integer type, String applyDate, Integer exaStatus);
+    Page<ApplyDoExaQuery> listPageDo2Apply(Page<ApplyDoExaQuery> page, String outDate, Long lineName, Integer type, String applyDate, Integer exaStatus);
 
 
     /**
@@ -214,23 +218,23 @@ public interface IApplyService {
     /**
      * 同行月结现结统计
      * @param page
-     * @param lineName
-     * @param startDate
-     * @param endDate
+     * @param time
+     * @param type
+     * @param caiType
      * @return
      */
-    Page<ApplyResultCountQuery> pageResult2CountList (Page<ApplyResultCountQuery> page, String lineName, String startDate, String endDate);
+    Page<ApplyResultCountQuery> pageResult2CountList (Page<ApplyResultCountQuery> page, String time, Integer type, Integer caiType);
 
     /**
-     * 运营月结现结统计查询
+     * 管理员月结现结统计查询
      * @param page
-     * @param lineName
-     * @param startDate
-     * @param endDate
+     * @param time
+     * @param type
+     * @param caiType
      * @param companyUserId
      * @return
      */
-    Page<ApplyResultCountQuery> pageResultAdminCountList (Page<ApplyResultCountQuery> page, String lineName, String startDate, String endDate, Long companyUserId);
+    Page<ApplyResultCountQuery> pageResultAdminCountList (Page<ApplyResultCountQuery> page, String time, Integer type, Integer caiType, Long companyUserId);
 
     /**
      * 返回待付款的支付信息
@@ -275,14 +279,56 @@ public interface IApplyService {
     ApplyDoExaInfo queryApplyDoExaInfo (String applyNo);
 
     /**
-     * 修改今天到之前的授信金额状态
+     * 修改传的月份的授信金额状态
+     * @param s
      */
-    void updateSxPriceStatus ();
+    void updateSxPriceStatus (String s);
 
     /**
      *  查询auto
      * @return
      */
     ApplyOpenIdVo queryAuto (Long id);
+
+    /**
+     *  查询统计的详情
+     * @param page
+     * @param outDate
+     * @param companyName
+     * @param lineName
+     * @return
+     */
+    Page<ApplyCountVo> queryCountInfo (Page<ApplyCountVo> page,String outDate, String companyName, String lineName);
+
+
+    /**
+     *  查询财务统计的详情
+     * @param page
+     * @param outDate
+     * @param companyName
+     * @param lineName
+     * @return
+     */
+    Page<ApplyCountCaiBo> queryCountInfo2 (Page<ApplyCountVo> page, String outDate, String companyName, String lineName);
+
+    /**
+     *  查询公司信息和支付情况确认情况
+     * @param id
+     * @return
+     */
+    ApplyCompanyInfo queryInfo (Long id);
+
+    /**
+     *   财务确认
+     * @param outDate
+     * @param companyName
+     */
+    void upCaiMonthCount (String outDate, String companyName);
+
+    /**
+     *  查询待审核条数
+     * @return
+     */
+    ApplyExaCountQuery queryCount ();
 
 }

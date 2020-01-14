@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.yq.constanct.CodeType;
 import com.yq.exception.ApplicationException;
 import com.yq.jwt.contain.LocalUser;
+import com.yq.jwt.entity.CityJwtBo;
 import com.yq.jwt.entity.UserLoginQuery;
 import com.yq.utils.DateUtil;
 import com.yq.utils.StringUtils;
@@ -18,6 +19,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -51,49 +53,6 @@ public class GuiderServiceImpl implements IGuiderService {
     @Override
     public Map<String,Object> guiderIndex(Page<GuiderVo> page, String outDate, GuiderList lineNameList, String region) {
 
-        Long lineId1 = null;
-        Long lineId2 = null;
-        Long lineId3 = null;
-        Long lineId4 = null;
-        Long lineId5 = null;
-        Long lineId6 = null;
-        Long lineId7 = null;
-
-
-        if (lineNameList.getList() != null) {
-           if (lineNameList.getList().size() != 0) {
-              for (int i =0; i < lineNameList.getList().size(); i++) {
-                 lineId1 = lineNameList.getList().get(0);
-
-                 if (lineNameList.getList().size() >= 2) {
-                    lineId2 = lineNameList.getList().get(1);
-                 }
-
-                 if (lineNameList.getList().size() >= 3) {
-                    lineId3 = lineNameList.getList().get(2);
-                 }
-
-                 if (lineNameList.getList().size() >= 4) {
-                    lineId4 = lineNameList.getList().get(3);
-                 }
-
-                 if (lineNameList.getList().size() >= 5) {
-                    lineId5 = lineNameList.getList().get(4);
-                 }
-
-                 if (lineNameList.getList().size() >= 6) {
-                    lineId6 = lineNameList.getList().get(5);
-                 }
-
-                 if (lineNameList.getList().size() >= 7) {
-                    lineId6 = lineNameList.getList().get(6);
-                 }
-              }
-           }
-        }
-
-
-
         LocalDate localDate = null;
 
         if (StringUtils.isNotBlank(outDate)) {
@@ -106,18 +65,34 @@ public class GuiderServiceImpl implements IGuiderService {
 
        UserLoginQuery user = localUser.getUser("用户信息");
 
-       String city = null;
-        if (user.getCity() != null) {
-           city = user.getCity();
-        }
 
-       Page<GuiderVo> guiderVoPage = guiderMapper.guiderIndex(page, localDate, region, city, lineId1, lineId2, lineId3, lineId4, lineId5, lineId6, lineId7);
+       List<String> cityList = new ArrayList<>();
 
-       GuiderCountNumber guiderCountNumber = guiderMapper.queryCountNumberInfo(localDate, region, city, lineId1, lineId2, lineId3, lineId4, lineId5, lineId6, lineId7);
+       if (user.getCity().size() > 0) {
+          for (CityJwtBo bo : user.getCity()) {
+             cityList.add(bo.getCity());
+          }
+       } else {
+          cityList = null;
+       }
+
+       List<Long> list = new ArrayList<>();
+
+       if (lineNameList.getList().size() > 0) {
+          for (Long aLong : lineNameList.getList()) {
+             list.add(aLong);
+          }
+       } else {
+          list = null;
+       }
+
+       Page<GuiderVo> guiderVoPage1 = guiderMapper.guiderIndex2(page, localDate, region, cityList, list);
+
+       GuiderCountNumber guiderCountNumber1 = guiderMapper.queryCountNumberInfo2(localDate, region,cityList,list);
 
        Map<String,Object> map = new HashMap<>();
-       map.put("page",guiderVoPage);
-       map.put("number",guiderCountNumber);
+       map.put("page",guiderVoPage1);
+       map.put("number",guiderCountNumber1);
        return map;
     }
 

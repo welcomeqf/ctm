@@ -29,7 +29,8 @@ public class MonthController {
    @CheckToken
    public MonthVo insertMonth (@RequestBody MonthParamVo vo) {
 
-      if (vo.getMonthPrice() == null || StringUtils.isBlank(vo.getStartDate())) {
+      if (vo.getMonthPrice() == null || StringUtils.isBlank(vo.getStartDate())
+            || vo.getKeyId() == null || StringUtils.isBlank(vo.getCompanyName())) {
          throw new ApplicationException(CodeType.PARAM_ERROR, "参数不能为空");
       }
 
@@ -48,6 +49,20 @@ public class MonthController {
       }
 
       return monthService.queryInfo(id);
+   }
+
+
+
+   @GetMapping("/queryInfoByTime")
+   @CrossOrigin
+   @CheckToken
+   public MonthVo queryInfoByTime (@RequestParam("keyId") Long keyId) {
+
+      if (keyId == null) {
+         throw new ApplicationException(CodeType.PARAM_ERROR, "参数不能为空");
+      }
+
+      return monthService.queryInfoByTime(keyId);
    }
 
 

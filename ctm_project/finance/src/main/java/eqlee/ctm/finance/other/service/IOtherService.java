@@ -1,7 +1,9 @@
 package eqlee.ctm.finance.other.service;
 
 
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import eqlee.ctm.finance.other.entity.Other;
+import eqlee.ctm.finance.other.entity.vo.OtherPageVo;
 import eqlee.ctm.finance.other.entity.vo.OtherQueryVo;
 import eqlee.ctm.finance.other.entity.vo.OtherUpdateVo;
 import eqlee.ctm.finance.other.entity.vo.OtherVo;
@@ -33,5 +35,18 @@ public interface IOtherService {
     * @return
     */
    List<OtherVo> queryOther();
+
+   /**
+    * 查询最新的数据
+    * @return
+    */
+   OtherVo queryOtherByFirst ();
+
+   /**
+    *  分页查询所有信息
+    * @param vo
+    * @return
+    */
+   Page<Other> queryPageOther (OtherPageVo vo);
 
 }

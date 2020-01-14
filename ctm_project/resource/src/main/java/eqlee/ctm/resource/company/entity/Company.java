@@ -27,9 +27,14 @@ public class Company extends Model<Company> {
     private Long Id;
 
     /**
-     * 公司名称
+     * 公司名简称
      */
     private String CompanyName;
+
+    /**
+     * 公司名全称
+     */
+    private String CompanyFullName;
 
     /**
      * 合同开始时间

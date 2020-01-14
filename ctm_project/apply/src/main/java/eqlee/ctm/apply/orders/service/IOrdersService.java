@@ -111,11 +111,11 @@ public interface IOrdersService {
 
 
     /**
-     * 导游收入统计
-     * @param outDate
+     *  导游收入统计
+     * @param orderId
      * @return
      */
-    IncomeVo IncomeCount(String outDate);
+    IncomeVo incomeCount(Long orderId);
 
 
 
@@ -139,10 +139,18 @@ public interface IOrdersService {
     Integer queryAllNoCount ();
 
     /**
+     * 查看自己的数据
      * 查询所有未结算的具体的信息
      * @return
      */
     List<OrdersNoCountInfoQuery>  queryAllNoCountInfo ();
+
+    /**
+     * 管理员查看
+     * 查询所有未结算的具体的信息
+     * @return
+     */
+    List<OrdersNoCountInfoQuery>  queryAllNoCountInfo2 ();
 
     /**
      * 根据线路和时间查询id

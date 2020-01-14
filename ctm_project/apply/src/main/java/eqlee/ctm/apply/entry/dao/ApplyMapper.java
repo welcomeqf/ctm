@@ -5,10 +5,13 @@ import com.yq.IBaseMapper.IBaseMapper;
 import eqlee.ctm.apply.entry.entity.Apply;
 import eqlee.ctm.apply.entry.entity.bo.ApplyBo;
 import eqlee.ctm.apply.entry.entity.bo.ApplyCompanyBo;
+import eqlee.ctm.apply.entry.entity.bo.ApplyCountCaiBo;
 import eqlee.ctm.apply.entry.entity.bo.ApplyDoExaInfo;
 import eqlee.ctm.apply.entry.entity.query.*;
+import eqlee.ctm.apply.entry.entity.vo.ApplyCountVo;
 import eqlee.ctm.apply.entry.entity.vo.ApplyOpenIdVo;
 import eqlee.ctm.apply.orders.entity.Vo.LongVo;
+import eqlee.ctm.apply.sxpay.entity.PayInfo;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Component;
 
@@ -43,22 +46,26 @@ public interface ApplyMapper extends IBaseMapper<Apply> {
     //未审核数据
 
     /**
-     * 分页查询已报名未审核的列表,可以根据出发时间模糊查询
+     *   ---
+     *   分页查询已报名未审核的列表,可以根据出发时间模糊查询
      * @param page
      * @param outDate
      * @param lineName
      * @param type
      * @param start
      * @param end
+     * @param exaStatus
+     * @param list
      * @return
      */
-    Page<ApplyDoExaQuery> queryAllExaInfo(Page<ApplyDoExaQuery> page,
+    Page<ApplyDoExaQuery> queryAllExaInfo2 (Page<ApplyDoExaQuery> page,
                                           @Param("outDate") LocalDate outDate,
-                                          @Param("lineName") String lineName,
+                                          @Param("lineName") Long lineName,
                                           @Param("type") Integer type,
                                           @Param("start") LocalDateTime start,
                                           @Param("end") LocalDateTime end,
-                                          @Param("exaStatus") Integer exaStatus);
+                                          @Param("exaStatus") Integer exaStatus,
+                                          @Param("list") List<String> list);
 
 
     /**
@@ -275,7 +282,7 @@ public interface ApplyMapper extends IBaseMapper<Apply> {
      * @param page
      * @param start
      * @param end
-     * @param lineName
+     * @param type
      * @param id
      * @param companyId
      * @return
@@ -283,23 +290,26 @@ public interface ApplyMapper extends IBaseMapper<Apply> {
     Page<ApplyResultCountQuery> queryCompanyResultCount (Page<ApplyResultCountQuery> page,
                                                          @Param("start") LocalDate start,
                                                          @Param("end") LocalDate end,
-                                                         @Param("lineName") String lineName,
+                                                         @Param("type") Integer type,
+                                                         @Param("caiType") Integer caiType,
                                                          @Param("id") Long id,
                                                          @Param("companyId") Long companyId);
 
     /**
-     * 运营人员月结现结账单核算
+     * 管理员月结现结账单核算
      * @param page
      * @param start
      * @param end
-     * @param lineName
+     * @param type
+     * @param caiType
      * @param companyUserId
      * @return
      */
     Page<ApplyResultCountQuery> queryCompanyAdminResultCount (Page<ApplyResultCountQuery> page,
                                                          @Param("start") LocalDate start,
                                                          @Param("end") LocalDate end,
-                                                         @Param("lineName") String lineName,
+                                                         @Param("type") Integer type,
+                                                         @Param("caiType") Integer caiType,
                                                          @Param("companyUserId") Long companyUserId);
 
     /**
@@ -360,6 +370,38 @@ public interface ApplyMapper extends IBaseMapper<Apply> {
      * @return
      */
     ApplyDoExaInfo queryApplyDoExaInfo (String applyNo);
+
+
+    /**
+     * 查询统计的详情
+     * @param page
+     * @param start
+     * @param end
+     * @param companyName
+     * @param lineName
+     * @return
+     */
+    Page<ApplyCountVo> queryCountInfo(@Param("page") Page<ApplyCountVo> page,
+                                      @Param("start") LocalDate start,
+                                      @Param("end") LocalDate end,
+                                      @Param("companyName") String companyName,
+                                      @Param("lineName") String lineName);
+
+
+    /**
+     * 查询统计的详情
+     * @param page
+     * @param start
+     * @param end
+     * @param companyName
+     * @param lineName
+     * @return
+     */
+    Page<ApplyCountCaiBo> queryCountInfo2(@Param("page") Page<ApplyCountVo> page,
+                                          @Param("start") LocalDate start,
+                                          @Param("end") LocalDate end,
+                                          @Param("companyName") String companyName,
+                                          @Param("lineName") String lineName);
 
 
 

@@ -10,6 +10,9 @@ import lombok.Data;
 @Data
 public class GuestResultQuery {
 
+
+    private Long id;
+
     /**
      * 出行日期
      */

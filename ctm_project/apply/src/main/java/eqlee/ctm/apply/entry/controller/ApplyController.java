@@ -10,9 +10,12 @@ import com.yq.utils.StringUtils;
 import com.yq.vilidata.TimeData;
 import com.yq.vilidata.query.TimeQuery;
 import eqlee.ctm.apply.entry.entity.Apply;
+import eqlee.ctm.apply.entry.entity.bo.ApplyCompanyInfo;
 import eqlee.ctm.apply.entry.entity.bo.ApplyCountBo;
+import eqlee.ctm.apply.entry.entity.bo.ApplyCountCaiBo;
 import eqlee.ctm.apply.entry.entity.bo.ApplyDoExaInfo;
 import eqlee.ctm.apply.entry.entity.query.*;
+import eqlee.ctm.apply.entry.entity.vo.ApplyCountVo;
 import eqlee.ctm.apply.entry.entity.vo.ApplySeacherVo;
 import eqlee.ctm.apply.entry.entity.vo.ApplyVo;
 import eqlee.ctm.apply.entry.service.IApplyService;
@@ -130,7 +133,7 @@ public class ApplyController {
     @CrossOrigin
     @CheckToken
     public Page<ApplyDoExaQuery> listPageDoAplly(@RequestParam("current") Integer current, @RequestParam("size") Integer size,
-                                               @RequestParam("OutDate") String OutDate, @RequestParam("LineName") String LineName,
+                                               @RequestParam("OutDate") String OutDate, @RequestParam("LineName") Long LineName,
                                                @RequestParam("type") Integer type,@RequestParam("applyDate") String applyDate,
                                                @RequestParam("exaStatus") Integer exaStatus) {
         if (current == null || size == null) {
@@ -229,7 +232,9 @@ public class ApplyController {
         UserLoginQuery user = localUser.getUser("用户信息");
 
         String admin = "运营人员";
-        if (admin.equals(user.getRoleName())) {
+        String admin1 = "超级管理员";
+        String admin2 = "管理员";
+        if (admin.equals(user.getRoleName()) || admin1.equals(user.getRoleName()) || admin2.equals(user.getRoleName())) {
             return applyService.pageAdmin2Apply(page,LineName,OutTime,applyTime,type,companyUserId,todayType,roadName);
         }
 
@@ -300,18 +305,19 @@ public class ApplyController {
     @ApiImplicitParams({
           @ApiImplicitParam(name = "current", value = "当前页", required = true, dataType = "int", paramType = "path"),
           @ApiImplicitParam(name = "size", value = "每页显示的条数", required = true, dataType = "int", paramType = "path"),
-          @ApiImplicitParam(name = "lineName", value = "线路名称", required = false, dataType = "String", paramType = "path"),
-          @ApiImplicitParam(name = "startDate", value = "开始日期", required = false, dataType = "String", paramType = "path"),
-          @ApiImplicitParam(name = "endDate", value = "结束日期", required = false, dataType = "String", paramType = "path")
+          @ApiImplicitParam(name = "time", value = "查询年份", required = false, dataType = "String", paramType = "path"),
+          @ApiImplicitParam(name = "companyId", value = "同行id", required = false, dataType = "Long", paramType = "path"),
+          @ApiImplicitParam(name = "caiType", value = "(0-未确认 1-已确认)", required = false, dataType = "int", paramType = "path"),
+          @ApiImplicitParam(name = "type", value = "(0-未支付 1-已支付)", required = false, dataType = "int", paramType = "path")
     })
     @GetMapping("/pageResultCountList")
     @CrossOrigin
     @CheckToken
     public Map<String,Object> pageResultCountList(@RequestParam("current") Integer current,
                                                   @RequestParam("size") Integer size,
-                                                  @RequestParam("lineName") String lineName,
-                                                  @RequestParam("startDate") String startDate,
-                                                  @RequestParam("endDate") String endDate,
+                                                  @RequestParam("time") String time,
+                                                  @RequestParam("type") Integer type,
+                                                  @RequestParam("caiType") Integer caiType,
                                                   @RequestParam("companyId") Long companyId) {
         if (current == null || size == null) {
             throw new ApplicationException(CodeType.PARAM_ERROR);
@@ -322,15 +328,17 @@ public class ApplyController {
 
 
         String admin = "运营人员";
+        String admin1 = "超级管理员";
+        String admin2 = "管理员";
         HashMap<String,Object> map = new HashMap<>();
-        if (admin.equals(user.getRoleName())) {
-            Page<ApplyResultCountQuery> data = applyService.pageResultAdminCountList(page, lineName, startDate, endDate, companyId);
+        if (admin.equals(user.getRoleName()) || admin1.equals(user.getRoleName()) || admin2.equals(user.getRoleName())) {
+            Page<ApplyResultCountQuery> data = applyService.pageResultAdminCountList(page, time, type, caiType, companyId);
             map.put("data",data);
             map.put("count",null);
             return map;
         }
         //得到分页的具体数据
-        Page<ApplyResultCountQuery> data = applyService.pageResult2CountList(page, lineName, startDate, endDate);
+        Page<ApplyResultCountQuery> data = applyService.pageResult2CountList(page, time, type , caiType);
         //查询统计的数据
         ApplyCountBo applyCountBo = applyService.queryApplyCount();
         List<ApplyCountBo> list = new ArrayList<>();
@@ -367,5 +375,126 @@ public class ApplyController {
         }
         return applyService.queryApplyDoExaInfo(applyNo);
     }
+
+
+    @ApiOperation(value = "查询统计的详情", notes = "查询统计的详情")
+    @ApiImplicitParams({
+          @ApiImplicitParam(name = "current", value = "当前页", required = true, dataType = "int", paramType = "path"),
+          @ApiImplicitParam(name = "size", value = "每页显示的条数", required = true, dataType = "int", paramType = "path"),
+          @ApiImplicitParam(name = "outDate", value = "出行年月", required = true, dataType = "String", paramType = "path"),
+          @ApiImplicitParam(name = "companyName", value = "公司", required = true, dataType = "String", paramType = "path"),
+          @ApiImplicitParam(name = "lineName", value = "线路名", required = false, dataType = "String", paramType = "path")
+    })
+    @GetMapping("/queryCountInfo")
+    @CrossOrigin
+    @CheckToken
+    public Page<ApplyCountVo> queryCountInfo(@RequestParam("current") Integer current,
+                                             @RequestParam("size") Integer size,
+                                             @RequestParam("outDate") String outDate,
+                                             @RequestParam("companyName") String companyName,
+                                             @RequestParam("lineName") String lineName) {
+
+        if (StringUtils.isBlank(outDate) || StringUtils.isBlank(companyName)) {
+            throw new ApplicationException(CodeType.PARAM_ERROR,"参数不能为空");
+        }
+        Page<ApplyCountVo> page = new Page<>(current,size);
+        return applyService.queryCountInfo(page,outDate,companyName,lineName);
+    }
+
+
+
+    @ApiOperation(value = "财务月结统计", notes = "财务月结统计")
+    @ApiImplicitParams({
+          @ApiImplicitParam(name = "current", value = "当前页", required = true, dataType = "int", paramType = "path"),
+          @ApiImplicitParam(name = "size", value = "每页显示的条数", required = true, dataType = "int", paramType = "path"),
+          @ApiImplicitParam(name = "time", value = "查询年份", required = false, dataType = "String", paramType = "path"),
+          @ApiImplicitParam(name = "companyId", value = "同行id", required = false, dataType = "Long", paramType = "path"),
+          @ApiImplicitParam(name = "caiType", value = "(0-未确认 1-已确认)", required = false, dataType = "int", paramType = "path"),
+          @ApiImplicitParam(name = "type", value = "(0-未支付 1-已支付)", required = false, dataType = "int", paramType = "path")
+    })
+    @GetMapping("/queryCaiMonthCount")
+    @CrossOrigin
+    @CheckToken
+    public Page<ApplyResultCountQuery> queryCaiMonthCount(@RequestParam("current") Integer current,
+                                                  @RequestParam("size") Integer size,
+                                                  @RequestParam("time") String time,
+                                                  @RequestParam("type") Integer type,
+                                                  @RequestParam("caiType") Integer caiType,
+                                                  @RequestParam("companyId") Long companyId) {
+        if (current == null || size == null) {
+            throw new ApplicationException(CodeType.PARAM_ERROR);
+        }
+
+        Page<ApplyResultCountQuery> page = new Page<>(current, size);
+
+
+        return applyService.pageResultAdminCountList(page, time, type, caiType, companyId);
+    }
+
+
+
+    @ApiOperation(value = "财务月结统计详情", notes = "财务月结统计详情")
+    @ApiImplicitParams({
+          @ApiImplicitParam(name = "current", value = "当前页", required = true, dataType = "int", paramType = "path"),
+          @ApiImplicitParam(name = "size", value = "每页显示的条数", required = true, dataType = "int", paramType = "path"),
+          @ApiImplicitParam(name = "outDate", value = "出行年月", required = true, dataType = "String", paramType = "path"),
+          @ApiImplicitParam(name = "companyName", value = "公司", required = true, dataType = "String", paramType = "path"),
+          @ApiImplicitParam(name = "lineName", value = "线路名", required = false, dataType = "String", paramType = "path")
+    })
+    @GetMapping("/queryCountInfo2")
+    @CrossOrigin
+    @CheckToken
+    public Map<String,Object> queryCountInfo2(@RequestParam("current") Integer current,
+                                                 @RequestParam("size") Integer size,
+                                                 @RequestParam("outDate") String outDate,
+                                                 @RequestParam("companyName") String companyName,
+                                                 @RequestParam("lineName") String lineName,
+                                                 @RequestParam("id") Long id) {
+
+        if (StringUtils.isBlank(outDate) || StringUtils.isBlank(companyName)) {
+            throw new ApplicationException(CodeType.PARAM_ERROR,"参数不能为空");
+        }
+        Page<ApplyCountVo> page = new Page<>(current,size);
+        Page<ApplyCountCaiBo> boPage = applyService.queryCountInfo2(page, outDate, companyName, lineName);
+
+        ApplyCompanyInfo info = applyService.queryInfo(id);
+        Map<String,Object> map = new HashMap<>();
+        map.put("page",boPage);
+        map.put("count",info);
+
+        return map;
+    }
+
+
+    @ApiOperation(value = "财务确认", notes = "财务确认")
+    @ApiImplicitParams({
+                @ApiImplicitParam(name = "outDate", value = "每月第一天", required = true, dataType = "String", paramType = "path"),
+                @ApiImplicitParam(name = "companyName", value = "公司", required = true, dataType = "String", paramType = "path")
+    })
+    @GetMapping("/upCaiMonthCount")
+    @CrossOrigin
+    @CheckToken
+    public ResultVo upCaiMonthCount(@RequestParam("outDate") String outDate,
+                                    @RequestParam("companyName") String companyName) {
+
+        if (StringUtils.isBlank(outDate) || StringUtils.isBlank(companyName)) {
+            throw new ApplicationException(CodeType.PARAM_ERROR,"参数不能为空");
+        }
+         applyService.upCaiMonthCount(outDate,companyName);
+
+        ResultVo vo = new ResultVo();
+        vo.setResult("ok");
+        return vo;
+    }
+
+
+
+    @GetMapping("/queryCount")
+    @CrossOrigin
+    @CheckToken
+    public ApplyExaCountQuery queryCount() {
+        return applyService.queryCount();
+    }
+
 
 }

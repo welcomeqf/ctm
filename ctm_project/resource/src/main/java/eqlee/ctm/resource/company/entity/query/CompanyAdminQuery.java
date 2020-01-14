@@ -40,6 +40,11 @@ public class CompanyAdminQuery {
    private String companyName;
 
    /**
+    * 公司全称
+    */
+   private String companyFullName;
+
+   /**
     * 合同开始时间
     */
    private String startDate;

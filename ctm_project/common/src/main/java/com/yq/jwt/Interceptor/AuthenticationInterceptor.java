@@ -7,6 +7,7 @@ import com.yq.constanct.CodeType;
 import com.yq.exception.ApplicationException;
 import com.yq.jwt.JwtVerfy;
 import com.yq.jwt.contain.LocalUser;
+import com.yq.jwt.entity.CityJwtBo;
 import com.yq.jwt.entity.PrivilegeMenuQuery;
 import com.yq.jwt.entity.UserLoginQuery;
 import com.yq.jwt.islogin.CheckToken;
@@ -76,7 +77,7 @@ public class AuthenticationInterceptor implements HandlerInterceptor {
                     query.setRoleName(JWT.decode(token).getClaim("roleName").asString());
                     query.setTel(JWT.decode(token).getClaim("tel").asString());
                     query.setStatus(JWT.decode(token).getClaim("status").asInt());
-                    query.setCity(JWT.decode(token).getClaim("city").asString());
+                    query.setCity(JWT.decode(token).getClaim("city").asList(CityJwtBo.class));
 
                 } catch (JWTDecodeException j) {
                     throw new ApplicationException(CodeType.OVENDU_ERROR,"token错误");

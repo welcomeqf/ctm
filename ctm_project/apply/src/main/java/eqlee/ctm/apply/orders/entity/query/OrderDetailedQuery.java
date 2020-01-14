@@ -69,7 +69,7 @@ public class OrderDetailedQuery {
 
     private String companyName;
 
-    private String allPrice;
+    private Double allPrice;
 
     private String applyRemark;
 

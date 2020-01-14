@@ -79,9 +79,8 @@ public class FinanceController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "current", value = "当前页", required = true, dataType = "int", paramType = "path"),
             @ApiImplicitParam(name = "size", value = "每页显示条数", required = true, dataType = "int", paramType = "path"),
-            @ApiImplicitParam(name = "GuestName", value = "导游名字", required = false, dataType = "String", paramType = "path"),
+            @ApiImplicitParam(name = "GuestId", value = "导游Id", required = false, dataType = "String", paramType = "path"),
             @ApiImplicitParam(name = "outDate", value = "出行日期", required = false, dataType = "String", paramType = "path"),
-            @ApiImplicitParam(name = "lineName", value = "线路名字", required = false, dataType = "String", paramType = "path"),
             @ApiImplicitParam(name = "type", value = "类型(0-未审核,1-已审核)", required = false, dataType = "int", paramType = "path")
     })
     @GetMapping("/listExamine2Page")
@@ -89,17 +88,16 @@ public class FinanceController {
     @CheckToken
     public Page<ExamineResultQuery> listExamine2Page (@RequestParam("current") Integer current,
                                                       @RequestParam("size") Integer size,
-                                                      @RequestParam("GuestName") String guestName,
+                                                      @RequestParam("guideName") String guideName,
                                                       @RequestParam("type") Integer type,
-                                                      @RequestParam("outDate") String outDate,
-                                                      @RequestParam("lineName") String lineName) {
+                                                      @RequestParam("outDate") String outDate) {
         if (current == null || size == null) {
             throw new ApplicationException(CodeType.PARAMETER_ERROR);
         }
 
         Page<ExamineResultQuery> page = new Page<>(current,size);
 
-        return inFinanceService.listExamine2Page(page,guestName,type,outDate,lineName);
+        return inFinanceService.listExamine2Page(page,guideName,type,outDate);
     }
 
 
@@ -151,7 +149,7 @@ public class FinanceController {
          throw new ApplicationException(CodeType.PARAM_ERROR,"参数不能为空");
      }
 
-        ExaResultQuery query = inFinanceService.examineGuestResult(vo.getId() , vo.getType());
+        ExaResultQuery query = inFinanceService.examineGuestResult(vo.getId() , vo.getType(), vo.getCaiName(), vo.getRemark());
         return query;
     }
 
@@ -182,68 +180,17 @@ public class FinanceController {
     }
 
 
-
-    @ApiOperation(value = "统计财务的月结统计", notes = "统计财务的月结统计")
-    @ApiImplicitParams({
-          @ApiImplicitParam(name = "outDate", value = "出发时间（默认传第一天）", required = false, dataType = "String", paramType = "path"),
-          @ApiImplicitParam(name = "companyName", value = "公司名,同行账号,同行代表人姓名,同行代表人电话", required = false, dataType = "String", paramType = "path"),
-          @ApiImplicitParam(name = "current", value = "当前页", required = true, dataType = "int", paramType = "path"),
-          @ApiImplicitParam(name = "size", value = "每页显示条数", required = true, dataType = "int", paramType = "path")
-    })
-    @GetMapping("/pageCompanyCount")
-    @CrossOrigin
-    @CheckToken
-    public Page<FinanceCompanyBo> pageCompanyCount (@RequestParam("outDate") String outDate,
-                                                    @RequestParam("companyName") String companyName,
-                                                    @RequestParam("current") Integer current,
-                                                    @RequestParam("size") Integer size) {
-
-        if (current == null || size == null) {
-            throw new ApplicationException(CodeType.PARAM_ERROR);
-        }
-
-        Page<FinanceCompanyBo> page = new Page<>(current,size);
-        return inFinanceService.pageCompanyCount(page,outDate,companyName);
-    }
-
-
-    @ApiOperation(value = "月结统计详情", notes = "月结统计详情")
-    @ApiImplicitParams({
-          @ApiImplicitParam(name = "outDate", value = "出发时间（默认传第一天）", required = true, dataType = "String", paramType = "path"),
-          @ApiImplicitParam(name = "accountName", value = "同行代表人账号", required = true, dataType = "String", paramType = "path"),
-          @ApiImplicitParam(name = "current", value = "当前页", required = true, dataType = "int", paramType = "path"),
-          @ApiImplicitParam(name = "lineName", value = "线路名", required = false, dataType = "String", paramType = "path"),
-          @ApiImplicitParam(name = "size", value = "每页显示条数", required = true, dataType = "int", paramType = "path")
-    })
-    @GetMapping("/queryCompanyInfoCount")
-    @CrossOrigin
-    @CheckToken
-    public Map<String,Object> queryCompanyInfoCount (@RequestParam("outDate") String outDate,
-                                                     @RequestParam("accountName") String accountName,
-                                                     @RequestParam("current") Integer current,
-                                                     @RequestParam("size") Integer size,
-                                                     @RequestParam("lineName") String lineName) {
-        if (StringUtils.isBlank(outDate) || StringUtils.isBlank(accountName) || current == null || size == null) {
-            throw new ApplicationException(CodeType.PARAM_ERROR);
-        }
-
-        Page<FinanceCompanyInfoBo> page = new Page<>(current,size);
-        return inFinanceService.queryCompanyInfoCount (page,lineName,outDate,accountName);
-    }
-
-
-
     @ApiOperation(value = "查询提交信息", notes = "查询提交信息")
-    @ApiImplicitParam(name = "outDate", value = "出发时间", required = true, dataType = "String", paramType = "path")
+    @ApiImplicitParam(name = "orderId", value = "订单Id", required = true, dataType = "Long", paramType = "path")
     @GetMapping("/queryResult")
     @CrossOrigin
     @CheckToken
-    public ResultBo queryResult (@RequestParam("outDate") String outDate) {
+    public ResultBo queryResult (@RequestParam("orderId") Long orderId) {
 
-        if (StringUtils.isBlank(outDate)) {
+        if (orderId == null) {
             throw new ApplicationException(CodeType.PARAM_ERROR,"参数不能为空");
         }
-        return inFinanceService.queryResult(outDate);
+        return inFinanceService.queryResult(orderId);
     }
 
 }

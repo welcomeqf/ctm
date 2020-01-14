@@ -15,5 +15,13 @@ public class GuiderCountNumber {
     */
    private Integer numberCount;
 
+   private Integer adultNumber;
+
+   private Integer babyNumber;
+
+   private Integer oldNumber;
+
+   private Integer childNumber;
+
 
 }

@@ -8,11 +8,16 @@ import com.yq.jwt.entity.UserLoginQuery;
 import com.yq.jwt.islogin.CheckToken;
 import com.yq.utils.ExcelUtils;
 import com.yq.utils.FilesUtils;
+import com.yq.utils.StringUtils;
 import com.yq.vilidata.TimeData;
 import com.yq.vilidata.query.TimeQuery;
+import eqlee.ctm.apply.entry.entity.bo.ApplyCompanyInfo;
+import eqlee.ctm.apply.entry.entity.bo.ApplyCountCaiBo;
 import eqlee.ctm.apply.entry.entity.query.ApplyCompanyQuery;
+import eqlee.ctm.apply.entry.entity.query.ApplyDoExaQuery;
 import eqlee.ctm.apply.entry.entity.query.ApplyMonthQuery;
 import eqlee.ctm.apply.entry.entity.query.ApplyResultCountQuery;
+import eqlee.ctm.apply.entry.entity.vo.ApplyCountVo;
 import eqlee.ctm.apply.entry.service.IApplyService;
 import eqlee.ctm.apply.line.entity.vo.ResultVo;
 import io.swagger.annotations.Api;
@@ -29,6 +34,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author qf
@@ -62,9 +68,9 @@ public class ApplyExcelController {
    public void applyExcel(HttpServletResponse response,
                           @RequestParam("current") Integer current,
                           @RequestParam("size") Integer size,
-                          @RequestParam("lineName") String lineName,
-                          @RequestParam("startDate") String startDate,
-                          @RequestParam("endDate") String endDate,
+                          @RequestParam("time") String time,
+                          @RequestParam("type") Integer type,
+                          @RequestParam("caiType") Integer caiType,
                           @RequestParam("companyId") Long companyId){
 
       if (current == null || size == null) {
@@ -75,11 +81,13 @@ public class ApplyExcelController {
 
       UserLoginQuery user = localUser.getUser("用户信息");
       String admin = "运营人员";
+      String admin1 = "超级管理员";
+      String admin2 = "管理员";
       Page<ApplyResultCountQuery> queryPage;
-      if (admin.equals(user.getRoleName())) {
-         queryPage = applyService.pageResultAdminCountList(page, lineName, startDate, endDate, companyId);
+      if (admin.equals(user.getRoleName()) || admin1.equals(user.getRoleName()) || admin2.equals(user.getRoleName())) {
+         queryPage = applyService.pageResultAdminCountList(page, time, type, caiType, companyId);
       } else {
-         queryPage = applyService.pageResult2CountList(page,lineName,startDate,endDate);
+         queryPage = applyService.pageResult2CountList(page, time, type , caiType);
       }
       //拿到集合数据
       List<ApplyResultCountQuery> list = queryPage.getRecords();
@@ -87,99 +95,51 @@ public class ApplyExcelController {
       //创建报表数据头
       List<String> head = new ArrayList<>();
       head.add("报名单号");
-      head.add("出发日期");
-      head.add("线路名");
-      head.add("联系人");
-      head.add("联系人电话");
+      head.add("出行年月");
+      head.add("同行");
       head.add("成人人数");
-      head.add("老人人数");
       head.add("小孩人数");
+      head.add("老人人数");
       head.add("幼儿人数");
       head.add("总人数");
-      head.add("结算价");
-      head.add("总价");
-      Double price = 0.0;
-
-      for (ApplyResultCountQuery query : list) {
-         price = price + query.getAllPrice();
-      }
+      head.add("月结总额");
+      head.add("代收金额");
+      head.add("实付金额");
+      head.add("支付状态");
+      head.add("确认状态");
 
       //创建报表体
       List<List<String>> body = new ArrayList<>();
       for (ApplyResultCountQuery query : list) {
          List<String> bodyValue = new ArrayList<>();
          bodyValue.add(query.getApplyNo());
-         bodyValue.add(query.getOutDate());
-         bodyValue.add(query.getLineName());
-         bodyValue.add(query.getContactName());
-         bodyValue.add(query.getContactTel());
+         bodyValue.add(query.getYear() + "-" + query.getMonth());
+         bodyValue.add(query.getCompanyName());
          bodyValue.add(String.valueOf(query.getAdultNumber()));
-         bodyValue.add(String.valueOf(query.getOldNumber()));
          bodyValue.add(String.valueOf(query.getChildNumber()));
+         bodyValue.add(String.valueOf(query.getOldNumber()));
          bodyValue.add(String.valueOf(query.getBabyNumber()));
          bodyValue.add(String.valueOf(query.getAllNumber()));
          bodyValue.add(String.valueOf(query.getAllPrice()));
-         bodyValue.add(String.valueOf(price));
+         bodyValue.add(String.valueOf(query.getMsprice()));
+         bodyValue.add(String.valueOf(query.getAllPrice() - query.getMsprice()));
+
+         if (query.getSxType() == 0) {
+            bodyValue.add("未支付");
+         }else {
+            bodyValue.add("已支付");
+         }
+
+         if (query.getCaiType() == 0) {
+            bodyValue.add("未确认");
+         } else {
+            bodyValue.add("已确认");
+         }
+
          //将数据添加到报表体中
          body.add(bodyValue);
       }
-      String fileName = "同行报名记录统计.xls";
-      HSSFWorkbook excel = ExcelUtils.expExcel(head,body);
-      String fileStorePath = "exl";
-      String path = FilesUtils.getPath(fileName,fileStorePath);
-      ExcelUtils.outFile(excel,path,response);
-   }
-
-
-   @ApiOperation(value = "分页查询财务月结的信息导出", notes = "分页查询财务月结的信息导出")
-   @ApiImplicitParams({
-         @ApiImplicitParam(name = "current", value = "当前页", required = true, dataType = "int", paramType = "path"),
-         @ApiImplicitParam(name = "size", value = "每页显示的条数", required = true, dataType = "int", paramType = "path"),
-         @ApiImplicitParam(name = "outDate", value = "出行时间", required = false, dataType = "String", paramType = "path"),
-         @ApiImplicitParam(name = "type", value = "类型(0-查询全部 1-未付款 2-已付款)", required = false, dataType = "int", paramType = "path")
-   })
-   @GetMapping("/month")
-   @CheckToken
-   @CrossOrigin
-   public void applyExcel(HttpServletResponse response,
-                          @RequestParam("current") Integer current,
-                          @RequestParam("size") Integer size,
-                          @RequestParam("type") Integer type,
-                          @RequestParam("outDate") String outDate){
-
-      if (current == null || size == null) {
-         throw new ApplicationException(CodeType.PARAMETER_ERROR);
-      }
-
-      Page<ApplyMonthQuery> page = new Page<>(current,size);
-
-      //查询出需要导出的数据
-      Page<ApplyMonthQuery> queryPage = applyService.queryMonth2Apply(page,type,outDate);
-
-      //拿到集合数据
-      List<ApplyMonthQuery> list = queryPage.getRecords();
-
-      //创建报表数据头
-      List<String> head = new ArrayList<>();
-      head.add("旅游线路");
-      head.add("同行代表");
-      head.add("旅客");
-      head.add("出行日期");
-      head.add("总人数");
-      head.add("总费用");
-      //创建报表体
-      List<List<String>> body = new ArrayList<>();
-      for (ApplyMonthQuery query : list) {
-         List<String> bodyValue = new ArrayList<>();
-         bodyValue.add(query.getLineName());
-         bodyValue.add(query.getContactName());
-         bodyValue.add(query.getOutDate());
-         bodyValue.add(String.valueOf(query.getAllNumber()));
-         bodyValue.add(String.valueOf(query.getAllPrice()));
-         //将数据添加到报表体中
-         body.add(bodyValue);
-      }
-      String fileName = "财务月结记录统计.xls";
+      String fileName = "同行财务统计.xls";
       HSSFWorkbook excel = ExcelUtils.expExcel(head,body);
       String fileStorePath = "exl";
       String path = FilesUtils.getPath(fileName,fileStorePath);
@@ -213,7 +173,9 @@ public class ApplyExcelController {
       UserLoginQuery user = localUser.getUser("用户信息");
 
       String admin = "运营人员";
-      if (admin.equals(user.getRoleName())) {
+      String admin1 = "超级管理员";
+      String admin2 = "管理员";
+      if (admin.equals(user.getRoleName()) || admin1.equals(user.getRoleName()) || admin2.equals(user.getRoleName())) {
          Page<ApplyCompanyQuery> applyList = applyService.pageAdmin2Apply(page, LineName, OutTime, applyTime, type, companyUserId,todayType,roadName);
 
          List<ApplyCompanyQuery> list = applyList.getRecords();
@@ -221,14 +183,18 @@ public class ApplyExcelController {
          //创建报表数据头
          List<String> head = new ArrayList<>();
          head.add("报名单号");
-         head.add("报名日期");
          head.add("出行日期");
          head.add("线路名");
+         head.add("同行");
          head.add("客人名字");
          head.add("客人电话");
-         head.add("门市价");
-         head.add("结算价");
+         head.add("成人人数");
+         head.add("老人人数");
+         head.add("小孩人数");
+         head.add("幼儿人数");
          head.add("总人数");
+         head.add("结算价");
+         head.add("门市价");
          head.add("接送地");
          head.add("经手人");
          head.add("审核状态");
@@ -237,14 +203,18 @@ public class ApplyExcelController {
          for (ApplyCompanyQuery query : list) {
             List<String> bodyValue = new ArrayList<>();
             bodyValue.add(query.getApplyNo());
-            bodyValue.add(query.getCreateDate());
             bodyValue.add(query.getOutDate());
             bodyValue.add(query.getLineName());
+            bodyValue.add(query.getCompanyName());
             bodyValue.add(query.getContactName());
             bodyValue.add(query.getContactTel());
-            bodyValue.add(String.valueOf(query.getMarketAllPrice()));
-            bodyValue.add(String.valueOf(query.getAllPrice()));
+            bodyValue.add(String.valueOf(query.getAdultNumber()));
+            bodyValue.add(String.valueOf(query.getOldNumber()));
+            bodyValue.add(String.valueOf(query.getChildNumber()));
+            bodyValue.add(String.valueOf(query.getBabyNumber()));
             bodyValue.add(String.valueOf(query.getAllNumber()));
+            bodyValue.add(String.valueOf(query.getAllPrice()));
+            bodyValue.add(String.valueOf(query.getMarketAllPrice()));
             bodyValue.add(query.getPlace());
             bodyValue.add(query.getCName());
             if (query.getIsCancel()) {
@@ -290,9 +260,13 @@ public class ApplyExcelController {
       head.add("线路名");
       head.add("客人名字");
       head.add("客人电话");
-      head.add("门市价");
-      head.add("结算价");
+      head.add("成人人数");
+      head.add("老人人数");
+      head.add("小孩人数");
+      head.add("幼儿人数");
       head.add("总人数");
+      head.add("结算价");
+      head.add("门市价");
       head.add("接送地");
       head.add("经手人");
       head.add("审核状态");
@@ -306,9 +280,13 @@ public class ApplyExcelController {
          bodyValue.add(query.getLineName());
          bodyValue.add(query.getContactName());
          bodyValue.add(query.getContactTel());
-         bodyValue.add(String.valueOf(query.getMarketAllPrice()));
-         bodyValue.add(String.valueOf(query.getAllPrice()));
+         bodyValue.add(String.valueOf(query.getAdultNumber()));
+         bodyValue.add(String.valueOf(query.getOldNumber()));
+         bodyValue.add(String.valueOf(query.getChildNumber()));
+         bodyValue.add(String.valueOf(query.getBabyNumber()));
          bodyValue.add(String.valueOf(query.getAllNumber()));
+         bodyValue.add(String.valueOf(query.getAllPrice()));
+         bodyValue.add(String.valueOf(query.getMarketAllPrice()));
          bodyValue.add(query.getPlace());
          bodyValue.add(query.getCName());
          if (query.getIsCancel()) {
@@ -338,4 +316,240 @@ public class ApplyExcelController {
       String path = FilesUtils.getPath(fileName,fileStorePath);
       ExcelUtils.outFile(excel,path,response);
    }
+
+
+   @ApiOperation(value = "财务月结统计导出", notes = "财务月结统计导出")
+   @ApiImplicitParams({
+         @ApiImplicitParam(name = "current", value = "当前页", required = true, dataType = "int", paramType = "path"),
+         @ApiImplicitParam(name = "size", value = "每页显示的条数", required = true, dataType = "int", paramType = "path"),
+         @ApiImplicitParam(name = "time", value = "查询年份", required = false, dataType = "String", paramType = "path"),
+         @ApiImplicitParam(name = "companyId", value = "同行id", required = false, dataType = "Long", paramType = "path"),
+         @ApiImplicitParam(name = "caiType", value = "(0-未确认 1-已确认)", required = false, dataType = "int", paramType = "path"),
+         @ApiImplicitParam(name = "type", value = "(0-未支付 1-已支付)", required = false, dataType = "int", paramType = "path")
+   })
+   @GetMapping("/queryCaiMonthCountPoi")
+   @CrossOrigin
+   @CheckToken
+   public void queryCaiMonthCount(@RequestParam("current") Integer current,
+                                                         @RequestParam("size") Integer size,
+                                                         @RequestParam("time") String time,
+                                                         @RequestParam("type") Integer type,
+                                                         @RequestParam("caiType") Integer caiType,
+                                                         @RequestParam("companyId") Long companyId,
+                                                         HttpServletResponse response) {
+
+
+      if (current == null || size == null) {
+         throw new ApplicationException(CodeType.PARAM_ERROR);
+      }
+
+      Page<ApplyResultCountQuery> page = new Page<>(current, size);
+
+
+      Page<ApplyResultCountQuery> queryPage = applyService.pageResultAdminCountList(page, time, type, caiType, companyId);
+
+      List<ApplyResultCountQuery> list = queryPage.getRecords();
+
+      //创建报表数据头
+      List<String> head = new ArrayList<>();
+      head.add("出行年月");
+      head.add("公司名称");
+      head.add("成人人数");
+      head.add("小孩人数");
+      head.add("老人人数");
+      head.add("幼儿人数");
+      head.add("总人数");
+      head.add("月结总额");
+      head.add("代收金额");
+      head.add("应收金额");
+      head.add("支付状态");
+      head.add("确认状态");
+
+      List<List<String>> body = new ArrayList<>();
+
+      for (ApplyResultCountQuery query : list) {
+         List<String> bodyValue = new ArrayList<>();
+         bodyValue.add(query.getYear() + "-" + query.getMonth());
+         bodyValue.add(query.getCompanyName());
+         bodyValue.add(String.valueOf(query.getAdultNumber()));
+         bodyValue.add(String.valueOf(query.getChildNumber()));
+         bodyValue.add(String.valueOf(query.getOldNumber()));
+         bodyValue.add(String.valueOf(query.getBabyNumber()));
+         bodyValue.add(String.valueOf(query.getAllNumber()));
+         bodyValue.add(String.valueOf(query.getAllPrice()));
+         bodyValue.add(String.valueOf(query.getMsprice()));
+         bodyValue.add(String.valueOf(query.getAllPrice() - query.getMsprice()));
+
+         if (query.getSxType() == 0) {
+            bodyValue.add("未支付");
+         }else {
+            bodyValue.add("已支付");
+         }
+
+         if (query.getCaiType() == 0) {
+            bodyValue.add("待确认");
+         } else {
+            bodyValue.add("已确认");
+         }
+
+         //将数据添加到报表体中
+         body.add(bodyValue);
+      }
+      String fileName = "财务月结统计.xls";
+      HSSFWorkbook excel = ExcelUtils.expExcel(head,body);
+      String fileStorePath = "exl";
+      String path = FilesUtils.getPath(fileName,fileStorePath);
+      ExcelUtils.outFile(excel,path,response);
+   }
+
+   @ApiOperation(value = "财务月结统计详情导出", notes = "财务月结统计详情导出")
+   @ApiImplicitParams({
+         @ApiImplicitParam(name = "current", value = "当前页", required = true, dataType = "int", paramType = "path"),
+         @ApiImplicitParam(name = "size", value = "每页显示的条数", required = true, dataType = "int", paramType = "path"),
+         @ApiImplicitParam(name = "outDate", value = "出行年月", required = true, dataType = "String", paramType = "path"),
+         @ApiImplicitParam(name = "companyName", value = "公司", required = true, dataType = "String", paramType = "path"),
+         @ApiImplicitParam(name = "lineName", value = "线路名", required = false, dataType = "String", paramType = "path")
+   })
+   @GetMapping("/queryCountInfo2Poi")
+   @CrossOrigin
+   @CheckToken
+   public void queryCountInfo2(@RequestParam("current") Integer current,
+                               @RequestParam("size") Integer size,
+                               @RequestParam("outDate") String outDate,
+                               @RequestParam("companyName") String companyName,
+                               @RequestParam("lineName") String lineName,
+                               HttpServletResponse response) {
+
+      if (StringUtils.isBlank(outDate) || StringUtils.isBlank(companyName)) {
+         throw new ApplicationException(CodeType.PARAM_ERROR, "参数不能为空");
+      }
+
+      Page<ApplyCountVo> page = new Page<>(current,size);
+      Page<ApplyCountCaiBo> boPage = applyService.queryCountInfo2(page, outDate, companyName, lineName);
+
+      List<ApplyCountCaiBo> list = boPage.getRecords();
+
+      //创建报表数据头
+      List<String> head = new ArrayList<>();
+      head.add("出行日期");
+      head.add("线路名称");
+      head.add("同行代表");
+      head.add("同行电话");
+      head.add("联系人");
+      head.add("联系电话");
+      head.add("成人人数");
+      head.add("小孩人数");
+      head.add("老人人数");
+      head.add("幼儿人数");
+      head.add("总人数");
+      head.add("月结总额");
+      head.add("代收金额");
+      head.add("应收金额");
+
+      List<List<String>> body = new ArrayList<>();
+
+      for (ApplyCountCaiBo query : list) {
+         List<String> bodyValue = new ArrayList<>();
+         bodyValue.add(query.getOutDate());
+         bodyValue.add(query.getLineName());
+         bodyValue.add(query.getCname());
+         bodyValue.add(String.valueOf(query.getCompanyDbTel()));
+         bodyValue.add(query.getContactName());
+         bodyValue.add(String.valueOf(query.getContactTel()));
+         bodyValue.add(String.valueOf(query.getAdultNumber()));
+         bodyValue.add(String.valueOf(query.getChildNumber()));
+         bodyValue.add(String.valueOf(query.getOldNumber()));
+         bodyValue.add(String.valueOf(query.getBabyNumber()));
+         bodyValue.add(String.valueOf(query.getAllNumber()));
+         bodyValue.add(String.valueOf(query.getAllPrice()));
+         bodyValue.add(String.valueOf(query.getMsPrice()));
+         bodyValue.add(String.valueOf(query.getAllPrice() - query.getMsPrice()));
+
+         //将数据添加到报表体中
+         body.add(bodyValue);
+      }
+
+      String fileName = "月结详情.xls";
+      HSSFWorkbook excel = ExcelUtils.expExcel(head,body);
+      String fileStorePath = "exl";
+      String path = FilesUtils.getPath(fileName,fileStorePath);
+      ExcelUtils.outFile(excel,path,response);
+   }
+
+
+   @ApiOperation(value = "查询统计的详情导出", notes = "查询统计的详情导出")
+   @GetMapping("/queryCountInfoPoi")
+   @CrossOrigin
+   @CheckToken
+   public void queryCountInfo(@RequestParam("current") Integer current, @RequestParam("size") Integer size,
+                              @RequestParam("OutDate") String OutDate, @RequestParam("LineName") Long LineName,
+                              @RequestParam("type") Integer type,@RequestParam("applyDate") String applyDate,
+                              @RequestParam("exaStatus") Integer exaStatus, HttpServletResponse response) {
+
+      if (current == null || size == null) {
+         throw new ApplicationException(CodeType.PARAM_ERROR, "参数不能为空");
+      }
+      Page<ApplyDoExaQuery> page = new Page<>(current,size);
+
+      Page<ApplyDoExaQuery> queryPage = applyService.listPageDo2Apply(page, OutDate, LineName, type, applyDate, exaStatus);
+
+      List<ApplyDoExaQuery> list = queryPage.getRecords();
+
+      //创建报表数据头
+      List<String> head = new ArrayList<>();
+      head.add("订单号");
+      head.add("同行");
+      head.add("出行日期");
+      head.add("旅游线路");
+      head.add("联系人");
+      head.add("联系电话");
+      head.add("成人人数");
+      head.add("小孩人数");
+      head.add("老人人数");
+      head.add("幼儿人数");
+      head.add("总人数");
+      head.add("结算金额");
+      head.add("报名状态");
+      head.add("订单状态");
+      List<List<String>> body = new ArrayList<>();
+
+      for (ApplyDoExaQuery query : list) {
+         List<String> bodyValue = new ArrayList<>();
+         bodyValue.add(query.getApplyNo());
+         bodyValue.add(query.getCompanyName());
+         bodyValue.add(query.getOutDate());
+         bodyValue.add(query.getLineName());
+         bodyValue.add(query.getContactName());
+         bodyValue.add(String.valueOf(query.getContactTel()));
+         bodyValue.add(String.valueOf(query.getAdultNumber()));
+         bodyValue.add(String.valueOf(query.getChildNumber()));
+         bodyValue.add(String.valueOf(query.getOldNumber()));
+         bodyValue.add(String.valueOf(query.getBabyNumber()));
+         bodyValue.add(String.valueOf(query.getAdultNumber() + query.getChildNumber() + query.getOldNumber() + query.getBabyNumber()));
+         bodyValue.add(String.valueOf(query.getAllPrice()));
+         if ("0".equals(query.getExamineType())) {
+            bodyValue.add("报名申请");
+         } else {
+            bodyValue.add("取消申请");
+         }
+
+         if (query.getExamineResult() == 0) {
+            bodyValue.add("申请中");
+         } else if (query.getExamineResult() == 1) {
+            bodyValue.add("已通过");
+         } else {
+            bodyValue.add("已拒绝");
+         }
+
+         //将数据添加到报表体中
+         body.add(bodyValue);
+      }
+
+      String fileName = "报名审核.xls";
+      HSSFWorkbook excel = ExcelUtils.expExcel(head,body);
+      String fileStorePath = "exl";
+      String path = FilesUtils.getPath(fileName,fileStorePath);
+      ExcelUtils.outFile(excel,path,response);
+   }
+
 }

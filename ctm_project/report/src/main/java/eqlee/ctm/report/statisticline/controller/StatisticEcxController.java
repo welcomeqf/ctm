@@ -59,7 +59,7 @@ public class StatisticEcxController {
       List<String> head = new ArrayList<>();
       head.add("开始时间");
       head.add("结束时间");
-      head.add("日期");
+      head.add("城市");
       head.add("总金额");
       //创建报表体
       List<List<String>> body = new ArrayList<>();
@@ -67,7 +67,7 @@ public class StatisticEcxController {
          List<String> bodyValue = new ArrayList<>();
          bodyValue.add(query.getStartTime());
          bodyValue.add(query.getEndTime());
-         bodyValue.add(vo.getDay());
+         bodyValue.add(vo.getCity());
          bodyValue.add(String.valueOf(vo.getAllPrice()));
          //将数据添加到报表体中
          body.add(bodyValue);
@@ -99,7 +99,7 @@ public class StatisticEcxController {
       List<String> head = new ArrayList<>();
       head.add("开始时间");
       head.add("结束时间");
-      head.add("日期");
+      head.add("城市");
       head.add("总人数");
       //创建报表体
       List<List<String>> body = new ArrayList<>();
@@ -107,7 +107,7 @@ public class StatisticEcxController {
          List<String> bodyValue = new ArrayList<>();
          bodyValue.add(query.getStartTime());
          bodyValue.add(query.getEndTime());
-         bodyValue.add(vo.getDay());
+         bodyValue.add(vo.getCity());
          bodyValue.add(String.valueOf(vo.getAllPersonCount()));
          //将数据添加到报表体中
          body.add(bodyValue);

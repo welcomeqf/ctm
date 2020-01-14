@@ -21,4 +21,10 @@ public interface Out2FinanceMapper extends IBaseMapper<Outcome2> {
     * @param list
     */
    void insertOut2Info(List<OutComeInfoBo> list);
+
+   /**
+    * 批量修改支出信息
+    * @param list
+    */
+   void upOut2Info (List<OutComeInfoBo> list);
 }

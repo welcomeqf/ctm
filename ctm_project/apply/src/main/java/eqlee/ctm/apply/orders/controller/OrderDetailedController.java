@@ -103,6 +103,39 @@ public class OrderDetailedController {
     }
 
 
+    @ApiOperation(value = "交账结果",notes = "交账结果")
+    @ApiImplicitParams({
+          @ApiImplicitParam(name = "current", value = "当前页", required = true, dataType = "int", paramType = "path"),
+          @ApiImplicitParam(name = "size", value = "每页条数", required = true, dataType = "int", paramType = "path"),
+          @ApiImplicitParam(name = "lineName", value = "线路名", required = false, dataType = "String", paramType = "path"),
+          @ApiImplicitParam(name = "startDate", value = "开始时间", required = false, dataType = "String", paramType = "path"),
+          @ApiImplicitParam(name = "guideName", value = "导游名字", required = false, dataType = "String", paramType = "path"),
+          @ApiImplicitParam(name = "endDate", value = "结束时间", required = false, dataType = "String", paramType = "path")
+    })
+    @GetMapping("/pageOrder2")
+    @CrossOrigin
+    @CheckToken
+    public Page<OrderBo> pageOrder2 (@RequestParam("endDate") String endDate,
+                                    @RequestParam("lineName") String lineName,
+                                    @RequestParam("startDate") String startDate,
+                                    @RequestParam("guideName") String guideName,
+                                    @RequestParam("current") Integer current,
+                                    @RequestParam("size") Integer size,
+                                     @RequestParam("inStatus") Integer inStatus) {
+
+        if (current == null || size == null) {
+            throw new ApplicationException(CodeType.PARAM_ERROR);
+        }
+        Page<OrderBo> page = new Page<>(current, size);
+
+        TimeQuery dateParam = TimeData.getDateParam(startDate, endDate);
+        return ordersDetailedService.pageOrder2(page,dateParam.getStartTime(),dateParam.getEndTime(),lineName,guideName,inStatus);
+    }
+
+
+
+
+
     @ApiOperation(value = "查询是否已配车",notes = "查询是否已配车")
     @ApiImplicitParam(name = "id", value = "id", required = true, dataType = "Long", paramType = "path")
     @GetMapping("/queryOrderCarNo")

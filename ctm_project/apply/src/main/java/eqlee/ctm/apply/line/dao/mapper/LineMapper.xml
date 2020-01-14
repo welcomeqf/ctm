@@ -32,4 +32,13 @@
 
 
 
+    <select id="queryLocalCity" parameterType="String" resultType="eqlee.ctm.apply.line.entity.Line">
+        select * from Line
+        where City in
+        <foreach collection="list" item="item" index="index" open="(" separator="," close=")">
+           #{item}
+        </foreach>
+        order by City
+    </select>
+
 </mapper>

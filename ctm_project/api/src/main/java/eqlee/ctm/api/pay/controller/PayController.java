@@ -271,6 +271,35 @@ public class PayController {
         return JSONObject.parse(httpResult.getBody());
     }
 
+
+    @ApiOperation(value = "月结支付完成查询接口", notes = "月结支付完成查询接口")
+    @ApiImplicitParam(name = "applyNo", value = "订单号", required = true, dataType = "String", paramType = "path")
+    @GetMapping("/queryMonthResult")
+    @IgnoreResponseAdvice
+    @CrossOrigin
+    public Object queryMonthResult(@RequestParam("applyNo") String applyNo) throws Exception{
+
+        //查询支付结果
+        String url = URL + "/v1/WeChatPay/QueryOrderState?payOrderSerialNumber=" + applyNo;
+
+        //获取token
+        String token = payTokenUtils.getMapToken();
+        String tokenString = "Bearer " +token;
+
+        HttpResult httpResult = apiService.get(url, tokenString);
+
+        if (httpResult == null) {
+            throw new ApplicationException(CodeType.SERVICE_ERROR,"无返回数据");
+        }
+
+        if (httpResult.getCode() == 200) {
+            ResultQuery query = payService.queryMonthResult(applyNo);
+            return Result.SUCCESS(query);
+        }
+
+        return JSONObject.parse(httpResult.getBody());
+    }
+
     @ApiOperation(value = "微信退款", notes = "微信退款")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "payOrderSerialNumber", value = "订单号", required = true, dataType = "String", paramType = "path"),
@@ -302,10 +331,9 @@ public class PayController {
 
 
 
-    @GetMapping("/insertPayInfo")
+    @PostMapping("/insertPayInfo")
     @IgnoreResponseAdvice
     @CrossOrigin
-    @CheckToken
     public void insertPayInfo (@RequestBody PayInfoBo vo){
         Pay pay = new Pay();
         pay.setId(idGenerator.getNumberId());

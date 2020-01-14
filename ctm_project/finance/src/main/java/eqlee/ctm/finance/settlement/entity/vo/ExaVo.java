@@ -13,4 +13,8 @@ public class ExaVo {
     private Long id;
 
     private Integer type;
+
+    private String caiName;
+
+    private String remark;
 }

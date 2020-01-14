@@ -22,4 +22,9 @@ public class ResultBo {
     * 支出消费信息
     */
    private List<Outcome2> outList;
+
+
+   private String caiName;
+
+   private String remark;
 }

@@ -16,5 +16,10 @@ public class sucFailVo {
 
     private String message;
 
+    /**
+     * 自定义
+     */
+    private String selfParameter;
+
 
 }

@@ -60,6 +60,7 @@ public class TokenData {
    public AuthResult getUserToken () throws Exception{
 
       String url = ctmUrl +"/v1/auth/loginAuth";
+//      String url = "http://localhost:8001/v1/auth/loginAuth";
 
       AuthLoginParamVo payToken = new AuthLoginParamVo();
       payToken.setAccessKey(accessKey);

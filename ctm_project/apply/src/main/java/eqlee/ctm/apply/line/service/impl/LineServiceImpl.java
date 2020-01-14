@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.yq.constanct.CodeType;
 import com.yq.exception.ApplicationException;
 import com.yq.jwt.contain.LocalUser;
+import com.yq.jwt.entity.CityJwtBo;
 import com.yq.jwt.entity.UserLoginQuery;
 import com.yq.utils.IdGenerator;
 import com.yq.utils.StringUtils;
@@ -28,6 +29,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -147,6 +149,7 @@ public class LineServiceImpl extends ServiceImpl<LineMapper, Line> implements IL
         line.setLineName(vo.getLineName());
         line.setRemark(vo.getRemark());
         line.setCity(vo.getCity());
+        line.setPicturePath(vo.getPicturePath());
         line.setTravelSituation(vo.getTravelSituation());
         line.setUpdateUserId(user.getId());
         line.setId(Id);
@@ -279,13 +282,16 @@ public class LineServiceImpl extends ServiceImpl<LineMapper, Line> implements IL
     @Override
     public List<Line> listAllLine() {
         LambdaQueryWrapper<Line> wrapper = new LambdaQueryWrapper<Line>()
-              .eq(Line::getStopped,false);
+              .eq(Line::getStopped,false)
+              .orderByDesc(Line::getCity);
         return baseMapper.selectList(wrapper);
     }
 
     @Override
     public List<Line> queryAllLine() {
-        return baseMapper.selectList(null);
+        LambdaQueryWrapper<Line> wrapper = new LambdaQueryWrapper<Line>()
+              .orderByDesc(Line::getCreateDate);
+        return baseMapper.selectList(wrapper);
     }
 
 
@@ -322,9 +328,18 @@ public class LineServiceImpl extends ServiceImpl<LineMapper, Line> implements IL
     public List<Line> queryLocalCityLine() {
         UserLoginQuery user = localUser.getUser("用户信息");
 
-        LambdaQueryWrapper<Line> wrapper = new LambdaQueryWrapper<Line>()
-              .eq(Line::getCity,user.getCity());
-        return baseMapper.selectList(wrapper);
+        List<String> list = new ArrayList<>();
+        if (user.getCity().size() > 0) {
+            for (CityJwtBo bo : user.getCity()) {
+                list.add(bo.getCity());
+            }
+        }
+
+
+        return baseMapper.queryLocalCity (list);
+
+
+
     }
 
 

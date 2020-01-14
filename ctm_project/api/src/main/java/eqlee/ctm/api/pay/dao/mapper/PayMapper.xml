@@ -28,4 +28,9 @@
     <select id="queryApplyResult" parameterType="String" resultType="eqlee.ctm.api.pay.entity.query.ApplyPayResultQuery">
         select AllPrice as 'money',IsPayment as 'applyStatus' from Apply where ApplyNo = #{applyNo}
     </select>
+
+    <update id="upSxTypeStatus">
+        update Apply set SxType = 1 where IsCancel = 0 and SxType = 0
+      and OutDate between #{start} and #{end} and IsSelect = 1 and CompanyName = #{companyName}
+    </update>
 </mapper>

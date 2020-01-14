@@ -18,47 +18,47 @@ public class ApplyResultCountQuery {
    private String applyNo;
 
    /**
-    * 出发时间
+    * 年
     */
-   private String outDate;
+   private String year;
 
    /**
-    * 总价格
+    * 月
+    */
+   private String month;
+
+   /**
+    * 月结总额
     */
    private Double allPrice;
-
-   /**
-    * 线路名
-    */
-   private String lineName;
-
-   /**
-    * 联系人
-    */
-   private String contactName;
-
-   /**
-    * 联系人电话
-    */
-   private String contactTel;
 
    /**
     * 总人数
     */
    private Integer allNumber;
 
-   private Double Msprice;
+   private Double msprice;
 
-   private Integer AdultNumber;
+   private Integer adultNumber;
 
-   private Integer BabyNumber;
+   private Integer babyNumber;
 
-   private Integer OldNumber;
+   private Integer oldNumber;
 
-   private Integer ChildNumber;
+   private Integer childNumber;
 
    /**
-    * 同行代表人
+    * 同行
     */
-   private String companyUserName;
+   private String companyName;
+
+   /**
+    * 0--未支付  1--已支付
+    */
+   private Integer sxType;
+
+   /**
+    * 0-财务未确认  1--财务已确认
+    */
+   private Integer caiType;
 }

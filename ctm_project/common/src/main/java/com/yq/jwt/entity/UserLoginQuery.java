@@ -47,7 +47,7 @@ public class UserLoginQuery {
     /**
      * 所属城市
      */
-    private String city;
+    private List<CityJwtBo> city;
 
     /**
      * 权限列表

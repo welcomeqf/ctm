@@ -50,8 +50,8 @@ public class MonthServiceImpl extends ServiceImpl<MonthMapper, MonthPay> impleme
       UserLoginQuery user = localUser.getUser("用户信息");
 
       LambdaQueryWrapper<MonthPay> wrapper = new LambdaQueryWrapper<MonthPay>()
-            .eq(MonthPay::getPayPrice,vo.getMonthPrice())
             .eq(MonthPay::getStartDate,DateUtil.parseDate(vo.getStartDate()))
+            .eq(MonthPay::getCompanyName,vo.getCompanyName())
             .eq(MonthPay::getCreateUserId,user.getId());
 
       MonthPay pay = baseMapper.selectOne(wrapper);
@@ -70,16 +70,23 @@ public class MonthServiceImpl extends ServiceImpl<MonthMapper, MonthPay> impleme
 
       LocalDate start = DateUtil.parseDate(vo.getStartDate());
 
-      LocalDate end = LocalDate.now();
-      String monthInfo = "从" + start + "到" + end + "的月结账单";
+      LocalDate endTime = start.plusMonths(1);
+      LocalDate end = endTime.minusDays(1);
+
+      String year = vo.getStartDate().substring(0,4);
+      String month = vo.getStartDate().substring(5,7);
+
+      String monthInfo = year + "年" + month + "月的月结账单";
 
       MonthPay monthPay = new MonthPay();
       monthPay.setId(id);
       monthPay.setMonthNo(monthNo);
+      monthPay.setKeyId(vo.getKeyId());
       monthPay.setCreateUserId(user.getId());
       monthPay.setUpdateUserId(user.getId());
       monthPay.setStartDate(start);
       monthPay.setEndDate(end);
+      monthPay.setCompanyName(vo.getCompanyName());
       monthPay.setMonthInfo(monthInfo);
       monthPay.setPayPrice(vo.getMonthPrice());
 
@@ -226,5 +233,24 @@ public class MonthServiceImpl extends ServiceImpl<MonthMapper, MonthPay> impleme
       if (update <= 0) {
          throw new ApplicationException(CodeType.SERVICE_ERROR);
       }
+   }
+
+
+   /**
+    * 查询支付的单号
+    * @param keyId
+    * @return
+    */
+   @Override
+   public MonthVo queryInfoByTime(Long keyId) {
+
+      LambdaQueryWrapper<MonthPay> wrapper = new LambdaQueryWrapper<MonthPay>()
+            .eq(MonthPay::getKeyId,keyId);
+
+      MonthPay pay = baseMapper.selectOne(wrapper);
+
+      MonthVo vo = new MonthVo();
+      vo.setMonthNo(pay.getMonthNo());
+      return vo;
    }
 }

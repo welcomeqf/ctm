@@ -141,12 +141,10 @@ public interface OrdersMapper extends IBaseMapper<Orders> {
 
     /**
      * 导游收入统计
-     * @param outDate
-     * @param id
+     * @param orderId
      * @return
      */
-    IncomeVo selectIncomeCount(@Param("outDate") LocalDate outDate,
-                                             @Param("id") Long id);
+    IncomeVo selectIncomeCount(Long orderId);
     /**
      * 未付款人信息
      * @param page
@@ -180,12 +178,10 @@ public interface OrdersMapper extends IBaseMapper<Orders> {
 
     /**
      * 查询审核状态
-     * @param outDate
-     * @param id
+     * @param orderId
      * @return
      */
-    IncomeVo queryStatus (@Param("outDate") LocalDate outDate,
-                          @Param("id") Long id);
+    IncomeVo queryStatus (Long orderId);
 
 
     /**

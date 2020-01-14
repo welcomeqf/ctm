@@ -3,121 +3,66 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="eqlee.ctm.apply.guider.dao.GuiderMapper">
 
-
-    <select id ="guiderIndex" resultType="eqlee.ctm.apply.guider.entity.vo.GuiderVo">
-         select a.Id as 'id',b.LineName as 'lineName',convert(varchar(20),a.OutDate,23)outDate,a.AllNumber as 'allNumber',
-        a.ContactName as 'contactName',a.ContactTel as 'contactTel',a.Place as 'place',a.AdultNumber as 'adultNumber',
-        a.BabyNumber as 'babyNumber',a.OldNumber as 'oldNumber',a.ChildNumber as 'childNumber',a.AllPrice as 'allPrice',
-        a.MsPrice as 'msPrice',a.ApplyRemark as 'applyRemark',a.CompanyName as 'companyName',a.IsSelect as 'isSelect',a.Type as 'type'
-        from Apply a
-        left join Line b  on a.LineId = b.Id
+    <select id ="guiderIndex2" resultType="eqlee.ctm.apply.guider.entity.vo.GuiderVo">
+    select a.Id as 'id',b.LineName as 'lineName',convert(varchar(20),a.OutDate,23)outDate,a.AllNumber as 'allNumber',
+    a.ContactName as 'contactName',a.ContactTel as 'contactTel',a.Place as 'place',a.AdultNumber as 'adultNumber',
+    a.BabyNumber as 'babyNumber',a.OldNumber as 'oldNumber',a.ChildNumber as 'childNumber',a.AllPrice as 'allPrice',
+    a.MsPrice as 'msPrice',a.ApplyRemark as 'applyRemark',a.CompanyName as 'companyName',a.IsSelect as 'isSelect',a.Type as 'type'
+    from Apply a
+    left join Line b  on a.LineId = b.Id
         <where>
             1 = 1
             and a.IsCancel = 0 and a.Statu = 1 and a.IsPayment = 1
             <if test="outDate != null">
                 and a.OutDate = #{outDate}
             </if>
-            <if test="city != null">
-                and b.City = #{city}
-            </if>
-           <if test="lineId2 == null">
-               <if test="lineId1 != null">
-                   and b.Id = #{lineId1}
-               </if>
-           </if>
-            <if test="lineId3 == null">
-                <if test="lineId2 != null">
-                    and (b.Id = #{lineId1} or b.Id = #{lineId2})
-                </if>
-            </if>
-            <if test="lineId4 == null">
-                <if test="lineId3 != null">
-                    and (b.Id = #{lineId1} or b.Id = #{lineId2} or b.Id = #{lineId3})
-                </if>
-            </if>
-            <if test="lineId5 == null">
-                <if test="lineId4 != null">
-                    and (b.Id = #{lineId1} or b.Id = #{lineId2} or b.Id = #{lineId3}
-                    or b.Id = #{lineId4})
-                </if>
-            </if>
-            <if test="lineId6 == null">
-                <if test="lineId5 != null">
-                    and (b.Id = #{lineId1} or b.Id = #{lineId2} or b.Id = #{lineId3}
-                    or b.Id = #{lineId4} or b.Id = #{lineId5})
-                </if>
-            </if>
-            <if test="lineId7 == null">
-                <if test="lineId6 != null">
-                    and (b.Id = #{lineId1} or b.Id = #{lineId2} or b.Id = #{lineId3}
-                    or b.Id = #{lineId4} or b.Id = #{lineId5} or b.Id = #{lineId6})
-                </if>
-            </if>
-            <if test="lineId7 != null">
-                and (b.Id = #{lineId1} or b.Id = #{lineId2} or b.Id = #{lineId3}
-                or b.Id = #{lineId4} or b.Id = #{lineId5} or b.Id = #{lineId6} or b.Id = #{lineId7})
-            </if>
             <if test="region != null">
                 <bind name="_region" value="'%' + region + '%'"/>
                 and a.Place like #{_region}
+            </if>
+            <if test="list != null">
+                and b.Id in
+                <foreach collection="list" item="item" index="index" open="(" separator="," close=")">
+                    #{item}
+                </foreach>
+            </if>
+            <if test="cityList != null">
+                and b.City in
+                <foreach collection="cityList" item="item" index="index" open="(" separator="," close=")">
+                    #{item}
+                </foreach>
             </if>
         </where>
         order by a.IsSelect,a.Place desc
     </select>
 
-    <select id ="queryCountNumberInfo" resultType="eqlee.ctm.apply.guider.entity.vo.GuiderCountNumber">
-        select sum(a.AllNumber)numberCount
-        from Apply a
-        left join Line b  on a.LineId = b.Id
+
+    <select id ="queryCountNumberInfo2" resultType="eqlee.ctm.apply.guider.entity.vo.GuiderCountNumber">
+    select sum(a.AllNumber)numberCount,sum(a.AdultNumber)adultNumber,sum(a.BabyNumber)babyNumber,
+    sum(a.OldNumber)oldNumber,sum(a.ChildNumber)childNumber
+    from Apply a
+    left join Line b  on a.LineId = b.Id
         <where>
             1 = 1
             and a.IsCancel = 0 and a.Statu = 1 and a.IsPayment = 1 and a.IsSelect = 0
             <if test="outDate != null">
                 and a.OutDate = #{outDate}
             </if>
-            <if test="city != null">
-                and b.City = #{city}
-            </if>
-            <if test="lineId2 == null">
-                <if test="lineId1 != null">
-                    and b.Id = #{lineId1}
-                </if>
-            </if>
-            <if test="lineId3 == null">
-                <if test="lineId2 != null">
-                    and (b.Id = #{lineId1} or b.Id = #{lineId2})
-                </if>
-            </if>
-            <if test="lineId4 == null">
-                <if test="lineId3 != null">
-                    and (b.Id = #{lineId1} or b.Id = #{lineId2} or b.Id = #{lineId3})
-                </if>
-            </if>
-            <if test="lineId5 == null">
-                <if test="lineId4 != null">
-                    and (b.Id = #{lineId1} or b.Id = #{lineId2} or b.Id = #{lineId3}
-                    or b.Id = #{lineId4})
-                </if>
-            </if>
-            <if test="lineId6 == null">
-                <if test="lineId5 != null">
-                    and (b.Id = #{lineId1} or b.Id = #{lineId2} or b.Id = #{lineId3}
-                    or b.Id = #{lineId4} or b.Id = #{lineId5})
-                </if>
-            </if>
-            <if test="lineId7 == null">
-                <if test="lineId6 != null">
-                    and (b.Id = #{lineId1} or b.Id = #{lineId2} or b.Id = #{lineId3}
-                    or b.Id = #{lineId4} or b.Id = #{lineId5} or b.Id = #{lineId6})
-                </if>
-            </if>
-            <if test="lineId7 != null">
-                and (b.Id = #{lineId1} or b.Id = #{lineId2} or b.Id = #{lineId3}
-                or b.Id = #{lineId4} or b.Id = #{lineId5} or b.Id = #{lineId6} or b.Id = #{lineId7})
-            </if>
             <if test="region != null">
                 <bind name="_region" value="'%' + region + '%'"/>
                 and a.Place like #{_region}
+            </if>
+            <if test="list != null">
+                and b.Id in
+                <foreach collection="list" item="item" index="index" open="(" separator="," close=")">
+                    #{item}
+                </foreach>
+            </if>
+            <if test="cityList != null">
+                and b.City in
+                <foreach collection="cityList" item="item" index="index" open="(" separator="," close=")">
+                    #{item}
+                </foreach>
             </if>
         </where>
     </select>

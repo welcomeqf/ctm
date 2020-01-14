@@ -14,6 +14,8 @@ public class CompanyQuery {
 
     private String companyName;
 
+    private String companyFullName;
+
     private Long id;
 
     /**

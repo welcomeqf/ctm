@@ -36,10 +36,10 @@ import java.time.LocalDateTime;
 public class WxSxPayController {
 
    @Autowired
-   private HttpUtils apiService;
+   private IApplyService applyService;
 
    @Autowired
-   private IApplyService applyService;
+   private HttpUtils apiService;
 
    @Autowired
    private IMonthService monthService;
@@ -55,7 +55,7 @@ public class WxSxPayController {
    public void sucFail (@RequestBody SucVo vo) {
       if ("SUCCESS".equals(vo.getMessage())) {
          //支付成功
-         applyService.updateSxPriceStatus ();
+         applyService.updateSxPriceStatus (vo.getSelfParameter());
 
          PayInfo info = new PayInfo();
          info.setMessage(vo.getMessage());
@@ -63,7 +63,8 @@ public class WxSxPayController {
          info.setThirdPayOrderId(vo.getThirdPayOrderId());
          info.setPayStatus(1);
          info.setPayType(0);
-         apiService.insertPayInfo (info);
+//         applyService.insertPay (info);
+         apiService.insertPayInfo(info);
 
          //修改月结表的支付状态
          monthService.updateMonthStatus(vo.getPayOrderSerialNumber());
@@ -75,7 +76,8 @@ public class WxSxPayController {
       info.setThirdPayOrderId(vo.getThirdPayOrderId());
       info.setPayStatus(2);
       info.setPayType(0);
-      apiService.insertPayInfo (info);
+//      applyService.insertPay (info);
+      apiService.insertPayInfo(info);
    }
 
    /**
@@ -88,7 +90,7 @@ public class WxSxPayController {
    public void sucAliFail (@RequestBody SucVo vo) {
       if ("SUCCESS".equals(vo.getMessage())) {
          //支付成功
-         applyService.updateSxPriceStatus ();
+         applyService.updateSxPriceStatus (vo.getSelfParameter());
 
          PayInfo info = new PayInfo();
          info.setMessage(vo.getMessage());
@@ -96,7 +98,8 @@ public class WxSxPayController {
          info.setThirdPayOrderId(vo.getThirdPayOrderId());
          info.setPayStatus(1);
          info.setPayType(1);
-         apiService.insertPayInfo (info);
+//         applyService.insertPay (info);
+         apiService.insertPayInfo(info);
 
          //修改月结表的支付状态
          monthService.updateMonthStatus(vo.getPayOrderSerialNumber());
@@ -108,7 +111,8 @@ public class WxSxPayController {
       info.setThirdPayOrderId(vo.getThirdPayOrderId());
       info.setPayStatus(2);
       info.setPayType(1);
-      apiService.insertPayInfo (info);
+//      applyService.insertPay (info);
+      apiService.insertPayInfo(info);
 
    }
 }

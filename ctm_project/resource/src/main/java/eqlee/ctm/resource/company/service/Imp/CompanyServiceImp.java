@@ -102,10 +102,18 @@ public class CompanyServiceImp extends ServiceImpl<CompanyMapper,Company> implem
         company.setLicence(companyVo.getLicence());
         company.setStatus(1);
         company.setCompanyPic(companyVo.getCompanyPic());
-        String startDate = companyVo.getStartDate() + " 00:00:00";
-        String endDate = companyVo.getEndDate() + " 23:59:59";
-        company.setStartDate(DateUtil.parseDateTime(startDate));
-        company.setEndDate(DateUtil.parseDateTime(endDate));
+        company.setCompanyFullName(companyVo.getCompanyFullName());
+
+        if (StringUtils.isNotBlank(companyVo.getStartDate())) {
+            String startDate = companyVo.getStartDate() + " 00:00:00";
+            company.setStartDate(DateUtil.parseDateTime(startDate));
+        }
+
+        if (StringUtils.isNotBlank(companyVo.getEndDate())) {
+            String endDate = companyVo.getEndDate() + " 23:59:59";
+            company.setEndDate(DateUtil.parseDateTime(endDate));
+        }
+
         if (NOW_PAY.equals(companyVo.getPayMethod())) {
             company.setPayMethod(1);
         }
@@ -173,7 +181,7 @@ public class CompanyServiceImp extends ServiceImpl<CompanyMapper,Company> implem
 
         if (StringUtils.isNotBlank(companyVo.getStartDate())) {
             String startDate = companyVo.getStartDate() + " 00:00:00";
-            company.setEndDate(DateUtil.parseDateTime(startDate));
+            company.setStartDate(DateUtil.parseDateTime(startDate));
         }
 
         if (StringUtils.isNotBlank(companyVo.getEndDate())) {
@@ -191,6 +199,10 @@ public class CompanyServiceImp extends ServiceImpl<CompanyMapper,Company> implem
         company.setAddress(companyVo.getAddress());
         company.setFinanceTel(companyVo.getFinanceTel());
         company.setStatus(companyVo.getStatus());
+
+        if (StringUtils.isNotBlank(companyVo.getCompanyFullName())) {
+            company.setCompanyFullName(companyVo.getCompanyFullName());
+        }
 
         if (NOW_PAY.equals(companyVo.getPayMethod())) {
             company.setPayMethod(1);
@@ -299,6 +311,7 @@ public class CompanyServiceImp extends ServiceImpl<CompanyMapper,Company> implem
         companyVo.setLicence(company.getLicence());
         companyVo.setStatus(company.getStatus());
         companyVo.setRemark(company.getRemark());
+        companyVo.setCompanyFullName(company.getCompanyFullName());
         return companyVo;
     }
 
@@ -327,6 +340,7 @@ public class CompanyServiceImp extends ServiceImpl<CompanyMapper,Company> implem
         }
         CompanyQuery query = new CompanyQuery();
         query.setCompanyName(company.getCompanyName());
+        query.setCompanyFullName(company.getCompanyFullName());
         query.setId(user.getId());
         query.setCompanyNo(company.getCompanyNo());
         query.setSxPrice(company.getSxPrice());
@@ -371,6 +385,7 @@ public class CompanyServiceImp extends ServiceImpl<CompanyMapper,Company> implem
         query.setEndDate(DateUtil.formatDate(company.getEndDate()));
         query.setPayMethod(company.getPayMethod());
         query.setSxPrice(company.getSxPrice());
+        query.setCompanyFullName(company.getCompanyFullName());
         return query;
     }
 
@@ -396,6 +411,7 @@ public class CompanyServiceImp extends ServiceImpl<CompanyMapper,Company> implem
         company.setLicence(companyVo.getLicence());
         company.setAddress(companyVo.getAddress());
         company.setCompanyPic(companyVo.getCompanyPic());
+        company.setCompanyFullName(companyVo.getCompanyFullName());
 
         int insert = baseMapper.insert(company);
 

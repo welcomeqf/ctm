@@ -46,5 +46,12 @@ public interface IMonthService {
    void updateMonthStatus (String monthNo);
 
 
+   /**
+    *  查询支付的信息
+    * @param keyId
+    * @return
+    */
+   MonthVo queryInfoByTime (Long keyId);
+
 
 }

@@ -46,6 +46,6 @@ public class FilesUtils {
    }
 
    public static Path name2Path(String fileName, String name, String fileStorePath) {
-      return Paths.get(fileStorePath, fileName.substring(0, 8), name);
+      return Paths.get(fileStorePath, "TemporaryFile",fileName.substring(0, 8), name);
    }
 }

@@ -180,15 +180,15 @@ public class OrdersController {
 
 
     @ApiOperation(value = "收入统计",notes = "收入统计")
-    @ApiImplicitParam(name = "OutDate", value = "出发日期", required = true, dataType = "String", paramType = "path")
+    @ApiImplicitParam(name = "orderId", value = "订单ID", required = true, dataType = "String", paramType = "path")
     @GetMapping("/incomeCount")
     @CrossOrigin
     @CheckToken
-    public IncomeVo IncomeCount(@RequestParam("OutDate") String outDate){
-        if(StringUtils.isBlank(outDate)){
+    public IncomeVo ncomeCount(@RequestParam("orderId") Long orderId){
+        if(orderId == null){
             throw new ApplicationException(CodeType.PARAM_ERROR,"参数不能为空");
         }
-        return ordersService.IncomeCount(outDate);
+        return ordersService.incomeCount(orderId);
     }
 
 

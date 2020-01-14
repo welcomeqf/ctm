@@ -24,4 +24,11 @@ public class MonthPhonePayBo {
     * 支付金额
     */
    private Double monthPrice;
+
+   /**
+    * 开始时间
+    */
+   private String startDate;
+
+   private String companyName;
 }

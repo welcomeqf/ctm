@@ -10,6 +10,8 @@ import lombok.Data;
 @Data
 public class OutComeParamInfo {
 
+   private Long id;
+
    /**
     * 支出消费名字
     */

@@ -19,4 +19,8 @@ public class MonthParamVo {
     * 开始时间
     */
    private String startDate;
+
+   private Long keyId;
+
+   private String companyName;
 }

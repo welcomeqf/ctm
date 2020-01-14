@@ -79,4 +79,8 @@ public class MonthPay extends Model<MonthPay> {
     * 备注
     */
    private String Remark;
+
+   private Long KeyId;
+
+   private String CompanyName;
 }

@@ -18,6 +18,7 @@ import eqlee.ctm.apply.orders.entity.bo.IdBo;
 import eqlee.ctm.apply.orders.entity.bo.OrderBo;
 import eqlee.ctm.apply.orders.entity.bo.OrderDetailedBo;
 import eqlee.ctm.apply.orders.entity.query.OrderDetailedQuery;
+import eqlee.ctm.apply.orders.entity.query.OrderFinanceQuery;
 import eqlee.ctm.apply.orders.entity.query.OrdersNoCountInfoQuery;
 import eqlee.ctm.apply.orders.entity.query.OrdersNoCountQuery;
 import eqlee.ctm.apply.orders.service.IOrdersDetailedService;
@@ -99,13 +100,52 @@ public class OrdersDetailedServiceImpl extends ServiceImpl<OrderDetailedMapper, 
         }
 
         Long id = null;
-        if ("运营人员".equals(users.getRoleName())) {
+        if ("运营人员".equals(users.getRoleName()) || "超级管理员".equals(users.getRoleName()) || "管理员".equals(users.getRoleName())) {
             id = null;
         } else {
             id = users.getId();
         }
 
         return baseMapper.pageOrder(page,start,end,lineName,region,id);
+    }
+
+    /**
+     * 交账结果
+     * @param page
+     * @param startDate
+     * @param endDate
+     * @param lineName
+     * @param guideName
+     * @return
+     */
+    @Override
+    public Page<OrderBo> pageOrder2(Page<OrderBo> page, String startDate, String endDate, String lineName, String guideName, Integer inStatus) {
+        UserLoginQuery users = user.getUser("用户信息");
+
+        LocalDate start = null;
+        LocalDate end = null;
+
+        if (StringUtils.isNotBlank(startDate)) {
+            start = DateUtil.parseDate(startDate);
+            end = DateUtil.parseDate(endDate);
+        }
+
+        if (StringUtils.isBlank(lineName)) {
+            lineName = null;
+        }
+
+        if (StringUtils.isBlank(guideName)) {
+            guideName = null;
+        }
+
+        Long id = null;
+        if ("运营人员".equals(users.getRoleName()) || "超级管理员".equals(users.getRoleName()) || "管理员".equals(users.getRoleName())) {
+            id = null;
+        } else {
+            id = users.getId();
+        }
+
+        return baseMapper.pageOrder2(page,start,end,lineName,guideName,id,inStatus);
     }
 
     /**
@@ -116,6 +156,18 @@ public class OrdersDetailedServiceImpl extends ServiceImpl<OrderDetailedMapper, 
     @Override
     public OrderDetailed queryById(Long id) {
         return baseMapper.selectById(id);
+    }
+
+
+    /**
+     * 查询支出信息  c
+     * 财务信息
+     * @param orderId
+     * @return
+     */
+    @Override
+    public  List<OrderFinanceQuery>  queryInOutInfo(Long orderId) {
+        return baseMapper.queryInOutInfo (orderId);
     }
 
 

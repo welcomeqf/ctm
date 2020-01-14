@@ -18,6 +18,11 @@ public class LineUpdateVo {
 
     private String information;
 
+    /**
+     * 图片路径
+     */
+    private String picturePath;
+
     private String region;
 
     private Integer travelSituation;

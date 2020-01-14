@@ -15,4 +15,9 @@ public class SucVo {
    private String payOrderSerialNumber;
 
    private String message;
+
+   /**
+    * 自定义
+    */
+   private String selfParameter;
 }

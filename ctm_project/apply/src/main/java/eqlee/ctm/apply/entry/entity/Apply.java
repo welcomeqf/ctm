@@ -220,6 +220,11 @@ public class Apply extends Model<Apply> {
     private Integer SxType;
 
     /**
+     * 0--财务未确认  1--财务已确认
+     */
+    private Integer CaiType;
+
+    /**
      * 成人价格
      */
     private Double AdultPrice;

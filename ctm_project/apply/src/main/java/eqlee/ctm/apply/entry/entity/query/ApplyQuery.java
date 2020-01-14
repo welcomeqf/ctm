@@ -71,4 +71,7 @@ public class ApplyQuery {
     private String Region;
 
     private Integer TravelSituation;
+
+
+    private String PicturePath;
 }

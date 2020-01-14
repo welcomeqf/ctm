@@ -9,6 +9,7 @@ import eqlee.ctm.apply.orders.entity.bo.IdBo;
 import eqlee.ctm.apply.orders.entity.bo.OrderBo;
 import eqlee.ctm.apply.orders.entity.bo.OrderDetailedBo;
 import eqlee.ctm.apply.orders.entity.query.OrderDetailedQuery;
+import eqlee.ctm.apply.orders.entity.query.OrderFinanceQuery;
 import eqlee.ctm.apply.orders.entity.query.OrdersNoCountInfoQuery;
 import eqlee.ctm.apply.orders.entity.query.OrdersNoCountQuery;
 
@@ -49,11 +50,31 @@ public interface IOrdersDetailedService {
     Page<OrderBo> pageOrder (Page<OrderBo> page,String startDate, String endDate, String lineName, String region);
 
 
+
+    /**
+     * 交账结果
+     * @param page
+     * @param startDate
+     * @param endDate
+     * @param lineName
+     * @param guideName
+     * @return
+     */
+    Page<OrderBo> pageOrder2 (Page<OrderBo> page,String startDate, String endDate, String lineName, String guideName, Integer inStatus);
+
+
     /**
      * 根据ID查询信息
      * @param id
      * @return
      */
     OrderDetailed queryById (Long id);
+
+    /**
+     * 查询支出信息以及财务信息
+     * @param orderId
+     * @return
+     */
+    List<OrderFinanceQuery> queryInOutInfo (Long orderId);
 
 }
