@@ -46,6 +46,11 @@ public class Income extends Model<Income> {
     private Long OrderId;
 
     /**
+     * 城市
+     */
+    private String City;
+
+    /**
      * 出发日期
      */
     private LocalDate OutDate;

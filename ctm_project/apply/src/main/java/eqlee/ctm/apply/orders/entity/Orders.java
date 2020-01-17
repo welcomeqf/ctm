@@ -117,6 +117,11 @@ public class Orders extends Model<Orders> {
 
     private Integer Statu;
 
+    /**
+     * 几日游
+     */
+    private Integer TravelSituation;
+
 
     @Override
     protected Serializable pkVal() {

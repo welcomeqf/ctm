@@ -90,11 +90,6 @@ public class CarServiceImp extends ServiceImpl<CarMapper, Car> implements ICarSe
         car.setRemark(carVo.getRemark());
         car.setCarNo(carVo.getCarNo());
         car.setStatu(carVo.getStatu());
-        if(carVo.isStop()) {
-            car.setIsStop(true);
-        }
-        else
-            car.setIsStop(false);
         int update = baseMapper.updateById(car);
         if(update <= 0){
             log.error("update car fail");

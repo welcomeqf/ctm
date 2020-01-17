@@ -2,10 +2,7 @@ package eqlee.ctm.apply.entry.service;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import eqlee.ctm.apply.entry.entity.Apply;
-import eqlee.ctm.apply.entry.entity.bo.ApplyCompanyInfo;
-import eqlee.ctm.apply.entry.entity.bo.ApplyCountBo;
-import eqlee.ctm.apply.entry.entity.bo.ApplyCountCaiBo;
-import eqlee.ctm.apply.entry.entity.bo.ApplyDoExaInfo;
+import eqlee.ctm.apply.entry.entity.bo.*;
 import eqlee.ctm.apply.entry.entity.query.*;
 import eqlee.ctm.apply.entry.entity.vo.ApplyCountVo;
 import eqlee.ctm.apply.entry.entity.vo.ApplyOpenIdVo;
@@ -53,12 +50,6 @@ public interface IApplyService {
     Page<ApplyQuery> listPage2Apply (Page<ApplyQuery> page,String OutDate, String LineNameOrRegion, String lineName);
 
     /**
-     * 修改报名表
-     * @param updateInfo
-     */
-    void updateApply(ApplyUpdateInfo updateInfo);
-
-    /**
      * 删除报名表
      * @param id
      */
@@ -74,17 +65,6 @@ public interface IApplyService {
      * @return
      */
     Page<ApplyDoExaQuery> listPageDo2Apply(Page<ApplyDoExaQuery> page, String outDate, Long lineName, Integer type, String applyDate, Integer exaStatus);
-
-
-    /**
-     * 分页查询已报名已审核的列表,可以根据出发时间模糊查询
-     * @param page
-     * @param OutDate
-     * @param LineName
-     * @param ApplyType
-     * @return
-     */
-    Page<ApplyDoExaQuery> toListPageDoApply(Page<ApplyDoExaQuery> page, String OutDate, String LineName, String ApplyType);
 
 
     /**
@@ -109,12 +89,6 @@ public interface IApplyService {
      * @param type
      */
     void updateExamineStatus(Long Id, Integer Status, Integer type);
-
-    /**
-     * 查询报名表
-     * @return
-     */
-    List<Apply> selectAllApply();
 
     /**
      * 根据id列表查询报名表
@@ -175,15 +149,8 @@ public interface IApplyService {
      * 批量修改导游选人的状态
      * @param list
      */
-    void updateAllGuestStatus (List<LongVo> list);
+    void updateAllGuestStatus (List<ApplyGuideBo> list);
 
-    /**
-     * 查询报名表
-     * @param outDate
-     * @param lineName
-     * @return
-     */
-    List<Apply> queryApplyByTime (LocalDate outDate, String lineName);
 
     /**
      * 分页查询月结的信息
@@ -243,12 +210,6 @@ public interface IApplyService {
      */
     ApplyPayResultQuery queryPayInfo (String applyNo);
 
-
-    /**
-     * 查询所有管理员Id
-     * @return
-     */
-    List<Apply> queryAdminIds ();
 
     /**
      *  统计同行当月的数据

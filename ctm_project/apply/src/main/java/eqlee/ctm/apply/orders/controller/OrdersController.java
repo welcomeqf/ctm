@@ -87,18 +87,18 @@ public class OrdersController {
 
     @ApiOperation(value = "排车",notes = "排车")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "lineName", value = "线路名", required = true, dataType = "String", paramType = "path"),
-            @ApiImplicitParam(name = "outDate", value = "出发日期", required = true, dataType = "String", paramType = "path"),
-            @ApiImplicitParam(name = "carNumber", value = "车牌号", required = true, dataType = "String", paramType = "path")
+            @ApiImplicitParam(name = "carId", value = "车辆Id", required = false, dataType = "Long", paramType = "path"),
+            @ApiImplicitParam(name = "orderId", value = "订单id", required = true, dataType = "Long", paramType = "path"),
+            @ApiImplicitParam(name = "carNo", value = "车牌号", required = false, dataType = "String", paramType = "path")
     })
     @PostMapping("/saveCar")
     @CrossOrigin
     @CheckToken
     public ResultVo saveCar(@RequestBody CarBo bo){
-        if(StringUtils.isBlank(bo.getOutDate()) || StringUtils.isBlank(bo.getCarNumber())){
+        if(bo.getOrderId() == null){
             throw new ApplicationException(CodeType.PARAM_ERROR,"参数不能为空");
         }
-        ordersService.save(bo.getOutDate(),bo.getCarNumber());
+        ordersService.save(bo.getCarId(),bo.getOrderId(),bo.getCarNo());
         ResultVo resultVo = new ResultVo();
         resultVo.setResult("ok");
         return resultVo;

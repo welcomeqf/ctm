@@ -2,13 +2,6 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="eqlee.ctm.apply.orders.dao.OrdersMapper">
-
-
-    <select id="selectOrdersByCreateUserId" resultType="eqlee.ctm.apply.orders.entity.Vo.OrderIndexVo">
-       select b.Id,b.OrderNo,a.ContactName,a.Place,a.AdultNumber,a.BabyNumber,a.OldNumber,a.ChildNumber from OrderDetailed a
-       join Orders b on a.OrderId = b.Id where a.CreateUserId = #{CreateUserId} and b.OutDate=
-       #{OutDate}
-    </select>
     
     <update id="updateOrderDetailed">
         <foreach collection="list" item="item" index="index">
@@ -17,11 +10,11 @@
     </update>
 
     <update id="updateOrdersCarNo">
-        update Orders set CarNumber=#{CarNumber} where  OutDate=#{OutDate} and CreateUserId=#{Id}
+        update Orders set CarNumber=#{carNo} where  Id = #{orderId}
     </update>
 
     <update id="updateOrdersOutsideCarNo">
-        update Orders set CarNumber=#{CarNumber},CarType=1 where  OutDate=#{OutDate} and CreateUserId=#{Id}
+        update Orders set CarNumber=#{carNo},CarType=1 where  Id = #{orderId}
     </update>
 
     <select id="waiteChangeIndex" resultType="eqlee.ctm.apply.orders.entity.Vo.ChangedVo">
@@ -76,13 +69,10 @@
         a.OrderId = b.Id where b.OutDate=#{OutDate} and b.CreateUserId=#{Id} and a.PayType = 2
     </select>
 
-    <select id="queryCar" parameterType="String" resultType="eqlee.ctm.apply.orders.entity.bo.CarQueryBo">
-        select Id as 'id',Statu as 'status' from Car where CarNo=#{CarNo}
+    <select id="queryCar" parameterType="Long" resultType="eqlee.ctm.apply.orders.entity.bo.CarQueryBo">
+        select Id as 'id',CarNo as 'carNo',Statu as 'status'
+        from Car where Id = #{id}
     </select>
-
-    <update id="updateCarStatus" parameterType="String">
-        update Car set Statu = 1 where CarNo= #{CarNo}
-    </update>
 
     <select id="queryMonthPrice" resultType="eqlee.ctm.apply.orders.entity.bo.OrdersMonthBo">
         select sum(a.Price)allPrice from OrderDetailed a join Orders b on a.OrderId = b.Id

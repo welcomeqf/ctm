@@ -85,4 +85,14 @@ public class ApplyDoExaInfo {
    private Integer childNumber;
 
    private Double allPrice;
+
+   /**
+    * (0--正常报名  1-补录  2-包团)
+    */
+   private Integer ctmType;
+
+   /**
+    * 包团详情文件
+    */
+   private String applyPic;
 }

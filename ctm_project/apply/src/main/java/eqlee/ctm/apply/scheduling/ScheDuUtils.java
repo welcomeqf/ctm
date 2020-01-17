@@ -20,9 +20,6 @@ public class ScheDuUtils {
    @Autowired
    private IApplyService applyService;
 
-   @Autowired
-   private IOrdersService ordersService;
-
    @Scheduled(cron = "0 */10 * * * ?")
    public void toDeleteApply () {
 
@@ -35,11 +32,11 @@ public class ScheDuUtils {
    /**
     * 每天晚上1点更新车辆状态
     */
-   @Scheduled(cron = "0 0 1 * * ?")
-   public void upCarStatus () {
-
-      //修改车辆出行状态
-      ordersService.upCarStatus ();
-   }
+//   @Scheduled(cron = "0 0 1 * * ?")
+//   public void upCarStatus () {
+//
+//      //修改车辆出行状态
+//      ordersService.upCarStatus ();
+//   }
 
 }

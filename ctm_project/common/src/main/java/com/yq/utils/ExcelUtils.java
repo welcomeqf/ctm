@@ -9,9 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.*;
 import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 /**
  * excel表格导出
@@ -29,7 +27,7 @@ public class ExcelUtils {
      * @param body
      * @return
      */
-    public static HSSFWorkbook expExcel(List<String> head, List<List<String>> body) {
+    public static HSSFWorkbook expExcel(List<String> head, List<List<String>> body, Map<Integer,Double> map) {
         HSSFWorkbook workbook = new HSSFWorkbook();
         HSSFSheet sheet = workbook.createSheet("Sheet1");
         HSSFRow row = sheet.createRow(0);
@@ -62,6 +60,21 @@ public class ExcelUtils {
         for (int i = 0, isize = head.size(); i < isize; i++) {
             sheet.autoSizeColumn(i);
         }
+
+        //判断map是否为空
+        if (map != null) {
+            //创建最后一行
+            row = sheet.createRow(body.size() + 1);
+            //遍历map
+            Set<Map.Entry<Integer,Double>> entries = map.entrySet();
+
+            for (Map.Entry<Integer,Double> entry : new HashSet<>(entries)) {
+                cell = row.createCell(entry.getKey());
+                cell.setCellValue(entry.getValue());
+                cell.setCellStyle(cellStyle2);
+            }
+        }
+
         return workbook;
     }
 

@@ -89,7 +89,7 @@ public class CompanyController {
 
     @ApiOperation(value = "同行信息删除", notes = "同行信息删除")
     @ApiImplicitParam(name = "Id", value = "公司Id", required = true, dataType = "Long", paramType = "path")
-    @DeleteMapping("/deleteCompany/{Id}")
+    @GetMapping("/deleteCompany/{Id}")
     @CrossOrigin
     @CheckToken
     public ResultVo deleteCompany (@PathVariable("Id") Long Id) {

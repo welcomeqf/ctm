@@ -18,5 +18,5 @@ public class CarUpdateVo {
 
     private Integer statu;
 
-    private boolean isStop;
+    private Boolean isStop;
 }

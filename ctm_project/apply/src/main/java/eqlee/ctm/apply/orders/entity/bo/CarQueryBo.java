@@ -12,5 +12,7 @@ public class CarQueryBo {
 
     private Long id;
 
+    private String carNo;
+
     private Integer status;
 }

@@ -11,7 +11,10 @@ import com.yq.jwt.entity.UserLoginQuery;
 import com.yq.utils.DateUtil;
 import com.yq.utils.IdGenerator;
 import com.yq.utils.StringUtils;
+import eqlee.ctm.apply.carInfo.entity.vo.CarInfoInsertVo;
+import eqlee.ctm.apply.carInfo.service.ICarInfoService;
 import eqlee.ctm.apply.entry.entity.Apply;
+import eqlee.ctm.apply.entry.entity.bo.ApplyGuideBo;
 import eqlee.ctm.apply.entry.service.IApplyService;
 import eqlee.ctm.apply.entry.vilidata.HttpUtils;
 import eqlee.ctm.apply.line.entity.Line;
@@ -61,6 +64,9 @@ public class OrderServiceImpl extends ServiceImpl<OrdersMapper, Orders> implemen
    private ILineService lineService;
 
    @Autowired
+   private ICarInfoService carInfoService;
+
+   @Autowired
    private HttpUtils httpUtils;
 
    @Autowired
@@ -100,12 +106,24 @@ public class OrderServiceImpl extends ServiceImpl<OrdersMapper, Orders> implemen
         orders.setGuideName(user.getCname());
         orders.setGuideTel(user.getTel());
         orders.setCreateUserId(user.getId());
+
+
+        //先暂定1天   后续需要调整
+       //要根据线路的出游天数来设置
+       //因为考虑到拼团的情况   1天的线路和2天的线路拼团暂时不确定
+       //后期调整
+        orders.setTravelSituation(1);
+
         Double allPrice = 0.0;
 
         Orders order = null;
        String newLineName = "";
 
+       //装配线路参数集合
        List<Long> lineIds = new ArrayList<>();
+
+       //装配修改报名表参数集合
+       List<ApplyGuideBo> list = new ArrayList<>();
 
        for (Apply apply : applies) {
             //装配订单
@@ -163,10 +181,19 @@ public class OrderServiceImpl extends ServiceImpl<OrdersMapper, Orders> implemen
 
             //订单详情表
             if (order != null) {
+
+               //如果订单已经完成，则当天不能再选人
+               //如果导游已经提交了，只要不是被拒绝，全部看作是订单已完成
+               if (order.getIsFinash()) {
+                  throw new ApplicationException(CodeType.SERVICE_ERROR, "该天订单已完成，不能再选人");
+               }
+
                 orderDetailed.setOrderId(order.getId());
                 newLineName = order.getLineName();
             }
 
+            //订单为空  说明还没有开始选人
+            //第一次选人
             if (order == null) {
                 orderDetailed.setOrderId(numberId);
             }
@@ -179,35 +206,41 @@ public class OrderServiceImpl extends ServiceImpl<OrdersMapper, Orders> implemen
 
 
           lineIds.add(apply.getLineId());
+
+
+          //装配修改报名表参数的集合
+          ApplyGuideBo bo = new ApplyGuideBo();
+          bo.setId(apply.getId());
+          bo.setGuide(user.getCname());
+          bo.setTel(user.getTel());
+          list.add(bo);
         }
 
        //查询线路集合
        List<Line> lines = lineService.queryByIdList(lineIds);
 
        for (Line line : lines) {
-
-          //第二次进来直接拼团
-          if (order != null) {
-             if (!line.getLineName().equals(newLineName)) {
-                newLineName = "";
-                break;
-             }
-          }
-
           //第一次进来只有一条线路就生成
           //多条线路就拼团
-          if (lines.size() == 1) {
+          //如果只有一条线路就取线路名
+          //如果是多条线路就取第一条线路名
+          if (order == null) {
+             //第一次进来
              newLineName = line.getLineName();
-          }else {
-             newLineName = "";
+             break;
+          } else {
+             //第二次进来直接拼团
+            break;
           }
+
        }
 
-       orders.setLineName(newLineName);
        orders.setAllPrice(allPrice);
+       orders.setIsFinash(true);
         //没有该订单就生成订单
         if (order == null) {
            result = numberId;
+           orders.setLineName(newLineName);
             int insert = baseMapper.insert(orders);
 
             if (insert <= 0) {
@@ -215,33 +248,34 @@ public class OrderServiceImpl extends ServiceImpl<OrdersMapper, Orders> implemen
             }
         } else {
            result = order.getId();
+
+           //修改
+           Double price = order.getAllPrice();
+           Double newAllPrice = allPrice + price;
+
+           Orders orders1 = new Orders();
+           orders1.setId(order.getId());
+           orders1.setAllPrice(newAllPrice);
+           orders1.setIsFinash(true);
+
+           int update = baseMapper.updateById(orders1);
+
+           if (update <= 0) {
+              throw new ApplicationException(CodeType.SERVICE_ERROR, "选人失败");
+           }
+
         }
 
         //有此订单了就不再生成订单
         orderDetailedService.batchInsertorderDetailed(orderDetailedList);
 
         //修改报名表导游选人状态
+
        //优化---
-       applyService.updateAllGuestStatus (indexVoList);
+       applyService.updateAllGuestStatus (list);
 
        return result;
     }
-
-
-
-    /**
-     * 查看导游已选人情况
-     * @param page
-     * @param LineName
-     * @param OutDate
-     * @return
-     */
-    @Override
-    public Page<OrderIndexVo> ChoisedIndex(Page<OrderIndexVo> page, String LineName, String OutDate) {
-        UserLoginQuery user = localUser.getUser("用户信息");
-        return baseMapper.selectOrdersByCreateUserId(page,user.getId(),LineName,DateUtil.parseDate(OutDate));
-    }
-
 
 
     /**
@@ -309,69 +343,60 @@ public class OrderServiceImpl extends ServiceImpl<OrdersMapper, Orders> implemen
 //       messageService.insertMsg(vo);
     }
 
-    /**
-     * 排车
-     * @param OutDate
-     * @param CarNumber
-     */
+   /**
+    * 排车
+    * @param carId
+    * @param orderId
+    * @param carNo
+    */
     @Override
-    public void save(String OutDate, String CarNumber) {
+    public void save(Long carId, Long orderId, String carNo) {
 
-        UserLoginQuery userLoginQuery = localUser.getUser("用户信息");
-        //判断该线路日期是否配了车
-        LambdaQueryWrapper<Orders> wrapper = new LambdaQueryWrapper<Orders>()
-                .eq(Orders::getOutDate,OutDate)
-                .eq(Orders::getCreateUserId,userLoginQuery.getId());
-        Orders orders = baseMapper.selectOne(wrapper);
+        //先查询订单的情况
+       Orders order = baseMapper.selectById(orderId);
 
-        if (StringUtils.isNotBlank(orders.getCarNumber())) {
-            throw new ApplicationException(CodeType.SERVICE_ERROR, "您已配过车了");
-        }
+       if (order == null) {
+          throw new ApplicationException(CodeType.SERVICE_ERROR);
+       }
 
-        //判断该车辆是否已经出行
-        CarQueryBo bo = baseMapper.queryCar(CarNumber);
+       if (StringUtils.isNotBlank(order.getCarNumber())) {
+          //已经排了车了
+          //先删除  再重新添加
+          carInfoService.deleteCarInfo(orderId);
+       }
 
-        if(bo == null) {
+
+       if (carId != null) {
+          //公司内部车辆
+          //查询车牌号
+          CarQueryBo bo = baseMapper.queryCar(carId);
+
+          if (bo.getStatus() == 2) {
+             throw new ApplicationException(CodeType.SERVICE_ERROR, "该车辆正在维修");
+          }
+
+          //添加
+          CarInfoInsertVo vo = new CarInfoInsertVo();
+          vo.setCarId(carId);
+          vo.setOrderId(orderId);
+          carInfoService.insertCarInfo(vo);
+
+          int update = baseMapper.updateOrdersCarNo(orderId,bo.getCarNo());
+
+          if(update == 0){
+             throw new ApplicationException(CodeType.SERVICE_ERROR,"更新失败");
+          }
+       }
+
+        if(carId == null) {
             //公司外部车辆
-            int update = baseMapper.updateOrdersOutsideCarNo(DateUtil.parseDate(OutDate),CarNumber,userLoginQuery.getId());
+            int update = baseMapper.updateOrdersOutsideCarNo(orderId,carNo);
             if(update == 0){
                 throw new ApplicationException(CodeType.SERVICE_ERROR,"更新失败");
             }
-            return;
         }
 
-        if (bo.getStatus() == 1) {
-            throw new ApplicationException(CodeType.SERVICE_ERROR, "该车辆已经被选了");
-        }
 
-        if (bo.getStatus() == 2) {
-            throw new ApplicationException(CodeType.SERVICE_ERROR, "该车辆正在维修");
-        }
-
-        //本公司车辆
-        int update = baseMapper.updateOrdersCarNo(DateUtil.parseDate(OutDate),CarNumber,userLoginQuery.getId());
-
-        if(update == 0){
-            throw new ApplicationException(CodeType.SERVICE_ERROR,"更新失败");
-        }
-
-        //修改出行状态
-        updateCarStatus (CarNumber);
-
-
-    }
-
-    /**
-     * 修改公司状态
-     * @param carNo
-     */
-    @Override
-    public void updateCarStatus(String carNo) {
-        int status1 = baseMapper.updateCarStatus(carNo);
-
-        if (status1 <= 0) {
-            throw new ApplicationException(CodeType.SERVICE_ERROR, "修改失败");
-        }
     }
 
 
@@ -577,32 +602,6 @@ public class OrderServiceImpl extends ServiceImpl<OrdersMapper, Orders> implemen
       UserLoginQuery user = localUser.getUser("用户信息");
       LambdaQueryWrapper<Orders> wrapper = new LambdaQueryWrapper<Orders>()
             .eq(Orders::getCreateUserId,user.getId())
-            .eq(Orders::getIsFinash,0);
-
-      List<Orders> orders = baseMapper.selectList(wrapper);
-
-      List<OrdersNoCountInfoQuery> result = new ArrayList<>();
-      for (Orders order : orders) {
-         OrdersNoCountInfoQuery query = new OrdersNoCountInfoQuery();
-         query.setLineName(order.getLineName());
-         query.setOutDate(DateUtil.formatDate(order.getOutDate()));
-         query.setCarNo(order.getCarNumber());
-         query.setId(order.getId());
-         result.add(query);
-      }
-
-      return result;
-   }
-
-   /**
-    * 查询全部未结算的信息
-    * @return
-    */
-   @Override
-   public List<OrdersNoCountInfoQuery> queryAllNoCountInfo2() {
-      LocalDate now = LocalDate.now();
-      LambdaQueryWrapper<Orders> wrapper = new LambdaQueryWrapper<Orders>()
-            .le(Orders::getOutDate,now)
             .eq(Orders::getIsFinash,0);
 
       List<Orders> orders = baseMapper.selectList(wrapper);

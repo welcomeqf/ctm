@@ -162,6 +162,44 @@ public class ExamineServiceImpl extends ServiceImpl<ExamineMapper, Examine> impl
         //删除报名表
         applyService.deleteApply(examineVo.getApplyId());
 
+
+        if (vo.getPayType() == 0) {
+            //现结退款
+            //获得token
+            String payToken;
+            try {
+                payToken = tokenData.getPayMapToken();
+            } catch (Exception e) {
+                throw new ApplicationException(CodeType.SERVICE_ERROR,"获取token失败");
+            }
+            String tokenString = "Bearer " +payToken;
+
+            if (vo.getPayInfo() == null) {
+                throw new ApplicationException(CodeType.SERVICE_ERROR, "没有支付记录");
+            }
+
+            if (vo.getPayInfo() == 1) {
+                //支付宝支付
+                ResultRefundQuery aliRefund = httpUtils.aliRefund(vo.getApplyNo(), "拒绝报名", vo.getAllPrice(), tokenString);
+                if (aliRefund.getError()) {
+                    //退款失败
+                    throw new ApplicationException(CodeType.SERVICE_ERROR,"退款失败");
+                }
+                //退款成功
+            }
+
+            if (vo.getPayInfo() == 0) {
+                //微信支付
+                //申请退款
+                ResultRefundQuery refund = httpUtils.refund(vo.getApplyNo(), vo.getAllPrice(), vo.getAllPrice(), tokenString);
+                if (refund.getError()) {
+                    //退款失败
+                    throw new ApplicationException(CodeType.SERVICE_ERROR,"退款失败");
+                }
+                //退款成功
+            }
+        }
+
         ApplyVo applyVo = new ApplyVo();
         applyVo.setMsPrice(examineVo.getMsPrice());
         applyVo.setSxPrice(examineVo.getSxPrice());
@@ -191,6 +229,7 @@ public class ExamineServiceImpl extends ServiceImpl<ExamineMapper, Examine> impl
         applyVo.setApplyId(examineVo.getApplyId());
         applyVo.setApplyNo(examineVo.getApplyNo());
         applyVo.setCreateUserId(examineVo.getCreateUserId());
+        applyVo.setApplyPic(examineVo.getApplyPic());
 
         applyService.insertApply(applyVo);
     }

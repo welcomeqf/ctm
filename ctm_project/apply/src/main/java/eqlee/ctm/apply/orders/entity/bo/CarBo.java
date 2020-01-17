@@ -10,9 +10,9 @@ import lombok.Data;
 @Data
 public class CarBo {
 
-    private String lineName;
+    private Long carId;
 
-    private String outDate;
+    private Long orderId;
 
-    private String carNumber;
+    private String carNo;
 }

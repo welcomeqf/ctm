@@ -66,20 +66,20 @@ public interface GuiderMapper {
                                  @Param("list") List<Long> list);
 
 
-
-
      /**
-      *  - -查询人数统计
+      * 查询人数统计
       * @param outDate
       * @param region
       * @param cityList
       * @param list
+      * @param type
       * @return
       */
      GuiderCountNumber queryCountNumberInfo2 (@Param("outDate") LocalDate outDate,
                                              @Param("region") String region,
                                               @Param("cityList") List<String> cityList,
-                                              @Param("list") List<Long> list);
+                                              @Param("list") List<Long> list,
+                                              @Param("type") Integer type);
 
 
      /**

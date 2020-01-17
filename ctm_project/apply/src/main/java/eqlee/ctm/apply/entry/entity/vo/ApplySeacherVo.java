@@ -168,4 +168,6 @@ public class ApplySeacherVo {
     private Double childPrice;
 
     private Long companyId;
+
+    private String applyPic;
 }

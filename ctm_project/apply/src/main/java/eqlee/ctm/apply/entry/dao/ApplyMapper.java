@@ -3,10 +3,7 @@ package eqlee.ctm.apply.entry.dao;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.yq.IBaseMapper.IBaseMapper;
 import eqlee.ctm.apply.entry.entity.Apply;
-import eqlee.ctm.apply.entry.entity.bo.ApplyBo;
-import eqlee.ctm.apply.entry.entity.bo.ApplyCompanyBo;
-import eqlee.ctm.apply.entry.entity.bo.ApplyCountCaiBo;
-import eqlee.ctm.apply.entry.entity.bo.ApplyDoExaInfo;
+import eqlee.ctm.apply.entry.entity.bo.*;
 import eqlee.ctm.apply.entry.entity.query.*;
 import eqlee.ctm.apply.entry.entity.vo.ApplyCountVo;
 import eqlee.ctm.apply.entry.entity.vo.ApplyOpenIdVo;
@@ -96,90 +93,6 @@ public interface ApplyMapper extends IBaseMapper<Apply> {
      * @return
      */
     Company queryCompanyById (Long Id);
-
-
-    /**
-     * 以下是审核完成的报名记录
-     */
-
-    /**
-     * 分页查询所有已报名的数据
-     * @param page
-     * @return
-     */
-    Page<ApplyDoExaQuery> toListPageDoApply(Page<ApplyDoExaQuery> page);
-
-    /**
-     * 根据线路名模糊查询
-     * @param page
-     * @param LineName
-     * @return
-     */
-    Page<ApplyDoExaQuery> toListPageDoApplyByLineName(Page<ApplyDoExaQuery> page, @Param("LineName") String LineName);
-
-    /**
-     * 根据出发时间模糊查询
-     * @param page
-     * @param outDate
-     * @return
-     */
-    Page<ApplyDoExaQuery> toListPageDoApplyByNo(Page<ApplyDoExaQuery> page, @Param("outDate") LocalDate outDate);
-    /**
-     * 分页查询所有已报名的数据
-     * 对订单号和线路名模糊查询
-     * @param page
-     * @param LineName
-     * @param outDate
-     * @return
-     */
-    Page<ApplyDoExaQuery> toListPageDoApplyByNoWithLine(Page<ApplyDoExaQuery> page,
-                                                   @Param("LineName") String LineName,
-                                                   @Param("outDate") LocalDate outDate);
-
-
-    /**
-     * 分页查询所有已报名加类型的数据
-     * @param page
-     * @param ApplyType
-     * @return
-     */
-    Page<ApplyDoExaQuery> toListPageDoExa(Page<ApplyDoExaQuery> page,
-                                          @Param("ApplyType") String ApplyType);
-
-    /**
-     * 根据线路名加类型模糊查询
-     * @param page
-     * @param LineName
-     * @param ApplyType
-     * @return
-     */
-    Page<ApplyDoExaQuery> toListPageDoExaByLineName(Page<ApplyDoExaQuery> page,
-                                                    @Param("LineName") String LineName,
-                                                    @Param("ApplyType") String ApplyType);
-
-    /**
-     * 根据出发时间加类型模糊查询
-     * @param page
-     * @param outDate
-     * @param ApplyType
-     * @return
-     */
-    Page<ApplyDoExaQuery> toListPageDoExaByNo(Page<ApplyDoExaQuery> page,
-                                              @Param("outDate") LocalDate outDate,
-                                              @Param("ApplyType") String ApplyType);
-    /**
-     * 分页查询所有已报名的数据
-     * 对订单号和线路名加类型模糊查询
-     * @param page
-     * @param LineName
-     * @param outDate
-     * @param ApplyType
-     * @return
-     */
-    Page<ApplyDoExaQuery> toListPageDoExaByNoWithLine(Page<ApplyDoExaQuery> page,
-                                                        @Param("LineName") String LineName,
-                                                        @Param("outDate") LocalDate outDate,
-                                                      @Param("ApplyType") String ApplyType);
 
 
     //我的报名记录
@@ -320,18 +233,11 @@ public interface ApplyMapper extends IBaseMapper<Apply> {
     Integer updateAllApplyStatus (List<ApplyScheQuery> list);
 
     /**
-     * 查询所有管理人的id
-     * @param roleName
-     * @return
-     */
-    List<Long> queryAllAdmin (String roleName);
-
-    /**
      * 批量修改导游选人的状态
      * @param list
      * @return
      */
-    Integer updateAllApply (List<LongVo> list);
+    Integer updateAllApply (List<ApplyGuideBo> list);
 
     /**
      * 查询公司信息

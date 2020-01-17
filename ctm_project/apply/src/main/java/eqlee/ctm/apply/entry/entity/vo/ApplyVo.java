@@ -144,4 +144,9 @@ public class ApplyVo {
      */
     private String companyTel;
 
+    /**
+     * 包团详情
+     */
+    private String applyPic;
+
 }

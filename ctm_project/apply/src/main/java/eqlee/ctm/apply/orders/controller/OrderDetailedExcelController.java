@@ -34,7 +34,9 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author qf
@@ -57,7 +59,7 @@ public class OrderDetailedExcelController {
    @ApiOperation(value = "导游人员表导出", notes = "导游人员表导出")
    @ApiImplicitParams({
          @ApiImplicitParam(name = "id", value = "id", required = true, dataType = "Long", paramType = "path"),
-         @ApiImplicitParam(name = "payType", value = "支付类型(null-全部，0-现结,1-月结,2-面收)", required = false, dataType = "int", paramType = "path")
+         @ApiImplicitParam(name = "payType", value = "支付类型(null-全部，0-现结,2-月结)", required = false, dataType = "int", paramType = "path")
    })
    @GetMapping("/queryCount")
    @CheckToken
@@ -100,7 +102,7 @@ public class OrderDetailedExcelController {
          List<String> bodyValue = new ArrayList<>();
          bodyValue.add(query.getCompanyName());
          bodyValue.add(DateUtil.formatDate(orders.getOutDate()));
-         bodyValue.add(orders.getLineName());
+         bodyValue.add(query.getLineName());
          bodyValue.add(query.getContactName());
          bodyValue.add(query.getContactTel());
          bodyValue.add(String.valueOf(query.getAdultNumber()));
@@ -212,6 +214,13 @@ public class OrderDetailedExcelController {
       head.add("订单状态");
       //创建报表体
       List<List<String>> body = new ArrayList<>();
+      Map<Integer,Double> map = new HashMap<>();
+      Double aut = 0.0;
+      Double ch = 0.0;
+      Double old = 0.0;
+      Double baby = 0.0;
+      Double allNumber = 0.0;
+      Double ms = 0.0;
       for (OrderBo query : list) {
          List<String> bodyValue = new ArrayList<>();
          bodyValue.add(query.getOrderNo());
@@ -239,11 +248,23 @@ public class OrderDetailedExcelController {
          } else if (query.getStatus() == 0){
             bodyValue.add("已交账");
          }
+         aut += query.getAdultNumber();
+         ch += query.getChildNumber();
+         baby += query.getBabyNumber();
+         old += query.getChildNumber();
+         allNumber += query.getAllNumber();
+         ms += query.getMsPrice();
          //将数据添加到报表体中
          body.add(bodyValue);
       }
+      map.put(6,aut);
+      map.put(7,ch);
+      map.put(8,old);
+      map.put(9,baby);
+      map.put(10,allNumber);
+      map.put(11,ms);
       String fileName = "导游出行记录统计.xls";
-      HSSFWorkbook excel = ExcelUtils.expExcel(head, body);
+      HSSFWorkbook excel = ExcelUtils.expExcel(head, body,map);
       String fileStorePath = "exl";
       String path = FilesUtils.getPath(fileName,fileStorePath);
       ExcelUtils.outFile(excel,path,response);

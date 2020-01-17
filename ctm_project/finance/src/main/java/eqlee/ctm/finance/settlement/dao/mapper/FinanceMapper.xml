@@ -31,7 +31,7 @@
                 and a.OutDate = #{outTime}
             </if>
         </where>
-        group by a.OutDate
+        group by a.Id
     </select>
 
     <select id="listExamineDetailed" parameterType="long" resultType="eqlee.ctm.finance.settlement.entity.vo.ExamineResultVo">
@@ -62,8 +62,14 @@
             <if test="id != null">
                 and a.CreateUserId = #{id}
             </if>
+            <if test="list != null">
+                and a.City in
+                <foreach collection="list" item="item" index="index" open="(" separator="," close=")">
+                    #{item}
+                </foreach>
+            </if>
         </where>
-        group by a.OutDate
+        group by a.Id
     </select>
 
     <update id="updateIsFinash">
@@ -79,6 +85,10 @@
     <update id="examineResult">
         update Income set Status = 2, UpdateDate = #{time}, CaiName = #{caiName}, Remark = #{remark}
         where OrderId = #{id}
+    </update>
+
+    <update id="updateOrder" parameterType="Long">
+        update Orders set IsFinash = 0 where Id = #{id}
     </update>
 
     <select id="pageExamine" resultType="eqlee.ctm.finance.settlement.entity.query.ExamineInfoQuery">
@@ -139,5 +149,10 @@
         insert into Message (CreateId,MsgType,Msg,ToId)
         values (#{createId},#{msgType},#{msg},#{toId})
     </insert>
+
+
+    <select id="queryOrderCity" parameterType="Long" resultType="eqlee.ctm.finance.settlement.entity.order.OrderQuery">
+        select City as 'city' from Orders where Id = #{orderId}
+    </select>
 
 </mapper>

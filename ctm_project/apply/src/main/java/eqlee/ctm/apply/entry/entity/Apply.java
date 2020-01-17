@@ -244,6 +244,21 @@ public class Apply extends Model<Apply> {
      */
     private Double ChildPrice;
 
+    /**
+     * 包团详情
+     */
+    private String ApplyPic;
+
+    /**
+     * 导游
+     */
+    private String GuideName;
+
+    /**
+     * 导游电话
+     */
+    private String GuideTel;
+
     @Override
     protected Serializable pkVal() {
         return this.Id;

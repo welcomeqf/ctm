@@ -7,9 +7,9 @@
     select a.Id as 'id',b.LineName as 'lineName',convert(varchar(20),a.OutDate,23)outDate,a.AllNumber as 'allNumber',
     a.ContactName as 'contactName',a.ContactTel as 'contactTel',a.Place as 'place',a.AdultNumber as 'adultNumber',
     a.BabyNumber as 'babyNumber',a.OldNumber as 'oldNumber',a.ChildNumber as 'childNumber',a.AllPrice as 'allPrice',
-    a.MsPrice as 'msPrice',a.ApplyRemark as 'applyRemark',a.CompanyName as 'companyName',a.IsSelect as 'isSelect',a.Type as 'type'
-    from Apply a
-    left join Line b  on a.LineId = b.Id
+    a.MsPrice as 'msPrice',a.ApplyRemark as 'applyRemark',a.CompanyName as 'companyName',a.IsSelect as 'isSelect',
+    a.Type as 'type',a.GuideName as 'guide',a.GuideTel as 'tel'
+    from Line b join Apply a on a.LineId = b.Id
         <where>
             1 = 1
             and a.IsCancel = 0 and a.Statu = 1 and a.IsPayment = 1
@@ -40,11 +40,13 @@
     <select id ="queryCountNumberInfo2" resultType="eqlee.ctm.apply.guider.entity.vo.GuiderCountNumber">
     select sum(a.AllNumber)numberCount,sum(a.AdultNumber)adultNumber,sum(a.BabyNumber)babyNumber,
     sum(a.OldNumber)oldNumber,sum(a.ChildNumber)childNumber
-    from Apply a
-    left join Line b  on a.LineId = b.Id
+    from Line b join Apply a  on a.LineId = b.Id
         <where>
             1 = 1
-            and a.IsCancel = 0 and a.Statu = 1 and a.IsPayment = 1 and a.IsSelect = 0
+            and a.IsCancel = 0 and a.Statu = 1 and a.IsPayment = 1
+            <if test="type == 0">
+                and a.IsSelect = 0
+            </if>
             <if test="outDate != null">
                 and a.OutDate = #{outDate}
             </if>

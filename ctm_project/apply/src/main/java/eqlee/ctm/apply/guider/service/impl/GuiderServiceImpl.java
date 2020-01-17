@@ -88,7 +88,29 @@ public class GuiderServiceImpl implements IGuiderService {
 
        Page<GuiderVo> guiderVoPage1 = guiderMapper.guiderIndex2(page, localDate, region, cityList, list);
 
-       GuiderCountNumber guiderCountNumber1 = guiderMapper.queryCountNumberInfo2(localDate, region,cityList,list);
+       GuiderCountNumber guiderCountNumber1 = guiderMapper.queryCountNumberInfo2(localDate, region,cityList,list,0);
+
+       GuiderCountNumber guiderCountNumber2 = guiderMapper.queryCountNumberInfo2(localDate, region,cityList,list,1);
+
+       if (guiderCountNumber1 == null) {
+          guiderCountNumber1 = new GuiderCountNumber();
+          guiderCountNumber1.setNumberCount(0);
+       }
+
+       if (guiderCountNumber2 == null) {
+          guiderCountNumber2 = new GuiderCountNumber();
+          guiderCountNumber1.setTotalNumber(0);
+          guiderCountNumber1.setOldNumber(0);
+          guiderCountNumber1.setChildNumber(0);
+          guiderCountNumber1.setBabyNumber(0);
+          guiderCountNumber1.setAdultNumber(0);
+       }
+
+       guiderCountNumber1.setTotalNumber(guiderCountNumber2.getNumberCount());
+       guiderCountNumber1.setOldNumber(guiderCountNumber2.getOldNumber());
+       guiderCountNumber1.setChildNumber(guiderCountNumber2.getChildNumber());
+       guiderCountNumber1.setBabyNumber(guiderCountNumber2.getBabyNumber());
+       guiderCountNumber1.setAdultNumber(guiderCountNumber2.getAdultNumber());
 
        Map<String,Object> map = new HashMap<>();
        map.put("page",guiderVoPage1);

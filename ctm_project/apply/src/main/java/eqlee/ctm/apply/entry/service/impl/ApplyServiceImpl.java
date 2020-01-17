@@ -249,6 +249,11 @@ public class ApplyServiceImpl extends ServiceImpl<ApplyMapper, Apply> implements
           apply.setType(applyVo.getType());
         }
 
+       //如果是包团
+       if (applyVo.getType() == 2) {
+          apply.setApplyPic(applyVo.getApplyPic());
+       }
+
 
         //设置过期时间
         apply.setExpreDate(30);
@@ -729,28 +734,6 @@ public class ApplyServiceImpl extends ServiceImpl<ApplyMapper, Apply> implements
    }
 
    /**
-     * 修改报名表
-     * @param updateInfo
-     */
-    @Override
-    public void updateApply(ApplyUpdateInfo updateInfo) {
-        Apply apply = new Apply();
-        apply.setId(updateInfo.getId());
-        apply.setContactName(updateInfo.getContactName());
-        apply.setContactTel(updateInfo.getContactTel());
-        apply.setPlace(updateInfo.getPlace());
-        apply.setApplyRemark(updateInfo.getRemark());
-        LocalDateTime now = LocalDateTime.now();
-        apply.setRemark(now + "修改");
-        int result = baseMapper.updateById(apply);
-
-        if (result <= 0) {
-            log.error("update apply fail.");
-            throw new ApplicationException(CodeType.SERVICE_ERROR,"修改报名表失败");
-        }
-    }
-
-   /**
     * 删除报名表
     * @param id
     */
@@ -805,70 +788,6 @@ public class ApplyServiceImpl extends ServiceImpl<ApplyMapper, Apply> implements
       return baseMapper.queryAllExaInfo2 (page,outTime,lineName,type,start,end,exaStatus,list);
 
    }
-
-   /**
-     * 分页查询已报名已审核的列表,可以根据出发时间模糊查询
-     *（默认出来本公司所有的数据）
-     * @param page
-     * @param OutDate
-     * @param LineName
-     * @return
-     */
-    @Override
-    public Page<ApplyDoExaQuery> toListPageDoApply(Page<ApplyDoExaQuery> page, String OutDate, String LineName, String ApplyType) {
-
-        if (StringUtils.isBlank(ApplyType)) {
-            //类型为空
-            if (StringUtils.isBlank(OutDate) && StringUtils.isBlank(LineName)) {
-                //当出发时间 和线路名 都为空时
-                return baseMapper.toListPageDoApply(page);
-            }
-
-            if (StringUtils.isBlank(LineName) && StringUtils.isNotBlank(OutDate)) {
-                //当线路名为空
-                LocalDate outDate = DateUtil.parseDate(OutDate);
-                return baseMapper.toListPageDoApplyByNo(page,outDate);
-            }
-
-            if (StringUtils.isBlank(OutDate) && StringUtils.isNotBlank(LineName)) {
-                //当出发时间为空
-                return baseMapper.toListPageDoApplyByLineName(page,LineName);
-            }
-
-            //根据订单号和线路名模糊查询分页数据
-            LocalDate outDate = DateUtil.parseDate(OutDate);
-            return baseMapper.toListPageDoApplyByNoWithLine(page,LineName,outDate);
-        }
-
-        //类型不为空
-        String type = null;
-        if (APPLY_EXA.equals(ApplyType)) {
-            type = "0";
-        } else {
-            type = "1";
-        }
-
-        if (StringUtils.isBlank(OutDate) && StringUtils.isBlank(LineName)) {
-            //当出发时间 和线路名 都为空时
-            return baseMapper.toListPageDoExa(page,type);
-        }
-
-        if (StringUtils.isBlank(LineName) && StringUtils.isNotBlank(OutDate)) {
-            //当线路名为空
-            LocalDate outDate = DateUtil.parseDate(OutDate);
-            return baseMapper.toListPageDoExaByNo(page,outDate,type);
-        }
-
-        if (StringUtils.isBlank(OutDate) && StringUtils.isNotBlank(LineName)) {
-            //当出发时间为空
-            return baseMapper.toListPageDoExaByLineName(page,LineName,type);
-        }
-
-        //根据订单号和线路名模糊查询分页数据
-        LocalDate outDate = DateUtil.parseDate(OutDate);
-        return baseMapper.toListPageDoExaByNoWithLine(page,LineName,outDate,type);
-
-    }
 
     /**
      * 查询同一公司所有报名记录
@@ -927,14 +846,6 @@ public class ApplyServiceImpl extends ServiceImpl<ApplyMapper, Apply> implements
         }
     }
 
-    /**
-     * 查询所有报名表
-     * @return
-     */
-    @Override
-    public List<Apply> selectAllApply() {
-        return baseMapper.selectList(null);
-    }
 
     /**
      * 查询报名表
@@ -1015,6 +926,9 @@ public class ApplyServiceImpl extends ServiceImpl<ApplyMapper, Apply> implements
 
        vo.setMsPrice(apply.getMsPrice());
 
+       //包团详情文件
+       vo.setApplyPic(apply.getApplyPic());
+
        return vo;
     }
 
@@ -1061,13 +975,17 @@ public class ApplyServiceImpl extends ServiceImpl<ApplyMapper, Apply> implements
           roadName = null;
        }
 
+       //如果是子用户，则查询自己的报名记录
+       //如果是用户，说明是同行代表(同行的管理人员),则查询公司全部的报名记录
        Long id = null;
        if (user.getStatus() == 1) {
+          //等于1说明是子用户
           id = user.getId();
        }
 
        Long companyId = null;
        if (user.getStatus() == 0) {
+          //等于0说明是同行代表
           companyId = user.getCompanyId();
        }
 
@@ -1189,31 +1107,13 @@ public class ApplyServiceImpl extends ServiceImpl<ApplyMapper, Apply> implements
      * @param list
      */
     @Override
-    public void updateAllGuestStatus(List<LongVo> list) {
+    public void updateAllGuestStatus(List<ApplyGuideBo> list) {
 
         Integer integer = baseMapper.updateAllApply(list);
 
         if (integer <= 0) {
             throw new ApplicationException(CodeType.SERVICE_ERROR, "修改客人的状态失败");
         }
-    }
-
-    /**
-     * 查询报名表
-     * @param outDate
-     * @param lineName
-     * @return
-     */
-    @Override
-    public List<Apply> queryApplyByTime(LocalDate outDate, String lineName) {
-        //查询线路id
-        Line line = lineService.queryLineByName(lineName);
-
-        LambdaQueryWrapper<Apply> lambdaQueryWrapper = new LambdaQueryWrapper<Apply>()
-                .eq(Apply::getOutDate,outDate)
-                .eq(Apply::getLineId,line.getId());
-
-        return baseMapper.selectList(lambdaQueryWrapper);
     }
 
    /**
@@ -1431,29 +1331,6 @@ public class ApplyServiceImpl extends ServiceImpl<ApplyMapper, Apply> implements
         return query;
     }
 
-
-
-    /**
-     * 查询所有管理员id
-     * @return
-     */
-    @Override
-    public  List<Apply> queryAdminIds() {
-//        return baseMapper.queryAllAdmin("运营人员");
-
-       LambdaQueryWrapper<Apply> queryWrapper = new LambdaQueryWrapper<Apply>()
-             .eq(Apply::getPayType,1);
-       List<Apply> applies = baseMapper.selectList(queryWrapper);
-
-       Double sxAllPrice = 0.0;
-       for (Apply apply1 : applies) {
-          if (apply1.getMsPrice() != null) {
-             sxAllPrice += apply1.getMsPrice();
-          }
-       }
-       System.out.println(sxAllPrice);
-       return applies;
-    }
 
    /**
     * 统计查询

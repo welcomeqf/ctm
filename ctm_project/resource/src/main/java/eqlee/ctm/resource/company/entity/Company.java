@@ -146,6 +146,11 @@ public class Company extends Model<Company> {
      */
     private Integer Status;
 
+    /**
+     * 0--正常  1--不展示
+     */
+    private Boolean IsLook;
+
     @Override
     protected Serializable pkVal() {
         return this.Id;

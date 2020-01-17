@@ -26,6 +26,11 @@ public class ConfigController {
    @Autowired
    private ISystemConfigService systemConfigService;
 
+
+   /**
+    * 本地添加数据的API接口
+    *  不对前端开放
+    */
    @PostMapping("/insertConfig")
    @CrossOrigin
    public void insertConfig () {

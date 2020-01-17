@@ -42,6 +42,10 @@ public class ApplyApplication extends SpringBootServletInitializer {
         return new ApplicationAdviceHandle();
     }
 
+    /**
+     * 多表分页的bean
+     * @return
+     */
     @Bean
     public PaginationInterceptor paginationInterceptor() {
         return new PaginationInterceptor();

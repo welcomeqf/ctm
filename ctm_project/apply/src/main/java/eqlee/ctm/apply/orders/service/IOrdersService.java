@@ -30,17 +30,6 @@ public interface IOrdersService {
 
 
     /**
-     * 查看导游已选人情况
-     *
-     * @param page
-     * @param LineName
-     * @param OutDate
-     * @return
-     */
-    Page<OrderIndexVo> ChoisedIndex(Page<OrderIndexVo> page, String LineName, String OutDate);
-
-
-    /**
      * 由线路名，出发时间，导游ID得到车牌号
      * @param id
      * @return
@@ -60,18 +49,11 @@ public interface IOrdersService {
 
     /**
      * 保存车辆信息
-     *
-     * @param OutDate
-     * @param CarNumber
-     */
-    void save(String OutDate, String CarNumber);
-
-
-    /**
-     * 修改公司状态
+     * @param carId
+     * @param orderId
      * @param carNo
      */
-    void updateCarStatus (String carNo);
+    void save(Long carId, Long orderId, String carNo);
 
 
     /**
@@ -144,13 +126,6 @@ public interface IOrdersService {
      * @return
      */
     List<OrdersNoCountInfoQuery>  queryAllNoCountInfo ();
-
-    /**
-     * 管理员查看
-     * 查询所有未结算的具体的信息
-     * @return
-     */
-    List<OrdersNoCountInfoQuery>  queryAllNoCountInfo2 ();
 
     /**
      * 根据线路和时间查询id

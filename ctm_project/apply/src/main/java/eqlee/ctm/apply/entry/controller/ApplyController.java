@@ -119,7 +119,7 @@ public class ApplyController {
         return applyService.listPage2Apply(page,OutDate,LineNameOrRegion,lineName);
     }
 
-    @ApiOperation(value = "运营审核未审核的报名记录（可根据出发日期和线路模糊查询）", notes = "运营审核未审核的报名记录（可根据出发日期和线路模糊查询）")
+    @ApiOperation(value = "运营审核未(已)审核的报名记录（可根据出发日期和线路模糊查询）", notes = "运营审核未审核的报名记录（可根据出发日期和线路模糊查询）")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "current", value = "当前页", required = true, dataType = "int", paramType = "path"),
             @ApiImplicitParam(name = "size", value = "每页显示的条数", required = true, dataType = "int", paramType = "path"),
@@ -145,31 +145,6 @@ public class ApplyController {
         return applyService.listPageDo2Apply(page,OutDate,LineName,type,applyDate,exaStatus);
     }
 
-
-
-    @ApiOperation(value = "运营审核已审核的报名记录（可根据出发日期和线路模糊查询）", notes = "运营审核已审核的报名记录（可根据出发日期和线路模糊查询）")
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "current", value = "当前页", required = true, dataType = "int", paramType = "path"),
-            @ApiImplicitParam(name = "size", value = "每页显示的条数", required = true, dataType = "int", paramType = "path"),
-            @ApiImplicitParam(name = "OutDate", value = "出发时间", required = false, dataType = "String", paramType = "path"),
-            @ApiImplicitParam(name = "LineName", value = "线路名", required = false, dataType = "String", paramType = "path"),
-            @ApiImplicitParam(name = "ApplyType", value = "类型（报名审核,取消报名的审核）", required = false, dataType = "String", paramType = "path")
-    })
-    @GetMapping("/toListPageDoAplly")
-    @CrossOrigin
-    @CheckToken
-    public Page<ApplyDoExaQuery> toListPageDoAplly(@RequestParam("current") Integer current, @RequestParam("size") Integer size,
-                                              @RequestParam("OutDate") String OutDate, @RequestParam("LineName") String LineName,
-                                              @RequestParam("ApplyType") String ApplyType) {
-        if (current == null || size == null) {
-            throw new ApplicationException(CodeType.PARAM_ERROR);
-        }
-
-
-        Page<ApplyDoExaQuery> page = new Page<>(current,size);
-
-        return applyService.toListPageDoApply(page,OutDate,LineName,ApplyType);
-    }
 
     @ApiOperation(value = "查询同一公司的所有分页数据（同行的报名记录）", notes = "查询同一公司的所有分页数据（同行的报名记录）")
     @ApiImplicitParams({

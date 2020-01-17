@@ -102,4 +102,14 @@ public class ApplyCompanyQuery {
      * 0-正常报名  1-补录 2-包团
      */
     private Integer type;
+
+    /**
+     * 导游名字
+     */
+    private String guide;
+
+    /**
+     * 导游电话
+     */
+    private String tel;
 }

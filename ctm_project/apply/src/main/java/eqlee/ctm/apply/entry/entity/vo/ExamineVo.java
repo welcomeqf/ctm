@@ -131,4 +131,6 @@ public class ExamineVo {
      * 包团type = 2
      */
     private Integer type;
+
+    private String applyPic;
 }

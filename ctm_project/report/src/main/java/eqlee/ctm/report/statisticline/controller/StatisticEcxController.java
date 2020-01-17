@@ -23,7 +23,9 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author qf
@@ -63,6 +65,8 @@ public class StatisticEcxController {
       head.add("总金额");
       //创建报表体
       List<List<String>> body = new ArrayList<>();
+      Map<Integer,Double> map = new HashMap<>();
+      Double all = 0.0;
       for (PriceCountVo vo : list) {
          List<String> bodyValue = new ArrayList<>();
          bodyValue.add(query.getStartTime());
@@ -70,10 +74,14 @@ public class StatisticEcxController {
          bodyValue.add(vo.getCity());
          bodyValue.add(String.valueOf(vo.getAllPrice()));
          //将数据添加到报表体中
+
+         all += vo.getAllPrice();
+
          body.add(bodyValue);
       }
+      map.put(3,all);
       String fileName = "金额统计报表导出.xls";
-      HSSFWorkbook excel = ExcelUtils.expExcel(head,body);
+      HSSFWorkbook excel = ExcelUtils.expExcel(head,body,map);
       String fileStorePath = "exl";
       String path = FilesUtils.getPath(fileName,fileStorePath);
       ExcelUtils.outFile(excel,path,response);
@@ -103,6 +111,8 @@ public class StatisticEcxController {
       head.add("总人数");
       //创建报表体
       List<List<String>> body = new ArrayList<>();
+      Map<Integer,Double> map = new HashMap<>();
+      Double all = 0.0;
       for (PersonCountVo vo : list) {
          List<String> bodyValue = new ArrayList<>();
          bodyValue.add(query.getStartTime());
@@ -110,10 +120,12 @@ public class StatisticEcxController {
          bodyValue.add(vo.getCity());
          bodyValue.add(String.valueOf(vo.getAllPersonCount()));
          //将数据添加到报表体中
+         all += vo.getAllPersonCount();
          body.add(bodyValue);
       }
+      map.put(3,all);
       String fileName = "报名人数报表.xls";
-      HSSFWorkbook excel = ExcelUtils.expExcel(head,body);
+      HSSFWorkbook excel = ExcelUtils.expExcel(head,body,map);
       String fileStorePath = "exl";
       String path = FilesUtils.getPath(fileName,fileStorePath);
       ExcelUtils.outFile(excel,path,response);

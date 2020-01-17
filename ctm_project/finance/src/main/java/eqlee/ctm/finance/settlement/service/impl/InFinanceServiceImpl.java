@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.yq.constanct.CodeType;
 import com.yq.exception.ApplicationException;
 import com.yq.jwt.contain.LocalUser;
+import com.yq.jwt.entity.CityJwtBo;
 import com.yq.jwt.entity.UserLoginQuery;
 import com.yq.utils.DateUtil;
 import com.yq.utils.IdGenerator;
@@ -16,6 +17,7 @@ import eqlee.ctm.finance.settlement.entity.Income;
 import eqlee.ctm.finance.settlement.entity.Number;
 import eqlee.ctm.finance.settlement.entity.Outcome2;
 import eqlee.ctm.finance.settlement.entity.bo.*;
+import eqlee.ctm.finance.settlement.entity.order.OrderQuery;
 import eqlee.ctm.finance.settlement.entity.query.*;
 import eqlee.ctm.finance.settlement.entity.vo.ExamineResultVo;
 import eqlee.ctm.finance.settlement.entity.vo.FinanceVo;
@@ -163,6 +165,12 @@ public class InFinanceServiceImpl extends ServiceImpl<InFinanceMapper, Income> i
             income.setGuideTel(user.getTel());
             income.setGuideName(user.getCname());
             income.setOrderId(vo.getOrderId());
+
+            if (vo.getOrderId() != null) {
+                OrderQuery query = baseMapper.queryOrderCity(vo.getOrderId());
+                income.setCity(query.getCity());
+            }
+
             income.setLineName(vo.getLineName());
             income.setCarNo(vo.getCarNo());
             //加入到人数表以及人数明细表
@@ -249,16 +257,6 @@ public class InFinanceServiceImpl extends ServiceImpl<InFinanceMapper, Income> i
                 throw new ApplicationException(CodeType.SERVICE_ERROR,"该线路不存在");
             }
 
-
-            //修改车辆状态
-            if (!vo.getCarType()) {
-                //公司内部车辆
-                Integer status = baseMapper.updateCarStatus(vo.getCarNo());
-
-                if (status <= 0) {
-                    throw new ApplicationException(CodeType.SERVICE_ERROR, "还车失败");
-                }
-            }
         }
 
 
@@ -410,7 +408,17 @@ public class InFinanceServiceImpl extends ServiceImpl<InFinanceMapper, Income> i
             id = null;
         }
 
-        return baseMapper.pageGuest2Me(page, exa, outTime, lineName,id);
+        List<String> list = new ArrayList<>();
+
+        if (user.getCity().size() > 0) {
+            for (CityJwtBo bo : user.getCity()) {
+                list.add(bo.getCity());
+            }
+        } else {
+            list = null;
+        }
+
+        return baseMapper.pageGuest2Me(page, exa, outTime, lineName,id,list);
     }
 
     /**
@@ -451,6 +459,9 @@ public class InFinanceServiceImpl extends ServiceImpl<InFinanceMapper, Income> i
 
         //拒绝
         int result = baseMapper.examineResult(id, time,caiName,remark);
+
+        //修改订单表的状态
+        baseMapper.updateOrder (id);
 
 
         if (result <= 0) {

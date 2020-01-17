@@ -100,5 +100,10 @@ public class ApplyDoExaQuery {
      */
     private Integer Type;
 
+    /**
+     * 包团文件详情
+     */
+    private String applyPic;
+
 
 }

@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -82,6 +83,15 @@ public class FinanceExcelController {
         head.add("订单状态");
         //创建报表体
         List<List<String>> body = new ArrayList<>();
+        Map<Integer,Double> map = new HashMap<>();
+        Double aut = 0.0;
+        Double ch = 0.0;
+        Double old = 0.0;
+        Double baby = 0.0;
+        Double allNumber = 0.0;
+        Double in = 0.0;
+        Double out = 0.0;
+        Double set = 0.0;
         for (GuestResultQuery query : list) {
             List<String> bodyValue = new ArrayList<>();
             bodyValue.add(query.getOutDate());
@@ -101,11 +111,27 @@ public class FinanceExcelController {
             } else {
                 bodyValue.add("已拒绝");
             }
+            aut += query.getTreeAdultNumber();
+            ch += query.getTreeChildNumber();
+            baby += query.getTreeBabyNumber();
+            old += query.getTreeOldNumber();
+            allNumber += query.getTrueAllNumber();
+            in += query.getSubstitutionPrice();
+            out += query.getAllOutPrice();
+            set += query.getResultPrice();
             //将数据添加到报表体中
             body.add(bodyValue);
         }
+        map.put(2,aut);
+        map.put(3,ch);
+        map.put(4,old);
+        map.put(5,baby);
+        map.put(6,in);
+        map.put(7,out);
+        map.put(8,set);
+        map.put(9,allNumber);
         String fileName = "导游统计记录.xls";
-        HSSFWorkbook excel = ExcelUtils.expExcel(head,body);
+        HSSFWorkbook excel = ExcelUtils.expExcel(head,body,map);
         String fileStorePath = "exl";
         String path = FilesUtils.getPath(fileName,fileStorePath);
         ExcelUtils.outFile(excel,path,response);
@@ -157,6 +183,10 @@ public class FinanceExcelController {
         head.add("订单状态");
         //创建报表体
         List<List<String>> body = new ArrayList<>();
+        Map<Integer,Double> map = new HashMap<>();
+        Double out = 0.0;
+        Double in = 0.0;
+        Double setIn = 0.0;
         for (ExamineResultQuery query : list) {
             List<String> bodyValue = new ArrayList<>();
             bodyValue.add(query.getOutDate());
@@ -173,11 +203,18 @@ public class FinanceExcelController {
             } else if (query.getStatus() == 2) {
                 bodyValue.add("已拒绝");
             }
+
+            out += query.getAllOutPrice();
+            in += query.getAllInPrice();
+            setIn += query.getFinallyPrice();
             //将数据添加到报表体中
             body.add(bodyValue);
         }
+        map.put(4,out);
+        map.put(5,in);
+        map.put(6,setIn);
         String fileName = "财务审核统计.xls";
-        HSSFWorkbook excel = ExcelUtils.expExcel(head,body);
+        HSSFWorkbook excel = ExcelUtils.expExcel(head,body,map);
         String fileStorePath = "exl";
         String path = FilesUtils.getPath(fileName,fileStorePath);
         ExcelUtils.outFile(excel,path,response);

@@ -23,5 +23,6 @@ public class GuiderCountNumber {
 
    private Integer childNumber;
 
+   private Integer totalNumber;
 
 }

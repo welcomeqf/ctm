@@ -27,22 +27,6 @@ import java.util.List;
 @Component
 public interface OrdersMapper extends IBaseMapper<Orders> {
 
-
-    /**
-     * 通过CreateUserId选择订单
-     * @param pager
-     * @param CreateUserId
-     * @param LineName
-     * @param OutDate
-     * @return
-     */
-    Page<OrderIndexVo> selectOrdersByCreateUserId(@Param("page") Page<OrderIndexVo> pager,
-                                                  @Param("CreateUserId") Long CreateUserId,
-                                                  @Param("LineName")  String LineName,
-                                                  @Param("OutDate") LocalDate OutDate);
-
-
-
     /**
      * 修改订单和订单详情的状态
      * @param orderIndexVos
@@ -55,40 +39,30 @@ public interface OrdersMapper extends IBaseMapper<Orders> {
 
     /**
      * 插入车牌号(本公司车辆)
-     * @param OutDate
-     * @param CarNumber
+     * @param orderId
+     * @param carNo
      * @return
      */
-     int updateOrdersCarNo(@Param("OutDate") LocalDate OutDate,
-                           @Param("CarNumber") String CarNumber,
-                           @Param("Id") Long Id);
+     int updateOrdersCarNo(@Param("orderId") Long orderId,
+                           @Param("carNo") String carNo);
 
 
     /**
      * 插入车牌号(非公司车辆)
-     * @param OutDate
-     * @param CarNumber
-     * @param Id
+     * @param orderId
+     * @param carNo
      * @return
      */
-    int updateOrdersOutsideCarNo(@Param("OutDate") LocalDate OutDate,
-                                 @Param("CarNumber") String CarNumber,
-                                 @Param("Id") Long Id);
+    int updateOrdersOutsideCarNo(@Param("orderId") Long orderId,
+                                 @Param("carNo") String carNo);
 
 
     /**
      * 查询公司的出行状态
-     * @param CarNo
+     * @param id
      * @return
      */
-    CarQueryBo queryCar (String CarNo);
-
-    /**
-     * 修改车辆出行状态
-     * @param CarNo
-     * @return
-     */
-    int updateCarStatus (@Param("CarNo") String CarNo);
+    CarQueryBo queryCar (Long id);
 
 
 

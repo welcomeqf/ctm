@@ -6,6 +6,7 @@ import eqlee.ctm.finance.settlement.entity.Income;
 import eqlee.ctm.finance.settlement.entity.bo.FinanceCompanyBo;
 import eqlee.ctm.finance.settlement.entity.bo.FinanceCompanyInfoBo;
 import eqlee.ctm.finance.settlement.entity.bo.MsgCaiBo;
+import eqlee.ctm.finance.settlement.entity.order.OrderQuery;
 import eqlee.ctm.finance.settlement.entity.query.ExamineInfoQuery;
 import eqlee.ctm.finance.settlement.entity.query.ExamineResultQuery;
 import eqlee.ctm.finance.settlement.entity.query.GuestResultQuery;
@@ -60,13 +61,16 @@ public interface InFinanceMapper extends IBaseMapper<Income> {
      * @param Status
      * @param outTime
      * @param lineName
+     * @param id
+     * @param list
      * @return
      */
     Page<GuestResultQuery> pageGuest2Me (Page<GuestResultQuery> page,
                                          @Param("Status") Integer Status,
                                          @Param("outTime") LocalDate outTime,
                                          @Param("lineName") String lineName,
-                                         @Param("id") Long id);
+                                         @Param("id") Long id,
+                                         @Param("list") List<String> list);
 
 
 
@@ -104,6 +108,13 @@ public interface InFinanceMapper extends IBaseMapper<Income> {
                       @Param("time") LocalDateTime time,
                       @Param("caiName") String caiName,
                       @Param("remark") String remark);
+
+    /**
+     * 修改订单表状态
+     * @param id
+     * @return
+     */
+    Integer updateOrder (Long id);
 
 
     /**
@@ -166,4 +177,11 @@ public interface InFinanceMapper extends IBaseMapper<Income> {
                        @Param("createId")Long createId,
                        @Param("msg")String msg,
                        @Param("msgType")Integer msgType);
+
+    /**
+     * 查询城市
+     * @param orderId
+     * @return
+     */
+    OrderQuery queryOrderCity (Long orderId);
 }
