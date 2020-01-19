@@ -236,7 +236,6 @@ public class OrderServiceImpl extends ServiceImpl<OrdersMapper, Orders> implemen
        }
 
        orders.setAllPrice(allPrice);
-       orders.setIsFinash(true);
         //没有该订单就生成订单
         if (order == null) {
            result = numberId;
