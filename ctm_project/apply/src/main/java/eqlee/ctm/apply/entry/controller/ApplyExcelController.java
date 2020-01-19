@@ -55,48 +55,33 @@ public class ApplyExcelController {
    private LocalUser localUser;
 
 
-   @ApiOperation(value = "同行报名记录统计", notes = "同行报名记录统计")
-   @ApiImplicitParams({
-         @ApiImplicitParam(name = "current", value = "当前页", required = true, dataType = "int", paramType = "path"),
-         @ApiImplicitParam(name = "size", value = "每页显示的条数", required = true, dataType = "int", paramType = "path"),
-         @ApiImplicitParam(name = "outDate", value = "出发日期", required = false, dataType = "String", paramType = "path"),
-         @ApiImplicitParam(name = "lineName", value = "线路名称", required = false, dataType = "String", paramType = "path")
-   })
+   @ApiOperation(value = "同行财务统计详情", notes = "同行财务统计详情")
    @GetMapping("/count")
    @CheckToken
    @CrossOrigin
    public void applyExcel(HttpServletResponse response,
                           @RequestParam("current") Integer current,
                           @RequestParam("size") Integer size,
-                          @RequestParam("time") String time,
-                          @RequestParam("type") Integer type,
-                          @RequestParam("caiType") Integer caiType,
-                          @RequestParam("companyId") Long companyId){
+                          @RequestParam("outDate") String outDate,
+                          @RequestParam("companyName") String companyName,
+                          @RequestParam("lineName") String lineName){
 
-      if (current == null || size == null) {
+      if (current == null || size == null || StringUtils.isBlank(outDate) || StringUtils.isBlank(companyName)) {
          throw new ApplicationException(CodeType.PARAM_ERROR);
       }
 
-      Page<ApplyResultCountQuery> page = new Page<>(current,size);
-
-      UserLoginQuery user = localUser.getUser("用户信息");
-      String admin = "运营人员";
-      String admin1 = "超级管理员";
-      String admin2 = "管理员";
-      Page<ApplyResultCountQuery> queryPage;
-      if (admin.equals(user.getRoleName()) || admin1.equals(user.getRoleName()) || admin2.equals(user.getRoleName())) {
-         queryPage = applyService.pageResultAdminCountList(page, time, type, caiType, companyId);
-      } else {
-         queryPage = applyService.pageResult2CountList(page, time, type , caiType);
-      }
+      Page<ApplyCountVo> page = new Page<>(current,size);
+      Page<ApplyCountVo> voPage = applyService.queryCountInfo(page, outDate, companyName, lineName);
       //拿到集合数据
-      List<ApplyResultCountQuery> list = queryPage.getRecords();
+      List<ApplyCountVo> list = voPage.getRecords();
 
       //创建报表数据头
       List<String> head = new ArrayList<>();
       head.add("报名单号");
-      head.add("出行年月");
-      head.add("同行");
+      head.add("出行日期");
+      head.add("旅游线路");
+      head.add("联系人");
+      head.add("联系电话");
       head.add("成人人数");
       head.add("小孩人数");
       head.add("老人人数");
@@ -105,8 +90,7 @@ public class ApplyExcelController {
       head.add("月结总额");
       head.add("代收金额");
       head.add("实付金额");
-      head.add("支付状态");
-      head.add("确认状态");
+      head.add("经手人");
 
       //创建报表体
       List<List<String>> body = new ArrayList<>();
@@ -119,31 +103,22 @@ public class ApplyExcelController {
       Double month = 0.0;
       Double ms = 0.0;
       Double set = 0.0;
-      for (ApplyResultCountQuery query : list) {
+      for (ApplyCountVo query : list) {
          List<String> bodyValue = new ArrayList<>();
          bodyValue.add(query.getApplyNo());
-         bodyValue.add(query.getYear() + "-" + query.getMonth());
-         bodyValue.add(query.getCompanyName());
+         bodyValue.add(query.getOutDate());
+         bodyValue.add(query.getLineName());
+         bodyValue.add(query.getContactName());
+         bodyValue.add(query.getContactTel());
          bodyValue.add(String.valueOf(query.getAdultNumber()));
          bodyValue.add(String.valueOf(query.getChildNumber()));
          bodyValue.add(String.valueOf(query.getOldNumber()));
          bodyValue.add(String.valueOf(query.getBabyNumber()));
          bodyValue.add(String.valueOf(query.getAllNumber()));
          bodyValue.add(String.valueOf(query.getAllPrice()));
-         bodyValue.add(String.valueOf(query.getMsprice()));
-         bodyValue.add(String.valueOf(query.getAllPrice() - query.getMsprice()));
-
-         if (query.getSxType() == 0) {
-            bodyValue.add("未支付");
-         }else {
-            bodyValue.add("已支付");
-         }
-
-         if (query.getCaiType() == 0) {
-            bodyValue.add("未确认");
-         } else {
-            bodyValue.add("已确认");
-         }
+         bodyValue.add(String.valueOf(query.getMsPrice()));
+         bodyValue.add(String.valueOf(query.getAllPrice() - query.getMsPrice()));
+         bodyValue.add(query.getCname());
 
          aut += query.getAdultNumber();
          ch += query.getChildNumber();
@@ -151,21 +126,21 @@ public class ApplyExcelController {
          old += query.getChildNumber();
          allNumber += query.getAllNumber();
          month += query.getAllPrice();
-         ms += query.getMsprice();
-         set += query.getAllPrice() - query.getMsprice();
+         ms += query.getMsPrice();
+         set += query.getAllPrice() - query.getMsPrice();
 
          //将数据添加到报表体中
          body.add(bodyValue);
       }
-      map.put(3,aut);
-      map.put(4,ch);
-      map.put(5,old);
-      map.put(6,baby);
-      map.put(7,allNumber);
-      map.put(8,month);
-      map.put(9,ms);
-      map.put(10,set);
-      String fileName = "同行财务统计.xls";
+      map.put(5,aut);
+      map.put(6,ch);
+      map.put(7,old);
+      map.put(8,baby);
+      map.put(9,allNumber);
+      map.put(10,month);
+      map.put(11,ms);
+      map.put(12,set);
+      String fileName = "同行财务统计详情.xls";
       HSSFWorkbook excel = ExcelUtils.expExcel(head,body,map);
       String fileStorePath = "exl";
       String path = FilesUtils.getPath(fileName,fileStorePath);
@@ -289,7 +264,7 @@ public class ApplyExcelController {
          map.put(11,set);
          map.put(12,men);
          String fileName = "我的报名记录统计.xls";
-         HSSFWorkbook excel = ExcelUtils.expExcel(head,body,null);
+         HSSFWorkbook excel = ExcelUtils.expExcel(head,body,map);
          String fileStorePath = "exl";
          String path = FilesUtils.getPath(fileName,fileStorePath);
          ExcelUtils.outFile(excel,path,response);
@@ -376,7 +351,7 @@ public class ApplyExcelController {
       map.put(11,set);
       map.put(12,men);
       String fileName = "我的报名记录统计.xls";
-      HSSFWorkbook excel = ExcelUtils.expExcel(head,body,null);
+      HSSFWorkbook excel = ExcelUtils.expExcel(head,body,map);
       String fileStorePath = "exl";
       String path = FilesUtils.getPath(fileName,fileStorePath);
       ExcelUtils.outFile(excel,path,response);
