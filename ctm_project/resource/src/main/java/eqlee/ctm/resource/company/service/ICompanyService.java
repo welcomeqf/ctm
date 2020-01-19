@@ -38,7 +38,7 @@ public interface ICompanyService {
      * 修改同行信息
      * @return
      */
-    void UpdateCompany(Long Id,CompanyVo companyVo);
+    void UpdateCompany(CompanyVo companyVo);
     /**
      * 根据公司名查询(不分页)
      * @return

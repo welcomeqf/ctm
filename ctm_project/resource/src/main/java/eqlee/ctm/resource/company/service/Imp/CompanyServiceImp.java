@@ -159,11 +159,9 @@ public class CompanyServiceImp extends ServiceImpl<CompanyMapper,Company> implem
     }
 
     @Override
-    public void UpdateCompany(Long Id, CompanyVo companyVo) {
+    public void UpdateCompany(CompanyVo companyVo) {
 
         UserLoginQuery user = localUser.getUser("用户信息");
-
-        Company company1 = baseMapper.selectById(Id);
 
         Company company = new Company();
         company.setCompanyPic(companyVo.getCompanyPic());
@@ -172,11 +170,9 @@ public class CompanyServiceImp extends ServiceImpl<CompanyMapper,Company> implem
         company.setBankCard(companyVo.getBankCard());
         company.setInsurance(companyVo.getInsurance());
 
-        if (StringUtils.isBlank(company1.getCompanyNo())) {
-            company.setCompanyNo(companyVo.getCompanyNo());
-        }
+        company.setCompanyNo(companyVo.getCompanyNo());
 
-        company.setId(Id);
+        company.setId(companyVo.getId());
         company.setCompanyName(companyVo.getCompanyName());
 
         if (StringUtils.isNotBlank(companyVo.getStartDate())) {
@@ -216,10 +212,6 @@ public class CompanyServiceImp extends ServiceImpl<CompanyMapper,Company> implem
 
 
         int update = baseMapper.updateById(company);
-        if (update <= 0) {
-            log.error("update company fail");
-            throw new ApplicationException(CodeType.SERVICE_ERROR,"更新同行公司失败");
-        }
     }
 
 

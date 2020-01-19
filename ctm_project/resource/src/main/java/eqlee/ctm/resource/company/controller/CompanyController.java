@@ -78,7 +78,7 @@ public class CompanyController {
             log.error("update company param is null");
             throw new ApplicationException(CodeType.PARAMETER_ERROR);
         }
-        companyService.UpdateCompany(companyVo.getId(),companyVo);
+        companyService.UpdateCompany(companyVo);
         ResultVo resultVo = new ResultVo();
         resultVo.setResult("ok");
         return resultVo;
