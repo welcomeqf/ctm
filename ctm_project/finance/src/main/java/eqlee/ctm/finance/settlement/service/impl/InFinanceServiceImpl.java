@@ -245,10 +245,11 @@ public class InFinanceServiceImpl extends ServiceImpl<InFinanceMapper, Income> i
                     bo.setUpdateUserId(user.getId());
                     list.add(bo);
                 }
+
+                //批量增加数据库
+                out2FinanceService.insertOut2Info(list);
             }
 
-            //批量增加数据库
-            out2FinanceService.insertOut2Info(list);
 
             //标记该订单已完成
             int i = baseMapper.updateIsFinash(DateUtil.parseDate(vo.getOutDate()), user.getId(), LocalDateTime.now());
