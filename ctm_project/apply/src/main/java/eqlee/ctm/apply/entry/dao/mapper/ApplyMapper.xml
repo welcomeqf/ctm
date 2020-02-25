@@ -64,6 +64,7 @@
                 </foreach>
             </if>
         </where>
+        order by a.CreateDate desc
     </select>
 
     <select id="listPageDoApply2Company" resultType="eqlee.ctm.apply.entry.entity.query.ApplyCompanyQuery">
