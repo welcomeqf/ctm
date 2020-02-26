@@ -13,6 +13,11 @@ public class OrderDetailedBo {
 
     private Long Id;
 
+    /**
+     * 报名Id
+     */
+    private Long ApplyId;
+
 
     private Long OrderId;
 

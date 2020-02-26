@@ -146,6 +146,7 @@ public class OrderServiceImpl extends ServiceImpl<OrdersMapper, Orders> implemen
            //线路名，备注
           Line line = lineService.queryOneLine(apply.getLineId());
 
+           orderDetailed.setApplyId(apply.getId());
            orderDetailed.setLineName(line.getLineName());
            orderDetailed.setApplyRemark(apply.getApplyRemark());
            orderDetailed.setTypes(apply.getType());

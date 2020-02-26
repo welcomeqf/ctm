@@ -7,13 +7,13 @@
     <insert id="batchInsertorderDetailed" parameterType="eqlee.ctm.apply.orders.entity.bo.OrderDetailedBo">
         insert into OrderDetailed(Id,OrderId,ContactName,ContactTel,Place,AdultNumber,BabyNumber,
         OldNumber,ChildNumber,AllNumber,Price,CreateUserId,PayType,AccountName,CompanyName,MsPrice,MonthPrice,
-        CompanyUserName,CompanyUserTel,LineName,ApplyRemark,Types)
+        CompanyUserName,CompanyUserTel,LineName,ApplyRemark,Types,ApplyId)
         <foreach collection="list" item="item" index="index" separator="union all">
             select #{item.Id},#{item.OrderId},#{item.ContactName},#{item.ContactTel},#{item.Place},
             #{item.AdultNumber},#{item.BabyNumber},#{item.OldNumber},#{item.ChildNumber},
             #{item.AllNumber},#{item.Price},#{item.CreateUserId},#{item.PayType},#{item.AccountName},#{item.CompanyName}
             ,#{item.MsPrice},#{item.MonthPrice},#{item.CompanyUserName},#{item.CompanyUserTel},#{item.LineName},#{item.ApplyRemark}
-            ,#{item.Types}
+            ,#{item.Types},#{item.ApplyId}
         </foreach>
     </insert>
 

@@ -171,4 +171,46 @@ public class OrdersDetailedServiceImpl extends ServiceImpl<OrderDetailedMapper, 
     }
 
 
+    /**
+     * 提交取消操作
+     * @param applyId
+     * @param cancelStatus
+     */
+    @Override
+    public void updateCancelStatus(Long applyId, Integer cancelStatus) {
+
+        LambdaQueryWrapper<OrderDetailed> wrapper = new LambdaQueryWrapper<OrderDetailed>()
+              .eq(OrderDetailed::getApplyId,applyId);
+
+        //判断是提交取消审核  还是同意审核  还是拒绝审核
+        OrderDetailed detailed = new OrderDetailed();
+        if (cancelStatus == 1 || cancelStatus == 0) {
+            //提交取消审核   取消中
+            //0  表示拒绝审核
+            detailed.setCancelStatus(cancelStatus);
+            int update = baseMapper.update(detailed, wrapper);
+
+            if (update <= 0) {
+                throw new ApplicationException(CodeType.SERVICE_ERROR, "提交操作出错");
+            }
+        }
+
+        if (cancelStatus == 2) {
+            //同意审核
+            detailed.setCancelStatus(cancelStatus);
+
+            int update = baseMapper.update(detailed, wrapper);
+
+            if (update <= 0) {
+                throw new ApplicationException(CodeType.SERVICE_ERROR, "提交操作出错");
+            }
+
+            //修改订单主表的人数  金额信息
+            OrderDetailed orderDetailed = baseMapper.selectOne(wrapper);
+
+
+        }
+    }
+
+
 }

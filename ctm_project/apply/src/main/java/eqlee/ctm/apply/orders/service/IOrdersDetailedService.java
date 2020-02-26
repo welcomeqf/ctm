@@ -77,4 +77,11 @@ public interface IOrdersDetailedService {
      */
     List<OrderFinanceQuery> queryInOutInfo (Long orderId);
 
+    /**
+     * 提交取消操作
+     * @param applyId
+     * @param cancelStatus
+     */
+    void updateCancelStatus (Long applyId, Integer cancelStatus);
+
 }

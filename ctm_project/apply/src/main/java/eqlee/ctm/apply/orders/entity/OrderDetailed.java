@@ -33,6 +33,16 @@ public class OrderDetailed extends Model<OrderDetailed> {
     private Long OrderId;
 
     /**
+     * 报名ID
+     */
+    private Long ApplyId;
+
+    /**
+     * 0--正常  1--取消中  2--已取消
+     */
+    private Integer CancelStatus;
+
+    /**
      * 换人id
      */
     private Long OrderSubstitutId;
