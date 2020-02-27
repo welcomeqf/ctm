@@ -704,4 +704,22 @@ public class OrderServiceImpl extends ServiceImpl<OrdersMapper, Orders> implemen
       return bo;
    }
 
+
+   /**
+    * 修改订单取消信息
+    * @param bo
+    */
+   @Override
+   public void updateOrderCancel(CancelBo bo) {
+
+      Orders orders = new Orders();
+      orders.setId(bo.getOrderId());
+      orders.setAllPrice(bo.getCancelPrice());
+      int i = baseMapper.updateById(orders);
+
+      if (i <= 0) {
+         throw new ApplicationException(CodeType.SERVICE_ERROR, "修改失败");
+      }
+   }
+
 }

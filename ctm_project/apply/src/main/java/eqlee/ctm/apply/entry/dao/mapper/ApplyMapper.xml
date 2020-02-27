@@ -211,7 +211,7 @@
         from Apply a join Line b on a.LineId = b.Id
       <where>
           1 = 1
-          and a.IsSelect = 1
+          and a.IsSelect = 1 and a.IsCancel = 0
           <if test="id != null">
               and a.CreateUserId = #{id}
           </if>
@@ -239,7 +239,7 @@
         from Apply a join Line b on a.LineId = b.Id
         <where>
             1 = 1
-            and a.IsSelect = 1
+            and a.IsSelect = 1 and a.IsCancel = 0
             <if test="start != null">
                 and a.OutDate between #{start} and #{end}
             </if>
@@ -335,6 +335,7 @@
         <where>
             1 = 1
             and a.IsSelect = 1
+            and a.IsCancel = 0
             and a.CompanyName = #{companyName}
             <if test="start != null">
                 and a.OutDate between #{start} and #{end}

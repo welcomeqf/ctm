@@ -29,6 +29,7 @@ import eqlee.ctm.apply.message.entity.vo.MsgAddVo;
 import eqlee.ctm.apply.message.entity.vo.MsgVo;
 import eqlee.ctm.apply.message.service.IMessageService;
 import eqlee.ctm.apply.orders.service.IOrderSubstitutService;
+import eqlee.ctm.apply.orders.service.IOrdersDetailedService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -62,6 +63,9 @@ public class ExamineServiceImpl extends ServiceImpl<ExamineMapper, Examine> impl
 
     @Autowired
     private IMessageService messageService;
+
+    @Autowired
+    private IOrdersDetailedService ordersDetailedService;
 
     @Autowired
     private IOrderSubstitutService orderSubstitutService;
@@ -128,6 +132,8 @@ public class ExamineServiceImpl extends ServiceImpl<ExamineMapper, Examine> impl
 //
 //        //增加数据库
 //        messageService.addAllMsg(msgVo);
+
+        ordersDetailedService.updateCancelStatus(ApplyId,1);
 
     }
 
@@ -244,9 +250,9 @@ public class ExamineServiceImpl extends ServiceImpl<ExamineMapper, Examine> impl
         //判断该账号是什么支付
         ApplySeacherVo vo = applyService.queryById(ApplyId);
 
-        if (vo.getIsSelect()) {
-            throw new ApplicationException(CodeType.SERVICE_ERROR, "该单已经被导游选了,不能同意");
-        }
+//        if (vo.getIsSelect()) {
+//            throw new ApplicationException(CodeType.SERVICE_ERROR, "该单已经被导游选了,不能同意");
+//        }
 
         LambdaQueryWrapper<Examine> queryWrapper = new LambdaQueryWrapper<Examine>()
                 .eq(Examine::getApplyId,ApplyId)
@@ -322,6 +328,9 @@ public class ExamineServiceImpl extends ServiceImpl<ExamineMapper, Examine> impl
 
         //改变报名表
         applyService.cancelApply(ApplyId);
+
+        //通过
+        ordersDetailedService.updateCancelStatus(ApplyId,2);
         return query;
     }
 
@@ -362,6 +371,8 @@ public class ExamineServiceImpl extends ServiceImpl<ExamineMapper, Examine> impl
 //        msgVo.setToId(vo.getCreateUserId());
 //
 //        messageService.insertMsg(msgVo);
+
+        ordersDetailedService.updateCancelStatus(ApplyId,0);
 
         ExaApplyResultQuery query = new ExaApplyResultQuery();
         query.setType("ok");

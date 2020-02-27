@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import eqlee.ctm.apply.guider.entity.vo.ApplyVo;
 import eqlee.ctm.apply.orders.entity.Orders;
 import eqlee.ctm.apply.orders.entity.Vo.*;
+import eqlee.ctm.apply.orders.entity.bo.CancelBo;
 import eqlee.ctm.apply.orders.entity.bo.IdBo;
 import eqlee.ctm.apply.orders.entity.query.ChangedQuery;
 import eqlee.ctm.apply.orders.entity.query.OrderDetailedFainllyQuery;
@@ -153,4 +154,10 @@ public interface IOrdersService {
      * @return
      */
     IdBo queryId (String outDate);
+
+    /**
+     * 修改订单主表的信息
+     * @param bo
+     */
+    void updateOrderCancel (CancelBo bo);
 }

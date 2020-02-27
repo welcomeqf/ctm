@@ -383,12 +383,12 @@ public class UserApiController {
     @CheckToken
     @IgnoreResponseAdvice
     public Object updateUser(@RequestBody UserUpdateVo vo) throws Exception{
+        UserLoginQuery user = localUser.getUser("用户信息");
         UserUpdateInfoVo infoVo = new UserUpdateInfoVo();
         infoVo.setCname(vo.getCname());
         infoVo.setId(vo.getId());
         infoVo.setNewPassword(vo.getNewPassword());
-        infoVo.setStopped(vo.getStopped());
-        infoVo.setRoleName(vo.getRoleName());
+        infoVo.setRoleName(user.getRoleName());
         infoVo.setTel(vo.getTel());
         infoVo.setCity(vo.getCity());
         String url = "http://" + ip +":" + port + "/" + path + "/v1/app/user/updateUser";

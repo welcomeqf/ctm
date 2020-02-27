@@ -14,6 +14,8 @@ import eqlee.ctm.apply.guider.entity.vo.GuiderVo;
 import eqlee.ctm.apply.line.entity.vo.ResultVo;
 import eqlee.ctm.apply.orders.dao.OrderDetailedMapper;
 import eqlee.ctm.apply.orders.entity.OrderDetailed;
+import eqlee.ctm.apply.orders.entity.Orders;
+import eqlee.ctm.apply.orders.entity.bo.CancelBo;
 import eqlee.ctm.apply.orders.entity.bo.IdBo;
 import eqlee.ctm.apply.orders.entity.bo.OrderBo;
 import eqlee.ctm.apply.orders.entity.bo.OrderDetailedBo;
@@ -29,6 +31,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 
 /**
@@ -51,6 +54,8 @@ public class OrdersDetailedServiceImpl extends ServiceImpl<OrderDetailedMapper, 
     @Autowired
     private LocalUser user;
 
+    @Autowired
+    private IOrdersService ordersService;
 
     @Override
     public void batchInsertorderDetailed(List<OrderDetailedBo> orderDetailedList) {
@@ -182,6 +187,24 @@ public class OrdersDetailedServiceImpl extends ServiceImpl<OrderDetailedMapper, 
         LambdaQueryWrapper<OrderDetailed> wrapper = new LambdaQueryWrapper<OrderDetailed>()
               .eq(OrderDetailed::getApplyId,applyId);
 
+        //修改订单主表的人数  金额信息
+        OrderDetailed orderDetailed = baseMapper.selectOne(wrapper);
+
+        if (orderDetailed == null) {
+            return;
+        }
+
+        if (cancelStatus == 1) {
+            //如果已经出行的单不能取消
+            Orders orders = ordersService.queryOne(orderDetailed.getOrderId());
+            LocalDate now = LocalDate.now();
+            long until = now.until(orders.getOutDate(), ChronoUnit.DAYS);
+
+            if (until < 0) {
+                throw new ApplicationException(CodeType.SERVICE_ERROR,"亲~该单已经出行不能取消！");
+            }
+        }
+
         //判断是提交取消审核  还是同意审核  还是拒绝审核
         OrderDetailed detailed = new OrderDetailed();
         if (cancelStatus == 1 || cancelStatus == 0) {
@@ -196,8 +219,17 @@ public class OrdersDetailedServiceImpl extends ServiceImpl<OrderDetailedMapper, 
         }
 
         if (cancelStatus == 2) {
+
             //同意审核
             detailed.setCancelStatus(cancelStatus);
+            detailed.setAdultNumber(0);
+            detailed.setAllNumber(0);
+            detailed.setBabyNumber(0);
+            detailed.setChildNumber(0);
+            detailed.setMonthPrice(0.0);
+            detailed.setMsPrice(0.0);
+            detailed.setOldNumber(0);
+            detailed.setPrice(0.0);
 
             int update = baseMapper.update(detailed, wrapper);
 
@@ -205,10 +237,15 @@ public class OrdersDetailedServiceImpl extends ServiceImpl<OrderDetailedMapper, 
                 throw new ApplicationException(CodeType.SERVICE_ERROR, "提交操作出错");
             }
 
-            //修改订单主表的人数  金额信息
-            OrderDetailed orderDetailed = baseMapper.selectOne(wrapper);
+            Orders orders = ordersService.queryOne(orderDetailed.getOrderId());
 
+            CancelBo bo = new CancelBo();
 
+            Double price = orders.getAllPrice() - orderDetailed.getPrice();
+            bo.setOrderId(orderDetailed.getOrderId());
+            bo.setCancelPrice(price);
+
+            ordersService.updateOrderCancel(bo);
         }
     }
 

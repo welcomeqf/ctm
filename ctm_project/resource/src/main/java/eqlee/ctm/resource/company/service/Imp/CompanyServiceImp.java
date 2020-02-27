@@ -81,6 +81,16 @@ public class CompanyServiceImp extends ServiceImpl<CompanyMapper,Company> implem
             throw new ApplicationException(CodeType.SERVICE_ERROR, "该编号已存在");
         }
 
+        LambdaQueryWrapper<Company> queryWrapper = new LambdaQueryWrapper<Company>()
+              .eq(Company::getCompanyName,companyVo.getCompanyName())
+              .or()
+              .eq(Company::getCompanyFullName,companyVo.getCompanyFullName());
+        Company company1 = baseMapper.selectOne(queryWrapper);
+
+        if (company1 != null) {
+            throw new ApplicationException(CodeType.SERVICE_ERROR, "公司名不能重复");
+        }
+
         UserLoginQuery user = localUser.getUser("用户信息");
 
         IdGenerator idGenerator = new IdGenerator();

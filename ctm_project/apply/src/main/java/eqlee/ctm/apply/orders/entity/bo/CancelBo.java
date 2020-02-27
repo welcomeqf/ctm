@@ -11,32 +11,12 @@ import lombok.Data;
 public class CancelBo {
 
    /**
+    * 订单ID
+    */
+   private Long orderId;
+
+   /**
     * 取消金钱
     */
    private Double cancelPrice;
-
-   /**
-    * 成人人数
-    */
-   private Integer adultNumber;
-
-   /**
-    * 幼儿人数
-    */
-   private Integer babyNumber;
-
-   /**
-    * 老人人数
-    */
-   private Integer oldNumber;
-
-   /**
-    * 小孩人数
-    */
-   private Integer childNumber;
-
-   /**
-    * 总人数
-    */
-   private Integer allNumber;
 }
