@@ -388,7 +388,7 @@ public class UserApiController {
         infoVo.setCname(vo.getCname());
         infoVo.setId(vo.getId());
         infoVo.setNewPassword(vo.getNewPassword());
-        infoVo.setRoleName(user.getRoleName());
+        infoVo.setRoleName(vo.getRoleName());
         infoVo.setTel(vo.getTel());
         infoVo.setCity(vo.getCity());
         String url = "http://" + ip +":" + port + "/" + path + "/v1/app/user/updateUser";

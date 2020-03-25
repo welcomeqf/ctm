@@ -113,7 +113,7 @@ public class OrderDetailedExcelController {
          bodyValue.add(String.valueOf(query.getAllPrice()));
          bodyValue.add(query.getPlace());
          bodyValue.add(query.getApplyRemark());
-         bodyValue.add(query.getGuideName());
+//         bodyValue.add(query.getGuideName());
          //将数据添加到报表体中
          body.add(bodyValue);
       }

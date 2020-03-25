@@ -309,7 +309,7 @@
     <select id="queryCountInfo" resultType="eqlee.ctm.apply.entry.entity.vo.ApplyCountVo">
          select a.ApplyNo as 'applyNo',convert(varchar(20),a.OutDate,23)outDate,b.LineName as 'lineName',a.ContactName as 'contactName',
       a.ContactTel as 'contactTel',a.AllNumber as 'allNumber',a.AdultNumber as 'adultNumber',a.BabyNumber as 'babyNumber',
-      a.OldNumber as 'oldNumber',a.ChildNumber as 'childNumber',a.AllPrice as 'allPrice',a.MsPrice as 'msPrice',a.CName as 'cname'
+      a.OldNumber as 'oldNumber',a.ChildNumber as 'childNumber',a.AllPrice as 'allPrice',a.MsPrice as 'msPrice',a.CName as 'cname',a.IsCancel as isCancel
       from Apply a join Line b on a.LineId = b.Id
       <where>
           1 = 1

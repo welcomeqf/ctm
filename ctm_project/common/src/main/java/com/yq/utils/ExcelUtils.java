@@ -10,13 +10,14 @@ import java.io.*;
 import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
 import java.util.*;
-
+import lombok.extern.slf4j.Slf4j;
 /**
  * excel表格导出
  * @Author qf
  * @Date 2019/8/24
  * @Version 1.0
  */
+@Slf4j
 public class ExcelUtils {
 
     static final short borderpx = 1;
@@ -110,6 +111,17 @@ public class ExcelUtils {
             setBorderStyle((HSSFCellStyle) cellStyle2, borderpx);
             cellStyle2.setFont(setFontStyle((HSSFWorkbook) workbook, "宋体", (short) 12));
             cellStyle2.setAlignment(HSSFCellStyle.ALIGN_CENTER);
+
+            CellStyle cellStyle3 = workbook.createCellStyle();
+            setBorderStyle((HSSFCellStyle) cellStyle3, borderpx);
+            cellStyle3.setFont(setFontStyle((HSSFWorkbook) workbook, "宋体", (short) 10));
+            cellStyle3.setAlignment(HSSFCellStyle.ALIGN_CENTER);
+
+            CellStyle cellStyle4 = workbook.createCellStyle();
+            setBorderStyle((HSSFCellStyle) cellStyle4, borderpx);
+            cellStyle4.setFont(setFontStyle((HSSFWorkbook) workbook, "宋体", (short) 10));
+            cellStyle4.setAlignment(HSSFCellStyle.ALIGN_LEFT);
+
             //开始行
             Integer start = 4;
             if (body.size() > 2) {
@@ -144,6 +156,9 @@ public class ExcelUtils {
                     cell = row.createCell(p);
                     cell.setCellValue(paramList.get(p));
                     cell.setCellStyle(cellStyle2);
+                    if (p==2||p==11) {
+                        cell.setCellStyle(cellStyle4);
+                    }
                 }
             }
 
@@ -156,7 +171,7 @@ public class ExcelUtils {
             Row sheetRow = sheet.getRow(size+2);
             Cell rowCell = sheetRow.getCell(1);
             rowCell.setCellValue(contentExl.getNumber());
-            rowCell.setCellStyle(cellStyle2);
+            rowCell.setCellStyle(cellStyle3);
             //总人数
             Cell cell1 = sheetRow.getCell(4);
             cell1.setCellValue(contentExl.getAllNumber());
@@ -167,10 +182,10 @@ public class ExcelUtils {
             Cell rowCell1 = sheetRow1.getCell(1);
             rowCell1.setCellValue(contentExl.getIncomeMoney());
             rowCell1.setCellStyle(cellStyle2);
-            //经手人
-            Cell row2 = sheetRow1.getCell(13);
-            row2.setCellValue(contentExl.getGuideName());
-            row2.setCellStyle(cellStyle2);
+            //经手人   客户要求不显示这一列
+//            Cell row2 = sheetRow1.getCell(13);
+//            row2.setCellValue(contentExl.getGuideName());
+//            row2.setCellStyle(cellStyle2);
 
             //合计收入
             Cell cell2 = sheetRow1.getCell(3);
@@ -284,6 +299,8 @@ public class ExcelUtils {
         path = path.substring(0, path.lastIndexOf(".")) + fdate.format(new Date()) + path.substring(path.lastIndexOf("."));
         OutputStream os=null;
         File file = null;
+        System.out.print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
+        System.out.print(path);
         try {
             file = new File(path);
             String filename = file.getName();

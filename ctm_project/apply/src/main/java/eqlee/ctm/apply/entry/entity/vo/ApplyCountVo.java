@@ -35,4 +35,6 @@ public class ApplyCountVo {
    private Double msPrice;
 
    private String cname;
+
+   private Boolean isCancel;
 }
