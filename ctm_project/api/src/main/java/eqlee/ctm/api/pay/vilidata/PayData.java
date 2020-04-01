@@ -13,10 +13,10 @@ public class PayData {
 
     public static String getOpenId (String code) {
 
-        String appId = "wxee961914859e2eab";
-
-        String secret = "106342221c129aee134951ea037cd571";
-
+//        String appId = "wxee961914859e2eab";
+        String appId = "wxd1a8a6b0eed550f4";
+//        String secret = "106342221c129aee134951ea037cd571";
+        String secret = "39f2311592e4d1da2743a863293cd673";
         if(code != null){
             String url = "https://api.weixin.qq.com/sns/oauth2/access_token?"
                     + "appid=" + appId

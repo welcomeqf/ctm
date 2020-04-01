@@ -11,7 +11,7 @@
         CompanyPic as 'companyPic',SxPrice as 'sxPrice',CompanyFullName as 'companyFullName',
         ChargeName as 'chargeName',FinanceTel as 'financeTel',Business as 'business',
         Licence as 'licence',Insurance as 'insurance',BankCard as 'bankCard',Address as 'address',Status as 'status'
-        from Company where CompanyName like #{_companyName} and IsLook = 0 order by Status asc
+        from Company where CompanyName like #{_companyName} and IsLook = 0 order by Status asc,CreateDate desc
     </select>
 
 

@@ -12,6 +12,9 @@ spring:
     name: service-api
   jmx:
     enabled: false
+  servlet:
+    multipart:
+      max-file-size: 10MB
 app:
   workerId: 9
   dataCenterId: 1
