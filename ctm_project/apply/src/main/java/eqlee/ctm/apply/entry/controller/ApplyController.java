@@ -7,9 +7,6 @@ import com.yq.jwt.contain.LocalUser;
 import com.yq.jwt.entity.UserLoginQuery;
 import com.yq.jwt.islogin.CheckToken;
 import com.yq.utils.StringUtils;
-import com.yq.vilidata.TimeData;
-import com.yq.vilidata.query.TimeQuery;
-import eqlee.ctm.apply.entry.entity.Apply;
 import eqlee.ctm.apply.entry.entity.bo.ApplyCompanyInfo;
 import eqlee.ctm.apply.entry.entity.bo.ApplyCountBo;
 import eqlee.ctm.apply.entry.entity.bo.ApplyCountCaiBo;
@@ -25,7 +22,6 @@ import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -471,5 +467,14 @@ public class ApplyController {
         return applyService.queryCount();
     }
 
+    @ApiOperation(value = "报名未审核统计", notes = "报名未审核统计")
+    @GetMapping("/queryExamineCount")
+    @CrossOrigin
+    @CheckToken
+    public ApplyExaCountQuery queryExamineCount() {
+
+        return applyService.queryExamineCount2();
+//        return applyService.queryExamineCount();
+    }
 
 }

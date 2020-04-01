@@ -309,6 +309,10 @@ public interface ApplyMapper extends IBaseMapper<Apply> {
                                           @Param("companyName") String companyName,
                                           @Param("lineName") String lineName);
 
+    int queryExamineCount();
+
+    ApplyExaCountQuery queryExamineCount2();
+
 
 
 }

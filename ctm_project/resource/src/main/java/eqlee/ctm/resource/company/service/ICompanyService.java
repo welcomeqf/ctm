@@ -3,6 +3,7 @@ package eqlee.ctm.resource.company.service;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import eqlee.ctm.resource.company.entity.Company;
 import eqlee.ctm.resource.company.entity.query.CompanyAdminQuery;
+import eqlee.ctm.resource.company.entity.query.CompanyCount;
 import eqlee.ctm.resource.company.entity.query.CompanyQuery;
 import eqlee.ctm.resource.company.entity.query.PageCompanyQuery;
 import eqlee.ctm.resource.company.entity.vo.CompanyIndexVo;
@@ -92,5 +93,9 @@ public interface ICompanyService {
    void registerCompany (CompanyVo vo);
 
 
-
+    /**
+     *  公司未注册统计
+     * @return
+     */
+    CompanyCount companyCount();
 }

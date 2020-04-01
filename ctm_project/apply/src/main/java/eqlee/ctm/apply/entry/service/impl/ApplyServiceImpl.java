@@ -1,12 +1,10 @@
 package eqlee.ctm.apply.entry.service.impl;
 
-import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.yq.constanct.CodeType;
-import com.yq.entity.websocket.NettyType;
 import com.yq.exception.ApplicationException;
 import com.yq.jwt.contain.LocalUser;
 import com.yq.jwt.entity.CityJwtBo;
@@ -25,12 +23,8 @@ import eqlee.ctm.apply.entry.service.IExamineService;
 import eqlee.ctm.apply.entry.vilidata.HttpUtils;
 import eqlee.ctm.apply.line.entity.Line;
 import eqlee.ctm.apply.line.service.ILineService;
-import eqlee.ctm.apply.message.entity.vo.MsgAddVo;
 import eqlee.ctm.apply.message.service.IMessageService;
-import eqlee.ctm.apply.orders.entity.Vo.LongVo;
-import eqlee.ctm.apply.price.entity.Price;
 import eqlee.ctm.apply.price.service.IPriceService;
-import eqlee.ctm.apply.sxpay.entity.PayInfo;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -39,7 +33,6 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
-import java.time.temporal.TemporalAdjusters;
 import java.util.ArrayList;
 import java.util.List;
 import java.time.LocalDate;
@@ -66,6 +59,9 @@ public class ApplyServiceImpl extends ServiceImpl<ApplyMapper, Apply> implements
 
     @Autowired
     private IMessageService messageService;
+
+//    @Autowired
+//    private  ApplyMapper applyMapper;
 
     @Autowired
     private HttpUtils httpUtils;
@@ -1611,5 +1607,26 @@ public class ApplyServiceImpl extends ServiceImpl<ApplyMapper, Apply> implements
 
    }
 
+    @Override
+    public int queryExamineCount() {
+        Long id = 634338640817815552L;
+        int result = 99999;
+        UserLoginQuery user = localUser.getUser("用户信息");
+        for (PrivilegeMenuQuery query : user.getMenuList()) {
+            if (id.equals(query.getMenuId())) {
+                result = baseMapper.queryExamineCount();
+                return result;
+            }
+        }
+        return result;
+//       return applyMapper.queryExamineCount();
+    }
 
+    public ApplyExaCountQuery queryExamineCount2() {
+        ApplyExaCountQuery result = new ApplyExaCountQuery();
+        Integer integer = queryExamineCount();
+        result.setCount(integer);
+        return result;
+//       return applyMapper.queryExamineCount();
+    }
 }

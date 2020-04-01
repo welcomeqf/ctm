@@ -8,6 +8,7 @@ import com.yq.jwt.islogin.CheckToken;
 import com.yq.utils.StringUtils;
 import eqlee.ctm.resource.company.entity.Company;
 import eqlee.ctm.resource.company.entity.query.CompanyAdminQuery;
+import eqlee.ctm.resource.company.entity.query.CompanyCount;
 import eqlee.ctm.resource.company.entity.query.CompanyQuery;
 import eqlee.ctm.resource.company.entity.query.PageCompanyQuery;
 import eqlee.ctm.resource.company.entity.vo.CompanyIndexVo;
@@ -200,13 +201,20 @@ public class CompanyController {
 
     }
 
+    @ApiOperation(value = "返回同行未审核条数", notes = "返回同行未审核条数")
+    @GetMapping("/companyCount")
+    @CrossOrigin
+    @CheckToken
+    public CompanyCount companyCount(){
+        return companyService.companyCount();
+    }
+
     @ApiOperation(value = "查询所有同行", notes = "查询所有同行")
     @GetMapping("/getCompany")
     @CrossOrigin
     @CheckToken
     public List<Company> getCompany(){
         return companyService.queryAllCompany();
-
     }
 
 

@@ -7,6 +7,8 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.yq.constanct.CodeType;
 import com.yq.exception.ApplicationException;
 import com.yq.jwt.contain.LocalUser;
+import com.yq.jwt.entity.CityJwtBo;
+import com.yq.jwt.entity.PrivilegeMenuQuery;
 import com.yq.jwt.entity.UserLoginQuery;
 import com.yq.utils.DateUtil;
 import com.yq.utils.IdGenerator;
@@ -14,6 +16,7 @@ import com.yq.utils.StringUtils;
 import eqlee.ctm.resource.company.dao.CompanyMapper;
 import eqlee.ctm.resource.company.entity.Company;
 import eqlee.ctm.resource.company.entity.query.CompanyAdminQuery;
+import eqlee.ctm.resource.company.entity.query.CompanyCount;
 import eqlee.ctm.resource.company.entity.query.CompanyQuery;
 import eqlee.ctm.resource.company.entity.query.PageCompanyQuery;
 import eqlee.ctm.resource.company.entity.vo.CompanyIndexVo;
@@ -27,6 +30,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -421,5 +425,31 @@ public class CompanyServiceImp extends ServiceImpl<CompanyMapper,Company> implem
             log.error("insert company fail");
             throw new ApplicationException(CodeType.SERVICE_ERROR,"增加同行公司失败");
         }
+    }
+
+    @Override
+    public CompanyCount companyCount() {
+        Long id = 634337000551350272L;
+        CompanyCount result = new CompanyCount();
+        UserLoginQuery user = localUser.getUser("用户信息");
+
+
+
+        for (PrivilegeMenuQuery query : user.getMenuList()) {
+            if (id.equals(query.getMenuId())) {
+
+                LambdaQueryWrapper<Company> wrapper = new LambdaQueryWrapper<Company>()
+                        .eq(Company::getStatus,0);
+                Integer integer = baseMapper.selectCount(wrapper);
+
+                result.setCount(integer);
+                return result;
+
+            }
+        }
+
+        //
+        result.setCount(99999);
+        return result;
     }
 }

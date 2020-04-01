@@ -67,6 +67,17 @@
         order by a.CreateDate desc
     </select>
 
+    <!-- 未审核的数据统计 -->
+    <select id="queryExamineCount" resultType="java.lang.Integer">
+        select count (*) from (select a.Id,a.ApplyNo,convert(varchar(20),a.OutDate,23) as 'OutDate',b.LineName,a.AdultNumber,a.BabyNumber,a.OldNumber,a.ChildNumber,
+        a.statu,a.CompanyName,a.CompanyUser,a.IsPayment,a.IsCancel,d.ExamineType,a.ContactName,a.ContactTel,a.AllPrice,a.Type,d.ExamineResult,
+        a.ApplyPic from Line b join Apply a on a.LineId = b.Id join Examine d on a.Id = d.ApplyId
+        where
+            1 = 1
+            and a.IsPayment = 1
+                and ((d.ExamineType = '0' or d.ExamineType = '1') and d.ExamineResult = 0 and a.IsCancel != 1)) kk
+    </select>
+
     <select id="listPageDoApply2Company" resultType="eqlee.ctm.apply.entry.entity.query.ApplyCompanyQuery">
         select a.Id,a.ApplyNo,convert(varchar(20),a.OutDate,23) as 'OutDate',b.LineName,a.AllNumber,
         a.ContactName,a.ContactTel,a.Statu
