@@ -94,4 +94,5 @@ public interface IInFinanceService {
      */
     Map<String,Object> queryCompanyInfoCount (Page<FinanceCompanyInfoBo> page, String lineName, String outDate, String accountName);
 
+    IncomeCount incomeCount();
 }

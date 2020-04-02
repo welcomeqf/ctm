@@ -193,4 +193,9 @@ public class FinanceController {
         return inFinanceService.queryResult(orderId);
     }
 
+    @ApiOperation(value = "查询账单审核未审核条数", notes = "查询账单审核未审核条数")
+    @GetMapping("/incomeCount")
+    @CrossOrigin
+    @CheckToken
+    public IncomeCount incomeCount() { return  inFinanceService.incomeCount(); }
 }

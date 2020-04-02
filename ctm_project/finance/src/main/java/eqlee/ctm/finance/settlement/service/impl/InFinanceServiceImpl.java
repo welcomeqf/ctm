@@ -7,6 +7,7 @@ import com.yq.constanct.CodeType;
 import com.yq.exception.ApplicationException;
 import com.yq.jwt.contain.LocalUser;
 import com.yq.jwt.entity.CityJwtBo;
+import com.yq.jwt.entity.PrivilegeMenuQuery;
 import com.yq.jwt.entity.UserLoginQuery;
 import com.yq.utils.DateUtil;
 import com.yq.utils.IdGenerator;
@@ -559,5 +560,36 @@ public class InFinanceServiceImpl extends ServiceImpl<InFinanceMapper, Income> i
         map.put("sameData",bo);
 
         return map;
+    }
+
+    @Override
+    public IncomeCount incomeCount() {
+        Long id = 634338791976337408L;
+        IncomeCount result = new IncomeCount();
+        UserLoginQuery user = localUser.getUser("用户信息");
+
+        List<String> list = new ArrayList<>();
+
+        for (CityJwtBo bo : user.getCity()) {
+            list.add(bo.getCity());
+        }
+
+        for (PrivilegeMenuQuery query : user.getMenuList()) {
+            if (id.equals(query.getMenuId())) {
+
+                LambdaQueryWrapper<Income> wrapper = new LambdaQueryWrapper<Income>()
+                        .eq(Income::getStatus,0)
+                        .in(Income::getCity,list);
+                Integer integer = baseMapper.selectCount(wrapper);
+
+                result.setCount(integer);
+                return result;
+
+            }
+        }
+
+        //
+        result.setCount(99999);
+        return result;
     }
 }
