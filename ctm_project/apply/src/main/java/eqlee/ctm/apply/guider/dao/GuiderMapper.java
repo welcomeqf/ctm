@@ -63,7 +63,8 @@ public interface GuiderMapper {
                                  @Param("outDate") LocalDate outDate,
                                  @Param("region") String region,
                                  @Param("cityList") List<String> cityList,
-                                 @Param("list") List<Long> list);
+                                 @Param("list") List<Long> list,
+                                 @Param("selectNot") Integer selectNot);
 
 
      /**

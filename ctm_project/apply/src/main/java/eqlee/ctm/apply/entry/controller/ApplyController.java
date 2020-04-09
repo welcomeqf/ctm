@@ -467,6 +467,14 @@ public class ApplyController {
         return applyService.queryCount();
     }
 
+    @ApiOperation(value = "导游未选的单数统计", notes = "导游未选的单数统计")
+    @GetMapping("/guiderCount")
+    @CrossOrigin
+    @CheckToken
+    public ApplyExaCountQuery guiderCount() {
+        return applyService.guiderCount();
+    }
+
     @ApiOperation(value = "报名未审核统计", notes = "报名未审核统计")
     @GetMapping("/queryExamineCount")
     @CrossOrigin

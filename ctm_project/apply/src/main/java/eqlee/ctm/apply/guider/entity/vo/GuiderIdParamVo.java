@@ -19,4 +19,6 @@ public class GuiderIdParamVo {
    private GuiderList lineNameList;
 
    private String region;
+
+   private Integer selectNot;
 }

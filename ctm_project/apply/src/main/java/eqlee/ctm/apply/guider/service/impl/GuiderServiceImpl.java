@@ -51,7 +51,7 @@ public class GuiderServiceImpl implements IGuiderService {
      * @return
      */
     @Override
-    public Map<String,Object> guiderIndex(Page<GuiderVo> page, String outDate, GuiderList lineNameList, String region) {
+    public Map<String,Object> guiderIndex(Page<GuiderVo> page, String outDate, GuiderList lineNameList, String region, Integer selectNot) {
 
         LocalDate localDate = null;
 
@@ -86,7 +86,7 @@ public class GuiderServiceImpl implements IGuiderService {
           list = null;
        }
 
-       Page<GuiderVo> guiderVoPage1 = guiderMapper.guiderIndex2(page, localDate, region, cityList, list);
+       Page<GuiderVo> guiderVoPage1 = guiderMapper.guiderIndex2(page, localDate, region, cityList, list, selectNot);
 
        GuiderCountNumber guiderCountNumber1 = guiderMapper.queryCountNumberInfo2(localDate, region,cityList,list,0);
 

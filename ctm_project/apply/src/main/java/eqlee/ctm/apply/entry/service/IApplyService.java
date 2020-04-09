@@ -292,6 +292,8 @@ public interface IApplyService {
      */
     ApplyExaCountQuery queryCount ();
 
+    ApplyExaCountQuery guiderCount ();
+
     int queryExamineCount();
 
     ApplyExaCountQuery queryExamineCount2();

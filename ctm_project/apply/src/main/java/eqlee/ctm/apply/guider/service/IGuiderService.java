@@ -23,7 +23,7 @@ public interface IGuiderService {
      * @param region
      * @return
      */
-    Map<String,Object> guiderIndex(Page<GuiderVo> page, String outDate, GuiderList lineNameList, String region);
+    Map<String,Object> guiderIndex(Page<GuiderVo> page, String outDate, GuiderList lineNameList, String region, Integer selectNot);
 
 
     /**

@@ -34,6 +34,7 @@ import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.time.LocalDate;
 
@@ -1606,6 +1607,42 @@ public class ApplyServiceImpl extends ServiceImpl<ApplyMapper, Apply> implements
 
 
    }
+
+    @Override
+    public ApplyExaCountQuery guiderCount() {
+        Long id = 634338100776009728L;
+        ApplyExaCountQuery result = new ApplyExaCountQuery();
+        UserLoginQuery user = localUser.getUser("用户信息");
+        List<String> cityList = new ArrayList<>();
+
+        if (user.getCity().size() > 0) {
+            for (CityJwtBo bo : user.getCity()) {
+                cityList.add(bo.getCity());
+            }
+        } else {
+            cityList = null;
+        }
+
+        for (PrivilegeMenuQuery query : user.getMenuList()) {
+            if (id.equals(query.getMenuId())) {
+
+                LambdaQueryWrapper<Apply> wrapper = new LambdaQueryWrapper<Apply>()
+                        .eq(Apply::getIsCancel,0)
+                        .eq(Apply::getStatu,1)
+                        .eq(Apply::getIsPayment,1)
+                        .eq(Apply::getIsSelect,0)
+                        .le(Apply::getOutDate, new Date())
+                        .in(Apply::getCity, cityList);
+                Integer integer = baseMapper.selectCount(wrapper);
+                result.setCount(integer);
+                return result;
+
+            }
+        }
+
+        result.setCount(99999);
+        return result;
+    }
 
     @Override
     public int queryExamineCount() {
