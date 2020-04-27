@@ -224,7 +224,9 @@ public class CompanyServiceImp extends ServiceImpl<CompanyMapper,Company> implem
             company.setPayMethod(3);
         }
 
-
+//        System.out.print(company);
+        List<Company> list = baseMapper.selectList(null);
+        System.out.println("--------"+list);
         int update = baseMapper.updateById(company);
     }
 

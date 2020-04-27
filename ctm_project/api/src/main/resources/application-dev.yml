@@ -2,6 +2,6 @@ spring:
   datasource:
     driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
     url: jdbc:sqlserver://8.129.214.148:1599;Databasename=Ctm
-    username: eqlee_dev
-    password: dev2019@eqlee.com
+    username: acc_ctm
+    password: CTM@eqlee.com..
 

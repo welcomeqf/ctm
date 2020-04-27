@@ -185,7 +185,7 @@ public class ImgController {
 
 //      String url = "http://img.eqlee.com/v1/UploadImage/Single";
 
-//      String url = "http://ctm.wapi.eqlee.com/api/v1/img/storeFile";
+//      String url = "http://ctm-api.510766.com/api/v1/img/storeFile";
 
       String url = "http://img.eqlee.com/v1/Upload";
 

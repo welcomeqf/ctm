@@ -81,7 +81,7 @@ public class PayController {
     public Object pay(@RequestParam("payOrderSerialNumber") String payOrderSerialNumber,
                       @RequestParam("Money") Double Money,
                       @RequestParam("productName") String productName) throws Exception{
-        String callbackUrl = "http://ctm.wapi.eqlee.com/api/v1/pay/sucFail";
+        String callbackUrl = "http://ctm-api.510766.com/api/v1/pay/sucFail";
         String url = URL + "/v1/WeChatPay/GetQRCode?payOrderSerialNumber=" + payOrderSerialNumber +"&Money=" +Money
                 + "&productName=" + productName + "&callbackUrl=" +callbackUrl;
 
@@ -187,7 +187,7 @@ public class PayController {
                       @RequestParam("Money") Double Money,
                       @RequestParam("productName") String productName,
                       @RequestParam("code") String code) throws Exception{
-        String callbackUrl = "http://ctm.wapi.eqlee.com/api/v1/pay/sucFail";
+        String callbackUrl = "http://ctm-api.510766.com/api/v1/pay/sucFail";
         UserLoginQuery user = localUser.getUser("用户信息");
         String openId = null;
 

@@ -67,7 +67,7 @@ public class AliPayController {
                      @RequestParam("productName") String productName,
                      @RequestParam("Body") String Body,
                      @RequestParam("returnUrl") String returnUrl) throws Exception{
-      String callbackUrl = "http://ctm.wapi.eqlee.com/api/v1/pay/sucAliFail";
+      String callbackUrl = "http://ctm-api.510766.com/api/v1/pay/sucAliFail";
       String url = URL + "/v1/Alipay/GetTradeQrCodePayPayModel?payOrderSerialNumber=" + payOrderSerialNumber +"&Money=" +Money
             + "&productName=" + productName + "&callbackUrl=" +callbackUrl + "&Body=" + Body + "&returnUrl=" +returnUrl;
 
@@ -143,7 +143,7 @@ public class AliPayController {
                      @RequestParam("productName") String productName,
                      @RequestParam("Body") String Body,
                      @RequestParam("returnUrl") String returnUrl) throws Exception{
-      String callbackUrl = "http://ctm.wapi.eqlee.com/api/v1/pay/sucAliFail";
+      String callbackUrl = "http://ctm-api.510766.com/api/v1/pay/sucAliFail";
 
       String url = URL + "/v1/Alipay/GetTradeWapPayModel?payOrderSerialNumber=" + payOrderSerialNumber +"&Money=" +Money
             + "&productName=" + productName + "&callbackUrl=" +callbackUrl + "&Body=" +Body + "&returnUrl=" +returnUrl;

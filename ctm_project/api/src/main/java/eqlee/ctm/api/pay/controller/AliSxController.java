@@ -61,12 +61,12 @@ public class AliSxController {
       String callbackUrl = null;
       if (type == 0) {
          //续费
-         callbackUrl = "http://ctm.wapi.eqlee.com/apply/sx/sucAliFail";
+         callbackUrl = "http://ctm-api.510766.com/apply/sx/sucAliFail";
       }
 
       if (type == 1) {
          //结算月结
-         callbackUrl = "http://ctm.wapi.eqlee.com/apply/sx/sucAliFail";
+         callbackUrl = "http://ctm-api.510766.com/apply/sx/sucAliFail";
       }
 
       String url = URL + "/v1/Alipay/GetTradeQrCodePayPayModel?payOrderSerialNumber=" + payOrderSerialNumber +"&Money=" +Money
@@ -121,12 +121,12 @@ public class AliSxController {
       String callbackUrl = null;
       if (type == 0) {
          //续费
-         callbackUrl = "http://ctm.wapi.eqlee.com/apply/sx/sucAliFail";
+         callbackUrl = "http://ctm-api.510766.com/apply/sx/sucAliFail";
       }
 
       if (type == 1) {
          //结算月结
-         callbackUrl = "http://ctm.wapi.eqlee.com/apply/sx/sucAliFail";
+         callbackUrl = "http://ctm-api.510766.com/apply/sx/sucAliFail";
       }
 
       String url = URL + "/v1/Alipay/GetTradeWapPayModel?payOrderSerialNumber=" + payOrderSerialNumber +"&Money=" +Money

@@ -2,12 +2,18 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="117d03ad-fa0a-4695-8704-a850e33e6dad" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/artifacts/report_war_exploded.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/artifacts/report_war_exploded.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api/src/main/java/eqlee/ctm/api/img/controller/ImgController.java" beforeDir="false" afterPath="$PROJECT_DIR$/api/src/main/java/eqlee/ctm/api/img/controller/ImgController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api/src/main/java/eqlee/ctm/api/pay/controller/AliPayController.java" beforeDir="false" afterPath="$PROJECT_DIR$/api/src/main/java/eqlee/ctm/api/pay/controller/AliPayController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api/src/main/java/eqlee/ctm/api/pay/controller/AliSxController.java" beforeDir="false" afterPath="$PROJECT_DIR$/api/src/main/java/eqlee/ctm/api/pay/controller/AliSxController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api/src/main/java/eqlee/ctm/api/pay/controller/PayController.java" beforeDir="false" afterPath="$PROJECT_DIR$/api/src/main/java/eqlee/ctm/api/pay/controller/PayController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api/src/main/java/eqlee/ctm/api/pay/controller/WxSxController.java" beforeDir="false" afterPath="$PROJECT_DIR$/api/src/main/java/eqlee/ctm/api/pay/controller/WxSxController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/api/src/main/resources/application-dev.yml" beforeDir="false" afterPath="$PROJECT_DIR$/api/src/main/resources/application-dev.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/api/src/main/resources/application-test.yml" beforeDir="false" afterPath="$PROJECT_DIR$/api/src/main/resources/application-test.yml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/api/src/main/resources/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/api/src/main/resources/application.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apply/src/main/resources/application-test.yml" beforeDir="false" afterPath="$PROJECT_DIR$/apply/src/main/resources/application-test.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/finance/src/main/resources/application-test.yml" beforeDir="false" afterPath="$PROJECT_DIR$/finance/src/main/resources/application-test.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/report/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/report/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resource/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/resource/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resource/src/main/java/eqlee/ctm/resource/company/service/Imp/CompanyServiceImp.java" beforeDir="false" afterPath="$PROJECT_DIR$/resource/src/main/java/eqlee/ctm/resource/company/service/Imp/CompanyServiceImp.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -24,6 +30,12 @@
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+  </component>
+  <component name="JsFlowSettings">
+    <service-enabled>true</service-enabled>
+    <exe-path />
+    <other-services-enabled>true</other-services-enabled>
+    <auto-save>true</auto-save>
   </component>
   <component name="MavenImportPreferences">
     <option name="generalSettings">
@@ -60,16 +72,18 @@
     <property name="last_opened_file_path" value="$PROJECT_DIR$/user" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
-    <property name="project.structure.last.edited" value="Modules" />
+    <property name="project.structure.last.edited" value="Project" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.4118467" />
-    <property name="settings.editor.selected.configurable" value="project.propCompiler" />
+    <property name="settings.editor.selected.configurable" value="MavenSettings" />
   </component>
   <component name="RecentsManager">
-    <key name="CreateClassDialog.RecentsKey">
-      <recent name="eqlee.ctm.apply.guider.entity.vo" />
-      <recent name="eqlee.ctm.finance.settlement.entity.query" />
-      <recent name="eqlee.ctm.resource.company.service" />
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="E:\MyWork\CTM_Source\ctm_project\apply\src\main\java\eqlee\ctm\apply\price\dao\mapper" />
+      <recent name="E:\MyWork\CTM_Source\ctm_project\apply\src\main\java\eqlee\ctm\apply\line\dao\mapper" />
+      <recent name="E:\MyWork\CTM_Source\ctm_project\apply\src\main\java\eqlee\ctm\apply" />
+      <recent name="E:\MyWork\CTM_Source\ctm_project\apply\src\main\java\com\yq\apply" />
+      <recent name="E:\MyWork\CTM_Source\ctm_project\apply\src\main\resources" />
     </key>
     <key name="CopyClassDialog.RECENTS_KEY">
       <recent name="eqlee.ctm.resource.company.entity.query" />
@@ -78,12 +92,10 @@
       <recent name="com.yq.user.exception" />
       <recent name="com.yq.constanct" />
     </key>
-    <key name="CopyFile.RECENT_KEYS">
-      <recent name="E:\MyWork\CTM_Source\ctm_project\apply\src\main\java\eqlee\ctm\apply\price\dao\mapper" />
-      <recent name="E:\MyWork\CTM_Source\ctm_project\apply\src\main\java\eqlee\ctm\apply\line\dao\mapper" />
-      <recent name="E:\MyWork\CTM_Source\ctm_project\apply\src\main\java\eqlee\ctm\apply" />
-      <recent name="E:\MyWork\CTM_Source\ctm_project\apply\src\main\java\com\yq\apply" />
-      <recent name="E:\MyWork\CTM_Source\ctm_project\apply\src\main\resources" />
+    <key name="CreateClassDialog.RecentsKey">
+      <recent name="eqlee.ctm.apply.guider.entity.vo" />
+      <recent name="eqlee.ctm.finance.settlement.entity.query" />
+      <recent name="eqlee.ctm.resource.company.service" />
     </key>
   </component>
   <component name="RunDashboard">
@@ -93,7 +105,7 @@
       </set>
     </option>
   </component>
-  <component name="RunManager" selected="Maven.ctm_project [clean]">
+  <component name="RunManager" selected="Spring Boot.ResourceApplication ">
     <configuration name="ctm_project [clean]" type="MavenRunConfiguration" factoryName="Maven" temporary="true">
       <MavenSettings>
         <option name="myGeneralSettings" />
@@ -192,7 +204,12 @@
       <list>
         <serviceView>
           <treeState>
-            <expand />
+            <expand>
+              <path>
+                <item name="services root" type="e789fda9:ObjectUtils$Sentinel" />
+                <item name="Spring Boot" type="7427dc5b:ServiceModel$ServiceGroupNode" />
+              </path>
+            </expand>
             <select />
           </treeState>
         </serviceView>
@@ -273,6 +290,20 @@
       <workItem from="1587886538442" duration="1203000" />
       <workItem from="1587892087359" duration="874000" />
       <workItem from="1587893944899" duration="1232000" />
+      <workItem from="1587896907856" duration="479000" />
+      <workItem from="1587950559596" duration="1769000" />
+      <workItem from="1587952383478" duration="1412000" />
+      <workItem from="1587954459332" duration="78000" />
+      <workItem from="1587956210482" duration="56000" />
+      <workItem from="1587956296049" duration="21000" />
+      <workItem from="1587958721493" duration="58000" />
+      <workItem from="1587964307032" duration="1771000" />
+      <workItem from="1587966130443" duration="1774000" />
+      <workItem from="1587967978967" duration="1770000" />
+      <workItem from="1587969884823" duration="947000" />
+      <workItem from="1587972586831" duration="235000" />
+      <workItem from="1587972858156" duration="185000" />
+      <workItem from="1587973081898" duration="1733000" />
     </task>
     <servers />
   </component>
@@ -296,6 +327,10 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="578" y="447" key="#com.intellij.refactoring.move.MoveHandler.SelectRefactoringDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1584927389775" />
+    <state x="714" y="352" key="#com.intellij.refactoring.move.moveInstanceMethod.MoveInstanceMethodDialog" timestamp="1587966502008">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="714" y="352" key="#com.intellij.refactoring.move.moveInstanceMethod.MoveInstanceMethodDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1587966502008" />
     <state x="690" y="268" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog" timestamp="1586420306707">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
@@ -308,42 +343,58 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="740" y="263" key="FileChooserDialogImpl/0.0.1920.1040@0.0.1920.1040" timestamp="1586417496416" />
-    <state width="1876" height="143" key="GridCell.Tab.0.bottom" timestamp="1587887360431">
+    <state width="1876" height="392" key="GridCell.Tab.0.bottom" timestamp="1587973728575">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1876" height="143" key="GridCell.Tab.0.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1587887360431" />
-    <state width="1876" height="143" key="GridCell.Tab.0.center" timestamp="1587887360431">
+    <state width="1876" height="392" key="GridCell.Tab.0.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1587973728575" />
+    <state width="1876" height="392" key="GridCell.Tab.0.center" timestamp="1587973728575">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1876" height="143" key="GridCell.Tab.0.center/0.0.1920.1040@0.0.1920.1040" timestamp="1587887360431" />
-    <state width="1876" height="143" key="GridCell.Tab.0.left" timestamp="1587887360430">
+    <state width="1876" height="392" key="GridCell.Tab.0.center/0.0.1920.1040@0.0.1920.1040" timestamp="1587973728575" />
+    <state width="1876" height="392" key="GridCell.Tab.0.left" timestamp="1587973728575">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1876" height="143" key="GridCell.Tab.0.left/0.0.1920.1040@0.0.1920.1040" timestamp="1587887360430" />
-    <state width="1876" height="143" key="GridCell.Tab.0.right" timestamp="1587887360431">
+    <state width="1876" height="392" key="GridCell.Tab.0.left/0.0.1920.1040@0.0.1920.1040" timestamp="1587973728575" />
+    <state width="1876" height="392" key="GridCell.Tab.0.right" timestamp="1587973728575">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1876" height="143" key="GridCell.Tab.0.right/0.0.1920.1040@0.0.1920.1040" timestamp="1587887360431" />
-    <state width="1860" height="250" key="GridCell.Tab.1.bottom" timestamp="1584698150732">
+    <state width="1876" height="392" key="GridCell.Tab.0.right/0.0.1920.1040@0.0.1920.1040" timestamp="1587973728575" />
+    <state width="1292" height="343" key="GridCell.Tab.1.bottom" timestamp="1587969475603">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1860" height="250" key="GridCell.Tab.1.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1584698150732" />
-    <state width="1860" height="250" key="GridCell.Tab.1.center" timestamp="1584698150732">
+    <state width="1292" height="343" key="GridCell.Tab.1.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1587969475603" />
+    <state width="1292" height="343" key="GridCell.Tab.1.center" timestamp="1587969475603">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1860" height="250" key="GridCell.Tab.1.center/0.0.1920.1040@0.0.1920.1040" timestamp="1584698150732" />
-    <state width="1860" height="250" key="GridCell.Tab.1.left" timestamp="1584698150732">
+    <state width="1292" height="343" key="GridCell.Tab.1.center/0.0.1920.1040@0.0.1920.1040" timestamp="1587969475603" />
+    <state width="1292" height="343" key="GridCell.Tab.1.left" timestamp="1587969475603">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1860" height="250" key="GridCell.Tab.1.left/0.0.1920.1040@0.0.1920.1040" timestamp="1584698150732" />
-    <state width="1860" height="250" key="GridCell.Tab.1.right" timestamp="1584698150732">
+    <state width="1292" height="343" key="GridCell.Tab.1.left/0.0.1920.1040@0.0.1920.1040" timestamp="1587969475603" />
+    <state width="1292" height="343" key="GridCell.Tab.1.right" timestamp="1587969475603">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1860" height="250" key="GridCell.Tab.1.right/0.0.1920.1040@0.0.1920.1040" timestamp="1584698150732" />
-    <state x="440" y="96" width="994" height="854" key="SettingsEditor" timestamp="1585719694254">
+    <state width="1292" height="343" key="GridCell.Tab.1.right/0.0.1920.1040@0.0.1920.1040" timestamp="1587969475603" />
+    <state width="1292" height="343" key="GridCell.Tab.2.bottom" timestamp="1587969465964">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="440" y="96" width="994" height="854" key="SettingsEditor/0.0.1920.1040@0.0.1920.1040" timestamp="1585719694254" />
+    <state width="1292" height="343" key="GridCell.Tab.2.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1587969465964" />
+    <state width="1292" height="343" key="GridCell.Tab.2.center" timestamp="1587969465964">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1292" height="343" key="GridCell.Tab.2.center/0.0.1920.1040@0.0.1920.1040" timestamp="1587969465964" />
+    <state width="1292" height="343" key="GridCell.Tab.2.left" timestamp="1587969465964">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1292" height="343" key="GridCell.Tab.2.left/0.0.1920.1040@0.0.1920.1040" timestamp="1587969465964" />
+    <state width="1292" height="343" key="GridCell.Tab.2.right" timestamp="1587969465964">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1292" height="343" key="GridCell.Tab.2.right/0.0.1920.1040@0.0.1920.1040" timestamp="1587969465964" />
+    <state x="440" y="96" width="994" height="854" key="SettingsEditor" timestamp="1587956313675">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="440" y="96" width="994" height="854" key="SettingsEditor/0.0.1920.1040@0.0.1920.1040" timestamp="1587956313675" />
     <state x="759" y="299" key="chooseDestDirectoryDialog" timestamp="1585731304000">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
@@ -352,10 +403,10 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="190" y="44" key="com.intellij.ide.util.TipDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1587869124895" />
-    <state x="647" y="275" width="626" height="490" key="find.popup" timestamp="1585707929813">
+    <state x="647" y="122" width="857" height="643" key="find.popup" timestamp="1587973214192">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="647" y="275" width="626" height="490" key="find.popup/0.0.1920.1040@0.0.1920.1040" timestamp="1585707929813" />
+    <state x="647" y="122" width="857" height="643" key="find.popup/0.0.1920.1040@0.0.1920.1040" timestamp="1587973214192" />
     <state x="663" y="142" key="refactoring.ChangeSignatureDialog" timestamp="1585014716785">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
@@ -364,13 +415,16 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="616" y="235" key="run.anything.popup/0.0.1920.1040@0.0.1920.1040" timestamp="1586419789169" />
-    <state x="1187" y="261" width="672" height="678" key="search.everywhere.popup" timestamp="1587892200155">
+    <state x="1187" y="261" width="672" height="678" key="search.everywhere.popup" timestamp="1587974214318">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="1187" y="261" width="672" height="678" key="search.everywhere.popup/0.0.1920.1040@0.0.1920.1040" timestamp="1587892200155" />
+    <state x="1187" y="261" width="672" height="678" key="search.everywhere.popup/0.0.1920.1040@0.0.1920.1040" timestamp="1587974214318" />
     <state x="577" y="210" key="spring file set editor" timestamp="1585718895762">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="577" y="210" key="spring file set editor/0.0.1920.1040@0.0.1920.1040" timestamp="1585718895762" />
+  </component>
+  <component name="com.intellij.coverage.CoverageDataManagerImpl">
+    <SUITE FILE_PATH="coverage/ctm_project$ResourceApplication_.ic" NAME="ResourceApplication  Coverage Results" MODIFIED="1587965995213" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
   </component>
 </project>

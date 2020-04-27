@@ -78,12 +78,12 @@ public class WxSxController {
       String callbackUrl = null;
       if (type == 0) {
          //续费
-         callbackUrl = "http://ctm.wapi.eqlee.com/apply/sx/sucFail";
+         callbackUrl = "http://ctm-api.510766.com/apply/sx/sucFail";
       }
 
       if (type == 1) {
          //结算月结
-         callbackUrl = "http://ctm.wapi.eqlee.com/apply/sx/sucFail";
+         callbackUrl = "http://ctm-api.510766.com/apply/sx/sucFail";
       }
 
       String url = URL + "/v1/WeChatPay/GetQRCode?payOrderSerialNumber=" + payOrderSerialNumber +"&Money=" +Money
@@ -124,12 +124,12 @@ public class WxSxController {
       String callbackUrl = null;
       if (type == 0) {
          //续费
-         callbackUrl = "http://ctm.wapi.eqlee.com/apply/sx/sucFail";
+         callbackUrl = "http://ctm-api.510766.com/apply/sx/sucFail";
       }
 
       if (type == 1) {
          //结算月结
-         callbackUrl = "http://ctm.wapi.eqlee.com/apply/sx/sucFail";
+         callbackUrl = "http://ctm-api.510766.com/apply/sx/sucFail";
       }
 
       UserLoginQuery user = localUser.getUser("用户信息");
