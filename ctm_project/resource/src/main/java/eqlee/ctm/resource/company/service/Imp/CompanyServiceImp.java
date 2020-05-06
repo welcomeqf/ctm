@@ -404,6 +404,16 @@ public class CompanyServiceImp extends ServiceImpl<CompanyMapper,Company> implem
     @Override
     public void registerCompany(CompanyVo companyVo) {
 
+        LambdaQueryWrapper<Company> queryWrapper = new LambdaQueryWrapper<Company>()
+                .eq(Company::getCompanyName,companyVo.getCompanyName())
+                .or()
+                .eq(Company::getCompanyFullName,companyVo.getCompanyFullName());
+        Company company1 = baseMapper.selectOne(queryWrapper);
+
+        if (company1 != null) {
+            throw new ApplicationException(CodeType.SERVICE_ERROR, "公司名不能重复");
+        }
+
         IdGenerator idGenerator = new IdGenerator();
         Company company = new Company();
         company.setId(idGenerator.getNumberId());

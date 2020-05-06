@@ -1,5 +1,6 @@
 package eqlee.ctm.api.controller;
 
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.yq.anntation.IgnoreResponseAdvice;
 import com.yq.constanct.CodeType;
@@ -114,6 +115,36 @@ public class UserMenuController {
     public Object queryAllMenu(){
         UserLoginQuery users = localUser.getUser("用户信息");
         return users.getMenuList();
+
+    }
+
+    @ApiOperation(value = "首页返回所有权限", notes = "首页返回所有权限")
+    @GetMapping("/queryList")
+    @CrossOrigin
+    @CheckToken
+    public Object queryList(@RequestParam("name") String name,@RequestParam("roleName") String roleName) throws Exception {
+        String url = "http://" + ip + ":" + port + "/" + path + "/v1/app/menu/queryMenuList?name="+name + "&roleName="+roleName;
+        log.info("io err", url);
+        System.out.print(url);
+        //获得token
+        String userToken = tokenData.getMapToken();
+        String token = "Bearer " + userToken;
+
+        HttpResult httpResult = apiService.get(url,token);
+
+        ResultResposeVo vo = JSONObject.parseObject(httpResult.getBody(),ResultResposeVo.class);
+        if (vo.getCode() != 0) {
+            throw new ApplicationException(CodeType.RESOURCES_NOT_FIND,vo.getMsg());
+        }
+
+        String body = httpResult.getBody();
+        log.info("io err", body);
+        if(body.isEmpty()) {
+            return body;
+        }
+        Object result = JSON.parse(body);
+
+        return result;
 
     }
 

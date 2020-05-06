@@ -1649,6 +1649,7 @@ public class ApplyServiceImpl extends ServiceImpl<ApplyMapper, Apply> implements
         Long id = 634338640817815552L;
         int result = 99999;
         UserLoginQuery user = localUser.getUser("用户信息");
+        
         for (PrivilegeMenuQuery query : user.getMenuList()) {
             if (id.equals(query.getMenuId())) {
                 result = baseMapper.queryExamineCount();
