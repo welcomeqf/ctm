@@ -260,6 +260,9 @@
             <if test="caiType != null">
                 and a.CaiType = #{caiType}
             </if>
+            <if test="payType != null">
+                and a.PayType = #{payType}
+            </if>
             <if test="companyUserId != null">
                 and a.CompanyId = #{companyUserId}
             </if>
@@ -332,6 +335,9 @@
           <if test="lineName != null">
               and b.LineName = #{lineName}
           </if>
+          <if test="payType != null">
+              and a.PayType = #{payType}
+          </if>
       </where>
       order by a.OutDate desc
     </select>
@@ -353,6 +359,9 @@
             </if>
             <if test="lineName != null">
                 and b.LineName = #{lineName}
+            </if>
+            <if test="payType != null">
+                and a.PayType = #{payType}
             </if>
         </where>
         order by a.OutDate desc

@@ -8,10 +8,7 @@ import eqlee.ctm.apply.entry.entity.vo.ApplyCountVo;
 import eqlee.ctm.apply.entry.entity.vo.ApplyOpenIdVo;
 import eqlee.ctm.apply.entry.entity.vo.ApplySeacherVo;
 import eqlee.ctm.apply.entry.entity.vo.ApplyVo;
-import eqlee.ctm.apply.orders.entity.Vo.LongVo;
-import eqlee.ctm.apply.sxpay.entity.PayInfo;
 
-import java.time.LocalDate;
 import java.util.List;
 
 
@@ -201,7 +198,7 @@ public interface IApplyService {
      * @param companyUserId
      * @return
      */
-    Page<ApplyResultCountQuery> pageResultAdminCountList (Page<ApplyResultCountQuery> page, String time, Integer type, Integer caiType, Long companyUserId);
+    Page<ApplyResultCountQuery> pageResultAdminCountList (Page<ApplyResultCountQuery> page, String time, Integer type, Integer caiType, Integer payType, Long companyUserId);
 
     /**
      * 返回待付款的支付信息
@@ -257,9 +254,10 @@ public interface IApplyService {
      * @param outDate
      * @param companyName
      * @param lineName
+     * @param payType
      * @return
      */
-    Page<ApplyCountVo> queryCountInfo (Page<ApplyCountVo> page,String outDate, String companyName, String lineName);
+    Page<ApplyCountVo> queryCountInfo(Page<ApplyCountVo> page, String outDate, String companyName, String lineName, Integer payType);
 
 
     /**
@@ -270,7 +268,7 @@ public interface IApplyService {
      * @param lineName
      * @return
      */
-    Page<ApplyCountCaiBo> queryCountInfo2 (Page<ApplyCountVo> page, String outDate, String companyName, String lineName);
+    Page<ApplyCountCaiBo> queryCountInfo2 (Page<ApplyCountVo> page, String outDate, String companyName, String lineName, Integer payType);
 
     /**
      *  查询公司信息和支付情况确认情况

@@ -1270,7 +1270,7 @@ public class ApplyServiceImpl extends ServiceImpl<ApplyMapper, Apply> implements
     * @return
     */
    @Override
-   public Page<ApplyResultCountQuery> pageResultAdminCountList(Page<ApplyResultCountQuery> page, String time, Integer type, Integer caiType, Long companyUserId) {
+   public Page<ApplyResultCountQuery> pageResultAdminCountList(Page<ApplyResultCountQuery> page, String time, Integer type, Integer caiType, Integer payType, Long companyUserId) {
 
       LocalDate start = null;
       LocalDate end = null;
@@ -1284,7 +1284,7 @@ public class ApplyServiceImpl extends ServiceImpl<ApplyMapper, Apply> implements
       }
 
 
-      return baseMapper.queryCompanyAdminResultCount (page,start,end,type,caiType,companyUserId);
+      return baseMapper.queryCompanyAdminResultCount (page,start,end,type,caiType,payType,companyUserId);
    }
 
    /**
@@ -1483,7 +1483,7 @@ public class ApplyServiceImpl extends ServiceImpl<ApplyMapper, Apply> implements
     * @return
     */
    @Override
-   public Page<ApplyCountVo> queryCountInfo(Page<ApplyCountVo> page, String outDate, String companyName, String lineName) {
+   public Page<ApplyCountVo> queryCountInfo(Page<ApplyCountVo> page, String outDate, String companyName, String lineName, Integer payType) {
 
       LocalDate start = null;
       LocalDate end = null;
@@ -1498,11 +1498,11 @@ public class ApplyServiceImpl extends ServiceImpl<ApplyMapper, Apply> implements
          lineName = null;
       }
 
-      return baseMapper.queryCountInfo (page,start,end,companyName,lineName);
+      return baseMapper.queryCountInfo (page,start,end,companyName,lineName,payType);
    }
 
    @Override
-   public Page<ApplyCountCaiBo> queryCountInfo2(Page<ApplyCountVo> page, String outDate, String companyName, String lineName) {
+   public Page<ApplyCountCaiBo> queryCountInfo2(Page<ApplyCountVo> page, String outDate, String companyName, String lineName, Integer payType) {
       LocalDate start = null;
       LocalDate end = null;
 
@@ -1515,7 +1515,7 @@ public class ApplyServiceImpl extends ServiceImpl<ApplyMapper, Apply> implements
       if (StringUtils.isBlank(lineName)) {
          lineName = null;
       }
-      return baseMapper.queryCountInfo2 (page,start,end,companyName,lineName);
+      return baseMapper.queryCountInfo2 (page,start,end,companyName,lineName,payType);
    }
 
    /**

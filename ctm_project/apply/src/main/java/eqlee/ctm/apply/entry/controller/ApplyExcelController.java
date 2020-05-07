@@ -9,17 +9,12 @@ import com.yq.jwt.islogin.CheckToken;
 import com.yq.utils.ExcelUtils;
 import com.yq.utils.FilesUtils;
 import com.yq.utils.StringUtils;
-import com.yq.vilidata.TimeData;
-import com.yq.vilidata.query.TimeQuery;
-import eqlee.ctm.apply.entry.entity.bo.ApplyCompanyInfo;
 import eqlee.ctm.apply.entry.entity.bo.ApplyCountCaiBo;
 import eqlee.ctm.apply.entry.entity.query.ApplyCompanyQuery;
 import eqlee.ctm.apply.entry.entity.query.ApplyDoExaQuery;
-import eqlee.ctm.apply.entry.entity.query.ApplyMonthQuery;
 import eqlee.ctm.apply.entry.entity.query.ApplyResultCountQuery;
 import eqlee.ctm.apply.entry.entity.vo.ApplyCountVo;
 import eqlee.ctm.apply.entry.service.IApplyService;
-import eqlee.ctm.apply.line.entity.vo.ResultVo;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -30,7 +25,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -62,6 +56,7 @@ public class ApplyExcelController {
    public void applyExcel(HttpServletResponse response,
                           @RequestParam("current") Integer current,
                           @RequestParam("size") Integer size,
+                          @RequestParam("payType") Integer payType,
                           @RequestParam("outDate") String outDate,
                           @RequestParam("companyName") String companyName,
                           @RequestParam("lineName") String lineName){
@@ -71,7 +66,7 @@ public class ApplyExcelController {
       }
 
       Page<ApplyCountVo> page = new Page<>(current,size);
-      Page<ApplyCountVo> voPage = applyService.queryCountInfo(page, outDate, companyName, lineName);
+      Page<ApplyCountVo> voPage = applyService.queryCountInfo(page, outDate, companyName, lineName, payType);
       //拿到集合数据
       List<ApplyCountVo> list = voPage.getRecords();
 
@@ -87,8 +82,10 @@ public class ApplyExcelController {
       head.add("老人人数");
       head.add("幼儿人数");
       head.add("总人数");
-      head.add("月结总额");
-      head.add("代收金额");
+      if (payType == 2) {
+         head.add("月结总额");
+         head.add("代收金额");
+      }
       head.add("实付金额");
       head.add("经手人");
 
@@ -115,9 +112,14 @@ public class ApplyExcelController {
          bodyValue.add(String.valueOf(query.getOldNumber()));
          bodyValue.add(String.valueOf(query.getBabyNumber()));
          bodyValue.add(String.valueOf(query.getAllNumber()));
-         bodyValue.add(String.valueOf(query.getAllPrice()));
-         bodyValue.add(String.valueOf(query.getMsPrice()));
-         bodyValue.add(String.valueOf(query.getAllPrice() - query.getMsPrice()));
+         if (payType == 2) {
+            bodyValue.add(String.valueOf(query.getAllPrice()));
+            bodyValue.add(String.valueOf(query.getMsPrice()));
+            bodyValue.add(String.valueOf(query.getAllPrice() - query.getMsPrice()));
+         } else {
+            bodyValue.add(String.valueOf(query.getAllPrice()));
+         }
+
          bodyValue.add(query.getCname());
 
          aut += query.getAdultNumber();
@@ -125,9 +127,13 @@ public class ApplyExcelController {
          baby += query.getBabyNumber();
          old += query.getChildNumber();
          allNumber += query.getAllNumber();
-         month += query.getAllPrice();
-         ms += query.getMsPrice();
-         set += query.getAllPrice() - query.getMsPrice();
+         if (payType == 2) {
+            month += query.getAllPrice();
+            ms += query.getMsPrice();
+            set += query.getAllPrice() - query.getMsPrice();
+         } else {
+            set += query.getAllPrice();
+         }
 
          //将数据添加到报表体中
          body.add(bodyValue);
@@ -137,9 +143,14 @@ public class ApplyExcelController {
       map.put(7,old);
       map.put(8,baby);
       map.put(9,allNumber);
-      map.put(10,month);
-      map.put(11,ms);
-      map.put(12,set);
+      if (payType == 2) {
+         map.put(10,month);
+         map.put(11,ms);
+         map.put(12,set);
+      } else {
+         map.put(10,set);
+      }
+
       String fileName = "同行财务统计详情.xls";
       HSSFWorkbook excel = ExcelUtils.expExcel(head,body,map);
       String fileStorePath = "exl";
@@ -365,6 +376,7 @@ public class ApplyExcelController {
          @ApiImplicitParam(name = "time", value = "查询年份", required = false, dataType = "String", paramType = "path"),
          @ApiImplicitParam(name = "companyId", value = "同行id", required = false, dataType = "Long", paramType = "path"),
          @ApiImplicitParam(name = "caiType", value = "(0-未确认 1-已确认)", required = false, dataType = "int", paramType = "path"),
+         @ApiImplicitParam(name = "payType", value = "(0-现结 2-月结)", required = false, dataType = "int", paramType = "path"),
          @ApiImplicitParam(name = "type", value = "(0-未支付 1-已支付)", required = false, dataType = "int", paramType = "path")
    })
    @GetMapping("/queryCaiMonthCountPoi")
@@ -375,6 +387,7 @@ public class ApplyExcelController {
                                                          @RequestParam("time") String time,
                                                          @RequestParam("type") Integer type,
                                                          @RequestParam("caiType") Integer caiType,
+                                                         @RequestParam("payType") Integer payType,
                                                          @RequestParam("companyId") Long companyId,
                                                          HttpServletResponse response) {
 
@@ -386,7 +399,7 @@ public class ApplyExcelController {
       Page<ApplyResultCountQuery> page = new Page<>(current, size);
 
 
-      Page<ApplyResultCountQuery> queryPage = applyService.pageResultAdminCountList(page, time, type, caiType, companyId);
+      Page<ApplyResultCountQuery> queryPage = applyService.pageResultAdminCountList(page, time, type, caiType, payType, companyId);
 
       List<ApplyResultCountQuery> list = queryPage.getRecords();
 
@@ -473,6 +486,7 @@ public class ApplyExcelController {
    @ApiImplicitParams({
          @ApiImplicitParam(name = "current", value = "当前页", required = true, dataType = "int", paramType = "path"),
          @ApiImplicitParam(name = "size", value = "每页显示的条数", required = true, dataType = "int", paramType = "path"),
+         @ApiImplicitParam(name = "payType", value = "0-现结 2-月结", required = true, dataType = "int", paramType = "path"),
          @ApiImplicitParam(name = "outDate", value = "出行年月", required = true, dataType = "String", paramType = "path"),
          @ApiImplicitParam(name = "companyName", value = "公司", required = true, dataType = "String", paramType = "path"),
          @ApiImplicitParam(name = "lineName", value = "线路名", required = false, dataType = "String", paramType = "path")
@@ -482,6 +496,7 @@ public class ApplyExcelController {
    @CheckToken
    public void queryCountInfo2(@RequestParam("current") Integer current,
                                @RequestParam("size") Integer size,
+                               @RequestParam("payType") Integer payType,
                                @RequestParam("outDate") String outDate,
                                @RequestParam("companyName") String companyName,
                                @RequestParam("lineName") String lineName,
@@ -492,7 +507,7 @@ public class ApplyExcelController {
       }
 
       Page<ApplyCountVo> page = new Page<>(current,size);
-      Page<ApplyCountCaiBo> boPage = applyService.queryCountInfo2(page, outDate, companyName, lineName);
+      Page<ApplyCountCaiBo> boPage = applyService.queryCountInfo2(page, outDate, companyName, lineName, payType);
 
       List<ApplyCountCaiBo> list = boPage.getRecords();
 

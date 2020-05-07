@@ -279,6 +279,7 @@ public class ApplyController {
           @ApiImplicitParam(name = "time", value = "查询年份", required = false, dataType = "String", paramType = "path"),
           @ApiImplicitParam(name = "companyId", value = "同行id", required = false, dataType = "Long", paramType = "path"),
           @ApiImplicitParam(name = "caiType", value = "(0-未确认 1-已确认)", required = false, dataType = "int", paramType = "path"),
+          @ApiImplicitParam(name = "payType", value = "(0-现结 2-月结)", required = false, dataType = "int", paramType = "path"),
           @ApiImplicitParam(name = "type", value = "(0-未支付 1-已支付)", required = false, dataType = "int", paramType = "path")
     })
     @GetMapping("/pageResultCountList")
@@ -289,6 +290,7 @@ public class ApplyController {
                                                   @RequestParam("time") String time,
                                                   @RequestParam("type") Integer type,
                                                   @RequestParam("caiType") Integer caiType,
+                                                  @RequestParam("payType") Integer payType,
                                                   @RequestParam("companyId") Long companyId) {
         if (current == null || size == null) {
             throw new ApplicationException(CodeType.PARAM_ERROR);
@@ -303,7 +305,7 @@ public class ApplyController {
         String admin2 = "管理员";
         HashMap<String,Object> map = new HashMap<>();
         if (admin.equals(user.getRoleName()) || admin1.equals(user.getRoleName()) || admin2.equals(user.getRoleName())) {
-            Page<ApplyResultCountQuery> data = applyService.pageResultAdminCountList(page, time, type, caiType, companyId);
+            Page<ApplyResultCountQuery> data = applyService.pageResultAdminCountList(page, time, type, caiType, payType, companyId);
             map.put("data",data);
             map.put("count",null);
             return map;
@@ -352,6 +354,7 @@ public class ApplyController {
     @ApiImplicitParams({
           @ApiImplicitParam(name = "current", value = "当前页", required = true, dataType = "int", paramType = "path"),
           @ApiImplicitParam(name = "size", value = "每页显示的条数", required = true, dataType = "int", paramType = "path"),
+          @ApiImplicitParam(name = "payType", value = "0-现结 2-月结", required = true, dataType = "int", paramType = "path"),
           @ApiImplicitParam(name = "outDate", value = "出行年月", required = true, dataType = "String", paramType = "path"),
           @ApiImplicitParam(name = "companyName", value = "公司", required = true, dataType = "String", paramType = "path"),
           @ApiImplicitParam(name = "lineName", value = "线路名", required = false, dataType = "String", paramType = "path")
@@ -361,6 +364,7 @@ public class ApplyController {
     @CheckToken
     public Page<ApplyCountVo> queryCountInfo(@RequestParam("current") Integer current,
                                              @RequestParam("size") Integer size,
+                                             @RequestParam("payType") Integer payType,
                                              @RequestParam("outDate") String outDate,
                                              @RequestParam("companyName") String companyName,
                                              @RequestParam("lineName") String lineName) {
@@ -369,7 +373,7 @@ public class ApplyController {
             throw new ApplicationException(CodeType.PARAM_ERROR,"参数不能为空");
         }
         Page<ApplyCountVo> page = new Page<>(current,size);
-        return applyService.queryCountInfo(page,outDate,companyName,lineName);
+        return applyService.queryCountInfo(page,outDate,companyName,lineName,payType);
     }
 
 
@@ -381,6 +385,7 @@ public class ApplyController {
           @ApiImplicitParam(name = "time", value = "查询年份", required = false, dataType = "String", paramType = "path"),
           @ApiImplicitParam(name = "companyId", value = "同行id", required = false, dataType = "Long", paramType = "path"),
           @ApiImplicitParam(name = "caiType", value = "(0-未确认 1-已确认)", required = false, dataType = "int", paramType = "path"),
+          @ApiImplicitParam(name = "payType", value = "(0-现结 2-月结)", required = false, dataType = "int", paramType = "path"),
           @ApiImplicitParam(name = "type", value = "(0-未支付 1-已支付)", required = false, dataType = "int", paramType = "path")
     })
     @GetMapping("/queryCaiMonthCount")
@@ -391,6 +396,7 @@ public class ApplyController {
                                                   @RequestParam("time") String time,
                                                   @RequestParam("type") Integer type,
                                                   @RequestParam("caiType") Integer caiType,
+                                                  @RequestParam("payType") Integer payType,
                                                   @RequestParam("companyId") Long companyId) {
         if (current == null || size == null) {
             throw new ApplicationException(CodeType.PARAM_ERROR);
@@ -399,7 +405,7 @@ public class ApplyController {
         Page<ApplyResultCountQuery> page = new Page<>(current, size);
 
 
-        return applyService.pageResultAdminCountList(page, time, type, caiType, companyId);
+        return applyService.pageResultAdminCountList(page, time, type, caiType, payType, companyId);
     }
 
 
@@ -408,6 +414,7 @@ public class ApplyController {
     @ApiImplicitParams({
           @ApiImplicitParam(name = "current", value = "当前页", required = true, dataType = "int", paramType = "path"),
           @ApiImplicitParam(name = "size", value = "每页显示的条数", required = true, dataType = "int", paramType = "path"),
+          @ApiImplicitParam(name = "payType", value = "(0-现结 2-月结)", required = true, dataType = "int", paramType = "path"),
           @ApiImplicitParam(name = "outDate", value = "出行年月", required = true, dataType = "String", paramType = "path"),
           @ApiImplicitParam(name = "companyName", value = "公司", required = true, dataType = "String", paramType = "path"),
           @ApiImplicitParam(name = "lineName", value = "线路名", required = false, dataType = "String", paramType = "path")
@@ -417,6 +424,7 @@ public class ApplyController {
     @CheckToken
     public Map<String,Object> queryCountInfo2(@RequestParam("current") Integer current,
                                                  @RequestParam("size") Integer size,
+                                                 @RequestParam("payType") Integer payType,
                                                  @RequestParam("outDate") String outDate,
                                                  @RequestParam("companyName") String companyName,
                                                  @RequestParam("lineName") String lineName,
@@ -426,7 +434,7 @@ public class ApplyController {
             throw new ApplicationException(CodeType.PARAM_ERROR,"参数不能为空");
         }
         Page<ApplyCountVo> page = new Page<>(current,size);
-        Page<ApplyCountCaiBo> boPage = applyService.queryCountInfo2(page, outDate, companyName, lineName);
+        Page<ApplyCountCaiBo> boPage = applyService.queryCountInfo2(page, outDate, companyName, lineName, payType);
 
         ApplyCompanyInfo info = applyService.queryInfo(id);
         Map<String,Object> map = new HashMap<>();

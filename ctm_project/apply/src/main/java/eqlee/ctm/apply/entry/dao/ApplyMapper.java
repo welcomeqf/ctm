@@ -223,6 +223,7 @@ public interface ApplyMapper extends IBaseMapper<Apply> {
                                                          @Param("end") LocalDate end,
                                                          @Param("type") Integer type,
                                                          @Param("caiType") Integer caiType,
+                                                         @Param("payType") Integer payType,
                                                          @Param("companyUserId") Long companyUserId);
 
     /**
@@ -291,7 +292,8 @@ public interface ApplyMapper extends IBaseMapper<Apply> {
                                       @Param("start") LocalDate start,
                                       @Param("end") LocalDate end,
                                       @Param("companyName") String companyName,
-                                      @Param("lineName") String lineName);
+                                      @Param("lineName") String lineName,
+                                      @Param("payType") Integer payType);
 
 
     /**
@@ -307,7 +309,8 @@ public interface ApplyMapper extends IBaseMapper<Apply> {
                                           @Param("start") LocalDate start,
                                           @Param("end") LocalDate end,
                                           @Param("companyName") String companyName,
-                                          @Param("lineName") String lineName);
+                                          @Param("lineName") String lineName,
+                                          @Param("payType") Integer payType);
 
     int queryExamineCount();
 
