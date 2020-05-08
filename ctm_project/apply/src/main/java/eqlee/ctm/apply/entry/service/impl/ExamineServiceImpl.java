@@ -303,7 +303,7 @@ public class ExamineServiceImpl extends ServiceImpl<ExamineMapper, Examine> impl
                 ResultRefundQuery refund = httpUtils.refund(vo.getApplyNo(), vo.getAllPrice(), vo.getAllPrice(), tokenString);
                 if (refund.getError()) {
                     //退款失败
-                    throw new ApplicationException(CodeType.SERVICE_ERROR,"退款失败");
+                    throw new ApplicationException(CodeType.SERVICE_ERROR, refund.getMsg() != null && refund.getMsg() != "" ? refund.getMsg() : "退款失败");
                 }
                 //退款成功
                 query.setType("退款成功");

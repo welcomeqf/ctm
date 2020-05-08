@@ -155,7 +155,7 @@ public class OrderDetailedExcelController {
       contentExl.setMsPrice(msMoney);
       contentExl.setOtherPrice(otherInMoney);
 
-      contentExl.setSetPrice("本单利润: " + setMoney);
+      contentExl.setSetPrice("本单利润: " + String.format("%.2f", setMoney));
 
       contentExl.setList(outList);
 
