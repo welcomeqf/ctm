@@ -60,7 +60,7 @@ public class ApplyDoExaInfo {
    /**
     * 支付金额
     */
-   private Integer payPrice;
+   private Double payPrice;
 
    //同行   出行日期  线路名  联系人  电话  保名人数  结算金额
 

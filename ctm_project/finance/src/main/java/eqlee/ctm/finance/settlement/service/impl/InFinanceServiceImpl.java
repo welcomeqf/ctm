@@ -93,7 +93,7 @@ public class InFinanceServiceImpl extends ServiceImpl<InFinanceMapper, Income> i
                 income.setStatus(0);
                 income.setSettlementPrice(vo.getGaiMoney());
                 income.setOtherInPrice(vo.getOtherInPrice());
-                Double all = vo.getOtherInPrice() + vo.getGaiMoney();
+                Double all = vo.getOtherInPrice() + vo.getGaiMoney() + vo.getAllPrice();
                 income.setAllInPrice(all);
                 int update = baseMapper.updateById(income);
 
