@@ -311,7 +311,7 @@ public class ApplyController {
             return map;
         }
         //得到分页的具体数据
-        Page<ApplyResultCountQuery> data = applyService.pageResult2CountList(page, time, type , caiType);
+        Page<ApplyResultCountQuery> data = applyService.pageResult2CountList(page, time, type , caiType, payType);
         //查询统计的数据
         ApplyCountBo applyCountBo = applyService.queryApplyCount();
         List<ApplyCountBo> list = new ArrayList<>();

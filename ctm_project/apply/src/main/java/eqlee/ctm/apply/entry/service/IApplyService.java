@@ -187,7 +187,7 @@ public interface IApplyService {
      * @param caiType
      * @return
      */
-    Page<ApplyResultCountQuery> pageResult2CountList (Page<ApplyResultCountQuery> page, String time, Integer type, Integer caiType);
+    Page<ApplyResultCountQuery> pageResult2CountList (Page<ApplyResultCountQuery> page, String time, Integer type, Integer caiType, Integer payType);
 
     /**
      * 管理员月结现结统计查询

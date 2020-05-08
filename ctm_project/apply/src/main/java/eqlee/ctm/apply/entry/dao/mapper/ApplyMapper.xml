@@ -238,6 +238,9 @@
           <if test="caiType != null">
               and a.CaiType = #{caiType}
           </if>
+          <if test="payType != null">
+              and a.PayType = #{payType}
+          </if>
       </where>
         group by year(a.OutDate),month(a.OutDate),a.CompanyName
     </select>

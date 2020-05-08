@@ -1233,7 +1233,7 @@ public class ApplyServiceImpl extends ServiceImpl<ApplyMapper, Apply> implements
     * @return
     */
    @Override
-   public Page<ApplyResultCountQuery> pageResult2CountList(Page<ApplyResultCountQuery> page, String time, Integer type, Integer caiType) {
+   public Page<ApplyResultCountQuery> pageResult2CountList(Page<ApplyResultCountQuery> page, String time, Integer type, Integer caiType, Integer payType) {
 
       UserLoginQuery user = localUser.getUser("用户信息");
 
@@ -1258,7 +1258,7 @@ public class ApplyServiceImpl extends ServiceImpl<ApplyMapper, Apply> implements
          companyId = user.getCompanyId();
       }
 
-      return baseMapper.queryCompanyResultCount (page,start,end,type,caiType,id,companyId);
+      return baseMapper.queryCompanyResultCount (page,start,end,type,caiType,id,companyId,payType);
    }
 
    /**

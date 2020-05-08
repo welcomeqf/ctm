@@ -206,7 +206,8 @@ public interface ApplyMapper extends IBaseMapper<Apply> {
                                                          @Param("type") Integer type,
                                                          @Param("caiType") Integer caiType,
                                                          @Param("id") Long id,
-                                                         @Param("companyId") Long companyId);
+                                                         @Param("companyId") Long companyId,
+                                                         @Param("payType") Integer payType);
 
     /**
      * 管理员月结现结账单核算
