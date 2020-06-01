@@ -63,4 +63,9 @@ public class ContentExl {
     */
    private List<OutInfoExl> list;
 
+   /**
+    * 当天车辆
+    */
+   private String carNumber;
+
 }

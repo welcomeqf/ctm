@@ -9,6 +9,7 @@ import com.yq.jwt.contain.LocalUser;
 import com.yq.jwt.entity.UserLoginQuery;
 import com.yq.utils.DateUtil;
 import com.yq.utils.StringUtils;
+import eqlee.ctm.apply.entry.entity.Apply;
 import eqlee.ctm.apply.guider.entity.vo.GuiderIdParamVo;
 import eqlee.ctm.apply.guider.entity.vo.GuiderVo;
 import eqlee.ctm.apply.line.entity.vo.ResultVo;
@@ -249,5 +250,16 @@ public class OrdersDetailedServiceImpl extends ServiceImpl<OrderDetailedMapper, 
         }
     }
 
+    /**
+     * 根据申请表id获取导游选人详情
+     * @param ids
+     * @return
+     */
+    @Override
+    public List<OrderDetailed> queryByApplyId(List<Long> ids) {
+        LambdaQueryWrapper<OrderDetailed> wrapper = new LambdaQueryWrapper<OrderDetailed>()
+                .in(OrderDetailed::getApplyId,ids);
 
+        return baseMapper.selectList(wrapper);
+    }
 }

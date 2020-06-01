@@ -3,6 +3,7 @@ package eqlee.ctm.finance.settlement.entity.query;
 import lombok.Data;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 /**
  * @Author qf
@@ -50,4 +51,9 @@ public class ExamineResultQuery {
     private Double FinallyPrice;
 
     private Integer Status;
+
+    /**
+     * 出发日期
+     */
+    private LocalDateTime UpdateDate;
 }

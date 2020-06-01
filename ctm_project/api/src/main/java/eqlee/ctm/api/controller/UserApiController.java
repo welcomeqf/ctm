@@ -325,7 +325,9 @@ public class UserApiController {
         //获得token
         String userToken = tokenData.getMapToken();
         String token = "Bearer " + userToken;
-
+        //增加公司过滤
+        UserLoginQuery user = localUser.getUser("用户信息");
+        url += ("&companyId=" + user.getCompanyId());
         HttpResult httpResult = apiService.get(url,token);
 
         ResultResposeVo vo = JSONObject.parseObject(httpResult.getBody(),ResultResposeVo.class);

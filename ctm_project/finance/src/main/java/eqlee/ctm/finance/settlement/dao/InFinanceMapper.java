@@ -118,6 +118,14 @@ public interface InFinanceMapper extends IBaseMapper<Income> {
 
 
     /**
+     * 修改订单表状态为已完成
+     * @param id
+     * @return
+     */
+    Integer updateOrderOver (Long id);
+
+
+    /**
      * 展示所有财务审核的结果
      * @param page
      * @param outDate

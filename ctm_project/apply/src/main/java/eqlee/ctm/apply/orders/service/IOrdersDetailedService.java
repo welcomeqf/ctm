@@ -84,4 +84,11 @@ public interface IOrdersDetailedService {
      */
     void updateCancelStatus (Long applyId, Integer cancelStatus);
 
+    /**
+     * 根据申请表id获取导游选人详情
+     * @param ids
+     * @return
+     */
+    List<OrderDetailed> queryByApplyId (List<Long> ids);
+
 }

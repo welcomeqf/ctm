@@ -94,6 +94,12 @@ public class OrderServiceImpl extends ServiceImpl<OrdersMapper, Orders> implemen
 
         //查询报名表
         List<Apply> applies = applyService.listApply(ids);
+        //获取导游选人表 根据申请表id 如已选则需过滤
+        List<OrderDetailed> orderDetaileds = orderDetailedService.queryByApplyId(ids);
+        //如该申请人已有导游选则过滤(不再添加)
+        if(orderDetaileds != null && !orderDetaileds.isEmpty()){
+            throw new ApplicationException(CodeType.SERVICE_ERROR, "存在其他导游已选人员，请刷新重新勾选操作！");
+        }
 
         List<OrderDetailedBo> orderDetailedList = new ArrayList<>();
 
@@ -126,6 +132,7 @@ public class OrderServiceImpl extends ServiceImpl<OrdersMapper, Orders> implemen
        List<ApplyGuideBo> list = new ArrayList<>();
 
        for (Apply apply : applies) {
+
             //装配订单
             OrderDetailedBo orderDetailed = new OrderDetailedBo();
 
@@ -256,7 +263,11 @@ public class OrderServiceImpl extends ServiceImpl<OrdersMapper, Orders> implemen
            Orders orders1 = new Orders();
            orders1.setId(order.getId());
            orders1.setAllPrice(newAllPrice);
-           orders1.setIsFinash(true);
+           //除了未交账其他状态都不允计再加人
+           IncomeVo vo = baseMapper.queryStatus(order.getId());
+           if(vo != null && vo.getStatus() != 2){
+               orders1.setIsFinash(true);
+           }
 
            int update = baseMapper.updateById(orders1);
 

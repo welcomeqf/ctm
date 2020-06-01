@@ -137,8 +137,8 @@ public class OrderDetailedExcelController {
             exl.setOutName(financeQuery.getOutName());
             exl.setOutPrice(financeQuery.getOutPrice());
             outList.add(exl);
-            allOutMoney += financeQuery.getOutPrice();
-            otherInMoney = financeQuery.getOtherInPrice();
+            allOutMoney += (financeQuery.getOutPrice() == null ? 0.0d : financeQuery.getOutPrice());
+            otherInMoney = (financeQuery.getOtherInPrice() == null ? 0.0d : financeQuery.getOtherInPrice());
          }
          contentExl.setFinanceName(finance);
 
@@ -154,6 +154,7 @@ public class OrderDetailedExcelController {
       contentExl.setGuideName(orders.getGuideName());
       contentExl.setMsPrice(msMoney);
       contentExl.setOtherPrice(otherInMoney);
+      contentExl.setCarNumber(orders.getCarNumber());
 
       contentExl.setSetPrice("本单利润: " + String.format("%.2f", setMoney));
 

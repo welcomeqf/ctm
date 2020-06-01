@@ -76,16 +76,22 @@ public class InFinanceServiceImpl extends ServiceImpl<InFinanceMapper, Income> i
 
 
         if (vo.getStatus() != 2 && vo.getStatus() != 3) {
-            throw new ApplicationException(CodeType.SERVICE_ERROR, "求求你换个脑子吧");
+            throw new ApplicationException(CodeType.SERVICE_ERROR, "提交失败，请求参数有误!");
+        }
+
+        //判断是否重复交账
+        LambdaQueryWrapper<Income> wrapper = new LambdaQueryWrapper<Income>()
+                .eq(Income::getOutDate,DateUtil.parseDate(vo.getOutDate()))
+                .eq(Income::getCreateUserId,user.getId());
+        Income income = baseMapper.selectOne(wrapper);
+        if(income != null && vo.getStatus() == 3){
+            throw new ApplicationException(CodeType.SERVICE_ERROR, "当前账单已提交，请勿重复提交！");
         }
 
         //判断是否第一次提交
         if (vo.getStatus() == 2) {
             //不是第一次提交
-            LambdaQueryWrapper<Income> wrapper = new LambdaQueryWrapper<Income>()
-                  .eq(Income::getOutDate,DateUtil.parseDate(vo.getOutDate()))
-                  .eq(Income::getCreateUserId,user.getId());
-            Income income = baseMapper.selectOne(wrapper);
+
 
             if (income != null) {
                 income.setLineName(vo.getLineName());
@@ -100,6 +106,8 @@ public class InFinanceServiceImpl extends ServiceImpl<InFinanceMapper, Income> i
                 if (update <= 0) {
                     throw new ApplicationException(CodeType.SERVICE_ERROR, "提交失败");
                 }
+            }else{
+                throw new ApplicationException(CodeType.SERVICE_ERROR, "请使用原始交账人进行本操作！");
             }
 
             Number number = numberService.queryById(income.getNumberId());
@@ -159,7 +167,7 @@ public class InFinanceServiceImpl extends ServiceImpl<InFinanceMapper, Income> i
             //第一次提交
 
             //装配收入表
-            Income income = new Income();
+            income = new Income();
             long numberId = idGenerator.getNumberId();
             income.setId(numberId);
             income.setCreateUserId(user.getId());
@@ -207,7 +215,7 @@ public class InFinanceServiceImpl extends ServiceImpl<InFinanceMapper, Income> i
 //            price = price + bo.getPrice();
 //        }
             //总收入
-            Double all = vo.getOtherInPrice() + vo.getGaiMoney();
+            Double all = vo.getOtherInPrice() + vo.getGaiMoney() + vo.getAllPrice();
             income.setAllInPrice(all);
 
             int insert = baseMapper.insert(income);
@@ -454,7 +462,8 @@ public class InFinanceServiceImpl extends ServiceImpl<InFinanceMapper, Income> i
 //            if (integer <= 0) {
 //                throw new ApplicationException(CodeType.SERVICE_ERROR, "增加有误");
 //            }
-
+            //修改订单表的状态 为已完成
+            baseMapper.updateOrderOver(id);
             query.setExaResult(1);
             return query;
         }
@@ -592,4 +601,6 @@ public class InFinanceServiceImpl extends ServiceImpl<InFinanceMapper, Income> i
         result.setCount(99999);
         return result;
     }
+
+
 }

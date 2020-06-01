@@ -122,6 +122,11 @@ public class ExcelUtils {
             cellStyle4.setFont(setFontStyle((HSSFWorkbook) workbook, "宋体", (short) 10));
             cellStyle4.setAlignment(HSSFCellStyle.ALIGN_LEFT);
 
+            CellStyle cellStyle5 = workbook.createCellStyle();
+            setBorderStyle((HSSFCellStyle) cellStyle5, borderpx);
+            cellStyle5.setFont(setFontStyle((HSSFWorkbook) workbook, "宋体", (short) 12));
+            cellStyle5.setAlignment(HSSFCellStyle.ALIGN_LEFT);
+
             //开始行
             Integer start = 4;
             if (body.size() > 2) {
@@ -214,15 +219,20 @@ public class ExcelUtils {
             Row sheetRow5 = sheet.getRow(size+8);
             Cell rowCell5 = sheetRow5.getCell(1);
             rowCell5.setCellValue(contentExl.getGuideName());
-            rowCell5.setCellStyle(cellStyle2);
+            rowCell5.setCellStyle(cellStyle5);
 
-            Cell rowCell6 = sheetRow5.getCell(3);
+            Cell rowCell6 = sheetRow5.getCell(11);
             if (StringUtils.isBlank(contentExl.getFinanceName())) {
                 rowCell6.setCellValue ("");
             } else {
                 rowCell6.setCellValue(contentExl.getFinanceName());
             }
             rowCell6.setCellStyle(cellStyle2);
+
+            //当前车辆
+            Cell rowCell7 = sheetRow5.getCell(3);
+            rowCell7.setCellValue(contentExl.getCarNumber());
+            rowCell7.setCellStyle(cellStyle5);
 
             Double allOutPrice = 0.0;
             //支出信息
