@@ -22,8 +22,8 @@
         select b.Id as 'OrderId',b.ContactName,b.ContactTel,b.Place,b.AllNumber,b.PayType
         ,b.AdultNumber,b.BabyNumber,b.OldNumber,b.ChildNumber,isnull(b.MsPrice,0)MsPrice
         ,a.OutDate as 'outDate',b.LineName as 'lineName',b.CompanyName as 'companyName',b.Price as 'allPrice'
-        ,b.ApplyRemark as 'applyRemark',a.GuideName as 'guideName',b.Types as 'type'
-        from Orders a join OrderDetailed b on a.Id = b.OrderId
+        ,b.ApplyRemark as 'applyRemark',a.GuideName as 'guideName',b.Types as 'type',d.PayType as 'ApplyPayType',d.ThirdpartyNumber
+        from Orders a join OrderDetailed b on a.Id = b.OrderId join Apply c on c.Id = b.ApplyId left join pay d on c.ApplyNo = d.ApplyNo
         <where>
             1 = 1
             and a.Id = #{id}

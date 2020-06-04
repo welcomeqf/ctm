@@ -51,7 +51,7 @@ public class GuiderServiceImpl implements IGuiderService {
      * @return
      */
     @Override
-    public Map<String,Object> guiderIndex(Page<GuiderVo> page, String outDate, GuiderList lineNameList, String region, Integer selectNot) {
+    public Map<String,Object> guiderIndex(Page<GuiderVo> page, String outDate, GuiderList lineNameList, String region, Integer selectNot,Long orderId) {
 
         LocalDate localDate = null;
 
@@ -115,6 +115,12 @@ public class GuiderServiceImpl implements IGuiderService {
        Map<String,Object> map = new HashMap<>();
        map.put("page",guiderVoPage1);
        map.put("number",guiderCountNumber1);
+       //如果有传订单id则表示为导澈再选人进入的给出导游已选人记录
+       if(orderId != null){
+           //UserLoginQuery users = localUser.getUser("用户信息");
+           GuiderCountNumber guiderCountNumber3 = guiderMapper.querySelectNumber(orderId);
+           map.put("selectNumber",guiderCountNumber3);
+       }
        return map;
     }
 

@@ -106,4 +106,12 @@ public interface GuiderMapper {
                                    @Param("lineId") Long lineId,
                                    @Param("outDate") LocalDate outDate,
                                    @Param("region") String region);
+
+     /**
+      * 查询人数统计
+      * @param id
+      * @param cid
+      * @return
+      */
+     GuiderCountNumber querySelectNumber (@Param("id") Long id);
 }

@@ -52,7 +52,7 @@ public class GuiderController {
             throw new ApplicationException(CodeType.PARAM_ERROR,"参数不能为空");
         }
         Page<GuiderVo> page = new Page<>(vo.getCurrent(),vo.getSize());
-        return guiderService.guiderIndex(page,vo.getOutDate(),vo.getLineNameList(),vo.getRegion(),vo.getSelectNot());
+        return guiderService.guiderIndex(page,vo.getOutDate(),vo.getLineNameList(),vo.getRegion(),vo.getSelectNot(),vo.getOrderId());
     }
 
 

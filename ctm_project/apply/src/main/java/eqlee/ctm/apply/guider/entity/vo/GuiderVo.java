@@ -74,5 +74,20 @@ public class GuiderVo {
      */
     private String tel;
 
+    /**
+     *支付方式 (0--微信  1--支付宝 2--转账上传图片)
+     */
+    private Integer ApplyPayType;
+
+    /**
+     * 支付流水号
+     */
+    private String ThirdpartyNumber;
+
+    /**
+     *支付方式 (0--现结 2--月结)
+     */
+    private Integer PayType;
+
 }
 

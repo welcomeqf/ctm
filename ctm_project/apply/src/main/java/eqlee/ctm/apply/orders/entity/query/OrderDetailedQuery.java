@@ -76,4 +76,15 @@ public class OrderDetailedQuery {
     private String guideName;
 
     private Integer type;
+
+    /**
+     * 支付方式 (0--微信  1--支付宝 2--转账上传图片)
+     */
+    private Integer ApplyPayType;
+
+    /**
+     * 支付流水号
+     */
+    private String ThirdpartyNumber;
+
 }

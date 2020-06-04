@@ -8,8 +8,8 @@
     a.ContactName as 'contactName',a.ContactTel as 'contactTel',a.Place as 'place',a.AdultNumber as 'adultNumber',
     a.BabyNumber as 'babyNumber',a.OldNumber as 'oldNumber',a.ChildNumber as 'childNumber',a.AllPrice as 'allPrice',
     a.MsPrice as 'msPrice',a.ApplyRemark as 'applyRemark',a.CompanyName as 'companyName',a.IsSelect as 'isSelect',
-    a.Type as 'type',a.GuideName as 'guide',a.GuideTel as 'tel'
-    from Line b join Apply a on a.LineId = b.Id
+    a.Type as 'type',a.GuideName as 'guide',a.GuideTel as 'tel',c.PayType as 'ApplyPayType',c.ThirdpartyNumber,a.PayType
+    from Line b join Apply a on a.LineId = b.Id left join pay c on a.ApplyNo = c.ApplyNo
         <where>
             1 = 1
             and a.IsCancel = 0 and a.Statu = 1 and a.IsPayment = 1
@@ -71,6 +71,20 @@
                 </foreach>
             </if>
         </where>
+    </select>
+
+    <select id="querySelectNumber" resultType="eqlee.ctm.apply.guider.entity.vo.GuiderCountNumber">
+        select
+        sum(b.AdultNumber)adultNumber,sum(b.BabyNumber)babyNumber,sum(b.OldNumber)oldNumber,sum(b.ChildNumber)childNumber,
+        sum(b.AllNumber)totalNumber
+        from Orders a join OrderDetailed b on a.Id = b.OrderId left join Income d on a.Id = d.OrderId
+        <where>
+            1 = 1
+            <if test="id != null">
+                and a.Id = #{id}
+            </if>
+        </where>
+        group by a.OrderNo
     </select>
 
     <select id ="guiderIndexByLine" resultType="eqlee.ctm.apply.guider.entity.vo.GuiderVo">

@@ -264,7 +264,7 @@ public class InFinanceServiceImpl extends ServiceImpl<InFinanceMapper, Income> i
             int i = baseMapper.updateIsFinash(DateUtil.parseDate(vo.getOutDate()), user.getId(), LocalDateTime.now());
 
             if (i <= 0) {
-                throw new ApplicationException(CodeType.SERVICE_ERROR,"该线路不存在");
+                throw new ApplicationException(CodeType.SERVICE_ERROR,"请使用当前订单导游账号登陆操作！");
             }
 
         }

@@ -21,4 +21,6 @@ public class GuiderIdParamVo {
    private String region;
 
    private Integer selectNot;
+
+   private Long orderId;
 }
