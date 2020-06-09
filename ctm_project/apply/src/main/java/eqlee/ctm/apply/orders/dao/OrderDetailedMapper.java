@@ -79,4 +79,11 @@ public interface OrderDetailedMapper extends IBaseMapper<OrderDetailed> {
      * @return
      */
     List<OrderFinanceQuery>  queryInOutInfo(Long orderId);
+
+    /**
+     * 待交账账单取消
+     * @param deptId
+     * @return
+     */
+    void CancelWaitSubmitOrder(@Param("orderId") Long deptId);
 }

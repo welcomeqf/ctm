@@ -16,6 +16,7 @@ import eqlee.ctm.apply.line.entity.vo.ResultVo;
 import eqlee.ctm.apply.orders.dao.OrderDetailedMapper;
 import eqlee.ctm.apply.orders.entity.OrderDetailed;
 import eqlee.ctm.apply.orders.entity.Orders;
+import eqlee.ctm.apply.orders.entity.Vo.IncomeVo;
 import eqlee.ctm.apply.orders.entity.bo.CancelBo;
 import eqlee.ctm.apply.orders.entity.bo.IdBo;
 import eqlee.ctm.apply.orders.entity.bo.OrderBo;
@@ -106,7 +107,7 @@ public class OrdersDetailedServiceImpl extends ServiceImpl<OrderDetailedMapper, 
         }
 
         Long id = null;
-        if ("运营人员".equals(users.getRoleName()) || "超级管理员".equals(users.getRoleName()) || "管理员".equals(users.getRoleName())) {
+        if ("财务".equals(users.getRoleName()) || "运营人员".equals(users.getRoleName()) || "超级管理员".equals(users.getRoleName()) || "管理员".equals(users.getRoleName())) {
             id = null;
         } else {
             id = users.getId();
@@ -261,5 +262,23 @@ public class OrdersDetailedServiceImpl extends ServiceImpl<OrderDetailedMapper, 
                 .in(OrderDetailed::getApplyId,ids);
 
         return baseMapper.selectList(wrapper);
+    }
+
+    /**
+     * 管理员取消待交账账单
+     * @param id
+     * @return
+     */
+    @Override
+    public void cancelOrders(Long id) {
+        UserLoginQuery users = user.getUser("用户信息");
+        if(!"超级管理员".equals(users.getRoleName())){
+            throw new ApplicationException(CodeType.SERVICE_ERROR, "请使用超级管理员账户登陆操作!");
+        }
+        IncomeVo vo = ordersService.queryOrdersStatus(id);
+        if(vo != null){
+            throw new ApplicationException(CodeType.SERVICE_ERROR, "只允许待交账状态账单可操作，请刷新重试！");
+        }
+        baseMapper.CancelWaitSubmitOrder(id);
     }
 }

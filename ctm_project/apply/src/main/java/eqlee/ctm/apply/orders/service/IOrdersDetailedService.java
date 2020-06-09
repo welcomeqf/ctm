@@ -8,10 +8,7 @@ import eqlee.ctm.apply.orders.entity.OrderDetailed;
 import eqlee.ctm.apply.orders.entity.bo.IdBo;
 import eqlee.ctm.apply.orders.entity.bo.OrderBo;
 import eqlee.ctm.apply.orders.entity.bo.OrderDetailedBo;
-import eqlee.ctm.apply.orders.entity.query.OrderDetailedQuery;
-import eqlee.ctm.apply.orders.entity.query.OrderFinanceQuery;
-import eqlee.ctm.apply.orders.entity.query.OrdersNoCountInfoQuery;
-import eqlee.ctm.apply.orders.entity.query.OrdersNoCountQuery;
+import eqlee.ctm.apply.orders.entity.query.*;
 
 import java.util.List;
 
@@ -91,4 +88,10 @@ public interface IOrdersDetailedService {
      */
     List<OrderDetailed> queryByApplyId (List<Long> ids);
 
+    /**
+     * 管理员取消待交账账单
+     * @param id
+     * @return
+     */
+    void cancelOrders(Long id);
 }

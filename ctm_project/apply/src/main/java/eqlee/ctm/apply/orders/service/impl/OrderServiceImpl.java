@@ -733,4 +733,14 @@ public class OrderServiceImpl extends ServiceImpl<OrdersMapper, Orders> implemen
       }
    }
 
+    /**
+     * 查询账单状态 3待交账 状态(0--已提交待审核1--审核成功2--审核失败)
+     * @param id
+     * @return
+     */
+    @Override
+    public IncomeVo queryOrdersStatus(Long id) {
+        return baseMapper.queryStatus(id);
+    }
+
 }

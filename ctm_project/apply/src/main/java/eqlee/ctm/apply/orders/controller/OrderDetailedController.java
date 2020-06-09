@@ -151,5 +151,20 @@ public class OrderDetailedController {
         return vo;
     }
 
+    @ApiOperation(value = "管理员取消待交账账单",notes = "管理员取消待交账账单")
+    @ApiImplicitParam(name = "id", value = "id", required = true, dataType = "Long", paramType = "path")
+    @GetMapping("/cancelOrders")
+    @CrossOrigin
+    @CheckToken
+    public ResultVo cancelOrders (@RequestParam("id") Long id) {
+        if (id == null) {
+            throw new ApplicationException(CodeType.PARAM_ERROR, "参数不能为空");
+        }
+        ordersDetailedService.cancelOrders(id);
+
+        ResultVo vo = new ResultVo();
+        vo.setResult("OK");
+        return vo;
+    }
 
 }

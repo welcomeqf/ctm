@@ -96,4 +96,12 @@
         where a.OrderId = #{orderId}
     </select>
 
+
+    <select id="CancelWaitSubmitOrder" parameterType="map" statementType="CALLABLE">
+    {
+        call CancelWaitSubmitOrder(
+            #{orderId, mode=IN, jdbcType=BIGINT}
+        )
+    }
+    </select>
 </mapper>
