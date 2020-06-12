@@ -37,9 +37,10 @@ public interface IInFinanceService {
      * @param guideName
      * @param type
      * @param outDate
+     * @param orderNo
      * @return
      */
-    Page<ExamineResultQuery> listExamine2Page(Page<ExamineResultQuery> page, String guideName, Integer type, String outDate);
+    Page<ExamineResultQuery> listExamine2Page(Page<ExamineResultQuery> page, String guideName, Integer type, String outDate,String orderNo);
 
 
     /**

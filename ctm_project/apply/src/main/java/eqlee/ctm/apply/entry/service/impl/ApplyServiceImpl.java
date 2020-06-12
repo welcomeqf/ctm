@@ -84,8 +84,13 @@ public class ApplyServiceImpl extends ServiceImpl<ApplyMapper, Apply> implements
         LocalDate outDate = DateUtil.parseDate(applyVo.getOutDate());
         long until = now.until(outDate, ChronoUnit.DAYS);
 
-        if (until <= 0) {
-            throw new ApplicationException(CodeType.SERVICE_ERROR,"亲~请报名今天之后的旅行！");
+        //非补录修改(0=正常报名，1=补录，2=包团)
+        if (applyVo.getType() != 1 && until < 0) {
+            throw new ApplicationException(CodeType.SERVICE_ERROR,"请报名今天或之后的日期行程！");
+        }
+        //补录修改
+        if (applyVo.getType() == 1 && until < -2) {
+            throw new ApplicationException(CodeType.SERVICE_ERROR,"补录日期只能是今天及前两天的日期行程！");
         }
 
         if (applyVo.getChildNumber() + applyVo.getOldNumber() + applyVo.getBabyNumber() + applyVo.getAdultNumber() <= 0) {
@@ -213,6 +218,7 @@ public class ApplyServiceImpl extends ServiceImpl<ApplyMapper, Apply> implements
           apply.setMarketAllPrice(applyVo.getMarketAllPrice());
           apply.setMsPrice(applyVo.getMsPrice());
           apply.setApplyRemark(applyVo.getApplyRemark());
+          apply.setIcnumber(applyVo.getIcnumber());
 
           apply.setCompanyId(applyVo.getCompanyNameId());
           apply.setType(applyVo.getType());
@@ -240,6 +246,7 @@ public class ApplyServiceImpl extends ServiceImpl<ApplyMapper, Apply> implements
           apply.setMarketAllPrice(applyVo.getMarketAllPrice());
           apply.setMsPrice(applyVo.getMsPrice());
           apply.setApplyRemark(applyVo.getApplyRemark());
+          apply.setIcnumber(applyVo.getIcnumber());
 
           apply.setCompanyId(applyVo.getCompanyNameId());
           apply.setCompanyTel(user.getTel());
@@ -529,6 +536,7 @@ public class ApplyServiceImpl extends ServiceImpl<ApplyMapper, Apply> implements
          apply.setMarketAllPrice(applyVo.getMarketAllPrice());
          apply.setMsPrice(applyVo.getMsPrice());
          apply.setApplyRemark(applyVo.getApplyRemark());
+         apply.setIcnumber(applyVo.getIcnumber());
 
          apply.setCompanyId(applyVo.getCompanyNameId());
          apply.setType(applyVo.getType());
@@ -556,6 +564,7 @@ public class ApplyServiceImpl extends ServiceImpl<ApplyMapper, Apply> implements
          apply.setMarketAllPrice(applyVo.getMarketAllPrice());
          apply.setMsPrice(applyVo.getMsPrice());
          apply.setApplyRemark(applyVo.getApplyRemark());
+         apply.setIcnumber(applyVo.getIcnumber());
 
          apply.setCompanyId(applyVo.getCompanyNameId());
          apply.setCompanyTel(user.getTel());
@@ -920,6 +929,8 @@ public class ApplyServiceImpl extends ServiceImpl<ApplyMapper, Apply> implements
        Line line = lineService.queryOneLine(apply.getLineId());
        vo.setLineName(line.getLineName());
        vo.setApplyRemark(apply.getApplyRemark());
+       vo.setIcnumber(apply.getIcnumber());
+       vo.setType(apply.getType());
 
        vo.setMsPrice(apply.getMsPrice());
 

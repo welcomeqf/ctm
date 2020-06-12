@@ -157,7 +157,8 @@ public class FinanceExcelController {
                              @RequestParam("GuestName") String guideName,
                              @RequestParam("type") Integer type,
                              @RequestParam("outDate") String outDate,
-                             @RequestParam("lineName") String lineName){
+                             @RequestParam("lineName") String lineName,
+                             @RequestParam("orderNo") String orderNo){
 
         if (current == null || size == null) {
             throw new ApplicationException(CodeType.PARAMETER_ERROR);
@@ -166,13 +167,14 @@ public class FinanceExcelController {
         Page<ExamineResultQuery> page = new Page<>(current,size);
 
         //查询出需要导出的数据
-        Page<ExamineResultQuery> queryPage = inFinanceService.listExamine2Page(page,guideName,type,outDate);
+        Page<ExamineResultQuery> queryPage = inFinanceService.listExamine2Page(page,guideName,type,outDate,orderNo);
 
         //拿到集合数据
         List<ExamineResultQuery> list = queryPage.getRecords();
 
         //创建报表数据头
         List<String> head = new ArrayList<>();
+        head.add("订单号");
         head.add("出发日期");
         head.add("旅游线路");
         head.add("导游名称");
@@ -189,6 +191,7 @@ public class FinanceExcelController {
         Double setIn = 0.0;
         for (ExamineResultQuery query : list) {
             List<String> bodyValue = new ArrayList<>();
+            bodyValue.add(query.getOrderNo());
             bodyValue.add(query.getOutDate());
             bodyValue.add(query.getLineName());
             bodyValue.add(query.getGuideName());
@@ -210,9 +213,9 @@ public class FinanceExcelController {
             //将数据添加到报表体中
             body.add(bodyValue);
         }
-        map.put(4,out);
-        map.put(5,in);
-        map.put(6,setIn);
+        map.put(5,out);
+        map.put(6,in);
+        map.put(7,setIn);
         String fileName = "财务审核统计.xls";
         HSSFWorkbook excel = ExcelUtils.expExcel(head,body,map);
         String fileStorePath = "exl";

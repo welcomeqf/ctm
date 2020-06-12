@@ -11,7 +11,7 @@
     <select id="listPageExa" resultType="eqlee.ctm.finance.settlement.entity.query.ExamineResultQuery">
         select * from (select max(a.OrderId)Id, max(a.GuideName)GuideName,max(convert(varchar(20),a.OutDate,23)) as 'OutDate',max(a.LineName)LineName,
         max(a.GuideTel) as 'Tel',max(a.AllInPrice)AllInPrice,max(a.UpdateDate) as 'UpdateDate',
-        (isnull(max(a.AllInPrice),0) - isnull(sum(b.OutPrice),0)) as 'FinallyPrice',isnull(sum(b.OutPrice),0)AllOutPrice,max(a.Status)Status
+        (isnull(max(a.AllInPrice),0) - isnull(sum(b.OutPrice),0)) as 'FinallyPrice',isnull(sum(b.OutPrice),0)AllOutPrice,max(a.Status)Status,(select OrderNo from orders where Id = a.OrderId) as 'OrderNo'
         from Income a left join Outcome2 b
         on a.Id = b.IncomeId
         <where>
@@ -30,8 +30,17 @@
             <if test="outTime != null">
                 and a.OutDate = #{outTime}
             </if>
+
         </where>
-        group by a.Id) aa order by OutDate desc,UpdateDate desc,Status
+        group by a.Id,a.OrderId) aa
+         <where>
+             1=1
+             <if test="orderNo != null">
+                 <bind name="_orderNo" value="'%' + orderNo + '%'"/>
+                 and orderNo like #{_orderNo}
+             </if>
+         </where>
+         order by OutDate desc,UpdateDate desc,Status
     </select>
 
     <select id="listExamineDetailed" parameterType="long" resultType="eqlee.ctm.finance.settlement.entity.vo.ExamineResultVo">

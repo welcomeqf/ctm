@@ -56,4 +56,9 @@ public class ExamineResultQuery {
      * 出发日期
      */
     private LocalDateTime UpdateDate;
+
+    /**
+     * 订单号
+     */
+    private String OrderNo;
 }

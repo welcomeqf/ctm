@@ -302,6 +302,7 @@ public class OrderServiceImpl extends ServiceImpl<OrdersMapper, Orders> implemen
        query.setLineName(orders1.getLineName());
        query.setOutDate(DateUtil.formatDate(orders1.getOutDate()));
        query.setGuideName(orders1.getGuideName());
+       query.setOrderNo(orders1.getOrderNo());
        return query;
     }
 

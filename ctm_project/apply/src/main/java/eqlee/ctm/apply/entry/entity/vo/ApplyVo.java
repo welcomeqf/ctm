@@ -149,4 +149,10 @@ public class ApplyVo {
      */
     private String applyPic;
 
+    /**
+     *  身份证信息（选填）
+     */
+    private String icnumber;
+
+
 }

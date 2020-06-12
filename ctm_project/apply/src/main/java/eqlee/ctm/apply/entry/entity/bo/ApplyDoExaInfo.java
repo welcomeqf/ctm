@@ -95,4 +95,9 @@ public class ApplyDoExaInfo {
     * 包团详情文件
     */
    private String applyPic;
+
+   /**
+    *  身份证信息（选填）
+    */
+   private String icnumber;
 }

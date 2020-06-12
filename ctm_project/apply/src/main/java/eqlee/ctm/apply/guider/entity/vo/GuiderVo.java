@@ -89,5 +89,10 @@ public class GuiderVo {
      */
     private Integer PayType;
 
+    /**
+     *  身份证信息（选填）
+     */
+    private String icnumber;
+
 }
 

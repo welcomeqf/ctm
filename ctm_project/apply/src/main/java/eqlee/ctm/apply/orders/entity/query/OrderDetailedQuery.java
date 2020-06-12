@@ -87,4 +87,9 @@ public class OrderDetailedQuery {
      */
     private String ThirdpartyNumber;
 
+    /**
+     * 身份证号码
+     */
+    private String icnumber;
+
 }

@@ -236,6 +236,7 @@ public class ExamineServiceImpl extends ServiceImpl<ExamineMapper, Examine> impl
         applyVo.setApplyNo(examineVo.getApplyNo());
         applyVo.setCreateUserId(examineVo.getCreateUserId());
         applyVo.setApplyPic(examineVo.getApplyPic());
+        applyVo.setIcnumber(examineVo.getIcnumber());
 
         applyService.insertApply(applyVo);
     }

@@ -41,12 +41,14 @@ public interface InFinanceMapper extends IBaseMapper<Income> {
      * @param guideName
      * @param type
      * @param outTime
+     * @param orderNo
      * @return
      */
     Page<ExamineResultQuery> listPageExa (Page<ExamineResultQuery> page,
                                           @Param("guideName") String guideName,
                                           @Param("type") Integer type,
-                                          @Param("outTime") LocalDate outTime);
+                                          @Param("outTime") LocalDate outTime,
+                                          @Param("orderNo") String orderNo);
 
     /**
      * 展示审核详情

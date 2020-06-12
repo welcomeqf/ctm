@@ -81,6 +81,7 @@ public class FinanceController {
             @ApiImplicitParam(name = "size", value = "每页显示条数", required = true, dataType = "int", paramType = "path"),
             @ApiImplicitParam(name = "GuestId", value = "导游Id", required = false, dataType = "String", paramType = "path"),
             @ApiImplicitParam(name = "outDate", value = "出行日期", required = false, dataType = "String", paramType = "path"),
+            @ApiImplicitParam(name = "orderNo", value = "订单号", required = false, dataType = "String", paramType = "path"),
             @ApiImplicitParam(name = "type", value = "类型(0-未审核,1-已审核)", required = false, dataType = "int", paramType = "path")
     })
     @GetMapping("/listExamine2Page")
@@ -90,14 +91,15 @@ public class FinanceController {
                                                       @RequestParam("size") Integer size,
                                                       @RequestParam("guideName") String guideName,
                                                       @RequestParam("type") Integer type,
-                                                      @RequestParam("outDate") String outDate) {
+                                                      @RequestParam("outDate") String outDate,
+                                                      @RequestParam("orderNo") String orderNo) {
         if (current == null || size == null) {
             throw new ApplicationException(CodeType.PARAMETER_ERROR);
         }
 
         Page<ExamineResultQuery> page = new Page<>(current,size);
 
-        return inFinanceService.listExamine2Page(page,guideName,type,outDate);
+        return inFinanceService.listExamine2Page(page,guideName,type,outDate,orderNo);
     }
 
 

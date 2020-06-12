@@ -170,4 +170,14 @@ public class ApplySeacherVo {
     private Long companyId;
 
     private String applyPic;
+
+    /**
+     *  身份证信息（选填）
+     */
+    private String icnumber;
+
+    /**
+     * 0--正常报名  1--补录 2--包团
+     */
+    private Integer Type;
 }

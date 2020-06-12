@@ -259,6 +259,11 @@ public class Apply extends Model<Apply> {
      */
     private String GuideTel;
 
+    /**
+     *  身份证信息（选填）
+     */
+    private String icnumber;
+
     @Override
     protected Serializable pkVal() {
         return this.Id;

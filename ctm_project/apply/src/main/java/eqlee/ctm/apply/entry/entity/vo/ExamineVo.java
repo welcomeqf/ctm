@@ -133,4 +133,9 @@ public class ExamineVo {
     private Integer type;
 
     private String applyPic;
+
+    /**
+     *  身份证信息（选填）
+     */
+    private String icnumber;
 }

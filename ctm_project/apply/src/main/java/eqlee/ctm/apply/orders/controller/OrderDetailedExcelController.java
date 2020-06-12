@@ -98,12 +98,17 @@ public class OrderDetailedExcelController {
          allNumber += query.getAllNumber();
          allMoney += query.getAllPrice();
          msMoney += query.getMsPrice();
+         //如果当前报名已取消，则导出联系人显示已取消
+         Boolean isCancle = false;
+         if(query.getAllPrice() == 0 && query.getAllNumber() == 0){
+            isCancle = true;
+         }
 
          List<String> bodyValue = new ArrayList<>();
          bodyValue.add(query.getCompanyName());
          bodyValue.add(DateUtil.formatDate(orders.getOutDate()));
          bodyValue.add(query.getLineName());
-         bodyValue.add(query.getContactName());
+         bodyValue.add(isCancle ? "(已取消)" : query.getContactName());
          bodyValue.add(query.getContactTel());
          bodyValue.add(String.valueOf(query.getAdultNumber()));
          bodyValue.add(String.valueOf(query.getChildNumber()));
@@ -155,6 +160,7 @@ public class OrderDetailedExcelController {
       contentExl.setMsPrice(msMoney);
       contentExl.setOtherPrice(otherInMoney);
       contentExl.setCarNumber(orders.getCarNumber());
+      contentExl.setOrderNo(orders.getOrderNo());
 
       contentExl.setSetPrice("本单利润: " + String.format("%.2f", setMoney));
 

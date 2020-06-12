@@ -331,7 +331,7 @@ public class InFinanceServiceImpl extends ServiceImpl<InFinanceMapper, Income> i
      * @return
      */
     @Override
-    public Page<ExamineResultQuery> listExamine2Page(Page<ExamineResultQuery> page, String guideName, Integer type, String outDate) {
+    public Page<ExamineResultQuery> listExamine2Page(Page<ExamineResultQuery> page, String guideName, Integer type, String outDate,String orderNo) {
 
         LocalDate outTime = null;
 
@@ -344,7 +344,7 @@ public class InFinanceServiceImpl extends ServiceImpl<InFinanceMapper, Income> i
         }
 
 
-        return baseMapper.listPageExa (page,guideName,type,outTime);
+        return baseMapper.listPageExa (page,guideName,type,outTime,orderNo);
 
     }
 

@@ -8,7 +8,7 @@
     a.ContactName as 'contactName',a.ContactTel as 'contactTel',a.Place as 'place',a.AdultNumber as 'adultNumber',
     a.BabyNumber as 'babyNumber',a.OldNumber as 'oldNumber',a.ChildNumber as 'childNumber',a.AllPrice as 'allPrice',
     a.MsPrice as 'msPrice',a.ApplyRemark as 'applyRemark',a.CompanyName as 'companyName',a.IsSelect as 'isSelect',
-    a.Type as 'type',a.GuideName as 'guide',a.GuideTel as 'tel',c.PayType as 'ApplyPayType',c.ThirdpartyNumber,a.PayType
+    a.Type as 'type',a.GuideName as 'guide',a.GuideTel as 'tel',c.PayType as 'ApplyPayType',c.ThirdpartyNumber,a.PayType,a.Icnumber
     from Line b join Apply a on a.LineId = b.Id left join pay c on a.ApplyNo = c.ApplyNo
         <where>
             1 = 1

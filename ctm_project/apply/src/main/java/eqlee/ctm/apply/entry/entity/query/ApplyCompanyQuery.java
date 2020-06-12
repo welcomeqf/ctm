@@ -112,4 +112,9 @@ public class ApplyCompanyQuery {
      * 导游电话
      */
     private String tel;
+
+    /**
+     *  身份证信息（选填）
+     */
+    private String icnumber;
 }

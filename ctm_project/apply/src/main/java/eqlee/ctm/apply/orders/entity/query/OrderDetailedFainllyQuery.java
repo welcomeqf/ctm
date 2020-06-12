@@ -17,4 +17,6 @@ public class OrderDetailedFainllyQuery {
    private String carNo;
 
    private String guideName;
+
+   private String orderNo;
 }

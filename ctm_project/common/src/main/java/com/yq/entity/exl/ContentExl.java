@@ -68,4 +68,9 @@ public class ContentExl {
     */
    private String carNumber;
 
+   /**
+    * 订单号
+    */
+   private String orderNo;
+
 }

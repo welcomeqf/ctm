@@ -111,6 +111,7 @@ public class ExcelUtils {
             setBorderStyle((HSSFCellStyle) cellStyle2, borderpx);
             cellStyle2.setFont(setFontStyle((HSSFWorkbook) workbook, "宋体", (short) 12));
             cellStyle2.setAlignment(HSSFCellStyle.ALIGN_CENTER);
+            cellStyle2.setVerticalAlignment(HSSFCellStyle.VERTICAL_CENTER);//垂直居中
 
             CellStyle cellStyle3 = workbook.createCellStyle();
             setBorderStyle((HSSFCellStyle) cellStyle3, borderpx);
@@ -161,7 +162,7 @@ public class ExcelUtils {
                     cell = row.createCell(p);
                     cell.setCellValue(paramList.get(p));
                     cell.setCellStyle(cellStyle2);
-                    if (p==2||p==11) {
+                    if (p==2 || p==3 || p==4 || p==11 || p==12) {
                         cell.setCellStyle(cellStyle4);
                     }
                 }
@@ -221,7 +222,7 @@ public class ExcelUtils {
             rowCell5.setCellValue(contentExl.getGuideName());
             rowCell5.setCellStyle(cellStyle5);
 
-            Cell rowCell6 = sheetRow5.getCell(11);
+            Cell rowCell6 = sheetRow5.getCell(12);
             if (StringUtils.isBlank(contentExl.getFinanceName())) {
                 rowCell6.setCellValue ("");
             } else {
@@ -233,6 +234,11 @@ public class ExcelUtils {
             Cell rowCell7 = sheetRow5.getCell(3);
             rowCell7.setCellValue(contentExl.getCarNumber());
             rowCell7.setCellStyle(cellStyle5);
+
+            //订单号
+            Cell rowCell8 = sheetRow5.getCell(8);
+            rowCell8.setCellValue(contentExl.getOrderNo());
+            rowCell8.setCellStyle(cellStyle5);
 
             Double allOutPrice = 0.0;
             //支出信息
