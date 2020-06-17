@@ -60,12 +60,18 @@ public class CompanyServiceImp extends ServiceImpl<CompanyMapper,Company> implem
      * @return
      */
     @Override
-    public List<Company> queryAllCompany() {
+    public List<Company> queryAllCompany(Integer ctype) {
 
         LambdaQueryWrapper<Company> lambdaQueryWrapper = new LambdaQueryWrapper<Company>()
               .eq(Company::getStopped,0)
               .eq(Company::getStatus,1);
-
+        if(ctype != null && ctype == 1){
+            //只留月结同行
+            lambdaQueryWrapper = new LambdaQueryWrapper<Company>()
+                    .eq(Company::getStopped,0)
+                    .eq(Company::getPayMethod,3)
+                    .eq(Company::getStatus,1);
+        }
         List<Company> companies = baseMapper.selectList(lambdaQueryWrapper);
         return companies;
     }
@@ -281,7 +287,7 @@ public class CompanyServiceImp extends ServiceImpl<CompanyMapper,Company> implem
         Page<CompanyIndexVo> page = new Page<CompanyIndexVo>();
         page.setCurrent(pageCompany.getCurrent());
         page.setSize(pageCompany.getSize());
-        return baseMapper.getCompanyPageByName(page,pageCompany.getName());
+        return baseMapper.getCompanyPageByName(page,pageCompany.getName(),pageCompany.getOnlynew());
     }
 
 

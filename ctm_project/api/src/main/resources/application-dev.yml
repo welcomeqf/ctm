@@ -3,5 +3,5 @@ spring:
     driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
     url: jdbc:sqlserver://8.129.214.148:1599;Databasename=Ctm
     username: acc_ctm
-    password: CTM@eqlee.com..
+    password: moZjxUsi9sA6F3Ii
 

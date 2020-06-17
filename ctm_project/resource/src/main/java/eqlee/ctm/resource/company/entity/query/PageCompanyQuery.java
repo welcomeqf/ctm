@@ -11,4 +11,9 @@ import lombok.Data;
 @Data
 public class PageCompanyQuery extends PageUtils {
     private String name;
+
+    /**
+     * 1 过滤已审核通过同行公司
+     */
+    private Integer onlynew;
 }

@@ -110,13 +110,14 @@ public class CompanyController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "companyName", value = "公司名称", required = false, dataType = "String", paramType = "path"),
             @ApiImplicitParam(name = "current", value = "当前页", required = true, dataType = "Integer", paramType = "path"),
-            @ApiImplicitParam(name = "size", value = "页面大小", required = true, dataType = "Integer", paramType = "path")
+            @ApiImplicitParam(name = "size", value = "页面大小", required = true, dataType = "Integer", paramType = "path"),
+            @ApiImplicitParam(name = "onlynew", value = "是否过滤已审核通过主账户", required = false, dataType = "Integer", paramType = "path")
     })
     @GetMapping("/queryCompanyByName")
     @CrossOrigin
     @CheckToken
     public Page<CompanyIndexVo> queryCompanyByCompanyName (@RequestParam("size") Integer size, @RequestParam("companyName") String companyName,
-                                                           @RequestParam("current") Integer current) {
+                                                           @RequestParam("current") Integer current,@RequestParam("onlynew") Integer onlynew) {
 
         if(current == null||size == null){
             throw new ApplicationException(CodeType.PARAMETER_ERROR,"当前页或者页面大小为空");
@@ -125,6 +126,7 @@ public class CompanyController {
         pageCompany.setCurrent(current);
         pageCompany.setSize(size);
         pageCompany.setName(companyName);
+        pageCompany.setOnlynew(onlynew);
         return companyService.GetCompanyPageByName(pageCompany);
     }
 
@@ -210,11 +212,12 @@ public class CompanyController {
     }
 
     @ApiOperation(value = "查询所有同行", notes = "查询所有同行")
+    @ApiImplicitParam(name = "ctype", value = "是否过滤现结用户", required = false, dataType = "Integer", paramType = "path")
     @GetMapping("/getCompany")
     @CrossOrigin
     @CheckToken
-    public List<Company> getCompany(){
-        return companyService.queryAllCompany();
+    public List<Company> getCompany(@RequestParam("ctype") Integer ctype){
+        return companyService.queryAllCompany(ctype);
     }
 
 

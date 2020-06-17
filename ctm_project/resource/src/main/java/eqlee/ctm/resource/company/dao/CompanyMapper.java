@@ -20,7 +20,7 @@ public interface CompanyMapper extends IBaseMapper<Company> {
 
 
     Page<CompanyIndexVo> getCompanyPageByName(Page<CompanyIndexVo>page,
-                                               @Param("companyName") String companyName);
+                                               @Param("companyName") String companyName,@Param("onlynew") Integer onlynew);
 
 
     /**

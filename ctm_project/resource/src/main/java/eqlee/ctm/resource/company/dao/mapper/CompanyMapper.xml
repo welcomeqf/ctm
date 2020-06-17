@@ -11,7 +11,17 @@
         CompanyPic as 'companyPic',SxPrice as 'sxPrice',CompanyFullName as 'companyFullName',
         ChargeName as 'chargeName',FinanceTel as 'financeTel',Business as 'business',
         Licence as 'licence',Insurance as 'insurance',BankCard as 'bankCard',Address as 'address',Status as 'status'
-        from Company where CompanyName like #{_companyName} and IsLook = 0 order by Status asc,CreateDate desc
+        from Company
+        <where>
+            1 = 1 and IsLook = 0
+            <if test="companyName != null">
+                and CompanyName like #{_companyName}
+            </if>
+            <if test="onlynew != null">
+                and Status = #{onlynew}
+            </if>
+        </where>
+        order by Status asc,CreateDate desc
     </select>
 
 

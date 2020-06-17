@@ -22,7 +22,7 @@ public interface ICompanyService {
      * 查询所有同行列表（不分页）
      * @return
      */
-   List<Company> queryAllCompany();
+   List<Company> queryAllCompany(Integer ctype);
 
     /**
      * 增加同行信息
