@@ -91,7 +91,8 @@
 
 
     <select id="queryInOutInfo" resultType="eqlee.ctm.apply.orders.entity.query.OrderFinanceQuery" parameterType="Long">
-        select a.CaiName as 'financeName',b.OutName as 'outName',b.OutPrice as 'outPrice',a.OtherInPrice as 'otherInPrice'
+        select a.CaiName as 'financeName',b.OutName as 'outName',b.OutPrice as 'outPrice',a.OtherInPrice as 'otherInPrice',
+        a.Remark,a.Id as 'incomeId',b.Id,b.Picture,b.CreateUserId,b.CreateDate,b.UpdateUserId,b.UpdateDate
         from Income a left join OutCome2 b on a.Id = b.IncomeId
         where a.OrderId = #{orderId}
     </select>

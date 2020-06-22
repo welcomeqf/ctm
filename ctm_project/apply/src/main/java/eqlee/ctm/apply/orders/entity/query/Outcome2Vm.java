@@ -10,40 +10,29 @@ import java.time.LocalDateTime;
  * @vesion 1.0
  **/
 @Data
-public class OrderFinanceQuery {
-
+public class Outcome2Vm {
    /**
-    * 财务人名字
-    */
-   private String financeName;
-
-   /**
-    * 其他收入
-    */
-   private Double otherInPrice;
-
-   /**
-    * 支出名称
-    */
-   private String outName;
-
-   /**
-    * 支出金额
-    */
-   private Double outPrice;
-
-   /**
-    * 收入id
-    */
-   private Long incomeId;
-
-   /**
-    * 支出id
+    * ID
     */
    private Long Id;
 
    /**
-    * 支出图片路径
+    * 收入ID
+    */
+   private Long IncomeId;
+
+   /**
+    * 支出消费名字
+    */
+   private String OutName;
+
+   /**
+    * 支出金额
+    */
+   private Double OutPrice;
+
+   /**
+    * 上传消费凭证
     */
    private String Picture;
 
@@ -71,4 +60,5 @@ public class OrderFinanceQuery {
     * 修改时间
     */
    private LocalDateTime UpdateDate;
+
 }

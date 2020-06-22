@@ -2,6 +2,7 @@ package eqlee.ctm.apply.orders.controller;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.yq.constanct.CodeType;
+import com.yq.entity.exl.OutInfoExl;
 import com.yq.exception.ApplicationException;
 import com.yq.jwt.contain.LocalUser;
 import com.yq.jwt.entity.UserLoginQuery;
@@ -10,11 +11,9 @@ import com.yq.utils.StringUtils;
 import com.yq.vilidata.TimeData;
 import com.yq.vilidata.query.TimeQuery;
 import eqlee.ctm.apply.line.entity.vo.ResultVo;
+import eqlee.ctm.apply.orders.entity.Vo.IncomeVo;
 import eqlee.ctm.apply.orders.entity.bo.OrderBo;
-import eqlee.ctm.apply.orders.entity.query.OrderDetailedFainllyQuery;
-import eqlee.ctm.apply.orders.entity.query.OrderDetailedQuery;
-import eqlee.ctm.apply.orders.entity.query.OrdersNoCountInfoQuery;
-import eqlee.ctm.apply.orders.entity.query.OrdersNoCountQuery;
+import eqlee.ctm.apply.orders.entity.query.*;
 import eqlee.ctm.apply.orders.service.IOrdersDetailedService;
 import eqlee.ctm.apply.orders.service.IOrdersService;
 import io.swagger.annotations.Api;
@@ -26,6 +25,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -66,9 +66,46 @@ public class OrderDetailedController {
 
         OrderDetailedFainllyQuery query = ordersService.getCarNumber(id);
         List<OrderDetailedQuery> list = ordersDetailedService.pageOrderDetailed2Type(id, payType);
+        //收入接口整合进来
+        IncomeVo income = ordersService.incomeCount(id);
+        //支出接口整合进来
+        List<OrderFinanceQuery> outInfo = ordersDetailedService.queryInOutInfo(id);
+        OrderFinanceOutComeQuery outcome = null;
+        List<Outcome2Vm> outList = new ArrayList<>();
+        //财务名
+        String caiName = null;
+        //其他收入
+        Double otherInMoney = 0.0;
+        //备注
+        String remark = null;
+        for (OrderFinanceQuery financeQuery : outInfo) {
+            Outcome2Vm oc = new Outcome2Vm();
+            oc.setOutName(financeQuery.getOutName());
+            oc.setOutPrice(financeQuery.getOutPrice());
+            oc.setId(financeQuery.getId());
+            oc.setPicture(financeQuery.getPicture());
+            oc.setCreateUserId(financeQuery.getCreateUserId());
+            oc.setCreateDate(financeQuery.getCreateDate());
+            oc.setUpdateUserId(financeQuery.getUpdateUserId());
+            oc.setUpdateDate(financeQuery.getUpdateDate());
+            outList.add(oc);
+            otherInMoney = (financeQuery.getOtherInPrice() == null ? 0.0d : financeQuery.getOtherInPrice());
+            caiName = financeQuery.getFinanceName();
+            remark = financeQuery.getRemark();
+        }
+        if(outInfo != null && !outInfo.isEmpty()){
+            outcome = new OrderFinanceOutComeQuery();
+            outcome.setOutList(outList);
+            outcome.setOtherInPrice(otherInMoney);
+            outcome.setCaiName(caiName);
+            outcome.setRemark(remark);
+        }
+
         Map<String, Object> map = new HashMap<>();
         map.put("all", query);
         map.put("data", list);
+        map.put("income", income);
+        map.put("outcome", outcome);
         return map;
     }
 

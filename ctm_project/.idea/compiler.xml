@@ -9,9 +9,9 @@
         <outputRelativeToContentRoot value="true" />
         <module name="user" />
         <module name="api" />
+        <module name="report" />
         <module name="common" />
         <module name="apply" />
-        <module name="report" />
         <module name="msg" />
         <module name="resource" />
         <module name="finance" />
