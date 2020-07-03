@@ -62,7 +62,8 @@ public interface ApplyMapper extends IBaseMapper<Apply> {
                                           @Param("start") LocalDateTime start,
                                           @Param("end") LocalDateTime end,
                                           @Param("exaStatus") Integer exaStatus,
-                                          @Param("list") List<String> list);
+                                          @Param("list") List<String> list,
+                                          @Param("outDateEnd") LocalDate outDateEnd);
 
 
     /**
@@ -220,8 +221,8 @@ public interface ApplyMapper extends IBaseMapper<Apply> {
      * @return
      */
     Page<ApplyResultCountQuery> queryCompanyAdminResultCount (Page<ApplyResultCountQuery> page,
-                                                         @Param("start") LocalDate start,
-                                                         @Param("end") LocalDate end,
+                                                         @Param("year") String year,
+                                                         @Param("month") String month,
                                                          @Param("type") Integer type,
                                                          @Param("caiType") Integer caiType,
                                                          @Param("payType") Integer payType,

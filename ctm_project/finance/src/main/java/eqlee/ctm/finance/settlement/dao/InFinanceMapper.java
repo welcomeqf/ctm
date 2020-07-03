@@ -48,7 +48,8 @@ public interface InFinanceMapper extends IBaseMapper<Income> {
                                           @Param("guideName") String guideName,
                                           @Param("type") Integer type,
                                           @Param("outTime") LocalDate outTime,
-                                          @Param("orderNo") String orderNo);
+                                          @Param("orderNo") String orderNo,
+                                          @Param("outTimeEnd") LocalDate outTimeEnd);
 
     /**
      * 展示审核详情

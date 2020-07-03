@@ -138,4 +138,14 @@ public class ExamineVo {
      *  身份证信息（选填）
      */
     private String icnumber;
+
+    /**
+     * 接送地
+     */
+    private String PlaceRegion;
+
+    /**
+     * 区域
+     */
+    private String PlaceAddress;
 }

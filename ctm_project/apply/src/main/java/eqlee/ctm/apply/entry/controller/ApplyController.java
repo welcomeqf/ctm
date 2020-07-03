@@ -16,6 +16,7 @@ import eqlee.ctm.apply.entry.entity.vo.ApplyCountVo;
 import eqlee.ctm.apply.entry.entity.vo.ApplySeacherVo;
 import eqlee.ctm.apply.entry.entity.vo.ApplyVo;
 import eqlee.ctm.apply.entry.service.IApplyService;
+import eqlee.ctm.apply.entry.service.IExamineService;
 import eqlee.ctm.apply.line.entity.vo.ResultVo;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -45,6 +46,9 @@ public class ApplyController {
     private IApplyService applyService;
 
     @Autowired
+    private IExamineService examineService;
+
+    @Autowired
     private LocalUser localUser;
 
 
@@ -68,7 +72,7 @@ public class ApplyController {
     @CheckToken
     public ApplyPayResultQuery insertApply(@RequestBody ApplyVo applyVo) {
         if (StringUtils.isBlank(applyVo.getOutDate()) || StringUtils.isBlank(applyVo.getContactName()) ||
-            StringUtils.isBlank(applyVo.getContactTel()) || StringUtils.isBlank(applyVo.getPlace()) ||
+            StringUtils.isBlank(applyVo.getContactTel()) || StringUtils.isBlank(applyVo.getPlaceRegion()) || StringUtils.isBlank(applyVo.getPlaceAddress()) ||
             StringUtils.isBlank(applyVo.getLineName()) || applyVo.getAdultNumber() == null ||
             applyVo.getBabyNumber() == null || applyVo.getOldNumber() == null || applyVo.getType() == null ||
             applyVo.getChildNumber() == null || StringUtils.isBlank(applyVo.getPayType()) || applyVo.getMarketAllPrice() == null
@@ -123,7 +127,8 @@ public class ApplyController {
             @ApiImplicitParam(name = "LineName", value = "线路名", required = false, dataType = "String", paramType = "path"),
             @ApiImplicitParam(name = "type", value = "类型(null-全部,0-报名审核,1-取消报名的审核)", required = false, dataType = "int", paramType = "path"),
             @ApiImplicitParam(name = "applyDate", value = "报名时间", required = false, dataType = "String", paramType = "path"),
-            @ApiImplicitParam(name = "exaStatus", value = "审核状态(0-未审核  1-已审核)", required = false, dataType = "int", paramType = "path")
+            @ApiImplicitParam(name = "exaStatus", value = "审核状态(0-未审核  1-已审核)", required = false, dataType = "int", paramType = "path"),
+            @ApiImplicitParam(name = "OutDateEnd", value = "出发时间截止", required = false, dataType = "String", paramType = "path")
     })
     @GetMapping("/listPageDoAplly")
     @CrossOrigin
@@ -131,14 +136,14 @@ public class ApplyController {
     public Page<ApplyDoExaQuery> listPageDoAplly(@RequestParam("current") Integer current, @RequestParam("size") Integer size,
                                                @RequestParam("OutDate") String OutDate, @RequestParam("LineName") Long LineName,
                                                @RequestParam("type") Integer type,@RequestParam("applyDate") String applyDate,
-                                               @RequestParam("exaStatus") Integer exaStatus) {
+                                               @RequestParam("exaStatus") Integer exaStatus,@RequestParam("OutDateEnd") String OutDateEnd)  throws Exception {
         if (current == null || size == null) {
             throw new ApplicationException(CodeType.PARAM_ERROR);
         }
 
         Page<ApplyDoExaQuery> page = new Page<>(current,size);
 
-        return applyService.listPageDo2Apply(page,OutDate,LineName,type,applyDate,exaStatus);
+        return applyService.listPageDo2Apply(page,OutDate,LineName,type,applyDate,exaStatus,OutDateEnd);
     }
 
 
@@ -291,7 +296,8 @@ public class ApplyController {
                                                   @RequestParam("type") Integer type,
                                                   @RequestParam("caiType") Integer caiType,
                                                   @RequestParam("payType") Integer payType,
-                                                  @RequestParam("companyId") Long companyId) {
+                                                  @RequestParam("companyId") Long companyId,
+                                                  @RequestParam("month") String month) {
         if (current == null || size == null) {
             throw new ApplicationException(CodeType.PARAM_ERROR);
         }
@@ -305,7 +311,7 @@ public class ApplyController {
         String admin2 = "管理员";
         HashMap<String,Object> map = new HashMap<>();
         if (admin.equals(user.getRoleName()) || admin1.equals(user.getRoleName()) || admin2.equals(user.getRoleName())) {
-            Page<ApplyResultCountQuery> data = applyService.pageResultAdminCountList(page, time, type, caiType, payType, companyId);
+            Page<ApplyResultCountQuery> data = applyService.pageResultAdminCountList(page, time, type, caiType, payType, companyId,month);
             map.put("data",data);
             map.put("count",null);
             return map;
@@ -386,7 +392,8 @@ public class ApplyController {
           @ApiImplicitParam(name = "companyId", value = "同行id", required = false, dataType = "Long", paramType = "path"),
           @ApiImplicitParam(name = "caiType", value = "(0-未确认 1-已确认)", required = false, dataType = "int", paramType = "path"),
           @ApiImplicitParam(name = "payType", value = "(0-现结 2-月结)", required = false, dataType = "int", paramType = "path"),
-          @ApiImplicitParam(name = "type", value = "(0-未支付 1-已支付)", required = false, dataType = "int", paramType = "path")
+          @ApiImplicitParam(name = "type", value = "(0-未支付 1-已支付)", required = false, dataType = "int", paramType = "path"),
+          @ApiImplicitParam(name = "month", value = "查询月份", required = false, dataType = "String", paramType = "path")
     })
     @GetMapping("/queryCaiMonthCount")
     @CrossOrigin
@@ -397,7 +404,8 @@ public class ApplyController {
                                                   @RequestParam("type") Integer type,
                                                   @RequestParam("caiType") Integer caiType,
                                                   @RequestParam("payType") Integer payType,
-                                                  @RequestParam("companyId") Long companyId) {
+                                                  @RequestParam("companyId") Long companyId,
+                                                  @RequestParam("month") String month) {
         if (current == null || size == null) {
             throw new ApplicationException(CodeType.PARAM_ERROR);
         }
@@ -405,7 +413,7 @@ public class ApplyController {
         Page<ApplyResultCountQuery> page = new Page<>(current, size);
 
 
-        return applyService.pageResultAdminCountList(page, time, type, caiType, payType, companyId);
+        return applyService.pageResultAdminCountList(page, time, type, caiType, payType, companyId,month);
     }
 
 
@@ -491,6 +499,19 @@ public class ApplyController {
 
         return applyService.queryExamineCount2();
 //        return applyService.queryExamineCount();
+    }
+
+    @ApiOperation(value = "获取报名审核记录信息", notes = "获取报名审核记录信息")
+    @ApiImplicitParam(name = "applyId", value = "报名id", required = true, dataType = "Long", paramType = "path")
+    @GetMapping("/queryApplyExamRecord")
+    @CrossOrigin
+    @CheckToken
+    public List<ApplyExamRecord> queryApplyExamRecord(@RequestParam("applyId") Long applyId) throws Exception {
+
+        if (applyId == null) {
+            throw new ApplicationException(CodeType.PARAM_ERROR,"参数不能为空");
+        }
+        return examineService.queryExamRecord(applyId);
     }
 
 }

@@ -32,12 +32,16 @@
     <select id="queryAllExaInfo2" resultType="eqlee.ctm.apply.entry.entity.query.ApplyDoExaQuery">
     select a.Id,a.ApplyNo,convert(varchar(20),a.OutDate,23) as 'OutDate',b.LineName,a.AdultNumber,a.BabyNumber,a.OldNumber,a.ChildNumber,
     a.statu,a.CompanyName,a.CompanyUser,a.IsPayment,a.IsCancel,d.ExamineType,a.ContactName,a.ContactTel,a.AllPrice,a.Type,d.ExamineResult,
-    a.ApplyPic from Line b join Apply a on a.LineId = b.Id join Examine d on a.Id = d.ApplyId
+    a.ApplyPic from Line b join Apply a on a.LineId = b.Id join (select ea2.* from (select Max(createdate) as createdate,ApplyId from
+        Examine group by ApplyId) ea left join Examine ea2 on ea.createdate = ea2.createdate) d on a.Id = d.ApplyId
         <where>
             1 = 1
             and a.IsPayment = 1
             <if test="outDate != null">
-                and a.OutDate = #{outDate}
+                and datediff(day,#{outDate},a.OutDate) &gt;= 0
+            </if>
+            <if test="outDateEnd != null">
+                and datediff(day,a.OutDate,#{outDateEnd}) &gt;= 0
             </if>
             <if test="lineName != null">
                 and b.Id = #{lineName}
@@ -254,8 +258,11 @@
         <where>
             1 = 1
             and a.IsSelect = 1 and a.IsCancel = 0
-            <if test="start != null">
-                and a.OutDate between #{start} and #{end}
+            <if test="year != null">
+                and year(a.OutDate)=#{year}
+            </if>
+            <if test="month != null">
+                and month(a.OutDate)=#{month}
             </if>
             <if test="type != null">
                 and a.SxType = #{type}
@@ -308,7 +315,7 @@
 
     <select id="queryAllPriceToApply" resultType="eqlee.ctm.apply.entry.entity.Apply">
         select * from Apply where (PayType = 1 or PayType = 2)
-        and CreateUserId = #{id} and IsCancel = 0 and SxType = 0
+        and CompanyId = #{id} and IsCancel = 0 and SxType = 0
     </select>
 
     <select id="queryApplyDoExaInfo" parameterType="String" resultType="eqlee.ctm.apply.entry.entity.bo.ApplyDoExaInfo">

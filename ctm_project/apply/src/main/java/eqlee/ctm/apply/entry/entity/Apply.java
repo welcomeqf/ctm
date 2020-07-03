@@ -264,6 +264,16 @@ public class Apply extends Model<Apply> {
      */
     private String icnumber;
 
+    /**
+     * 接送地
+     */
+    private String PlaceRegion;
+
+    /**
+     * 区域
+     */
+    private String PlaceAddress;
+
     @Override
     protected Serializable pkVal() {
         return this.Id;

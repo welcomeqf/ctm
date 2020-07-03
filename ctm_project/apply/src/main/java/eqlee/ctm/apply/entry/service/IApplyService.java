@@ -61,7 +61,7 @@ public interface IApplyService {
      * @param type
      * @return
      */
-    Page<ApplyDoExaQuery> listPageDo2Apply(Page<ApplyDoExaQuery> page, String outDate, Long lineName, Integer type, String applyDate, Integer exaStatus);
+    Page<ApplyDoExaQuery> listPageDo2Apply(Page<ApplyDoExaQuery> page, String outDate, Long lineName, Integer type, String applyDate, Integer exaStatus, String outDateEnd) throws Exception;
 
 
     /**
@@ -198,7 +198,7 @@ public interface IApplyService {
      * @param companyUserId
      * @return
      */
-    Page<ApplyResultCountQuery> pageResultAdminCountList (Page<ApplyResultCountQuery> page, String time, Integer type, Integer caiType, Integer payType, Long companyUserId);
+    Page<ApplyResultCountQuery> pageResultAdminCountList (Page<ApplyResultCountQuery> page, String time, Integer type, Integer caiType, Integer payType, Long companyUserId,String month);
 
     /**
      * 返回待付款的支付信息

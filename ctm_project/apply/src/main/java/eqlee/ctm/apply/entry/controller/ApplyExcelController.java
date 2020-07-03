@@ -389,6 +389,7 @@ public class ApplyExcelController {
                                                          @RequestParam("caiType") Integer caiType,
                                                          @RequestParam("payType") Integer payType,
                                                          @RequestParam("companyId") Long companyId,
+                                                         @RequestParam("month") String month,
                                                          HttpServletResponse response) {
 
 
@@ -399,7 +400,7 @@ public class ApplyExcelController {
       Page<ApplyResultCountQuery> page = new Page<>(current, size);
 
 
-      Page<ApplyResultCountQuery> queryPage = applyService.pageResultAdminCountList(page, time, type, caiType, payType, companyId);
+      Page<ApplyResultCountQuery> queryPage = applyService.pageResultAdminCountList(page, time, type, caiType, payType, companyId,month);
 
       List<ApplyResultCountQuery> list = queryPage.getRecords();
 
@@ -425,7 +426,7 @@ public class ApplyExcelController {
       Double old = 0.0;
       Double baby = 0.0;
       Double allNumber = 0.0;
-      Double month = 0.0;
+      Double dmonth = 0.0;
       Double ms = 0.0;
       Double set = 0.0;
       for (ApplyResultCountQuery query : list) {
@@ -458,7 +459,7 @@ public class ApplyExcelController {
          baby += query.getBabyNumber();
          old += query.getOldNumber();
          allNumber += query.getAllNumber();
-         month += query.getAllPrice();
+         dmonth += query.getAllPrice();
          ms += query.getMsprice();
          set += query.getAllPrice() - query.getMsprice();
 
@@ -471,7 +472,7 @@ public class ApplyExcelController {
       map.put(4,old);
       map.put(5,baby);
       map.put(6,allNumber);
-      map.put(7,month);
+      map.put(7,dmonth);
       map.put(8,ms);
       map.put(9,set);
 
@@ -594,14 +595,14 @@ public class ApplyExcelController {
    public void queryCountInfo(@RequestParam("current") Integer current, @RequestParam("size") Integer size,
                               @RequestParam("OutDate") String OutDate, @RequestParam("LineName") Long LineName,
                               @RequestParam("type") Integer type,@RequestParam("applyDate") String applyDate,
-                              @RequestParam("exaStatus") Integer exaStatus, HttpServletResponse response) {
+                              @RequestParam("exaStatus") Integer exaStatus,@RequestParam("OutDateEnd") String outDateEnd, HttpServletResponse response) throws Exception {
 
       if (current == null || size == null) {
          throw new ApplicationException(CodeType.PARAM_ERROR, "参数不能为空");
       }
       Page<ApplyDoExaQuery> page = new Page<>(current,size);
 
-      Page<ApplyDoExaQuery> queryPage = applyService.listPageDo2Apply(page, OutDate, LineName, type, applyDate, exaStatus);
+      Page<ApplyDoExaQuery> queryPage = applyService.listPageDo2Apply(page, OutDate, LineName, type, applyDate, exaStatus,outDateEnd);
 
       List<ApplyDoExaQuery> list = queryPage.getRecords();
 

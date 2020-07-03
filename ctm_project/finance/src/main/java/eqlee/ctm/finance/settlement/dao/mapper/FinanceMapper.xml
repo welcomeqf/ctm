@@ -28,7 +28,10 @@
                </if>
             </if>
             <if test="outTime != null">
-                and a.OutDate = #{outTime}
+                and datediff(day,#{outTime},a.OutDate) &gt;= 0
+            </if>
+            <if test="outTimeEnd != null">
+                and datediff(day,a.OutDate,#{outTimeEnd}) &gt;= 0
             </if>
 
         </where>

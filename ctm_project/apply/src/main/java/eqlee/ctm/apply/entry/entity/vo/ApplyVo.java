@@ -154,5 +154,20 @@ public class ApplyVo {
      */
     private String icnumber;
 
+    /**
+     *  (0-待审核  1-通过  2--不通过 3-已取消) 默认0
+     */
+    private Integer statu;
+
+    /**
+     * 接送地
+     */
+    private String PlaceRegion;
+
+    /**
+     * 区域
+     */
+    private String PlaceAddress;
+
 
 }

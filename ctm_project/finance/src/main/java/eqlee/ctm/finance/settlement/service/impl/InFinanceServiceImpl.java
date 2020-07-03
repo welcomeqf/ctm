@@ -331,12 +331,17 @@ public class InFinanceServiceImpl extends ServiceImpl<InFinanceMapper, Income> i
      * @return
      */
     @Override
-    public Page<ExamineResultQuery> listExamine2Page(Page<ExamineResultQuery> page, String guideName, Integer type, String outDate,String orderNo) {
+    public Page<ExamineResultQuery> listExamine2Page(Page<ExamineResultQuery> page, String guideName, Integer type, String outDate,String orderNo,String outDateEnd) {
 
         LocalDate outTime = null;
+        LocalDate outTimeEnd = null;
 
         if (StringUtils.isNotBlank(outDate)) {
             outTime = DateUtil.parseDate(outDate);
+        }
+
+        if (StringUtils.isNotBlank(outDateEnd)) {
+            outTimeEnd = DateUtil.parseDate(outDateEnd);
         }
 
         if (StringUtils.isBlank(guideName)) {
@@ -344,7 +349,7 @@ public class InFinanceServiceImpl extends ServiceImpl<InFinanceMapper, Income> i
         }
 
 
-        return baseMapper.listPageExa (page,guideName,type,outTime,orderNo);
+        return baseMapper.listPageExa (page,guideName,type,outTime,orderNo,outTimeEnd);
 
     }
 

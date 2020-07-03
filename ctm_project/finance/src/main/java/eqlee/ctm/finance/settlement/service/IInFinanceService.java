@@ -40,7 +40,7 @@ public interface IInFinanceService {
      * @param orderNo
      * @return
      */
-    Page<ExamineResultQuery> listExamine2Page(Page<ExamineResultQuery> page, String guideName, Integer type, String outDate,String orderNo);
+    Page<ExamineResultQuery> listExamine2Page(Page<ExamineResultQuery> page, String guideName, Integer type, String outDate,String orderNo,String outDateEnd);
 
 
     /**

@@ -187,6 +187,8 @@ public class ApplyServiceImpl extends ServiceImpl<ApplyMapper, Apply> implements
           apply.setApplyNo(applyVo.getApplyNo());
           apply.setCreateUserId(applyVo.getCreateUserId());
           apply.setId(applyVo.getApplyId());
+          //记录申请表状态
+          apply.setStatu(applyVo.getStatu());
 
        } else {
           apply.setApplyNo(orderCode);
@@ -208,7 +210,7 @@ public class ApplyServiceImpl extends ServiceImpl<ApplyMapper, Apply> implements
           apply.setCompanyUser(applyVo.getCompanyUser());
           apply.setContactName(applyVo.getContactName());
           apply.setContactTel(applyVo.getContactTel());
-          apply.setPlace(applyVo.getPlace());
+          //apply.setPlace(applyVo.getPlace());
           apply.setRegion(line.getRegion());
           apply.setLineId(line.getId());
           apply.setCity(line.getCity());
@@ -219,6 +221,9 @@ public class ApplyServiceImpl extends ServiceImpl<ApplyMapper, Apply> implements
           apply.setMsPrice(applyVo.getMsPrice());
           apply.setApplyRemark(applyVo.getApplyRemark());
           apply.setIcnumber(applyVo.getIcnumber());
+          apply.setPlaceRegion(applyVo.getPlaceRegion());
+          apply.setPlaceAddress(applyVo.getPlaceAddress());
+          apply.setPlace(applyVo.getPlaceRegion() + applyVo.getPlaceAddress());
 
           apply.setCompanyId(applyVo.getCompanyNameId());
           apply.setType(applyVo.getType());
@@ -236,7 +241,7 @@ public class ApplyServiceImpl extends ServiceImpl<ApplyMapper, Apply> implements
           apply.setCompanyTel(applyVo.getCompanyTel());
           apply.setContactName(applyVo.getContactName());
           apply.setContactTel(applyVo.getContactTel());
-          apply.setPlace(applyVo.getPlace());
+          //apply.setPlace(applyVo.getPlace());
           apply.setRegion(line.getRegion());
           apply.setLineId(line.getId());
           apply.setCity(line.getCity());
@@ -247,6 +252,9 @@ public class ApplyServiceImpl extends ServiceImpl<ApplyMapper, Apply> implements
           apply.setMsPrice(applyVo.getMsPrice());
           apply.setApplyRemark(applyVo.getApplyRemark());
           apply.setIcnumber(applyVo.getIcnumber());
+          apply.setPlaceRegion(applyVo.getPlaceRegion());
+          apply.setPlaceAddress(applyVo.getPlaceAddress());
+          apply.setPlace(applyVo.getPlaceRegion() + applyVo.getPlaceAddress());
 
           apply.setCompanyId(applyVo.getCompanyNameId());
           apply.setCompanyTel(user.getTel());
@@ -270,7 +278,7 @@ public class ApplyServiceImpl extends ServiceImpl<ApplyMapper, Apply> implements
            //获取当前月份
 
            //查询当前月使用的金额
-           List<Apply> applies = baseMapper.queryAllPriceToApply(applyVo.getCreateUserId());
+           List<Apply> applies = baseMapper.queryAllPriceToApply(applyVo.getCompanyNameId());
 
            //算出本月已使用的金额
            Double sxAllPrice = 0.0;
@@ -309,7 +317,7 @@ public class ApplyServiceImpl extends ServiceImpl<ApplyMapper, Apply> implements
            //获取当前月份
 
            //查询当前月使用的金额
-           List<Apply> applies = baseMapper.queryAllPriceToApply(applyVo.getCreateUserId());
+           List<Apply> applies = baseMapper.queryAllPriceToApply(applyVo.getCompanyNameId());
 
            //算出本月已使用的金额
            Double sxAllPrice = 0.0;
@@ -344,17 +352,18 @@ public class ApplyServiceImpl extends ServiceImpl<ApplyMapper, Apply> implements
 
         int insert = baseMapper.insert(apply);
 
-        ExamineAddVo vo = new ExamineAddVo();
-        vo.setExamineType("0");
-        vo.setApplyId(id);
-
-        examineService.insertExamine(vo);
-
         if (insert <= 0) {
             log.error("insert apply fail.");
             throw new ApplicationException(CodeType.SERVICE_ERROR,"报名失败");
         }
-
+        //为新增则同步添加待审核记录
+        if(applyVo.getUpOrInsert() == 0){
+            //新增时同步增加审核记录？
+            ExamineAddVo vo = new ExamineAddVo();
+            vo.setExamineType("0");
+            vo.setApplyId(id);
+            examineService.insertExamine(vo);
+        }
         //查询所有管理员的id集合
 
 //        List<Long> longList = new ArrayList<>();
@@ -526,7 +535,7 @@ public class ApplyServiceImpl extends ServiceImpl<ApplyMapper, Apply> implements
          apply.setCompanyTel(applyVo.getCompanyTel());
          apply.setContactName(applyVo.getContactName());
          apply.setContactTel(applyVo.getContactTel());
-         apply.setPlace(applyVo.getPlace());
+         //apply.setPlace(applyVo.getPlace());
          apply.setRegion(line.getRegion());
          apply.setLineId(line.getId());
          apply.setCity(line.getCity());
@@ -537,6 +546,10 @@ public class ApplyServiceImpl extends ServiceImpl<ApplyMapper, Apply> implements
          apply.setMsPrice(applyVo.getMsPrice());
          apply.setApplyRemark(applyVo.getApplyRemark());
          apply.setIcnumber(applyVo.getIcnumber());
+         apply.setPlaceRegion(applyVo.getPlaceRegion());
+         apply.setPlaceAddress(applyVo.getPlaceAddress());
+         apply.setPlace(applyVo.getPlaceRegion() + applyVo.getPlaceAddress());
+
 
          apply.setCompanyId(applyVo.getCompanyNameId());
          apply.setType(applyVo.getType());
@@ -554,7 +567,7 @@ public class ApplyServiceImpl extends ServiceImpl<ApplyMapper, Apply> implements
          apply.setCompanyUser(user.getCname());
          apply.setContactName(applyVo.getContactName());
          apply.setContactTel(applyVo.getContactTel());
-         apply.setPlace(applyVo.getPlace());
+         //apply.setPlace(applyVo.getPlace());
          apply.setRegion(line.getRegion());
          apply.setLineId(line.getId());
          apply.setCity(line.getCity());
@@ -565,6 +578,9 @@ public class ApplyServiceImpl extends ServiceImpl<ApplyMapper, Apply> implements
          apply.setMsPrice(applyVo.getMsPrice());
          apply.setApplyRemark(applyVo.getApplyRemark());
          apply.setIcnumber(applyVo.getIcnumber());
+         apply.setPlaceRegion(applyVo.getPlaceRegion());
+         apply.setPlaceAddress(applyVo.getPlaceAddress());
+         apply.setPlace(applyVo.getPlaceRegion() + applyVo.getPlaceAddress());
 
          apply.setCompanyId(applyVo.getCompanyNameId());
          apply.setCompanyTel(user.getTel());
@@ -582,7 +598,7 @@ public class ApplyServiceImpl extends ServiceImpl<ApplyMapper, Apply> implements
          //如果是月结，判断月结金额是否达标
 
          //查询当前月使用的金额
-         List<Apply> applies = baseMapper.queryAllPriceToApply(applyVo.getCreateUserId());
+         List<Apply> applies = baseMapper.queryAllPriceToApply(applyVo.getCompanyNameId());
 
          //算出本月已使用的金额
          Double sxAllPrice = 0.0;
@@ -621,7 +637,7 @@ public class ApplyServiceImpl extends ServiceImpl<ApplyMapper, Apply> implements
          //获取当前月份
 
          //查询当前月使用的金额
-         List<Apply> applies = baseMapper.queryAllPriceToApply(applyVo.getCreateUserId());
+         List<Apply> applies = baseMapper.queryAllPriceToApply(applyVo.getCompanyNameId());
 
          //算出本月已使用的金额
          Double sxAllPrice = 0.0;
@@ -762,16 +778,19 @@ public class ApplyServiceImpl extends ServiceImpl<ApplyMapper, Apply> implements
     * @return
     */
    @Override
-   public Page<ApplyDoExaQuery> listPageDo2Apply(Page<ApplyDoExaQuery> page, String outDate, Long lineName, Integer type, String applyDate, Integer exaStatus) {
+   public Page<ApplyDoExaQuery> listPageDo2Apply(Page<ApplyDoExaQuery> page, String outDate, Long lineName, Integer type, String applyDate, Integer exaStatus,String outDateEnd) throws Exception{
 
       UserLoginQuery user = localUser.getUser("用户信息");
 
       LocalDate outTime = null;
+      LocalDate outTimeEnd = null;
 
       if (StringUtils.isNotBlank(outDate)) {
          outTime = DateUtil.parseDate(outDate);
       }
-
+       if (StringUtils.isNotBlank(outDateEnd)) {
+           outTimeEnd = DateUtil.parseDate(outDateEnd);
+       }
 
       LocalDateTime start = null;
       LocalDateTime end = null;
@@ -790,8 +809,15 @@ public class ApplyServiceImpl extends ServiceImpl<ApplyMapper, Apply> implements
             list.add(bo.getCity());
          }
       }
-
-      return baseMapper.queryAllExaInfo2 (page,outTime,lineName,type,start,end,exaStatus,list);
+      Page<ApplyDoExaQuery> results = baseMapper.queryAllExaInfo2 (page,outTime,lineName,type,start,end,exaStatus,list,outTimeEnd);
+      //将报名审核记录装载到列表中
+      if(results.getRecords() != null && !results.getRecords().isEmpty()){
+          for(ApplyDoExaQuery applyDoExaQuery : results.getRecords()){
+              List<ApplyExamRecord> records = examineService.queryExamRecord(applyDoExaQuery.getId());
+              applyDoExaQuery.setExamineRecords(records);
+          }
+      }
+      return results;
 
    }
 
@@ -930,6 +956,8 @@ public class ApplyServiceImpl extends ServiceImpl<ApplyMapper, Apply> implements
        vo.setLineName(line.getLineName());
        vo.setApplyRemark(apply.getApplyRemark());
        vo.setIcnumber(apply.getIcnumber());
+       vo.setPlaceRegion(apply.getPlaceRegion());
+       vo.setPlaceAddress(apply.getPlaceAddress());
        vo.setType(apply.getType());
 
        vo.setMsPrice(apply.getMsPrice());
@@ -1169,6 +1197,7 @@ public class ApplyServiceImpl extends ServiceImpl<ApplyMapper, Apply> implements
     @Override
     public void dopApply(String applyNo) {
         LambdaQueryWrapper<Apply> wrapper = new LambdaQueryWrapper<Apply>()
+                .eq(Apply::getIsPayment,0)//排除当场已支付的
                 .eq(Apply::getApplyNo,applyNo);
 
         Apply apply = new Apply();
@@ -1275,27 +1304,34 @@ public class ApplyServiceImpl extends ServiceImpl<ApplyMapper, Apply> implements
    /**
     * 管理员统计现结月结金额
     * @param page
-    * @param time
+    * @param year
     * @param type
     * @param companyUserId
     * @return
     */
    @Override
-   public Page<ApplyResultCountQuery> pageResultAdminCountList(Page<ApplyResultCountQuery> page, String time, Integer type, Integer caiType, Integer payType, Long companyUserId) {
+   public Page<ApplyResultCountQuery> pageResultAdminCountList(Page<ApplyResultCountQuery> page, String year, Integer type, Integer caiType, Integer payType, Long companyUserId,String month) {
 
-      LocalDate start = null;
-      LocalDate end = null;
+      //LocalDate start = null;
+      //LocalDate end = null;
 
-      if (StringUtils.isNotBlank(time)) {
-         String date = time + "-01-01";
-         start = DateUtil.parseDate(date);
+      //if (StringUtils.isNotBlank(time)) {
+        // String date = time + "-01-01";
+         //start = DateUtil.parseDate(date);
 
-         //结束时间
-         end = start.plusYears(1).minusDays(1);
-      }
+         ////结束时间 2021-1-1
+         //end = start.plusYears(1).minusDays(1);
+      //}
+       if(StringUtils.isBlank(year)){
+           year = null;
+       }
+
+       if(StringUtils.isBlank(month)){
+           month = null;
+       }
 
 
-      return baseMapper.queryCompanyAdminResultCount (page,start,end,type,caiType,payType,companyUserId);
+      return baseMapper.queryCompanyAdminResultCount (page,year,month,type,caiType,payType,companyUserId);
    }
 
    /**

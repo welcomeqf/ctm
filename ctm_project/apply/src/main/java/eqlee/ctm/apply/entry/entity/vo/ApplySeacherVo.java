@@ -177,6 +177,16 @@ public class ApplySeacherVo {
     private String icnumber;
 
     /**
+     * 接送地
+     */
+    private String PlaceRegion;
+
+    /**
+     * 区域
+     */
+    private String PlaceAddress;
+
+    /**
      * 0--正常报名  1--补录 2--包团
      */
     private Integer Type;

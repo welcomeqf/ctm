@@ -10,12 +10,15 @@ import com.yq.constanct.CodeType;
 import com.yq.entity.websocket.NettyType;
 import com.yq.exception.ApplicationException;
 import com.yq.httpclient.HttpClientUtils;
+import com.yq.httpclient.HttpResult;
 import com.yq.jwt.contain.LocalUser;
 import com.yq.jwt.entity.UserLoginQuery;
+import com.yq.utils.DateUtil;
 import com.yq.utils.IdGenerator;
 import eqlee.ctm.apply.entry.dao.ExamineMapper;
 import eqlee.ctm.apply.entry.entity.Apply;
 import eqlee.ctm.apply.entry.entity.Examine;
+import eqlee.ctm.apply.entry.entity.User;
 import eqlee.ctm.apply.entry.entity.bo.ExamineUpdateVo;
 import eqlee.ctm.apply.entry.entity.bo.UserAdminBo;
 import eqlee.ctm.apply.entry.entity.query.*;
@@ -38,6 +41,8 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 /**
  * @Author qf
@@ -151,6 +156,10 @@ public class ExamineServiceImpl extends ServiceImpl<ExamineMapper, Examine> impl
         //将修改之前的信息以json的形式装进备注字段
         ApplySeacherVo vo = applyService.queryById(examineVo.getApplyId());
 
+        //如审核状态为已审核 则不允许再修改
+        if (vo.getStatu() == 1) {
+            throw new ApplicationException(CodeType.SERVICE_ERROR, "申请表已通过审核，不允许再修改，请联系管理员！");
+        }
         UpdateInfoVo infoVo = new UpdateInfoVo();
         infoVo.setConnectName(vo.getContactName());
         infoVo.setConnectTel(vo.getContactTel());
@@ -234,9 +243,15 @@ public class ExamineServiceImpl extends ServiceImpl<ExamineMapper, Examine> impl
         applyVo.setUpOrInsert(1);
         applyVo.setApplyId(examineVo.getApplyId());
         applyVo.setApplyNo(examineVo.getApplyNo());
-        applyVo.setCreateUserId(examineVo.getCreateUserId());
+        //applyVo.setCreateUserId(examineVo.getCreateUserId());
         applyVo.setApplyPic(examineVo.getApplyPic());
         applyVo.setIcnumber(examineVo.getIcnumber());
+        applyVo.setPlaceRegion(examineVo.getPlaceRegion());
+        applyVo.setPlaceAddress(examineVo.getPlaceAddress());
+        applyVo.setCreateUserId(vo.getCreateUserId());
+        //保持申请表审核记录以及经手人信息 记录修改人信息
+        applyVo.setUpdateUserId(examineVo.getUpdateUserId());
+        applyVo.setStatu(vo.getStatu());
 
         applyService.insertApply(applyVo);
     }
@@ -661,6 +676,48 @@ public class ExamineServiceImpl extends ServiceImpl<ExamineMapper, Examine> impl
         vo.setResult(examine.getExaRemark());
         return vo;
     }
+
+
+    /**
+     * 获取申请单审核记录
+     * @param applyId
+     * @return
+     */
+    @Override
+    public List<ApplyExamRecord> queryExamRecord(Long applyId) throws Exception {
+
+        LambdaQueryWrapper<Examine> wrapper = new LambdaQueryWrapper<Examine>()
+                .eq(Examine::getApplyId,applyId)
+                .ne(Examine::getExamineType,"2");
+        List<Examine> examineList = baseMapper.selectList(wrapper);
+
+        //获取审核人ids
+        List<Long> ids = examineList.stream().map(Examine::getUpdateUserId).collect(Collectors.toList());
+        String jsonStr = httpUtils.queryListByIds(ids);
+        List<User> userList = JSONObject.parseArray(jsonStr,  User.class);
+        //List<User> userList = tempList.stream().map(json -> JSONObject.toJavaObject(json, User.class)).collect(Collectors.toList());
+        List<ApplyExamRecord> list = new ArrayList<>();
+        if(examineList != null && !examineList.isEmpty()){
+            for(Examine examine : examineList){
+                ApplyExamRecord vm = new ApplyExamRecord();
+                vm.setExamineType("0".equals(examine.getExamineType())? "报名审核" : "取消审核");
+                vm.setExamineResult(examine.getExamineResult() == 0 ? "待审核" : examine.getExamineResult() == 1  ? "已通过" : "已拒绝");
+                vm.setCreateDate(DateUtil.formatDateTime(examine.getCreateDate()));
+                vm.setExamName("-");
+                if(examine.getExamineResult() != 0){
+                    List<User> ulist = userList.stream().filter(item -> item.getId().equals(examine.getUpdateUserId())).collect(Collectors.toList());
+                    if (ulist != null && !ulist.isEmpty()) {
+                        // 存在
+                        User user =  ulist.get(0);
+                        vm.setExamName(user.getCName());
+                    }
+                }
+                list.add(vm);
+            }
+        }
+        return list;
+    }
+
 
 
 }

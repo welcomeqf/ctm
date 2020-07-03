@@ -2,11 +2,14 @@ package eqlee.ctm.apply.entry.service;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import eqlee.ctm.apply.entry.entity.Examine;
+import eqlee.ctm.apply.entry.entity.query.ApplyExamRecord;
 import eqlee.ctm.apply.entry.entity.query.ApplyNoReadCountQuery;
 import eqlee.ctm.apply.entry.entity.query.ExaApplyResultQuery;
 import eqlee.ctm.apply.entry.entity.query.ExaMqAdminQuery;
 import eqlee.ctm.apply.entry.entity.vo.*;
 import eqlee.ctm.apply.line.entity.vo.ResultVo;
+
+import java.util.List;
 
 /**
  * 审核接口
@@ -109,5 +112,12 @@ public interface IExamineService {
      * @return
      */
     ResultVo queryRemark (String examineType, Long applyId);
+
+    /**
+     * 获取申请单审核记录
+     * @param applyId
+     * @return
+     */
+    List<ApplyExamRecord> queryExamRecord (Long applyId) throws Exception;
 
 }

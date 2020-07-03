@@ -6,7 +6,9 @@ import com.yq.constanct.CodeType;
 import com.yq.exception.ApplicationException;
 import com.yq.httpclient.HttpClientUtils;
 import com.yq.httpclient.HttpResult;
+import eqlee.ctm.apply.entry.entity.User;
 import eqlee.ctm.apply.entry.entity.bo.MsgUpdateAllBo;
+import eqlee.ctm.apply.entry.entity.bo.ParamListBo;
 import eqlee.ctm.apply.entry.entity.query.ExaRefundQuery;
 import eqlee.ctm.apply.entry.entity.query.ResultRefundQuery;
 import eqlee.ctm.apply.entry.entity.query.UserQuery;
@@ -19,6 +21,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.RequestParam;
 import springfox.documentation.spring.web.json.Json;
+
+import java.util.List;
 
 /**
  * @Author qf
@@ -326,6 +330,33 @@ public class HttpUtils {
         ResultResposeVo result = JSONObject.parseObject(httpResult.getBody(),ResultResposeVo.class);
 
         return null;
+    }
+
+    /**
+     * 查询用户信息(多个)
+     * @param ids
+     */
+    public String queryListByIds (List<Long> list) throws Exception{
+        //路径
+        String url = user_url + "/v1/app/user/queryListByIds";
+        HttpResult httpResult;
+
+        //获得token
+        String userToken;
+
+        ResultResposeVo result;
+        ParamListBo bo = new ParamListBo();
+        bo.setList(list);
+        String s = JSONObject.toJSONString(bo);
+        userToken = tokenData.getMapToken();
+        String token = "Bearer " + userToken;
+        httpResult = apiService.post(url,s,token);
+        result = JSONObject.parseObject(httpResult.getBody(),ResultResposeVo.class);
+
+        if (result.getCode() != 0) {
+            throw new ApplicationException(CodeType.RESOURCES_NOT_FIND,result.getMsg());
+        }
+        return JSONObject.toJSONString(result.getData());
     }
 
 }

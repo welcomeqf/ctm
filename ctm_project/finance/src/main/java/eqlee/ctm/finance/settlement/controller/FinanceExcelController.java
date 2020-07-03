@@ -158,7 +158,8 @@ public class FinanceExcelController {
                              @RequestParam("type") Integer type,
                              @RequestParam("outDate") String outDate,
                              @RequestParam("lineName") String lineName,
-                             @RequestParam("orderNo") String orderNo){
+                             @RequestParam("orderNo") String orderNo,
+                             @RequestParam("outDateEnd") String outDateEnd){
 
         if (current == null || size == null) {
             throw new ApplicationException(CodeType.PARAMETER_ERROR);
@@ -167,7 +168,7 @@ public class FinanceExcelController {
         Page<ExamineResultQuery> page = new Page<>(current,size);
 
         //查询出需要导出的数据
-        Page<ExamineResultQuery> queryPage = inFinanceService.listExamine2Page(page,guideName,type,outDate,orderNo);
+        Page<ExamineResultQuery> queryPage = inFinanceService.listExamine2Page(page,guideName,type,outDate,orderNo,outDateEnd);
 
         //拿到集合数据
         List<ExamineResultQuery> list = queryPage.getRecords();

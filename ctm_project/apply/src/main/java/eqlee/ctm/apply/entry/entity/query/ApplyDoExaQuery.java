@@ -3,6 +3,8 @@ package eqlee.ctm.apply.entry.entity.query;
 import com.yq.IBaseMapper.IBaseMapper;
 import lombok.Data;
 
+import java.util.List;
+
 /**
  * @Author qf
  * @Date 2019/10/14
@@ -104,6 +106,11 @@ public class ApplyDoExaQuery {
      * 包团文件详情
      */
     private String applyPic;
+
+    /**
+     * 报名审核记录
+     */
+    private List<ApplyExamRecord> ExamineRecords;
 
 
 }
