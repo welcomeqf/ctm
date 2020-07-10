@@ -130,34 +130,38 @@ public class InFinanceServiceImpl extends ServiceImpl<InFinanceMapper, Income> i
 //            List<OutComeInfoBo> list = new ArrayList<>();
 //            List<OutComeInfoBo> addList = new ArrayList<>();
             if (vo.getOutList().size() > 0) {
+                //先删后插入
+                out2FinanceService.deleteOut(income.getId());
+
                 for (OutComeParamInfo info : vo.getOutList()) {
 
-                    if (info.getId() == null) {
-                        OutComeInfoBo bo = new OutComeInfoBo();
-                        //增加
-                        bo.setId(idGenerator.getNumberId());
-                        bo.setIncomeId(income.getId());
-                        bo.setOutName(info.getOutName());
-                        bo.setOutPrice(info.getOutPrice());
-                        bo.setPicture(info.getPicture());
-                        bo.setCreateUserId(user.getId());
-                        bo.setUpdateUserId(user.getId());
-                        out2FinanceService.insertOut(bo);
-                    }
+                    OutComeInfoBo bo = new OutComeInfoBo();
+                    Long oId = info.getId() != null ? info.getId() : idGenerator.getNumberId();
+                    //增加
+                    bo.setId(oId);
+                    bo.setIncomeId(income.getId());
+                    bo.setOutName(info.getOutName());
+                    bo.setOutPrice(info.getOutPrice());
+                    bo.setPicture(info.getPicture());
+                    bo.setCreateUserId(user.getId());
+                    bo.setUpdateUserId(user.getId());
+                    out2FinanceService.insertOut(bo);
 
-                    if (info.getId() != null) {
-                        OutComeInfoBo bo = new OutComeInfoBo();
-                        //修改
-                        bo.setId(info.getId());
-                        bo.setOutName(info.getOutName());
-                        bo.setOutPrice(info.getOutPrice());
-                        bo.setPicture(info.getPicture());
-                        out2FinanceService.upOut2Info(bo);
-                    }
+                    //if (info.getId() != null) {
+                        //OutComeInfoBo bo = new OutComeInfoBo();
+                        ////修改
+                        //bo.setId(info.getId());
+                        //bo.setOutName(info.getOutName());
+                        //bo.setOutPrice(info.getOutPrice());
+                        //bo.setPicture(info.getPicture());
+                        //out2FinanceService.upOut2Info(bo);
+                    //}
 
                 }
 //                //批量修改数据库
 //                out2FinanceService.updateOut2Info(list);
+            }else{
+                out2FinanceService.deleteOut(income.getId());
             }
 
 

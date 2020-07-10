@@ -220,7 +220,7 @@
 
     <!-- 同行现结月结账单统计 -->
     <select id="queryCompanyResultCount" resultType="eqlee.ctm.apply.entry.entity.query.ApplyResultCountQuery">
-        select max(a.Id)id,max(a.ApplyNo) as 'applyNo',max(year(a.OutDate))year,max(month(a.OutDate))month,sum(a.AllPrice) as 'allPrice',
+        select max(a.Id)id,max(a.CompanyId)companyId,max(a.ApplyNo) as 'applyNo',max(year(a.OutDate))year,max(month(a.OutDate))month,sum(a.AllPrice) as 'allPrice',
             sum(a.AllNumber) as 'allNumber',sum(isnull(a.MsPrice,0.0))msprice,sum(a.AdultNumber)adultNumber,sum(a.BabyNumber)babyNumber,
             sum(a.OldNumber)oldNumber,sum(a.ChildNumber)childNumber,max(a.CompanyName)companyName,max(a.SxType)sxType,max(isnull(a.CaiType,0))caiType
             from Apply a join Line b on a.LineId = b.Id
@@ -246,12 +246,12 @@
               and a.PayType = #{payType}
           </if>
       </where>
-        group by year(a.OutDate),month(a.OutDate),a.CompanyName
+        group by year(a.OutDate),month(a.OutDate),a.CompanyId
     </select>
 
     <!-- 运营人员现结月结账单展示 -->
     <select id="queryCompanyAdminResultCount" resultType="eqlee.ctm.apply.entry.entity.query.ApplyResultCountQuery">
-        select * from (select max(a.Id)id,max(a.ApplyNo) as 'applyNo',max(year(a.OutDate))year,max(month(a.OutDate))month,max(convert(varchar(6),a.OutDate,112))yearmonth,sum(a.AllPrice) as 'allPrice',
+        select * from (select max(a.Id)id,max(a.CompanyId)companyId,max(a.ApplyNo) as 'applyNo',max(year(a.OutDate))year,max(month(a.OutDate))month,max(convert(varchar(6),a.OutDate,112))yearmonth,sum(a.AllPrice) as 'allPrice',
         sum(a.AllNumber) as 'allNumber',sum(isnull(a.MsPrice,0.0))msprice,sum(a.AdultNumber)adultNumber,sum(a.BabyNumber)babyNumber,
         sum(a.OldNumber)oldNumber,sum(a.ChildNumber)childNumber,max(a.CompanyName)companyName,max(a.SxType)sxType,max(isnull(a.CaiType,0))caiType
         from Apply a join Line b on a.LineId = b.Id
@@ -277,7 +277,7 @@
                 and a.CompanyId = #{companyUserId}
             </if>
         </where>
-        group by year(a.OutDate),month(a.OutDate),a.CompanyName) bb order by yearmonth desc
+        group by year(a.OutDate),month(a.OutDate),a.CompanyId) bb order by yearmonth desc
     </select>
 
     <!-- 批量回收未付款过期的订单 -->

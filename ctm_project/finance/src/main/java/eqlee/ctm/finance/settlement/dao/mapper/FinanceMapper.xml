@@ -40,7 +40,7 @@
              1=1
              <if test="orderNo != null">
                  <bind name="_orderNo" value="'%' + orderNo + '%'"/>
-                 and orderNo like #{_orderNo}
+                 and (orderNo like #{_orderNo} or LineName like #{_orderNo})
              </if>
          </where>
          order by OutDate desc,UpdateDate desc,Status

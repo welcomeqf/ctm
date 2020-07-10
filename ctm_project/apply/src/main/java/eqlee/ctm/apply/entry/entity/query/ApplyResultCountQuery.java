@@ -12,6 +12,8 @@ public class ApplyResultCountQuery {
 
    private Long id;
 
+   private Long companyId;
+
    /**
     * 报名单号
     */

@@ -83,4 +83,9 @@ public class MonthPay extends Model<MonthPay> {
    private Long KeyId;
 
    private String CompanyName;
+
+   /**
+    * 公司关联id
+    */
+   private Long CompanyId;
 }

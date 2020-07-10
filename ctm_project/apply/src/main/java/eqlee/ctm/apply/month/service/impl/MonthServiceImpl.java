@@ -51,8 +51,8 @@ public class MonthServiceImpl extends ServiceImpl<MonthMapper, MonthPay> impleme
 
       LambdaQueryWrapper<MonthPay> wrapper = new LambdaQueryWrapper<MonthPay>()
             .eq(MonthPay::getStartDate,DateUtil.parseDate(vo.getStartDate()))
-            .eq(MonthPay::getCompanyName,vo.getCompanyName())
-            .eq(MonthPay::getCreateUserId,user.getId());
+            .eq(MonthPay::getCompanyId,vo.getCompanyId());
+            //.eq(MonthPay::getCreateUserId,user.getId());
 
       MonthPay pay = baseMapper.selectOne(wrapper);
 
@@ -89,6 +89,7 @@ public class MonthServiceImpl extends ServiceImpl<MonthMapper, MonthPay> impleme
       monthPay.setCompanyName(vo.getCompanyName());
       monthPay.setMonthInfo(monthInfo);
       monthPay.setPayPrice(vo.getMonthPrice());
+      monthPay.setCompanyId(vo.getCompanyId());
 
       //增加月结账单
       int insert = baseMapper.insert(monthPay);

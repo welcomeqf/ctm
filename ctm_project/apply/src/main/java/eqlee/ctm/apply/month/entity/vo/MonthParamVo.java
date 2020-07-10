@@ -23,4 +23,6 @@ public class MonthParamVo {
    private Long keyId;
 
    private String companyName;
+
+   private Long companyId;
 }

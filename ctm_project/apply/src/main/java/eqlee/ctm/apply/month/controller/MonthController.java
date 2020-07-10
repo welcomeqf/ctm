@@ -30,7 +30,7 @@ public class MonthController {
    public MonthVo insertMonth (@RequestBody MonthParamVo vo) {
 
       if (vo.getMonthPrice() == null || StringUtils.isBlank(vo.getStartDate())
-            || vo.getKeyId() == null || StringUtils.isBlank(vo.getCompanyName())) {
+            || vo.getKeyId() == null || StringUtils.isBlank(vo.getCompanyName()) || vo.getCompanyId() == null) {
          throw new ApplicationException(CodeType.PARAM_ERROR, "参数不能为空");
       }
 

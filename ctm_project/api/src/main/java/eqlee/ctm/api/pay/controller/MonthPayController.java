@@ -52,9 +52,8 @@ public class MonthPayController {
       pay.setApplyNo(bo.getMonthNo());
       pay.setPayMoney(bo.getMonthPrice());
 
-      PayResult result = payService.insertPayInfo(pay);
-
       payService.upMonthStatus(bo.getStartDate(),bo.getCompanyName());
+      PayResult result = payService.insertPayInfo(pay);
 
       return result;
 
