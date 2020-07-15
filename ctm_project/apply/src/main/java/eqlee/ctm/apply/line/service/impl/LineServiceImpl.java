@@ -1,6 +1,7 @@
 package eqlee.ctm.apply.line.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.toolkit.support.SFunction;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.yq.constanct.CodeType;
@@ -30,6 +31,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -281,10 +283,8 @@ public class LineServiceImpl extends ServiceImpl<LineMapper, Line> implements IL
      */
     @Override
     public List<Line> listAllLine() {
-        LambdaQueryWrapper<Line> wrapper = new LambdaQueryWrapper<Line>()
-              .eq(Line::getStopped,false)
-              .orderByDesc(Line::getCity);
-        return baseMapper.selectList(wrapper);
+
+        return baseMapper.queryOrderbyLine();
     }
 
     @Override
@@ -342,5 +342,18 @@ public class LineServiceImpl extends ServiceImpl<LineMapper, Line> implements IL
 
     }
 
+    /**
+     * 修改线路
+     * @param list
+     */
+    @Override
+    public void updateLineSort(List<LineUpdateVo> list) {
+        for(LineUpdateVo lineUpdateVo : list){
+            Line line = new Line();
+            line.setId(lineUpdateVo.getId());
+            line.setSort(lineUpdateVo.getSort());
+            baseMapper.updateById(line);
+        }
+    }
 
 }

@@ -242,4 +242,22 @@ public class LineController {
         return lineService.queryLocalCityLine();
     }
 
+
+    @ApiOperation(value = "批量修改线路排序", notes = "批量修改线路排序")
+    @PostMapping("/updateLineSort")
+    @CrossOrigin
+    @CheckToken
+    public ResultVo updateLineSort(@RequestBody List<LineUpdateVo> lines) {
+        if (lines == null || lines.isEmpty()) {
+            log.error("update line param is not null.");
+            throw new ApplicationException(CodeType.PARAM_ERROR,"修改线路参数不能为空");
+        }
+
+        lineService.updateLineSort(lines);
+
+        ResultVo resultVo = new ResultVo();
+        resultVo.setResult("ok");
+        return resultVo;
+    }
+
 }

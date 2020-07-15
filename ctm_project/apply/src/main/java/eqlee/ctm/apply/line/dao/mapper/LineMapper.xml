@@ -5,13 +5,15 @@
 
     <select id="queryLine2PageAndName" resultType="eqlee.ctm.apply.line.entity.query.LineSeacherQuery">
         <bind name="line_Name" value="'%' + lineName + '%'"/>
-      select Id,LineName,Information,Region,TravelSituation,MaxNumber,MinNumber,City,PicturePath,Stopped from Line
+      select Id,LineName,Information,Region,TravelSituation,MaxNumber,MinNumber,City,PicturePath,Stopped,Sort from Line
       where LineName like #{line_Name}
+      order by isnull(Sort,99999),CreateDate desc
     </select>
 
 
     <select id="queryLine2Page" resultType="eqlee.ctm.apply.line.entity.query.LineSeacherQuery">
-        select Id,LineName,Information,Region,TravelSituation,MaxNumber,MinNumber,City,PicturePath,Stopped from Line
+        select Id,LineName,Information,Region,TravelSituation,MaxNumber,MinNumber,City,PicturePath,Stopped,Sort from Line
+        order by isnull(Sort,99999),CreateDate desc
     </select>
 
 
@@ -38,7 +40,12 @@
         <foreach collection="list" item="item" index="index" open="(" separator="," close=")">
            #{item}
         </foreach>
-        order by City
+        order by isnull(Sort,99999),City
+    </select>
+
+    <select id="queryOrderbyLine" parameterType="String" resultType="eqlee.ctm.apply.line.entity.Line">
+        select * from Line
+        order by isnull(Sort,99999),City
     </select>
 
 </mapper>

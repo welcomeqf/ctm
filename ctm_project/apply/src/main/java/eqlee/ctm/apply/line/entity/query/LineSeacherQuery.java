@@ -53,4 +53,9 @@ public class LineSeacherQuery {
     private Integer MinNumber;
 
     private Boolean Stopped;
+
+    /**
+     * 排序
+     */
+    private Integer Sort;
 }

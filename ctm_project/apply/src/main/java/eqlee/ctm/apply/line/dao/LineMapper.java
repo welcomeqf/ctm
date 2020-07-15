@@ -60,4 +60,10 @@ public interface LineMapper extends IBaseMapper<Line> {
      */
     List<Line> queryLocalCity (List<String> list);
 
+    /**
+     *   根据排序获取线路
+     * @return
+     */
+    List<Line> queryOrderbyLine ();
+
 }

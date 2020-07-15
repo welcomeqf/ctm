@@ -1,5 +1,7 @@
 package eqlee.ctm.apply.line.entity;
 
+import com.baomidou.mybatisplus.annotation.FieldStrategy;
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
 import lombok.Data;
@@ -101,6 +103,12 @@ public class Line extends Model<Line> {
      * 修改时间
      */
     private LocalDateTime UpdateDate;
+
+    /**
+     * 排序
+     */
+    @TableField(strategy = FieldStrategy.IGNORED)
+    private Integer sort;
 
     @Override
     protected Serializable pkVal() {

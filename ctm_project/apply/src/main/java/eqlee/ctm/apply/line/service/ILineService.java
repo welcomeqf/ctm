@@ -115,6 +115,10 @@ public interface ILineService {
     List<Line> queryLocalCityLine ();
 
 
-
+    /**
+     * 修改线路排序
+     * @param list
+     */
+    void updateLineSort(List<LineUpdateVo> list);
 
 }

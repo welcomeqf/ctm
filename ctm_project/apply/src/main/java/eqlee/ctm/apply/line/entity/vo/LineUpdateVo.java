@@ -37,4 +37,6 @@ public class LineUpdateVo {
 
     private String remark;
 
+    private Integer sort;
+
 }
