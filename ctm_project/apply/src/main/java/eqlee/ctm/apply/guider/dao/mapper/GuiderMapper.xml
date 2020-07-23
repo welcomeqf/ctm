@@ -58,6 +58,10 @@
                 <bind name="_region" value="'%' + region + '%'"/>
                 and a.Place like #{_region}
             </if>
+            <if test="selectNot != null">
+                and a.OutDate &lt;= getDate()
+                and a.IsSelect = 0
+            </if>
             <if test="list != null">
                 and b.Id in
                 <foreach collection="list" item="item" index="index" open="(" separator="," close=")">

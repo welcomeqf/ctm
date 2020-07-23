@@ -80,7 +80,8 @@ public interface GuiderMapper {
                                              @Param("region") String region,
                                               @Param("cityList") List<String> cityList,
                                               @Param("list") List<Long> list,
-                                              @Param("type") Integer type);
+                                              @Param("type") Integer type,
+                                              @Param("selectNot") Integer selectNot);
 
 
      /**

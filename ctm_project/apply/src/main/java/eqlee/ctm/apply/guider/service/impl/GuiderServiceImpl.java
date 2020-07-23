@@ -88,9 +88,9 @@ public class GuiderServiceImpl implements IGuiderService {
 
        Page<GuiderVo> guiderVoPage1 = guiderMapper.guiderIndex2(page, localDate, region, cityList, list, selectNot);
 
-       GuiderCountNumber guiderCountNumber1 = guiderMapper.queryCountNumberInfo2(localDate, region,cityList,list,0);
+       GuiderCountNumber guiderCountNumber1 = guiderMapper.queryCountNumberInfo2(localDate, region,cityList,list,0, selectNot);
 
-       GuiderCountNumber guiderCountNumber2 = guiderMapper.queryCountNumberInfo2(localDate, region,cityList,list,1);
+       GuiderCountNumber guiderCountNumber2 = guiderMapper.queryCountNumberInfo2(localDate, region,cityList,list,1, selectNot);
 
        if (guiderCountNumber1 == null) {
           guiderCountNumber1 = new GuiderCountNumber();
