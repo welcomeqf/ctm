@@ -23,6 +23,7 @@ import eqlee.ctm.apply.line.entity.vo.LineVo;
 import eqlee.ctm.apply.line.service.ILineService;
 import eqlee.ctm.apply.option.entity.Option;
 import eqlee.ctm.apply.option.service.ICityService;
+import eqlee.ctm.apply.orders.entity.OrderDetailed;
 import eqlee.ctm.apply.price.entity.Price;
 import eqlee.ctm.apply.price.service.IPriceService;
 import lombok.extern.slf4j.Slf4j;
@@ -203,12 +204,16 @@ public class LineServiceImpl extends ServiceImpl<LineMapper, Line> implements IL
     public void updateStatus(Long id) {
         //获取用户信息
         UserLoginQuery user = localUser.getUser("用户信息");
-
+        LambdaQueryWrapper<Line> wrapper = new LambdaQueryWrapper<Line>()
+                .eq(Line::getId,id);
+        Line one = baseMapper.selectOne(wrapper);
         Line line = new Line();
         line.setId(id);
         line.setStopped(true);
+        line.setSort(one.getSort());
         line.setUpdateUserId(user.getId());
-        int i = baseMapper.updateById(line);
+        int i = baseMapper.update(line, wrapper);
+        //int i = baseMapper.updateById(line);
         if (i <= 0) {
             log.error("stop line fail.");
             throw new ApplicationException(CodeType.SERVICE_ERROR,"停用线路失败");

@@ -9,7 +9,7 @@
       select max(Id)id,max(LineName)LineName,max(Region)Region,max(convert(varchar(20),OutDate,23))OutDate,max(AdultPrice)AdultPrice,max(OldPrice)OldPrice,max(BabyPrice)BabyPrice,
         max(ChildPrice)ChildPrice,max(MaxNumber)MaxNumber,isnull(sum(DoAllNumber),0)DoAllNumber,max(TravelSituation)TravelSituation,max(MarketAdultPrice)MarketAdultPrice,
         max(MarketOldPrice)MarketOldPrice,max(MarketBabyPrice)MarketBabyPrice,max(MarketChildPrice)MarketChildPrice,max(PicturePath)PicturePath,MAX(Sort)Sort
-        from VLinePrice
+        from VLinePrice where Stopped = 0
         group by LineId,OutDate
       )tab
       <where>
@@ -33,7 +33,7 @@
     select a.Id,a.ApplyNo,convert(varchar(20),a.OutDate,23) as 'OutDate',b.LineName,a.AdultNumber,a.BabyNumber,a.OldNumber,a.ChildNumber,
     a.statu,a.CompanyName,a.CompanyUser,a.IsPayment,a.IsCancel,d.ExamineType,a.ContactName,a.ContactTel,a.AllPrice,a.Type,d.ExamineResult,
     a.ApplyPic from Line b join Apply a on a.LineId = b.Id join (select ea2.* from (select Max(createdate) as createdate,ApplyId from
-        Examine group by ApplyId) ea right join Examine ea2 on ea.createdate = ea2.createdate) d on a.Id = d.ApplyId
+        Examine where ExamineType  = '0' or ExamineType = '1' group by ApplyId) ea inner join Examine ea2 on ea.createdate = ea2.createdate) d on a.Id = d.ApplyId
         <where>
             1 = 1
             and a.IsPayment = 1

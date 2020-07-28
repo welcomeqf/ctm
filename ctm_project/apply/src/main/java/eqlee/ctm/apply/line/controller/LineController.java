@@ -197,7 +197,7 @@ public class LineController {
 
     @ApiOperation(value = "查询所有未禁用的线路", notes = "查询所有未禁用的线路")
     @GetMapping("/listAllLine")
-    @CrossOrigin
+    @CrossOrigin("*")
     @CheckToken
     public List<Line> listAllLine () {
         return lineService.listAllLine();

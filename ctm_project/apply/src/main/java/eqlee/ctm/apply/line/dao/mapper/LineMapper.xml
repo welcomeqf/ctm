@@ -44,7 +44,7 @@
     </select>
 
     <select id="queryOrderbyLine" parameterType="String" resultType="eqlee.ctm.apply.line.entity.Line">
-        select * from Line
+        select * from Line where Stopped = 0
         order by isnull(Sort,99999),City
     </select>
 

@@ -102,6 +102,7 @@ public class ApplyServiceImpl extends ServiceImpl<ApplyMapper, Apply> implements
         IdGenerator idGenerator = new IdGenerator();
         LocalDate localDate = DateUtil.parseDate(applyVo.getOutDate());
 
+        UserLoginQuery user = localUser.getUser("用户信息");
         //查询报名表人数是否达到最大
         LambdaQueryWrapper<Apply> wrapper = new LambdaQueryWrapper<Apply>()
                 .eq(Apply::getOutDate,localDate)
@@ -110,6 +111,10 @@ public class ApplyServiceImpl extends ServiceImpl<ApplyMapper, Apply> implements
         Integer number = 0;
         for (Apply apply : list) {
             number = number + apply.getAllNumber();
+            //判断当天同线路是否已添加报名记录
+            if (apply.getContactName().equals(applyVo.getContactName()) && apply.getContactTel().equals(applyVo.getContactTel()) && (apply.getStatu() == 0 || apply.getIsCancel()) && applyVo.getType() != 1 && applyVo.getUpOrInsert() == 0) {
+                throw new ApplicationException(CodeType.SERVICE_ERROR,"当前线路已报名成功，等待管理员审核！");
+            }
         }
         Integer allNumber = number + applyVo.getChildNumber() + applyVo.getOldNumber() + applyVo.getBabyNumber() + applyVo.getAdultNumber();
         if (allNumber > line.getMaxNumber()) {
@@ -138,7 +143,7 @@ public class ApplyServiceImpl extends ServiceImpl<ApplyMapper, Apply> implements
         //生成报名单号
         String orderCode = idGenerator.getShortNo();
 
-        UserLoginQuery user = localUser.getUser("用户信息");
+
 
         if ("运营人员".equals(user.getRoleName()) || "管理员".equals(user.getRoleName()) || "超级管理员".equals(user.getRoleName())) {
            //运营代录
@@ -428,6 +433,7 @@ public class ApplyServiceImpl extends ServiceImpl<ApplyMapper, Apply> implements
       IdGenerator idGenerator = new IdGenerator();
       LocalDate localDate = DateUtil.parseDate(applyVo.getOutDate());
 
+      UserLoginQuery user = localUser.getUser("用户信息");
       //查询报名表人数是否达到最大
       LambdaQueryWrapper<Apply> wrapper = new LambdaQueryWrapper<Apply>()
             .eq(Apply::getOutDate,localDate)
@@ -436,6 +442,10 @@ public class ApplyServiceImpl extends ServiceImpl<ApplyMapper, Apply> implements
       Integer number = 0;
       for (Apply apply : list) {
          number = number + apply.getAllNumber();
+          //判断当天同线路是否已添加报名记录
+          if (apply.getContactName().equals(applyVo.getContactName()) && apply.getContactTel().equals(applyVo.getContactTel()) && (apply.getStatu() == 0 || apply.getIsCancel())  && applyVo.getUpOrInsert() == 0) {
+              throw new ApplicationException(CodeType.SERVICE_ERROR,"当前线路已报名成功，等待管理员审核！");
+          }
       }
       Integer allNumber = number + applyVo.getChildNumber() + applyVo.getOldNumber() + applyVo.getBabyNumber() + applyVo.getAdultNumber();
       if (allNumber > line.getMaxNumber()) {
@@ -464,7 +474,7 @@ public class ApplyServiceImpl extends ServiceImpl<ApplyMapper, Apply> implements
       //生成报名单号
       String orderCode = idGenerator.getShortNo();
 
-      UserLoginQuery user = localUser.getUser("用户信息");
+
 
       if ("运营人员".equals(user.getRoleName()) || "管理员".equals(user.getRoleName()) || "超级管理员".equals(user.getRoleName())) {
 
