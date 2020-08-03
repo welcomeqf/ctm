@@ -42,4 +42,24 @@ public class UserUpdateInfoVo {
      * 城市
      */
     private List<CityBo> city;
+
+    /**
+     * 是否接收报名审核通知的人
+     */
+    private Boolean ApplyExamNotifier;
+
+    /**
+     * 是否接收账单审核通知的人
+     */
+    private Boolean BillExamNotifier;
+
+    /**
+     * 是否接收导游选人通知的人
+     */
+    private Boolean GuideSelectNotifier;
+
+    /**
+     * 是否接收同行审核通知的人
+     */
+    private Boolean PeerExamNotifier;
 }

@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.yq.constanct.CodeType;
 import com.yq.exception.ApplicationException;
 import com.yq.jwt.islogin.CheckToken;
+import com.yq.utils.SendUtils;
 import com.yq.utils.StringUtils;
 import eqlee.ctm.apply.entry.entity.Examine;
 import eqlee.ctm.apply.entry.entity.query.ApplyNoReadCountQuery;
@@ -32,6 +33,9 @@ public class ExamineController {
 
     @Autowired
     private IExamineService examineService;
+
+    @Autowired
+    private SendUtils sendService;
 
     @ApiOperation(value = "同行提交取消报名表的审核记录", notes = "同行取消修改报名表的审核记录")
     @ApiImplicitParam(name = "applyId", value = "报名Id", required = true, dataType = "Long", paramType = "path")
@@ -126,7 +130,7 @@ public class ExamineController {
 
         if (infoVo.getStatus() == 1) {
             //同意报名审核
-            examineService.doptExamine(infoVo.getApplyId());
+            examineService.doptExamine(infoVo.getApplyId(),infoVo.getOpenid());
         }
 
         if (infoVo.getStatus() == 2) {
@@ -182,4 +186,13 @@ public class ExamineController {
         return examineService.queryRemark(examineType,applyId);
     }
 
+    @ApiOperation(value = "微信推送test", notes = "微信推送")
+    @GetMapping("/wechatPush")
+    @CrossOrigin
+    @CheckToken
+    public ResultVo wechatPush() throws Exception {
+        sendService.pushGuideSelect("oZ_f9v-w8Dc2UdlrKB38K9lCMADQ","openid2","openid3","openid4");
+        ResultVo vo = new ResultVo();
+        return vo;
+    }
 }

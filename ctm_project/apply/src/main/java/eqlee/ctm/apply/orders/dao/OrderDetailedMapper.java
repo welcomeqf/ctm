@@ -2,6 +2,7 @@ package eqlee.ctm.apply.orders.dao;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.yq.IBaseMapper.IBaseMapper;
+import eqlee.ctm.apply.entry.entity.query.ApplyUpdateInfo;
 import eqlee.ctm.apply.orders.entity.OrderDetailed;
 import eqlee.ctm.apply.orders.entity.Vo.OrderIndexVo;
 import eqlee.ctm.apply.orders.entity.bo.OrderBo;
@@ -86,4 +87,11 @@ public interface OrderDetailedMapper extends IBaseMapper<OrderDetailed> {
      * @return
      */
     void CancelWaitSubmitOrder(@Param("orderId") Long deptId);
+
+    /**
+     * 批量更新报名表短信通知状态
+     * @param list
+     * @return
+     */
+    void updateApplySendStatu(List<ApplyUpdateInfo> list);
 }

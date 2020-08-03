@@ -95,4 +95,9 @@ public class FinanceVo {
 
     private Long orderId;
 
+    /**
+     * 订单号
+     */
+    private String orderNo;
+
 }

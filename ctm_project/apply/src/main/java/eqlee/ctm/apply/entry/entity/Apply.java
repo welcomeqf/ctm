@@ -274,6 +274,11 @@ public class Apply extends Model<Apply> {
      */
     private String PlaceAddress;
 
+    /**
+     * 是否发过通知(0默认false--没有  1  true--已发)
+     */
+    private Boolean IsSend;
+
     @Override
     protected Serializable pkVal() {
         return this.Id;

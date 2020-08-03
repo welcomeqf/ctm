@@ -11,9 +11,11 @@ import com.yq.jwt.contain.LocalUser;
 import com.yq.jwt.entity.CityJwtBo;
 import com.yq.jwt.entity.UserLoginQuery;
 import com.yq.jwt.islogin.CheckToken;
+import com.yq.utils.StringUtils;
 import eqlee.ctm.api.entity.bo.ParamBo;
 import eqlee.ctm.api.entity.query.UserWithQuery;
 import eqlee.ctm.api.entity.vo.*;
+import eqlee.ctm.api.pay.vilidata.PayData;
 import eqlee.ctm.api.vilidate.DataUtils;
 import eqlee.ctm.api.vilidate.TokenData;
 import io.swagger.annotations.Api;
@@ -211,7 +213,7 @@ public class UserApiController {
         ResultResposeVo vo = JSONObject.parseObject(httpResult.getBody(),ResultResposeVo.class);
         if (vo.getCode() != 0) {
             throw new ApplicationException(CodeType.RESOURCES_NOT_FIND,vo.getMsg());
-        }
+    }
         return JSONObject.parse(httpResult.getBody());
     }
 
@@ -393,6 +395,12 @@ public class UserApiController {
         infoVo.setRoleName(vo.getRoleName());
         infoVo.setTel(vo.getTel());
         infoVo.setCity(vo.getCity());
+
+        infoVo.setApplyExamNotifier(vo.getApplyExamNotifier());
+        infoVo.setBillExamNotifier(vo.getBillExamNotifier());
+        infoVo.setGuideSelectNotifier(vo.getGuideSelectNotifier());
+        infoVo.setPeerExamNotifier(vo.getPeerExamNotifier());
+
         String url = "http://" + ip +":" + port + "/" + path + "/v1/app/user/updateUser";
 
         String s = JSONObject.toJSONString(infoVo);
@@ -473,6 +481,70 @@ public class UserApiController {
     @IgnoreResponseAdvice
     public Object queryUserByRole (@RequestParam("roleName") String roleName) throws Exception{
         String url = "http://" + ip +":" + port + "/" + path + "/v1/app/user/queryUserByRole?roleName=" +roleName;
+
+        //获得token
+        String userToken = tokenData.getMapToken();
+        String token = "Bearer " + userToken;
+
+        HttpResult httpResult = apiService.get(url,token);
+
+        ResultResposeVo vo = JSONObject.parseObject(httpResult.getBody(),ResultResposeVo.class);
+        if (vo.getCode() != 0) {
+            throw new ApplicationException(CodeType.RESOURCES_NOT_FIND,vo.getMsg());
+        }
+        return JSONObject.parse(httpResult.getBody());
+    }
+
+    @ApiOperation(value = "绑定微信公众号", notes = "绑定微信公众号")
+    @PostMapping("/bindUserWechatOpenId")
+    @CrossOrigin
+    @CheckToken
+    @IgnoreResponseAdvice
+    public Object bindUserWechatOpenId(@RequestBody UserOpenIdUpVo vo) throws Exception{
+
+        String url = "http://" + ip +":" + port + "/" + path + "/v1/app/user/updateUserOpenId";
+
+
+        UserOpenIdUpVo result = new UserOpenIdUpVo();
+        result.setId(vo.getId());
+
+        String openId = "";
+
+        UserLoginQuery user = localUser.getUser("用户信息");
+
+        if(StringUtils.isNotBlank(vo.getOpenId())){
+            openId = user.getOpenId();
+        }else{
+            if(StringUtils.isNotBlank(vo.getCode())){
+                openId = PayData.getOpenId(vo.getCode());
+            }
+        }
+
+        result.setOpenId(openId);
+
+        String jsonString = JSONObject.toJSONString(result);
+        //获得token
+        String userToken = tokenData.getMapToken();
+        String token = "Bearer " + userToken;
+
+        HttpResult httpResult = apiService.post(url,jsonString,token);
+
+        ResultResposeVo vo1 = JSONObject.parseObject(httpResult.getBody(),ResultResposeVo.class);
+        if (vo1.getCode() != 0) {
+            throw new ApplicationException(CodeType.RESOURCES_NOT_FIND,vo1.getMsg());
+        }
+
+        return JSONObject.parse(httpResult.getBody());
+    }
+
+
+    @GetMapping("/queryGuideByCity")
+    @CrossOrigin
+    @CheckToken
+    @IgnoreResponseAdvice
+    public Object queryGuideByCity(@RequestParam("city") String city) throws Exception{
+
+        String url = "http://" + ip +":" + port + "/" + path + "/v1/app/user/queryGuideByCity?city=" + city + "&type=" + 1;
 
         //获得token
         String userToken = tokenData.getMapToken();

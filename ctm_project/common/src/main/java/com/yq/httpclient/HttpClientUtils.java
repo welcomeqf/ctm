@@ -1,5 +1,6 @@
 package com.yq.httpclient;
 
+import com.yq.utils.StringUtils;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
@@ -275,7 +276,9 @@ public class HttpClientUtils {
 
 //        httpPost.setHeader("Accept", "application/json");
         httpPost.addHeader("Content-Type", "application/json");
-        httpPost.addHeader("Authorization",token);
+        if(StringUtils.isNotBlank(token)){
+            httpPost.addHeader("Authorization",token);
+        }
         String charSet = "UTF-8";
         StringEntity entity = new StringEntity(jsonInfo, charSet);
         httpPost.setEntity(entity);

@@ -1,5 +1,6 @@
 package eqlee.ctm.resource.company.service.Imp;
 
+import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -12,13 +13,11 @@ import com.yq.jwt.entity.PrivilegeMenuQuery;
 import com.yq.jwt.entity.UserLoginQuery;
 import com.yq.utils.DateUtil;
 import com.yq.utils.IdGenerator;
+import com.yq.utils.SendUtils;
 import com.yq.utils.StringUtils;
 import eqlee.ctm.resource.company.dao.CompanyMapper;
 import eqlee.ctm.resource.company.entity.Company;
-import eqlee.ctm.resource.company.entity.query.CompanyAdminQuery;
-import eqlee.ctm.resource.company.entity.query.CompanyCount;
-import eqlee.ctm.resource.company.entity.query.CompanyQuery;
-import eqlee.ctm.resource.company.entity.query.PageCompanyQuery;
+import eqlee.ctm.resource.company.entity.query.*;
 import eqlee.ctm.resource.company.entity.vo.CompanyIndexVo;
 import eqlee.ctm.resource.company.entity.vo.CompanyQueryVo;
 import eqlee.ctm.resource.company.entity.vo.CompanyVo;
@@ -48,6 +47,9 @@ public class CompanyServiceImp extends ServiceImpl<CompanyMapper,Company> implem
 
     @Autowired
     private HttpUtils apiService;
+
+    @Autowired
+    private SendUtils sendService;
 
     private final String MONTH_PAY = "月结";
 
@@ -230,6 +232,27 @@ public class CompanyServiceImp extends ServiceImpl<CompanyMapper,Company> implem
             company.setPayMethod(3);
         }
 
+        //审核通过短信通知同行
+        if(companyVo.getIsedit() == null){
+            /*
+            *通过审核
+            尊敬的王仁杰，您注册的阳光旅游系统账号已通过审核，登录账号：信柏商务，初始密码：注册手机号后6位，请用电脑登录网址：510766.com自行修改密码及增加子账号并妥善保管，可以用手机登录关联微信或电脑下载到桌面【阳光国旅】
+
+            未通过审核
+            尊敬的王仁杰，您注册的阳光旅游系统账号未通过审核，如有疑问可与我司联系，谢谢！【阳光国旅】
+            */
+            String msg = "";
+            if(companyVo.getStatus() == 1){
+                msg = "尊敬的" + companyVo.getChargeName() + "，您注册的阳光旅游系统账号已通过审核，登录账号：" + companyVo.getCompanyFullName() + "，初始密码：注册手机号后6位，请用电脑登录网址：510766.com自行修改密码及增加子账号并妥善保管，可以用手机登录关联微信或电脑下载到桌面【阳光国旅】";
+            }else if(companyVo.getStatus() == 2){
+                msg = "尊敬的" + companyVo.getChargeName() + "，您注册的阳光旅游系统账号未通过审核，如有疑问可与我司联系，谢谢！【阳光国旅】";
+            }
+            try{
+                sendService.send(companyVo.getChargeTel(),msg);
+            }catch (Exception ex){
+            }
+
+        }
 //        System.out.print(company);
         List<Company> list = baseMapper.selectList(null);
         System.out.println("--------"+list);
@@ -438,6 +461,21 @@ public class CompanyServiceImp extends ServiceImpl<CompanyMapper,Company> implem
         company.setCompanyFullName(companyVo.getCompanyFullName());
 
         int insert = baseMapper.insert(company);
+        //通知后台接收同行注册审核人信息
+        try{
+            String jsonStr = sendService.queryNotifyAdminInfo("",4);
+            List<UserOpenIdVm> notifyList = JSONObject.parseArray(jsonStr,  UserOpenIdVm.class);
+            if(notifyList != null && !notifyList.isEmpty()){
+                for(UserOpenIdVm vm : notifyList){
+                    if(StringUtils.isNotBlank(vm.getOpenId())){
+                        sendService.pushCompanyExamManage(vm.getOpenId(),company.getCompanyName(),company.getChargeName(),company.getChargeTel());
+                    }
+                }
+            }
+
+        }catch (Exception ex){
+            throw new ApplicationException(CodeType.SERVICE_ERROR,ex.toString());
+        }
 
         if (insert <= 0) {
             log.error("insert company fail");

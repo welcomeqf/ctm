@@ -22,7 +22,7 @@
         select b.Id as 'OrderId',b.ContactName,b.ContactTel,b.Place,b.AllNumber,b.PayType
         ,b.AdultNumber,b.BabyNumber,b.OldNumber,b.ChildNumber,isnull(b.MsPrice,0)MsPrice
         ,a.OutDate as 'outDate',b.LineName as 'lineName',b.CompanyName as 'companyName',(case b.PayType when 2 then b.price - isnull(b.MsPrice,0) else b.price end) as 'allPrice'
-        ,b.ApplyRemark as 'applyRemark',a.GuideName as 'guideName',b.Types as 'type',d.PayType as 'ApplyPayType',d.ThirdpartyNumber,c.Icnumber
+        ,b.ApplyRemark as 'applyRemark',a.GuideName as 'guideName',a.GuideTel as 'guideTel',b.Types as 'type',d.PayType as 'ApplyPayType',d.ThirdpartyNumber,c.Icnumber,c.IsSend,c.Id as ApplyId
         from Orders a join OrderDetailed b on a.Id = b.OrderId join Apply c on c.Id = b.ApplyId left join pay d on c.ApplyNo = d.ApplyNo
         <where>
             1 = 1
@@ -105,4 +105,11 @@
         )
     }
     </select>
+
+    <!-- 批量更新报名表短信通知状态 -->
+    <update id="updateApplySendStatu" parameterType="eqlee.ctm.apply.entry.entity.query.ApplyUpdateInfo">
+        <foreach collection="list" item="item" index="index">
+            update Apply set IsSend = 1 where Id = #{item.Id}
+        </foreach>
+    </update>
 </mapper>

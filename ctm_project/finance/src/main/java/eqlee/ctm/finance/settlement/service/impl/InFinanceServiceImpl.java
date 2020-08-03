@@ -1,5 +1,6 @@
 package eqlee.ctm.finance.settlement.service.impl;
 
+import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -11,6 +12,7 @@ import com.yq.jwt.entity.PrivilegeMenuQuery;
 import com.yq.jwt.entity.UserLoginQuery;
 import com.yq.utils.DateUtil;
 import com.yq.utils.IdGenerator;
+import com.yq.utils.SendUtils;
 import com.yq.utils.StringUtils;
 import eqlee.ctm.finance.other.service.IOtherService;
 import eqlee.ctm.finance.settlement.dao.InFinanceMapper;
@@ -56,6 +58,9 @@ public class InFinanceServiceImpl extends ServiceImpl<InFinanceMapper, Income> i
 
     @Autowired
     private INumberService numberService;
+
+    @Autowired
+    private SendUtils sendService;
 
     IdGenerator idGenerator = new IdGenerator();
 
@@ -294,6 +299,18 @@ public class InFinanceServiceImpl extends ServiceImpl<InFinanceMapper, Income> i
 //            }
 //        }
 
+        //通知后台有导游交账待审核
+        try{
+            String jsonStr = sendService.queryNotifyAdminInfo("",3);
+            List<UserOpenIdVm> notifyList = JSONObject.parseArray(jsonStr,  UserOpenIdVm.class);
+            if(notifyList != null && !notifyList.isEmpty()){
+                for(UserOpenIdVm vm : notifyList){
+                    if(StringUtils.isNotBlank(vm.getOpenId())){
+                        sendService.pushBillExamManage(vm.getOpenId(),vo.getOrderNo(),DateUtil.formatDateTime(LocalDateTime.now()),income.getGuideName());
+                    }
+                }
+            }
+        }catch (Exception ex){}
 
     }
 

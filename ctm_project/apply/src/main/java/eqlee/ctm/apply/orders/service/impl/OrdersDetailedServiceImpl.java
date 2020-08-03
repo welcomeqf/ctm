@@ -10,6 +10,7 @@ import com.yq.jwt.entity.UserLoginQuery;
 import com.yq.utils.DateUtil;
 import com.yq.utils.StringUtils;
 import eqlee.ctm.apply.entry.entity.Apply;
+import eqlee.ctm.apply.entry.entity.query.ApplyUpdateInfo;
 import eqlee.ctm.apply.guider.entity.vo.GuiderIdParamVo;
 import eqlee.ctm.apply.guider.entity.vo.GuiderVo;
 import eqlee.ctm.apply.line.entity.vo.ResultVo;
@@ -280,5 +281,15 @@ public class OrdersDetailedServiceImpl extends ServiceImpl<OrderDetailedMapper, 
             throw new ApplicationException(CodeType.SERVICE_ERROR, "只允许待交账状态账单可操作，请刷新重试！");
         }
         baseMapper.CancelWaitSubmitOrder(id);
+    }
+    /**
+     * 批量更新报名表短信通知状态
+     * @param applyIds
+     * @return
+     */
+    @Override
+    public void updateApplySendStatu(List<ApplyUpdateInfo> applyIds ) {
+
+        baseMapper.updateApplySendStatu(applyIds);
     }
 }

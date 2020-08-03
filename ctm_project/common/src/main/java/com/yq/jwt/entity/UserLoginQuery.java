@@ -53,4 +53,6 @@ public class UserLoginQuery {
      * 权限列表
      */
     private List<PrivilegeMenuQuery> menuList;
+
+    private String openId;
 }

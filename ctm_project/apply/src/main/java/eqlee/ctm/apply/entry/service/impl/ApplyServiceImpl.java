@@ -12,6 +12,7 @@ import com.yq.jwt.entity.PrivilegeMenuQuery;
 import com.yq.jwt.entity.UserLoginQuery;
 import com.yq.utils.DateUtil;
 import com.yq.utils.IdGenerator;
+import com.yq.utils.SendUtils;
 import com.yq.utils.StringUtils;
 import eqlee.ctm.apply.entry.dao.ApplyMapper;
 import eqlee.ctm.apply.entry.entity.Apply;
@@ -60,6 +61,9 @@ public class ApplyServiceImpl extends ServiceImpl<ApplyMapper, Apply> implements
 
     @Autowired
     private IMessageService messageService;
+
+    @Autowired
+    private SendUtils sendService;
 
 //    @Autowired
 //    private  ApplyMapper applyMapper;
@@ -112,7 +116,7 @@ public class ApplyServiceImpl extends ServiceImpl<ApplyMapper, Apply> implements
         for (Apply apply : list) {
             number = number + apply.getAllNumber();
             //判断当天同线路是否已添加报名记录
-            if (apply.getContactName().equals(applyVo.getContactName()) && apply.getContactTel().equals(applyVo.getContactTel()) && (apply.getStatu() == 0 || apply.getIsCancel()) && applyVo.getType() != 1 && applyVo.getUpOrInsert() == 0) {
+            if (apply.getContactName().equals(applyVo.getContactName()) && apply.getContactTel().equals(applyVo.getContactTel()) && (apply.getStatu() == 0 && !apply.getIsCancel()) && applyVo.getType() != 1 && applyVo.getUpOrInsert() == 0) {
                 throw new ApplicationException(CodeType.SERVICE_ERROR,"当前线路已报名成功，等待管理员审核！");
             }
         }
@@ -406,6 +410,22 @@ public class ApplyServiceImpl extends ServiceImpl<ApplyMapper, Apply> implements
         } else {
             query.setAuto(true);
         }
+
+        try{
+            //通知后台报名待审核 报名数据不为补录且为新增
+            if(applyVo.getType() != 1 && applyVo.getUpOrInsert() == 0){
+                String jsonStr = sendService.queryNotifyAdminInfo(apply.getCity(),2);
+                List<UserOpenIdVm> notifyList = JSONObject.parseArray(jsonStr,  UserOpenIdVm.class);
+                if(notifyList != null && !notifyList.isEmpty()){
+                    for(UserOpenIdVm vm : notifyList){
+                        if(StringUtils.isNotBlank(vm.getOpenId())){
+                            sendService.pushApplyExamManage(vm.getOpenId(),apply.getContactName(),DateUtil.formatDateTime(LocalDateTime.now()));
+                        }
+                    }
+                }
+            }
+        }catch (Exception ex){}
+
         return query;
     }
 

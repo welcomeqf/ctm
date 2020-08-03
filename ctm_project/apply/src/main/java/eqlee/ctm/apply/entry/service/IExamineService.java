@@ -58,8 +58,9 @@ public interface IExamineService {
     /**
      *  通过报名表的审核
      * @param ApplyId
+     * @param OpenId
      */
-    void doptExamine(Long ApplyId);
+    void doptExamine(Long ApplyId,String OpenId);
 
 
     /**

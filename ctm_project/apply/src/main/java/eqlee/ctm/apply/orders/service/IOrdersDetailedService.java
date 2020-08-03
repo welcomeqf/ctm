@@ -1,6 +1,7 @@
 package eqlee.ctm.apply.orders.service;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import eqlee.ctm.apply.entry.entity.query.ApplyUpdateInfo;
 import eqlee.ctm.apply.guider.entity.vo.GuiderIdParamVo;
 import eqlee.ctm.apply.guider.entity.vo.GuiderVo;
 import eqlee.ctm.apply.line.entity.vo.ResultVo;
@@ -94,4 +95,11 @@ public interface IOrdersDetailedService {
      * @return
      */
     void cancelOrders(Long id);
+
+    /**
+     * 批量更新报名表短信通知状态
+     * @param applyIds
+     * @return
+     */
+    void updateApplySendStatu(List<ApplyUpdateInfo> applyIds);
 }

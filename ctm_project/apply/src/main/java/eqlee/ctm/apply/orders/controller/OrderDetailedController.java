@@ -2,14 +2,12 @@ package eqlee.ctm.apply.orders.controller;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.yq.constanct.CodeType;
-import com.yq.entity.exl.OutInfoExl;
 import com.yq.exception.ApplicationException;
-import com.yq.jwt.contain.LocalUser;
-import com.yq.jwt.entity.UserLoginQuery;
 import com.yq.jwt.islogin.CheckToken;
-import com.yq.utils.StringUtils;
+import com.yq.utils.SendUtils;
 import com.yq.vilidata.TimeData;
 import com.yq.vilidata.query.TimeQuery;
+import eqlee.ctm.apply.entry.entity.query.ApplyUpdateInfo;
 import eqlee.ctm.apply.line.entity.vo.ResultVo;
 import eqlee.ctm.apply.orders.entity.Vo.IncomeVo;
 import eqlee.ctm.apply.orders.entity.bo.OrderBo;
@@ -24,7 +22,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -47,6 +44,10 @@ public class OrderDetailedController {
 
     @Autowired
     private IOrdersService ordersService;
+
+    @Autowired
+    private SendUtils sendService;
+
 
 
     @ApiOperation(value = "查询导游人员表",notes = "查询导游人员表")
@@ -199,6 +200,45 @@ public class OrderDetailedController {
         }
         ordersDetailedService.cancelOrders(id);
 
+        ResultVo vo = new ResultVo();
+        vo.setResult("OK");
+        return vo;
+    }
+
+
+    @ApiOperation(value = "导游选人发送短信给顾客",notes = "导游选人发送短信给顾客")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "id", value = "id", required = true, dataType = "Long", paramType = "path")
+    })
+    @GetMapping("/sendMsgToCustomer")
+    @CrossOrigin
+    @CheckToken
+    public ResultVo sendMsgToCustomer (@RequestParam("id") Long id) throws Exception {
+        if (id == null) {
+            throw new ApplicationException(CodeType.PARAM_ERROR, "参数不能为空");
+        }
+        //获取当前订单全部选人记录如已发送过短信不再继续发送
+        List<OrderDetailedQuery> list = ordersDetailedService.pageOrderDetailed2Type(id, null);
+        List<ApplyUpdateInfo> applyIds = new ArrayList<>();
+        for(OrderDetailedQuery detailed : list){
+            if(!detailed.getIsSend()){
+                /*
+                *(出行通知)尊敬的张三先生/女士，您订购的珠海一日游纯玩A线已成团，您的专属导游刘大顺(13825681876)稍后会联系您，请保持您的电话畅通!
+                */
+                String msg = "尊敬的" + detailed.getContactName()+"先生/女士，您订的「"+ detailed.getLineName()+"」已成团" +
+                        "请保持电话畅通，您的导游" + detailed.getGuideName() + "("+ detailed.getGuideTel() + ")正在安排稍后会联系您。【珠港澳游】";
+                Boolean result = sendService.send(detailed.getContactTel(),msg);
+                if(result){
+                    ApplyUpdateInfo model = new ApplyUpdateInfo();
+                    model.setId(detailed.getApplyId());
+                    applyIds.add(model);
+                }
+            }
+        }
+        //更新报名表短信通知状态
+        if(!applyIds.isEmpty()){
+            ordersDetailedService.updateApplySendStatu(applyIds);
+        }
         ResultVo vo = new ResultVo();
         vo.setResult("OK");
         return vo;

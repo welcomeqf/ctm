@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.extension.plugins.PaginationInterceptor;
 import com.yq.handle.ApplicationAdviceHandle;
 import com.yq.handle.GlobalResponseHandler;
 import com.yq.httpclient.HttpClientUtils;
+import com.yq.utils.SendUtils;
 import com.yq.jwt.contain.LocalUser;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
@@ -55,6 +56,12 @@ public class ApplyApplication extends SpringBootServletInitializer {
     public HttpClientUtils getHttpClientUtils () {
         return new HttpClientUtils ();
     }
+
+    @Bean
+    public SendUtils getSendUtils () {
+        return new SendUtils ();
+    }
+
 
     /**
      * 打包

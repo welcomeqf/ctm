@@ -85,5 +85,10 @@ public class CompanyVo {
      */
     private Integer status;
 
+    /**
+     * null 为审核  有值为修改之类的
+     */
+    private Integer isedit;
+
 
 }

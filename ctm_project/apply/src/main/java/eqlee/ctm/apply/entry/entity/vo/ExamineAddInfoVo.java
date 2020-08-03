@@ -15,4 +15,6 @@ public class ExamineAddInfoVo {
     private Integer status;
 
     private String exaRemark;
+
+    private String openid;
 }

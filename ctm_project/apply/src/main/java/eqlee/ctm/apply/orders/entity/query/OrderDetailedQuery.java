@@ -75,6 +75,8 @@ public class OrderDetailedQuery {
 
     private String guideName;
 
+    private String guideTel;
+
     private Integer type;
 
     /**
@@ -91,5 +93,12 @@ public class OrderDetailedQuery {
      * 身份证号码
      */
     private String icnumber;
+
+    /**
+     * 是否发过通知(0默认false--没有  1  true--已发)
+     */
+    private Boolean IsSend;
+
+    private Long ApplyId;
 
 }

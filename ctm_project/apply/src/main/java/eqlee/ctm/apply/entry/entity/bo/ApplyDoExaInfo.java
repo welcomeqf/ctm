@@ -100,4 +100,9 @@ public class ApplyDoExaInfo {
     *  身份证信息（选填）
     */
    private String icnumber;
+
+   /**
+    * 城市
+    */
+   private String City;
 }

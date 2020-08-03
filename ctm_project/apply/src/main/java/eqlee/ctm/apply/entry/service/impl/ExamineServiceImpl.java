@@ -15,6 +15,8 @@ import com.yq.jwt.contain.LocalUser;
 import com.yq.jwt.entity.UserLoginQuery;
 import com.yq.utils.DateUtil;
 import com.yq.utils.IdGenerator;
+import com.yq.utils.SendUtils;
+import com.yq.utils.StringUtils;
 import eqlee.ctm.apply.entry.dao.ExamineMapper;
 import eqlee.ctm.apply.entry.entity.Apply;
 import eqlee.ctm.apply.entry.entity.Examine;
@@ -74,6 +76,9 @@ public class ExamineServiceImpl extends ServiceImpl<ExamineMapper, Examine> impl
 
     @Autowired
     private IOrderSubstitutService orderSubstitutService;
+
+    @Autowired
+    private SendUtils sendService;
 
     IdGenerator idGenerator = new IdGenerator();
 
@@ -481,6 +486,20 @@ public class ExamineServiceImpl extends ServiceImpl<ExamineMapper, Examine> impl
 
         //同步报名表的审核状态
         applyService.updateExamineStatus(ApplyId,2,0);
+        try{
+            //获取同行openid根据账号 报名审核结果通知同行
+            String jsonStr = sendService.queryNotifyAdminInfo(vo.getCompanyName(),5);
+            List<UserOpenIdVm> notifyList = JSONObject.parseArray(jsonStr,  UserOpenIdVm.class);
+            if(notifyList != null && !notifyList.isEmpty()){
+                for(UserOpenIdVm vm : notifyList){
+                    if(StringUtils.isNotBlank(vm.getOpenId())){
+                        sendService.pushApplyExamPeer(vm.getOpenId(),vo.getContactName(),vo.getContactTel(),DateUtil.formatDateTime(LocalDateTime.now()),"已拒绝");
+                    }
+                }
+            }
+
+        }catch (Exception ex){}
+
         return query;
     }
 
@@ -489,7 +508,7 @@ public class ExamineServiceImpl extends ServiceImpl<ExamineMapper, Examine> impl
      * @param ApplyId
      */
     @Override
-    public void doptExamine(Long ApplyId) {
+    public void doptExamine(Long ApplyId,String OpenId) {
         Examine examine = new Examine();
         examine.setExamineResult(1);
         LambdaQueryWrapper<Examine> queryWrapper = new LambdaQueryWrapper<Examine>()
@@ -517,6 +536,24 @@ public class ExamineServiceImpl extends ServiceImpl<ExamineMapper, Examine> impl
 
         //同步报名表的审核状态
         applyService.updateExamineStatus(ApplyId,1,0);
+
+        try{
+            //通知导游选人微信公众号
+            if(StringUtils.isNotBlank(OpenId)){
+                sendService.pushGuideSelect(OpenId,query.getLineName(),query.getContactName(),query.getContactTel());
+            }
+            //获取同行openid根据账号 通知报名审核结果
+            String jsonStr = sendService.queryNotifyAdminInfo(query.getCompanyName(),5);
+            List<UserOpenIdVm> notifyList = JSONObject.parseArray(jsonStr,  UserOpenIdVm.class);
+            if(notifyList != null && !notifyList.isEmpty()){
+                for(UserOpenIdVm vm : notifyList){
+                    if(StringUtils.isNotBlank(vm.getOpenId())){
+                        sendService.pushApplyExamPeer(vm.getOpenId(),query.getContactName(),query.getContactTel(),DateUtil.formatDateTime(LocalDateTime.now()),"已通过");
+                    }
+                }
+            }
+
+        }catch (Exception ex){}
     }
 
     /**

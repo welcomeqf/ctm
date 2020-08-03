@@ -156,6 +156,7 @@ public class LineServiceImpl extends ServiceImpl<LineMapper, Line> implements IL
         line.setTravelSituation(vo.getTravelSituation());
         line.setUpdateUserId(user.getId());
         line.setId(Id);
+        line.setSort(vo.getSort());
 
         int i = baseMapper.updateById(line);
 
