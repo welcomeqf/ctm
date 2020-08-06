@@ -49,4 +49,10 @@ public class CompanyQuery {
      * 授信月结金额
      */
     private Double sxPrice;
+
+    private String openId;
+
+    private String wechatNickname;
+
+    private String wechatImage;
 }

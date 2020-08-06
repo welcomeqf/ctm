@@ -308,6 +308,21 @@ public class ApplyServiceImpl extends ServiceImpl<ApplyMapper, Apply> implements
            if (faPrice < 0) {
               throw new ApplicationException(CodeType.SERVICE_ERROR, "您的额度不足，剩余额度:" + syPrice);
            }
+
+            try{
+                //通知后台报名待审核 报名数据不为补录且为新增
+                if(applyVo.getType() != 1 && applyVo.getUpOrInsert() == 0){
+                    String jsonStr = sendService.queryNotifyAdminInfo(apply.getCity(),2);
+                    List<UserOpenIdVm> notifyList = JSONObject.parseArray(jsonStr,  UserOpenIdVm.class);
+                    if(notifyList != null && !notifyList.isEmpty()){
+                        for(UserOpenIdVm vm : notifyList){
+                            if(StringUtils.isNotBlank(vm.getOpenId())){
+                                sendService.pushApplyExamManage(vm.getOpenId(),apply.getContactName(),DateUtil.formatDateTime(LocalDateTime.now()),apply.getApplyNo());
+                            }
+                        }
+                    }
+                }
+            }catch (Exception ex){}
         }
         if (NOW_PAY.equals(applyVo.getPayType())) {
             apply.setPayType(0);
@@ -347,6 +362,21 @@ public class ApplyServiceImpl extends ServiceImpl<ApplyMapper, Apply> implements
            if (faPrice < 0) {
               throw new ApplicationException(CodeType.SERVICE_ERROR, "您的额度不足，剩余额度:" + syPrice);
            }
+
+            try{
+                //通知后台报名待审核 报名数据不为补录且为新增
+                if(applyVo.getType() != 1 && applyVo.getUpOrInsert() == 0){
+                    String jsonStr = sendService.queryNotifyAdminInfo(apply.getCity(),2);
+                    List<UserOpenIdVm> notifyList = JSONObject.parseArray(jsonStr,  UserOpenIdVm.class);
+                    if(notifyList != null && !notifyList.isEmpty()){
+                        for(UserOpenIdVm vm : notifyList){
+                            if(StringUtils.isNotBlank(vm.getOpenId())){
+                                sendService.pushApplyExamManage(vm.getOpenId(),apply.getContactName(),DateUtil.formatDateTime(LocalDateTime.now()),apply.getApplyNo());
+                            }
+                        }
+                    }
+                }
+            }catch (Exception ex){}
         }
 
         if (!MONTH_PAY.equals(applyVo.getPayType()) && !NOW_PAY.equals(applyVo.getPayType()) && !AGENT_PAY.equals(applyVo.getPayType())) {
@@ -411,20 +441,7 @@ public class ApplyServiceImpl extends ServiceImpl<ApplyMapper, Apply> implements
             query.setAuto(true);
         }
 
-        try{
-            //通知后台报名待审核 报名数据不为补录且为新增
-            if(applyVo.getType() != 1 && applyVo.getUpOrInsert() == 0){
-                String jsonStr = sendService.queryNotifyAdminInfo(apply.getCity(),2);
-                List<UserOpenIdVm> notifyList = JSONObject.parseArray(jsonStr,  UserOpenIdVm.class);
-                if(notifyList != null && !notifyList.isEmpty()){
-                    for(UserOpenIdVm vm : notifyList){
-                        if(StringUtils.isNotBlank(vm.getOpenId())){
-                            sendService.pushApplyExamManage(vm.getOpenId(),apply.getContactName(),DateUtil.formatDateTime(LocalDateTime.now()));
-                        }
-                    }
-                }
-            }
-        }catch (Exception ex){}
+
 
         return query;
     }

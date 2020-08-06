@@ -19,4 +19,6 @@ public class OrderDetailedFainllyQuery {
    private String guideName;
 
    private String orderNo;
+
+   private Integer Statu;
 }

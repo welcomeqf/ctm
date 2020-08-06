@@ -2,6 +2,7 @@ package eqlee.ctm.api.pay.service;
 
 import eqlee.ctm.api.pay.entity.Pay;
 import eqlee.ctm.api.pay.entity.PayResult;
+import eqlee.ctm.api.pay.entity.query.ApplyPayResultQuery;
 import eqlee.ctm.api.pay.entity.query.MonthPayResultQuery;
 import eqlee.ctm.api.pay.entity.query.PayResultQuery;
 import eqlee.ctm.api.pay.entity.query.ResultQuery;
@@ -61,4 +62,10 @@ public interface IPayService {
      * @param companyName
      */
     void upMonthStatus (String startDate, String companyName);
+
+    /**
+     * 获取报名申请表基本信息
+     * @param applyNo
+     */
+    ApplyPayResultQuery queryApplyResult(String applyNo);
 }

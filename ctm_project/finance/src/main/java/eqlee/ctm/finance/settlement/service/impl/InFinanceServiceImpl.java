@@ -306,7 +306,7 @@ public class InFinanceServiceImpl extends ServiceImpl<InFinanceMapper, Income> i
             if(notifyList != null && !notifyList.isEmpty()){
                 for(UserOpenIdVm vm : notifyList){
                     if(StringUtils.isNotBlank(vm.getOpenId())){
-                        sendService.pushBillExamManage(vm.getOpenId(),vo.getOrderNo(),DateUtil.formatDateTime(LocalDateTime.now()),income.getGuideName());
+                        sendService.pushBillExamManage(vm.getOpenId(),vo.getOrderNo(),DateUtil.formatDateTime(LocalDateTime.now()),income.getGuideName(),vo.getOrderId());
                     }
                 }
             }

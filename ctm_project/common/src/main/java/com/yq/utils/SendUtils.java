@@ -38,13 +38,18 @@ public class SendUtils {
 
    private final String URL = "http://sms.wapi.eqlee.com/v1";
 
+   //短信
    private final String AppId = "1596012833";
 
-   private final String Secret = "597f021bdcd903d03b9ef73035cbaa42";
+   private final String Secret = "189f011dada246429842deb65b31e9fd";
 
    //微信公众号信息
    private final String wx_appid = "wxd1a8a6b0eed550f4";
-   private final String wx_secret = "6daa8b189c2bc17f2da90ac3fc62c9d2";
+   private final String wx_secret = "597f021bdcd903d03b9ef73035cbaa42";
+
+   //微信公众号信息 test
+   private final String wx_appid1 = "wx12c72482508c5c52";
+   private final String wx_secret1 = "6daa8b189c2bc17f2da90ac3fc62c9d2";
 
    // 获取access_token的接口地址（GET） 限2000（次/天）
    public final String ACCESS_TOKEN_URL = "https://api.weixin.qq.com/cgi-bin/token";
@@ -102,8 +107,8 @@ public class SendUtils {
 
       AuthResult data = vo.getData();
 
-      map.put("token",vo.getData().getToken());
-      map.put("exp",vo.getData().getExpTime());
+      user_map.put("token",vo.getData().getToken());
+      user_map.put("exp",vo.getData().getExpTime());
 
       return data;
    }
@@ -303,6 +308,53 @@ public class SendUtils {
       return getWechatToken();
    }
 
+   public JSONObject getOpenId (String code) {
+
+      if(code != null){
+         String url = "https://api.weixin.qq.com/sns/oauth2/access_token?"
+                 + "appid=" + wx_appid
+                 + "&secret=" + wx_secret
+                 + "&code=" + code + "&grant_type=authorization_code";
+
+         String returnData = getReturnData(url);
+
+         JSONObject jsonObject;
+         try {
+            jsonObject = JSONObject.parseObject(returnData);
+            //String openid = jsonObject.getString("openid");
+            return jsonObject;
+         } catch (Exception e) {
+            e.printStackTrace();
+         }
+      }
+      return null;
+   }
+
+   /*
+   * 通过openid获取用户基本信息
+   */
+   public JSONObject getUserInfoByOpenId (String openid,String token) throws Exception {
+
+      JSONObject jsonObject;
+      //获得token
+      if(openid != null){
+         String url = "https://api.weixin.qq.com/sns/userinfo?"
+                 + "access_token=" + token
+                 + "&openid=" + openid
+                 + "&lang=zh_CN";
+
+         String returnData = getReturnData(url);
+
+         try {
+            jsonObject = JSONObject.parseObject(returnData);
+            return jsonObject;
+         } catch (Exception e) {
+            e.printStackTrace();
+         }
+      }
+      return null;
+   }
+
    /*
    * 报名审核成功，通知导游选人成团(通知导游)
    * 模板ID：ANUyH-uwrSH_ELkIXiDbyqt9J3VxX5lJrOb_Yg3rYi4
@@ -368,8 +420,9 @@ public class SendUtils {
       对接人：王二小
       对接人电话：13800138000
       请尽快处理！
+      http://510766.com/clEdit?id=公司id
   */
-   public Boolean pushCompanyExamManage(String openId,String companyName,String contactName,String contactPhone) throws Exception {
+   public Boolean pushCompanyExamManage(String openId,String companyName,String contactName,String contactPhone,Long companyId) throws Exception {
       Boolean flag = true;
       //获得token
       String token = getwxMapToken();
@@ -377,7 +430,7 @@ public class SendUtils {
       Map<String, Object> pushData = new HashMap<String, Object>();
       pushData.put( "touser", openId);
       pushData.put( "template_id", "LMTG0_p1UqTVNBY8JKXFh7686FqlHwcyik81X04r6RA");
-      pushData.put( "url", "http://510766.com/colleague");
+      pushData.put( "url", "http://510766.com/clEdit" + "?id=" + companyId);
       //模板数据
       Map<String, WechatPushTemplate> templateMap = new HashMap<String, WechatPushTemplate>();
       WechatPushTemplate first =  new WechatPushTemplate();
@@ -419,12 +472,14 @@ public class SendUtils {
    /* 报名待审核提醒(通知管理人员) 需要按城市过滤
       标题：报名审核提醒
       模板ID：HVNVtZhFbuXzjy-ioFFb28M0NP91XuiRimyyCQuD7_c
+      test模板id:lC3toe5zPaK3iEm5eIfziFPV5vbzbJdTWF4Qb0PRZ9U
       您有新的报名待审核信息，记得去审核哦！！
       姓名：张三
       时间：2020-07-25 18:23:01
       请尽快处理！
+      http://510766.com/examEdit?id=applyno&type=0&status=0
   */
-   public Boolean pushApplyExamManage(String openId,String contactName,String applyDate) throws Exception {
+   public Boolean pushApplyExamManage(String openId,String contactName,String applyDate,String applyNo) throws Exception {
       Boolean flag = true;
       //获得token
       String token = getwxMapToken();
@@ -432,7 +487,7 @@ public class SendUtils {
       Map<String, Object> pushData = new HashMap<String, Object>();
       pushData.put( "touser", openId);
       pushData.put( "template_id", "HVNVtZhFbuXzjy-ioFFb28M0NP91XuiRimyyCQuD7_c");
-      pushData.put( "url", "http://510766.com/exam");
+      pushData.put( "url", "http://510766.com/examEdit" + "?id=" + applyNo + "&type=0&status=0");
       //模板数据
       Map<String, WechatPushTemplate> templateMap = new HashMap<String, WechatPushTemplate>();
       WechatPushTemplate first =  new WechatPushTemplate();
@@ -534,8 +589,9 @@ public class SendUtils {
       提交时间：2020-07-22
       提交人：林洁
       请尽快处理！
+      http://510766.com/checkEdit?id=订单id&value=订单状态默认0
    */
-   public Boolean pushBillExamManage(String openId,String orderNo,String orderDate,String guideName) throws Exception {
+   public Boolean pushBillExamManage(String openId,String orderNo,String orderDate,String guideName,Long orderId) throws Exception {
       Boolean flag = true;
       //获得token
       String token = getwxMapToken();
@@ -543,7 +599,7 @@ public class SendUtils {
       Map<String, Object> pushData = new HashMap<String, Object>();
       pushData.put( "touser", openId);
       pushData.put( "template_id", "RTcvxc6svIUdaB52_-QQA1UGpe5mjhH-y6B-uLS5zic");
-      pushData.put( "url", "http://510766.com/check");
+      pushData.put( "url", "http://510766.com/checkEdit?id=" + orderId + "&value=0");
       //模板数据
       Map<String, WechatPushTemplate> templateMap = new HashMap<String, WechatPushTemplate>();
       WechatPushTemplate first =  new WechatPushTemplate();

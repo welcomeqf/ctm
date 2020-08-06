@@ -324,8 +324,11 @@
         convert(varchar(100),b.PayDate,20)payDate,b.PayStatu as 'payStatus',b.PayType as 'type',a.AllPrice as 'payPrice',
         a.CompanyName as 'companyName',a.OutDate as 'outDate',d.LineName as 'lineName',a.ContactName as 'contactName',
         a.ContactTel as 'contactTel',a.AllNumber as 'allNumber',a.AdultNumber as 'adultNumber',a.BabyNumber as 'babyNumber',
-        a.OldNumber as 'oldNumber',a.ChildNumber as 'childNumber',a.AllPrice as 'allPrice',a.Type as 'ctmType',a.ApplyPic as 'applyPic',a.Icnumber,a.City
+        a.OldNumber as 'oldNumber',a.ChildNumber as 'childNumber',a.AllPrice as 'allPrice',a.Type as 'ctmType',a.ApplyPic as 'applyPic',a.Icnumber,a.City,
+        exa.ExamineType,exa.ExamineResult
         from Apply a left join Pay b on a.ApplyNo = b.ApplyNo join Line d on a.LineId = d.Id
+        join (select ea2.* from (select Max(createdate) as createdate,ApplyId from
+        Examine where ExamineType  = '0' or ExamineType = '1' group by ApplyId) ea inner join Examine ea2 on ea.createdate = ea2.createdate) exa on a.Id = exa.ApplyId
         where a.ApplyNo = #{applyNo}
     </select>
 

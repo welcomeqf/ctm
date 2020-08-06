@@ -26,7 +26,7 @@
     </select>
 
     <select id="queryApplyResult" parameterType="String" resultType="eqlee.ctm.api.pay.entity.query.ApplyPayResultQuery">
-        select AllPrice as 'money',IsPayment as 'applyStatus' from Apply where ApplyNo = #{applyNo}
+        select AllPrice as 'money',IsPayment as 'applyStatus',ContactName,City from Apply where ApplyNo = #{applyNo}
     </select>
 
     <update id="upSxTypeStatus">

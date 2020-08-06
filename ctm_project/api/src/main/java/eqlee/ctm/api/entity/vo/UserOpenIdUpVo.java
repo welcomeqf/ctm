@@ -16,4 +16,8 @@ public class UserOpenIdUpVo {
 
    private String code;
 
+   private String wechatNickname;
+
+   private String wechatImage;
+
 }

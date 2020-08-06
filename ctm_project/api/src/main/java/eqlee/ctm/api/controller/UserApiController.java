@@ -11,6 +11,7 @@ import com.yq.jwt.contain.LocalUser;
 import com.yq.jwt.entity.CityJwtBo;
 import com.yq.jwt.entity.UserLoginQuery;
 import com.yq.jwt.islogin.CheckToken;
+import com.yq.utils.SendUtils;
 import com.yq.utils.StringUtils;
 import eqlee.ctm.api.entity.bo.ParamBo;
 import eqlee.ctm.api.entity.query.UserWithQuery;
@@ -61,6 +62,9 @@ public class UserApiController {
 
     @Autowired
     private TokenData tokenData;
+
+    @Autowired
+    private SendUtils sendService;
 
 
     @ApiOperation(value = "注册-- 9093:api", notes = "注册-- 9093:api")
@@ -509,18 +513,31 @@ public class UserApiController {
         result.setId(vo.getId());
 
         String openId = "";
+        String access_token = "";
 
-        UserLoginQuery user = localUser.getUser("用户信息");
-
-        if(StringUtils.isNotBlank(vo.getOpenId())){
-            openId = user.getOpenId();
-        }else{
-            if(StringUtils.isNotBlank(vo.getCode())){
-                openId = PayData.getOpenId(vo.getCode());
-            }
+//        UserLoginQuery user = localUser.getUser("用户信息");
+//
+//        if(StringUtils.isNotBlank(user.getOpenId())){
+//            openId = user.getOpenId();
+//        }else{
+//            if(StringUtils.isNotBlank(vo.getCode())){
+//                openId = PayData.getOpenId(vo.getCode());
+//            }
+//        }
+        if(StringUtils.isNotBlank(vo.getCode())){
+            JSONObject jsonObject = sendService.getOpenId(vo.getCode());
+            openId = jsonObject.getString("openid");
+            access_token = jsonObject.getString("access_token");
         }
-
         result.setOpenId(openId);
+        if(StringUtils.isNotBlank(openId)){
+            //根据openid获取用户信息
+            JSONObject jsonObject = sendService.getUserInfoByOpenId(openId,access_token);
+            String nickname = jsonObject.getString("nickname");
+            String headimgurl = jsonObject.getString("headimgurl");
+            result.setWechatNickname(nickname);
+            result.setWechatImage(headimgurl);
+        }
 
         String jsonString = JSONObject.toJSONString(result);
         //获得token

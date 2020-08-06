@@ -6,6 +6,7 @@ import com.yq.handle.GlobalResponseHandler;
 import com.yq.httpclient.HttpClientUtils;
 import com.yq.jwt.contain.LocalUser;
 import com.yq.utils.IdGenerator;
+import com.yq.utils.SendUtils;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -44,6 +45,11 @@ public class ApiApplication extends SpringBootServletInitializer {
     @Bean
     public HttpClientUtils getHttpClientUtils () {
         return new HttpClientUtils ();
+    }
+
+    @Bean
+    public SendUtils getSendUtils () {
+        return new SendUtils ();
     }
 
     /**

@@ -221,12 +221,12 @@ public class OrderDetailedController {
         List<OrderDetailedQuery> list = ordersDetailedService.pageOrderDetailed2Type(id, null);
         List<ApplyUpdateInfo> applyIds = new ArrayList<>();
         for(OrderDetailedQuery detailed : list){
-            if(!detailed.getIsSend()){
+            if(detailed.getIsSend() == null || !detailed.getIsSend()){
                 /*
                 *(出行通知)尊敬的张三先生/女士，您订购的珠海一日游纯玩A线已成团，您的专属导游刘大顺(13825681876)稍后会联系您，请保持您的电话畅通!
                 */
-                String msg = "尊敬的" + detailed.getContactName()+"先生/女士，您订的「"+ detailed.getLineName()+"」已成团" +
-                        "请保持电话畅通，您的导游" + detailed.getGuideName() + "("+ detailed.getGuideTel() + ")正在安排稍后会联系您。【珠港澳游】";
+                String msg = "尊敬的" + detailed.getContactName()+"，您订的「"+ detailed.getLineName()+"」已成团" +
+                        "，您的导游" + detailed.getGuideName() + "("+ detailed.getGuideTel() + ")稍后会联系您，请保持电话畅通！【珠港澳游】";
                 Boolean result = sendService.send(detailed.getContactTel(),msg);
                 if(result){
                     ApplyUpdateInfo model = new ApplyUpdateInfo();

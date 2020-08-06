@@ -385,6 +385,9 @@ public class CompanyServiceImp extends ServiceImpl<CompanyMapper,Company> implem
         query.setCName(user.getCname());
         query.setRoleName(user.getRoleName());
         query.setTel(user.getTel());
+        query.setOpenId(user.getOpenId());
+        query.setWechatNickname(user.getWechatNickname());
+        query.setWechatImage(user.getWechatImage());
         if (company.getPayMethod() == 1) {
             query.setPayType(NOW_PAY);
         } else if (company.getPayMethod() == 2) {
@@ -468,7 +471,7 @@ public class CompanyServiceImp extends ServiceImpl<CompanyMapper,Company> implem
             if(notifyList != null && !notifyList.isEmpty()){
                 for(UserOpenIdVm vm : notifyList){
                     if(StringUtils.isNotBlank(vm.getOpenId())){
-                        sendService.pushCompanyExamManage(vm.getOpenId(),company.getCompanyName(),company.getChargeName(),company.getChargeTel());
+                        sendService.pushCompanyExamManage(vm.getOpenId(),company.getCompanyName(),company.getChargeName(),company.getChargeTel(),company.getId());
                     }
                 }
             }

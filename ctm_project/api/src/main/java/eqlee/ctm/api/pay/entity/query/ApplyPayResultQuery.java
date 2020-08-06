@@ -19,4 +19,10 @@ public class ApplyPayResultQuery {
      * 报名支付状态
      */
     private Boolean applyStatus;
+
+    /*
+    * 微信公众号推送使用字段
+    */
+    private String City;
+    private String ContactName;
 }

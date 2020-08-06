@@ -105,4 +105,14 @@ public class ApplyDoExaInfo {
     * 城市
     */
    private String City;
+
+   /**
+    * 0 报名审核 1 取消审核 2 修改
+    */
+   private String ExamineType;
+
+   /**
+    * 0 待审核 1 通过 2 拒绝
+    */
+   private Integer ExamineResult;
 }

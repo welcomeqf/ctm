@@ -17,6 +17,12 @@ public class PayData {
         String appId = "wxd1a8a6b0eed550f4";
 //        String secret = "106342221c129aee134951ea037cd571";
         String secret = "597f021bdcd903d03b9ef73035cbaa42";
+
+        //test微信公众号信息
+        String appId1 = "wx12c72482508c5c52";
+        String secret1 = "6daa8b189c2bc17f2da90ac3fc62c9d2";
+
+
         if(code != null){
             String url = "https://api.weixin.qq.com/sns/oauth2/access_token?"
                     + "appid=" + appId

@@ -72,7 +72,7 @@ public class ApplyController {
     @CheckToken
     public ApplyPayResultQuery insertApply(@RequestBody ApplyVo applyVo) {
         if (StringUtils.isBlank(applyVo.getOutDate()) || StringUtils.isBlank(applyVo.getContactName()) ||
-            StringUtils.isBlank(applyVo.getContactTel()) || StringUtils.isBlank(applyVo.getPlaceRegion()) || StringUtils.isBlank(applyVo.getPlaceAddress()) ||
+            StringUtils.isBlank(applyVo.getContactTel())  || StringUtils.isBlank(applyVo.getPlaceAddress()) ||
             StringUtils.isBlank(applyVo.getLineName()) || applyVo.getAdultNumber() == null ||
             applyVo.getBabyNumber() == null || applyVo.getOldNumber() == null || applyVo.getType() == null ||
             applyVo.getChildNumber() == null || StringUtils.isBlank(applyVo.getPayType()) || applyVo.getMarketAllPrice() == null

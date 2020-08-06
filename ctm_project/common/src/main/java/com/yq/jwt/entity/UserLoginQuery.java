@@ -55,4 +55,8 @@ public class UserLoginQuery {
     private List<PrivilegeMenuQuery> menuList;
 
     private String openId;
+
+    private String wechatNickname;
+
+    private String wechatImage;
 }

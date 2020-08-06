@@ -220,4 +220,14 @@ public class PayServiceImpl extends ServiceImpl<PayMapper, Pay> implements IPayS
             throw new ApplicationException(CodeType.SERVICE_ERROR, "修改失败");
         }
     }
+
+    /**
+     * 获取报名申请表基本信息
+     * @param applyNo
+     */
+    @Override
+    public ApplyPayResultQuery queryApplyResult(String applyNo) {
+        ApplyPayResultQuery query = baseMapper.queryApplyResult(applyNo);
+        return  query;
+    }
 }

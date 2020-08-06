@@ -11,15 +11,19 @@ import com.yq.httpclient.HttpResult;
 import com.yq.jwt.contain.LocalUser;
 import com.yq.jwt.entity.UserLoginQuery;
 import com.yq.jwt.islogin.CheckToken;
+import com.yq.utils.DateUtil;
 import com.yq.utils.IdGenerator;
+import com.yq.utils.SendUtils;
 import com.yq.utils.StringUtils;
 import eqlee.ctm.api.code.entity.PayInfo;
 import eqlee.ctm.api.code.entity.query.PayInfoQuery;
 import eqlee.ctm.api.code.service.IPayInfoService;
+import eqlee.ctm.api.entity.query.UserOpenIdVm;
 import eqlee.ctm.api.pay.entity.Pay;
 import eqlee.ctm.api.pay.entity.PayResult;
 import eqlee.ctm.api.pay.entity.PayToken;
 import eqlee.ctm.api.pay.entity.bo.PayInfoBo;
+import eqlee.ctm.api.pay.entity.query.ApplyPayResultQuery;
 import eqlee.ctm.api.pay.entity.query.ResultQuery;
 import eqlee.ctm.api.pay.entity.vo.PayTokenVo;
 import eqlee.ctm.api.pay.entity.vo.ResultTokenVo;
@@ -36,6 +40,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 
 /**
@@ -57,6 +62,9 @@ public class PayController {
 
     @Autowired
     private IPayInfoService payInfoService;
+
+    @Autowired
+    private SendUtils sendService;
 
     @Autowired
     private LocalUser localUser;
@@ -127,6 +135,20 @@ public class PayController {
             pay.setRemark(vo.getMessage());
             pay.setPayType(0);
             payService.insertPayInfo(pay);
+
+            try{
+                //获取报名申请信息
+                ApplyPayResultQuery apply = payService.queryApplyResult(vo.getPayOrderSerialNumber());
+                String jsonStr = sendService.queryNotifyAdminInfo(apply.getCity(),2);
+                List<UserOpenIdVm> notifyList = JSONObject.parseArray(jsonStr,  UserOpenIdVm.class);
+                if(notifyList != null && !notifyList.isEmpty()){
+                    for(UserOpenIdVm vm : notifyList){
+                        if(StringUtils.isNotBlank(vm.getOpenId())){
+                            sendService.pushApplyExamManage(vm.getOpenId(),apply.getContactName(), DateUtil.formatDateTime(LocalDateTime.now()),vo.getPayOrderSerialNumber());
+                        }
+                    }
+                }
+            }catch (Exception ex){}
             return Result.SUCCESS(result);
         }
         //支付失败
@@ -156,6 +178,21 @@ public class PayController {
             PayResult result = payService.insertPayInfo(pay);
             //修改报名表支付状态
             payService.updateApplyPayStatus(vo.getPayOrderSerialNumber(),1);
+
+            try{
+                //获取报名申请信息
+                ApplyPayResultQuery apply = payService.queryApplyResult(vo.getPayOrderSerialNumber());
+                String jsonStr = sendService.queryNotifyAdminInfo(apply.getCity(),2);
+                List<UserOpenIdVm> notifyList = JSONObject.parseArray(jsonStr,  UserOpenIdVm.class);
+                if(notifyList != null && !notifyList.isEmpty()){
+                    for(UserOpenIdVm vm : notifyList){
+                        if(StringUtils.isNotBlank(vm.getOpenId())){
+                            sendService.pushApplyExamManage(vm.getOpenId(),apply.getContactName(), DateUtil.formatDateTime(LocalDateTime.now()),vo.getPayOrderSerialNumber());
+                        }
+                    }
+                }
+            }catch (Exception ex){}
+
             return Result.SUCCESS(result);
         }
         //支付失败

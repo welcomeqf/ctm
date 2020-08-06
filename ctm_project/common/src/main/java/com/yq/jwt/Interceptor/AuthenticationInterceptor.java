@@ -78,6 +78,9 @@ public class AuthenticationInterceptor implements HandlerInterceptor {
                     query.setTel(JWT.decode(token).getClaim("tel").asString());
                     query.setStatus(JWT.decode(token).getClaim("status").asInt());
                     query.setCity(JWT.decode(token).getClaim("city").asList(CityJwtBo.class));
+                    query.setOpenId(JWT.decode(token).getClaim("openId").asString());
+                    query.setWechatNickname(JWT.decode(token).getClaim("wechatNickname").asString());
+                    query.setWechatImage(JWT.decode(token).getClaim("wechatImage").asString());
 
                 } catch (JWTDecodeException j) {
                     throw new ApplicationException(CodeType.OVENDU_ERROR,"token错误");
