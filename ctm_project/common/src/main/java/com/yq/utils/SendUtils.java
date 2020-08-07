@@ -469,7 +469,7 @@ public class SendUtils {
       return flag;
    }
 
-   /* 报名待审核提醒(通知管理人员) 需要按城市过滤
+   /* 报名待审核提醒(通知管理人员) 需要按城市过滤 包括取消报名审核
       标题：报名审核提醒
       模板ID：HVNVtZhFbuXzjy-ioFFb28M0NP91XuiRimyyCQuD7_c
       test模板id:lC3toe5zPaK3iEm5eIfziFPV5vbzbJdTWF4Qb0PRZ9U

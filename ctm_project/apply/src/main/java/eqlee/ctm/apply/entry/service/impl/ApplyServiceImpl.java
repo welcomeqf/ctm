@@ -116,7 +116,7 @@ public class ApplyServiceImpl extends ServiceImpl<ApplyMapper, Apply> implements
         for (Apply apply : list) {
             number = number + apply.getAllNumber();
             //判断当天同线路是否已添加报名记录
-            if (apply.getContactName().equals(applyVo.getContactName()) && apply.getContactTel().equals(applyVo.getContactTel()) && (apply.getStatu() == 0 && !apply.getIsCancel()) && applyVo.getType() != 1 && applyVo.getUpOrInsert() == 0) {
+            if (apply.getContactName().equals(applyVo.getContactName()) && apply.getContactTel().equals(applyVo.getContactTel()) && (apply.getStatu() == 0 || apply.getStatu() == 1)  && !apply.getIsCancel() && applyVo.getType() != 1 && applyVo.getUpOrInsert() == 0) {
                 throw new ApplicationException(CodeType.SERVICE_ERROR,"当前线路已报名成功，等待管理员审核！");
             }
         }

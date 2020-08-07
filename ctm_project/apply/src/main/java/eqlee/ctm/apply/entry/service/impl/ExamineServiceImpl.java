@@ -109,6 +109,18 @@ public class ExamineServiceImpl extends ServiceImpl<ExamineMapper, Examine> impl
         examine.setUpdateUserId(user.getId());
 
         int insert = baseMapper.insert(examine);
+        try{
+            ApplySeacherVo apply = applyService.queryById(ApplyId);
+            String jsonStr = sendService.queryNotifyAdminInfo(apply.getCity(),2);
+            List<UserOpenIdVm> notifyList = JSONObject.parseArray(jsonStr,  UserOpenIdVm.class);
+            if(notifyList != null && !notifyList.isEmpty()){
+                for(UserOpenIdVm vm : notifyList){
+                    if(StringUtils.isNotBlank(vm.getOpenId())){
+                        sendService.pushApplyExamManage(vm.getOpenId(),apply.getContactName(),DateUtil.formatDateTime(LocalDateTime.now()),apply.getApplyNo());
+                    }
+                }
+            }
+        }catch (Exception ex){}
 
         if (insert <= 0) {
             log.error("insert cancel apply exa fail.");
@@ -282,6 +294,7 @@ public class ExamineServiceImpl extends ServiceImpl<ExamineMapper, Examine> impl
         examine.setExamineResult(1);
         UserLoginQuery user = localUser.getUser("用户信息");
         examine.setUpdateUserId(user.getId());
+        examine.setUpdateDate(LocalDateTime.now());
         int update = baseMapper.update(examine, queryWrapper);
 
         if (update <= 0) {
@@ -371,6 +384,7 @@ public class ExamineServiceImpl extends ServiceImpl<ExamineMapper, Examine> impl
         examine.setExaRemark(exaRemark);
         UserLoginQuery user = localUser.getUser("用户信息");
         examine.setUpdateUserId(user.getId());
+        examine.setUpdateDate(LocalDateTime.now());
         int update = baseMapper.update(examine, queryWrapper);
 
         if (update <= 0) {
@@ -416,6 +430,7 @@ public class ExamineServiceImpl extends ServiceImpl<ExamineMapper, Examine> impl
                 .eq(Examine::getExamineType,"0");
         UserLoginQuery user = localUser.getUser("用户信息");
         examine.setUpdateUserId(user.getId());
+        examine.setUpdateDate(LocalDateTime.now());
         examine.setExaRemark(exaRemark);
         int update = baseMapper.update(examine, queryWrapper);
 
@@ -488,7 +503,7 @@ public class ExamineServiceImpl extends ServiceImpl<ExamineMapper, Examine> impl
         applyService.updateExamineStatus(ApplyId,2,0);
         try{
             //获取同行openid根据账号 报名审核结果通知同行
-            String jsonStr = sendService.queryNotifyAdminInfo(vo.getCompanyName(),5);
+            String jsonStr = sendService.queryNotifyAdminInfo(vo.getCreateUserId().toString(),5);
             List<UserOpenIdVm> notifyList = JSONObject.parseArray(jsonStr,  UserOpenIdVm.class);
             if(notifyList != null && !notifyList.isEmpty()){
                 for(UserOpenIdVm vm : notifyList){
@@ -543,7 +558,7 @@ public class ExamineServiceImpl extends ServiceImpl<ExamineMapper, Examine> impl
                 sendService.pushGuideSelect(OpenId,query.getLineName(),query.getContactName(),query.getContactTel());
             }
             //获取同行openid根据账号 通知报名审核结果
-            String jsonStr = sendService.queryNotifyAdminInfo(query.getCompanyName(),5);
+            String jsonStr = sendService.queryNotifyAdminInfo(query.getCreateUserId().toString(),5);
             List<UserOpenIdVm> notifyList = JSONObject.parseArray(jsonStr,  UserOpenIdVm.class);
             if(notifyList != null && !notifyList.isEmpty()){
                 for(UserOpenIdVm vm : notifyList){
