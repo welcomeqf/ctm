@@ -127,24 +127,19 @@ public class PayController {
             PayResult result = payService.insertPayInfo(pay);
             //修改报名表支付状态
             payService.updateApplyPayStatus(vo.getPayOrderSerialNumber(),0);
-            pay.setId(idGenerator.getNumberId());
-            pay.setApplyNo(vo.getPayOrderSerialNumber());
-            pay.setPayStatu(2);
-            pay.setPayDate(LocalDateTime.now());
-            pay.setThirdPartyNumber(vo.getThirdPayOrderId());
-            pay.setRemark(vo.getMessage());
-            pay.setPayType(0);
-            payService.insertPayInfo(pay);
+
 
             try{
-                //获取报名申请信息
-                ApplyPayResultQuery apply = payService.queryApplyResult(vo.getPayOrderSerialNumber());
-                String jsonStr = sendService.queryNotifyAdminInfo(apply.getCity(),2);
-                List<UserOpenIdVm> notifyList = JSONObject.parseArray(jsonStr,  UserOpenIdVm.class);
-                if(notifyList != null && !notifyList.isEmpty()){
-                    for(UserOpenIdVm vm : notifyList){
-                        if(StringUtils.isNotBlank(vm.getOpenId())){
-                            sendService.pushApplyExamManage(vm.getOpenId(),apply.getContactName(), DateUtil.formatDateTime(LocalDateTime.now()),vo.getPayOrderSerialNumber());
+                if(result != null && "ok".equals(result.getResult())){
+                    //获取报名申请信息
+                    ApplyPayResultQuery apply = payService.queryApplyResult(vo.getPayOrderSerialNumber());
+                    String jsonStr = sendService.queryNotifyAdminInfo(apply.getCity(),2);
+                    List<UserOpenIdVm> notifyList = JSONObject.parseArray(jsonStr,  UserOpenIdVm.class);
+                    if(notifyList != null && !notifyList.isEmpty()){
+                        for(UserOpenIdVm vm : notifyList){
+                            if(StringUtils.isNotBlank(vm.getOpenId())){
+                                sendService.pushApplyExamManage(vm.getOpenId(),apply.getContactName(), DateUtil.formatDateTime(LocalDateTime.now()),vo.getPayOrderSerialNumber());
+                            }
                         }
                     }
                 }
@@ -153,6 +148,14 @@ public class PayController {
         }
         //支付失败
         PayResult applyInfo = payService.deleteApplyInfo(vo.getPayOrderSerialNumber());
+        pay.setId(idGenerator.getNumberId());
+        pay.setApplyNo(vo.getPayOrderSerialNumber());
+        pay.setPayStatu(2);
+        pay.setPayDate(LocalDateTime.now());
+        pay.setThirdPartyNumber(vo.getThirdPayOrderId());
+        pay.setRemark(vo.getMessage());
+        pay.setPayType(0);
+        payService.insertPayInfo(pay);
         return Result.SUCCESS(applyInfo);
     }
 
@@ -180,17 +183,20 @@ public class PayController {
             payService.updateApplyPayStatus(vo.getPayOrderSerialNumber(),1);
 
             try{
-                //获取报名申请信息
-                ApplyPayResultQuery apply = payService.queryApplyResult(vo.getPayOrderSerialNumber());
-                String jsonStr = sendService.queryNotifyAdminInfo(apply.getCity(),2);
-                List<UserOpenIdVm> notifyList = JSONObject.parseArray(jsonStr,  UserOpenIdVm.class);
-                if(notifyList != null && !notifyList.isEmpty()){
-                    for(UserOpenIdVm vm : notifyList){
-                        if(StringUtils.isNotBlank(vm.getOpenId())){
-                            sendService.pushApplyExamManage(vm.getOpenId(),apply.getContactName(), DateUtil.formatDateTime(LocalDateTime.now()),vo.getPayOrderSerialNumber());
+                if(result != null && "ok".equals(result.getResult())){
+                    //获取报名申请信息
+                    ApplyPayResultQuery apply = payService.queryApplyResult(vo.getPayOrderSerialNumber());
+                    String jsonStr = sendService.queryNotifyAdminInfo(apply.getCity(),2);
+                    List<UserOpenIdVm> notifyList = JSONObject.parseArray(jsonStr,  UserOpenIdVm.class);
+                    if(notifyList != null && !notifyList.isEmpty()){
+                        for(UserOpenIdVm vm : notifyList){
+                            if(StringUtils.isNotBlank(vm.getOpenId())){
+                                sendService.pushApplyExamManage(vm.getOpenId(),apply.getContactName(), DateUtil.formatDateTime(LocalDateTime.now()),vo.getPayOrderSerialNumber());
+                            }
                         }
                     }
                 }
+
             }catch (Exception ex){}
 
             return Result.SUCCESS(result);
