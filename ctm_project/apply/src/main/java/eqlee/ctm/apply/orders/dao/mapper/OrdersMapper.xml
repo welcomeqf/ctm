@@ -53,7 +53,7 @@
     <select id="selectIncomeCount" resultType="eqlee.ctm.apply.orders.entity.Vo.IncomeVo" parameterType="Long">
          select sum(b.AllNumber)allNumber,sum(b.AdultNumber)AdultNumber,sum(b.BabyNumber)BabyNumber
        ,sum(b.OldNumber)OldNumber,sum(b.ChildNumber)ChildNumber,sum(b.MsPrice)msPrice,max(a.CarNumber)CarNumber
-       ,(sum(b.Price) - sum(b.MsPrice))allPrice,sum(b.MonthPrice)monthPrice
+       ,sum((case when b.paytype=0 then b.price else b.price-b.msprice end))allPrice,sum(b.MonthPrice)monthPrice
        from Orders a join OrderDetailed b on a.Id = b.OrderId
        where a.Id = #{orderId}
        group by a.Id

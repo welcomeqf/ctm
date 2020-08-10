@@ -65,7 +65,7 @@ public class ExamineController {
     @CheckToken
     public ResultVo insertUpdateExamine(@RequestBody ExamineVo vo) {
         if (StringUtils.isBlank(vo.getOutDate()) || StringUtils.isBlank(vo.getContactName()) ||
-              StringUtils.isBlank(vo.getContactTel()) || StringUtils.isBlank(vo.getPlaceRegion()) || StringUtils.isBlank(vo.getPlaceAddress()) ||
+              StringUtils.isBlank(vo.getContactTel()) || StringUtils.isBlank(vo.getPlaceAddress()) ||
               StringUtils.isBlank(vo.getLineName()) || vo.getAdultNumber() == null || StringUtils.isBlank(vo.getApplyNo()) ||
               vo.getBabyNumber() == null || vo.getOldNumber() == null || vo.getType() == null || vo.getCreateUserId() == null ||
               vo.getChildNumber() == null || StringUtils.isBlank(vo.getPayType()) || vo.getMarketAllPrice() == null
