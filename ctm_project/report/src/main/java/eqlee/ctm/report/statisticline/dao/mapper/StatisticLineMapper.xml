@@ -18,4 +18,10 @@
       where OutDate between #{startTime} and #{endTime} group by a.City
     </select>
 
+    <select id="StatisticsApplyDataByTime" resultType="eqlee.ctm.report.statisticline.entity.vo.StatisticApplyVo">
+      select max(City)city,max(Month(a.OutDate))StatisticsMonth,sum(b.AllNumber) as 'allPersonCount', sum(b.Price) as 'allPrice' from Orders a
+      join OrderDetailed b on a.Id = b.OrderId
+      where YEAR(OutDate) = #{year} group by Month(OutDate)
+    </select>
+
 </mapper>

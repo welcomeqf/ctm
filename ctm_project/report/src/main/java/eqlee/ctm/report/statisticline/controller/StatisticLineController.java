@@ -1,10 +1,12 @@
 package eqlee.ctm.report.statisticline.controller;
 
 import com.yq.jwt.islogin.CheckToken;
+import com.yq.utils.StringUtils;
 import com.yq.vilidata.TimeData;
 import com.yq.vilidata.query.TimeQuery;
 import eqlee.ctm.report.statisticline.entity.vo.PersonCountVo;
 import eqlee.ctm.report.statisticline.entity.vo.PriceCountVo;
+import eqlee.ctm.report.statisticline.entity.vo.StatisticApplyVo;
 import eqlee.ctm.report.statisticline.service.IStatisticLineService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -14,6 +16,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Calendar;
 import java.util.List;
 
 /**
@@ -60,6 +63,21 @@ public class StatisticLineController {
 
         TimeQuery query = TimeData.getParam(startTime, endTime);
         return statisticLineService.selectCountByTime(query.getStartTime(),query.getEndTime());
+    }
+
+    @ApiOperation(value = "报名人数和金额报表", notes = "报名人数和金额报表")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "year", value = "年份", required = false, dataType = "String", paramType = "path")
+    })
+    @GetMapping("/StatisticsApplyDataByTime")
+    @CrossOrigin
+    @CheckToken
+    public List<StatisticApplyVo> StatisticsApplyDataByTime(@RequestParam("year") String year) {
+        if(StringUtils.isEmpty(year)){
+            Calendar cal = Calendar.getInstance();
+            year = cal.get(Calendar.YEAR) + "";
+        }
+        return statisticLineService.StatisticsApplyDataByTime(year);
     }
 
 }

@@ -3,6 +3,7 @@ package eqlee.ctm.report.statisticline.service;
 
 import eqlee.ctm.report.statisticline.entity.vo.PersonCountVo;
 import eqlee.ctm.report.statisticline.entity.vo.PriceCountVo;
+import eqlee.ctm.report.statisticline.entity.vo.StatisticApplyVo;
 
 import java.util.List;
 
@@ -29,4 +30,11 @@ public interface IStatisticLineService {
      * @return
      */
     List<PersonCountVo> selectCountByTime(String startTime, String endTime);
+
+    /**
+     * 报名人数金额统计
+     * @param year
+     * @return
+     */
+    List<StatisticApplyVo> StatisticsApplyDataByTime(String year);
 }

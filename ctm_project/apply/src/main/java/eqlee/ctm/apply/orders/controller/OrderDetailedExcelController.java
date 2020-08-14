@@ -104,6 +104,14 @@ public class OrderDetailedExcelController {
             isCancle = true;
          }
 
+         //增加结算方式列若为现结则需区分是支付宝还是微信
+         String finallypayType = "";
+         if(query.getPayType() == 0){
+            finallypayType = query.getApplyPayType() == 0 ? "微信" : "支付宝";
+         }else{
+            finallypayType = "月结";
+         }
+
          List<String> bodyValue = new ArrayList<>();
          bodyValue.add(query.getCompanyName());
          bodyValue.add(DateUtil.formatDate(orders.getOutDate()));
@@ -115,6 +123,7 @@ public class OrderDetailedExcelController {
          bodyValue.add(String.valueOf(query.getOldNumber()));
          bodyValue.add(String.valueOf(query.getBabyNumber()));
          bodyValue.add(String.valueOf(query.getAllNumber()));
+         bodyValue.add(finallypayType);
          bodyValue.add(String.valueOf(query.getAllPrice()));
          bodyValue.add(query.getPlace());
          bodyValue.add(query.getApplyRemark());

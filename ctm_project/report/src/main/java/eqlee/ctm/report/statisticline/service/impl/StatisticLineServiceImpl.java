@@ -5,6 +5,7 @@ import com.yq.utils.DateUtil;
 import eqlee.ctm.report.statisticline.dao.StatisticLineMapper;
 import eqlee.ctm.report.statisticline.entity.vo.PersonCountVo;
 import eqlee.ctm.report.statisticline.entity.vo.PriceCountVo;
+import eqlee.ctm.report.statisticline.entity.vo.StatisticApplyVo;
 import eqlee.ctm.report.statisticline.service.IStatisticLineService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -58,5 +59,16 @@ public class StatisticLineServiceImpl implements IStatisticLineService {
         LocalDate endDate = DateUtil.parseDate(endTime);
 
         return statisticLineMapper.selectCountByTime(startDate,endDate);
+    }
+
+    /**
+     * 报名人数和金额报表
+     * @param year
+     * @return
+     */
+    @Override
+    public List<StatisticApplyVo> StatisticsApplyDataByTime(String year) {
+
+        return statisticLineMapper.StatisticsApplyDataByTime(year);
     }
 }

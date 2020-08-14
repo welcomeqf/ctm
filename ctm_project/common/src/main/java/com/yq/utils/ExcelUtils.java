@@ -162,7 +162,7 @@ public class ExcelUtils {
                     cell = row.createCell(p);
                     cell.setCellValue(paramList.get(p));
                     cell.setCellStyle(cellStyle2);
-                    if (p==2 || p==3 || p==4 || p==11 || p==12) {
+                    if (p==2 || p==3 || p==4 || p==12 || p==13) {
                         cell.setCellStyle(cellStyle4);
                     }
                 }
@@ -222,7 +222,8 @@ public class ExcelUtils {
             rowCell5.setCellValue(contentExl.getGuideName());
             rowCell5.setCellStyle(cellStyle5);
 
-            Cell rowCell6 = sheetRow5.getCell(12);
+            //审核人
+            Cell rowCell6 = sheetRow5.getCell(13);
             if (StringUtils.isBlank(contentExl.getFinanceName())) {
                 rowCell6.setCellValue ("");
             } else {
@@ -249,7 +250,7 @@ public class ExcelUtils {
                 cellName.setCellValue(contentExl.getList().get(i).getOutName());
                 cellName.setCellStyle(cellStyle2);
                 //门票价格
-                Cell cellPrice = rows.getCell(11);
+                Cell cellPrice = rows.getCell(12);
                 cellPrice.setCellValue(contentExl.getList().get(i).getOutPrice());
                 cellPrice.setCellStyle(cellStyle2);
 
@@ -259,7 +260,7 @@ public class ExcelUtils {
 
             //合计支出
             Row outRow = sheet.getRow(size+3);
-            Cell outCell = outRow.getCell(12);
+            Cell outCell = outRow.getCell(13);
             outCell.setCellValue(allOutPrice);
             outCell.setCellStyle(cellStyle2);
 
