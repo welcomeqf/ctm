@@ -94,5 +94,10 @@ public class GuiderVo {
      */
     private String icnumber;
 
+    /**
+     *  包团信息
+     */
+    private String ApplyPic;
+
 }
 

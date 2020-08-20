@@ -5,6 +5,7 @@ import com.yq.utils.DateUtil;
 import eqlee.ctm.report.statisticline.dao.StatisticLineMapper;
 import eqlee.ctm.report.statisticline.entity.vo.PersonCountVo;
 import eqlee.ctm.report.statisticline.entity.vo.PriceCountVo;
+import eqlee.ctm.report.statisticline.entity.vo.QueryStatisticApplyVo;
 import eqlee.ctm.report.statisticline.entity.vo.StatisticApplyVo;
 import eqlee.ctm.report.statisticline.service.IStatisticLineService;
 import lombok.extern.slf4j.Slf4j;
@@ -14,7 +15,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * @Author Claire
@@ -68,6 +71,31 @@ public class StatisticLineServiceImpl implements IStatisticLineService {
      */
     @Override
     public List<StatisticApplyVo> StatisticsApplyDataByTime(String year) {
+
+        List<StatisticApplyVo> list = new ArrayList<>();
+        List<QueryStatisticApplyVo> queryStatisticApplyVos = statisticLineMapper.StatisticsApplyDataByTime(year);
+        if(queryStatisticApplyVos != null && !queryStatisticApplyVos.isEmpty()){
+            for(QueryStatisticApplyVo vo : queryStatisticApplyVos){
+                List<String> months = list.stream().map(StatisticApplyVo::getStatisticsMonth).collect(Collectors.toList());
+                if(!months.contains(vo.getStatisticsMonth())){
+                    StatisticApplyVo vm = new StatisticApplyVo();
+                    List<QueryStatisticApplyVo> qlist = queryStatisticApplyVos.stream().filter(item -> item.getStatisticsMonth().equals(vo.getStatisticsMonth())).collect(Collectors.toList());
+                    vm.setStatisticsMonth(vo.getStatisticsMonth());
+                    vm.setStatisticsList(qlist);
+                    list.add(vm);
+                }
+            }
+        }
+        return list;
+    }
+
+    /**
+     * 报名人数和金额报表
+     * @param year
+     * @return
+     */
+    @Override
+    public List<QueryStatisticApplyVo> StatisticsEcxApplyDataByTime(String year) {
 
         return statisticLineMapper.StatisticsApplyDataByTime(year);
     }

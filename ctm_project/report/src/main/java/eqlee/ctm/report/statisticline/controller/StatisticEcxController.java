@@ -11,6 +11,7 @@ import com.yq.vilidata.TimeData;
 import com.yq.vilidata.query.TimeQuery;
 import eqlee.ctm.report.statisticline.entity.vo.PersonCountVo;
 import eqlee.ctm.report.statisticline.entity.vo.PriceCountVo;
+import eqlee.ctm.report.statisticline.entity.vo.QueryStatisticApplyVo;
 import eqlee.ctm.report.statisticline.entity.vo.StatisticApplyVo;
 import eqlee.ctm.report.statisticline.service.IStatisticLineService;
 import io.swagger.annotations.Api;
@@ -143,7 +144,7 @@ public class StatisticEcxController {
          Calendar cal = Calendar.getInstance();
          year = cal.get(Calendar.YEAR) + "";
       }
-      List<StatisticApplyVo> list = statisticLineService.StatisticsApplyDataByTime(year);
+      List<QueryStatisticApplyVo> list = statisticLineService.StatisticsEcxApplyDataByTime(year);
 
       //创建报表数据头
       List<String> head = new ArrayList<>();
@@ -158,7 +159,7 @@ public class StatisticEcxController {
       Double all = 0.0;
       Double personNum = 0.0;
 
-      for (StatisticApplyVo vo : list) {
+      for (QueryStatisticApplyVo vo : list) {
          List<String> bodyValue = new ArrayList<>();
          bodyValue.add(year);
          bodyValue.add(vo.getStatisticsMonth());
