@@ -114,7 +114,10 @@ public class ApplyServiceImpl extends ServiceImpl<ApplyMapper, Apply> implements
         List<Apply> list = baseMapper.selectList(wrapper);
         Integer number = 0;
         for (Apply apply : list) {
-            number = number + apply.getAllNumber();
+            if(!apply.getIsCancel()){
+                //已取消的人数不记入
+                number = number + apply.getAllNumber();
+            }
             //判断当天同线路是否已添加报名记录
             if (apply.getContactName().equals(applyVo.getContactName()) && apply.getContactTel().equals(applyVo.getContactTel()) && (apply.getStatu() == 0 || apply.getStatu() == 1)  && !apply.getIsCancel() && applyVo.getType() != 1 && applyVo.getUpOrInsert() == 0) {
                 throw new ApplicationException(CodeType.SERVICE_ERROR,"当前线路已报名成功，等待管理员审核！");
@@ -478,7 +481,10 @@ public class ApplyServiceImpl extends ServiceImpl<ApplyMapper, Apply> implements
       List<Apply> list = baseMapper.selectList(wrapper);
       Integer number = 0;
       for (Apply apply : list) {
-         number = number + apply.getAllNumber();
+          if(!apply.getIsCancel()){
+              //已取消的人数不记入
+              number = number + apply.getAllNumber();
+          }
           //判断当天同线路是否已添加报名记录
           if (apply.getContactName().equals(applyVo.getContactName()) && apply.getContactTel().equals(applyVo.getContactTel()) && (apply.getStatu() == 0 || apply.getIsCancel())  && applyVo.getUpOrInsert() == 0) {
               throw new ApplicationException(CodeType.SERVICE_ERROR,"当前线路已报名成功，等待管理员审核！");

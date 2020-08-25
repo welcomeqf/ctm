@@ -101,6 +101,10 @@ public class ApplyExcelController {
       Double ms = 0.0;
       Double set = 0.0;
       for (ApplyCountVo query : list) {
+         //过滤报名已取消的
+         if(query.getIsCancel()){
+            continue;
+         }
          List<String> bodyValue = new ArrayList<>();
          bodyValue.add(query.getApplyNo());
          bodyValue.add(query.getOutDate());
