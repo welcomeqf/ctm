@@ -297,6 +297,10 @@ public class ApplyServiceImpl extends ServiceImpl<ApplyMapper, Apply> implements
            for (Apply apply1 : applies) {
               if (apply1.getAllPrice() != null) {
                  sxAllPrice += apply1.getAllPrice();
+                 //减去代收的金额，单计算实际应付的
+                 if(apply1.getMsPrice() != null){
+                     sxAllPrice -= apply1.getMsPrice();
+                 }
               }
            }
            //已使用的月结金额与额度比较
@@ -351,6 +355,10 @@ public class ApplyServiceImpl extends ServiceImpl<ApplyMapper, Apply> implements
            for (Apply apply1 : applies) {
               if (apply1.getAllPrice() != null) {
                  sxAllPrice += apply1.getAllPrice();
+                  //减去代收的金额，单计算实际应付的
+                  if(apply1.getMsPrice() != null){
+                      sxAllPrice -= apply1.getMsPrice();
+                  }
               }
            }
            //已使用的月结金额与额度比较
@@ -486,7 +494,7 @@ public class ApplyServiceImpl extends ServiceImpl<ApplyMapper, Apply> implements
               number = number + apply.getAllNumber();
           }
           //判断当天同线路是否已添加报名记录
-          if (apply.getContactName().equals(applyVo.getContactName()) && apply.getContactTel().equals(applyVo.getContactTel()) && (apply.getStatu() == 0 || apply.getIsCancel())  && applyVo.getUpOrInsert() == 0) {
+          if (apply.getContactName().equals(applyVo.getContactName()) && apply.getContactTel().equals(applyVo.getContactTel())  && (apply.getStatu() == 0 || apply.getStatu() == 1)  && !apply.getIsCancel() && applyVo.getUpOrInsert() == 0) {
               throw new ApplicationException(CodeType.SERVICE_ERROR,"当前线路已报名成功，等待管理员审核！");
           }
       }
@@ -658,6 +666,10 @@ public class ApplyServiceImpl extends ServiceImpl<ApplyMapper, Apply> implements
          for (Apply apply1 : applies) {
             if (apply1.getAllPrice() != null) {
                sxAllPrice += apply1.getAllPrice();
+                //减去代收的金额，单计算实际应付的
+                if(apply1.getMsPrice() != null){
+                    sxAllPrice -= apply1.getMsPrice();
+                }
             }
          }
          //已使用的月结金额与额度比较
@@ -672,6 +684,21 @@ public class ApplyServiceImpl extends ServiceImpl<ApplyMapper, Apply> implements
          if (faPrice < 0) {
             throw new ApplicationException(CodeType.SERVICE_ERROR, "您的额度不足，剩余额度:" + syPrice);
          }
+
+         try{
+              //通知后台报名待审核 报名数据不为补录且为新增
+              if(applyVo.getUpOrInsert() == 0){
+                  String jsonStr = sendService.queryNotifyAdminInfo(apply.getCity(),2);
+                  List<UserOpenIdVm> notifyList = JSONObject.parseArray(jsonStr,  UserOpenIdVm.class);
+                  if(notifyList != null && !notifyList.isEmpty()){
+                      for(UserOpenIdVm vm : notifyList){
+                          if(StringUtils.isNotBlank(vm.getOpenId())){
+                              sendService.pushApplyExamManage(vm.getOpenId(),apply.getContactName(),DateUtil.formatDateTime(LocalDateTime.now()),apply.getApplyNo());
+                          }
+                      }
+                  }
+              }
+          }catch (Exception ex){}
       }
       if (NOW_PAY.equals(applyVo.getPayType())) {
          apply.setPayType(0);
@@ -697,6 +724,10 @@ public class ApplyServiceImpl extends ServiceImpl<ApplyMapper, Apply> implements
          for (Apply apply1 : applies) {
             if (apply1.getAllPrice() != null) {
                sxAllPrice += apply1.getAllPrice();
+                //减去代收的金额，单计算实际应付的
+                if(apply1.getMsPrice() != null){
+                    sxAllPrice -= apply1.getMsPrice();
+                }
             }
          }
          //已使用的月结金额与额度比较
@@ -711,6 +742,20 @@ public class ApplyServiceImpl extends ServiceImpl<ApplyMapper, Apply> implements
          if (faPrice < 0) {
             throw new ApplicationException(CodeType.SERVICE_ERROR, "您的额度不足，剩余额度:" + syPrice);
          }
+         try{
+              //通知后台报名待审核 报名数据不为补录且为新增
+              if(applyVo.getUpOrInsert() == 0){
+                  String jsonStr = sendService.queryNotifyAdminInfo(apply.getCity(),2);
+                  List<UserOpenIdVm> notifyList = JSONObject.parseArray(jsonStr,  UserOpenIdVm.class);
+                  if(notifyList != null && !notifyList.isEmpty()){
+                      for(UserOpenIdVm vm : notifyList){
+                          if(StringUtils.isNotBlank(vm.getOpenId())){
+                              sendService.pushApplyExamManage(vm.getOpenId(),apply.getContactName(),DateUtil.formatDateTime(LocalDateTime.now()),apply.getApplyNo());
+                          }
+                      }
+                  }
+              }
+         }catch (Exception ex){}
       }
 
       if (!MONTH_PAY.equals(applyVo.getPayType()) && !NOW_PAY.equals(applyVo.getPayType()) && !AGENT_PAY.equals(applyVo.getPayType())) {

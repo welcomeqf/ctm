@@ -243,7 +243,7 @@ public class CompanyServiceImp extends ServiceImpl<CompanyMapper,Company> implem
             */
             String msg = "";
             if(companyVo.getStatus() == 1){
-                msg = "尊敬的" + companyVo.getChargeName() + "，您注册的阳光旅游系统账号已通过审核，登录账号：" + companyVo.getCompanyFullName() + "，初始密码：注册手机号后6位，请用电脑登录网址：510766.com自行修改密码及增加子账号并妥善保管，可以用手机登录关联微信或电脑下载到桌面【阳光国旅】";
+                msg = "尊敬的" + companyVo.getChargeName() + "，您注册的阳光旅游系统账号已通过审核，登录账号：" + companyVo.getCompanyName() + "，初始密码：注册手机号后6位，请用电脑登录网址：510766.com自行修改密码及增加子账号并妥善保管，可以用手机登录关联微信或电脑下载到桌面【阳光国旅】";
             }else if(companyVo.getStatus() == 2){
                 msg = "尊敬的" + companyVo.getChargeName() + "，您注册的阳光旅游系统账号未通过审核，如有疑问可与我司联系，谢谢！【阳光国旅】";
             }
