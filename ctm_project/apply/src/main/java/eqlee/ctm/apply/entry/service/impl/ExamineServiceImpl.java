@@ -116,7 +116,7 @@ public class ExamineServiceImpl extends ServiceImpl<ExamineMapper, Examine> impl
             if(notifyList != null && !notifyList.isEmpty()){
                 for(UserOpenIdVm vm : notifyList){
                     if(StringUtils.isNotBlank(vm.getOpenId())){
-                        sendService.pushApplyExamManage(vm.getOpenId(),apply.getContactName(),DateUtil.formatDateTime(LocalDateTime.now()),apply.getApplyNo());
+                        sendService.pushApplyExamManage(vm.getOpenId(),apply.getContactName()+"【取消报名】",DateUtil.formatDateTime(LocalDateTime.now()),apply.getApplyNo());
                     }
                 }
             }

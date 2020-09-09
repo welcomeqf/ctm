@@ -1299,6 +1299,7 @@ public class ApplyServiceImpl extends ServiceImpl<ApplyMapper, Apply> implements
                 .eq(Apply::getApplyNo,applyNo);
 
         Apply apply = new Apply();
+        apply.setStatu(3);
         apply.setIsCancel(true);
 
         int update = baseMapper.update(apply, wrapper);
