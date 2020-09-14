@@ -35,6 +35,7 @@ import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.time.LocalDate;
@@ -1633,6 +1634,7 @@ public class ApplyServiceImpl extends ServiceImpl<ApplyMapper, Apply> implements
 
       LocalDate start = null;
       LocalDate end = null;
+      List<String> lineIdList = null;
 
       if (StringUtils.isNotBlank(outDate)) {
          start = DateUtil.parseDate(outDate);
@@ -1640,11 +1642,11 @@ public class ApplyServiceImpl extends ServiceImpl<ApplyMapper, Apply> implements
          end = start.plusMonths(1).minusDays(1);
       }
 
-      if (StringUtils.isBlank(lineName)) {
-         lineName = null;
+      if (!StringUtils.isBlank(lineName)) {
+          lineIdList = Arrays.asList(lineName.split(","));
       }
 
-      return baseMapper.queryCountInfo (page,start,end,companyName,lineName,payType);
+      return baseMapper.queryCountInfo (page,start,end,companyName,lineIdList,payType);
    }
 
    @Override

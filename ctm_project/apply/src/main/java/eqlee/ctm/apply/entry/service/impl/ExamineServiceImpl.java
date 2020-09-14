@@ -109,18 +109,7 @@ public class ExamineServiceImpl extends ServiceImpl<ExamineMapper, Examine> impl
         examine.setUpdateUserId(user.getId());
 
         int insert = baseMapper.insert(examine);
-        try{
-            ApplySeacherVo apply = applyService.queryById(ApplyId);
-            String jsonStr = sendService.queryNotifyAdminInfo(apply.getCity(),2);
-            List<UserOpenIdVm> notifyList = JSONObject.parseArray(jsonStr,  UserOpenIdVm.class);
-            if(notifyList != null && !notifyList.isEmpty()){
-                for(UserOpenIdVm vm : notifyList){
-                    if(StringUtils.isNotBlank(vm.getOpenId())){
-                        sendService.pushApplyExamManage(vm.getOpenId(),apply.getContactName()+"【取消报名】",DateUtil.formatDateTime(LocalDateTime.now()),apply.getApplyNo());
-                    }
-                }
-            }
-        }catch (Exception ex){}
+
 
         if (insert <= 0) {
             log.error("insert cancel apply exa fail.");
@@ -156,6 +145,19 @@ public class ExamineServiceImpl extends ServiceImpl<ExamineMapper, Examine> impl
 //        messageService.addAllMsg(msgVo);
 
         ordersDetailedService.updateCancelStatus(ApplyId,1);
+        //推送
+        try{
+            ApplySeacherVo apply = applyService.queryById(ApplyId);
+            String jsonStr = sendService.queryNotifyAdminInfo(apply.getCity(),2);
+            List<UserOpenIdVm> notifyList = JSONObject.parseArray(jsonStr,  UserOpenIdVm.class);
+            if(notifyList != null && !notifyList.isEmpty()){
+                for(UserOpenIdVm vm : notifyList){
+                    if(StringUtils.isNotBlank(vm.getOpenId())){
+                        sendService.pushApplyExamManage(vm.getOpenId(),apply.getContactName()+"【取消报名】",DateUtil.formatDateTime(LocalDateTime.now()),apply.getApplyNo());
+                    }
+                }
+            }
+        }catch (Exception ex){}
 
     }
 

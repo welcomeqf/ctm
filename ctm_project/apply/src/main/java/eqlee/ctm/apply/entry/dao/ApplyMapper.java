@@ -287,14 +287,14 @@ public interface ApplyMapper extends IBaseMapper<Apply> {
      * @param start
      * @param end
      * @param companyName
-     * @param lineName
+     * @param lineIdList
      * @return
      */
     Page<ApplyCountVo> queryCountInfo(@Param("page") Page<ApplyCountVo> page,
                                       @Param("start") LocalDate start,
                                       @Param("end") LocalDate end,
                                       @Param("companyName") String companyName,
-                                      @Param("lineName") String lineName,
+                                      @Param("lineIdList") List<String> lineIdList,
                                       @Param("payType") Integer payType);
 
 
