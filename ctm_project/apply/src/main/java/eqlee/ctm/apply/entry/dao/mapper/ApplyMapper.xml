@@ -373,8 +373,11 @@
             <if test="start != null">
                 and a.OutDate between #{start} and #{end}
             </if>
-            <if test="lineName != null">
-                and b.LineName = #{lineName}
+            <if test="lineIdList != null">
+                and b.Id in
+                <foreach collection="lineIdList" item="item" index="index" open="(" separator="," close=")">
+                    #{item}
+                </foreach>
             </if>
             <if test="payType != null">
                 and a.PayType = #{payType}

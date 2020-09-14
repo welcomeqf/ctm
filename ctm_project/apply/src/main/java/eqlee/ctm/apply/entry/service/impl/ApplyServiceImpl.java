@@ -1653,6 +1653,7 @@ public class ApplyServiceImpl extends ServiceImpl<ApplyMapper, Apply> implements
    public Page<ApplyCountCaiBo> queryCountInfo2(Page<ApplyCountVo> page, String outDate, String companyName, String lineName, Integer payType) {
       LocalDate start = null;
       LocalDate end = null;
+      List<String> lineIdList = null;
 
       if (StringUtils.isNotBlank(outDate)) {
          start = DateUtil.parseDate(outDate);
@@ -1660,10 +1661,10 @@ public class ApplyServiceImpl extends ServiceImpl<ApplyMapper, Apply> implements
          end = start.plusMonths(1).minusDays(1);
       }
 
-      if (StringUtils.isBlank(lineName)) {
-         lineName = null;
+      if (!StringUtils.isBlank(lineName)) {
+          lineIdList = Arrays.asList(lineName.split(","));
       }
-      return baseMapper.queryCountInfo2 (page,start,end,companyName,lineName,payType);
+      return baseMapper.queryCountInfo2 (page,start,end,companyName,lineIdList,payType);
    }
 
    /**
