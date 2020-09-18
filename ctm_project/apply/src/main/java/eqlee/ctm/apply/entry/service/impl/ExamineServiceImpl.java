@@ -557,7 +557,7 @@ public class ExamineServiceImpl extends ServiceImpl<ExamineMapper, Examine> impl
         try{
             //通知导游选人微信公众号
             if(StringUtils.isNotBlank(OpenId)){
-                sendService.pushGuideSelect(OpenId,query.getLineName(),query.getContactName(),query.getContactTel());
+                sendService.pushGuideSelect(OpenId,query.getLineName(),query.getContactName(),query.getContactTel(),DateUtil.formatDate(DateUtil.parseDate(query.getOutDate())));
             }
             //获取同行openid根据账号 通知报名审核结果
             String jsonStr = sendService.queryNotifyAdminInfo(query.getCreateUserId().toString(),5);

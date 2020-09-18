@@ -364,7 +364,7 @@ public class SendUtils {
       报名电话：13800138000
       请尽快处理！
    */
-   public Boolean pushGuideSelect(String openId,String lineName,String applyName,String applyPhone) throws Exception {
+   public Boolean pushGuideSelect(String openId,String lineName,String applyName,String applyPhone,String outDate) throws Exception {
       Boolean flag = true;
       //获得token
       String token = getwxMapToken();
@@ -376,7 +376,7 @@ public class SendUtils {
       //模板数据
       Map<String, WechatPushTemplate> templateMap = new HashMap<String, WechatPushTemplate>();
       WechatPushTemplate first =  new WechatPushTemplate();
-      first.setValue("有新的报名记录，请前往系统选择人员！");
+      first.setValue("有新的报名记录，请前往系统选择人员！(出行日期:" + outDate + ")");
       first.setColor("#173177");
       templateMap.put("first",first);
 

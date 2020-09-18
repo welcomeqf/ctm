@@ -191,7 +191,7 @@ public class ExamineController {
     @CrossOrigin
     @CheckToken
     public ResultVo wechatPush() throws Exception {
-        sendService.pushGuideSelect("oZ_f9v-w8Dc2UdlrKB38K9lCMADQ","openid2","openid3","openid4");
+        sendService.pushGuideSelect("oZ_f9v-w8Dc2UdlrKB38K9lCMADQ","openid2","openid3","openid4","");
         ResultVo vo = new ResultVo();
         return vo;
     }

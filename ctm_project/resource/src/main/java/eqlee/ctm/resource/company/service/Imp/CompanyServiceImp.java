@@ -233,7 +233,7 @@ public class CompanyServiceImp extends ServiceImpl<CompanyMapper,Company> implem
         }
 
         //审核通过短信通知同行
-        if(companyVo.getIsedit() == null){
+        if(companyVo.getIsedit() == null && companyVo.getStatus() != null){
             /*
             *通过审核
             尊敬的王仁杰，您注册的阳光旅游系统账号已通过审核，登录账号：信柏商务，初始密码：注册手机号后6位，请用电脑登录网址：510766.com自行修改密码及增加子账号并妥善保管，可以用手机登录关联微信或电脑下载到桌面【阳光国旅】
