@@ -49,4 +49,9 @@ public class LineVo {
      * 最小人数
      */
     private Integer minNumber;
+
+    /**
+     * 线路样式(暂存颜色)
+     */
+    private String Style;
 }

@@ -69,4 +69,12 @@ public interface PriceMapper extends IBaseMapper<Price> {
     List<Price> queryAllPriceByTime (@Param("lineId") Long lineId,
                                @Param("startDate") LocalDate startDate,
                                @Param("endDate") LocalDate endDate);
+
+    /**
+     * 根据线路id以及出行时间段删除线路价格
+     * @return
+     */
+    Integer deletePriceByDay(@Param("lineId")Long lineId,
+                         @Param("outTime") LocalDate outTime,
+                         @Param("outTimeEnd")LocalDate outTimeEnd);
 }

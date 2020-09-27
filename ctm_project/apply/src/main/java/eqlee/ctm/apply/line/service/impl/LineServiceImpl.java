@@ -116,6 +116,7 @@ public class LineServiceImpl extends ServiceImpl<LineMapper, Line> implements IL
         line.setMaxNumber(lineVo.getMaxNumber());
         line.setMinNumber(lineVo.getMinNumber());
         line.setTravelSituation(lineVo.getTravelSituation());
+        line.setStyle(lineVo.getStyle());
 
         line.setCreateUserId(user.getId());
         line.setUpdateUserId(user.getId());
@@ -157,6 +158,7 @@ public class LineServiceImpl extends ServiceImpl<LineMapper, Line> implements IL
         line.setUpdateUserId(user.getId());
         line.setId(Id);
         line.setSort(vo.getSort());
+        line.setStyle(vo.getStyle());
 
         int i = baseMapper.updateById(line);
 
@@ -229,12 +231,17 @@ public class LineServiceImpl extends ServiceImpl<LineMapper, Line> implements IL
     public void updateNormal(Long id) {
         //获取用户信息
         UserLoginQuery user = localUser.getUser("用户信息");
+        LambdaQueryWrapper<Line> wrapper = new LambdaQueryWrapper<Line>()
+                .eq(Line::getId,id);
+        Line one = baseMapper.selectOne(wrapper);
 
         Line line = new Line();
         line.setId(id);
         line.setStopped(false);
+        line.setSort(one.getSort());
         line.setUpdateUserId(user.getId());
-        int i = baseMapper.updateById(line);
+        int i = baseMapper.update(line, wrapper);
+        //int i = baseMapper.updateById(line);
         if (i <= 0) {
             log.error("start line fail.");
             throw new ApplicationException(CodeType.SERVICE_ERROR,"启用线路失败");

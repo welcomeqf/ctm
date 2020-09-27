@@ -85,6 +85,11 @@ public class Line extends Model<Line> {
     private String Remark;
 
     /**
+     * 线路样式(暂存颜色)
+     */
+    private String Style;
+
+    /**
      * 创建人
      */
     private Long CreateUserId;

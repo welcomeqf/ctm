@@ -46,4 +46,8 @@
         and OutDate between #{startDate} and #{endDate}
     </select>
 
+    <delete id="deletePriceByDay">
+        delete from Price where LineId= #{lineId} and OutDate between #{outTime} and #{outTimeEnd}
+    </delete>
+
 </mapper>

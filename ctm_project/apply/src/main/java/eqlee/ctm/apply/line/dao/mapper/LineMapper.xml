@@ -5,14 +5,16 @@
 
     <select id="queryLine2PageAndName" resultType="eqlee.ctm.apply.line.entity.query.LineSeacherQuery">
         <bind name="line_Name" value="'%' + lineName + '%'"/>
-      select Id,LineName,Information,Region,TravelSituation,MaxNumber,MinNumber,City,PicturePath,Stopped,Sort from Line
+      select Id,LineName,Information,Region,TravelSituation,MaxNumber,MinNumber,City,PicturePath,Stopped,Sort,Style
+        ,ISNULL((select Max(1) from Price where OutDate >= GETDATE() and LineId = Line.Id),0) as HasSetPrice from Line
       where LineName like #{line_Name}
       order by isnull(Sort,99999),CreateDate desc
     </select>
 
 
     <select id="queryLine2Page" resultType="eqlee.ctm.apply.line.entity.query.LineSeacherQuery">
-        select Id,LineName,Information,Region,TravelSituation,MaxNumber,MinNumber,City,PicturePath,Stopped,Sort from Line
+        select Id,LineName,Information,Region,TravelSituation,MaxNumber,MinNumber,City,PicturePath,Stopped,Sort,Style
+         ,ISNULL((select Max(1) from Price where OutDate >= GETDATE() and LineId = Line.Id),0) as HasSetPrice from Line
         order by isnull(Sort,99999),CreateDate desc
     </select>
 

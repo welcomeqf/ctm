@@ -74,4 +74,9 @@ public class ApplyQuery {
 
 
     private String PicturePath;
+
+    /**
+     * 线路样式(暂存颜色)
+     */
+    private String Style;
 }

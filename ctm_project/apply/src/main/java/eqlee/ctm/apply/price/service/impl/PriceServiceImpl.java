@@ -467,4 +467,30 @@ public class PriceServiceImpl extends ServiceImpl<PriceMapper, Price> implements
               .eq(Price::getLineId,lineId);
         return baseMapper.selectList(wrapper);
     }
+
+
+
+    /**
+     * 删除
+     * @param lineId
+     * @param outDate
+     * @param outDateEnd
+     */
+    @Override
+    public void deletePriceByDay(Long lineId,String outDate,String outDateEnd) {
+        LocalDate outTime = null;
+        LocalDate outTimeEnd = null;
+
+        if (StringUtils.isNotBlank(outDate)) {
+            outTime = DateUtil.parseDate(outDate);
+        }
+        if (StringUtils.isNotBlank(outDateEnd)) {
+            outTimeEnd = DateUtil.parseDate(outDateEnd);
+        }
+        int i = baseMapper.deletePriceByDay(lineId,outTime,outTimeEnd);
+
+        if (i <= 0) {
+            throw new ApplicationException(CodeType.SERVICE_ERROR,"当前时间段价格数据已全部删除！");
+        }
+    }
 }

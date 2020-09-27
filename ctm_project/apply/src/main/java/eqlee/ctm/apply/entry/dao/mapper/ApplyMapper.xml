@@ -8,7 +8,7 @@
       select * from (
       select max(Id)id,max(LineName)LineName,max(Region)Region,max(convert(varchar(20),OutDate,23))OutDate,max(AdultPrice)AdultPrice,max(OldPrice)OldPrice,max(BabyPrice)BabyPrice,
         max(ChildPrice)ChildPrice,max(MaxNumber)MaxNumber,isnull(sum(DoAllNumber),0)DoAllNumber,max(TravelSituation)TravelSituation,max(MarketAdultPrice)MarketAdultPrice,
-        max(MarketOldPrice)MarketOldPrice,max(MarketBabyPrice)MarketBabyPrice,max(MarketChildPrice)MarketChildPrice,max(PicturePath)PicturePath,MAX(Sort)Sort
+        max(MarketOldPrice)MarketOldPrice,max(MarketBabyPrice)MarketBabyPrice,max(MarketChildPrice)MarketChildPrice,max(PicturePath)PicturePath,MAX(Sort)Sort,MAX(Style)Style
         from VLinePrice where Stopped = 0
         group by LineId,OutDate
       )tab

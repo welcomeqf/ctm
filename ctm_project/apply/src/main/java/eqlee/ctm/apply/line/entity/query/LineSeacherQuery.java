@@ -58,4 +58,14 @@ public class LineSeacherQuery {
      * 排序
      */
     private Integer Sort;
+
+    /**
+     * 线路样式(暂存颜色)
+     */
+    private String Style;
+
+    /**
+     * 线路样式(暂存颜色)
+     */
+    private Boolean HasSetPrice;
 }

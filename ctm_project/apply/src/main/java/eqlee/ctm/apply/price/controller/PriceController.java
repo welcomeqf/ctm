@@ -171,4 +171,28 @@ public class PriceController {
         resultVo.setResult("ok");
         return resultVo;
     }
+
+    @ApiOperation(value = "删除价格", notes = "删除价格")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "lineId", value = "线路id", required = true, dataType = "long", paramType =
+                    "path"),
+            @ApiImplicitParam(name = "outDate", value = "出发时间", required = true, dataType = "String",
+                    paramType = "path"),
+            @ApiImplicitParam(name = "outDateEnd", value = "出发时间截止", required = true, dataType = "String",
+                    paramType = "path")
+    })
+    @GetMapping("/deletePriceByDay")
+    @CrossOrigin
+    @CheckToken
+    public ResultVo deletePriceByDay (@RequestParam("lineId") Long lineId,@RequestParam("outDate") String
+            outDate,@RequestParam("outDateEnd") String outDateEnd) {
+        if (lineId == null || StringUtils.isEmpty(outDate) || StringUtils.isEmpty(outDateEnd)) {
+            throw new ApplicationException(CodeType.PARAM_ERROR);
+        }
+        priceService.deletePriceByDay(lineId,outDate,outDateEnd);
+
+        ResultVo resultVo = new ResultVo();
+        resultVo.setResult("ok");
+        return resultVo;
+    }
 }

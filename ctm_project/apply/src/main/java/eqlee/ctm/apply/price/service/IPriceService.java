@@ -91,4 +91,13 @@ public interface IPriceService {
      */
     List<Price> queryPriceByLineNameId (Long lineId);
 
+
+    /**
+     * 删除价格 根据线路和出行时间
+     * @param lineId
+     * @param OutDate
+     * @param OutDateEnd
+     */
+    void deletePriceByDay (Long lineId,String OutDate,String OutDateEnd);
+
 }

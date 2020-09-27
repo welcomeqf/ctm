@@ -39,4 +39,9 @@ public class LineUpdateVo {
 
     private Integer sort;
 
+    /**
+     * 线路样式(暂存颜色)
+     */
+    private String Style;
+
 }
