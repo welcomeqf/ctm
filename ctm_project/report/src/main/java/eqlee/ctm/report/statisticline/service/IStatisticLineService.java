@@ -1,10 +1,7 @@
 package eqlee.ctm.report.statisticline.service;
 
 
-import eqlee.ctm.report.statisticline.entity.vo.PersonCountVo;
-import eqlee.ctm.report.statisticline.entity.vo.PriceCountVo;
-import eqlee.ctm.report.statisticline.entity.vo.QueryStatisticApplyVo;
-import eqlee.ctm.report.statisticline.entity.vo.StatisticApplyVo;
+import eqlee.ctm.report.statisticline.entity.vo.*;
 
 import java.util.List;
 
@@ -45,4 +42,19 @@ public interface IStatisticLineService {
      * @return
      */
     List<QueryStatisticApplyVo> StatisticsEcxApplyDataByTime(String year);
+
+    /**
+     * 利润支出人数总金额统计
+     * @param year
+     * @return
+     */
+    List<StatisticOrderVo> StatisticsOrderDataByTime(String year);
+
+
+    /**
+     * 利润支出人数总金额统计 导出
+     * @param year
+     * @return
+     */
+    List<QueryStatisticOrderVo> StatisticsEcxOrderDataByTime(String year);
 }

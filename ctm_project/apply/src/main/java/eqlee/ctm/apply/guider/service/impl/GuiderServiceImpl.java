@@ -51,7 +51,7 @@ public class GuiderServiceImpl implements IGuiderService {
      * @return
      */
     @Override
-    public Map<String,Object> guiderIndex(Page<GuiderVo> page, String outDate, GuiderList lineNameList, String region, Integer selectNot,Long orderId) {
+    public Map<String,Object> guiderIndex(Page<GuiderVo> page, String outDate, GuiderList lineNameList, String region, Integer selectNot,Long orderId,String cityName) {
 
         LocalDate localDate = null;
 
@@ -68,11 +68,15 @@ public class GuiderServiceImpl implements IGuiderService {
 
        List<String> cityList = new ArrayList<>();
 
-       if (user.getCity().size() > 0) {
+       if (user.getCity().size() > 0 && StringUtils.isEmpty(cityName)) {
           for (CityJwtBo bo : user.getCity()) {
              cityList.add(bo.getCity());
           }
-       } else {
+       }
+       else if(StringUtils.isNotEmpty(cityName)){
+           cityList.addAll(java.util.Arrays.asList(cityName.split("\\,")));
+       }
+       else {
           cityList = null;
        }
 

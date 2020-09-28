@@ -3,10 +3,7 @@ package eqlee.ctm.report.statisticline.service.impl;
 
 import com.yq.utils.DateUtil;
 import eqlee.ctm.report.statisticline.dao.StatisticLineMapper;
-import eqlee.ctm.report.statisticline.entity.vo.PersonCountVo;
-import eqlee.ctm.report.statisticline.entity.vo.PriceCountVo;
-import eqlee.ctm.report.statisticline.entity.vo.QueryStatisticApplyVo;
-import eqlee.ctm.report.statisticline.entity.vo.StatisticApplyVo;
+import eqlee.ctm.report.statisticline.entity.vo.*;
 import eqlee.ctm.report.statisticline.service.IStatisticLineService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -98,5 +95,44 @@ public class StatisticLineServiceImpl implements IStatisticLineService {
     public List<QueryStatisticApplyVo> StatisticsEcxApplyDataByTime(String year) {
 
         return statisticLineMapper.StatisticsApplyDataByTime(year);
+    }
+
+
+    /**
+     * 利润支出人数总金额统计
+     * @param year
+     * @return
+     */
+    @Override
+    public List<StatisticOrderVo> StatisticsOrderDataByTime(String year) {
+
+        List<StatisticOrderVo> list = new ArrayList<>();
+        List<QueryStatisticOrderVo> queryStatisticOrderVos = statisticLineMapper.StatisticsOrderDataByTime(year);
+        if(queryStatisticOrderVos != null && !queryStatisticOrderVos.isEmpty()){
+            for(QueryStatisticOrderVo vo : queryStatisticOrderVos){
+                List<String> months = list.stream().map(StatisticOrderVo::getStatisticsMonth).collect(Collectors.toList());
+                if(!months.contains(vo.getStatisticsMonth())){
+                    StatisticOrderVo vm = new StatisticOrderVo();
+                    List<QueryStatisticOrderVo> qlist = queryStatisticOrderVos.stream().filter(item -> item.getStatisticsMonth().equals(vo.getStatisticsMonth())).collect(Collectors.toList());
+                    vm.setStatisticsMonth(vo.getStatisticsMonth());
+                    vm.setStatisticsList(qlist);
+                    list.add(vm);
+                }
+            }
+        }
+        return list;
+    }
+
+
+
+    /**
+     * 利润支出人数总金额统计
+     * @param year
+     * @return
+     */
+    @Override
+    public List<QueryStatisticOrderVo> StatisticsEcxOrderDataByTime(String year) {
+
+        return statisticLineMapper.StatisticsOrderDataByTime(year);
     }
 }

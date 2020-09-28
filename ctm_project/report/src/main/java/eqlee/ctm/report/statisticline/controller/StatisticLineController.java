@@ -7,6 +7,7 @@ import com.yq.vilidata.query.TimeQuery;
 import eqlee.ctm.report.statisticline.entity.vo.PersonCountVo;
 import eqlee.ctm.report.statisticline.entity.vo.PriceCountVo;
 import eqlee.ctm.report.statisticline.entity.vo.StatisticApplyVo;
+import eqlee.ctm.report.statisticline.entity.vo.StatisticOrderVo;
 import eqlee.ctm.report.statisticline.service.IStatisticLineService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -34,7 +35,7 @@ public class StatisticLineController {
     private IStatisticLineService statisticLineService;
 
 
-    @ApiOperation(value = "金额统计报表", notes = "金额统计报表")
+    @ApiOperation(value = "金额统计报表", notes = "金额统计报表（暂停使用）")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "startTime", value = "开始时间", required = false, dataType = "String", paramType = "path"),
             @ApiImplicitParam(name = "endTime", value = "结束时间", required = false, dataType = "String", paramType = "path")
@@ -50,7 +51,7 @@ public class StatisticLineController {
 
 
 
-    @ApiOperation(value = "报名人数报表", notes = "报名人数报表")
+    @ApiOperation(value = "报名人数报表", notes = "报名人数报表（暂停使用）")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "startTime", value = "开始时间", required = false, dataType = "String", paramType = "path"),
             @ApiImplicitParam(name = "endTime", value = "结束时间", required = false, dataType = "String", paramType = "path")
@@ -65,7 +66,7 @@ public class StatisticLineController {
         return statisticLineService.selectCountByTime(query.getStartTime(),query.getEndTime());
     }
 
-    @ApiOperation(value = "报名人数和金额报表", notes = "报名人数和金额报表")
+    @ApiOperation(value = "报名人数和金额报表二合一", notes = "报名人数和金额报表")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "year", value = "年份", required = false, dataType = "String", paramType = "path")
     })
@@ -78,6 +79,22 @@ public class StatisticLineController {
             year = cal.get(Calendar.YEAR) + "";
         }
         return statisticLineService.StatisticsApplyDataByTime(year);
+    }
+
+
+    @ApiOperation(value = "每月利润统计", notes = "按年月对报名收入及出团开支进行汇总，统计每月的总报名人数，收入，支出，利润项")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "year", value = "年份", required = false, dataType = "String", paramType = "path")
+    })
+    @GetMapping("/StatisticsOrderDataByTime")
+    @CrossOrigin
+    @CheckToken
+    public List<StatisticOrderVo> StatisticsOrderDataByTime(@RequestParam("year") String year) {
+        if(StringUtils.isEmpty(year)){
+            Calendar cal = Calendar.getInstance();
+            year = cal.get(Calendar.YEAR) + "";
+        }
+        return statisticLineService.StatisticsOrderDataByTime(year);
     }
 
 }

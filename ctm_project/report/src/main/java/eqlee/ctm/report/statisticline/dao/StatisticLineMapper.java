@@ -1,10 +1,7 @@
 package eqlee.ctm.report.statisticline.dao;
 
 
-import eqlee.ctm.report.statisticline.entity.vo.PersonCountVo;
-import eqlee.ctm.report.statisticline.entity.vo.PriceCountVo;
-import eqlee.ctm.report.statisticline.entity.vo.QueryStatisticApplyVo;
-import eqlee.ctm.report.statisticline.entity.vo.StatisticApplyVo;
+import eqlee.ctm.report.statisticline.entity.vo.*;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Component;
 
@@ -48,6 +45,13 @@ public interface StatisticLineMapper{
      * @return
      */
     List<QueryStatisticApplyVo> StatisticsApplyDataByTime(@Param("year") String year);
+
+    /**
+     * 利润支出人数总金额统计
+     * @param year
+     * @return
+     */
+    List<QueryStatisticOrderVo> StatisticsOrderDataByTime(@Param("year") String year);
 
 
 

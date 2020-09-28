@@ -23,4 +23,6 @@ public class GuiderIdParamVo {
    private Integer selectNot;
 
    private Long orderId;
+
+   private String cityName;
 }

@@ -42,7 +42,8 @@ public class GuiderController {
             @ApiImplicitParam(name = "size", value = "页面大小", required = true, dataType = "Long", paramType = "path"),
             @ApiImplicitParam(name = "outDate", value = "出发时间", required = false, dataType = "String", paramType = "path"),
             @ApiImplicitParam(name = "lineNameList", value = "线路名集合", required = false, dataType = "String", paramType = "path"),
-            @ApiImplicitParam(name = "region", value = "区域", required = false, dataType = "String", paramType = "path")
+            @ApiImplicitParam(name = "region", value = "区域", required = false, dataType = "String", paramType = "path"),
+            @ApiImplicitParam(name = "cityName", value = "城市集合", required = false, dataType = "String", paramType = "path")
     })
     @PostMapping("/guiderIndex")
     @CrossOrigin
@@ -52,7 +53,7 @@ public class GuiderController {
             throw new ApplicationException(CodeType.PARAM_ERROR,"参数不能为空");
         }
         Page<GuiderVo> page = new Page<>(vo.getCurrent(),vo.getSize());
-        return guiderService.guiderIndex(page,vo.getOutDate(),vo.getLineNameList(),vo.getRegion(),vo.getSelectNot(),vo.getOrderId());
+        return guiderService.guiderIndex(page,vo.getOutDate(),vo.getLineNameList(),vo.getRegion(),vo.getSelectNot(),vo.getOrderId(),vo.getCityName());
     }
 
 

@@ -347,7 +347,7 @@ public class LineServiceImpl extends ServiceImpl<LineMapper, Line> implements IL
                 list.add(bo.getCity());
             }
         }else if(StringUtils.isNotEmpty(cityName)){
-            list.add(cityName);
+            list.addAll(java.util.Arrays.asList(cityName.split("\\,")));
         }
 
 
