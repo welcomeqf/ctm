@@ -238,8 +238,8 @@ public class LineController {
     @GetMapping("/queryLocalCityLine")
     @CrossOrigin
     @CheckToken
-    public List<Line> queryLocalCityLine () {
-        return lineService.queryLocalCityLine();
+    public List<Line> queryLocalCityLine (@RequestParam("cityName") String cityName) {
+        return lineService.queryLocalCityLine(cityName);
     }
 
 

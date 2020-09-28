@@ -32,4 +32,11 @@
     <delete id="deleteUser" parameterType="Long">
         delete from SystemUser where CompanyId = #{id}
     </delete>
+
+    <select id="getAllCityNameList" resultType="com.yq.entity.send.ctmuser.CityBo">
+        select Name as city from SystemOption
+        <where>
+            Deleted = 0 and Stopped = 0
+        </where>
+    </select>
 </mapper>

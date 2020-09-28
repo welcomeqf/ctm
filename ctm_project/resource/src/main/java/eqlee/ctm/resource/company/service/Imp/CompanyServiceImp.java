@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.yq.constanct.CodeType;
+import com.yq.entity.send.ctmuser.CityBo;
 import com.yq.exception.ApplicationException;
 import com.yq.jwt.contain.LocalUser;
 import com.yq.jwt.entity.CityJwtBo;
@@ -231,7 +232,7 @@ public class CompanyServiceImp extends ServiceImpl<CompanyMapper,Company> implem
         if (WITH_PAY.equals(companyVo.getPayMethod())) {
             company.setPayMethod(3);
         }
-
+        int update = baseMapper.updateById(company);
         //审核通过短信通知同行
         if(companyVo.getIsedit() == null && companyVo.getStatus() != null){
             /*
@@ -244,6 +245,14 @@ public class CompanyServiceImp extends ServiceImpl<CompanyMapper,Company> implem
             String msg = "";
             if(companyVo.getStatus() == 1){
                 msg = "尊敬的" + companyVo.getChargeName() + "，您注册的阳光旅游系统账号已通过审核，登录账号：" + companyVo.getCompanyName() + "，初始密码：注册手机号后6位，请用电脑登录网址：510766.com自行修改密码及增加子账号并妥善保管，可以用手机登录关联微信或电脑下载到桌面【阳光国旅】";
+                //直接添加同行用户 登录账号：信柏商务，初始密码：注册手机号后6位 角色:同行
+                try{
+                    //获取所有城市
+                    List<CityBo> city = baseMapper.getAllCityNameList();
+                    sendService.AddPeerUserInfo(companyVo.getCompanyName(),companyVo.getId(),companyVo.getChargeName(),companyVo.getChargeTel(),city);
+                }catch (Exception ex){
+                    throw new ApplicationException(CodeType.PARAMETER_ERROR,"注册公司审核成功,创建同行用户时发生错误:"+ex.getMessage());
+                }
             }else if(companyVo.getStatus() == 2){
                 msg = "尊敬的" + companyVo.getChargeName() + "，您注册的阳光旅游系统账号未通过审核，如有疑问可与我司联系，谢谢！【阳光国旅】";
             }
@@ -256,7 +265,7 @@ public class CompanyServiceImp extends ServiceImpl<CompanyMapper,Company> implem
 //        System.out.print(company);
         List<Company> list = baseMapper.selectList(null);
         System.out.println("--------"+list);
-        int update = baseMapper.updateById(company);
+
     }
 
 

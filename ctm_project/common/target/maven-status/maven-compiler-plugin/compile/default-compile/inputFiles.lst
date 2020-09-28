@@ -12,7 +12,9 @@ F:\Java\CtmBySunshine\ctm_project\common\src\main\java\com\yq\utils\SwaggerUtil.
 F:\Java\CtmBySunshine\ctm_project\common\src\main\java\com\yq\entity\send\WechatPushTemplate.java
 F:\Java\CtmBySunshine\ctm_project\common\src\main\java\com\yq\entity\send\SendToken.java
 F:\Java\CtmBySunshine\ctm_project\common\src\main\java\com\yq\utils\CryptoUtils.java
+F:\Java\CtmBySunshine\ctm_project\common\src\main\java\com\yq\entity\send\ctmuser\UserVo.java
 F:\Java\CtmBySunshine\ctm_project\common\src\main\java\com\yq\entity\send\ctmuser\ResposeVo.java
+F:\Java\CtmBySunshine\ctm_project\common\src\main\java\com\yq\entity\send\ctmuser\CityBo.java
 F:\Java\CtmBySunshine\ctm_project\common\src\main\java\com\yq\jwt\islogin\CheckToken.java
 F:\Java\CtmBySunshine\ctm_project\common\src\main\java\com\yq\entity\send\ctmuser\AuthLoginParamVo.java
 F:\Java\CtmBySunshine\ctm_project\common\src\main\java\com\yq\jwt\JwtVerfy.java

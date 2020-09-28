@@ -112,7 +112,7 @@ public interface ILineService {
      * 查询自己所在城市的所有线路
      * @return
      */
-    List<Line> queryLocalCityLine ();
+    List<Line> queryLocalCityLine (String cityName);
 
 
     /**

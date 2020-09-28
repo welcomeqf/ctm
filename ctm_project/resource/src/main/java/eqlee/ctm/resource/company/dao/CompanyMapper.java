@@ -2,11 +2,13 @@ package eqlee.ctm.resource.company.dao;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.yq.IBaseMapper.IBaseMapper;
+import com.yq.entity.send.ctmuser.CityBo;
 import eqlee.ctm.resource.company.entity.Company;
-import eqlee.ctm.resource.company.entity.query.PageCompanyQuery;
 import eqlee.ctm.resource.company.entity.vo.CompanyIndexVo;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Component;
+
+import java.util.List;
 
 /**
  * @Author Claire
@@ -36,4 +38,10 @@ public interface CompanyMapper extends IBaseMapper<Company> {
      * @return
      */
     int deleteUser (Long id);
+
+    /**
+     * 获取系统设置的所有未停用城市
+     * @return
+     */
+    List<CityBo> getAllCityNameList ();
 }

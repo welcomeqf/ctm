@@ -79,7 +79,7 @@ public class LineServiceImpl extends ServiceImpl<LineMapper, Line> implements IL
                 .eq(Line::getLineName,lineVo.getLineName());
         Line line1 = baseMapper.selectOne(queryWrapper);
         if (line1 != null) {
-            throw new ApplicationException(CodeType.SUCC_ERROR,"该线路名已被使用");
+            throw new ApplicationException(CodeType.SUCC_ERROR,"该线路已存在，请添加其它线路！");
         }
 
         IdGenerator idGenerator = new IdGenerator();
@@ -338,14 +338,16 @@ public class LineServiceImpl extends ServiceImpl<LineMapper, Line> implements IL
      * @return
      */
     @Override
-    public List<Line> queryLocalCityLine() {
+    public List<Line> queryLocalCityLine(String cityName) {
         UserLoginQuery user = localUser.getUser("用户信息");
 
         List<String> list = new ArrayList<>();
-        if (user.getCity().size() > 0) {
+        if (user.getCity().size() > 0 && StringUtils.isEmpty(cityName)) {
             for (CityJwtBo bo : user.getCity()) {
                 list.add(bo.getCity());
             }
+        }else if(StringUtils.isNotEmpty(cityName)){
+            list.add(cityName);
         }
 
 

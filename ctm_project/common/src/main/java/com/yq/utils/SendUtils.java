@@ -4,9 +4,7 @@ package com.yq.utils;
 import com.alibaba.fastjson.JSONObject;
 import com.yq.constanct.CodeType;
 import com.yq.entity.send.*;
-import com.yq.entity.send.ctmuser.AuthLoginParamVo;
-import com.yq.entity.send.ctmuser.AuthResult;
-import com.yq.entity.send.ctmuser.TokenWithVo;
+import com.yq.entity.send.ctmuser.*;
 import com.yq.exception.ApplicationException;
 import com.yq.httpclient.HttpClientUtils;
 import com.yq.httpclient.HttpResult;
@@ -18,11 +16,12 @@ import java.net.URL;
 import java.time.Instant;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
- * 发短信推送工具类
+ * 发短信推送工具类 以及各工程相互调取工具类 若有修改 请使用Ctrl + 鼠标左键查看方法引用 对应更新
  * @author xub
  * @date 2020年7月28日11:37:31
  * @vesion 1.0
@@ -150,7 +149,7 @@ public class SendUtils {
     */
    public String queryNotifyAdminInfo (String city,Integer type){
       //路径
-      String url = user_url + "/v1/app/user/queryGuideByCity?city=" + city + "&type=" + type;;
+      String url = user_url + "/v1/app/user/queryGuideByCity?city=" + city + "&type=" + type;
       HttpResult httpResult = null;
 
       try {
@@ -158,6 +157,52 @@ public class SendUtils {
          String userToken = getuserMapToken();
          String token = "Bearer " + userToken;
          httpResult = apiService.get(url,token);
+      }catch (Exception e) {
+         e.printStackTrace();
+      }
+
+      SendResultVo result = JSONObject.parseObject(httpResult.getBody(), SendResultVo.class);
+      if (result.getCode() != 0) {
+         throw new ApplicationException(CodeType.RESOURCES_NOT_FIND,result.getMsg());
+      }
+
+      return JSONObject.toJSONString(result.getData());
+   }
+
+   /**  若有修改 更新 main 工程
+    * 同行公司审核通过同步添加同行用户
+    * 登录账号：信柏商务CompanyName，初始密码：注册手机号后6位 角色:同行
+    * @return
+    */
+   public String AddPeerUserInfo (String account, Long companyId, String userName, String phone, List<CityBo> city){
+      //路径
+      String url = user_url + "/v1/app/user/register";
+      HttpResult httpResult = null;
+
+      try {
+         //组装用户信息
+         UserVo userVo = new UserVo();
+         userVo.setCompanyId(companyId);
+         userVo.setUserName(account);
+         userVo.setName(userName);
+         userVo.setCompanyName(account);
+         userVo.setRoleName("同行");
+         userVo.setPhone(phone);
+         userVo.setCity(city);
+         userVo.setType(0);
+         //用户密码
+         String psw = "123456";
+         if(phone.length()>=6){
+            psw = phone.substring(phone.length()- 6,phone.length());
+         }
+         userVo.setPassword(psw);
+
+         String s = JSONObject.toJSONString(userVo);
+
+         //获得token
+         String userToken = getuserMapToken();
+         String token = "Bearer " + userToken;
+         httpResult = apiService.post(url, s,token);
       }catch (Exception e) {
          e.printStackTrace();
       }
