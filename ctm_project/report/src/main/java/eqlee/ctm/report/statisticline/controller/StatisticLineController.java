@@ -1,13 +1,13 @@
 package eqlee.ctm.report.statisticline.controller;
 
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.yq.constanct.CodeType;
+import com.yq.exception.ApplicationException;
 import com.yq.jwt.islogin.CheckToken;
 import com.yq.utils.StringUtils;
 import com.yq.vilidata.TimeData;
 import com.yq.vilidata.query.TimeQuery;
-import eqlee.ctm.report.statisticline.entity.vo.PersonCountVo;
-import eqlee.ctm.report.statisticline.entity.vo.PriceCountVo;
-import eqlee.ctm.report.statisticline.entity.vo.StatisticApplyVo;
-import eqlee.ctm.report.statisticline.entity.vo.StatisticOrderVo;
+import eqlee.ctm.report.statisticline.entity.vo.*;
 import eqlee.ctm.report.statisticline.service.IStatisticLineService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Calendar;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @Author Claire
@@ -89,12 +90,43 @@ public class StatisticLineController {
     @GetMapping("/StatisticsOrderDataByTime")
     @CrossOrigin
     @CheckToken
-    public List<StatisticOrderVo> StatisticsOrderDataByTime(@RequestParam("year") String year) {
+    public List<QueryStatisticOrderVo> StatisticsOrderDataByTime(@RequestParam("year") String year) {
         if(StringUtils.isEmpty(year)){
             Calendar cal = Calendar.getInstance();
             year = cal.get(Calendar.YEAR) + "";
         }
-        return statisticLineService.StatisticsOrderDataByTime(year);
+        return statisticLineService.StatisticsEcxOrderDataByTime(year);
+    }
+
+    @ApiOperation(value = "每月利润统计明细", notes = "按年月对报名收入及出团开支进行汇总，统计每月的总报名人数，收入，支出，利润项")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "orderNo", value = "订单号/线路名称", required = false, dataType = "String", paramType = "path"),
+            @ApiImplicitParam(name = "guideName", value = "导游名字", required = false, dataType = "String", paramType = "path"),
+            @ApiImplicitParam(name = "cityName", value = "城市(多个城市以英文逗号隔开)", required = false, dataType = "String", paramType = "path"),
+            @ApiImplicitParam(name = "year", value = "年份", required = true, dataType = "String", paramType = "path"),
+            @ApiImplicitParam(name = "month", value = "月份", required = true, dataType = "String", paramType = "path"),
+            @ApiImplicitParam(name = "current", value = "当前页", required = true, dataType = "Long", paramType = "path"),
+            @ApiImplicitParam(name = "size", value = "当页条数", required = true, dataType = "Long", paramType = "path")
+    })
+    @GetMapping("/StatisticsOrderDataByTimeDetail")
+    @CrossOrigin
+    @CheckToken
+    public Map<String,Object> StatisticsOrderDataByTimeDetail(@RequestParam("current") Integer current,
+                                                              @RequestParam("size") Integer size,
+                                                              @RequestParam("guideName") String guideName,
+                                                              @RequestParam("orderNo") String orderNo,
+                                                              @RequestParam("cityName") String cityName,
+                                                              @RequestParam("year") String year,
+                                                              @RequestParam("month") String month) {
+        if (current == null || size == null) {
+            throw new ApplicationException(CodeType.PARAMETER_ERROR);
+        }
+        Page<OrderDetailResultQuery> page = new Page<>(current,size);
+        if(StringUtils.isEmpty(year)){
+            Calendar cal = Calendar.getInstance();
+            year = cal.get(Calendar.YEAR) + "";
+        }
+        return statisticLineService.StatisticsOrderDataByTimeDetail(page,guideName,orderNo,year,month,cityName);
     }
 
 }

@@ -1,7 +1,9 @@
 package eqlee.ctm.report.statisticline.service.impl;
 
 
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.yq.utils.DateUtil;
+import com.yq.utils.StringUtils;
 import eqlee.ctm.report.statisticline.dao.StatisticLineMapper;
 import eqlee.ctm.report.statisticline.entity.vo.*;
 import eqlee.ctm.report.statisticline.service.IStatisticLineService;
@@ -13,7 +15,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 /**
@@ -134,5 +138,50 @@ public class StatisticLineServiceImpl implements IStatisticLineService {
     public List<QueryStatisticOrderVo> StatisticsEcxOrderDataByTime(String year) {
 
         return statisticLineMapper.StatisticsOrderDataByTime(year);
+    }
+
+
+    /**
+     * 分页查询所有指定年月的利润统计信息
+     * @param page
+     * @param guideName
+     * @return
+     */
+    @Override
+    public Map<String,Object> StatisticsOrderDataByTimeDetail(Page<OrderDetailResultQuery> page, String guideName, String orderNo, String year, String month, String cityName) {
+
+        if (StringUtils.isBlank(guideName)) {
+            guideName = null;
+        }
+        List<String> list = new ArrayList<>();
+        if(StringUtils.isNotEmpty(cityName)){
+            list.addAll(java.util.Arrays.asList(cityName.split("\\,")));
+        }else{
+            list = null;
+        }
+        Page<OrderDetailResultQuery> pageResult = statisticLineMapper.StatisticsOrderDataByTimeDetail (page,guideName,orderNo,year,month,list);
+        double allPrice = 0;
+        double outPrice = 0;
+        double profitPrice = 0;
+        Integer allPersonCount = 0;
+        if(pageResult != null){
+            //按条件获取到明细统计
+            List<QueryStatisticOrderVo>  statisticOrderVos = statisticLineMapper.StatisticsOrderDataByTime2(guideName,orderNo,year,month,list);
+            if(statisticOrderVos != null && !statisticOrderVos.isEmpty()){
+                QueryStatisticOrderVo vo = statisticOrderVos.get(0);
+                allPrice = vo.getAllPrice();
+                outPrice = vo.getOutPrice();
+                profitPrice = vo.getProfitPrice();
+                allPersonCount = vo.getAllPersonCount();
+            }
+        }
+        Map<String,Object> map = new HashMap<>();
+        map.put("page",pageResult);
+        map.put("allPrice",allPrice);
+        map.put("allPersonCount",allPersonCount);
+        map.put("outPrice",outPrice);
+        map.put("profitPrice",profitPrice);
+        return map;
+
     }
 }

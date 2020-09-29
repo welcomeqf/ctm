@@ -25,15 +25,83 @@
     </select>
 
     <select id="StatisticsOrderDataByTime" resultType="eqlee.ctm.report.statisticline.entity.vo.QueryStatisticOrderVo">
-      select MAX(City) city,MAX(StatisticsMonth) StatisticsMonth,SUM(AllPrice) allPrice,
+      select MAX(StatisticsMonth) StatisticsMonth,SUM(AllPrice) allPrice,
         SUM(AllNumber) allPersonCount,SUM(OutPrice) outPrice,SUM(AllPrice - OutPrice) profitPrice
         from (
-        select a.City City,Month(a.OutDate) StatisticsMonth,a.AllPrice as AllPrice,
+        select Month(a.OutDate) StatisticsMonth,a.AllPrice as AllPrice,
         (select SUM(AllNumber) from OrderDetailed where OrderId = a.Id) as AllNumber,
         (select SUM(OutPrice) from OutCome2 where IncomeId = b.Id) as OutPrice
          from Orders a inner join Income b on a.Id = b.OrderId
-         where YEAR(a.OutDate) = #{year} and b.Status = 1
-        ) as tab group by City,StatisticsMonth
+         <where>
+             b.Status = 1 and YEAR(a.OutDate) = #{year}
+         </where>
+        ) as tab group by StatisticsMonth
+    </select>
+
+    <select id="StatisticsOrderDataByTimeDetail" resultType="eqlee.ctm.report.statisticline.entity.vo.OrderDetailResultQuery">
+        select * from (select max(a.OrderId)Id, max(a.GuideName)GuideName,max(convert(varchar(20),a.OutDate,23)) as 'OutDate',max(a.LineName)LineName,
+        max(a.GuideTel) as 'Tel',max(a.AllInPrice)AllInPrice,max(a.UpdateDate) as 'UpdateDate',max(a.city) as City,
+        (isnull(max(a.AllInPrice),0) - isnull(sum(b.OutPrice),0)) as 'FinallyPrice',isnull(sum(b.OutPrice),0)AllOutPrice,max(a.Status)Status,(select OrderNo from orders where Id = a.OrderId) as 'OrderNo'
+        from Income a left join Outcome2 b
+        on a.Id = b.IncomeId
+        <where>
+            1 = 1 and a.Status = 1
+            <if test="guideName != null">
+                and a.GuideName = #{guideName}
+            </if>
+            <if test="year != null">
+                and YEAR(a.OutDate) = #{year}
+            </if>
+            <if test="month != null">
+                and MONTH(a.OutDate) = #{month}
+            </if>
+            <if test="cityList != null">
+                and a.City in
+                <foreach collection="cityList" item="item" index="index" open="(" separator="," close=")">
+                    #{item}
+                </foreach>
+            </if>
+        </where>
+        group by a.Id,a.OrderId) aa
+        <where>
+            1=1
+            <if test="orderNo != null">
+                <bind name="_orderNo" value="'%' + orderNo + '%'"/>
+                and (orderNo like #{_orderNo} or LineName like #{_orderNo})
+            </if>
+        </where>
+        order by OutDate desc,UpdateDate desc,Status
+    </select>
+
+
+    <select id="StatisticsOrderDataByTime2" resultType="eqlee.ctm.report.statisticline.entity.vo.QueryStatisticOrderVo">
+        select MAX(StatisticsMonth) StatisticsMonth,SUM(AllPrice) allPrice,
+        SUM(AllNumber) allPersonCount,SUM(OutPrice) outPrice,SUM(AllPrice - OutPrice) profitPrice
+        from (
+        select Month(a.OutDate) StatisticsMonth,a.AllPrice as AllPrice,
+        (select SUM(AllNumber) from OrderDetailed where OrderId = a.Id) as AllNumber,
+        (select SUM(OutPrice) from OutCome2 where IncomeId = b.Id) as OutPrice
+        from Orders a inner join Income b on a.Id = b.OrderId
+        <where>
+            b.Status = 1 and YEAR(a.OutDate) = #{year}
+            <if test="month != null">
+                and MONTH(a.OutDate) = #{month}
+            </if>
+            <if test="guideName != null">
+                and b.GuideName = #{guideName}
+            </if>
+            <if test="orderNo != null">
+                <bind name="_orderNo" value="'%' + orderNo + '%'"/>
+                and (a.orderNo like #{_orderNo} or a.LineName like #{_orderNo})
+            </if>
+            <if test="cityList != null">
+                and a.City in
+                <foreach collection="cityList" item="item" index="index" open="(" separator="," close=")">
+                    #{item}
+                </foreach>
+            </if>
+        </where>
+        ) as tab group by StatisticsMonth
     </select>
 
 </mapper>

@@ -18,7 +18,7 @@ public class QueryStatisticOrderVo {
     /**
      * 城市
      */
-    private String city;
+//    private String city;
 
     /**
      * 总人数

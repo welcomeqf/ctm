@@ -1,9 +1,11 @@
 package eqlee.ctm.report.statisticline.service;
 
 
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import eqlee.ctm.report.statisticline.entity.vo.*;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * @Author Claire
@@ -57,4 +59,13 @@ public interface IStatisticLineService {
      * @return
      */
     List<QueryStatisticOrderVo> StatisticsEcxOrderDataByTime(String year);
+
+    /**
+     * 分页查询所有财务审核
+     * @param page
+     * @param guideName
+     * @param orderNo
+     * @return
+     */
+    Map<String,Object> StatisticsOrderDataByTimeDetail(Page<OrderDetailResultQuery> page, String guideName, String orderNo, String year, String month, String cityName);
 }

@@ -1,6 +1,7 @@
 package eqlee.ctm.report.statisticline.dao;
 
 
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import eqlee.ctm.report.statisticline.entity.vo.*;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Component;
@@ -53,6 +54,29 @@ public interface StatisticLineMapper{
      */
     List<QueryStatisticOrderVo> StatisticsOrderDataByTime(@Param("year") String year);
 
+    /**
+     * 利润支出人数总金额统计 拼条件 明细使用
+     * @param year
+     * @return
+     */
+    List<QueryStatisticOrderVo> StatisticsOrderDataByTime2(@Param("guideName") String guideName,
+                                                           @Param("orderNo") String orderNo,
+                                                           @Param("year") String year,
+                                                           @Param("month") String month,
+                                                           @Param("cityList") List<String> cityList);
 
+    /**
+     * 分页查询所有审核数据
+     * @param page
+     * @param guideName
+     * @param orderNo
+     * @return
+     */
+    Page<OrderDetailResultQuery> StatisticsOrderDataByTimeDetail (Page<OrderDetailResultQuery> page,
+                                          @Param("guideName") String guideName,
+                                          @Param("orderNo") String orderNo,
+                                          @Param("year") String year,
+                                          @Param("month") String month,
+                                          @Param("cityList") List<String> cityList);
 
 }
