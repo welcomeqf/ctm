@@ -55,6 +55,12 @@
             <if test="month != null">
                 and MONTH(a.OutDate) = #{month}
             </if>
+            <if test="lineList != null">
+                and a.LineName in
+                <foreach collection="lineList" item="item" index="index" open="(" separator="," close=")">
+                    #{item}
+                </foreach>
+            </if>
             <if test="cityList != null">
                 and a.City in
                 <foreach collection="cityList" item="item" index="index" open="(" separator="," close=")">
@@ -93,6 +99,12 @@
             <if test="orderNo != null">
                 <bind name="_orderNo" value="'%' + orderNo + '%'"/>
                 and (a.orderNo like #{_orderNo} or a.LineName like #{_orderNo})
+            </if>
+            <if test="lineList != null">
+                and a.LineName in
+                <foreach collection="lineList" item="item" index="index" open="(" separator="," close=")">
+                    #{item}
+                </foreach>
             </if>
             <if test="cityList != null">
                 and a.City in

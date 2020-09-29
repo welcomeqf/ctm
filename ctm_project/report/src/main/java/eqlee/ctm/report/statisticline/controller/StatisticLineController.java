@@ -106,7 +106,8 @@ public class StatisticLineController {
             @ApiImplicitParam(name = "year", value = "年份", required = true, dataType = "String", paramType = "path"),
             @ApiImplicitParam(name = "month", value = "月份", required = true, dataType = "String", paramType = "path"),
             @ApiImplicitParam(name = "current", value = "当前页", required = true, dataType = "Long", paramType = "path"),
-            @ApiImplicitParam(name = "size", value = "当页条数", required = true, dataType = "Long", paramType = "path")
+            @ApiImplicitParam(name = "size", value = "当页条数", required = true, dataType = "Long", paramType = "path"),
+            @ApiImplicitParam(name = "lineName", value = "线路名(多个线路以豆号隔开)", required = true, dataType = "Long", paramType = "path")
     })
     @GetMapping("/StatisticsOrderDataByTimeDetail")
     @CrossOrigin
@@ -117,7 +118,8 @@ public class StatisticLineController {
                                                               @RequestParam("orderNo") String orderNo,
                                                               @RequestParam("cityName") String cityName,
                                                               @RequestParam("year") String year,
-                                                              @RequestParam("month") String month) {
+                                                              @RequestParam("month") String month,
+                                                              @RequestParam("lineName") String lineName) {
         if (current == null || size == null) {
             throw new ApplicationException(CodeType.PARAMETER_ERROR);
         }
@@ -126,7 +128,7 @@ public class StatisticLineController {
             Calendar cal = Calendar.getInstance();
             year = cal.get(Calendar.YEAR) + "";
         }
-        return statisticLineService.StatisticsOrderDataByTimeDetail(page,guideName,orderNo,year,month,cityName);
+        return statisticLineService.StatisticsOrderDataByTimeDetail(page,guideName,orderNo,year,month,cityName,lineName);
     }
 
 }

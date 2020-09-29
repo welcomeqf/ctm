@@ -67,5 +67,5 @@ public interface IStatisticLineService {
      * @param orderNo
      * @return
      */
-    Map<String,Object> StatisticsOrderDataByTimeDetail(Page<OrderDetailResultQuery> page, String guideName, String orderNo, String year, String month, String cityName);
+    Map<String,Object> StatisticsOrderDataByTimeDetail(Page<OrderDetailResultQuery> page, String guideName, String orderNo, String year, String month, String cityName,String lineIds);
 }

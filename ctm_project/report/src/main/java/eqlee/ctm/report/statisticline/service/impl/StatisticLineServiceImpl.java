@@ -148,7 +148,7 @@ public class StatisticLineServiceImpl implements IStatisticLineService {
      * @return
      */
     @Override
-    public Map<String,Object> StatisticsOrderDataByTimeDetail(Page<OrderDetailResultQuery> page, String guideName, String orderNo, String year, String month, String cityName) {
+    public Map<String,Object> StatisticsOrderDataByTimeDetail(Page<OrderDetailResultQuery> page, String guideName, String orderNo, String year, String month, String cityName,String lineName) {
 
         if (StringUtils.isBlank(guideName)) {
             guideName = null;
@@ -159,14 +159,20 @@ public class StatisticLineServiceImpl implements IStatisticLineService {
         }else{
             list = null;
         }
-        Page<OrderDetailResultQuery> pageResult = statisticLineMapper.StatisticsOrderDataByTimeDetail (page,guideName,orderNo,year,month,list);
+        List<String> lineList = new ArrayList<>();
+        if(StringUtils.isNotEmpty(lineName)){
+            lineList.addAll(java.util.Arrays.asList(lineName.split("\\,")));
+        }else{
+            lineList = null;
+        }
+        Page<OrderDetailResultQuery> pageResult = statisticLineMapper.StatisticsOrderDataByTimeDetail (page,guideName,orderNo,year,month,list,lineList);
         double allPrice = 0;
         double outPrice = 0;
         double profitPrice = 0;
         Integer allPersonCount = 0;
         if(pageResult != null){
             //按条件获取到明细统计
-            List<QueryStatisticOrderVo>  statisticOrderVos = statisticLineMapper.StatisticsOrderDataByTime2(guideName,orderNo,year,month,list);
+            List<QueryStatisticOrderVo>  statisticOrderVos = statisticLineMapper.StatisticsOrderDataByTime2(guideName,orderNo,year,month,list,lineList);
             if(statisticOrderVos != null && !statisticOrderVos.isEmpty()){
                 QueryStatisticOrderVo vo = statisticOrderVos.get(0);
                 allPrice = vo.getAllPrice();

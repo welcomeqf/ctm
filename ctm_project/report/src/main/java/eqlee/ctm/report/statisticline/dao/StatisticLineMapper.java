@@ -63,7 +63,8 @@ public interface StatisticLineMapper{
                                                            @Param("orderNo") String orderNo,
                                                            @Param("year") String year,
                                                            @Param("month") String month,
-                                                           @Param("cityList") List<String> cityList);
+                                                           @Param("cityList") List<String> cityList,
+                                                           @Param("lineList") List<String> lineList);
 
     /**
      * 分页查询所有审核数据
@@ -77,6 +78,7 @@ public interface StatisticLineMapper{
                                           @Param("orderNo") String orderNo,
                                           @Param("year") String year,
                                           @Param("month") String month,
-                                          @Param("cityList") List<String> cityList);
+                                          @Param("cityList") List<String> cityList,
+                                          @Param("lineList") List<String> lineList);
 
 }
