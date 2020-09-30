@@ -62,7 +62,7 @@ public class WorkServiceImpl extends ServiceImpl<WorkMapper, WorkingShift> imple
     */
    @Override
    public void addWorkingShift(WorkingShiftVo workingShiftVo) {
-      UserLoginQuery user = localUser.getUser("用户信息");
+      UserLoginQuery user = localUser.getUser();
       WorkingShift model = new WorkingShift();
       IdGenerator idGenerator = new IdGenerator();
       model.setId(idGenerator.getNumberId());
@@ -88,7 +88,7 @@ public class WorkServiceImpl extends ServiceImpl<WorkMapper, WorkingShift> imple
     */
    @Override
    public void updateWorkingShift(WorkingShiftVo workingShiftVo) {
-      UserLoginQuery user = localUser.getUser("用户信息");
+      UserLoginQuery user = localUser.getUser();
 
       WorkingShift model = new WorkingShift();
       model.setUpdateUserId(user.getId());

@@ -67,12 +67,6 @@ public class OrderServiceImpl extends ServiceImpl<OrdersMapper, Orders> implemen
    private ICarInfoService carInfoService;
 
    @Autowired
-   private HttpUtils httpUtils;
-
-   @Autowired
-   private IMessageService messageService;
-
-   @Autowired
    private IOrderSubstitutService orderSubstitutService;
 
    IdGenerator idGenerator = new IdGenerator();
@@ -103,7 +97,7 @@ public class OrderServiceImpl extends ServiceImpl<OrdersMapper, Orders> implemen
 
         List<OrderDetailedBo> orderDetailedList = new ArrayList<>();
 
-        UserLoginQuery user = localUser.getUser("用户信息");
+        UserLoginQuery user = localUser.getUser();
 
         Orders orders = new Orders();
         long numberId = idGenerator.getNumberId();
@@ -328,7 +322,7 @@ public class OrderServiceImpl extends ServiceImpl<OrdersMapper, Orders> implemen
         }
 
         //生成换人表记录
-        UserLoginQuery user = localUser.getUser("用户信息");
+        UserLoginQuery user = localUser.getUser();
         OrderSubstitut substitut = new OrderSubstitut();
         Long id = idGenerator.getNumberId();
         substitut.setId(id);
@@ -420,7 +414,7 @@ public class OrderServiceImpl extends ServiceImpl<OrdersMapper, Orders> implemen
     @Override
     public Page<ChangedVo> waiteChangeIndex(Page<ChangedVo> page) {
 
-        UserLoginQuery user = localUser.getUser("用户信息");
+        UserLoginQuery user = localUser.getUser();
         return baseMapper.waiteChangeIndex(page,user.getId());
 }
 
@@ -433,7 +427,7 @@ public class OrderServiceImpl extends ServiceImpl<OrdersMapper, Orders> implemen
      */
     @Override
     public void sureChoised(Long id, String outDate, String lineName) {
-        UserLoginQuery user = localUser.getUser("用户信息");
+        UserLoginQuery user = localUser.getUser();
 
         //查询到该条的订单信息
         LocalDate localDate = DateUtil.parseDate(outDate);
@@ -447,7 +441,7 @@ public class OrderServiceImpl extends ServiceImpl<OrdersMapper, Orders> implemen
             throw new ApplicationException(CodeType.SERVICE_ERROR, "线路或日期不一致不能换人");
         }
 
-       OrderDetailed detailed = orderDetailedService.queryById(id);
+//       OrderDetailed detailed = orderDetailedService.queryById(id);
 
        //增加一条同意换人的记录
 //        MsgVo vo = new MsgVo();
@@ -480,10 +474,10 @@ public class OrderServiceImpl extends ServiceImpl<OrdersMapper, Orders> implemen
     @Override
     public void denyChoised(Long id, String outDate, String lineName) {
 
-        UserLoginQuery user = localUser.getUser("用户信息");
+        UserLoginQuery user = localUser.getUser();
 
 
-       OrderDetailed detailed = orderDetailedService.queryById(id);
+//       OrderDetailed detailed = orderDetailedService.queryById(id);
 
         //增加一条拒绝换人的记录
 //        MsgVo vo = new MsgVo();
@@ -511,7 +505,7 @@ public class OrderServiceImpl extends ServiceImpl<OrdersMapper, Orders> implemen
      */
     @Override
     public Page<ChangedQuery> denyChoisedindex(Page<ChangedQuery> page, Integer type) {
-        UserLoginQuery user = localUser.getUser("用户信息");
+        UserLoginQuery user = localUser.getUser();
 
         if (type == null || type == 1) {
             //我推给别人的
@@ -570,7 +564,7 @@ public class OrderServiceImpl extends ServiceImpl<OrdersMapper, Orders> implemen
      */
     @Override
     public List<OrderQuery> queryLineAndTime() {
-        UserLoginQuery user = localUser.getUser("用户信息");
+        UserLoginQuery user = localUser.getUser();
         LambdaQueryWrapper<Orders> queryWrapper = new LambdaQueryWrapper<Orders>()
                 .eq(Orders::getCreateUserId,user.getId())
                 .eq(Orders::getIsFinash,false)
@@ -597,7 +591,7 @@ public class OrderServiceImpl extends ServiceImpl<OrdersMapper, Orders> implemen
     */
    @Override
    public Integer queryAllNoCount () {
-      UserLoginQuery user = localUser.getUser("用户信息");
+      UserLoginQuery user = localUser.getUser();
       LambdaQueryWrapper<Orders> wrapper = new LambdaQueryWrapper<Orders>()
             .eq(Orders::getCreateUserId,user.getId())
             .eq(Orders::getIsFinash,0);
@@ -612,7 +606,7 @@ public class OrderServiceImpl extends ServiceImpl<OrdersMapper, Orders> implemen
     */
    @Override
    public List<OrdersNoCountInfoQuery> queryAllNoCountInfo() {
-      UserLoginQuery user = localUser.getUser("用户信息");
+      UserLoginQuery user = localUser.getUser();
       LambdaQueryWrapper<Orders> wrapper = new LambdaQueryWrapper<Orders>()
             .eq(Orders::getCreateUserId,user.getId())
             .eq(Orders::getIsFinash,0);
@@ -640,7 +634,7 @@ public class OrderServiceImpl extends ServiceImpl<OrdersMapper, Orders> implemen
     */
    @Override
    public IdBo queryOrderId(String outDate, String lineName) {
-      UserLoginQuery user = localUser.getUser("用户信息");
+      UserLoginQuery user = localUser.getUser();
 
       LocalDate date = DateUtil.parseDate(outDate);
 
@@ -694,7 +688,7 @@ public class OrderServiceImpl extends ServiceImpl<OrdersMapper, Orders> implemen
    @Override
    public IdBo queryId(String outDate) {
 
-      UserLoginQuery user = localUser.getUser("用户信息");
+      UserLoginQuery user = localUser.getUser();
 
       LocalDate localDate = null;
       if (StringUtils.isNotBlank(outDate)) {

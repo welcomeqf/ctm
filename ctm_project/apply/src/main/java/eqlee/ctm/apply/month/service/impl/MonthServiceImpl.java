@@ -47,7 +47,7 @@ public class MonthServiceImpl extends ServiceImpl<MonthMapper, MonthPay> impleme
    @Override
    public MonthVo insertMonth(MonthParamVo vo) {
 
-      UserLoginQuery user = localUser.getUser("用户信息");
+      UserLoginQuery user = localUser.getUser();
 
       LambdaQueryWrapper<MonthPay> wrapper = new LambdaQueryWrapper<MonthPay>()
             .eq(MonthPay::getStartDate,DateUtil.parseDate(vo.getStartDate()))
@@ -112,7 +112,7 @@ public class MonthServiceImpl extends ServiceImpl<MonthMapper, MonthPay> impleme
    @Override
    public MonthVo xuMonth(Double monthPrice) {
 
-      UserLoginQuery user = localUser.getUser("用户信息");
+      UserLoginQuery user = localUser.getUser();
       IdGenerator idGenerator = new IdGenerator();
       long id = idGenerator.getNumberId();
       String monthNo = idGenerator.getShortNo();
@@ -195,7 +195,7 @@ public class MonthServiceImpl extends ServiceImpl<MonthMapper, MonthPay> impleme
    @Override
    public MonthVo queryInfo(Long id) {
 
-      UserLoginQuery user = localUser.getUser("用户信息");
+      UserLoginQuery user = localUser.getUser();
 
       MonthPay monthPay = baseMapper.selectById(id);
 

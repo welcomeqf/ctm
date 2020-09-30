@@ -47,13 +47,6 @@ import java.util.List;
 @Transactional(rollbackFor = Exception.class)
 public class OrdersDetailedServiceImpl extends ServiceImpl<OrderDetailedMapper, OrderDetailed> implements IOrdersDetailedService {
 
-
-    private final String MONTH_PAY = "月结";
-
-    private final String NOW_PAY = "现结";
-
-    private final String AGENT_PAY = "面收";
-
     @Autowired
     private LocalUser user;
 
@@ -89,7 +82,7 @@ public class OrdersDetailedServiceImpl extends ServiceImpl<OrderDetailedMapper, 
      */
     @Override
     public Page<OrderBo> pageOrder(Page<OrderBo> page,String startDate, String endDate, String lineName, String region) {
-        UserLoginQuery users = user.getUser("用户信息");
+        UserLoginQuery users = user.getUser();
 
         LocalDate start = null;
         LocalDate end = null;
@@ -128,7 +121,7 @@ public class OrdersDetailedServiceImpl extends ServiceImpl<OrderDetailedMapper, 
      */
     @Override
     public Page<OrderBo> pageOrder2(Page<OrderBo> page, String startDate, String endDate, String lineName, String guideName, Integer inStatus) {
-        UserLoginQuery users = user.getUser("用户信息");
+        UserLoginQuery users = user.getUser();
 
         LocalDate start = null;
         LocalDate end = null;
@@ -272,7 +265,7 @@ public class OrdersDetailedServiceImpl extends ServiceImpl<OrderDetailedMapper, 
      */
     @Override
     public void cancelOrders(Long id) {
-        UserLoginQuery users = user.getUser("用户信息");
+        UserLoginQuery users = user.getUser();
         if(!"超级管理员".equals(users.getRoleName())){
             throw new ApplicationException(CodeType.SERVICE_ERROR, "请使用超级管理员账户登陆操作!");
         }

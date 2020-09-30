@@ -113,7 +113,7 @@ public class UserMenuController {
     @CrossOrigin
     @CheckToken
     public Object queryAllMenu(){
-        UserLoginQuery users = localUser.getUser("用户信息");
+        UserLoginQuery users = localUser.getUser();
         return users.getMenuList();
 
     }
@@ -178,7 +178,7 @@ public class UserMenuController {
     @CheckToken
     @IgnoreResponseAdvice
     public Object queryPrivilege(@RequestParam("roleId") Long roleId) throws Exception{
-        UserLoginQuery users = localUser.getUser("用户信息");
+        UserLoginQuery users = localUser.getUser();
         List<UserPrivilegeQuery> list = new ArrayList<>();
         for (PrivilegeMenuQuery menuQuery : users.getMenuList()) {
             UserPrivilegeQuery query = new UserPrivilegeQuery();

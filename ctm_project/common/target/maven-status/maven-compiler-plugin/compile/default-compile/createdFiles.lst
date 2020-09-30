@@ -30,6 +30,7 @@ com\yq\jwt\JwtVerfy.class
 com\yq\utils\ShaUtils.class
 com\yq\entity\send\SendResultVo.class
 com\yq\entity\websocket\NettyType.class
+com\yq\jwt\contain\ThreadLocalMap.class
 com\yq\entity\send\ctmuser\UserVo.class
 com\yq\utils\StringUtils.class
 com\yq\entity\send\ctmuser\CityBo.class

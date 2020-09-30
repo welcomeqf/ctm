@@ -69,9 +69,6 @@ public class ExamineServiceImpl extends ServiceImpl<ExamineMapper, Examine> impl
     private TokenData tokenData;
 
     @Autowired
-    private IMessageService messageService;
-
-    @Autowired
     private IOrdersDetailedService ordersDetailedService;
 
     @Autowired
@@ -88,7 +85,7 @@ public class ExamineServiceImpl extends ServiceImpl<ExamineMapper, Examine> impl
      */
     @Override
     public void CancelExamine(Long ApplyId) {
-        UserLoginQuery user = localUser.getUser("用户信息");
+        UserLoginQuery user = localUser.getUser();
 
         LambdaQueryWrapper<Examine> wrapper = new LambdaQueryWrapper<Examine>()
                 .eq(Examine::getApplyId,ApplyId)
@@ -157,7 +154,9 @@ public class ExamineServiceImpl extends ServiceImpl<ExamineMapper, Examine> impl
                     }
                 }
             }
-        }catch (Exception ex){}
+        }catch (Exception ex){
+            throw new ApplicationException(CodeType.SERVICE_ERROR);
+        }
 
     }
 
@@ -187,9 +186,6 @@ public class ExamineServiceImpl extends ServiceImpl<ExamineMapper, Examine> impl
 
         examine.setRemark(JSON.toJSONString(infoVo));
 
-        UserLoginQuery user = localUser.getUser("用户信息");
-        examine.setCreateUserId(user.getId());
-        examine.setUpdateUserId(user.getId());
         baseMapper.insert(examine);
 
         //同时修改报名表的审核状态
@@ -294,7 +290,7 @@ public class ExamineServiceImpl extends ServiceImpl<ExamineMapper, Examine> impl
                 .eq(Examine::getExamineType,"1");
         Examine examine = new Examine();
         examine.setExamineResult(1);
-        UserLoginQuery user = localUser.getUser("用户信息");
+        UserLoginQuery user = localUser.getUser();
         examine.setUpdateUserId(user.getId());
         examine.setUpdateDate(LocalDateTime.now());
         int update = baseMapper.update(examine, queryWrapper);
@@ -384,7 +380,7 @@ public class ExamineServiceImpl extends ServiceImpl<ExamineMapper, Examine> impl
         Examine examine = new Examine();
         examine.setExamineResult(2);
         examine.setExaRemark(exaRemark);
-        UserLoginQuery user = localUser.getUser("用户信息");
+        UserLoginQuery user = localUser.getUser();
         examine.setUpdateUserId(user.getId());
         examine.setUpdateDate(LocalDateTime.now());
         int update = baseMapper.update(examine, queryWrapper);
@@ -430,7 +426,7 @@ public class ExamineServiceImpl extends ServiceImpl<ExamineMapper, Examine> impl
         LambdaQueryWrapper<Examine> queryWrapper = new LambdaQueryWrapper<Examine>()
                 .eq(Examine::getApplyId,ApplyId)
                 .eq(Examine::getExamineType,"0");
-        UserLoginQuery user = localUser.getUser("用户信息");
+        UserLoginQuery user = localUser.getUser();
         examine.setUpdateUserId(user.getId());
         examine.setUpdateDate(LocalDateTime.now());
         examine.setExaRemark(exaRemark);
@@ -515,7 +511,9 @@ public class ExamineServiceImpl extends ServiceImpl<ExamineMapper, Examine> impl
                 }
             }
 
-        }catch (Exception ex){}
+        }catch (Exception ex){
+            throw new ApplicationException(CodeType.SERVICE_ERROR);
+        }
 
         return query;
     }
@@ -531,7 +529,7 @@ public class ExamineServiceImpl extends ServiceImpl<ExamineMapper, Examine> impl
         LambdaQueryWrapper<Examine> queryWrapper = new LambdaQueryWrapper<Examine>()
                 .eq(Examine::getApplyId,ApplyId)
                 .eq(Examine::getExamineType,"0");
-        UserLoginQuery user = localUser.getUser("用户信息");
+        UserLoginQuery user = localUser.getUser();
         examine.setUpdateUserId(user.getId());
         int update = baseMapper.update(examine, queryWrapper);
 
@@ -570,7 +568,9 @@ public class ExamineServiceImpl extends ServiceImpl<ExamineMapper, Examine> impl
                 }
             }
 
-        }catch (Exception ex){}
+        }catch (Exception ex){
+            throw new ApplicationException(CodeType.SERVICE_ERROR);
+        }
     }
 
     /**
@@ -583,9 +583,8 @@ public class ExamineServiceImpl extends ServiceImpl<ExamineMapper, Examine> impl
         examine.setId(idGenerator.getNumberId());
         examine.setExamineType(vo.getExamineType());
         examine.setApplyId(vo.getApplyId());
-        UserLoginQuery user = localUser.getUser("用户信息");
-        examine.setCreateUserId(user.getId());
-        examine.setUpdateUserId(user.getId());
+        examine.setCreateUserId(vo.getUserId());
+        examine.setUpdateUserId(vo.getUserId());
         int insert = baseMapper.insert(examine);
 
         if (insert <= 0) {
@@ -601,7 +600,7 @@ public class ExamineServiceImpl extends ServiceImpl<ExamineMapper, Examine> impl
     @Override
     public Page<ExamineUpdateInfoVo> listUpdateInfo(Page<ExamineUpdateInfoVo> vo) {
 
-        UserLoginQuery user = localUser.getUser("用户信息");
+        UserLoginQuery user = localUser.getUser();
         Long id = null;
         if ("同行".equals(user.getRoleName())) {
             //查看自己的数据
@@ -666,7 +665,7 @@ public class ExamineServiceImpl extends ServiceImpl<ExamineMapper, Examine> impl
      */
     @Override
     public ResultVo updateLocalMsgStatus() {
-        UserLoginQuery user = localUser.getUser("用户信息");
+        UserLoginQuery user = localUser.getUser();
 
         httpUtils.updateUserAllMsg(user.getId());
         ResultVo vo = new ResultVo();
@@ -680,7 +679,7 @@ public class ExamineServiceImpl extends ServiceImpl<ExamineMapper, Examine> impl
      */
     @Override
     public ApplyNoReadCountQuery queryAllNoExaCount() {
-        UserLoginQuery user = localUser.getUser("用户信息");
+        UserLoginQuery user = localUser.getUser();
 
         ApplyNoReadCountQuery query = new ApplyNoReadCountQuery();
 

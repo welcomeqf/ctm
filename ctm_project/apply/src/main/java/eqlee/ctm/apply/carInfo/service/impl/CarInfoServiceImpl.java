@@ -44,7 +44,7 @@ public class CarInfoServiceImpl extends ServiceImpl<CarInfoMapper, CarInfo> impl
    @Override
    public void insertCarInfo(CarInfoInsertVo vo) {
 
-      UserLoginQuery user = localUser.getUser("用户信息");
+      UserLoginQuery user = localUser.getUser();
 
       //先查询订单信息
       Orders orders = ordersService.queryOne(vo.getOrderId());

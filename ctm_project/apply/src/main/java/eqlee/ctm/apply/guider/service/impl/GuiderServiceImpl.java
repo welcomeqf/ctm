@@ -63,7 +63,7 @@ public class GuiderServiceImpl implements IGuiderService {
             region = null;
         }
 
-       UserLoginQuery user = localUser.getUser("用户信息");
+       UserLoginQuery user = localUser.getUser();
 
 
        List<String> cityList = new ArrayList<>();

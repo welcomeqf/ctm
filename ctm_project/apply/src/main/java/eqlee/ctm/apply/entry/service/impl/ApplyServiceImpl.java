@@ -55,19 +55,11 @@ public class ApplyServiceImpl extends ServiceImpl<ApplyMapper, Apply> implements
     private ILineService lineService;
 
     @Autowired
-    private IPriceService priceService;
-
-    @Autowired
     private IExamineService examineService;
 
-    @Autowired
-    private IMessageService messageService;
 
     @Autowired
     private SendUtils sendService;
-
-//    @Autowired
-//    private  ApplyMapper applyMapper;
 
     @Autowired
     private HttpUtils httpUtils;
@@ -107,7 +99,7 @@ public class ApplyServiceImpl extends ServiceImpl<ApplyMapper, Apply> implements
         IdGenerator idGenerator = new IdGenerator();
         LocalDate localDate = DateUtil.parseDate(applyVo.getOutDate());
 
-        UserLoginQuery user = localUser.getUser("用户信息");
+        UserLoginQuery user = localUser.getUser();
         //查询报名表人数是否达到最大
         LambdaQueryWrapper<Apply> wrapper = new LambdaQueryWrapper<Apply>()
                 .eq(Apply::getOutDate,localDate)
@@ -413,6 +405,7 @@ public class ApplyServiceImpl extends ServiceImpl<ApplyMapper, Apply> implements
             ExamineAddVo vo = new ExamineAddVo();
             vo.setExamineType("0");
             vo.setApplyId(id);
+            vo.setUserId(user.getId());
             examineService.insertExamine(vo);
         }
         //查询所有管理员的id集合
@@ -465,6 +458,9 @@ public class ApplyServiceImpl extends ServiceImpl<ApplyMapper, Apply> implements
     */
    @Override
    public ApplyPayResultQuery insertWithApply(ApplyVo applyVo) {
+
+      UserLoginQuery user = localUser.getUser();
+
       LocalDate now = LocalDate.now();
       LocalDate outDate = DateUtil.parseDate(applyVo.getOutDate());
       long until = now.until(outDate, ChronoUnit.DAYS);
@@ -482,7 +478,6 @@ public class ApplyServiceImpl extends ServiceImpl<ApplyMapper, Apply> implements
       IdGenerator idGenerator = new IdGenerator();
       LocalDate localDate = DateUtil.parseDate(applyVo.getOutDate());
 
-      UserLoginQuery user = localUser.getUser("用户信息");
       //查询报名表人数是否达到最大
       LambdaQueryWrapper<Apply> wrapper = new LambdaQueryWrapper<Apply>()
             .eq(Apply::getOutDate,localDate)
@@ -774,6 +769,7 @@ public class ApplyServiceImpl extends ServiceImpl<ApplyMapper, Apply> implements
       ExamineAddVo vo = new ExamineAddVo();
       vo.setExamineType("0");
       vo.setApplyId(id);
+      vo.setUserId(user.getId());
 
       examineService.insertExamine(vo);
 
@@ -879,7 +875,7 @@ public class ApplyServiceImpl extends ServiceImpl<ApplyMapper, Apply> implements
    @Override
    public Page<ApplyDoExaQuery> listPageDo2Apply(Page<ApplyDoExaQuery> page, String outDate, Long lineName, Integer type, String applyDate, Integer exaStatus,String outDateEnd) throws Exception{
 
-      UserLoginQuery user = localUser.getUser("用户信息");
+      UserLoginQuery user = localUser.getUser();
 
       LocalDate outTime = null;
       LocalDate outTimeEnd = null;
@@ -1079,9 +1075,8 @@ public class ApplyServiceImpl extends ServiceImpl<ApplyMapper, Apply> implements
      * @return
      */
     @Override
-    public Page<ApplyCompanyQuery> pageMeApply(Page<ApplyCompanyQuery> page, String lineName, String outDate, String applyTime, Integer type, Integer todayType,String roadName) {
+    public Page<ApplyCompanyQuery> pageMeApply(Page<ApplyCompanyQuery> page, String lineName, String outDate, String applyTime, Integer type, Integer todayType,String roadName, UserLoginQuery user) {
 
-        UserLoginQuery user = localUser.getUser("用户信息");
 
         if (StringUtils.isNotBlank(applyTime) && StringUtils.isNotBlank(outDate)) {
             throw new ApplicationException(CodeType.SERVICE_ERROR, "请勿同时选择两个时间");
@@ -1373,9 +1368,7 @@ public class ApplyServiceImpl extends ServiceImpl<ApplyMapper, Apply> implements
     * @return
     */
    @Override
-   public Page<ApplyResultCountQuery> pageResult2CountList(Page<ApplyResultCountQuery> page, String time, Integer type, Integer caiType, Integer payType) {
-
-      UserLoginQuery user = localUser.getUser("用户信息");
+   public Page<ApplyResultCountQuery> pageResult2CountList(Page<ApplyResultCountQuery> page, String time, Integer type, Integer caiType, Integer payType, UserLoginQuery user) {
 
       LocalDate start = null;
       LocalDate end = null;
@@ -1442,7 +1435,7 @@ public class ApplyServiceImpl extends ServiceImpl<ApplyMapper, Apply> implements
     @Override
     public ApplyPayResultQuery queryPayInfo(String applyNo) {
         //获取当前用户信息
-        UserLoginQuery user = localUser.getUser("用户信息");
+        UserLoginQuery user = localUser.getUser();
 
         LambdaQueryWrapper<Apply> wrapper = new LambdaQueryWrapper<Apply>()
               .eq(Apply::getApplyNo,applyNo);
@@ -1482,7 +1475,7 @@ public class ApplyServiceImpl extends ServiceImpl<ApplyMapper, Apply> implements
     */
    @Override
    public ApplyCountBo queryApplyCount() {
-      UserLoginQuery user = localUser.getUser("用户信息");
+      UserLoginQuery user = localUser.getUser();
 
       ApplyCompanyBo bo = baseMapper.queryApplyCompanyInfo(user.getCompanyId());
       ApplyCountBo result = new ApplyCountBo();
@@ -1616,7 +1609,7 @@ public class ApplyServiceImpl extends ServiceImpl<ApplyMapper, Apply> implements
     */
    @Override
    public ApplyOpenIdVo queryAuto(Long id) {
-      UserLoginQuery user = localUser.getUser("用户信息");
+      UserLoginQuery user = localUser.getUser();
       return baseMapper.queryPayInfo(user.getId());
    }
 
@@ -1726,7 +1719,7 @@ public class ApplyServiceImpl extends ServiceImpl<ApplyMapper, Apply> implements
 
       Long id = 634338640817815552L;
       ApplyExaCountQuery result = new ApplyExaCountQuery();
-      UserLoginQuery user = localUser.getUser("用户信息");
+      UserLoginQuery user = localUser.getUser();
 
      List<String> list = new ArrayList<>();
 
@@ -1761,7 +1754,7 @@ public class ApplyServiceImpl extends ServiceImpl<ApplyMapper, Apply> implements
     public ApplyExaCountQuery guiderCount() {
         Long id = 634338100776009728L;
         ApplyExaCountQuery result = new ApplyExaCountQuery();
-        UserLoginQuery user = localUser.getUser("用户信息");
+        UserLoginQuery user = localUser.getUser();
         List<String> cityList = new ArrayList<>();
 
         if (user.getCity().size() > 0) {
@@ -1797,7 +1790,7 @@ public class ApplyServiceImpl extends ServiceImpl<ApplyMapper, Apply> implements
     public int queryExamineCount() {
         Long id = 634338640817815552L;
         int result = 99999;
-        UserLoginQuery user = localUser.getUser("用户信息");
+        UserLoginQuery user = localUser.getUser();
         
         for (PrivilegeMenuQuery query : user.getMenuList()) {
             if (id.equals(query.getMenuId())) {
@@ -1809,6 +1802,7 @@ public class ApplyServiceImpl extends ServiceImpl<ApplyMapper, Apply> implements
 //       return applyMapper.queryExamineCount();
     }
 
+    @Override
     public ApplyExaCountQuery queryExamineCount2() {
         ApplyExaCountQuery result = new ApplyExaCountQuery();
         Integer integer = queryExamineCount();

@@ -1,6 +1,7 @@
 package eqlee.ctm.apply.entry.service;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.yq.jwt.entity.UserLoginQuery;
 import eqlee.ctm.apply.entry.entity.Apply;
 import eqlee.ctm.apply.entry.entity.bo.*;
 import eqlee.ctm.apply.entry.entity.query.*;
@@ -120,7 +121,7 @@ public interface IApplyService {
      * @param todayType
      * @return
      */
-    Page<ApplyCompanyQuery> pageMeApply (Page<ApplyCompanyQuery> page, String lineName, String outDate, String applyTime, Integer type,Integer todayType,String roadName);
+    Page<ApplyCompanyQuery> pageMeApply (Page<ApplyCompanyQuery> page, String lineName, String outDate, String applyTime, Integer type,Integer todayType,String roadName, UserLoginQuery user);
 
     /**
      * 我的报名记录(运营人员)
@@ -187,7 +188,7 @@ public interface IApplyService {
      * @param caiType
      * @return
      */
-    Page<ApplyResultCountQuery> pageResult2CountList (Page<ApplyResultCountQuery> page, String time, Integer type, Integer caiType, Integer payType);
+    Page<ApplyResultCountQuery> pageResult2CountList (Page<ApplyResultCountQuery> page, String time, Integer type, Integer caiType, Integer payType, UserLoginQuery user);
 
     /**
      * 管理员月结现结统计查询

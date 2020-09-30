@@ -39,7 +39,7 @@ public class CarServiceImp extends ServiceImpl<CarMapper, Car> implements ICarSe
      */
     @Override
     public void addCar(CarVo carVo) {
-        UserLoginQuery user = localUser.getUser("用户信息");
+        UserLoginQuery user = localUser.getUser();
         Car car = new Car();
         IdGenerator idGenerator = new IdGenerator();
         car.setId(idGenerator.getNumberId());
@@ -82,7 +82,7 @@ public class CarServiceImp extends ServiceImpl<CarMapper, Car> implements ICarSe
      */
     @Override
     public void updateCar(CarUpdateVo carVo, Long Id) {
-        UserLoginQuery user = localUser.getUser("用户信息");
+        UserLoginQuery user = localUser.getUser();
 
         Car car = new Car();
         car.setUpdateUserId(user.getId());

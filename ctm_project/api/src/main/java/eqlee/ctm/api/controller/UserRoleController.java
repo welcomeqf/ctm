@@ -96,7 +96,7 @@ public class UserRoleController {
     public Object addZiRole(@RequestBody UserRoleVo roleVo) throws Exception{
         String url = "http://" + ip +":" + port + "/" + path +  "/v1/app/role/addZiRole";
 
-        UserLoginQuery user = localUser.getUser("用户信息");
+        UserLoginQuery user = localUser.getUser();
         UserRoleZiQuery query = new UserRoleZiQuery();
         query.setCreateUserId(user.getId());
         query.setCompanyId(user.getCompanyId());
@@ -232,7 +232,7 @@ public class UserRoleController {
     public Object queryZiPageRole(@RequestParam("current") Integer current,
                                   @RequestParam("size") Integer size) throws Exception{
 
-        UserLoginQuery user = localUser.getUser("用户信息");
+        UserLoginQuery user = localUser.getUser();
         Long companyId = user.getCompanyId();
 
         String url = "http://" + ip +":" + port + "/" + path + "/v1/app/role/queryZiPageRole?current="

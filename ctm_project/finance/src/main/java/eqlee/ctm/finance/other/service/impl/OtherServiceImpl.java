@@ -56,7 +56,7 @@ public class OtherServiceImpl extends ServiceImpl<OtherMapper, Other> implements
          //增加
          other.setId(idGenerator.getNumberId());
 
-         UserLoginQuery user = localUser.getUser("用户信息");
+         UserLoginQuery user = localUser.getUser();
          other.setCreateUserId(user.getId());
          other.setUpdateUserId(user.getId());
          other.setOtherName(otherVo.getOtherName());
@@ -74,7 +74,7 @@ public class OtherServiceImpl extends ServiceImpl<OtherMapper, Other> implements
          //修改
          other.setId(otherVo.getId());
 
-         UserLoginQuery user = localUser.getUser("用户信息");
+         UserLoginQuery user = localUser.getUser();
          other.setUpdateUserId(user.getId());
          other.setOtherName(otherVo.getOtherName());
          other.setOtherContent(otherVo.getOtherContent());

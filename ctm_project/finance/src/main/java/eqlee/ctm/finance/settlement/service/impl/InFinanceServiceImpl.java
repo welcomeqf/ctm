@@ -77,7 +77,7 @@ public class InFinanceServiceImpl extends ServiceImpl<InFinanceMapper, Income> i
     @Override
     public void insertFinance(FinanceVo vo) {
         //获取用户信息
-        UserLoginQuery user = localUser.getUser("用户信息");
+        UserLoginQuery user = localUser.getUser();
 
 
         if (vo.getStatus() != 2 && vo.getStatus() != 3) {
@@ -310,7 +310,9 @@ public class InFinanceServiceImpl extends ServiceImpl<InFinanceMapper, Income> i
                     }
                 }
             }
-        }catch (Exception ex){}
+        }catch (Exception ex){
+            throw new ApplicationException(CodeType.SERVICE_ERROR);
+        }
 
     }
 
@@ -403,7 +405,7 @@ public class InFinanceServiceImpl extends ServiceImpl<InFinanceMapper, Income> i
     @Override
     public Page<GuestResultQuery> GuestPage2Me(Page<GuestResultQuery> page, String exaType, String outDate, String lineName) {
 
-        UserLoginQuery user = localUser.getUser("用户信息");
+        UserLoginQuery user = localUser.getUser();
 
         if (StringUtils.isBlank(exaType)) {
             exaType = null;
@@ -601,7 +603,7 @@ public class InFinanceServiceImpl extends ServiceImpl<InFinanceMapper, Income> i
     public IncomeCount incomeCount() {
         Long id = 634338791976337408L;
         IncomeCount result = new IncomeCount();
-        UserLoginQuery user = localUser.getUser("用户信息");
+        UserLoginQuery user = localUser.getUser();
 
         List<String> list = new ArrayList<>();
 

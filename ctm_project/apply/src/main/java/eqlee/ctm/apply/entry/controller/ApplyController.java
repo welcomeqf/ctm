@@ -161,7 +161,7 @@ public class ApplyController {
         if (current == null || size == null || StringUtils.isBlank(OutTime)) {
             throw new ApplicationException(CodeType.PARAM_ERROR);
         }
-        UserLoginQuery user = localUser.getUser("用户信息");
+        UserLoginQuery user = localUser.getUser();
         Company company = applyService.queryCompany(user.getCompanyId());
         Page<ApplyCompanyQuery> page = new Page<>(current,size);
         return applyService.listPageDoApply2Company(page,OutTime,company.getCompanyName());
@@ -205,7 +205,7 @@ public class ApplyController {
             throw new ApplicationException(CodeType.PARAM_ERROR,"参数不能为空");
         }
         Page<ApplyCompanyQuery> page = new Page<>(current,size);
-        UserLoginQuery user = localUser.getUser("用户信息");
+        UserLoginQuery user = localUser.getUser();
 
         String admin = "运营人员";
         String admin1 = "超级管理员";
@@ -214,7 +214,7 @@ public class ApplyController {
             return applyService.pageAdmin2Apply(page,LineName,OutTime,applyTime,type,companyUserId,todayType,roadName);
         }
 
-        return applyService.pageMeApply(page,LineName,OutTime,applyTime,type,todayType,roadName);
+        return applyService.pageMeApply(page,LineName,OutTime,applyTime,type,todayType,roadName, user);
 
     }
 
@@ -302,7 +302,7 @@ public class ApplyController {
             throw new ApplicationException(CodeType.PARAM_ERROR);
         }
 
-        UserLoginQuery user = localUser.getUser("用户信息");
+        UserLoginQuery user = localUser.getUser();
         Page<ApplyResultCountQuery> page = new Page<>(current,size);
 
 
@@ -317,7 +317,7 @@ public class ApplyController {
             return map;
         }
         //得到分页的具体数据
-        Page<ApplyResultCountQuery> data = applyService.pageResult2CountList(page, time, type , caiType, payType);
+        Page<ApplyResultCountQuery> data = applyService.pageResult2CountList(page, time, type , caiType, payType, user);
         //查询统计的数据
         ApplyCountBo applyCountBo = applyService.queryApplyCount();
         List<ApplyCountBo> list = new ArrayList<>();

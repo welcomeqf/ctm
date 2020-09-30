@@ -186,7 +186,7 @@ public class ApplyExcelController {
          throw new ApplicationException(CodeType.PARAM_ERROR,"参数不能为空");
       }
       Page<ApplyCompanyQuery> page = new Page<>(current,size);
-      UserLoginQuery user = localUser.getUser("用户信息");
+      UserLoginQuery user = localUser.getUser();
 
       String admin = "运营人员";
       String admin1 = "超级管理员";
@@ -286,7 +286,7 @@ public class ApplyExcelController {
          return;
       }
 
-      Page<ApplyCompanyQuery> pageList = applyService.pageMeApply(page, LineName, OutTime, applyTime, type,todayType,roadName);
+      Page<ApplyCompanyQuery> pageList = applyService.pageMeApply(page, LineName, OutTime, applyTime, type,todayType,roadName, user);
 
       //同行的数据
       List<ApplyCompanyQuery> list = pageList.getRecords();

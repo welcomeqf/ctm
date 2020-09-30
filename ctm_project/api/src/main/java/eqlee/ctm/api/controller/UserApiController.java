@@ -85,7 +85,7 @@ public class UserApiController {
 
         if (userVo.getType() == 1) {
             //本公司
-            UserLoginQuery user = localUser.getUser("用户信息");
+            UserLoginQuery user = localUser.getUser();
             userVo.setCompanyId(user.getCompanyId());
         }
 
@@ -234,7 +234,7 @@ public class UserApiController {
     @CheckToken
     @IgnoreResponseAdvice
     public Object downRegister(@RequestBody UserVo userVo) throws Exception{
-        UserLoginQuery user = localUser.getUser("用户信息");
+        UserLoginQuery user = localUser.getUser();
         UserWithQuery query = new UserWithQuery();
 
         //装配query
@@ -332,7 +332,7 @@ public class UserApiController {
         String userToken = tokenData.getMapToken();
         String token = "Bearer " + userToken;
         //增加公司过滤
-        UserLoginQuery user = localUser.getUser("用户信息");
+        UserLoginQuery user = localUser.getUser();
         url += ("&companyId=" + user.getCompanyId());
         HttpResult httpResult = apiService.get(url,token);
 
@@ -391,7 +391,7 @@ public class UserApiController {
     @CheckToken
     @IgnoreResponseAdvice
     public Object updateUser(@RequestBody UserUpdateVo vo) throws Exception{
-        UserLoginQuery user = localUser.getUser("用户信息");
+        UserLoginQuery user = localUser.getUser();
         UserUpdateInfoVo infoVo = new UserUpdateInfoVo();
         infoVo.setCname(vo.getCname());
         infoVo.setId(vo.getId());
@@ -453,7 +453,7 @@ public class UserApiController {
 
         String url = "http://" + ip +":" + port + "/" + path + "/v1/app/user/queryLocalCityUser";
 
-        UserLoginQuery user = localUser.getUser("用户信息");
+        UserLoginQuery user = localUser.getUser();
         ParamBo bo = new ParamBo();
         List<String> list = new ArrayList<>();
         for (CityJwtBo jwtBo : user.getCity()) {

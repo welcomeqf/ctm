@@ -132,7 +132,7 @@ public class WxSxController {
          callbackUrl = "http://ctm-api.510766.com/apply/sx/sucFail";
       }
 
-      UserLoginQuery user = localUser.getUser("用户信息");
+      UserLoginQuery user = localUser.getUser();
       String openId = null;
 
       if (StringUtils.isBlank(code)) {

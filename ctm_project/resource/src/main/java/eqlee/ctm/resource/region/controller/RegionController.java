@@ -52,7 +52,7 @@ public class RegionController {
       if(StringUtils.isBlank(regionQuery.getRegionName())) {
          throw new ApplicationException(CodeType.PARAMETER_ERROR);
       }
-      UserLoginQuery user = localUser.getUser("用户信息");
+      UserLoginQuery user = localUser.getUser();
       Region region = new Region();
       region.setId(idGenerator.getNumberId());
       region.setRegionName(regionQuery.getRegionName());

@@ -104,7 +104,7 @@ public class CompanyServiceImp extends ServiceImpl<CompanyMapper,Company> implem
             throw new ApplicationException(CodeType.SERVICE_ERROR, "公司名不能重复");
         }
 
-        UserLoginQuery user = localUser.getUser("用户信息");
+        UserLoginQuery user = localUser.getUser();
 
         IdGenerator idGenerator = new IdGenerator();
         Company company = new Company();
@@ -184,7 +184,7 @@ public class CompanyServiceImp extends ServiceImpl<CompanyMapper,Company> implem
     @Override
     public void UpdateCompany(CompanyVo companyVo) {
 
-        UserLoginQuery user = localUser.getUser("用户信息");
+        UserLoginQuery user = localUser.getUser();
 
         Company company = new Company();
         company.setCompanyPic(companyVo.getCompanyPic());
@@ -290,7 +290,7 @@ public class CompanyServiceImp extends ServiceImpl<CompanyMapper,Company> implem
      */
     @Override
     public synchronized void UpdateCompanyStopped(Long id) {
-        UserLoginQuery user = localUser.getUser("用户信息");
+        UserLoginQuery user = localUser.getUser();
         Company company = new Company();
         Company newCompany = baseMapper.selectById(id);
         if(newCompany.getStopped()) {
@@ -377,7 +377,7 @@ public class CompanyServiceImp extends ServiceImpl<CompanyMapper,Company> implem
      */
     @Override
     public CompanyQuery getCompanyName() {
-        UserLoginQuery user = localUser.getUser("用户信息");
+        UserLoginQuery user = localUser.getUser();
 
         Company company = baseMapper.selectById(user.getCompanyId());
 
@@ -415,7 +415,7 @@ public class CompanyServiceImp extends ServiceImpl<CompanyMapper,Company> implem
      */
     @Override
     public CompanyAdminQuery queryAdminMeInfo() {
-        UserLoginQuery user = localUser.getUser("用户信息");
+        UserLoginQuery user = localUser.getUser();
 
         CompanyAdminQuery query = new CompanyAdminQuery();
 
@@ -499,7 +499,7 @@ public class CompanyServiceImp extends ServiceImpl<CompanyMapper,Company> implem
     public CompanyCount companyCount() {
         Long id = 634337000551350272L;
         CompanyCount result = new CompanyCount();
-        UserLoginQuery user = localUser.getUser("用户信息");
+        UserLoginQuery user = localUser.getUser();
 
 
 

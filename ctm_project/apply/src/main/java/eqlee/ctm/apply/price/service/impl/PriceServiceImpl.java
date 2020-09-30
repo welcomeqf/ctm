@@ -101,7 +101,7 @@ public class PriceServiceImpl extends ServiceImpl<PriceMapper, Price> implements
 
         Channel channel = channelService.selectChannelByType("代理");
         //获取用户信息
-        UserLoginQuery user = localUser.getUser("用户信息");
+        UserLoginQuery user = localUser.getUser();
         IdGenerator idGenerator = new IdGenerator();
 
         //输入的开始时间和结束时间不是同一天，就默认批量设置相同的价格
@@ -188,7 +188,7 @@ public class PriceServiceImpl extends ServiceImpl<PriceMapper, Price> implements
 
             Channel channel = channelService.selectChannelByType("代理");
             //获取用户信息
-            UserLoginQuery user = localUser.getUser("用户信息");
+            UserLoginQuery user = localUser.getUser();
 
             IdGenerator idGenerator = new IdGenerator();
             Price price = new Price();
@@ -263,7 +263,7 @@ public class PriceServiceImpl extends ServiceImpl<PriceMapper, Price> implements
 
         Channel channel = channelService.selectChannelByType("代理");
         //获取用户信息
-        UserLoginQuery user = localUser.getUser("用户信息");
+        UserLoginQuery user = localUser.getUser();
 
         IdGenerator idGenerator = new IdGenerator();
 

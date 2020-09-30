@@ -231,7 +231,7 @@ public class PayController {
                       @RequestParam("productName") String productName,
                       @RequestParam("code") String code) throws Exception{
         String callbackUrl = "http://ctm-api.510766.com/api/v1/pay/sucFail";
-        UserLoginQuery user = localUser.getUser("用户信息");
+        UserLoginQuery user = localUser.getUser();
         String openId = null;
 
         if (StringUtils.isBlank(code)) {

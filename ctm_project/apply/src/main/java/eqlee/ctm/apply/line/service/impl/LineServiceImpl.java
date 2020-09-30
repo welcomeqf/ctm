@@ -84,7 +84,7 @@ public class LineServiceImpl extends ServiceImpl<LineMapper, Line> implements IL
 
         IdGenerator idGenerator = new IdGenerator();
         //获取用户信息
-        UserLoginQuery user = localUser.getUser("用户信息");
+        UserLoginQuery user = localUser.getUser();
 
         Line line = new Line();
         //查询城市信息
@@ -141,7 +141,7 @@ public class LineServiceImpl extends ServiceImpl<LineMapper, Line> implements IL
         }
 
         //获取用户信息
-        UserLoginQuery user = localUser.getUser("用户信息");
+        UserLoginQuery user = localUser.getUser();
 
         Line line = new Line();
 
@@ -206,7 +206,7 @@ public class LineServiceImpl extends ServiceImpl<LineMapper, Line> implements IL
     @Override
     public void updateStatus(Long id) {
         //获取用户信息
-        UserLoginQuery user = localUser.getUser("用户信息");
+        UserLoginQuery user = localUser.getUser();
         LambdaQueryWrapper<Line> wrapper = new LambdaQueryWrapper<Line>()
                 .eq(Line::getId,id);
         Line one = baseMapper.selectOne(wrapper);
@@ -230,7 +230,7 @@ public class LineServiceImpl extends ServiceImpl<LineMapper, Line> implements IL
     @Override
     public void updateNormal(Long id) {
         //获取用户信息
-        UserLoginQuery user = localUser.getUser("用户信息");
+        UserLoginQuery user = localUser.getUser();
         LambdaQueryWrapper<Line> wrapper = new LambdaQueryWrapper<Line>()
                 .eq(Line::getId,id);
         Line one = baseMapper.selectOne(wrapper);
@@ -339,7 +339,7 @@ public class LineServiceImpl extends ServiceImpl<LineMapper, Line> implements IL
      */
     @Override
     public List<Line> queryLocalCityLine(String cityName) {
-        UserLoginQuery user = localUser.getUser("用户信息");
+        UserLoginQuery user = localUser.getUser();
 
         List<String> list = new ArrayList<>();
         if (user.getCity().size() > 0 && StringUtils.isEmpty(cityName)) {

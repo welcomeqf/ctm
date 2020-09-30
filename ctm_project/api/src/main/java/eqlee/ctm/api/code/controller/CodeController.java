@@ -40,7 +40,7 @@ public class CodeController {
     @CheckToken
     @IgnoreResponseAdvice
     public Result deletePayInfo(){
-        UserLoginQuery user = localUser.getUser("用户信息");
+        UserLoginQuery user = localUser.getUser();
 
         Integer integer = payInfoService.deletePayInfo(user.getId());
         ResultVo vo = new ResultVo();

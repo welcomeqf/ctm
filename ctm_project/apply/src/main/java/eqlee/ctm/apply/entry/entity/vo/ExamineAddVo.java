@@ -13,4 +13,6 @@ public class ExamineAddVo {
     private Long applyId;
 
     private String examineType;
+
+    private Long userId;
 }
